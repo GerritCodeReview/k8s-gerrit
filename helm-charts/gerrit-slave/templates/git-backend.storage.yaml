@@ -1,0 +1,18 @@
+{{ if .Values.gitBackend.logging.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-apache-logs-pvc
+  labels:
+    app: git-backend
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.gitBackend.logging.persistence.size }}
+  storageClassName: {{ .Values.storageClasses.default.name }}
+{{- end }}
