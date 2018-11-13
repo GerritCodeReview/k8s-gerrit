@@ -1,0 +1,61 @@
+A Gerrit slave has been deployed.
+=================================
+
+The Apache-Git-HTTP-Backend is now ready to receive replication requests from the
+Gerrit master. Please configure the replication plugin of the Gerrit-master to
+push the repositories to:
+
+{{ if .Values.gitBackend.ingress.enabled -}}
+  http {{- if .Values.gitBackend.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gitBackend.ingress.host -}} /git/${name}.git
+{{- else }}
+  {{ if .Values.gitBackend.service.https.enabled -}}
+  https://<EXTERNAL-IP>: {{- .Values.gitBackend.service.https.port -}} /git/${name}.git
+  {{ else }}
+  http://<EXTERNAL-IP>: {{- .Values.gitBackend.service.http.port -}} /git/${name}.git
+  {{ end }}
+  The external IP of the service can be found by running:
+  kubectl get svc git-backend-service
+{{- end }}
+
+Requests to create new repositories have to be directed to the route /new/${name}.git
+over HTTP(S). A detailed guide of how to configure Gerrit's replication plugin
+can be found here:
+
+https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md
+
+
+{{ if .Values.mysql.enabled -}}
+A mysql database has been deployed and configured to work with the Gerrit slave.
+Note, that the database is not yet initialized with the scheme expected by Gerrit.
+Either use database replication or run the Gerrit-slave in test-mode to create
+the expected schemas.
+{{- end }}
+
+{{ if .Values.database.replication.enabled -}}
+The components to initialize database replication have been deployed. To start
+initialization the Job needs a database dump containing the master's data. Use
+the following command to make the database dump available to the job:
+
+  JOB_POD=$(kubectl get pod -l app=replication-init -o jsonpath="{.items[0].metadata.name}")
+  kubectl cp <PATH_TO_DUMP> ${JOB_POD}:{{ .Values.database.replication.mysql.dbDumpAcceptPath }}
+
+Depending on the size of the database the initialization will take a while. When
+finished the job will shut down.
+{{- end }}
+
+The Gerrit slave is starting up.
+
+{{ if .Values.gerritSlave.initializeTestSite.enabled -}}
+Since the test-mode was activated, a Gerrit site will be initialized after the
+database connection could be established.
+{{- else }}
+The deployment will wait for the replication of repositories and the databse scheme.
+The repository replication is checked by testing for the presence of the 'All-Projects.git'-
+repository. The database-scheme is tested by testing for the presence of a database
+with the configured name, containing the tables 'accounts', 'changes' and 'patch_sets'.
+{{- end }}
+
+The initialization process may take some time. Afterwards the git repositories
+will be available under:
+
+http {{- if .Values.gerritSlave.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gerritSlave.ingress.host -}} /<repository-name>.git

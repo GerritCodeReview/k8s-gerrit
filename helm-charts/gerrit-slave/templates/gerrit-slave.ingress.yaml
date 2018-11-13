@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-gerrit-slave-ingress
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  {{ if .Values.gerritSlave.ingress.alias -}}
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: {{ .Values.gerritSlave.ingress.alias }}
+  {{- end }}
+spec:
+  {{ if .Values.gerritSlave.ingress.tls.enabled -}}
+  tls:
+  - hosts:
+    - {{ .Values.gerritSlave.ingress.host }}
+    secretName: {{ .Release.Name }}-gerrit-slave-tls-secret
+  {{- end }}
+  rules:
+  - host: {{required "A host URL is required for the Gerrit slave Ingress. Please set 'gerritSlave.ingress.host'" .Values.gerritSlave.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-gerrit-slave-service
+          servicePort: {{ .Values.gerritSlave.service.http.port }}

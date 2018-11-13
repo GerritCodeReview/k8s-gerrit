@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-ingress
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  {{ if .Values.gerritMaster.ingress.alias -}}
+  annotations:
+    nginx.ingress.kubernetes.io/server-alias: {{ .Values.gerritMaster.ingress.alias }}
+  {{- end }}
+spec:
+  {{ if .Values.gerritMaster.ingress.tls.enabled -}}
+  tls:
+  - hosts:
+    - {{ .Values.gerritMaster.ingress.host }}
+    secretName: {{ .Release.Name }}-gerrit-master-tls-secret
+  {{- end }}
+  rules:
+  - host: {{required "A host URL is required for the Gerrit master Ingress. Please set 'gerritMaster.ingress.host'" .Values.gerritMaster.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-gerrit-master-service
+          servicePort: {{ .Values.gerritMaster.service.http.port }}
