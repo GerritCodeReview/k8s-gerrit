@@ -1,0 +1,40 @@
+#!/bin/bash
+
+test -z "${FILEPATH}" && FILEPATH=/var/data/db/master_dump.sql
+mkdir -p $(dirname "${FILEPATH}")
+useradd gerrit -u 1000 -g users
+chown -R gerrit:users /var/data/db
+rm -f ${FILEPATH} || echo "File did not exist yet."
+
+getTimeFromLastChange() {
+    lastAccess=$(stat --format=%Y ${FILEPATH})
+    now=$(date +%s)
+    timePassed=$((now - lastAccess))
+    echo ${timePassed}
+}
+
+while test -z ${FINISHED}; do
+    sleep 5
+    if [ -f ${FILEPATH} ]; then
+        FINISHED="true"
+    fi
+    echo "Waiting for database dump file at ${FILEPATH}"
+done
+
+while [ true ]; do
+    lastChange=$(getTimeFromLastChange ${FILEPATH})
+    if [ "${lastChange}" -lt 5 ]; then
+        echo "waiting"
+        sleep 1
+    else
+        echo "done"
+        break
+    fi
+done
+
+# Load database dump into database
+mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD} < ${FILEPATH}
+
+# Configure and start database slave
+mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD} \
+    -e "set @replpwd='${REPL_PASSWORD}'; source /var/sql/initialize-slave.sql;"
