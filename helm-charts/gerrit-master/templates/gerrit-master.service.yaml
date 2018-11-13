@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-service
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  {{ with .Values.gerritMaster.service }}
+  ports:
+  - name: http
+    port: {{ .http.port }}
+    targetPort: 8080
+  selector:
+    app: gerrit-master
+  type: {{ .type }}
+  {{- end }}

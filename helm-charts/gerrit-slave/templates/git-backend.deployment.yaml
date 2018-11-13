@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-git-backend-deployment
+  labels:
+    app: git-backend
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.gitBackend.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: git-backend
+  template:
+    metadata:
+      labels:
+        app: git-backend
+    spec:
+      securityContext:
+        fsGroup: 100
+      {{ if .Values.images.registry.ImagePullSecret.name -}}
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      {{- end }}
+      containers:
+      - name: apache-git-http-backend
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        image: {{ template "registry" . }}{{ .Values.gitBackend.image }}:{{ .Values.images.version }}
+        command:
+        - bin/bash
+        - -c
+        args:
+        - |
+          {{ if eq .Values.gitBackend.service.https.enabled false -}}
+          rm /etc/apache2/sites-enabled/git-https-backend.conf
+          {{- end }}
+          {{ if eq .Values.gitBackend.service.http.enabled false -}}
+          rm /etc/apache2/sites-enabled/git-http-backend.conf
+          {{- end }}
+          /etc/init.d/apache2 start \
+            && tail -F -q -n +1 /var/log/apache2/*.log
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources:
+{{ toYaml .Values.gitBackend.resources | indent 10 }}
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+        - name: git-backend-secret
+          readOnly: true
+          mountPath: "/var/apache/credentials"
+        - name: apache-logs
+          mountPath: "/var/log/apache2"
+      volumes:
+      - name: git-filesystem
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-git-filesystem-pvc
+      - name: git-backend-secret
+        secret:
+          secretName: {{ .Release.Name }}-git-backend-secret
+      - name: apache-logs
+        {{ if .Values.gitBackend.logging.persistence.enabled -}}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-apache-logs-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+gerrit_uid=$(id -u gerrit)
+gerrit_gid=$(cut -d: -f3 < <(getent group users))
+
+for dir in /var/gerrit/* /var/apache/credentials /var/log/apache2; do
+  /var/tools/validate_site.sh $dir $gerrit_uid $gerrit_gid || exit 1
+done
