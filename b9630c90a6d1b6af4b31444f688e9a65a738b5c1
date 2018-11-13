@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c38ce9e_e25d09db",
+        "filename": "Documentation/developer-guide.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-13T06:33:04Z",
+      "side": 1,
+      "message": "There should be a \u0027which\u0027 here instead.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "b9630c90a6d1b6af4b31444f688e9a65a738b5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd9272b_60863e1f",
+        "filename": "Documentation/developer-guide.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-13T06:33:04Z",
+      "side": 1,
+      "message": "nit: double whitespace",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "b9630c90a6d1b6af4b31444f688e9a65a738b5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "877e5b41_f58582db",
+        "filename": "LICENSE",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-13T06:33:04Z",
+      "side": 1,
+      "message": "Since we are using the same owner every time, we should already fill it in here in my opinion.",
+      "revId": "b9630c90a6d1b6af4b31444f688e9a65a738b5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
