@@ -1,0 +1,4 @@
+*.pem
+*.crt
+/helm-charts/*/charts
+/helm-charts/*/requirements.lock

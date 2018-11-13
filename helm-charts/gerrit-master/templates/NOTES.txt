@@ -1,0 +1,4 @@
+A Gerrit master has been deployed.
+==================================
+
+Gerrit may be accessed under: {{ .Values.gerritMaster.ingress.host }}

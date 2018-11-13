@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if test ! -f /var/apache/credentials/server.crt ;then
+  openssl genrsa -des3 -passout pass:secret \
+    -out /var/apache/credentials/server.pass.key 2048
+  openssl rsa -passin pass:secret -in /var/apache/credentials/server.pass.key \
+    -out /var/apache/credentials/server.key
+  rm /var/apache/credentials/server.pass.key
+  openssl req -new -key /var/apache/credentials/server.key \
+    -out /var/apache/credentials/server.csr -subj "/C=DE/O=Gerrit/CN=localhost"
+  openssl x509 -req -days 365 -in /var/apache/credentials/server.csr \
+    -signkey /var/apache/credentials/server.key \
+    -out /var/apache/credentials/server.crt
+  echo "Created a self-signed certificate in /var/apache/credentials/server.crt"
+fi
+
+if [ -z "$ENABLE_HTTP" ] || [ "$ENABLE_HTTP" = "false" ] ;then
+  rm /etc/apache2/sites-enabled/git-http-backend.conf
+fi
+
+if test ! -f /var/apache/credentials/.htpasswd ;then
+  htpasswd -cdb /var/apache/credentials/.htpasswd gerrit secret
+fi
+
+/etc/init.d/apache2 start \
+  && tail -F -q -n +1 /var/log/apache2/*.log
