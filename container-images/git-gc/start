@@ -1,0 +1,14 @@
+#!/bin/bash
+
+MODE=$1 && shift
+NAME=$1 && shift
+SITE=$1 && shift
+REGISTRY=$1 && shift
+TAG=$1 && shift
+ENV=$1 && shift
+
+docker run $MODE \
+  --name ${NAME} \
+  -v $SITE/git:/var/gerrit/git \
+  $ENV \
+  ${REGISTRY}k8sgerrit/${NAME}:${TAG}

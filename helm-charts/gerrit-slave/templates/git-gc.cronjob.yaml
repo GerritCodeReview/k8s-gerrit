@@ -1,0 +1,47 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name:  {{ .Release.Name }}-git-gc
+  labels:
+    app: git-gc
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  schedule: {{ .Values.gitGC.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 1000
+            fsGroup: 100
+          {{ if .Values.images.registry.ImagePullSecret.name -}}
+          imagePullSecrets:
+          - name: {{ .Values.images.registry.ImagePullSecret.name }}
+          {{- end }}
+          containers:
+          - name: git-gc
+            imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+            image: {{ template "registry" . }}{{ .Values.gitGC.image }}:{{ .Values.images.version }}
+            command:
+            - /var/tools/gc-all.sh
+            resources:
+{{ toYaml .Values.gitGC.resources | indent 14 }}
+            volumeMounts:
+            - name: git-filesystem
+              mountPath: "/var/gerrit/git"
+            - name: git-gc-logs
+              mountPath: "/var/log/git"
+          volumes:
+          - name: git-filesystem
+            persistentVolumeClaim:
+              claimName: {{ .Release.Name }}-git-filesystem-pvc
+          - name: git-gc-logs
+            {{ if .Values.gitGC.logging.persistence.enabled -}}
+            persistentVolumeClaim:
+              claimName: {{ .Release.Name }}-git-gc-logs-pvc
+            {{ else -}}
+            emptyDir: {}
+            {{- end }}

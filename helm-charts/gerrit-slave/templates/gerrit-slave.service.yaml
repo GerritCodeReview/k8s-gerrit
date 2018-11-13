@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gerrit-slave-service
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  {{ with .Values.gerritSlave.service }}
+  ports:
+  - name: http
+    port: {{ .http.port }}
+    targetPort: 8080
+  selector:
+    app: gerrit-slave
+  type: {{ .type }}
+  {{- end }}

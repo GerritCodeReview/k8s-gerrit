@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-configmap
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit.config: |-
+{{ .Values.gerritMaster.config.gerrit | indent 4 }}
+  replication.config: |-
+{{ .Values.gerritMaster.config.replication | indent 4 }}
