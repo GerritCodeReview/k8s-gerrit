@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gerrit-slave-deployment
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.gerritSlave.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: gerrit-slave
+  template:
+    metadata:
+      labels:
+        app: gerrit-slave
+    spec:
+      securityContext:
+        fsGroup: 100
+      {{ if .Values.images.registry.ImagePullSecret.name -}}
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      {{- end }}
+      initContainers:
+      - name: gerrit-slave-init
+        image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          ln -s /var/keystore /var/gerrit/etc/keystore
+          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+
+          /var/tools/start
+        env:
+        - name: TEST_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-gerrit-slave-configmap
+              key: test-mode
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
+        - name: gerrit-config
+          mountPath: "/var/config/gerrit.config"
+          subPath: gerrit.config
+        - name: gerrit-slave-secure-config
+          mountPath: "/var/config/secure.config"
+          subPath: secure.config
+        - name: gerrit-slave-secure-config
+          mountPath: "/var/keystore"
+          subPath: keystore
+      containers:
+      - name: gerrit-slave
+        image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritSlave }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          rm -f /var/gerrit/logs/gerrit.pid
+
+          ln -s /var/keystore /var/gerrit/etc/keystore
+          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+
+          JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
+
+          java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war daemon \
+              -d /var/gerrit \
+              --enable-httpd \
+              --slave &
+
+          tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
+        env:
+        - name: TEST_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Release.Name }}-gerrit-slave-configmap
+              key: test-mode
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
+        - name: gerrit-config
+          mountPath: "/var/config/gerrit.config"
+          subPath: gerrit.config
+        - name: gerrit-slave-secure-config
+          mountPath: "/var/config/secure.config"
+          subPath: secure.config
+        - name: gerrit-slave-secure-config
+          mountPath: "/var/keystore"
+          subPath: keystore
+        resources:
+{{ toYaml .Values.gerritSlave.resources | indent 10 }}
+      volumes:
+      - name: git-filesystem
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-git-filesystem-pvc
+      - name: gerrit-logs
+        {{ if .Values.gerritSlave.logging.persistence.enabled -}}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-gerrit-slave-logs-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
+      - name: gerrit-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-slave-configmap
+      - name: gerrit-slave-secure-config
+        secret:
+          secretName: {{ .Release.Name }}-gerrit-slave-secure-config

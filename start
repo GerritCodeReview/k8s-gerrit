@@ -1,0 +1,98 @@
+#!/bin/bash
+
+usage() {
+    me=`basename "$0"`
+    echo >&2 "Usage: $me [--registry REGISTRY] [--tag TAG] [--detach] [--enable-http] site component"
+    exit 1
+}
+
+create_dir() {
+    d=$1
+    u=$2
+    g=$3
+    mkdir -p $d
+    if [ $? -ne 0 ]; then
+        echo >&2 "Failed to create directory $d"
+        exit 1
+    fi
+
+    chown $u:$g $d
+    if [ $? -ne 0 ]; then
+        echo >&2 "Failed to set ownership for directory $d"
+        exit 1
+    fi
+}
+
+export -f create_dir
+
+while test $# -gt 0 ; do
+  case "$1" in
+  --registry)
+    shift
+    REGISTRY=$1
+    shift
+    ;;
+  --tag)
+    shift
+    TAG=$1
+    shift
+    ;;
+  --detach)
+    MODE=$1
+    shift
+    ;;
+  --enable-http)
+    ENABLE_HTTP='-e ENABLE_HTTP=1'
+    shift
+    ;;
+
+  *)
+    break
+  esac
+done
+
+test -z "$TAG" && TAG=latest
+test -z "$MODE" && MODE='--interactive --tty'
+
+test $# -ge 1 || usage
+SITE=$1
+shift
+
+test $# -eq 1 || usage
+NAME=$1
+
+[[ -n "$REGISTRY" ]] && [["$REGISTRY" != */ ]] && REGISTRY="$REGISTRY/"
+
+OWNER_UID=$(ls -lnd $SITE/git | tr -s ' ' | cut -d ' ' -f 3)
+OWNER_GID=$(ls -lnd $SITE/git | tr -s ' ' | cut -d ' ' -f 4)
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  ENV="$ENV -e FIXFS=true"
+fi
+
+docker rm ${NAME} >/dev/null 2>&1
+
+case "$NAME" in
+apache-git-http-backend)
+  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$ENABLE_HTTP" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
+  ;;
+
+git-gc)
+  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$ENV"
+  ;;
+
+gerrit-master)
+  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
+  ;;
+
+gerrit-slave)
+  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
+  ;;
+
+gerrit-slave-init)
+  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
+  ;;
+
+*)
+  echo "$NAME not a known component"
+esac

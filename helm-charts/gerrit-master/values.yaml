@@ -1,0 +1,278 @@
+images:
+  registry:
+    # The registry name must NOT contain a trailing slash
+    name:
+    ImagePullSecret:
+      # Leave blank, if no ImagePullSecret is needed.
+      name: image-pull-secret
+      # If set to false, the gerrit-master chart expects either a ImagePullSecret
+      # with the name configured above to be present on the cluster or that no
+      # credentials are needed.
+      create: false
+      username:
+      password:
+  version: latest
+  imagePullPolicy: Always
+
+
+storageClasses:
+  # Storage class used for storing logs and other pod-specific persisted data
+  default:
+    # If create is set to false, an existing StorageClass with the given
+    # name is expected to exist in the cluster. Setting create to true will
+    # create a storage class with the parameters given below.
+    name: default
+    create: false
+    provisioner: kubernetes.io/aws-ebs
+    reclaimPolicy: Delete
+    # Use the parameters key to set all parameters needed for the provisioner
+    parameters:
+      type: gp2
+      fsType: ext4
+  # Storage class used for storing git repositories. Has to provide RWM access.
+  shared:
+    # If create is set to false, an existing StorageClass with RWM access
+    # mode and the given name has to be provided.
+    name: shared-storage
+    create: false
+    provisioner: nfs
+    reclaimPolicy: Delete
+    # Use the parameters key to set all parameters needed for the provisioner
+    parameters:
+      mountOptions: vers=4.1
+
+
+gitRepositoryStorage:
+  size: 5Gi
+
+
+gitGC:
+  image: gerrit/git-gc
+
+  schedule: 0 6,18 * * *
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
+
+  logging:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+
+gerritMaster:
+  images:
+    gerritInit: gerrit/gerrit-slave-init
+    gerritMaster: gerrit/gerrit-master
+
+  # The memory limit has to be higher than the configures heap-size for Java!
+  resources:
+    requests:
+      cpu: 1
+      memory: 5Gi
+    limits:
+      cpu: 1
+      memory: 6Gi
+
+  logging:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+  service:
+    type: NodePort
+    http:
+      port: 80
+
+  ingress:
+    host:
+    # Provide a second host name used as an alias. Leave empty, if no alias is
+    # desired.
+    alias:
+    tls:
+      enabled: false
+      cert: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
+
+  # `gerritMaster.keystore` expects a base64-encoded Java-keystore
+  # Since Java keystores are binary files, adding the unencoded content and
+  # automatic encoding using helm does not work here.
+  keystore:
+
+  config:
+    # Some values are expected to have a specific value for the deployment installed
+    # by this chart to work. These are marked with `# FIXED`. Do not change them!
+    gerrit: |-
+      [gerrit]
+        basePath = git # FIXED
+        # The canonical web URL has to be set to the Ingress host, if an Ingress
+        # is used. If a LoadBalancer-service is used, this should be set to the
+        # LoadBalancer's external IP. This can only be done manually after installing
+        # the chart, when you know the external IP the LoadBalancer got from the
+        # cluster.
+        canonicalWebUrl = http://example.com/
+        disableReverseDnsLookup = true
+      [database]
+        type = mysql
+        # 'gerrit-master-mysql' is the reference to the service that manages
+        # the traffic to the mysql database, if the mysql-database is installed
+        # via the gerrit-master chart
+        hostname = gerrit-master-mysql
+        port = 3306
+        database = reviewdb
+      [index]
+        type = LUCENE
+      [auth]
+        type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+      [httpd]
+        # If using an ingress use proxy-http or proxy-https
+        listenUrl = proxy-http://*:8080/
+      [transfer]
+        timeout = 120 s
+      [user]
+        name = Gerrit Code Review
+        email = gerrit@example.com
+        anonymousCoward = Unnamed User
+      [cache]
+        directory = cache
+      [container]
+        user = gerrit # FIXED
+        javaHome = /usr/lib/jvm/java-8-openjdk-amd64 # FIXED
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
+        javaOptions = -Xms200m
+        # Has to be lower than 'gerritMaster.resources.limits.memory'. Also
+        # consider memories used by other applications in the container.
+        javaOptions = -Xmx4g
+
+    secure: |-
+      # Database credentials should be the same as configured for the database
+      # Gerrit-master chart, if the database was installed using the chart.
+      [database]
+        username = gerrit
+        password = secret
+
+      # Password for the keystore added as value for 'gerritMaster.keystore'
+      [httpd]
+        sslKeyPassword = gerrit
+
+      # Credentials for replication targets
+      # [remote "slave"]
+      # username = git
+      # password = secret
+
+    replication: |-
+      [gerrit]
+        autoReload = false
+        replicateOnStartup = true
+        defaultForceUpdate = true
+
+      # [remote "slave"]
+      # url = http://gerrit-slave.example.com/git/${name}.git
+      # replicationDelay = 0
+      # timeout = 30
+
+
+mysql:
+  # Enabling the installation of the MySQL database will only make sense, if
+  # `mysql` is chosen as a provider under `database.provider`.
+  enabled: true
+
+  image: mysql
+  # The major.minor version of mysql should be the same as for the master database
+  imageTag: 5.5.61
+
+  mysqlRootPassword: big_secret
+  mysqlUser: gerrit
+  mysqlPassword: secret
+
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+  persistence:
+    enabled: true
+    storageClass: default
+    accessMode: ReadWriteOnce
+    size: 8Gi
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 1Gi
+    limits:
+      cpu: 250m
+      memory: 1Gi
+
+  configurationFiles:
+    mysql.cnf: |-
+      [mysqld]
+
+      # Adapt the following changes to your setup
+      ###########################################
+
+      # Name of transaction logs (used for database replication)
+      log_bin=mysql-bin
+
+      # Adapt to the binlog format of the Gerrit master's database
+      binlog_format=row
+
+      # Has to be different for each database in the replication setup.
+      server-id=1
+
+      # Add the following options to the config, if using SSL (`mysql.ssl.enabled: true`)
+      # But do not change the values.
+      # ssl-ca=/ssl/ca.pem
+      # ssl-cert=/ssl/server-cert.pem
+      # ssl-key=/ssl/server-key.pem
+
+  initializationFiles:
+    # Do not change or remove this script.
+    initialize_reviewdb.sql: |-
+      CREATE DATABASE reviewdb DEFAULT CHARACTER SET 'utf8';
+      GRANT ALL ON reviewdb.* TO 'gerrit';
+      FLUSH PRIVILEGES;
+
+  service:
+    type: NodePort
+    port: 3306
+
+  ssl:
+    # If enabled, add the required lines to the configuration as described in
+    # `mysql.configurationFiles.mysql.cnf`
+    enabled: false
+    secret: master-ssl-certs
+    certificates:
+    - name: master-ssl-certs
+      ca: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      cert: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----

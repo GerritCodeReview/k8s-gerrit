@@ -1,0 +1,5 @@
+*.pem
+*.crt
+/kubernetes/gerrit-slave/keystore
+/helm-charts/*/charts
+/helm-charts/*/requirements.lock
