@@ -1,0 +1,78 @@
+#!/bin/bash
+
+usage() {
+    me=`basename "$0"`
+    echo >&2 "Usage: $me [--tag TAG] [--gerrit-url URL] [IMAGE]"
+    exit 1
+}
+
+while test $# -gt 0 ; do
+  case "$1" in
+  --tag)
+    shift
+    TAG=$1
+    shift
+    ;;
+
+  --gerrit-url)
+    shift
+    GERRIT_WAR_URL=$1
+    shift
+    ;;
+
+  *)
+    break
+  esac
+done
+
+GIT_REV=$(git describe --dirty)
+
+test -z "$TAG" && TAG=latest
+
+docker_build(){
+    IMAGE=$1
+
+    if ([[ $IMAGE = "gerrit-slave" ]] && test -n "$GERRIT_WAR_URL"); then
+        BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
+    fi
+
+    docker build $BUILD_ARGS -t gerritcodereview/$IMAGE:$TAG -t gerritcodereview/$IMAGE:$GIT_REV ./container-images/$IMAGE && BUILD_SUCCESS=1
+    if test -z "$BUILD_SUCCESS"; then
+        REPORT="$REPORT Failed: $IMAGE.\n"
+        RETURN_CODE=1
+    else
+        REPORT="$REPORT Success: $IMAGE:$TAG\n Success: $IMAGE:$GIT_REV\n"
+    fi
+}
+
+REPORT="Build results: \n"
+RETURN_CODE=0
+
+docker build -t base ./container-images/base || {
+            echo -e "\n\nFailed to build base image."
+            exit 1
+        }
+
+if test $# -eq 0 ; then
+    docker build -t gerrit-base ./container-images/gerrit-base || {
+            echo -e "\n\nFailed to build gerrit-base image."
+            exit 1
+        }
+    for IMAGE in apache-git-http-backend gerrit-master gerrit-slave git-gc mysql-replication-init gerrit-slave-init; do
+        docker_build $IMAGE
+    done
+else
+    while test $# -gt 0 ; do
+        if [[ $1 = gerrit-* ]]; then
+            docker build -t gerrit-base ./container-images/gerrit-base || {
+                echo -e "\n\nFailed to build gerrit-base image."
+                exit 1
+            }
+        fi
+        docker_build $1
+        shift
+    done
+fi
+
+echo -e "\n\n$REPORT"
+exit $RETURN_CODE

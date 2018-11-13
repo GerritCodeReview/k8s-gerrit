@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Docker registry to use, when publishing or starting an image
+export REGISTRY=''
+
+# Version tag of the image that should be started
+export TAG=$(git describe --dirty)
