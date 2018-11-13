@@ -1,0 +1,49 @@
+#!/bin/bash
+
+usage() {
+    me=`basename "$0"`
+    echo >&2 "Usage: $me [--update-latest] [--tag TAG] [--registry REGISTRY] component"
+    exit 1
+}
+
+UPDATE_LATEST=false
+
+while test $# -gt 0 ; do
+  case "$1" in
+  --update-latest)
+    UPDATE_LATEST=true
+    shift
+    ;;
+  --registry)
+    shift
+    REGISTRY=$1
+    shift
+    ;;
+  --tag)
+    shift
+    TAG=$1
+    shift
+    ;;
+  *)
+    break
+  esac
+done
+
+if test -z "$TAG"; then
+  echo "No tag was provided."
+  echo "Use either the --tag option or provide a TAG-environment variable."
+  exit 1
+fi
+
+test -n "$REGISTRY" && [[ "$REGISTRY" != */ ]] && REGISTRY="$REGISTRY/"
+
+test $# -eq 1 || usage
+IMAGE=$1
+
+if test "$UPDATE_LATEST" = "true" ; then
+  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:latest
+  docker push ${REGISTRY}k8sgerrit/$IMAGE:latest
+fi
+
+docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:$TAG
+docker push ${REGISTRY}k8sgerrit/$IMAGE:$TAG

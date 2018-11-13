@@ -1,0 +1,2 @@
+0 6 * * * /var/tools/gc-all.sh
+30 17 * * * /var/tools/gc-all.sh

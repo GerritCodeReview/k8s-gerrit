@@ -1,0 +1,25 @@
+#!/bin/bash
+
+MODE=$1 && shift
+NAME=$1 && shift
+SITE=$1 && shift
+ENABLE_HTTP=$1 && shift
+REGISTRY=$1 && shift
+TAG=$1 && shift
+OWNER_UID=$1 && shift
+OWNER_GID=$1 && shift
+ENV=$1 && shift
+
+create_dir "$SITE/log_apache2" $OWNER_UID $OWNER_GID
+
+docker run $MODE \
+  -h $(hostname -f) \
+  --name ${NAME} \
+  -p 8080:80 \
+  -p 8081:443 \
+  -v $SITE/git:/var/gerrit/git \
+  -v $SITE/etc:/var/apache/credentials \
+  -v $SITE/log_apache2:/var/log/apache2 \
+  $ENV \
+  $ENABLE_HTTP \
+  ${REGISTRY}k8sgerrit/${NAME}:${TAG}

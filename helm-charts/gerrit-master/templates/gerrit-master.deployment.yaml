@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-deployment
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.gerritMaster.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: gerrit-master
+  template:
+    metadata:
+      labels:
+        app: gerrit-master
+    spec:
+      securityContext:
+        fsGroup: 100
+      {{ if .Values.images.registry.ImagePullSecret.name -}}
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      {{- end }}
+      initContainers:
+      - name: gerrit-master-init
+        image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          echo "Waiting for database..."
+          while ! mysqladmin ping -h "gerrit-master-mysql" -P"3306" --silent; do
+            sleep 10
+          done
+          echo "Database connection successful!"
+      containers:
+      - name: gerrit-master
+        image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritMaster }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          ln -s /var/keystore /var/gerrit/etc/keystore
+          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+          ln -sf /var/config/replication.config /var/gerrit/etc/replication.config
+          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+
+          java -jar /var/gerrit/bin/gerrit.war init \
+              --batch \
+              --install-plugin replication \
+              --install-plugin commit-message-length-validator \
+              --install-plugin download-commands \
+              --install-plugin reviewnotes \
+              -d /var/gerrit
+
+          java -jar /var/gerrit/bin/gerrit.war reindex \
+              -d /var/gerrit
+
+          /var/gerrit/bin/gerrit.sh start
+
+          tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
+        - name: gerrit-config
+          mountPath: "/var/config/gerrit.config"
+          subPath: gerrit.config
+        - name: gerrit-config
+          mountPath: "/var/config/replication.config"
+          subPath: replication.config
+        - name: gerrit-master-secure-config
+          mountPath: "/var/config/secure.config"
+          subPath: secure.config
+        - name: gerrit-master-secure-config
+          mountPath: "/var/keystore"
+          subPath: keystore
+        resources:
+{{ toYaml .Values.gerritMaster.resources | indent 10 }}
+      volumes:
+      - name: git-filesystem
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-git-filesystem-pvc
+      - name: gerrit-logs
+        {{ if .Values.gerritMaster.logging.persistence.enabled -}}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-gerrit-master-logs-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
+      - name: gerrit-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-master-configmap
+      - name: gerrit-master-secure-config
+        secret:
+          secretName: {{ .Release.Name }}-gerrit-master-secure-config

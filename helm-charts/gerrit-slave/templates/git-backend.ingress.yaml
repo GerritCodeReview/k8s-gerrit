@@ -1,0 +1,33 @@
+{{ if .Values.gitBackend.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-git-backend-ingress
+  labels:
+    app: git-backend
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    {{ if .Values.gitBackend.ingress.alias -}}
+    nginx.ingress.kubernetes.io/server-alias: {{ .Values.gitBackend.ingress.alias }}
+    {{- end }}
+spec:
+  {{ if .Values.gitBackend.ingress.tls.enabled -}}
+  tls:
+  - hosts:
+    - {{ .Values.gitBackend.ingress.host }}
+    secretName: {{ .Release.Name }}-git-backend-tls-secret
+  {{- end }}
+  rules:
+  - host: {{ .Values.gitBackend.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-git-backend-service
+          servicePort: {{ .Values.gitBackend.service.http.port }}
+          # TODO: Allow encrypted communication between Ingress and Service
+          # A possible solution could be the annotation
+          # nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream
+{{- end }}

@@ -1,0 +1,12 @@
+gerrit_uid=$(id -u gerrit)
+gerrit_gid=$(cut -d: -f3 < <(getent group users))
+
+/etc/init.d/cron start
+
+for dir in /var/gerrit/*; do
+  /var/tools/validate_site.sh $dir $gerrit_uid $gerrit_gid || exit 1
+done
+
+sudo -u gerrit crontab /var/cron/crontab \
+  && touch /var/log/git/gc.log \
+  && tail -F -n +1 /var/log/git/gc.log
