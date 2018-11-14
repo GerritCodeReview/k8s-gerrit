@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9e428d8_3cf6e9bd",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T14:42:32Z",
+      "side": 1,
+      "message": "This seems identical with the text at 48-51. Can this be somehow factored out?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 48
+      },
+      "revId": "228b211e7e7ddfd7add1e47460656072ad6712ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bd157c3_fc2e2e07",
+        "filename": "configure",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-14T14:42:32Z",
+      "side": 1,
+      "message": "Does this file need to be included in the source code?\nBasically it just shows how to setup two env variables, which are honored by some scripts (build, start, publish).\nIMHO, it is only necessary to document that these env variables are honored and otherwise assume that\npeople know how to setup env variables.",
+      "revId": "228b211e7e7ddfd7add1e47460656072ad6712ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
