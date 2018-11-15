@@ -6,7 +6,7 @@ RUN mkdir -p /var/gerrit/bin
 RUN mkdir -p /var/gerrit/etc
 
 # Download Gerrit release
-ARG GERRIT_WAR_URL=https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-2.14/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war
+ARG GERRIT_WAR_URL=https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-2.16/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war
 RUN curl -k -o /var/gerrit/bin/gerrit.war ${GERRIT_WAR_URL}
 
 ARG GERRIT_UID=1000

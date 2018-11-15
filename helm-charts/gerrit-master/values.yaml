@@ -132,6 +132,8 @@ gerritMaster:
         hostname = gerrit-master-mysql
         port = 3306
         database = reviewdb
+        # To switch of enforced SSL-encrypted communication uncomment:
+        # url = jdbc:mysql://gerrit-slave-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
       [index]
         type = LUCENE
       [auth]
