@@ -8,7 +8,7 @@ get_db_config(){
 
   if test -f "/var/gerrit/etc/gerrit.config"; then
     export DB_TYPE=$(git config --file /var/gerrit/etc/gerrit.config --get database.type)
-    export DB_NAME=$(git config --file /var/gerrit/etc/gerrit.config --get database.database)
+    export DB_NAME=$(git config --file /var/gerrit/etc/gerrit.config --get database.database | cut -d'?' -f1)
     export DB_HOST=$(git config --file /var/gerrit/etc/gerrit.config --get database.hostname)
     export DB_PORT=$(git config --file /var/gerrit/etc/gerrit.config --get database.port)
   fi
@@ -50,7 +50,7 @@ test_mysql_db(){
   local EXIT_CODE=0
   mysql -h ${DB_HOST} -P${DB_PORT} -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} >/dev/null 2>&1 </dev/null || EXIT_CODE=1
   # Check existence of some tables
-  for table in accounts changes patch_sets; do    # tables expected in Gerrit 2.12
+  for table in changes patch_sets; do    # tables expected in Gerrit 2.12 - 2.16
     SQL_EXISTS=$(printf 'SHOW TABLES LIKE "%s"' "${table}")
     if [[ $(mysql -h ${DB_HOST} -P${DB_PORT} -u ${DB_USER} -p${DB_PASSWORD} -e "${SQL_EXISTS}" ${DB_NAME}) ]]; then
       echo "Table ${table} was found."
