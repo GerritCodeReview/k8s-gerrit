@@ -5,8 +5,10 @@ GERRIT_VERSION="$(java -jar /var/gerrit/bin/gerrit.war --version | cut -c 16-19)
 
 if ([ "${GERRIT_VERSION}" = "2.12" ] || [ "${GERRIT_VERSION}" = "2.13" ]); then
     PGM_INIT_JAR="gerrit-pgm-init.jar"
-else
+elif ([ "${GERRIT_VERSION}" = "2.14" ] || [ "${GERRIT_VERSION}" = "2.15" ]); then
     PGM_INIT_JAR="gerrit-pgm-libinit.jar"
+else
+    PGM_INIT_JAR="com_google_gerrit_pgm_init_libinit.jar"
 fi
 
 unzip -xOf /var/gerrit/bin/gerrit.war WEB-INF/lib/${PGM_INIT_JAR} -d /tmp
