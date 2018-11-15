@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "215fa15f_24279b87",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T18:53:16Z",
+      "side": 0,
+      "message": "why do some of the shell scripts have extension .sh and some have none like start or build scripts ?\nI think we should do this consistently.\n\nMaybe add a short description in each of the scripts ?",
+      "revId": "545c8706d43cebc13e1ae81440cc66b4dd5dd167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef430378_25091e57",
         "filename": "container-images/base/apt.conf",
         "patchSetId": 1
