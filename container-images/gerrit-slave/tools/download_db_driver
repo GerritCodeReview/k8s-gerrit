@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+GERRIT_VERSION="$(java -jar /var/gerrit/bin/gerrit.war --version | cut -c 16-19)"
+
+if ([ "${GERRIT_VERSION}" = "2.12" ] || [ "${GERRIT_VERSION}" = "2.13" ]); then
+    PGM_INIT_JAR="gerrit-pgm-init.jar"
+elif ([ "${GERRIT_VERSION}" = "2.14" ] || [ "${GERRIT_VERSION}" = "2.15" ]); then
+    PGM_INIT_JAR="gerrit-pgm-libinit.jar"
+else
+    PGM_INIT_JAR="com_google_gerrit_pgm_init_libinit.jar"
+fi
+
+unzip -xOf /var/gerrit/bin/gerrit.war WEB-INF/lib/${PGM_INIT_JAR} -d /tmp
+LIBRARY_CONFIG_PATH="com/google/gerrit/pgm/init/libraries.config"
+unzip -xOf /tmp/WEB-INF/lib/${PGM_INIT_JAR} ${LIBRARY_CONFIG_PATH} -d /tmp
+( cd /var/gerrit/lib &&
+    curl -LO $(git config --file /tmp/${LIBRARY_CONFIG_PATH} --get library.mysqlDriver.url) )
+git config --file /tmp/${LIBRARY_CONFIG_PATH} --get library.mysqlDriver.sha1  && \
+echo "$(git config --file /tmp/${LIBRARY_CONFIG_PATH} --get library.mysqlDriver.sha1)  $(find /var/gerrit/lib -name 'mysql-connector-java-*.jar')" | shasum -c -
+rm -rf /tmp/WEB-INF /tmp/${LIBRARY_CONFIG_PATH}

@@ -51,8 +51,9 @@ database connection could be established.
 {{- else }}
 The deployment will wait for the replication of repositories and the databse scheme.
 The repository replication is checked by testing for the presence of the 'All-Projects.git'-
-repository. The database-scheme is tested by testing for the presence of a database
-with the configured name, containing the tables 'accounts', 'changes' and 'patch_sets'.
+and 'All-Users.git'-repository. The database-scheme is tested by testing for the
+presence of a database with the configured name, containing the tables 'accounts',
+'changes' and 'patch_sets'.
 {{- end }}
 
 The initialization process may take some time. Afterwards the git repositories

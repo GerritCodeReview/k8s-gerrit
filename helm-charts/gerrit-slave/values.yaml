@@ -206,6 +206,7 @@ gerritSlave:
     gerrit: |-
       [gerrit]
         basePath = git # FIXED
+        serverId = gerrit-slave-1
         # The canonical web URL has to be set to the Ingress host, if an Ingress
         # is used. If a LoadBalancer-service is used, this should be set to the
         # LoadBalancer's external IP. This can only be done manually after installing
@@ -221,6 +222,8 @@ gerritSlave:
         hostname = gerrit-slave-mysql
         port = 3306
         database = reviewdb
+        # To switch of enforced SSL-encrypted communication uncomment:
+        # url = jdbc:mysql://gerrit-slave-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
       [index]
         type = LUCENE
       [auth]

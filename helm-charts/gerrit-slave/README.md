@@ -233,6 +233,13 @@ work as intended:
     directory from a persistent volume to `/var/gerrit/git` in the container. For
     Gerrit to find the correct directory, this has to be set to `git`.
 
+- `gerrit.serverId`
+
+    In Gerrit-version higher than 2.14 Gerrit needs a server ID, which is used by
+    NoteDB. Gerrit would usually generate a random ID on startup, but since the
+    gerrit.config file is read only, when mounted as a ConfigMap this fails.
+    Thus the server ID has to be set manually!
+
 - `gerrit.canonicalWebUrl`
 
     The canonical web URL has to be set to the Ingress host.
@@ -243,6 +250,12 @@ work as intended:
     dependency and if the chart is installed with the release name set to
     `gerrit-slave`. Only change this, if you decide to use a different database or
     changed the default settings for the mysql-chart.
+
+    With newer versions of the MySQL-driver used by Gerrit, using SSL-encrypted
+    communication with the database is enforced by default. This can be deactivated
+    by setting the `useSSL=false`-option. To do that in Gerrit, the database-URL
+    has to be provided manually:
+    `url = jdbc:mysql://<db-host>:<db-port>/<db-name>?nullNamePatternMatchesAll=true&useSSL=false`
 
 - `httpd.listenURL`
 
