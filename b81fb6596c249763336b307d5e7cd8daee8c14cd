@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bc147c3e_e7dd85e4",
+        "filename": "helm-charts/gerrit-master/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6ec461d_f082d9b7",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "154e75a5_f25d0ead",
         "filename": "helm-charts/gerrit-master/Chart.yaml",
         "patchSetId": 1
@@ -103,6 +121,24 @@
       "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c026d9d4_9c17d5a4",
+        "filename": "helm-charts/gerrit-master/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154e75a5_f25d0ead",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -123,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "53c53f16_e136c9a9",
+        "filename": "helm-charts/gerrit-slave/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9067a8d3_9de4fc69",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98510acb_04f4dc7d",
         "filename": "helm-charts/gerrit-slave/Chart.yaml",
         "patchSetId": 1
@@ -137,6 +191,24 @@
       "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb737056_8ccf2102",
+        "filename": "helm-charts/gerrit-slave/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:23:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98510acb_04f4dc7d",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
