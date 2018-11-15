@@ -59,6 +59,13 @@ spec:
               --install-plugin reviewnotes \
               -d /var/gerrit
 
+          # The gerrit.war init overwrites the symlinks. While it keeps the config
+          # this would mask changes in the configmap. Thus the symlink has to be
+          # recreated here.
+          # TODO: Find a better solution to manage Gerrit's configuration
+          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+
           java -jar /var/gerrit/bin/gerrit.war reindex \
               -d /var/gerrit
 
