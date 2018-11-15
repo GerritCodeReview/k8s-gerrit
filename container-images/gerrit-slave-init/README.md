@@ -23,7 +23,7 @@ The start script
 
 * reads database configuration from gerrit.config
 * waits for the database to start
-* waits for All-Projects.git to arrive via replication via
+* waits for All-Projects.git and All-Users.git to arrive via replication via
 apache-git-http-backend from Gerrit master
 * waits for MySQL slave database schema to arrive via database replication from
 Gerrit slave

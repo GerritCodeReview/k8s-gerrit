@@ -251,6 +251,12 @@ work as intended:
     `gerrit-slave`. Only change this, if you decide to use a different database or
     changed the default settings for the mysql-chart.
 
+    With newer versions of the MySQL-driver used by Gerrit, using SSL-encrypted
+    communication with the database is enforced by default. This can be deactivated
+    by setting the `useSSL=false`-option. To do that in Gerrit, the database-URL
+    has to be provided manually:
+    `url = jdbc:mysql://<db-host>:<db-port>/<db-name>?nullNamePatternMatchesAll=true&useSSL=false`
+
 - `httpd.listenURL`
 
     This has to be set to `proxy-http://*:8080/` or `proxy-https://*:8080`,
