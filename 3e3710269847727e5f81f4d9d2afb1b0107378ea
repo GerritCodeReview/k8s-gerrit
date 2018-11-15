@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9c7eac6_85573216",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:19:42Z",
+      "side": 1,
+      "message": "1) Does setting one serverID in the helm chart work, if we scale up to several instances, which would all have the same ID?\n\n2) The documentation states: \"If this value doesn’t match the serverId used when creating an already existing NoteDb, Gerrit will not be able to use that instance of NoteDb\". Since the NoteDB on the slave is replicated from the master, does that mean, both the master and the slave do have to have the same ID?",
+      "revId": "3e3710269847727e5f81f4d9d2afb1b0107378ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
