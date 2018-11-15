@@ -233,6 +233,13 @@ work as intended:
     directory from a persistent volume to `/var/gerrit/git` in the container. For
     Gerrit to find the correct directory, this has to be set to `git`.
 
+- `gerrit.serverId`
+
+    In Gerrit-version higher than 2.14 Gerrit needs a server ID, which is used by
+    NoteDB. Gerrit would usually generate a random ID on startup, but since the
+    gerrit.config file is read only, when mounted as a ConfigMap this fails.
+    Thus the server ID has to be set manually!
+
 - `gerrit.canonicalWebUrl`
 
     The canonical web URL has to be set to the Ingress host.
