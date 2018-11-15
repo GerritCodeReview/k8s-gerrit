@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b8c6cc1_6dec1ed3",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c13167f_2035391b",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75e2acae_04f1baab",
         "filename": "container-images/base/Dockerfile",
         "patchSetId": 1
@@ -30,6 +48,92 @@
       "writtenOn": "2018-11-13T22:33:08Z",
       "side": 1,
       "message": "Proxy should be removed.",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cf2e04c_5d814ee3",
+        "filename": "container-images/base/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75e2acae_04f1baab",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6ec461d_f082d9b7",
+        "filename": "helm-charts/gerrit-master/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 1,
+      "message": "Wrong link.",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "154e75a5_f25d0ead",
+        "filename": "helm-charts/gerrit-master/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 1,
+      "message": "Wrong link.",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9067a8d3_9de4fc69",
+        "filename": "helm-charts/gerrit-slave/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 1,
+      "message": "Wrong Link.",
+      "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98510acb_04f4dc7d",
+        "filename": "helm-charts/gerrit-slave/Chart.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 1,
+      "message": "Wrong Link.",
       "revId": "b81fb6596c249763336b307d5e7cd8daee8c14cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

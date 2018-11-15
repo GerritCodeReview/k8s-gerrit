@@ -16,6 +16,24 @@
       "revId": "545c8706d43cebc13e1ae81440cc66b4dd5dd167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14cf471b_614670e3",
+        "filename": "container-images/base/apt.conf",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T09:22:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "ef430378_25091e57",
+      "revId": "545c8706d43cebc13e1ae81440cc66b4dd5dd167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
