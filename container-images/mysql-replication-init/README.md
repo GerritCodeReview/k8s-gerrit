@@ -1,0 +1,23 @@
+# MySQL slave init container image
+
+Kubernetes init container for initializing a MySQL slave
+
+## Content
+
+* Ubuntu 18.04
+
+## Setup and configuration
+
+* install mysql-client
+* copy tool scripts
+
+## Start
+
+* start the container via start script `/var/tools/start`
+
+The start script
+
+* waits for database dump file from MySQL master to be copied into the container
+* imports the database dump from MySQL master into MySQL slave
+* configures the MySQL slave
+* starts the MySQL slave
