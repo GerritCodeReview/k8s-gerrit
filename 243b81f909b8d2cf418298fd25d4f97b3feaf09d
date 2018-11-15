@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "74535a53_0bf42c53",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72fb684c_aa5c1a22",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 25
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04a0fc47_87602e33",
         "filename": "container-images/apache-git-http-backend/README.md",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bc0c90ba_89490c2e",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a0fc47_87602e33",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74fd637c_e568bb13",
         "filename": "container-images/apache-git-http-backend/README.md",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2018-11-15T15:58:37Z",
       "side": 1,
       "message": "We still have to port the change in the replication plugin to all branches, I think.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 77
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03bf3624_5e0d4935",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "I am now referring to the change in review",
+      "parentUuid": "74fd637c_e568bb13",
       "range": {
         "startLine": 13,
         "startChar": 22,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c7adc41c_f75574df",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "ok, let\u0027s do this in separate changes. Removed mentioning of kubernetes here",
+      "parentUuid": "7346e7da_cc0d9344",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c81aa51f_48787696",
         "filename": "container-images/apache-git-http-backend/README.md",
         "patchSetId": 4
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "dd35eac9_5288a38c",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c81aa51f_48787696",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9474c5cd_b588f1f8",
         "filename": "container-images/base/README.md",
         "patchSetId": 4
@@ -131,6 +251,24 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45076e69_cc8d03dc",
+        "filename": "container-images/base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9474c5cd_b588f1f8",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "af4d2306_4f19b52a",
+        "filename": "container-images/gerrit-base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79022593_92ea0c0b",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecf561f1_17e5f12c",
         "filename": "container-images/gerrit-base/README.md",
         "patchSetId": 4
@@ -165,6 +321,24 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14e1c4fd_8c66cd97",
+        "filename": "container-images/gerrit-base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecf561f1_17e5f12c",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "e796e1b3_cc445314",
+        "filename": "container-images/gerrit-base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa69c3b9_529f9908",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14708cf6_13b63fa4",
         "filename": "container-images/gerrit-master/README.md",
         "patchSetId": 4
@@ -199,6 +391,24 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0dbb2ff_48e61453",
+        "filename": "container-images/gerrit-master/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14708cf6_13b63fa4",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "7c4bb099_5236ec46",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "beccbbf0_c232adec",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43a1a465_4c89294f",
         "filename": "container-images/gerrit-slave-init/README.md",
         "patchSetId": 4
@@ -233,6 +461,24 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29832523_ea3fe3ca",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43a1a465_4c89294f",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -259,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "884b0ce8_380450c2",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b94a98_8d45e05e",
+      "range": {
+        "startLine": 23,
+        "startChar": 59,
+        "endLine": 23,
+        "endChar": 82
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82f0d9a0_edd54657",
         "filename": "container-images/gerrit-slave-init/README.md",
         "patchSetId": 4
@@ -270,6 +540,24 @@
       "writtenOn": "2018-11-15T15:58:37Z",
       "side": 1,
       "message": "We should state here, for which tables the script waits.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ed1e30_3ad46d9d",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "I think we should not do this since then we have to update this readme for each version, details can be found in the script",
+      "parentUuid": "82f0d9a0_edd54657",
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -299,6 +587,30 @@
     },
     {
       "key": {
+        "uuid": "5107f668_00265227",
+        "filename": "container-images/gerrit-slave/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d96c092_fa07d717",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 11
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49d89c77_8a1b04fe",
         "filename": "container-images/gerrit-slave/README.md",
         "patchSetId": 4
@@ -316,6 +628,24 @@
     },
     {
       "key": {
+        "uuid": "67134fb6_de3fd179",
+        "filename": "container-images/gerrit-slave/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49d89c77_8a1b04fe",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cab1cbe_52e3b01f",
         "filename": "container-images/gerrit-slave/README.md",
         "patchSetId": 4
@@ -330,6 +660,24 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b116e2_16ac4be7",
+        "filename": "container-images/gerrit-slave/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cab1cbe_52e3b01f",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -356,6 +704,30 @@
     },
     {
       "key": {
+        "uuid": "a3f1d7b4_5856b9d8",
+        "filename": "container-images/git-gc/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd7aa5b_f9fad616",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 50
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2980b1c_3793b835",
         "filename": "container-images/git-gc/README.md",
         "patchSetId": 4
@@ -370,6 +742,24 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3e53195_1e3bc6e8",
+        "filename": "container-images/git-gc/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2980b1c_3793b835",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -396,6 +786,30 @@
     },
     {
       "key": {
+        "uuid": "977e5fbd_987ec096",
+        "filename": "container-images/git-gc/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb3ec854_89866da0",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79afa31d_eda2efb8",
         "filename": "container-images/mysql-replication-init/README.md",
         "patchSetId": 4
@@ -416,6 +830,30 @@
       "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84f4ebc6_a6ce621d",
+        "filename": "container-images/mysql-replication-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-15T20:12:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79afa31d_eda2efb8",
+      "range": {
+        "startLine": 20,
+        "startChar": 55,
+        "endLine": 20,
+        "endChar": 80
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
