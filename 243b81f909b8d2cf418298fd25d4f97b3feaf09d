@@ -1,0 +1,421 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72fb684c_aa5c1a22",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "Since the directory, image etc are all called apache-git-http-backend, we should use the hyphens here as well",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 25
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a0fc47_87602e33",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "hyphens (see previous comment)",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74fd637c_e568bb13",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "We still have to port the change in the replication plugin to all branches, I think.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 77
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7346e7da_cc0d9344",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "Not only Kubernetes, but also if using it in a pure docker-context. In general, the start-scripts are currently mostly overwritten, because Kubernetes has other needs then the (historical) docker version.\n\nWe should maybe discuss to get rid of the historic implementation for a docker setup. That would clean up the chart considerably.",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c81aa51f_48787696",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "Omitted in Kubernetes. Maybe add that in a comment.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9474c5cd_b588f1f8",
+        "filename": "container-images/base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "The base image is currently not published to DockerHub. This is also not implemented in the build/publish-scripts. This was done, because the base image itself provides no real functionality and is thus not meant to be used outside of the build-process.\n\nWe should probably state that here.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79022593_92ea0c0b",
+        "filename": "container-images/gerrit-base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "The gerrit-base image is currently not published to DockerHub. This is also not implemented in the build/publish-scripts. This was done, because the base image itself provides no real functionality and is thus not meant to be used outside of the build-process.\n\nWe should probably state that here.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecf561f1_17e5f12c",
+        "filename": "container-images/gerrit-base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "+ gerrit.war",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa69c3b9_529f9908",
+        "filename": "container-images/gerrit-base/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "download gerrit.war from provided URL (default: currently 2.12)",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14708cf6_13b63fa4",
+        "filename": "container-images/gerrit-master/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "The start-script itself is not inherited from the gerrit-base image. Only the definition of the Entrypoint.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beccbbf0_c232adec",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "It is currently also used to initialize the gerrit-master (with an overwritten entrypoint). This is not a nice style and the plan is to change that soon.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43a1a465_4c89294f",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "The start-script itself is not inherited from the gerrit-base image. Only the definition of the Entrypoint.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38b94a98_8d45e05e",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "hyphens",
+      "range": {
+        "startLine": 23,
+        "startChar": 59,
+        "endLine": 23,
+        "endChar": 82
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82f0d9a0_edd54657",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "We should state here, for which tables the script waits.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d96c092_fa07d717",
+        "filename": "container-images/gerrit-slave/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "slave",
+      "range": {
+        "startLine": 3,
+        "startChar": 7,
+        "endLine": 3,
+        "endChar": 11
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d89c77_8a1b04fe",
+        "filename": "container-images/gerrit-slave/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "mysql-driver for Gerrit",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cab1cbe_52e3b01f",
+        "filename": "container-images/gerrit-slave/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "The start-script itself is not inherited from the gerrit-base image. Only the definition of the Entrypoint.",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd7aa5b_f9fad616",
+        "filename": "container-images/git-gc/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "The container itself runs a cron. In Kubernetes we use a CronJob, thus the entrypoint is overwritten, when used in Kubernetes, to not run cron via /var/tools/start, but directly run gc-all.sh.",
+      "range": {
+        "startLine": 3,
+        "startChar": 36,
+        "endLine": 3,
+        "endChar": 50
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2980b1c_3793b835",
+        "filename": "container-images/git-gc/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "- cron\n- gc-script",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb3ec854_89866da0",
+        "filename": "container-images/git-gc/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": ", which schedules the execution of the provided gc-all.sh",
+      "range": {
+        "startLine": 23,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79afa31d_eda2efb8",
+        "filename": "container-images/mysql-replication-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-15T15:58:37Z",
+      "side": 1,
+      "message": "Path to which the dump-file has to be copied, can be configured by setting the env-variable $FILEPATH (default: /var/data/db/master_dump.sql).\nCopying the file into the container requires \u0027kubectl cp\u0027 or \u0027docker cp\u0027.",
+      "range": {
+        "startLine": 20,
+        "startChar": 55,
+        "endLine": 20,
+        "endChar": 80
+      },
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
