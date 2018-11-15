@@ -222,6 +222,7 @@ gerritSlave:
         hostname = gerrit-slave-mysql
         port = 3306
         database = reviewdb
+        url = jdbc:mysql://gerrit-slave-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
       [index]
         type = LUCENE
       [auth]
