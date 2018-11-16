@@ -564,6 +564,24 @@
     },
     {
       "key": {
+        "uuid": "565e1833_246810d8",
+        "filename": "container-images/gerrit-slave-init/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-16T08:29:42Z",
+      "side": 1,
+      "message": "OK. Then let\u0027s just add \u0027, by waiting for the presence of some tables that are part of Gerrit\u0027s database scheme.\u0027",
+      "parentUuid": "b6ed1e30_3ad46d9d",
+      "revId": "243b81f909b8d2cf418298fd25d4f97b3feaf09d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d96c092_fa07d717",
         "filename": "container-images/gerrit-slave/README.md",
         "patchSetId": 4

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22faa43b_b5b7aee6",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-16T08:29:42Z",
+      "side": 1,
+      "message": "In Kubernetes this is done using a SecurityContext [1]. It is used to set the filesystem group of mounted volumes to 100 (users), which is used by the gerrit-user in the containers. Thereby it is ensured that the volumes have rw-permissions for the gerrit-user.\n\n[1] https://kubernetes.io/docs/tasks/configure-pod-container/security-context/",
+      "revId": "68daf999eceee1f92c0d160c001b76533f1f1a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc294e58_75fed1b0",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-16T08:29:42Z",
+      "side": 1,
+      "message": "elsewhere",
+      "range": {
+        "startLine": 34,
+        "startChar": 38,
+        "endLine": 34,
+        "endChar": 46
+      },
+      "revId": "68daf999eceee1f92c0d160c001b76533f1f1a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
