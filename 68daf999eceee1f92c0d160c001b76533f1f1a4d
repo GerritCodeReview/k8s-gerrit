@@ -39,6 +39,24 @@
       "revId": "68daf999eceee1f92c0d160c001b76533f1f1a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7024403f_bb142a14",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-16T08:45:27Z",
+      "side": 1,
+      "message": "My suggestion:\n\n* verify filesystem permissions (This is omitted on Kubernetes, since the securityContext set for the pod enforces the volumes to provide rw-permissions for the group used by the `gerrit`-user.)",
+      "parentUuid": "22faa43b_b5b7aee6",
+      "revId": "68daf999eceee1f92c0d160c001b76533f1f1a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
