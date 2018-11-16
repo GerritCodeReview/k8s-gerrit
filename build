@@ -32,17 +32,23 @@ test -z "$TAG" && TAG=latest
 docker_build(){
     IMAGE=$1
 
-    if ([[ $IMAGE = "gerrit-slave" ]] && test -n "$GERRIT_WAR_URL"); then
-        BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
-    fi
-
-    docker build $BUILD_ARGS -t k8sgerrit/$IMAGE:$TAG -t k8sgerrit/$IMAGE:$GIT_REV ./container-images/$IMAGE && BUILD_SUCCESS=1
+    docker build -t k8sgerrit/$IMAGE:$TAG -t k8sgerrit/$IMAGE:$GIT_REV ./container-images/$IMAGE && BUILD_SUCCESS=1
     if test -z "$BUILD_SUCCESS"; then
         REPORT="$REPORT Failed: k8sgerrit/$IMAGE.\n"
         RETURN_CODE=1
     else
         REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n Success: k8sgerrit/$IMAGE:$GIT_REV\n"
     fi
+}
+
+docker_build_gerrit_base(){
+    if test -n "$GERRIT_WAR_URL"; then
+        BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
+    fi
+    docker build $BUILD_ARGS -t gerrit-base ./container-images/gerrit-base || {
+        echo -e "\n\nFailed to build gerrit-base image."
+        exit 1
+    }
 }
 
 REPORT="Build results: \n"
@@ -54,20 +60,14 @@ docker build -t base ./container-images/base || {
         }
 
 if test $# -eq 0 ; then
-    docker build -t gerrit-base ./container-images/gerrit-base || {
-            echo -e "\n\nFailed to build gerrit-base image."
-            exit 1
-        }
+    docker_build_gerrit_base
     for IMAGE in apache-git-http-backend gerrit-master gerrit-slave git-gc mysql-replication-init gerrit-slave-init; do
         docker_build $IMAGE
     done
 else
     while test $# -gt 0 ; do
         if [[ $1 = gerrit-* ]]; then
-            docker build -t gerrit-base ./container-images/gerrit-base || {
-                echo -e "\n\nFailed to build gerrit-base image."
-                exit 1
-            }
+            docker_build_gerrit_base
         fi
         docker_build $1
         shift
