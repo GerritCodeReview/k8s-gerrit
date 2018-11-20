@@ -7,9 +7,12 @@ metadata:
     chart: {{ template "gerrit-master.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  {{ if .Values.gerritMaster.ingress.alias -}}
   annotations:
+  {{- if .Values.gerritMaster.ingress.alias }}
     nginx.ingress.kubernetes.io/server-alias: {{ .Values.gerritMaster.ingress.alias }}
+  {{- end }}
+  {{- if and .Values.gerritMaster.ingress.tls.enabled .Values.certManager.enabled }}
+    certmanager.k8s.io/issuer: {{ .Values.gerritMaster.ingress.tls.certIssuer }}
   {{- end }}
 spec:
   {{ if .Values.gerritMaster.ingress.tls.enabled -}}
