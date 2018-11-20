@@ -3,3 +3,7 @@ dependencies:
   version: 0.10.1
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: mysql.enabled
+- name: cert-manager
+  version: v0.5.1
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  condition: certManager.enabled, certManager.create

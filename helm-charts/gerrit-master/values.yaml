@@ -41,6 +41,30 @@ storageClasses:
     parameters:
       mountOptions: vers=4.1
 
+certManager:
+  enabled: false
+  create: true
+  issuer: []
+  # - name: ca-issuer
+  #   type: ca
+  #   properties:
+  #     ca:
+  #       cert: |-
+  #         -----BEGIN CERTIFICATE-----
+
+  #         -----END CERTIFICATE-----
+  #       key: |-
+  #         -----BEGIN RSA PRIVATE KEY-----
+
+  #         -----END RSA PRIVATE KEY-----
+  # - name: letsencrypt
+  #   type: acme
+  #   properties:
+  #     server: https://acme-staging-v02.api.letsencrypt.org/directory
+  #     email: user@example.com
+  #     http01: {}
+  #     dns01: {}
+
 
 gitRepositoryStorage:
   size: 5Gi
@@ -96,6 +120,7 @@ gerritMaster:
     alias:
     tls:
       enabled: false
+      certIssuer:
       cert: |-
         -----BEGIN CERTIFICATE-----
 
