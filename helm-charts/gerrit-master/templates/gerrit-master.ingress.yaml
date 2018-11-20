@@ -9,6 +9,9 @@ metadata:
     release: {{ .Release.Name }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.gerritMaster.ingress.maxBodySize | default "50m" }}
+    {{- if and .Values.gerritMaster.ingress.tls.enabled .Values.certManager.enabled }}
+    certmanager.k8s.io/issuer: {{ .Values.gerritMaster.ingress.tls.certIssuer }}
+    {{- end }}
     {{- if .Values.gerritMaster.ingress.additionalAnnotations }}
 {{ toYaml .Values.gerritMaster.ingress.additionalAnnotations  | indent 4 }}
     {{- end }}
