@@ -99,6 +99,67 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy`  | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
 | `storageClasses.shared.parameters`     | Parameters for the provisioner                                    | `parameters.mountOptions: vers=4.1`               |
 
+### Cert-Manager
+
+This helm chart provides the possibility to install a [cert-manager](http://docs.cert-manager.io/en/latest/getting-started/index.html)
+to manage certificates used by the cluster's ingresses.
+
+| Parameter             | Description                                                                | Default |
+|-----------------------|----------------------------------------------------------------------------|---------|
+| `certManager.enabled` | Whether to use a cert-manager                                              | `false` |
+| `certManager.create`  | Whether to set up a cert-manager (ignored if `certManager.enabled: false`) | `false` |
+| `certManager.issuer`  | A list of certificate issuers to create                                    | `[]`    |
+
+- CA-Issuer
+
+You can let cert-manager issue certificates from a provided CA. To create such a
+self-signed CA execute:
+
+```sh
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key \
+    -subj "/CN=${COMMON_NAME}" -days 3650 \
+    -reqexts v3_req -extensions v3_ca \
+    -out ca.crt
+```
+
+For this to work, you may have to add the following configuration to `/etc/ssl/openssl.cnf`:
+
+```sh
+[ v3_ca ]
+basicConstraints = critical,CA:TRUE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+```
+
+Add a yaml-dictionary as a list point to `certManager.issuer` with following
+options:
+
+| Parameter             | Description                                         | Default                           |
+|-----------------------|-----------------------------------------------------|-----------------------------------|
+| `.name`               | Name to be given to the issuer                      | `ca-issuer`                       |
+| `.type`               | Type of issuer (`ca` for a CA-Issuer)               | `ca`                              |
+| `.properties.ca.cert` | CA-certificate to be used for creating certificates | `-----BEGIN CERTIFICATE-----`     |
+| `.properties.ca.key`  | CA-key to be used for creating certificates         | `-----BEGIN RSA PRIVATE KEY-----` |
+
+- ACME-Issuer
+
+For cert-manager to provide automatically signed certificates, add a dictionary
+as list item to `certManager.issuer` with following options:
+
+| Parameter            | Description                               | Default                                                  |
+|----------------------|-------------------------------------------|----------------------------------------------------------|
+| `.name`              | Name to be given to the issuer            | `letsencrypt`                                            |
+| `.type`              | Type of issuer (`acme` for a ACME-Issuer) | `acme`                                                   |
+| `.properties.server` | URL of ACME-server                        | `https://acme-staging-v02.api.letsencrypt.org/directory` |
+| `.properties.email`  | E-Mail to authenticate to ACME-server     | `user@example.com`                                       |
+| `.properties.http01` | HTTP01-challenge configuration            | `{}`                                                     |
+| `.properties.dns01`  | DNS01-challenge configuration             | `{}`                                                     |
+
 ### Storage for Git repositories
 
 | Parameter                   | Description                                     | Default |
@@ -160,6 +221,7 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.ingress.host`                | REQUIRED: Host name to use for the Ingress (required for Ingress)                         | `nil`                             |
 | `gerritMaster.ingress.alias`               | Optional: ALias host name for the Ingress                                                 | `nil`                             |
 | `gerritMaster.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                          | `false`                           |
+| `gerritMaster.ingress.tls.certIssuer`      | Name of Issuer created by cert-manager to provide certificates                            | `nil`                             |
 | `gerritMaster.ingress.tls.cert`            | Public SSL server certificate                                                             | `-----BEGIN CERTIFICATE-----`     |
 | `gerritMaster.ingress.tls.key`             | Private SSL server certificate                                                            | `-----BEGIN RSA PRIVATE KEY-----` |
 | `gerritMaster.keystore`                    | REQUIRED: base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit | `nil`                             |
