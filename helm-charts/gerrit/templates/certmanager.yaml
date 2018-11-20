@@ -1,0 +1,59 @@
+{{ $releaseName := .Release.Name -}}
+{{ $releaseService := .Release.Service -}}
+
+{{ if and .Values.certManager.enabled .Values.certManager.create -}}
+{{ range .Values.certManager.issuer -}}
+{{ if eq .type "ca" }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  {{ $releaseName }}-{{ .name }}-ca
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" $ }}
+    heritage: {{ $releaseService }}
+    release: {{ $releaseName }}
+type: kubernetes.io/tls
+data:
+  tls.crt: {{ .properties.ca.cert | b64enc }}
+  tls.key: {{ .properties.ca.key | b64enc }}
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: {{ .name }}
+  namespace: default
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" $ }}
+    heritage: {{ $releaseService }}
+    release: {{ $releaseName }}
+spec:
+  ca:
+    secretName: {{ $releaseName }}-{{ .name }}-ca
+---
+{{ else if eq .type "acme" }}
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: {{ .name }}
+  namespace: default
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" $ }}
+    heritage: {{ $releaseService }}
+    release: {{ $releaseName }}
+spec:
+  acme:
+    server: {{ .properties.server }}
+    email: {{ .properties.email }}
+    privateKeySecretRef:
+      name: {{ .name }}-secret
+    dns01:
+{{ toYaml .properties.dns01 | indent 6 }}
+    http01:
+{{ toYaml .properties.http01 | indent 6 }}
+---
+{{- end }}
+{{- end }}
+{{- end }}
