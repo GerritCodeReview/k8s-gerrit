@@ -69,8 +69,10 @@ spec:
           ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
           ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
 
-          java -jar /var/gerrit/bin/gerrit.war reindex \
-              -d /var/gerrit
+          (test -f /var/gerrit/index/gerrit_index.config &&
+          test -z "$(git config -f /var/gerrit/index/gerrit_index.config --list | \
+            grep -o '.*false$')") || \
+              java -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
 
           /var/gerrit/bin/gerrit.sh start
 
@@ -82,6 +84,10 @@ spec:
           mountPath: "/var/gerrit/git"
         - name: gerrit-logs
           mountPath: "/var/gerrit/logs"
+        {{ if eq .Values.gerritMaster.indices.type "lucene" -}}
+        - name: gerrit-indices
+          mountPath: "/var/gerrit/index"
+        {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -109,6 +115,15 @@ spec:
         {{ else -}}
         emptyDir: {}
         {{- end }}
+      {{ if eq .Values.gerritMaster.indices.type "lucene" -}}
+      - name: gerrit-indices
+        {{ if .Values.gerritMaster.indices.lucene.persistence.enabled -}}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-gerrit-master-indices-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
+      {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
