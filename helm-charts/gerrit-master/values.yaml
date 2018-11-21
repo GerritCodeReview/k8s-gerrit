@@ -84,6 +84,18 @@ gerritMaster:
       enabled: true
       size: 1Gi
 
+  indices:
+    # Index type to be used. Allowed values: ["lucene", "elasticsearch"]. Options
+    # set for the other one will be ignored.
+    # Ensure that the same index type is configured in the gerrit.config!
+    type: lucene
+    lucene:
+      persistence:
+        enabled: false
+        size: 10Gi
+    # TODO: implement elasticsearch
+    elasticsearch: {}
+
   service:
     type: NodePort
     http:

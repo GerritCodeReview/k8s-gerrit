@@ -16,3 +16,22 @@ spec:
       storage: {{ .Values.gerritMaster.logging.persistence.size }}
   storageClassName: {{ .Values.storageClasses.default.name }}
 {{- end }}
+---
+{{ if and (eq .Values.gerritMaster.indices.type "lucene") .Values.gerritMaster.indices.lucene.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-indices-pvc
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.gerritMaster.indices.lucene.persistence.size }}
+  storageClassName: {{ .Values.storageClasses.default.name }}
+{{- end }}
