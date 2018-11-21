@@ -2,7 +2,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--tag TAG] [--gerrit-url URL] [IMAGE]"
+    echo >&2 "Usage: $me [--tag TAG] [--gerrit-url URL] [--gerrit-version VERSION] [IMAGE]"
     exit 1
 }
 
@@ -20,31 +20,47 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --gerrit-version)
+    shift
+    GERRIT_VERSION=$1
+    shift
+    ;;
+
   *)
     break
   esac
 done
 
-GIT_REV=$(git describe --dirty)
+if test -n "$GERRIT_WAR_URL"; then
+    BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
+else
+    GERRIT_WAR_URL="https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-2.16/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war"
+fi
+
+test -z $GERRIT_VERSION && \
+    GERRIT_VERSION="$(echo $GERRIT_WAR_URL | grep -o 'stable\-\d\.\d\d' | cut -d'-' -f2)"
+test -z $GERRIT_VERSION && \
+    GERRIT_VERSION="$(echo $GERRIT_WAR_URL | grep -o 'master')"
+test -z $GERRIT_VERSION && \
+    GERRIT_VERSION="unknown"
+
+GIT_REV_TAG="$(git describe --dirty)-$GERRIT_VERSION"
 
 test -z "$TAG" && TAG=latest
 
 docker_build(){
     IMAGE=$1
 
-    docker build -t k8sgerrit/$IMAGE:$TAG -t k8sgerrit/$IMAGE:$GIT_REV ./container-images/$IMAGE && BUILD_SUCCESS=1
+    docker build -t k8sgerrit/$IMAGE:$TAG -t k8sgerrit/$IMAGE:$GIT_REV_TAG ./container-images/$IMAGE && BUILD_SUCCESS=1
     if test -z "$BUILD_SUCCESS"; then
         REPORT="$REPORT Failed: k8sgerrit/$IMAGE.\n"
         RETURN_CODE=1
     else
-        REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n Success: k8sgerrit/$IMAGE:$GIT_REV\n"
+        REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n Success: k8sgerrit/$IMAGE:$GIT_REV_TAG\n"
     fi
 }
 
 docker_build_gerrit_base(){
-    if test -n "$GERRIT_WAR_URL"; then
-        BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
-    fi
     docker build $BUILD_ARGS -t gerrit-base ./container-images/gerrit-base || {
         echo -e "\n\nFailed to build gerrit-base image."
         exit 1
