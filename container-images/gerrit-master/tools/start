@@ -15,8 +15,8 @@ if [[ $? -eq 1 ]]; then
         -d /var/gerrit
 fi
 
-java -jar /var/gerrit/bin/gerrit.war reindex \
-    -d /var/gerrit
+test -f /var/gerrit/index/gerrit_index.config || \
+    java -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
 
 git config -f /var/gerrit/etc/gerrit.config --add container.javaOptions "-Djava.security.egd=file:/dev/./urandom"
 
