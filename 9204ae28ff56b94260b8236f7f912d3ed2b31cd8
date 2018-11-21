@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd1d81a0_a83233a2",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-21T14:05:54Z",
+      "side": 1,
+      "message": "This should also be done in the start script built into the docker image",
+      "revId": "9204ae28ff56b94260b8236f7f912d3ed2b31cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
