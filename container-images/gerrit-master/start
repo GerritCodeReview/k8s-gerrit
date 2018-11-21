@@ -18,6 +18,7 @@ docker run $MODE \
   -p 29418:29418 \
   -v $SITE/etc:/var/gerrit/etc \
   -v $SITE/git:/var/gerrit/git \
+  -v $SITE/index:/var/gerrit/index \
   -v $SITE/logs:/var/gerrit/logs \
   -v $SITE/lib:/var/gerrit/lib \
   $ENV \
