@@ -37,13 +37,24 @@ fi
 
 test -n "$REGISTRY" && [[ "$REGISTRY" != */ ]] && REGISTRY="$REGISTRY/"
 
-test $# -eq 1 || usage
-IMAGE=$1
+publish_image(){
+  IMAGE=$1
+  if test "$UPDATE_LATEST" = "true" ; then
+    docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:latest
+    docker push ${REGISTRY}k8sgerrit/$IMAGE:latest
+  fi
 
-if test "$UPDATE_LATEST" = "true" ; then
-  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:latest
-  docker push ${REGISTRY}k8sgerrit/$IMAGE:latest
+  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:$TAG
+  docker push ${REGISTRY}k8sgerrit/$IMAGE:$TAG
+}
+
+if test $# -eq 0 ; then
+  for IMAGE in apache-git-http-backend gerrit-master gerrit-slave git-gc mysql-replication-init gerrit-slave-init; do
+    publish_image $IMAGE
+  done
+else
+  while test $# -gt 0 ; do
+    publish_image $1
+    shift
+  done
 fi
-
-docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:$TAG
-docker push ${REGISTRY}k8sgerrit/$IMAGE:$TAG
