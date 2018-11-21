@@ -2,7 +2,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--update-latest] [--tag TAG] [--registry REGISTRY] component"
+    echo >&2 "Usage: $me [--update-latest] [--registry REGISTRY] --tag TAG [IMAGE]"
     exit 1
 }
 
@@ -32,18 +32,33 @@ done
 if test -z "$TAG"; then
   echo "No tag was provided."
   echo "Use either the --tag option or provide a TAG-environment variable."
-  exit 1
+  usage
 fi
+
+#Get list of images
+source container-images/publish_list
+IMAGES=$(get_image_list)
 
 test -n "$REGISTRY" && [[ "$REGISTRY" != */ ]] && REGISTRY="$REGISTRY/"
 
-test $# -eq 1 || usage
-IMAGE=$1
+publish_image(){
+  IMAGE=$1
+  if test "$UPDATE_LATEST" = "true" ; then
+    docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:latest
+    docker push ${REGISTRY}k8sgerrit/$IMAGE:latest
+  fi
 
-if test "$UPDATE_LATEST" = "true" ; then
-  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:latest
-  docker push ${REGISTRY}k8sgerrit/$IMAGE:latest
+  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:$TAG
+  docker push ${REGISTRY}k8sgerrit/$IMAGE:$TAG
+}
+
+if test $# -eq 0 ; then
+  for IMAGE in $IMAGES; do
+    publish_image $IMAGE
+  done
+else
+  while test $# -gt 0 ; do
+    publish_image $1
+    shift
+  done
 fi
-
-docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:$TAG
-docker push ${REGISTRY}k8sgerrit/$IMAGE:$TAG

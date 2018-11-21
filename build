@@ -25,6 +25,10 @@ while test $# -gt 0 ; do
   esac
 done
 
+#Get list of images
+source container-images/publish_list
+IMAGES=$(get_image_list)
+
 GIT_REV=$(git describe --dirty)
 
 test -z "$TAG" && TAG=latest
@@ -63,7 +67,7 @@ fi
 
 if test $# -eq 0 ; then
     docker_build_gerrit_base
-    for IMAGE in apache-git-http-backend gerrit gerrit-replica git-gc gerrit-init; do
+    for IMAGE in $IMAGES; do
         docker_build $IMAGE
     done
 else
