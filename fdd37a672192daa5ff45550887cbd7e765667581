@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6f3e4d7_d137d4ec",
+        "filename": "helm-charts/gerrit-master/templates/certmanager.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-22T16:23:16Z",
+      "side": 1,
+      "message": "See the remark below (no newline...). The same is also present in many other file of this repository. Please configure your editor to write a newline also at the end of the last line.",
+      "revId": "fdd37a672192daa5ff45550887cbd7e765667581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
