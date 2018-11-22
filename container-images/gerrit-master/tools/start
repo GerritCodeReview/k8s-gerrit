@@ -7,9 +7,13 @@ for dir in /var/gerrit/*; do
   /var/tools/validate_site.sh $dir $gerrit_uid $gerrit_gid || exit 1
 done
 
-java -jar /var/gerrit/bin/gerrit.war init \
-    --batch \
-    -d /var/gerrit
+/var/gerrit/bin/gerrit.sh check >/dev/null
+if [[ $? -eq 1 ]]; then
+    echo "Performing Gerrit site initialization..."
+    java -jar /var/gerrit/bin/gerrit.war init \
+        --batch \
+        -d /var/gerrit
+fi
 
 java -jar /var/gerrit/bin/gerrit.war reindex \
     -d /var/gerrit
