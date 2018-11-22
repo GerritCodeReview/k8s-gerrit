@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5df139fa_5baf295f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-22T16:05:52Z",
+      "side": 1,
+      "message": "You are right. Since we use the url to get the gerrit.war, which is intended to be a url printing to a build artifact on the gerrit-ci, we would in principle even have to use the whole version string. Then the tag gets extremely long.\nUsing the URL is nice and flexible, but is probably not very useful in terms of releases. Maybe it would be better to install Gerrit with a package-manager as the docker-gerrit project does.\nI think, we need a discussion soon, where we talk about how the releases and so on should be handled.",
+      "parentUuid": "c0e011cb_30368764",
+      "range": {
+        "startLine": 14,
+        "startChar": 21,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2c83c64_1a8aef25",
         "filename": "build",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-11-22T15:53:44Z",
       "side": 1,
       "message": "In the \"else\" branch, BUILD_ARGS is not set, is this intended?",
+      "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f39dc5c_246747c6",
+        "filename": "build",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-22T16:05:52Z",
+      "side": 1,
+      "message": "Yes, since then the default set in the Dockerfile is used.",
+      "parentUuid": "c2c83c64_1a8aef25",
       "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8086a00e_72573200",
+        "filename": "build",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-22T16:05:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0154ea9d_d758793a",
+      "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
