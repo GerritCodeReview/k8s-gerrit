@@ -16,6 +16,24 @@
       "revId": "9204ae28ff56b94260b8236f7f912d3ed2b31cd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d92ad129_058ef59f",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-22T13:24:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd1d81a0_a83233a2",
+      "revId": "9204ae28ff56b94260b8236f7f912d3ed2b31cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
