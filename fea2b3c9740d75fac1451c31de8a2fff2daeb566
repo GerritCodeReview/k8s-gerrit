@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bba9d0b_f4713073",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-22T22:51:20Z",
+      "side": 1,
+      "message": "how about using true as the default ?",
+      "range": {
+        "startLine": 159,
+        "startChar": 146,
+        "endLine": 159,
+        "endChar": 153
+      },
+      "revId": "fea2b3c9740d75fac1451c31de8a2fff2daeb566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a001b1a0_ffc4866a",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-22T22:51:20Z",
+      "side": 1,
+      "message": "We could in addition check if the indexes are ready by parsing the content of gerrit_index.config. I think this could happen if reindex is started but isn\u0027t finished when the container crashes due to some issue",
+      "revId": "fea2b3c9740d75fac1451c31de8a2fff2daeb566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
