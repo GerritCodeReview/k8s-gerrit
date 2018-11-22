@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a13306d9_7bf22504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-22T15:57:57Z",
+      "side": 1,
+      "message": "Unlike the",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c79170ea_9700c51a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-22T15:57:57Z",
+      "side": 1,
+      "message": "This tells the same as the commit message subject :-) Maybe, instead write a sentence\nabout why is this feature useful?",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56be8bac_90d13a22",
+        "filename": "publish",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-11-22T15:57:57Z",
+      "side": 1,
+      "message": "This list is now appearing in at least two scripts (publish and build). We should try to\neither factor it out or, better, find the list by looking at directory names in the file system.",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 113
+      },
+      "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
