@@ -1,0 +1,140 @@
+storageClasses:
+  default:
+    name: standard
+  shared:
+    name: shared-storage
+
+database:
+  provider: mysql
+  replication:
+    enabled: true
+    mysql:
+      config:
+        masterHost: gerrit-master-mysql
+        masterPort: 3306
+        masterUser: repl
+        masterPassword: password
+        masterLogFile: mysql-bin.000004
+        masterLogPos: 4918
+      dbDumpAcceptPath: /var/data/db/master_dump.sql
+
+gitBackend:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+  logging:
+    persistence:
+      enabled: false
+
+  service:
+    type: NodePort
+
+  ingress:
+    enabled: true
+    host: backend.gerrit
+
+gitGC:
+  schedule: "*/15 * * * *"
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+  logging:
+    persistence:
+      enabled: false
+
+gerritSlave:
+  initializeTestSite:
+    enabled: false
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 400Mi
+    limits:
+      cpu: 500m
+      memory: 400Mi
+
+
+  logging:
+    persistence:
+      enabled: false
+
+  ingress:
+    host: slave.gerrit
+
+  config:
+    gerrit: |-
+      [gerrit]
+        basePath = git
+        serverId = gerrit-slave-1
+        canonicalWebUrl = http://slave.gerrit
+      [database]
+        type = mysql
+        hostname = gerrit-slave-mysql
+        port = 33306
+        database = reviewdb
+        url = jdbc:mysql://gerrit-slave-mysql:33306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
+      [index]
+        type = LUCENE
+      [auth]
+        type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+      [httpd]
+        listenUrl = proxy-http://*:8080/
+      [sshd]
+        listenAddress = off
+      [transfer]
+        timeout = 120 s
+      [user]
+        name = Gerrit Code Review
+        email = gerrit@example.com
+        anonymousCoward = Unnamed User
+      [cache]
+        directory = cache
+      [container]
+        user = gerrit
+        slave = true
+        javaHome = /usr/lib/jvm/java-8-openjdk-amd64
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+        javaOptions = -Xms300m
+        javaOptions = -Xmx300m
+
+    secure: |-
+      [database]
+        username = gerrit
+        password = secret
+
+      [httpd]
+        sslKeyPassword = gerrit
+
+
+mysql:
+  enabled: true
+
+  mysqlRootPassword: big_secret
+  mysqlUser: gerrit
+  mysqlPassword: secret
+
+  persistence:
+    enabled: false
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 200Mi
+    limits:
+      cpu: 100m
+      memory: 200Mi
+
+  service:
+    port: 33306

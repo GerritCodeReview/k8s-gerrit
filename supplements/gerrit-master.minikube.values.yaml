@@ -1,0 +1,121 @@
+storageClasses:
+  default:
+    name: standard
+  shared:
+    name: shared-storage
+
+gitGC:
+  schedule: "*/15 * * * *"
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+  logging:
+    persistence:
+      enabled: false
+
+gerritMaster:
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 400Mi
+    limits:
+      cpu: 500m
+      memory: 400Mi
+
+  logging:
+    persistence:
+      enabled: false
+
+  ingress:
+    host: master.gerrit
+
+  config:
+    gerrit: |-
+      [gerrit]
+        basePath = git
+        serverId = gerrit-master-1
+        canonicalWebUrl = http://master.gerrit
+      [database]
+        type = mysql
+        hostname = gerrit-master-mysql
+        port = 3306
+        database = reviewdb
+        url = jdbc:mysql://gerrit-master-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
+      [index]
+        type = LUCENE
+      [auth]
+        type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+      [httpd]
+        listenUrl = proxy-http://*:8080/
+      [sshd]
+        listenAddress = off
+      [transfer]
+        timeout = 120 s
+      [user]
+        name = Gerrit Code Review
+        email = gerrit@example.com
+        anonymousCoward = Unnamed User
+      [cache]
+        directory = cache
+      [container]
+        user = gerrit
+        javaHome = /usr/lib/jvm/java-8-openjdk-amd64
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+        javaOptions = -Xms300m
+        javaOptions = -Xmx300m
+
+    secure: |-
+      [database]
+        username = gerrit
+        password = secret
+
+      [httpd]
+        sslKeyPassword = gerrit
+
+      [remote "slave"]
+        username = git
+        password = secret
+
+    replication: |-
+      [gerrit]
+        autoReload = false
+        replicateOnStartup = true
+        defaultForceUpdate = true
+
+      [remote "slave"]
+        url = http://gerrit-slave-git-backend-service/git/${name}.git
+        replicationDelay = 0
+        timeout = 30
+
+
+mysql:
+  enabled: true
+
+  image: mysql
+  imageTag: 5.5.61
+
+  mysqlRootPassword: big_secret
+  mysqlUser: gerrit
+  mysqlPassword: secret
+
+  persistence:
+    enabled: false
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 200Mi
+    limits:
+      cpu: 100m
+      memory: 200Mi
+
+  service:
+    type: NodePort
+    port: 3306
