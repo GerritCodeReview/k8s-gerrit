@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a579f794_5605d5c3",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-26T09:14:16Z",
+      "side": 1,
+      "message": "Done.\n\nMy first thought was to keep the default settings as basic as possible and to use only small amounts of resources. But I saw that I also enabled persistent logging by default. So I changed it to true to keep persistent. But maybe we should discuss, whether to disable persistent storage by default, so that people running quick tests do not have too high costs.",
+      "parentUuid": "5bba9d0b_f4713073",
+      "range": {
+        "startLine": 159,
+        "startChar": 146,
+        "endLine": 159,
+        "endChar": 153
+      },
+      "revId": "fea2b3c9740d75fac1451c31de8a2fff2daeb566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a001b1a0_ffc4866a",
         "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "fea2b3c9740d75fac1451c31de8a2fff2daeb566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87ab25f0_d871e51a",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-26T09:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a001b1a0_ffc4866a",
+      "revId": "fea2b3c9740d75fac1451c31de8a2fff2daeb566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
