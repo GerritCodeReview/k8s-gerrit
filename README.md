@@ -120,6 +120,10 @@ be ignored.
 These Helm charts can be used to install a Gerrit cluster consisting of a
 Gerrit master and a Gerrit slave on a Kubernetes cluster.
 
+To evaluate and test the helm-charts, they can be installed on a local machine
+running Minikube. Follow this [guide](Documentation/minikube.md) to get a detailed
+description how to set up the Minikube cluster and install the charts.
+
 ## File System Storage
 
 Currently this deployment uses NFS, some options:
