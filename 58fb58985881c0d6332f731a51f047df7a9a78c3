@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b635ff4_f1cfac51",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-26T16:06:12Z",
+      "side": 1,
+      "message": "This is a basic keystore with self-signed certificates. Should we provide that for ease of use, or rather not?",
+      "revId": "58fb58985881c0d6332f731a51f047df7a9a78c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
