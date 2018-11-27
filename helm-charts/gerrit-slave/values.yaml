@@ -257,8 +257,9 @@ gerritSlave:
         password = secret
 
       # Password for the keystore added as value for 'gerritSlave.keystore'
-      [httpd]
-        sslKeyPassword = gerrit
+      # Only needed, if SSL is enabled.
+      #[httpd]
+      #  sslKeyPassword = gerrit
 
 
 mysql:
