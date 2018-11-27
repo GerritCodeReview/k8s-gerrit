@@ -30,19 +30,20 @@ The Gerrit slave can then serve authenticated read-only requests.
     [this guide](/helm-charts/gerrit-slave/docs/nfs-provisioner.md) of how to
     deploy it in context of this project.
 
-- A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
-  to be used by Gerrit.
-
 - A domain name that is configured to point to the IP address of the node running
   the Ingress controller on the kubernetes cluster (as described
   [here](http://alesnosek.com/blog/2017/02/14/accessing-kubernetes-pods-from-outside-of-the-cluster/)).
 
+- (Optional: Required, if SSL is configured)
+  A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
+  to be used by Gerrit.
+
 ## Installing the Chart
 
 ***note
-**ATTENTION:** The values for `gerritSlave.ingress.host` and `gerritSlave.keystore`
-are required for rendering the chart's templates. The nature of the values does
-not allow defaults. Thus a custom `values.yaml`-file setting this values is required!
+**ATTENTION:** The value for `gerritSlave.ingress.host` is required for rendering
+the chart's templates. The nature of the value does not allow defaults.
+Thus a custom `values.yaml`-file setting this value is required!
 ***
 
 To install the chart with the release name `gerrit-slave`, execute:
@@ -212,7 +213,7 @@ is mandatory, if access to the Gerrit slave is required!
 | `gerritSlave.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                                                         | `false`                           |
 | `gerritSlave.ingress.tls.cert`            | Public SSL server certificate                                                                                            | `-----BEGIN CERTIFICATE-----`     |
 | `gerritSlave.ingress.tls.key`             | Private SSL server certificate                                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |
-| `gerritSlave.keystore`                    | REQUIRED: base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit                                | `nil`                             |
+| `gerritSlave.keystore`                    | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL                          | `nil`                             |
 | `gerritSlave.config.gerrit`               | The contents of the gerrit.config                                                                                        | [see here](#Gerrit-config-files)  |
 | `gerritSlave.config.secure`               | The contents of the secure.config                                                                                        | [see here](#Gerrit-config-files)  |
 
