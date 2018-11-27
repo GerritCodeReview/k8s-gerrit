@@ -108,6 +108,9 @@ gerritMaster:
   # `gerritMaster.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and
   # automatic encoding using helm does not work here.
+  # If not set, an ephemeral self-signed keystore will be created on startup.
+  # The password will be 'gerrit' as the default in the secure.config configured
+  # below. Use this only for testing!
   keystore:
 
   config:

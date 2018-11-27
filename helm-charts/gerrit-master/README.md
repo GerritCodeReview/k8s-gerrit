@@ -24,7 +24,7 @@ and provides a CronJob to perform Git garbage collection.
     deploy it in context of this project.
 
 - A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
-  to be used by Gerrit.
+  to be used by Gerrit (optional, but recommended).
 
 - A domain name that is configured to point to the IP address of the node running
   the Ingress controller on the kubernetes cluster (as described
@@ -33,9 +33,9 @@ and provides a CronJob to perform Git garbage collection.
 ## Installing the Chart
 
 ***note
-**ATTENTION:** The values for `gerritMaster.ingress.host` and `gerritMaster.keystore`
-are required for rendering the chart's templates. The nature of the values does
-not allow defaults. Thus a custom `values.yaml`-file setting this values is required!
+**ATTENTION:** The value for `gerritMaster.ingress.host` is required for rendering
+the chart's templates. The nature of the value does not allow defaults.
+Thus a custom `values.yaml`-file setting this value is required!
 ***
 
 To install the chart with the release name `gerrit-master`, execute:
@@ -145,27 +145,34 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to Gerrit is required!
 ***
 
-| Parameter                                  | Description                                                                               | Default                           |
-|--------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritMaster.images.gerritInit`           | Image name of the Gerrit init container image                                             | `k8s-gerrit/gerrit-slave-init`    |
-| `gerritMaster.images.gerritMaster`         | Image name of the Gerrit master container image                                           | `k8s-gerrit/gerrit-master`        |
-| `gerritMaster.resources`                   | Configure the amount of resources the pod requests/is allowed                             | `requests.cpu: 1`                 |
-|                                            |                                                                                           | `requests.memory: 5Gi`            |
-|                                            |                                                                                           | `limits.cpu: 1`                   |
-|                                            |                                                                                           | `limits.memory: 6Gi`              |
-| `gerritMaster.logging.persistence.enabled` | Whether to persist logs                                                                   | `true`                            |
-| `gerritMaster.logging.persistence.size`    | Storage size for persisted logs                                                           | `1Gi`                             |
-| `gerritMaster.service.type`                | Which kind of Service to deploy                                                           | `NodePort`                        |
-| `gerritMaster.service.http.port`           | Port over which to expose HTTP                                                            | `80`                              |
-| `gerritMaster.ingress.host`                | REQUIRED: Host name to use for the Ingress (required for Ingress)                         | `nil`                             |
-| `gerritMaster.ingress.alias`               | Optional: ALias host name for the Ingress                                                 | `nil`                             |
-| `gerritMaster.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                          | `false`                           |
-| `gerritMaster.ingress.tls.cert`            | Public SSL server certificate                                                             | `-----BEGIN CERTIFICATE-----`     |
-| `gerritMaster.ingress.tls.key`             | Private SSL server certificate                                                            | `-----BEGIN RSA PRIVATE KEY-----` |
-| `gerritMaster.keystore`                    | REQUIRED: base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit | `nil`                             |
-| `gerritMaster.config.gerrit`               | The contents of the gerrit.config                                                         | [see here](#Gerrit-config-files)  |
-| `gerritMaster.config.secure`               | The contents of the secure.config                                                         | [see here](#Gerrit-config-files)  |
-| `gerritMaster.config.replication`          | The contents of the replication.config                                                    | [see here](#Gerrit-config-files)  |
+If no keystore is provided in the values.yaml-file, a ephemeral self-signed keystore
+will be created on pod startup. The password will be set to `gerrit`, which is the
+default set in the `secure.config` under `gerritMaster.config.secure`. This is meant
+for test purposes only. It will not allow SSL-encrypted communication between
+components, since no shared CA will exist and the keystore will be recreated on
+each startup.
+
+| Parameter                                  | Description                                                                     | Default                           |
+|--------------------------------------------|---------------------------------------------------------------------------------|-----------------------------------|
+| `gerritMaster.images.gerritInit`           | Image name of the Gerrit init container image                                   | `k8s-gerrit/gerrit-slave-init`    |
+| `gerritMaster.images.gerritMaster`         | Image name of the Gerrit master container image                                 | `k8s-gerrit/gerrit-master`        |
+| `gerritMaster.resources`                   | Configure the amount of resources the pod requests/is allowed                   | `requests.cpu: 1`                 |
+|                                            |                                                                                 | `requests.memory: 5Gi`            |
+|                                            |                                                                                 | `limits.cpu: 1`                   |
+|                                            |                                                                                 | `limits.memory: 6Gi`              |
+| `gerritMaster.logging.persistence.enabled` | Whether to persist logs                                                         | `true`                            |
+| `gerritMaster.logging.persistence.size`    | Storage size for persisted logs                                                 | `1Gi`                             |
+| `gerritMaster.service.type`                | Which kind of Service to deploy                                                 | `NodePort`                        |
+| `gerritMaster.service.http.port`           | Port over which to expose HTTP                                                  | `80`                              |
+| `gerritMaster.ingress.host`                | REQUIRED: Host name to use for the Ingress (required for Ingress)               | `nil`                             |
+| `gerritMaster.ingress.alias`               | Optional: ALias host name for the Ingress                                       | `nil`                             |
+| `gerritMaster.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                | `false`                           |
+| `gerritMaster.ingress.tls.cert`            | Public SSL server certificate                                                   | `-----BEGIN CERTIFICATE-----`     |
+| `gerritMaster.ingress.tls.key`             | Private SSL server certificate                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerritMaster.keystore`                    | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit | `nil`                             |
+| `gerritMaster.config.gerrit`               | The contents of the gerrit.config                                               | [see here](#Gerrit-config-files)  |
+| `gerritMaster.config.secure`               | The contents of the secure.config                                               | [see here](#Gerrit-config-files)  |
+| `gerritMaster.config.replication`          | The contents of the replication.config                                          | [see here](#Gerrit-config-files)  |
 
 ### Gerrit config files
 
