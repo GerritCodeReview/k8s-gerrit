@@ -256,10 +256,6 @@ gerritSlave:
         username = gerrit
         password = secret
 
-      # Password for the keystore added as value for 'gerritSlave.keystore'
-      [httpd]
-        sslKeyPassword = gerrit
-
 
 mysql:
   # Enabling the installation of the MySQL database will only make sense, if
