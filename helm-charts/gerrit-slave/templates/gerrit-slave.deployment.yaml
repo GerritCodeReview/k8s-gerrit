@@ -68,7 +68,10 @@ spec:
         - |
           rm -f /var/gerrit/logs/gerrit.pid
 
+          {{ if .Values.gerritSlave.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
+          {{- end }}
+
           ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
           ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
 
@@ -99,9 +102,11 @@ spec:
         - name: gerrit-slave-secure-config
           mountPath: "/var/config/secure.config"
           subPath: secure.config
+        {{ if .Values.gerritSlave.keystore -}}
         - name: gerrit-slave-secure-config
           mountPath: "/var/keystore"
           subPath: keystore
+        {{- end }}
         resources:
 {{ toYaml .Values.gerritSlave.resources | indent 10 }}
       volumes:

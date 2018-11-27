@@ -165,10 +165,6 @@ gerritMaster:
         username = gerrit
         password = secret
 
-      # Password for the keystore added as value for 'gerritMaster.keystore'
-      [httpd]
-        sslKeyPassword = gerrit
-
       # Credentials for replication targets
       # [remote "slave"]
       # username = git

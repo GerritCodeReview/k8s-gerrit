@@ -46,7 +46,10 @@ spec:
         - -c
         args:
         - |
+          {{ if .Values.gerritMaster.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
+          {{- end }}
+
           ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
           ln -sf /var/config/replication.config /var/gerrit/etc/replication.config
           ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
@@ -88,9 +91,11 @@ spec:
         - name: gerrit-master-secure-config
           mountPath: "/var/config/secure.config"
           subPath: secure.config
+        {{ if .Values.gerritMaster.keystore -}}
         - name: gerrit-master-secure-config
           mountPath: "/var/keystore"
           subPath: keystore
+        {{- end }}
         resources:
 {{ toYaml .Values.gerritMaster.resources | indent 10 }}
       volumes:
