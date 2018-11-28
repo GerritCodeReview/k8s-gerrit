@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "12da8aca_02763b0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-28T09:05:19Z",
+      "side": 1,
+      "message": "Done.\nThe version will now be retrieved from the gerrit.war inside the gerrit-base image.",
+      "parentUuid": "5df139fa_5baf295f",
+      "range": {
+        "startLine": 14,
+        "startChar": 21,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2c83c64_1a8aef25",
         "filename": "build",
         "patchSetId": 1
@@ -113,6 +137,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "0154ea9d_d758793a",
+      "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e558ddb8_8ac78529",
+        "filename": "build",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-28T09:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8086a00e_72573200",
       "revId": "a9aa8ce82fe794c44d9ff5a82eb1cadaa7348d04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
