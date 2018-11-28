@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90331f3d_12ac1d94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-28T09:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a13306d9_7bf22504",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c79170ea_9700c51a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9ea7b19_8715516c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-28T09:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c79170ea_9700c51a",
+      "range": {
+        "startLine": 10,
+        "startChar": 52,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +131,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "56be8bac_90d13a22",
+      "range": {
+        "startLine": 52,
+        "startChar": 15,
+        "endLine": 52,
+        "endChar": 113
+      },
+      "revId": "5ba0d637c5cd6be598c3b79e0cabf4ea5afe9172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac5fd32_37a6a961",
+        "filename": "publish",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-11-28T09:04:58Z",
+      "side": 1,
+      "message": "I am all for it, the issue with getting it from the folder names would be, that the base images are in the same folder and have to be build first and also the gerrit-slave-init depends on the build order, which will be harder to achieve, when just parsing, especially if other images will be added as well. Do you have ideas to solve that?\nWe could also create a file listing all images in the list, which is parsed by both scripts. It doesn\u0027t feel like a good solution, but it would remove the need to update both scripts, when adding a new image.",
+      "parentUuid": "a73bad1b_fcb53e4d",
       "range": {
         "startLine": 52,
         "startChar": 15,
