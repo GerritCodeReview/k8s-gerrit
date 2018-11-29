@@ -231,6 +231,8 @@ gerritSlave:
       [httpd]
         # If using an ingress use proxy-http or proxy-https
         listenUrl = proxy-http://*:8080/
+      [sshd]
+        listenAddress = off
       [transfer]
         timeout = 120 s
       [user]
