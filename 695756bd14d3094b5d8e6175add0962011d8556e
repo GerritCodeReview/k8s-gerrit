@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e20ee983_6bd6dc4d",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 0,
+      "message": "I would not remove this but mention this is required if https is used",
+      "revId": "695756bd14d3094b5d8e6175add0962011d8556e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6717ca80_0a7fdb4c",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 0,
+      "message": "comment this out instead of deleting ?",
+      "revId": "695756bd14d3094b5d8e6175add0962011d8556e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6801eae2_456e72c7",
+        "filename": "helm-charts/gerrit-slave/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 0,
+      "message": "don\u0027t delete but comment out and mention this is needed if https is enabled",
+      "revId": "695756bd14d3094b5d8e6175add0962011d8556e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a725828b_f749e24d",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.secrets.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 1,
+      "message": "can we validate that keystore is provided if https is enabled in gerrit.config ?",
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "772859aa_027828d5",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 1,
+      "message": "don\u0027t delete this but mention this is required if https is enabled",
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ca9964_05bedaac",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 1,
+      "message": "s/doescnot/does not/",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 55
+      },
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f539aa_3996d7f0",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.secrets.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:59:14Z",
+      "side": 1,
+      "message": "can we validate that keystore is provided if https is enabled in gerrit.config ?",
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
