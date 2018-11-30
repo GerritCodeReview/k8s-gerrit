@@ -1,0 +1,456 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2ce9ef1_48b8c061",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "shorter: locally a",
+      "range": {
+        "startLine": 3,
+        "startChar": 29,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2521be56_66ac7414",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "s/probably//",
+      "range": {
+        "startLine": 8,
+        "startChar": 61,
+        "endLine": 8,
+        "endChar": 69
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2d93e0_252bae71",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "by deploying the gerrit-master and gerrit-slave helm charts",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbe9d735_2dd230a1",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ef25ab_19458b27",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "first reference the official documentation https://kubernetes.io/docs/setup/minikube/#installation",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cec67b8_3979106c",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "minikube config set vm-driver hyperkit",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 34
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce638323_a29b2002",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "minikube config set memory 4096",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "911a5254_f1278950",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "minikube config set cpus 4",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 22
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cbc1a4b_381e9c38",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "use k get pods --all-namespaces to wait until cluster is up ?\n\nexplain that dashboard can be opened using minikube dashboard ?",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83effd99_a69a78ba",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "run \n\"kubectl get pods -n kube-system\"\nand check that ingress started",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e40a9d5_826b5e76",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "this didn\u0027t work for me, the process was always stopped after a second before I could enter password\nHence I edited /etc/hosts using vi",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d04df71_f737baed",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "do we need this on minikube which runs on a single node only ?",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f515144_4939b496",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "run\nopen http://master.gerrit\n\nto open the master\u0027s ui",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13334ed7_a43329d4",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "by typing quit",
+      "range": {
+        "startLine": 204,
+        "startChar": 43,
+        "endLine": 204,
+        "endChar": 53
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "007b0951_755e179b",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "s/-L/-L -u git/",
+      "range": {
+        "startLine": 249,
+        "startChar": 5,
+        "endLine": 249,
+        "endChar": 8
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b8b7ad7_383b1c6e",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "s/-L/-L -u git/",
+      "range": {
+        "startLine": 250,
+        "startChar": 5,
+        "endLine": 250,
+        "endChar": 7
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cec9149_b569a21f",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "that\u0027s too frequent and has the effect that multiple of those are started already during startup of the cluster\nmaybe better hourly: \"0 * * * *\"",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce12edf4_e79ebc24",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "I think that\u0027s too low for git gc\ns/50m/500m/",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b5c5a79_4d995cb6",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "I think that\u0027s too low, try 1",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc67ceb9_1e65b7fc",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "that\u0027s too frequent, try hourly \"10 * * * *\"",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c623c90_f747e337",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "I think that\u0027s too low for git gc\ns/50m/500m/",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2057bc0e_1af70b7e",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-11-30T09:42:52Z",
+      "side": 1,
+      "message": "increase to 1",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
