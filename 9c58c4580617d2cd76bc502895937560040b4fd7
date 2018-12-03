@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e2c54de_78cd3089",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.secrets.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T09:45:04Z",
+      "side": 1,
+      "message": "Not as we handle the gerrit.config so far (Having the whole config-file as a value), since only the whole value of a given key can be validated in an if-statement of the go-templating language (at least as far as I know).\n\nWe could only test, if ssl is activated in the service and/or ingress, but that would not be exhaustive. It could e.g. also be configured for database connection.",
+      "parentUuid": "a725828b_f749e24d",
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "772859aa_027828d5",
         "filename": "helm-charts/gerrit-slave/README.md",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b29e221a_4987bde5",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T09:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "772859aa_027828d5",
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5cef7b21_1190166e",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T09:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31ca9964_05bedaac",
+      "range": {
+        "startLine": 41,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 55
+      },
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1f539aa_3996d7f0",
         "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.secrets.yaml",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2018-11-30T09:59:14Z",
       "side": 1,
       "message": "can we validate that keystore is provided if https is enabled in gerrit.config ?",
+      "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07211e02_076c91f0",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.secrets.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T09:45:04Z",
+      "side": 1,
+      "message": "See answer in gerrit-master equivalent.",
+      "parentUuid": "e1f539aa_3996d7f0",
       "revId": "9c58c4580617d2cd76bc502895937560040b4fd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
