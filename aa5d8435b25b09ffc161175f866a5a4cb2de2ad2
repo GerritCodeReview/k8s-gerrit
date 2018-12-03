@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e57ed9e_f296151c",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2ce9ef1_48b8c061",
+      "range": {
+        "startLine": 3,
+        "startChar": 29,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2521be56_66ac7414",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "797bfe57_44b60f7f",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2521be56_66ac7414",
+      "range": {
+        "startLine": 8,
+        "startChar": 61,
+        "endLine": 8,
+        "endChar": 69
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1705c355_35706593",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Since the main purpose of this guide is not to show how to set up Minikube, I would do it a bit differently as you suggested:\n\nThis tutorial will guide through setting up Minikube to deploy the gerrit-\nmaster and gerrit-slave helm charts to it",
+      "parentUuid": "ca2d93e0_252bae71",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbe9d735_2dd230a1",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "4d386f03_fa3a5c53",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbe9d735_2dd230a1",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44ef25ab_19458b27",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -108,6 +204,24 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "235c8d29_c24eb5f4",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44ef25ab_19458b27",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "fe3b7334_9702f054",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cec67b8_3979106c",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 34
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce638323_a29b2002",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -154,6 +292,30 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8039d050_17995628",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce638323_a29b2002",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "1f12262d_2de84e5c",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "911a5254_f1278950",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 22
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cbc1a4b_381e9c38",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -191,6 +377,24 @@
       "writtenOn": "2018-11-30T09:42:52Z",
       "side": 1,
       "message": "use k get pods --all-namespaces to wait until cluster is up ?\n\nexplain that dashboard can be opened using minikube dashboard ?",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f996e937_018f2a6c",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done at the end of this section.",
+      "parentUuid": "2cbc1a4b_381e9c38",
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -214,6 +418,24 @@
     },
     {
       "key": {
+        "uuid": "0240c9d9_387db95a",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83effd99_a69a78ba",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e40a9d5_826b5e76",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -225,6 +447,24 @@
       "writtenOn": "2018-11-30T09:42:52Z",
       "side": 1,
       "message": "this didn\u0027t work for me, the process was always stopped after a second before I could enter password\nHence I edited /etc/hosts using vi",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c725fa2_46876055",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Hm. For me it works fine.\nI added a sentence describing, what the command is supposed to be doing, to make it clear, what has to be added to which file. Just in case it fails for other people as well.",
+      "parentUuid": "2e40a9d5_826b5e76",
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -248,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "97c7d5b5_d5e9d230",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Yes. This has nothing to do with running on different nodes, but the fact that multiple pods (gerrit-slave/master, git-gc, apache-git-http-backend) need access to the same volume. This requires the ReadWriteMany access mode, which can only be provided by NFS, EFS etc.",
+      "parentUuid": "1d04df71_f737baed",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f515144_4939b496",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -262,6 +520,24 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868355e4_098dcdaf",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f515144_4939b496",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -288,6 +564,30 @@
     },
     {
       "key": {
+        "uuid": "250b1703_e74fe35a",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13334ed7_a43329d4",
+      "range": {
+        "startLine": 204,
+        "startChar": 43,
+        "endLine": 204,
+        "endChar": 53
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "007b0951_755e179b",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -308,6 +608,30 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03666f36_dc061aa8",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "007b0951_755e179b",
+      "range": {
+        "startLine": 249,
+        "startChar": 5,
+        "endLine": 249,
+        "endChar": 8
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -334,6 +658,30 @@
     },
     {
       "key": {
+        "uuid": "db4d36a0_e3e82a88",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b8b7ad7_383b1c6e",
+      "range": {
+        "startLine": 250,
+        "startChar": 5,
+        "endLine": 250,
+        "endChar": 7
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cec9149_b569a21f",
         "filename": "supplements/gerrit-master.minikube.values.yaml",
         "patchSetId": 7
@@ -345,6 +693,30 @@
       "writtenOn": "2018-11-30T09:42:52Z",
       "side": 1,
       "message": "that\u0027s too frequent and has the effect that multiple of those are started already during startup of the cluster\nmaybe better hourly: \"0 * * * *\"",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d341cc_2e1c9717",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "The idea was, that somebody who wants to test the setup can easily observe the CronJob to run. That can be more easily achieved by running it every x minutes instead of running it at a fixed time of the hour.\nI reduce it to every 15 min. Is that OK with you?",
+      "parentUuid": "5cec9149_b569a21f",
       "range": {
         "startLine": 8,
         "startChar": 13,
@@ -374,6 +746,24 @@
     },
     {
       "key": {
+        "uuid": "5ae786bf_6cd81c61",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Than we have to configure more CPUs for Minikube.\nSince the Minikube setup is never meant for actual workload with lots to do for git-gc, that should be enough as a default I think. If somebody wants to use more, he/she can increase it. The aim of this default values, was to have a simple hassle-free first configuration to start it up for a few simple tests.",
+      "parentUuid": "ce12edf4_e79ebc24",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b5c5a79_4d995cb6",
         "filename": "supplements/gerrit-master.minikube.values.yaml",
         "patchSetId": 7
@@ -385,6 +775,30 @@
       "writtenOn": "2018-11-30T09:42:52Z",
       "side": 1,
       "message": "I think that\u0027s too low, try 1",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe95788f_9192cf8d",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "Again, then we would have to go beyond the Minikube default resources. It works this way for simple tests, thus I would advocate for leaving it as it is.",
+      "parentUuid": "4b5c5a79_4d995cb6",
       "range": {
         "startLine": 29,
         "startChar": 11,
@@ -420,6 +834,30 @@
     },
     {
       "key": {
+        "uuid": "592ec84e_f3a0d1ab",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "See reply in gerrit-master.minikube.values.yaml",
+      "parentUuid": "bc67ceb9_1e65b7fc",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c623c90_f747e337",
         "filename": "supplements/gerrit-slave.minikube.values.yaml",
         "patchSetId": 7
@@ -437,6 +875,24 @@
     },
     {
       "key": {
+        "uuid": "8d131463_e24b40e7",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "See reply in gerrit-master.minikube.values.yaml",
+      "parentUuid": "0c623c90_f747e337",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2057bc0e_1af70b7e",
         "filename": "supplements/gerrit-slave.minikube.values.yaml",
         "patchSetId": 7
@@ -448,6 +904,24 @@
       "writtenOn": "2018-11-30T09:42:52Z",
       "side": 1,
       "message": "increase to 1",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "500766ab_a3e55e88",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-03T08:26:42Z",
+      "side": 1,
+      "message": "See reply in gerrit-master.minikube.values.yaml",
+      "parentUuid": "2057bc0e_1af70b7e",
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
