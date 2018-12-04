@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78429aff_98a0d81d",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-04T12:49:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e4324cc_b5c36a76",
+      "revId": "7b82a7a8749e7a978450fb4cd9efd0423a032f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6477039_877f51e4",
         "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "7b82a7a8749e7a978450fb4cd9efd0423a032f3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec82299d_5a40f2cb",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-04T12:49:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6477039_877f51e4",
+      "revId": "7b82a7a8749e7a978450fb4cd9efd0423a032f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
