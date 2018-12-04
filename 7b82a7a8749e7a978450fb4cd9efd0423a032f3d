@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e4324cc_b5c36a76",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-04T09:47:25Z",
+      "side": 1,
+      "message": "Should be optional here as well",
+      "revId": "7b82a7a8749e7a978450fb4cd9efd0423a032f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6477039_877f51e4",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-04T09:47:25Z",
+      "side": 1,
+      "message": "Should be optional here as well",
+      "revId": "7b82a7a8749e7a978450fb4cd9efd0423a032f3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
