@@ -57,6 +57,25 @@ spec:
         - name: gerrit-slave-secure-config
           mountPath: "/var/keystore"
           subPath: keystore
+      - name: create-repositories
+        image: bitnami/git
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          create_missing_repository(){
+            test -d $1 || git init --bare $1
+          }
+
+          create_missing_repository /var/gerrit/git/All-Projects.git
+          create_missing_repository /var/gerrit/git/All-Users.git
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
       containers:
       - name: gerrit-slave
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritSlave }}:{{ .Values.images.version }}

@@ -40,13 +40,6 @@ get_db_config(){
   return 0
 }
 
-test_repositories(){
-  local EXIT_CODE=0
-  test -d "/var/gerrit/git/All-Projects.git" || EXIT_CODE=1
-  test -d "/var/gerrit/git/All-Users.git" || EXIT_CODE=1
-  return ${EXIT_CODE}
-}
-
 test_mysql_db(){
   local EXIT_CODE=0
   mysql -h ${DB_HOST} -P${DB_PORT} -u ${DB_USER} -p${DB_PASSWORD} ${DB_NAME} >/dev/null 2>&1 </dev/null || EXIT_CODE=1
@@ -62,15 +55,6 @@ test_mysql_db(){
     fi
   done
   return ${EXIT_CODE}
-}
-
-wait_for_repositories(){
-  echo "Waiting for replicated repositories."
-  while [ true ]; do
-    test_repositories && break
-    sleep 10
-  done
-  echo "The All-Projects.git and All-Users.git repository was found."
 }
 
 wait_for_db_schema(){
@@ -125,9 +109,6 @@ if [[ "$TEST_MODE" == "true" ]]; then
     --install-plugin singleusergroup \
     -d /var/gerrit
 fi
-
-# wait for All-Projects to arrive via replication from master
-wait_for_repositories
 
 # wait for db schema to arrive via replication from master
 wait_for_db_schema
