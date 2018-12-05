@@ -67,7 +67,7 @@ gitGC:
 
 gerritMaster:
   images:
-    gerritInit: k8sgerrit/gerrit-slave-init
+    gerritInit: k8sgerrit/gerrit-init
     gerritMaster: k8sgerrit/gerrit-master
 
   # The memory limit has to be higher than the configures heap-size for Java!
