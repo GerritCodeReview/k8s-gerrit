@@ -1,0 +1,31 @@
+#!/bin/bash
+
+usage() {
+    me=`basename "$0"`
+    echo >&2 "Usage: $me [--initialize] [--plugin PLUGIN]"
+    exit 1
+}
+
+while test $# -gt 0 ; do
+  case "$1" in
+  --initialize)
+    INITIALIZE="-i"
+    shift
+    ;;
+  --plugin)
+    shift
+    PLUGINS="$PLUGINS -p $1"
+    shift
+    ;;
+
+  *)
+    break
+  esac
+done
+
+# cleanup from last start
+rm -f /var/gerrit/logs/gerrit.pid
+
+/var/tools/gerrit-init.py $INITIALIZE $PLUGINS -s /var/gerrit || exit 1
+
+echo "Gerrit site appears to be initialized. Gerrit slave can be startet."
