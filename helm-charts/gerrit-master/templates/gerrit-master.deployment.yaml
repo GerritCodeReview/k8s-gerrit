@@ -43,14 +43,50 @@ spec:
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
         - /bin/bash
-        - -c
+        - -ce
         args:
         - |
-          echo "Waiting for database..."
-          while ! mysqladmin ping -h "gerrit-master-mysql" -P"3306" --silent; do
-            sleep 10
-          done
-          echo "Database connection successful!"
+          symlink_config_to_site(){
+            {{ if .Values.gerritMaster.keystore -}}
+            ln -s /var/keystore /var/gerrit/etc/keystore
+            {{- end }}
+            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          }
+
+          mkdir -p /var/gerrit/etc
+          symlink_config_to_site
+
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            /var/tools/gerrit_init.py \
+              -s /var/gerrit \
+              -p replication \
+              -p commit-message-length-validator \
+              -p download-commands \
+              -p reviewnotes
+
+            symlink_config_to_site
+          fi
+
+          /var/tools/validate_db.py -s /var/gerrit
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+        - name: gerrit-db
+          mountPath: "/var/gerrit/db"
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+        - name: gerrit-config
+          mountPath: "/var/config/gerrit.config"
+          subPath: gerrit.config
+        - name: gerrit-master-secure-config
+          mountPath: "/var/config/secure.config"
+          subPath: secure.config
+        {{ if .Values.gerritMaster.keystore -}}
+        - name: gerrit-master-secure-config
+          mountPath: "/var/keystore"
+          subPath: keystore
+        {{- end }}
       containers:
       - name: gerrit-master
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritMaster }}:{{ .Values.images.version }}
@@ -69,16 +105,6 @@ spec:
           }
 
           mkdir -p /var/gerrit/etc
-          symlink_config_to_site
-
-          java -jar /var/war/gerrit.war init \
-              --batch \
-              --install-plugin replication \
-              --install-plugin commit-message-length-validator \
-              --install-plugin download-commands \
-              --install-plugin reviewnotes \
-              -d /var/gerrit
-
           symlink_config_to_site
 
           java -jar /var/gerrit/bin/gerrit.war reindex \
