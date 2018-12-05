@@ -117,7 +117,8 @@ gerritMaster:
 
   config:
     # Some values are expected to have a specific value for the deployment installed
-    # by this chart to work. These are marked with `# FIXED`. Do not change them!
+    # by this chart to work. These are marked with `# FIXED`.
+    # Do not change them!
     gerrit: |-
       [gerrit]
         basePath = git # FIXED
