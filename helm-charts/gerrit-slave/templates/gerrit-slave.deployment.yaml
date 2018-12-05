@@ -24,34 +24,80 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
+      - name: site-cleanup
+        image: busybox
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          rm -rf /var/gerrit/logs/gerrit.pid
+        volumeMounts:
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
+      {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
+      # Initialize the emptyDir containing the whole Gerrit-site with defaults
+      # Not needed, when running in test mode, since then the configured site will
+      # be initialized
+      - name: populate-gerrit-site-volume
+        image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -ce
+        args:
+        - |
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            /var/tools/gerrit_init.py \
+              -s /var/gerrit \
+              -p singleusergroup
+          fi
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+        - name: gerrit-db
+          mountPath: "/var/gerrit/db"
+      {{- end }}
+      # Wait for database to be ready and, if configured, run initialization
+      # taking the given Gerrit configuration and persisted volumes into account.
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
         - /bin/bash
-        - -c
+        - -ce
         args:
         - |
-          {{ if .Values.gerritSlave.keystore -}}
-          ln -s /var/keystore /var/gerrit/etc/keystore
-          {{- end }}
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          symlink_config_to_site(){
+            {{ if .Values.gerritSlave.keystore -}}
+            ln -s /var/keystore /var/gerrit/etc/keystore
+            {{- end }}
+            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          }
 
-          /var/tools/start
-        env:
-        - name: TEST_MODE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ .Release.Name }}-gerrit-slave-configmap
-              key: test-mode
+          mkdir -p /var/gerrit/etc
+          symlink_config_to_site
+
+          {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            /var/tools/gerrit_init.py \
+              -s /var/gerrit \
+              -p singleusergroup
+
+            symlink_config_to_site
+          fi
+          {{- end }}
+
+          /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
-        - name: git-filesystem
-          mountPath: "/var/gerrit/git"
-        - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -91,8 +137,6 @@ spec:
         - -c
         args:
         - |
-          rm -f /var/gerrit/logs/gerrit.pid
-
           {{ if .Values.gerritSlave.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
           {{- end }}
@@ -102,21 +146,22 @@ spec:
 
           JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
 
+          DB=$(git config --file /var/gerrit/etc/gerrit.config --get database.type)
+          if [[ "${DB^^}" == "MYSQL" ]]; then
+            /var/tools/download_db_driver
+          fi
+
           java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war daemon \
               -d /var/gerrit \
               --enable-httpd \
               --slave &
 
           tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
-        env:
-        - name: TEST_MODE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ .Release.Name }}-gerrit-slave-configmap
-              key: test-mode
         ports:
         - containerPort: 8080
         volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
         - name: git-filesystem
@@ -137,6 +182,8 @@ spec:
         resources:
 {{ toYaml .Values.gerritSlave.resources | indent 10 }}
       volumes:
+      - name: gerrit-site
+        emptyDir: {}
       - name: gerrit-db
         {{ if .Values.gerritSlave.h2Database.persistence.enabled -}}
         persistentVolumeClaim:

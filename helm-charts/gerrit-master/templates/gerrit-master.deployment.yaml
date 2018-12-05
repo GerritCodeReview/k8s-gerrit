@@ -24,19 +24,70 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
+      - name: site-cleanup
+        image: busybox
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          rm -rf /var/gerrit/logs/gerrit.pid
+        volumeMounts:
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
         - /bin/bash
-        - -c
+        - -ce
         args:
         - |
-          echo "Waiting for database..."
-          while ! mysqladmin ping -h "gerrit-master-mysql" -P"3306" --silent; do
-            sleep 10
-          done
-          echo "Database connection successful!"
+          mkdir -p /var/gerrit/etc
+
+          symlink_config_to_site(){
+            {{ if .Values.gerritMaster.keystore -}}
+            ln -s /var/keystore /var/gerrit/etc/keystore
+            {{- end }}
+            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          }
+
+          symlink_config_to_site
+
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            /var/tools/gerrit_init.py \
+              -s /var/gerrit \
+              -p replication \
+              -p commit-message-length-validator \
+              -p download-commands \
+              -p reviewnotes
+
+            symlink_config_to_site
+          fi
+
+          /var/tools/validate_db.py -s /var/gerrit
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+        - name: gerrit-db
+          mountPath: "/var/gerrit/db"
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+        - name: gerrit-config
+          mountPath: "/var/config/gerrit.config"
+          subPath: gerrit.config
+        - name: gerrit-master-secure-config
+          mountPath: "/var/config/secure.config"
+          subPath: secure.config
+        {{ if .Values.gerritMaster.keystore -}}
+        - name: gerrit-master-secure-config
+          mountPath: "/var/keystore"
+          subPath: keystore
+        {{- end }}
       containers:
       - name: gerrit-master
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritMaster }}:{{ .Values.images.version }}
@@ -54,21 +105,6 @@ spec:
           ln -sf /var/config/replication.config /var/gerrit/etc/replication.config
           ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
 
-          java -jar /var/gerrit/bin/gerrit.war init \
-              --batch \
-              --install-plugin replication \
-              --install-plugin commit-message-length-validator \
-              --install-plugin download-commands \
-              --install-plugin reviewnotes \
-              -d /var/gerrit
-
-          # The gerrit.war init overwrites the symlinks. While it keeps the config
-          # this would mask changes in the configmap. Thus the symlink has to be
-          # recreated here.
-          # TODO: Find a better solution to manage Gerrit's configuration
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
-
           java -jar /var/gerrit/bin/gerrit.war reindex \
               -d /var/gerrit
 
@@ -78,6 +114,8 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
         - name: git-filesystem
@@ -101,6 +139,8 @@ spec:
         resources:
 {{ toYaml .Values.gerritMaster.resources | indent 10 }}
       volumes:
+      - name: gerrit-site
+        emptyDir: {}
       - name: gerrit-db
         {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
         persistentVolumeClaim:
