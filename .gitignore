@@ -2,3 +2,5 @@
 *.crt
 /helm-charts/*/charts
 /helm-charts/*/requirements.lock
+
+__pycache__
