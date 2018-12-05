@@ -67,7 +67,7 @@ gitGC:
 
 gerritMaster:
   images:
-    gerritInit: k8sgerrit/gerrit-slave-init
+    gerritInit: k8sgerrit/gerrit-init
     gerritMaster: k8sgerrit/gerrit-master
 
   # The memory limit has to be higher than the configures heap-size for Java!
@@ -117,10 +117,14 @@ gerritMaster:
 
   config:
     # Some values are expected to have a specific value for the deployment installed
-    # by this chart to work. These are marked with `# FIXED`. Do not change them!
+    # by this chart to work. These are marked with `# FIXED` in the preceeding row.
+    # Do not change them!
+    # Inline comments are currently not allowed, sind the configparser package
+    # does not support them correctly.
     gerrit: |-
       [gerrit]
-        basePath = git # FIXED
+        # FIXED:
+        basePath = git
         serverId = gerrit-master-1
         # The canonical web URL has to be set to the Ingress host, if an Ingress
         # is used. If a LoadBalancer-service is used, this should be set to the
@@ -157,9 +161,12 @@ gerritMaster:
       [cache]
         directory = cache
       [container]
-        user = gerrit # FIXED
-        javaHome = /usr/lib/jvm/java-8-openjdk-amd64 # FIXED
-        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
+        # FIXED:
+        user = gerrit
+        # FIXED:
+        javaHome = /usr/lib/jvm/java-8-openjdk-amd64
+        # FIXED:
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
         javaOptions = -Xms200m
         # Has to be lower than 'gerritMaster.resources.limits.memory'. Also
         # consider memories used by other applications in the container.

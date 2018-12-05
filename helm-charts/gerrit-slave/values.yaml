@@ -150,7 +150,7 @@ gitGC:
 
 gerritSlave:
   images:
-    gerritInit: k8sgerrit/gerrit-slave-init
+    gerritInit: k8sgerrit/gerrit-init
     gerritSlave: k8sgerrit/gerrit-slave
 
   # If you only intend to test the Gerrit slave and do not wish to actually
@@ -207,10 +207,14 @@ gerritSlave:
 
   config:
     # Some values are expected to have a specific value for the deployment installed
-    # by this chart to work. These are marked with `# FIXED`. Do not change them!
+    # by this chart to work. These are marked with `# FIXED` in the preceeding row.
+    # Do not change them!
+    # Inline comments are currently not allowed, sind the configparser package
+    # does not support them correctly.
     gerrit: |-
       [gerrit]
-        basePath = git # FIXED
+        # FIXED:
+        basePath = git
         serverId = gerrit-slave-1
         # The canonical web URL has to be set to the Ingress host, if an Ingress
         # is used. If a LoadBalancer-service is used, this should be set to the
@@ -247,10 +251,14 @@ gerritSlave:
       [cache]
         directory = cache
       [container]
-        user = gerrit # FIXED
-        slave = true # FIXED
-        javaHome = /usr/lib/jvm/java-8-openjdk-amd64 # FIXED
-        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
+        # FIXED:
+        user = gerrit
+        # FIXED:
+        slave = true
+        # FIXED:
+        javaHome = /usr/lib/jvm/java-8-openjdk-amd64
+        # FIXED:
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
         javaOptions = -Xms200m
         # Has to be lower than 'gerritSlave.resources.limits.memory'. Also
         # consider memories used by other applications in the container.

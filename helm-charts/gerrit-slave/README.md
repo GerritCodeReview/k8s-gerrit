@@ -165,18 +165,31 @@ the replicated data of the master database.
 
 ***note
 Future implementations will provide the possibility to bring custom databases
-from different providers, but so far the setup expects to setup its own MySQL
-database.
+from different providers, but so far the setup expects to setup its own MySQL or
+H2 database.
 ***
 
-| Parameter                      | Description                                            | Default |
-|--------------------------------|--------------------------------------------------------|---------|
-| `database.provider`            | Database type/provider to be used (Available: mysql)   | `mysql` |
-| `database.replication.enabled` | Whether to initialize replication from master database | `true`  |
+| Parameter                      | Description                                                                   | Default |
+|--------------------------------|-------------------------------------------------------------------------------|---------|
+| `database.provider`            | Database type/provider to be used (Available: mysql, h2)                      | `mysql` |
+| `database.replication.enabled` | Whether to initialize replication from master database (not available for h2) | `true`  |
 
-The usual way to provide a database is meant to deploy it as a dependency of
-this chart. Since the configuration of the database is different depending on
-the database provider used, the configuration is described in separate documents:
+H2 databases do not require special configuration. It just has to be configured
+in the `gerrit.config`. Also persistence for the database-directory should be
+enabled.
+
+***note
+In general, H2-databases should not be used in production with Gerrit versions <=
+2.15. This chart does not provide replication for H2 databases, thus changes
+to the database at runtime will not be replicated. With Gerrit 2.16 the data
+stored in the database does not change at runtime, thus a H2 database can be
+safely used.
+***
+
+The usual way to provide a database other than H2 is meant to deploy it as a
+dependency of this chart. Since the configuration of the database is different
+depending on the database provider used, the configuration is described in
+separate documents:
 
 - [MySQL](/helm-charts/gerrit-slave/docs/mysql.md)
 
