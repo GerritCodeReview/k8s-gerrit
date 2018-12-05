@@ -38,12 +38,37 @@ spec:
         volumeMounts:
         - name: gerrit-logs
           mountPath: "/var/gerrit/logs"
+      {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
+      # Initialize the emptyDir containing the whole Gerrit-site with defaults
+      # Not needed, when running in test mode, since then the configured site will
+      # be initialized
+      - name: populate-gerrit-site-volume
+        image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -ce
+        args:
+        - |
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            /var/tools/gerrit_init.py \
+              -s /var/gerrit \
+              -p singleusergroup
+          fi
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+        - name: gerrit-db
+          mountPath: "/var/gerrit/db"
+      {{- end }}
+      # Wait for database to be ready and, if configured, run initialization
+      # taking the given Gerrit configuration and persisted volumes into account.
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
         - /bin/bash
-        - -c
+        - -ce
         args:
         - |
           symlink_config_to_site(){
@@ -57,20 +82,22 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          /var/tools/start
-        env:
-        - name: TEST_MODE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ .Release.Name }}-gerrit-slave-configmap
-              key: test-mode
+          {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            /var/tools/gerrit_init.py \
+              -s /var/gerrit \
+              -p singleusergroup
+
+            symlink_config_to_site
+          fi
+          {{- end }}
+
+          /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
-        - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -133,12 +160,6 @@ spec:
               --slave &
 
           tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
-        env:
-        - name: TEST_MODE
-          valueFrom:
-            configMapKeyRef:
-              name: {{ .Release.Name }}-gerrit-slave-configmap
-              key: test-mode
         ports:
         - containerPort: 8080
         volumeMounts:

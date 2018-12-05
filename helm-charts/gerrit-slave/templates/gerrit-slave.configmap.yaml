@@ -8,6 +8,5 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 data:
-  test-mode: {{ if .Values.gerritSlave.initializeTestSite.enabled }} "true" {{ else }} "false" {{ end }}
   gerrit.config: |-
 {{ .Values.gerritSlave.config.gerrit | indent 4 }}
