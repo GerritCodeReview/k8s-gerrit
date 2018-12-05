@@ -3,12 +3,17 @@ FROM gerrit-base:latest
 USER root
 
 RUN apt-get update && \
-    apt-get install -y mysql-client
+    apt-get install -y \
+      mysql-client \
+      python3 \
+      python3-pip && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip3 install \
+      PyMySQL \
+      sqlalchemy
 
 COPY tools/* /var/tools/
 
-ENV TEST_MODE=
-
 USER gerrit
 
-ENTRYPOINT ["/bin/bash", "-c", "/var/tools/verify_fs_permissions && /var/tools/start"]
+ENTRYPOINT ["/var/tools/gerrit_init.py", "-s", "/var/gerrit"]
