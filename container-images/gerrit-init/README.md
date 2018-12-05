@@ -1,29 +1,33 @@
 # Gerrit slave init container image
 
-Kubernetes init container for initializing a gerrit slave. Currently also
-used to initialize gerrit master using a different Entrypoint, will be cleaned
-up in a future change.
+Kubernetes init container for initializing gerrit. The python script running in
+the container makes sure, that the database is initialized (currently supported:
+H2 and MySQL) and initializes Gerrit including the installation of configured
+core plugins.
 
 ## Content
 
-* gerrit-slave image
+* gerrit-base image
 
 ## Setup and configuration
 
-* install mysql-client
+* install mysql-client, python 3 and pip
+* install sqlalchemy and mysql driver for python
 * copy tool scripts
 
 ## Start
 
-* verify filesystem permissions
-* start the container via start script `/var/tools/start` (definition of
- Entrypoint is inherited from gerrit-base image)
+* start the container via start script `/var/tools/gerrit_init.py`
 
-The start script
+The `gerrit_init.py`-script
 
-* reads database configuration from gerrit.config
+* reads configuration from gerrit.config (via `gerrit_config_parser.py`)
+* waits for the database to start (via `validate_db.py`)
+* initializes Gerrit
+
+The `validate_db.py`-script
+
+* reads database configuration from gerrit.config (via `gerrit_config_parser.py`)
 * waits for the database to start
-* waits for All-Projects.git and All-Users.git to arrive via replication via
- apache-git-http-backend from Gerrit master
-* waits for MySQL slave database schema to arrive via database replication from
- Gerrit slave
+* waits for the reviewdb database
++ waits for some selected tables to ensure that the schema is initialized
