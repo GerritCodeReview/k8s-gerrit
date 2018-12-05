@@ -1,9 +1,11 @@
-FROM k8sgerrit/gerrit-slave:latest
+FROM gerrit-base:latest
 
 USER root
 
 RUN apt-get update && \
-    apt-get install -y mysql-client
+    apt-get install -y mysql-client python3 python3-pip
+
+RUN pip3 install sqlalchemy PyMySQL
 
 COPY tools/* /var/tools/
 

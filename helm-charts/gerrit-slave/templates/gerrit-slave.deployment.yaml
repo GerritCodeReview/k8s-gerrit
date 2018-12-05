@@ -24,7 +24,7 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
-      - name: gerrit-slave-init
+      - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
@@ -32,13 +32,17 @@ spec:
         - -c
         args:
         - |
+          mkdir -p /var/gerrit/etc
           {{ if .Values.gerritSlave.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
           {{- end }}
           ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
           ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
 
-          /var/tools/start
+          /var/tools/start \
+            --initialize \
+            --plugin singleusergroup || exit 1
+
         env:
         - name: TEST_MODE
           valueFrom:
@@ -46,6 +50,8 @@ spec:
               name: {{ .Release.Name }}-gerrit-slave-configmap
               key: test-mode
         volumeMounts:
+        - name: gerrit-site
+          mountPath: /var/gerrit
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
         - name: git-filesystem
@@ -117,6 +123,8 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
+        - name: gerrit-site
+          mountPath: /var/gerrit
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
         - name: git-filesystem
@@ -137,6 +145,8 @@ spec:
         resources:
 {{ toYaml .Values.gerritSlave.resources | indent 10 }}
       volumes:
+      - name: gerrit-site
+        emptyDir: {}
       - name: gerrit-db
         {{ if .Values.gerritSlave.h2Database.persistence.enabled -}}
         claimName: {{ .Release.Name }}-gerrit-db-pvc
