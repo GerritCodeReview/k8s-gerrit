@@ -121,11 +121,21 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 
 ### Database
 
-Gerrit requires a database containing the user data. Currently this chart provides
-the possibility to install a MySQL database for this purpose. Other databases may
-be installed manually, if wanted.
+Gerrit requires a database containing the user data. Currently, this chart provides
+the possibility to install a MySQL database for this purpose or to use a H2 database.
+Other databases may be installed manually, if wanted.
 
-Since the configuration of the database is different depending on the database
+H2 databases do not require special configuration. It just has to be configured
+in the `gerrit.config`. Also persistence for the database-directory should be
+enabled.
+
+***note
+In general, H2-databases should not be used in production with Gerrit versions <=
+2.15. With Gerrit 2.16 the data stored in the database does not change at runtime,
+thus a H2 database can be safely used.
+***
+
+Since the configuration of the other databases is different depending on the database
 provider used, the configuration is described in separate documents (other
 databases may be added in future):
 
