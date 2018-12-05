@@ -150,7 +150,7 @@ gitGC:
 
 gerritSlave:
   images:
-    gerritInit: k8sgerrit/gerrit-slave-init
+    gerritInit: k8sgerrit/gerrit-init
     gerritSlave: k8sgerrit/gerrit-slave
 
   # If you only intend to test the Gerrit slave and do not wish to actually
