@@ -146,27 +146,29 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to Gerrit is required!
 ***
 
-| Parameter                                  | Description                                                                                     | Default                           |
-|--------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritMaster.images.gerritInit`           | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-slave-init`    |
-| `gerritMaster.images.gerritMaster`         | Image name of the Gerrit master container image                                                 | `k8s-gerrit/gerrit-master`        |
-| `gerritMaster.resources`                   | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                 |
-|                                            |                                                                                                 | `requests.memory: 5Gi`            |
-|                                            |                                                                                                 | `limits.cpu: 1`                   |
-|                                            |                                                                                                 | `limits.memory: 6Gi`              |
-| `gerritMaster.logging.persistence.enabled` | Whether to persist logs                                                                         | `true`                            |
-| `gerritMaster.logging.persistence.size`    | Storage size for persisted logs                                                                 | `1Gi`                             |
-| `gerritMaster.service.type`                | Which kind of Service to deploy                                                                 | `NodePort`                        |
-| `gerritMaster.service.http.port`           | Port over which to expose HTTP                                                                  | `80`                              |
-| `gerritMaster.ingress.host`                | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
-| `gerritMaster.ingress.alias`               | Optional: ALias host name for the Ingress                                                       | `nil`                             |
-| `gerritMaster.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                                | `false`                           |
-| `gerritMaster.ingress.tls.cert`            | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`     |
-| `gerritMaster.ingress.tls.key`             | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
-| `gerritMaster.keystore`                    | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                             |
-| `gerritMaster.config.gerrit`               | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)  |
-| `gerritMaster.config.secure`               | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)  |
-| `gerritMaster.config.replication`          | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)  |
+| Parameter                                     | Description                                                                                     | Default                           |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|
+| `gerritMaster.images.gerritInit`              | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-slave-init`    |
+| `gerritMaster.images.gerritMaster`            | Image name of the Gerrit master container image                                                 | `k8s-gerrit/gerrit-master`        |
+| `gerritMaster.resources`                      | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                 |
+|                                               |                                                                                                 | `requests.memory: 5Gi`            |
+|                                               |                                                                                                 | `limits.cpu: 1`                   |
+|                                               |                                                                                                 | `limits.memory: 6Gi`              |
+| `gerritMaster.logging.persistence.enabled`    | Whether to persist logs                                                                         | `true`                            |
+| `gerritMaster.logging.persistence.size`       | Storage size for persisted logs                                                                 | `1Gi`                             |
+| `gerritMaster.h2Database.persistence.enabled` | Whether to persist h2 databases                                                                 | `true`                            |
+| `gerritMaster.h2Database.persistence.size`    | Storage size for persisted h2 databases                                                         | `1Gi`                             |
+| `gerritMaster.service.type`                   | Which kind of Service to deploy                                                                 | `NodePort`                        |
+| `gerritMaster.service.http.port`              | Port over which to expose HTTP                                                                  | `80`                              |
+| `gerritMaster.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
+| `gerritMaster.ingress.alias`                  | Optional: ALias host name for the Ingress                                                       | `nil`                             |
+| `gerritMaster.ingress.tls.enabled`            | Whether to enable TLS termination in the Ingress                                                | `false`                           |
+| `gerritMaster.ingress.tls.cert`               | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`     |
+| `gerritMaster.ingress.tls.key`                | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerritMaster.keystore`                       | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                             |
+| `gerritMaster.config.gerrit`                  | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)  |
+| `gerritMaster.config.secure`                  | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)  |
+| `gerritMaster.config.replication`             | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)  |
 
 ### Gerrit config files
 
