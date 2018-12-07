@@ -78,6 +78,8 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
+        - name: gerrit-db
+          mountPath: "/var/gerrit/db"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
         - name: gerrit-logs
@@ -99,6 +101,12 @@ spec:
         resources:
 {{ toYaml .Values.gerritMaster.resources | indent 10 }}
       volumes:
+      - name: gerrit-db
+        {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
+        claimName: {{ .Release.Name }}-gerrit-db-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
