@@ -89,6 +89,11 @@ gerritMaster:
     http:
       port: 80
 
+  h2Database:
+    persistence:
+      enabled: true
+      size: 1Gi
+
   ingress:
     host:
     # Provide a second host name used as an alias. Leave empty, if no alias is
