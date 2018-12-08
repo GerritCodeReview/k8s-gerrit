@@ -401,6 +401,24 @@
     },
     {
       "key": {
+        "uuid": "c8040ba2_94d456c2",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f996e937_018f2a6c",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83effd99_a69a78ba",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -471,6 +489,24 @@
     },
     {
       "key": {
+        "uuid": "d794978e_9a36e271",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1c725fa2_46876055",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d04df71_f737baed",
         "filename": "Documentation/minikube.md",
         "patchSetId": 7
@@ -503,6 +539,24 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45b1c045_3d939d3d",
+        "filename": "Documentation/minikube.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97c7d5b5_d5e9d230",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -729,6 +783,30 @@
     },
     {
       "key": {
+        "uuid": "3b444223_fc16c465",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "04d341cc_2e1c9717",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce12edf4_e79ebc24",
         "filename": "supplements/gerrit-master.minikube.values.yaml",
         "patchSetId": 7
@@ -761,6 +839,24 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d641e796_2a9739e7",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5ae786bf_6cd81c61",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -811,6 +907,30 @@
     },
     {
       "key": {
+        "uuid": "137e79ec_72748b78",
+        "filename": "supplements/gerrit-master.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe95788f_9192cf8d",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc67ceb9_1e65b7fc",
         "filename": "supplements/gerrit-slave.minikube.values.yaml",
         "patchSetId": 7
@@ -858,6 +978,30 @@
     },
     {
       "key": {
+        "uuid": "a6591207_913c7447",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "592ec84e_f3a0d1ab",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c623c90_f747e337",
         "filename": "supplements/gerrit-slave.minikube.values.yaml",
         "patchSetId": 7
@@ -893,6 +1037,24 @@
     },
     {
       "key": {
+        "uuid": "e46d29ca_73613297",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8d131463_e24b40e7",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2057bc0e_1af70b7e",
         "filename": "supplements/gerrit-slave.minikube.values.yaml",
         "patchSetId": 7
@@ -925,6 +1087,24 @@
       "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3223b29e_31a374ab",
+        "filename": "supplements/gerrit-slave.minikube.values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-08T01:09:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "500766ab_a3e55e88",
+      "revId": "aa5d8435b25b09ffc161175f866a5a4cb2de2ad2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
