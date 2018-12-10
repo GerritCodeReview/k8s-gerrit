@@ -16,6 +16,24 @@
       "revId": "fdd37a672192daa5ff45550887cbd7e765667581",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a401e755_bcb8e427",
+        "filename": "helm-charts/gerrit-master/templates/certmanager.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2018-12-10T10:51:09Z",
+      "side": 1,
+      "message": "Done for this file.\nLet me create a change adding new lines to all files.",
+      "parentUuid": "d6f3e4d7_d137d4ec",
+      "revId": "fdd37a672192daa5ff45550887cbd7e765667581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
