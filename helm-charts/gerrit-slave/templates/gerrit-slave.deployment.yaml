@@ -24,6 +24,20 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
+      - name: site-cleanup
+        image: busybox
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          rm -f /var/gerrit/logs/gerrit.pid
+        volumeMounts:
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -93,8 +107,6 @@ spec:
         - -c
         args:
         - |
-          rm -f /var/gerrit/logs/gerrit.pid
-
           {{ if .Values.gerritSlave.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
           {{- end }}
