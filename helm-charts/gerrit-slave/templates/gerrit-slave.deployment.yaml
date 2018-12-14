@@ -24,6 +24,20 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
+      - name: site-cleanup
+        image: busybox
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          rm -f /var/gerrit/logs/gerrit.pid
+        volumeMounts:
+        - name: gerrit-logs
+          mountPath: "/var/gerrit/logs"
       {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
       # Initialize the emptyDir containing the whole Gerrit-site with defaults
       # Not needed, when running in test mode, since then the configured site will
@@ -118,8 +132,6 @@ spec:
         - -c
         args:
         - |
-          rm -f /var/gerrit/logs/gerrit.pid
-
           {{ if .Values.gerritSlave.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
           {{- end }}
