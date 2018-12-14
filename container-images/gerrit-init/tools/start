@@ -103,7 +103,7 @@ get_db_config || exit 1
 wait_for_db_connection
 
 if [[ "$TEST_MODE" == "true" ]]; then
-  java -jar /var/gerrit/bin/gerrit.war init \
+  java -jar /var/war/gerrit.war init \
     --batch \
     --no-auto-start \
     --install-plugin singleusergroup \

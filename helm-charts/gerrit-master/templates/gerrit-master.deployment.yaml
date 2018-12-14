@@ -46,6 +46,8 @@ spec:
         - -c
         args:
         - |
+          mkdir -p /var/gerrit/etc
+
           {{ if .Values.gerritMaster.keystore -}}
           ln -s /var/keystore /var/gerrit/etc/keystore
           {{- end }}
@@ -54,7 +56,7 @@ spec:
           ln -sf /var/config/replication.config /var/gerrit/etc/replication.config
           ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
 
-          java -jar /var/gerrit/bin/gerrit.war init \
+          java -jar /var/war/gerrit.war init \
               --batch \
               --install-plugin replication \
               --install-plugin commit-message-length-validator \
@@ -78,6 +80,8 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
         - name: git-filesystem
@@ -101,6 +105,8 @@ spec:
         resources:
 {{ toYaml .Values.gerritMaster.resources | indent 10 }}
       volumes:
+      - name: gerrit-site
+        emptyDir: {}
       - name: gerrit-db
         {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
         persistentVolumeClaim:
