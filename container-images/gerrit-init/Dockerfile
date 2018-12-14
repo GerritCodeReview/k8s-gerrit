@@ -1,4 +1,4 @@
-FROM k8sgerrit/gerrit-slave:latest
+FROM gerrit-base:latest
 
 USER root
 
