@@ -148,7 +148,7 @@ is mandatory, if access to Gerrit is required!
 
 | Parameter                                     | Description                                                                                     | Default                           |
 |-----------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritMaster.images.gerritInit`              | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-slave-init`    |
+| `gerritMaster.images.gerritInit`              | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-init`          |
 | `gerritMaster.images.gerritMaster`            | Image name of the Gerrit master container image                                                 | `k8s-gerrit/gerrit-master`        |
 | `gerritMaster.resources`                      | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                 |
 |                                               |                                                                                                 | `requests.memory: 5Gi`            |

@@ -81,7 +81,7 @@ docker image:
 ```
 
 The `<component-name>` is one of: `apache-git-http-backend`, `git-gc`,
-`gerrit-slave`, `gerrit-master`, `gerrit-slave-init`.
+`gerrit-slave`, `gerrit-master`, `gerrit-init`.
 
 If a specific version of the image should be used, the `--tag TAG`-option can be
 used to provide the image tag:

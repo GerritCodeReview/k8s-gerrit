@@ -89,7 +89,7 @@ gerrit-slave)
   container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
   ;;
 
-gerrit-slave-init)
+gerrit-init)
   container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
   ;;
 

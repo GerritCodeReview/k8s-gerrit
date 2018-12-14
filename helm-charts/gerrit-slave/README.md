@@ -197,7 +197,7 @@ is mandatory, if access to the Gerrit slave is required!
 
 | Parameter                                    | Description                                                                                                              | Default                           |
 |----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritMaster.images.gerritInit`             | Image name of the Gerrit init container image                                                                            | `k8s-gerrit/gerrit-slave-init`    |
+| `gerritMaster.images.gerritInit`             | Image name of the Gerrit init container image                                                                            | `k8s-gerrit/gerrit-init`          |
 | `gerritMaster.images.gerritSlave`            | Image name of the Gerrit slave container image                                                                           | `k8s-gerrit/gerrit-slave`         |
 | `gerritSlave.initializeTestSite.enabled`     | Enable the initialization of a site. USE ONLY for testing, if you do not plan to replicate repositories or the database. | `true`                            |
 | `gerritSlave.resources`                      | Configure the amount of resources the pod requests/is allowed                                                            | `requests.cpu: 1`                 |
