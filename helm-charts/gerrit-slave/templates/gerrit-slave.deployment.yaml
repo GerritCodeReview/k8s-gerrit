@@ -46,13 +46,16 @@ spec:
         - -c
         args:
         - |
-          mkdir -p /var/gerrit/etc
+          symlink_config_to_site(){
+            {{ if .Values.gerritSlave.keystore -}}
+            ln -s /var/keystore /var/gerrit/etc/keystore
+            {{- end }}
+            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          }
 
-          {{ if .Values.gerritSlave.keystore -}}
-          ln -s /var/keystore /var/gerrit/etc/keystore
-          {{- end }}
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          mkdir -p /var/gerrit/etc
+          symlink_config_to_site
 
           /var/tools/start
         env:
@@ -107,12 +110,15 @@ spec:
         - -c
         args:
         - |
-          {{ if .Values.gerritSlave.keystore -}}
-          ln -s /var/keystore /var/gerrit/etc/keystore
-          {{- end }}
+          symlink_config_to_site(){
+            {{ if .Values.gerritSlave.keystore -}}
+            ln -s /var/keystore /var/gerrit/etc/keystore
+            {{- end }}
+            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          }
 
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          symlink_config_to_site
 
           JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
 

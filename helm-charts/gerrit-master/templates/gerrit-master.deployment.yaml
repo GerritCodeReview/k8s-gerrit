@@ -60,15 +60,16 @@ spec:
         - -c
         args:
         - |
+          symlink_config_to_site(){
+            {{ if .Values.gerritMaster.keystore -}}
+            ln -s /var/keystore /var/gerrit/etc/keystore
+            {{- end }}
+            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          }
+
           mkdir -p /var/gerrit/etc
-
-          {{ if .Values.gerritMaster.keystore -}}
-          ln -s /var/keystore /var/gerrit/etc/keystore
-          {{- end }}
-
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/config/replication.config /var/gerrit/etc/replication.config
-          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          symlink_config_to_site
 
           java -jar /var/war/gerrit.war init \
               --batch \
@@ -78,12 +79,7 @@ spec:
               --install-plugin reviewnotes \
               -d /var/gerrit
 
-          # The gerrit.war init overwrites the symlinks. While it keeps the config
-          # this would mask changes in the configmap. Thus the symlink has to be
-          # recreated here.
-          # TODO: Find a better solution to manage Gerrit's configuration
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+          symlink_config_to_site
 
           java -jar /var/gerrit/bin/gerrit.war reindex \
               -d /var/gerrit
