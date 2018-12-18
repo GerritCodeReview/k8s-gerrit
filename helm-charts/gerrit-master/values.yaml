@@ -135,14 +135,14 @@ gerritMaster:
         disableReverseDnsLookup = true
       [database]
         type = mysql
-        # 'gerrit-master-mysql' is the reference to the service that manages
+        # 'db-master-mysql' is the reference to the service that manages
         # the traffic to the mysql database, if the mysql-database is installed
-        # via the gerrit-master chart
-        hostname = gerrit-master-mysql
+        # via the reviewdb-chart and named 'db-master'
+        hostname = db-master-mysql
         port = 3306
         database = reviewdb
         # To switch of enforced SSL-encrypted communication uncomment:
-        # url = jdbc:mysql://gerrit-slave-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
+        # url = jdbc:mysql://db-master-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
       [index]
         type = LUCENE
       [auth]
@@ -199,98 +199,3 @@ gerritMaster:
       # url = http://gerrit-slave.example.com/git/${name}.git
       # replicationDelay = 0
       # timeout = 30
-
-
-mysql:
-  # Enabling the installation of the MySQL database will only make sense, if
-  # `mysql` is chosen as a provider under `database.provider`.
-  enabled: true
-
-  image: mysql
-  # The major.minor version of mysql should be the same as for the master database
-  imageTag: 5.5.61
-
-  mysqlRootPassword: big_secret
-  mysqlUser: gerrit
-  mysqlPassword: secret
-
-  livenessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-
-  readinessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 1
-    successThreshold: 1
-    failureThreshold: 3
-
-  persistence:
-    enabled: true
-    storageClass: default
-    accessMode: ReadWriteOnce
-    size: 8Gi
-
-  resources:
-    requests:
-      cpu: 250m
-      memory: 1Gi
-    limits:
-      cpu: 250m
-      memory: 1Gi
-
-  configurationFiles:
-    mysql.cnf: |-
-      [mysqld]
-
-      # Adapt the following changes to your setup
-      ###########################################
-
-      # Name of transaction logs (used for database replication)
-      log_bin=mysql-bin
-
-      # Adapt to the binlog format of the Gerrit master's database
-      binlog_format=row
-
-      # Has to be different for each database in the replication setup.
-      server-id=1
-
-      # Add the following options to the config, if using SSL (`mysql.ssl.enabled: true`)
-      # But do not change the values.
-      # ssl-ca=/ssl/ca.pem
-      # ssl-cert=/ssl/server-cert.pem
-      # ssl-key=/ssl/server-key.pem
-
-  initializationFiles:
-    # Do not change or remove this script.
-    initialize_reviewdb.sql: |-
-      CREATE DATABASE reviewdb DEFAULT CHARACTER SET 'utf8';
-      GRANT ALL ON reviewdb.* TO 'gerrit';
-      FLUSH PRIVILEGES;
-
-  service:
-    type: NodePort
-    port: 3306
-
-  ssl:
-    # If enabled, add the required lines to the configuration as described in
-    # `mysql.configurationFiles.mysql.cnf`
-    enabled: false
-    secret: master-ssl-certs
-    certificates:
-    - name: master-ssl-certs
-      ca: |-
-        -----BEGIN CERTIFICATE-----
-
-        -----END CERTIFICATE-----
-      cert: |-
-        -----BEGIN CERTIFICATE-----
-
-        -----END CERTIFICATE-----
-      key: |-
-        -----BEGIN RSA PRIVATE KEY-----
-
-        -----END RSA PRIVATE KEY-----

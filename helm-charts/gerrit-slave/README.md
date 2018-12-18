@@ -8,9 +8,7 @@ Gerrit slaves can be deployed to serve read-only requests.
 
 This helm chart provides a Gerrit slave setup that can be deployed on Kubernetes.
 The Gerrit slave is capable of receiving replicated git repositories from a
-Gerrit master. The slave can deploy its own database, that replicates the data
-from the Gerrit master's database (Currently only MySQL databases are supported).
-The Gerrit slave can then serve authenticated read-only requests.
+Gerrit master. The Gerrit slave can then serve authenticated read-only requests.
 
 ## Prerequisites
 
@@ -38,6 +36,11 @@ The Gerrit slave can then serve authenticated read-only requests.
   A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
   to be used by Gerrit.
 
+- (Optional: Required, for Gerrit versions lower than 2.16)
+  A relational database to contain the ReviewDB, e.g. as provided by the
+  [reviewdb chart](/helm-charts/reviewdb). With Gerrit 2.16 a H2-database is
+  usually enough, since the data is not changed during runtime.
+
 ## Installing the Chart
 
 ***note
@@ -51,7 +54,6 @@ To install the chart with the release name `gerrit-slave`, execute:
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
 helm install ./gerrit-slave \
-  --dep-up \
   -n gerrit-slave \
   -f <path-to-custom-values>.yaml
 ```
@@ -72,7 +74,6 @@ In addition, single options can be set without creating a custom `values.yaml`:
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
 helm install ./gerrit-slave \
-  --dep-up \
   -n gerrit-slave \
   --set=gitRepositoryStorage.size=100Gi,gitBackend.replicas=2
 ```
@@ -157,42 +158,6 @@ At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
 | `gitGC.logging.persistence.enabled` | Whether to persist logs                                          | `true`                   |
 | `gitGC.logging.persistence.size`    | Storage size for persisted logs                                  | `1Gi`                    |
 
-### Database
-
-The Gerrit slave requires a database containing the user data associated with the
-replicated Git repositories, which is implemented as a database slave containing
-the replicated data of the master database.
-
-***note
-Future implementations will provide the possibility to bring custom databases
-from different providers, but so far the setup expects to setup its own MySQL or
-H2 database.
-***
-
-| Parameter                      | Description                                                                   | Default |
-|--------------------------------|-------------------------------------------------------------------------------|---------|
-| `database.provider`            | Database type/provider to be used (Available: mysql, h2)                      | `mysql` |
-| `database.replication.enabled` | Whether to initialize replication from master database (not available for h2) | `true`  |
-
-H2 databases do not require special configuration. It just has to be configured
-in the `gerrit.config`. Also persistence for the database-directory should be
-enabled.
-
-***note
-In general, H2-databases should not be used in production with Gerrit versions <=
-2.15. This chart does not provide replication for H2 databases, thus changes
-to the database at runtime will not be replicated. With Gerrit 2.16 the data
-stored in the database does not change at runtime, thus a H2 database can be
-safely used.
-***
-
-The usual way to provide a database other than H2 is meant to deploy it as a
-dependency of this chart. Since the configuration of the database is different
-depending on the database provider used, the configuration is described in
-separate documents:
-
-- [MySQL](/helm-charts/gerrit-slave/docs/mysql.md)
-
 ### Gerrit slave
 
 ***note
@@ -262,10 +227,8 @@ work as intended:
 
 - `database.*`
 
-    The default settings are configured to use the MySQL-database installed as a
-    dependency and if the chart is installed with the release name set to
-    `gerrit-slave`. Only change this, if you decide to use a different database or
-    changed the default settings for the mysql-chart.
+    If the database is installed in the same Kubernetes cluster, the service name
+    may be used as a hostname.
 
     With newer versions of the MySQL-driver used by Gerrit, using SSL-encrypted
     communication with the database is enforced by default. This can be deactivated

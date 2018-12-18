@@ -1,23 +1,23 @@
-{{ if and .Values.database.replication.enabled (eq .Values.database.provider "mysql") }}
+{{ if and .Values.replication.enabled .Values.mysql.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-mysql-replication-init-configmap
   labels:
     app: mysql-replication-init
-    chart: {{ template "gerrit-slave.chart" . }}
+    chart: {{ template "reviewdb.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 data:
   initialize-slave.sql: |
     SET @query = CONCAT(
       "CHANGE MASTER TO ",
-      "MASTER_HOST = '{{ .Values.database.replication.mysql.config.masterHost }}' , ",
-      "MASTER_PORT = {{ .Values.database.replication.mysql.config.masterPort }} , ",
-      "MASTER_USER = '{{ .Values.database.replication.mysql.config.masterUser }}' , ",
+      "MASTER_HOST = '{{ .Values.mysql.replication.config.masterHost }}' , ",
+      "MASTER_PORT = {{ .Values.mysql.replication.config.masterPort }} , ",
+      "MASTER_USER = '{{ .Values.mysql.replication.config.masterUser }}' , ",
       "MASTER_PASSWORD ='", @replpwd, "', ",
-      "MASTER_LOG_FILE = '{{ .Values.database.replication.mysql.config.masterLogFile }}' , ",
-      "MASTER_LOG_POS = {{ .Values.database.replication.mysql.config.masterLogPos }} , ",
+      "MASTER_LOG_FILE = '{{ .Values.mysql.replication.config.masterLogFile }}' , ",
+      "MASTER_LOG_POS = {{ .Values.mysql.replication.config.masterLogPos }} , ",
       "MASTER_SSL = {{ if .Values.mysql.ssl.enabled }} 1 {{ else }} 0 {{ end }} , ",
       "MASTER_SSL_CA = '/ssl/ca.pem', ",
       "MASTER_SSL_CERT = '/ssl/server-cert.pem', ",
@@ -30,7 +30,7 @@ data:
     START SLAVE;
     DO SLEEP(15);
     SHOW SLAVE STATUS\G;
-  dump-filepath: {{ .Values.database.replication.mysql.dbDumpAcceptPath }}
+  dump-filepath: {{ .Values.mysql.replication.dbDumpAcceptPath }}
 ---
 apiVersion: v1
 kind: Secret
@@ -38,11 +38,11 @@ metadata:
   name: {{ .Release.Name }}-mysql-replication-init-secret
   labels:
     app: mysql-replication-init
-    chart: {{ template "gerrit-slave.chart" . }}
+    chart: {{ template "reviewdb.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 data:
-  repl-password: {{ .Values.database.replication.mysql.config.masterPassword | b64enc }}
+  repl-password: {{ .Values.mysql.replication.config.masterPassword | b64enc }}
 type: Opaque
 ---
 apiVersion: batch/v1
@@ -51,7 +51,7 @@ metadata:
   name: {{ .Release.Name }}-mysql-replication-init-job
   labels:
     app: mysql-replication-init
-    chart: {{ template "gerrit-slave.chart" . }}
+    chart: {{ template "reviewdb.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
@@ -69,7 +69,7 @@ spec:
       containers:
       - name: mysql-replication-init
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        image: {{ template "registry" . }}{{ .Values.database.replication.image }}:{{ .Values.images.version }}
+        image: {{ template "registry" . }}{{ .Values.mysql.replication.image }}:{{ .Values.images.version }}
         env:
         - name: REPL_PASSWORD
           valueFrom:
@@ -97,5 +97,4 @@ spec:
       - name: mysql-replication-init-configmap
         configMap:
           name: {{ .Release.Name }}-mysql-replication-init-configmap
-
 {{- end }}
