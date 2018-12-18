@@ -150,6 +150,17 @@ mysql:
       GRANT ALL ON reviewdb.* TO 'gerrit';
       FLUSH PRIVILEGES;
 
+    # Uncomment this, if you plan to run this database instance as master and
+    # plan to replicate data to a slave. This will create a user that can be used
+    # for replication. Change username, password and certificate subject as needed.
+    #
+    # create_repl_user.sql: |-
+    #   CREATE USER 'repl' IDENTIFIED BY 'password';
+    #   GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'repl'
+    #     IDENTIFIED BY 'password'
+    #     REQUIRE SUBJECT '/C=DE/O=Gerrit/CN=db-slave-mysql';
+    #   FLUSH PRIVILEGES;
+
   service:
     type: NodePort
     port: 3306
