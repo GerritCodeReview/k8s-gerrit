@@ -1,0 +1,17 @@
+A ReviewDB has been deployed.
+==================================
+
+A {{ if .Values.mysql.enabled -}} MySQL {{- end }} database has been deployed and
+initialized to serve a ReviewDB-database.
+
+{{ if .Values.replication.enabled -}}
+The components to initialize database replication have been deployed. To start
+initialization the Job needs a database dump containing the master's data. Use
+the following command to make the database dump available to the job:
+
+  JOB_POD=$(kubectl get pod -l app=mysql-replication-init -o jsonpath="{.items[0].metadata.name}")
+  kubectl cp <PATH_TO_DUMP> ${JOB_POD}:{{ .Values.mysql.replication.dbDumpAcceptPath }}
+
+Depending on the size of the database the initialization will take a while. When
+finished the job will shut down.
+{{- end }}
