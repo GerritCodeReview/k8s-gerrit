@@ -1,0 +1,29 @@
+apiVersion: v1
+appVersion: 2.16
+description: |-
+    This chart provisions a database to be used with a Gerrit master or Gerrit
+    slave setup, if the Gerrit version is lower than 2.16. This database is
+    needed to store userdata.
+
+    Note, that with the upcoming Gerrit release the reviewdb-database will be
+    fully migrated to notedb and this chart is not required to run the gerrit-
+    master and gerrit-slave charts.
+name: reviewdb
+version: 0.1.0
+maintainers:
+- name: Thomas Draebing
+  email: thomas.draebing@sap.com
+- name: Matthias Sohn
+  email: matthias.sohn@sap.com
+- name: Sasa Zivkov
+  email: sasa.zivkov@sap.com
+- name: Christian Halstrick
+  email: christian.halstrick@sap.com
+home: https://gerrit.googlesource.com/k8s-gerrit/+/master/helm-charts/review-db
+icon: http://commondatastorage.googleapis.com/gerrit-static/diffy-w200.png
+sources:
+- https://gerrit.googlesource.com/k8s-gerrit/+/master/
+keywords:
+- gerrit
+- git
+- reviewdb

@@ -1,0 +1,18 @@
+{{ if .Values.storageClasses.default.create -}}
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: {{ .Values.storageClasses.default.name }}
+  labels:
+    chart: {{ template "reviewdb.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+provisioner: {{ .Values.storageClasses.default.provisioner }}
+reclaimPolicy: {{ .Values.storageClasses.default.reclaimPolicy }}
+{{ if .Values.storageClasses.shared.parameters -}}
+parameters:
+{{- range $key, $value := .Values.storageClasses.default.parameters }}
+  {{ $key }}: {{ $value }}
+{{- end }}
+{{- end }}
+{{- end }}
