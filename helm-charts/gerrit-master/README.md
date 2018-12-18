@@ -2,8 +2,7 @@
 
 Gerrit is a web-based code review tool, which acts as a Git server. This helm
 chart provides a Gerrit setup that can be deployed on Kubernetes.
-The chart can deploy its own database (Currently on MySQL databases are supported)
-and provides a CronJob to perform Git garbage collection.
+In addition, the chart provides a CronJob to perform Git garbage collection.
 
 ## Prerequisites
 
@@ -31,6 +30,11 @@ and provides a CronJob to perform Git garbage collection.
   A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
   to be used by Gerrit.
 
+- (Optional: Required, for Gerrit versions lower than 2.16)
+  A relational database to contain the ReviewDB, e.g. as provided by the
+  [reviewdb chart](/helm-charts/reviewdb). With Gerrit 2.16 an embedded H2-
+  database is usually enough, since the data is not changed during runtime.
+
 ## Installing the Chart
 
 ***note
@@ -44,7 +48,6 @@ To install the chart with the release name `gerrit-master`, execute:
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
 helm install ./gerrit-master \
-  --dep-up \
   -n gerrit-master \
   -f <path-to-custom-values>.yaml
 ```
@@ -65,7 +68,6 @@ In addition, single options can be set without creating a custom `values.yaml`:
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
 helm install ./gerrit-master \
-  --dep-up \
   -n gerrit-master \
   --set=gitRepositoryStorage.size=100Gi
 ```
@@ -118,28 +120,6 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 |                                     |                                                                  | `limits.memory: 256Mi`   |
 | `gitGC.logging.persistence.enabled` | Whether to persist logs                                          | `true`                   |
 | `gitGC.logging.persistence.size`    | Storage size for persisted logs                                  | `1Gi`                    |
-
-### Database
-
-Gerrit requires a database containing the user data. Currently, this chart provides
-the possibility to install a MySQL database for this purpose or to use a H2 database.
-Other databases may be installed manually, if wanted.
-
-H2 does not require special configuration. It just has to be configured
-in the `gerrit.config`. Also persistence for the database-directory should be
-enabled.
-
-***note
-In general, H2-databases should not be used in production with Gerrit versions <=
-2.15. With Gerrit 2.16 the data stored in the database does not change at runtime,
-thus a H2 database can be safely used.
-***
-
-Since the configuration of the other databases is different depending on the database
-provider used, the configuration is described in separate documents (other
-databases may be added in future):
-
-- [MySQL](/helm-charts/gerrit-master/docs/mysql.md)
 
 ### Gerrit
 
@@ -211,10 +191,8 @@ intended with the chart:
 
 - `database.*`
 
-    The default settings are configured to use the MySQL-database installed as a
-    dependency and if the chart is installed with the release name set to
-    `gerrit-master`. Only change this, if you decide to use a different database or
-    changed the default settings for the mysql-chart.
+    If the database is installed in the same Kubernetes cluster, the name of the
+    service exposing the database deployment may be used as a hostname.
 
     With newer versions of the MySQL-driver used by Gerrit, using SSL-encrypted
     communication with the database is enforced by default. This can be deactivated
