@@ -46,26 +46,6 @@ gitRepositoryStorage:
   size: 5Gi
 
 
-database:
-  provider: mysql
-
-  # Only applies to databases set up by this chart (currently available: MySQL)
-  replication:
-    enabled: false
-    image: k8sgerrit/mysql-replication-init
-
-    # The following section is specific for replication of MySQL databases
-    mysql:
-      config:
-        masterHost: mysql.example.com
-        masterPort: 3306
-        masterUser: repl
-        masterPassword: password
-        masterLogFile: mysql-bin.000001
-        masterLogPos: 111
-      dbDumpAcceptPath: /var/data/db/master_dump.sql
-
-
 gitBackend:
   image: k8sgerrit/apache-git-http-backend
 
@@ -222,14 +202,14 @@ gerritSlave:
         disableReverseDnsLookup = true
       [database]
         type = mysql
-        # 'gerrit-slave-mysql' is the reference to the service that managaes
+        # 'db-slave-mysql' is the reference to the service that manages
         # the traffic to the mysql database, if the mysql-database is installed
-        # via the gerrit-slave chart
-        hostname = gerrit-slave-mysql
+        # via the reviewdb-chart and named 'db-slave'
+        hostname = db-slave-mysql
         port = 3306
         database = reviewdb
         # To switch of enforced SSL-encrypted communication uncomment:
-        # url = jdbc:mysql://gerrit-slave-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
+        # url = jdbc:mysql://db-slave-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
       [index]
         type = LUCENE
       [auth]
@@ -268,120 +248,3 @@ gerritSlave:
       # Only needed, if SSL is enabled.
       #[httpd]
       #  sslKeyPassword = gerrit
-
-
-mysql:
-  # Enabling the installation of the MySQL database will only make sense, if
-  # `mysql` is chosen as a provider under `database.provider`.
-  enabled: true
-
-  image: mysql
-  # The major.minor version of mysql should be the same as for the master database
-  imageTag: 5.5.61
-
-  mysqlRootPassword: big_secret
-  mysqlUser: gerrit
-  mysqlPassword: secret
-
-  livenessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 3
-
-  readinessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 10
-    timeoutSeconds: 1
-    successThreshold: 1
-    failureThreshold: 3
-
-  persistence:
-    enabled: true
-    storageClass: default
-    accessMode: ReadWriteOnce
-    size: 8Gi
-
-  resources:
-    requests:
-      cpu: 250m
-      memory: 1Gi
-    limits:
-      cpu: 250m
-      memory: 1Gi
-
-  configurationFiles:
-    mysql.cnf: |-
-      [mysqld]
-
-      # The following options should not be changed
-      #############################################
-
-      log-bin=/var/lib/mysql/bin.log
-      log-bin-index=/var/lib/mysql/log-bin.index
-      log-error=/var/lib/mysql/error.log
-
-      relay-log=/var/lib/mysql/relay.log
-      relay-log-info-file=/var/lib/mysql/relay-log.info
-      relay-log-index=/var/lib/mysql/relay-log.index
-
-      log-error=/var/lib/mysql/error.log
-      log_slave_updates = 1
-
-      sql_mode="ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
-
-      # Adapt the following changes to your setup
-      ###########################################
-
-      # Should usually set to '1', when running in production. When running the
-      # Gerrit slave in test mode, it has to be set to '0' to be able to initialize
-      # the reviewDB
-      read_only=0
-
-      # The mysql database should not be replicated to avoid to overwrite user data
-      # of the database
-      replicate-ignore-db=mysql
-
-      # Adapt to the binlog format of the Gerrit master's database
-      binlog_format=row
-
-      # Has to be different for each database in the replication setup.
-      server-id=42
-
-      # Add the following options to the config, if using SSL (`mysql.ssl.enabled: true`)
-      # But do not change the values.
-      # ssl-ca=/ssl/ca.pem
-      # ssl-cert=/ssl/server-cert.pem
-      # ssl-key=/ssl/server-key.pem
-
-  initializationFiles:
-    # Do not change or remove this script.
-    initialize_reviewdb.sql: |-
-      CREATE DATABASE reviewdb DEFAULT CHARACTER SET 'utf8';
-      GRANT ALL ON reviewdb.* TO 'gerrit';
-      FLUSH PRIVILEGES;
-
-  service:
-    type: NodePort
-    port: 3306
-
-  ssl:
-    # If enabled, add the required lines to the configuration as described in
-    # `mysql.configurationFiles.mysql.cnf`
-    enabled: false
-    secret: slave-ssl-certs
-    certificates:
-    - name: slave-ssl-certs
-      ca: |-
-        -----BEGIN CERTIFICATE-----
-
-        -----END CERTIFICATE-----
-      cert: |-
-        -----BEGIN CERTIFICATE-----
-
-        -----END CERTIFICATE-----
-      key: |-
-        -----BEGIN RSA PRIVATE KEY-----
-
-        -----END RSA PRIVATE KEY-----
