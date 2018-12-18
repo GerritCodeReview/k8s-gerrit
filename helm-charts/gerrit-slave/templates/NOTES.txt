@@ -23,26 +23,6 @@ can be found here:
 
 https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md
 
-
-{{ if .Values.mysql.enabled -}}
-A mysql database has been deployed and configured to work with the Gerrit slave.
-Note, that the database is not yet initialized with the scheme expected by Gerrit.
-Either use database replication or run the Gerrit-slave in test-mode to create
-the expected schemas.
-{{- end }}
-
-{{ if .Values.database.replication.enabled -}}
-The components to initialize database replication have been deployed. To start
-initialization the Job needs a database dump containing the master's data. Use
-the following command to make the database dump available to the job:
-
-  JOB_POD=$(kubectl get pod -l app=replication-init -o jsonpath="{.items[0].metadata.name}")
-  kubectl cp <PATH_TO_DUMP> ${JOB_POD}:{{ .Values.database.replication.mysql.dbDumpAcceptPath }}
-
-Depending on the size of the database the initialization will take a while. When
-finished the job will shut down.
-{{- end }}
-
 The Gerrit slave is starting up.
 
 {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
