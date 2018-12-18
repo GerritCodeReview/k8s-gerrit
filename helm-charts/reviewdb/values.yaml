@@ -1,0 +1,179 @@
+images:
+  registry:
+    # The registry name must NOT contain a trailing slash
+    name:
+    ImagePullSecret:
+      # Leave blank, if no ImagePullSecret is needed.
+      name: image-pull-secret
+      # If set to false, the gerrit-master chart expects either a ImagePullSecret
+      # with the name configured above to be present on the cluster or that no
+      # credentials are needed.
+      create: false
+      username:
+      password:
+  version: latest
+  imagePullPolicy: Always
+
+
+storageClasses:
+  # Storage class used for storing logs and other pod-specific persisted data
+  default:
+    # If create is set to false, an existing StorageClass with the given
+    # name is expected to exist in the cluster. Setting create to true will
+    # create a storage class with the parameters given below.
+    name: default
+    create: false
+    provisioner: kubernetes.io/aws-ebs
+    reclaimPolicy: Delete
+    # Use the parameters key to set all parameters needed for the provisioner
+    parameters:
+      type: gp2
+      fsType: ext4
+
+
+replication:
+  enabled: false
+
+
+mysql:
+  # Enabling the installation of the MySQL database will only make sense, if
+  # `mysql` is chosen as a provider under `database.provider`.
+  enabled: true
+
+  replication:
+    image: k8sgerrit/mysql-replication-init
+    config:
+      masterHost: mysql.example.com
+      masterPort: 3306
+      masterUser: repl
+      masterPassword: password
+      masterLogFile: mysql-bin.000001
+      masterLogPos: 111
+    dbDumpAcceptPath: /var/data/db/master_dump.sql
+
+  image: mysql
+  # The major.minor version of mysql should be the same as for the master database
+  imageTag: 5.5.61
+
+  mysqlRootPassword: big_secret
+  mysqlUser: gerrit
+  mysqlPassword: secret
+
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+  persistence:
+    enabled: true
+    storageClass: default
+    accessMode: ReadWriteOnce
+    size: 8Gi
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 1Gi
+    limits:
+      cpu: 250m
+      memory: 1Gi
+
+  configurationFiles:
+    common.cnf: |-
+      [mysqld]
+
+      # Name of transaction logs (used for database replication)
+      log-bin=mysql-bin
+      log-bin-index=mysql-bin.index
+      log-error=error.log
+
+      # Adapt to the binlog format of the Gerrit master's database
+      binlog_format=row
+
+      # Add the following options to the config, if using SSL (`mysql.ssl.enabled: true`)
+      # But do not change the values.
+      # ssl-ca=/ssl/ca.pem
+      # ssl-cert=/ssl/server-cert.pem
+      # ssl-key=/ssl/server-key.pem
+
+    # Use only one of the following configuration files, depending on whether
+    # the database deployment should be used as master or as slave, and comment
+    # out the contents of the other one.
+    mysql-master.cnf: |-
+      [mysqld]
+
+      # Adapt the following changes to your setup
+      ###########################################
+
+      # Has to be different for each database in the replication setup.
+      server-id=1
+
+    mysql-slave.cnf: |-
+    #   [mysqld]
+
+    #   # The following options should not be changed
+    #   #############################################
+
+    #   relay-log=/var/lib/mysql/relay.log
+    #   relay-log-info-file=/var/lib/mysql/relay-log.info
+    #   relay-log-index=/var/lib/mysql/relay-log.index
+
+    #   log_slave_updates = 1
+
+    #   sql_mode="ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+    #   # Adapt the following changes to your setup
+    #   ###########################################
+
+    #   # Should usually set to '1', when running in production. When running the
+    #   # Gerrit slave in test mode, it has to be set to '0' to be able to initialize
+    #   # the reviewDB
+    #   read_only=0
+
+    #   # The mysql database should not be replicated to avoid to overwrite user data
+    #   # of the database
+    #   replicate-ignore-db=mysql
+
+    #   # Has to be different for each database in the replication setup.
+    #   server-id=42
+
+  initializationFiles:
+    # Do not change or remove this script.
+    initialize_reviewdb.sql: |-
+      CREATE DATABASE reviewdb DEFAULT CHARACTER SET 'utf8';
+      GRANT ALL ON reviewdb.* TO 'gerrit';
+      FLUSH PRIVILEGES;
+
+  service:
+    type: NodePort
+    port: 3306
+
+  ssl:
+    # If enabled, add the required lines to the configuration as described in
+    # `mysql.configurationFiles.mysql.cnf`
+    enabled: false
+    # Has to be different between multiple instances running in the same cluster
+    secret: ssl-certs
+    certificates:
+    - name: ssl-certs
+      ca: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      cert: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
