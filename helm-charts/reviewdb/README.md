@@ -120,7 +120,7 @@ the mysql-chart can be viewed in the chart's
 |                                            |                                                                                                                                                 | `limits.cpu: 250m`                                                                             |
 |                                            |                                                                                                                                                 | `limits.memory: 1Gi`                                                                           |
 | `mysql.configurationFiles`                 | Add configuration files for MySQL                                                                                                               | `{}` (check the [Configuration files-section](#Configuration-files) for configuration options) |
-| `mysql.initializationFiles`                | Add scripts that are executed, when the database is started the first time                                                                      | `initialize_reviewdb.sql` (Should not be changed)                                              |
+| `mysql.initializationFiles`                | Add scripts that are executed, when the database is started the first time                                                                      | `{}` (check the [Initialization files-section](#Initialization-files) for details)             |
 | `mysql.service.type`                       | Type of the Service used to expose the database                                                                                                 | `NodePort`                                                                                     |
 | `mysql.service.port`                       | The port used to expose the database                                                                                                            | `3306`                                                                                         |
 | `mysql.ssl.enabled`                        | Setup and use SSL for MySQL connections                                                                                                         | `false`                                                                                        |
@@ -176,6 +176,20 @@ ssl-key=/ssl/server-key.pem
 The `mysql-master.cnf`- and `mysql-slave.cnf`-files are mutually exclusive.
 Comment out the contents of the file, that is not needed, depending on installing
 a master or slave database.
+
+##### Initialization files
+
+- `initialize_reviewdb.sql`
+
+Creates a database called 'reviewdb', that can be used by Gerrit for the ReviewDB.
+Leave this file unchanged.
+
+- `create_repl_user.sql`
+
+Creates a user, that can be used for database replication. This user is only needed
+on the master database and only, when the data is supposed to be replicated to
+slaves. To use it, uncomment the code and change the username, password and
+certificate subject as needed.
 
 ## Aditional configuration steps
 
@@ -245,26 +259,6 @@ For the replication to work, the MySQL database master has to be configured
 accordingly and some data about the database state has to be collected. The
 necessary steps are detailed in this section. If it is not planned to replicate
 the master database, skip this section.
-
-#### Create technical user
-
-Connect to the MySQL database master and create a technical user to handle the
-replication:
-
-```sql
-CREATE USER 'repl' IDENTIFIED BY 'password';
-GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'repl'
-  IDENTIFIED BY 'password'
-  REQUIRE SUBJECT '/C=DE/O=Gerrit/CN=gerrit-db-slave';
-FLUSH PRIVILEGES;
-```
-
-The username and password have to be the same as configured in the database slave's
-`values.yaml` under `mysql.replication.config.masterUser` and
-`mysql.replication.config.masterPassword`.
-
-The subject string has to be the same as the one used for the slave's certificate
-signing request. If SSL is not used, omit the subject requirement.
 
 #### Create database dump and note database state
 
