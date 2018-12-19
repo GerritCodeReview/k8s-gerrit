@@ -18,6 +18,9 @@ node('master') {
       sh(script: "./build --gerrit-url ${v}")
     }
   }
+  stage('Test base image') {
+    sh(script: "tests/container-images/base")
+  }
   stage('Clean up') {
       sh(script: '''
         for PREFIX in k8sgerrit gerrit-base base ubuntu; do

@@ -1,0 +1,105 @@
+#!/bin/bash
+
+IS_FAILED=0
+
+source "$(git rev-parse --show-toplevel)/tests/helpers"
+
+before(){
+  cleanup > /dev/null 2>/dev/null
+
+  docker run \
+    --detach \
+    --name base_test \
+    --entrypoint "/bin/bash" \
+    base \
+    -c "
+      useradd gerrit -u 1000 -g users && \
+      tail -f /dev/null
+    "
+}
+
+test_containsGit(){
+  echo "Test: Looking for Git in container"
+
+  docker exec base_test \
+    /bin/bash -c "git --version" > /dev/null
+
+  assert_success $?
+}
+
+test_containsScriptValidateSite(){
+  echo "Test: Looking for script to validate site"
+
+  docker exec base_test \
+    /bin/bash -c "test -f /var/tools/validate_site.sh || exit 1" > /dev/null
+
+  assert_success $?
+}
+
+test_detectsValidFilesystemPermissions(){
+  echo "Test: Testing, whether valid filesystem permissions are detected."
+
+  docker exec base_test \
+    /bin/bash -c "
+      mkdir -p /tmp/test && \
+      chown -R 1000:users /tmp/test && \
+      /var/tools/validate_site.sh /tmp/test 1000 100 && \
+      rm -rf /tmp/test
+    " > /dev/null
+
+  assert_success $?
+}
+
+test_detectsInvalidFilesystemPermissions(){
+  echo "Test: Testing, whether invalid filesystem permissions are detected."
+
+  docker exec base_test \
+    /bin/bash -c "
+      mkdir -p /tmp/test && \
+      /var/tools/validate_site.sh /tmp/test 1000 100 && \
+      rm -rf /tmp/test
+    " > /dev/null
+
+  assert_failure $?
+  #assert_success $?
+}
+
+test_fixesInvalidFilesystemPermissions(){
+  echo "Test: Testing, whether invalid filesystem permissions can be fixed."
+
+  docker exec base_test \
+    /bin/bash -c "
+      mkdir -p /tmp/test && \
+      FIXFS=true /var/tools/validate_site.sh /tmp/test 1000 100 && \
+      /var/tools/validate_site.sh /tmp/test 1000 100 && \
+      rm -rf /tmp/test
+    " > /dev/null
+
+  assert_success $?
+}
+
+cleanup(){
+  docker stop base_test
+  docker rm -f base_test
+}
+
+echo "--- Testing 'base'-container image. ---"
+
+before > /dev/null
+
+# Test container contents
+test_containsGit
+test_containsScriptValidateSite
+
+# Test container scripts
+test_detectsValidFilesystemPermissions
+test_detectsInvalidFilesystemPermissions
+test_fixesInvalidFilesystemPermissions
+
+cleanup > /dev/null
+
+if [[ $IS_FAILED -ne "0" ]]; then
+  exit 1
+else
+  exit 0
+fi
