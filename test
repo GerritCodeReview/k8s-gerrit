@@ -1,0 +1,66 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+TEST_TAG="test"
+NO_CLEANUP="false"
+
+echo ""
+echo "#########################################################################"
+echo "# Building container images"
+echo "#########################################################################"
+echo ""
+
+$SCRIPT_DIR/build --tag $TEST_TAG
+if [ $? -ne 0 ]; then
+  echo "---BUILDS FAILED---"
+  exit 1
+fi
+
+echo ""
+echo "#########################################################################"
+echo "# Testing container images"
+echo "#########################################################################"
+echo ""
+
+CONTAINER_TESTS="$(ls $SCRIPT_DIR/tests/container-images | grep -o ^test_.*)"
+FAILED=0
+
+for test_file in $CONTAINER_TESTS; do
+  echo ""
+  $SCRIPT_DIR/tests/container-images/$test_file
+  num_failed=$?
+  [ $num_failed -ne 0 ] && let "FAILED += $num_failed"
+done
+
+
+if [ $NO_CLEANUP = "false" ]; then
+  echo ""
+  echo "#########################################################################"
+  echo "# Cleaning up container images"
+  echo "#########################################################################"
+  echo ""
+
+  for PREFIX in k8sgerrit gerrit-base base ubuntu; do
+    IMAGES="
+      $(docker images --format '{{.Repository}}:{{.Tag}}' | \
+      grep $PREFIX)"
+    docker rmi -f $IMAGES 2>/dev/null || continue
+    docker rmi -f $(docker images --filter 'dangling=true' -q --no-trunc) \
+      2>/dev/null || continue
+  done
+fi
+
+echo ""
+echo "#########################################################################"
+echo "# Results"
+echo "#########################################################################"
+echo ""
+
+if [ $FAILED -gt 0 ]; then
+  echo "---FAILED---"
+  echo "$FAILED test(s) failed."
+  exit 1
+else
+  echo "---SUCCESS---"
+  echo "All tests passed."
+fi

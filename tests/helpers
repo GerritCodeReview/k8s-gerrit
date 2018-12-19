@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+NUM_FAILED=0
+
+assert_success(){
+  if [ $1 -eq 0 ]; then
+    echo "SUCCESS"
+  else
+    let "NUM_FAILED += 1"
+    echo "FAILED"
+  fi
+}
+
+get_failure_count(){
+  echo $NUM_FAILED
+}
+
+cleanup(){
+  docker stop $1 > /dev/null 2>/dev/null
+}

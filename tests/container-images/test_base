@@ -1,0 +1,64 @@
+#!/bin/bash
+
+CONTAINER_NAME=base_test
+
+source "$(cd "$(dirname "$0")" && pwd)/../helpers"
+
+before(){
+  cleanup $CONTAINER_NAME
+
+  docker run \
+    --detach \
+    --rm=true \
+    --name $CONTAINER_NAME \
+    --entrypoint "/bin/bash" \
+    base \
+    -c "
+      tail -f /dev/null
+    "
+}
+
+test_containsGit(){
+  echo "Test: Looking for Git in container"
+
+  docker exec $CONTAINER_NAME \
+    /bin/bash -c "git --version" > /dev/null
+
+  assert_success $?
+}
+
+test_userGerritExists(){
+  echo "Test: Looking for user Gerrit in container"
+
+  docker exec $CONTAINER_NAME \
+    /bin/bash -c "id -u gerrit" > /dev/null
+
+  assert_success $?
+}
+
+test_userGerritNotRoot(){
+  echo "Test: Gerrit is not a root user"
+
+  docker exec $CONTAINER_NAME \
+    su -c '
+      [ "$(id -u)" -eq 0 ] && exit 1;
+      rm -rf /bin 2>/dev/null && exit 1;
+      exit 0' gerrit > /dev/null
+
+  assert_success $?
+}
+
+echo "--- Testing 'base'-container image. ---"
+
+before > /dev/null
+
+# Test container contents
+test_containsGit
+
+# Test technical user
+test_userGerritExists
+test_userGerritNotRoot
+
+cleanup $CONTAINER_NAME
+
+exit $(get_failure_count)
