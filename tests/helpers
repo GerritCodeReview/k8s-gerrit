@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+assert_success(){
+  if [[ "$1" == 0 ]]; then
+    echo "SUCCESS"
+  else
+    echo "FAILED"
+    IS_FAILED=1
+  fi
+}
+
+assert_failure(){
+  if [[ "$1" != 0 ]]; then
+    echo "SUCCESS"
+  else
+    echo "FAILED"
+    IS_FAILED=1
+  fi
+}
