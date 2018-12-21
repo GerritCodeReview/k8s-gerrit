@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69ee22d2_0a1ae883",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-21T14:18:46Z",
+      "side": 1,
+      "message": "* this is a file, no recursion needed\n* why do we need -f ?",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "290b2ae635a48888c86172d6df1faa6e7eec4db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd79b70_e58f9d54",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-21T14:18:46Z",
+      "side": 1,
+      "message": "same comments as for the master",
+      "revId": "290b2ae635a48888c86172d6df1faa6e7eec4db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
