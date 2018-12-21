@@ -26,7 +26,6 @@ from a Gerrit master to a Gerrit slave.
 * configure Apache for http and/or https
 * install cgi script
 * open ports for incoming traffic
-* create gerrit OS user
 * map volumes
 
 ## Start

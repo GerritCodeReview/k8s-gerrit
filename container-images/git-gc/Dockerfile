@@ -10,9 +10,7 @@ RUN apt-get update && \
 COPY tools/* /var/tools/
 COPY cron/* /var/cron/
 
-ARG GERRIT_UID=1000
-RUN useradd gerrit -u $GERRIT_UID -g users && \
-    mkdir -p /var/log/git && \
+RUN mkdir -p /var/log/git && \
     chown gerrit:users /var/log/git
 
 VOLUME ["/var/gerrit/git"]
