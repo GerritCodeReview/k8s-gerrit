@@ -1,10 +1,16 @@
 FROM base:latest
 
-RUN apt-get update && apt-get -y install curl unzip openjdk-8-jdk
+RUN apt-get update && \
+    apt-get -y install \
+      curl \
+      unzip \
+      openjdk-8-jdk && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/gerrit/bin
-RUN mkdir -p /var/gerrit/etc
-RUN mkdir -p /var/war
+RUN mkdir -p /var/gerrit/bin && \
+    mkdir -p /var/gerrit/etc && \
+    mkdir -p /var/war
 
 # Download Gerrit release
 ARG GERRIT_WAR_URL=https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-2.16/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war
@@ -16,8 +22,8 @@ RUN useradd gerrit -u $GERRIT_UID -g users
 # Allow incoming traffic
 EXPOSE 29418 8080
 
-RUN chown -R gerrit:users /var/gerrit
-RUN chown -R gerrit:users /var/war
+RUN chown -R gerrit:users /var/gerrit && \
+    chown -R gerrit:users /var/war
 USER gerrit
 
 ENTRYPOINT ["/bin/bash", "/var/tools/start"]
