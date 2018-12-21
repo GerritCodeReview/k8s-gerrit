@@ -77,10 +77,6 @@ apache-git-http-backend)
   container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$ENABLE_HTTP" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
   ;;
 
-git-gc)
-  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$ENV"
-  ;;
-
 gerrit-master)
   container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
   ;;
