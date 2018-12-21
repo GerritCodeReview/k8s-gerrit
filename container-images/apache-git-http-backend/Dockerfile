@@ -33,9 +33,6 @@ COPY tools/create_repo.sh /var/cgi/create_repo.sh
 EXPOSE 80
 EXPOSE 443
 
-ARG GERRIT_UID=1000
-RUN useradd gerrit -u $GERRIT_UID -g users
-
 VOLUME ["/var/gerrit/git", "/var/apache/credentials", "/var/log/apache2"]
 
 # Start
