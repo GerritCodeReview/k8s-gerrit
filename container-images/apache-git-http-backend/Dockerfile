@@ -24,9 +24,6 @@ RUN rm -f /etc/apache2/sites-enabled/000-default.conf
 EXPOSE 80
 EXPOSE 443
 
-ARG GERRIT_UID=1000
-RUN useradd gerrit -u $GERRIT_UID -g users
-
 VOLUME ["/var/gerrit/git", "/var/apache/credentials", "/var/log/apache2"]
 
 # Start
