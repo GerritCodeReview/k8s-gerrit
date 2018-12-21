@@ -16,9 +16,6 @@ RUN mkdir -p /var/gerrit/bin && \
 ARG GERRIT_WAR_URL=https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-2.16/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war
 RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
-ARG GERRIT_UID=1000
-RUN useradd gerrit -u $GERRIT_UID -g users
-
 # Allow incoming traffic
 EXPOSE 29418 8080
 

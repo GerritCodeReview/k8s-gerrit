@@ -16,7 +16,6 @@ but directly run `gc-all.sh` in Kubernetes CronJob.
 * install cron
 * copy tools scripts
 * install crontab
-* create gerrit OS user
 * ensure filesystem permissions
 
 ## Start
