@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcdf4060_e0a8e938",
+        "filename": "publish",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-12-21T15:55:33Z",
+      "side": 1,
+      "message": "gerrit-init",
+      "range": {
+        "startLine": 52,
+        "startChar": 96,
+        "endLine": 52,
+        "endChar": 113
+      },
+      "revId": "627573415bbd027ff6909ad65f8191ee33b89a92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
