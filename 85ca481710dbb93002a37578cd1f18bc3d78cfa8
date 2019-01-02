@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d4416052_86462510",
+        "filename": "container-images/gerrit-init/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "This removes the package lists fetched by \u0027apt-get update\u0027. Doing this makes the docker images smaller.\n\nI also added apt-get clean now to further decrease the image size (This command does not include the removal of the package lists).",
+      "parentUuid": "43d3b1a5_e60a7aee",
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b636983_0069a75d",
         "filename": "container-images/gerrit-init/tools/gerrit_init.py",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99654d4d_01511440",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b636983_0069a75d",
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b612808c_b6ab7804",
+        "filename": "container-images/gerrit-init/tools/multioptconfigparser.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b0b23de_270502cf",
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0111c4_7bdfdd7f",
         "filename": "container-images/gerrit-init/tools/read_gerrit_config.py",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "a824aece_c29708ce",
+        "filename": "container-images/gerrit-init/tools/read_gerrit_config.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0111c4_7bdfdd7f",
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7530c578_c2db9e7c",
         "filename": "container-images/gerrit-init/tools/validate_db.py",
         "patchSetId": 9
@@ -84,6 +156,24 @@
       "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b1c2456_4367d242",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7530c578_c2db9e7c",
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -156,6 +246,30 @@
     },
     {
       "key": {
+        "uuid": "801db25d_0d535e70",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16bc57fe_fa66a7de",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 15
+      },
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "017ec782_cac98f68",
         "filename": "helm-charts/gerrit-master/values.yaml",
         "patchSetId": 9
@@ -179,6 +293,30 @@
     },
     {
       "key": {
+        "uuid": "6f440c8a_77903fa3",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "Obsolete, since the custom parser (using the git command line tool) can work with inline comments.",
+      "parentUuid": "017ec782_cac98f68",
+      "range": {
+        "startLine": 122,
+        "startChar": 49,
+        "endLine": 122,
+        "endChar": 53
+      },
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68551c2d_ddd5123a",
         "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
         "patchSetId": 9
@@ -190,6 +328,30 @@
       "writtenOn": "2018-12-21T15:46:12Z",
       "side": 1,
       "message": "didn\u0027t you remove the test mode ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 33,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "85ca481710dbb93002a37578cd1f18bc3d78cfa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f0555e3_d4e70430",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T16:37:43Z",
+      "side": 1,
+      "message": "No, I didn\u0027t. (Maybe I misspoke at one point)\nThe \"test mode\" allows Gerrit to initialize its own site. This is needed, if you want to test the slave, without installing a master first, since then a mysql database has to be initialized. This is not necessary, if a H2-database is used (2.16. and higher).\nFor now I would leave it in the chart.",
+      "parentUuid": "68551c2d_ddd5123a",
       "range": {
         "startLine": 43,
         "startChar": 33,
