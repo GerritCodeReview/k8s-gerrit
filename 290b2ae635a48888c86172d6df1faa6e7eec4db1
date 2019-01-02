@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c32e199_417b20dc",
+        "filename": "helm-charts/gerrit-master/templates/gerrit-master.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T11:32:55Z",
+      "side": 1,
+      "message": "* done\n* -f has to be there, because the file will not always be there. With -f the rm-command does not throw an error, if the file is not existing.",
+      "parentUuid": "69ee22d2_0a1ae883",
+      "range": {
+        "startLine": 37,
+        "startChar": 14,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "290b2ae635a48888c86172d6df1faa6e7eec4db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cd79b70_e58f9d54",
         "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "290b2ae635a48888c86172d6df1faa6e7eec4db1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b58b046_54997ebd",
+        "filename": "helm-charts/gerrit-slave/templates/gerrit-slave.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-02T11:32:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cd79b70_e58f9d54",
+      "revId": "290b2ae635a48888c86172d6df1faa6e7eec4db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
