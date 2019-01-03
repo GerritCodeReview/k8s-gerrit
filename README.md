@@ -69,39 +69,14 @@ the repository:
 ./publish --update-latest <component-name>
 ```
 
-## Running images
 
-Assuming a Gerrit site already exists, is located at `/path/to/gerrit-slave` and
-owned by the `gerrit`-user defined in the docker image (default `UID: 1000`) run
-the following command for each image in the directories containing the respective
-docker image:
+## Running images in Docker
 
-```
-./start /path/to/gerrit-slave <component-name>
-```
-
-The `<component-name>` is one of: `apache-git-http-backend`, `git-gc`,
-`gerrit-slave`, `gerrit-master`, `gerrit-init`.
-
-If a specific version of the image should be used, the `--tag TAG`-option can be
-used to provide the image tag:
-
-```
-./start /path/to/gerrit-slave --tag d4fad48 <component-name>
-```
-
-or define the tag as an env variable:
-
-```
-export TAG=d4fad48
-./start /path/to/gerrit-slave <component-name>
-```
-
-To detach the running container from the shell, use the `--detach`-flag:
-
-```
-./start --detach /path/to/gerrit-slave <component-name>
-```
+The container images are meant to be used by the helm-charts provided in this
+project. The images are thus not designed to be used in a standalone setup. To
+run Gerrit on Docker use the
+[docker-gerrit](https://gerrit-review.googlesource.com/admin/repos/docker-gerrit)
+project.
 
 ## Important notes
 
