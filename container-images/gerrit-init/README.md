@@ -15,7 +15,6 @@ up in a future change.
 
 ## Start
 
-* verify filesystem permissions
 * start the container via start script `/var/tools/start` (definition of
  Entrypoint is inherited from gerrit-base image)
 
