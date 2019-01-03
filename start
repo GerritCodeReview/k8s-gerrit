@@ -2,7 +2,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--registry REGISTRY] [--tag TAG] [--detach] [--enable-http] site component"
+    echo >&2 "Usage: $me [--help] [--registry REGISTRY] [--tag TAG] [--detach] [--enable-http] site component"
     exit 1
 }
 
@@ -27,6 +27,9 @@ export -f create_dir
 
 while test $# -gt 0 ; do
   case "$1" in
+  --help)
+    usage
+    ;;
   --registry)
     shift
     REGISTRY=$1
