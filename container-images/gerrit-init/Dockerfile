@@ -14,4 +14,4 @@ ENV TEST_MODE=
 
 USER gerrit
 
-ENTRYPOINT ["/bin/bash", "-c", "/var/tools/verify_fs_permissions && /var/tools/start"]
+ENTRYPOINT ["/var/tools/start"]
