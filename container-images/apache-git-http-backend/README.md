@@ -18,21 +18,14 @@ from a Gerrit master to a Gerrit slave.
  downported to 2.16
 * `tools/start`: start script, configures and starts Apache
  webserver
-* `start`: start script for testing image using Docker
 
 ## Setup and Configuration
 
 * install Apache webserver
 * configure Apache for http and/or https
 * install cgi script
-* open ports for incoming traffic
 * map volumes
 
 ## Start
 
-* verify filesystem permissions. In Kubernetes this is done using a
- [SecurityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
- It is used to set the filesystem group of mounted volumes to 100 (users),
- which is used by the gerrit-user in the containers. Thereby it is ensured
- that the volumes have rw-permissions for the gerrit-user.
-* start Apache git-http backend  via start script `/var/tools/start`
+* start Apache git-http backend via start script `/var/tools/start`
