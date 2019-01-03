@@ -73,9 +73,6 @@ fi
 docker rm ${NAME} >/dev/null 2>&1
 
 case "$NAME" in
-apache-git-http-backend)
-  container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$ENABLE_HTTP" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"
-  ;;
 
 gerrit-master)
   container-images/$NAME/start "$MODE" "$NAME" "$SITE" "$REGISTRY" "$TAG" "$OWNER_UID" "$OWNER_GID" "$ENV"

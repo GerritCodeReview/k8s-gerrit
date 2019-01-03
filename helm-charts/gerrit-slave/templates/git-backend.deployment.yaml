@@ -27,19 +27,15 @@ spec:
       - name: apache-git-http-backend
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         image: {{ template "registry" . }}{{ .Values.gitBackend.image }}:{{ .Values.images.version }}
-        command:
-        - bin/bash
-        - -c
-        args:
-        - |
-          {{ if eq .Values.gitBackend.service.https.enabled false -}}
-          rm /etc/apache2/sites-enabled/git-https-backend.conf
-          {{- end }}
-          {{ if eq .Values.gitBackend.service.http.enabled false -}}
-          rm /etc/apache2/sites-enabled/git-http-backend.conf
-          {{- end }}
-          /etc/init.d/apache2 start \
-            && tail -F -q -n +1 /var/log/apache2/*.log
+        env:
+        {{ if eq .Values.gitBackend.service.https.enabled false -}}
+        - name: DISABLE_HTTPS
+          value: "true"
+        {{- end }}
+        {{ if eq .Values.gitBackend.service.http.enabled false -}}
+        - name: DISABLE_HTTP
+          value: "true"
+        {{- end }}
         ports:
         - containerPort: 80
         - containerPort: 443
