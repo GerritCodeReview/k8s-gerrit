@@ -2,7 +2,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--update-latest] [--registry REGISTRY] --tag TAG [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--update-latest] [--registry REGISTRY] --tag TAG [IMAGE]"
     exit 1
 }
 
@@ -10,6 +10,9 @@ UPDATE_LATEST=false
 
 while test $# -gt 0 ; do
   case "$1" in
+  --help)
+    usage
+    ;;
   --update-latest)
     UPDATE_LATEST=true
     shift
