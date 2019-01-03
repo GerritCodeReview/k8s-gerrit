@@ -55,39 +55,6 @@ spec:
       - name: gerrit-master
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritMaster }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command:
-        - /bin/bash
-        - -c
-        args:
-        - |
-          symlink_config_to_site(){
-            {{ if .Values.gerritMaster.keystore -}}
-            ln -s /var/keystore /var/gerrit/etc/keystore
-            {{- end }}
-            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
-            ln -sf /var/config/replication.config /var/gerrit/etc/replication.config
-          }
-
-          mkdir -p /var/gerrit/etc
-          symlink_config_to_site
-
-          java -jar /var/war/gerrit.war init \
-              --batch \
-              --install-plugin replication \
-              --install-plugin commit-message-length-validator \
-              --install-plugin download-commands \
-              --install-plugin reviewnotes \
-              -d /var/gerrit
-
-          symlink_config_to_site
-
-          java -jar /var/gerrit/bin/gerrit.war reindex \
-              -d /var/gerrit
-
-          /var/gerrit/bin/gerrit.sh start
-
-          tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -110,7 +77,7 @@ spec:
           subPath: secure.config
         {{ if .Values.gerritMaster.keystore -}}
         - name: gerrit-master-secure-config
-          mountPath: "/var/keystore"
+          mountPath: "/var/config/keystore"
           subPath: keystore
         {{- end }}
         resources:
