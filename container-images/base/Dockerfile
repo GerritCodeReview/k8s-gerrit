@@ -8,5 +8,3 @@ RUN apt-get update && \
 
 ARG GERRIT_UID=1000
 RUN useradd gerrit -u $GERRIT_UID -g users
-
-COPY tools/* /var/tools/
