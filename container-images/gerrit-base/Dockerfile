@@ -23,4 +23,9 @@ RUN chown -R gerrit:users /var/gerrit && \
     chown -R gerrit:users /var/war
 USER gerrit
 
+RUN java -jar /var/gerrit/bin/gerrit.war init \
+      --batch \
+      --no-auto-start \
+      -d /var/gerrit
+
 ENTRYPOINT ["/bin/bash", "/var/tools/start"]
