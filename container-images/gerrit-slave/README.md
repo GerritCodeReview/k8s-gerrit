@@ -17,4 +17,6 @@ Image for Gerrit slave
 ## Start
 
 * starts the container via start script `/var/tools/start`
- (Entrypoint is inherited from gerrit-base image)
+(Entrypoint is inherited from gerrit-base image)
+* If configuration files (`gerrit.config`, `secret.config`, and `keystore`) are
+provide in `/var/config`, they will be symlinked into the Gerrit site.
