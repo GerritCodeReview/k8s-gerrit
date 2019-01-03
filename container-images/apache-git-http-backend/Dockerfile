@@ -3,8 +3,7 @@ FROM base:latest
 # Install apache2
 RUN apt-get update && \
     apt-get -y install \
-      apache2  \
-      apache2-utils && \
+      apache2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     a2enmod \
@@ -26,14 +25,13 @@ RUN ln -s \
 RUN sed -i -e 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=gerrit/' /etc/apache2/envvars && \
     sed -i -e 's/APACHE_RUN_GROUP=www-data/APACHE_RUN_GROUP=users/' /etc/apache2/envvars
 
-COPY tools/* /var/tools/
+COPY tools/start /var/tools/start
 COPY tools/create_repo.sh /var/cgi/create_repo.sh
 
-# Allow incoming traffic
-EXPOSE 80
-EXPOSE 443
-
-VOLUME ["/var/gerrit/git", "/var/apache/credentials", "/var/log/apache2"]
+RUN mkdir -p /var/gerrit/git && \
+    mkdir -p /var/log/apache2 && \
+    chown -R gerrit:users /var/gerrit/git && \
+    chown -R gerrit:users /var/log/apache2
 
 # Start
-ENTRYPOINT ["/bin/bash", "-c", "/var/tools/verify_fs_permissions && /var/tools/start"]
+ENTRYPOINT ["/var/tools/start"]
