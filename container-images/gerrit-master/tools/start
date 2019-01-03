@@ -1,26 +1,20 @@
 #!/bin/bash
 
-gerrit_uid=$(id -u)
-gerrit_gid=$(cut -d: -f3 < <(getent group users))
+symlink_config_to_site(){
+    mkdir -p /var/gerrit/etc
+    for file in keystore gerrit.config secure.config replication.config; do
+        test -f /var/config/$file && \
+            ln -sf /var/config/$file /var/gerrit/etc/$file
+    done
+}
 
-for dir in /var/gerrit/*; do
-  /var/tools/validate_site.sh $dir $gerrit_uid $gerrit_gid || exit 1
-done
-
-/var/gerrit/bin/gerrit.sh check >/dev/null
-if [[ $? -eq 1 ]]; then
-    echo "Performing Gerrit site initialization..."
-    java -jar /var/gerrit/bin/gerrit.war init \
-        --batch \
-        -d /var/gerrit
-fi
+# Ensure that configuration provided at /var/config is symlinked to the Gerrit
+# site. This is necessary, because mounting files from secrets/configmaps in
+# Kubernetes make the containing directory read-only.
+symlink_config_to_site
 
 java -jar /var/gerrit/bin/gerrit.war reindex \
     -d /var/gerrit
 
-git config -f /var/gerrit/etc/gerrit.config --add \
-    container.javaOptions "-Djava.security.egd=file:/dev/./urandom"
-
 /var/gerrit/bin/gerrit.sh start
-
 tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
