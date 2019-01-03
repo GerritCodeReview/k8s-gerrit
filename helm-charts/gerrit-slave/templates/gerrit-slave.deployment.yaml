@@ -24,6 +24,31 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
+      {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
+      # Initialize the emptyDir containing the whole Gerrit-site with defaults
+      # Not needed, when running in test mode, since then the configured site will
+      # be initialized
+      - name: populate-gerrit-site-volume
+        image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/bash
+        - -ce
+        args:
+        - |
+          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
+            java -jar /var/war/gerrit.war init \
+              --batch \
+              --no-auto-start \
+              --install-plugin singleusergroup \
+              -d /var/gerrit
+          fi
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+        - name: gerrit-db
+          mountPath: "/var/gerrit/db"
+      {{- end }}
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
