@@ -2,12 +2,16 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--tag TAG] [--gerrit-url URL] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--tag TAG] [--gerrit-url URL] [IMAGE]"
     exit 1
 }
 
 while test $# -gt 0 ; do
   case "$1" in
+  --help)
+    usage
+    ;;
+
   --tag)
     shift
     TAG=$1
