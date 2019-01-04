@@ -27,7 +27,7 @@ FAILED=0
 
 for test_file in $CONTAINER_TESTS; do
   echo ""
-  $SCRIPT_DIR/tests/container-images/$test_file
+  $SCRIPT_DIR/tests/container-images/$test_file $TEST_TAG
   num_failed=$?
   [ $num_failed -ne 0 ] && let "FAILED += $num_failed"
 done

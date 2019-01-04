@@ -1,0 +1,171 @@
+#!/bin/bash
+
+TAG=$1 && shift
+CONTAINER_NAME=apache-git-http-backend_test
+WORKDIR=$(cd "$(dirname "$0")" && pwd)
+HTTP_PORT=38080
+HTTPS_PORT=38443
+
+source "$WORKDIR/../helpers"
+
+createMockCredentials(){
+  mkdir -p $WORKDIR/tmp
+  echo 'git:$apr1$CZrRScob$D71iwHXZmccpf27IeF1Op/' > $WORKDIR/tmp/.htpasswd
+  openssl genrsa -des3 -passout pass:secret \
+    -out $WORKDIR/tmp/server.pass.key 2048
+  openssl rsa -passin pass:secret -in $WORKDIR/tmp/server.pass.key \
+    -out $WORKDIR/tmp/server.key
+  openssl req -new -key $WORKDIR/tmp/server.key \
+    -out $WORKDIR/tmp/server.csr -subj "/C=DE/O=Gerrit/CN=localhost"
+  openssl x509 -req -days 365 -in $WORKDIR/tmp/server.csr \
+    -signkey $WORKDIR/tmp/server.key \
+    -out $WORKDIR/tmp/server.crt
+}
+
+prepareMockRepository(){
+  export GIT_DIR=$WORKDIR/tmp/repo/.git
+  git init $WORKDIR/tmp/repo
+  touch $WORKDIR/tmp/repo/README.md
+  git checkout -b master
+  git add README.md
+  git commit -m 'test'
+}
+
+cleanMockRepository(){
+  unset GIT_DIR
+  rm -rf $WORKDIR/tmp/repo
+}
+
+createRemoteRepository(){
+  REPO_NAME=$(openssl rand -base64 6)
+  RESULT="$(curl $CURL_FLAGS $PROTOCOL://git:secret@localhost:$PORT/new/$REPO_NAME.git)"
+  echo $(echo "$RESULT" | cut -d' ' -f2)
+}
+
+toggleSSL(){
+  CURL_FLAGS="-s --fail"
+  if [ $1 = "https" ]; then
+    CURL_FLAGS="$CURL_FLAGS -k --ssl-reqd"
+    PROTOCOL="https"
+    PORT="$HTTPS_PORT"
+  else
+    PROTOCOL="http"
+    PORT="$HTTP_PORT"
+  fi
+}
+
+before(){
+  cleanup $CONTAINER_NAME
+  createMockCredentials 2>/dev/null
+  docker run \
+    --detach \
+    --rm=true \
+    --name $CONTAINER_NAME \
+    -v $WORKDIR/tmp:/var/apache/credentials \
+    -p $HTTP_PORT:80 \
+    -p $HTTPS_PORT:443 \
+    k8sgerrit/apache-git-http-backend:$TAG
+  sleep 10
+}
+
+test_connection(){
+  toggleSSL $1
+  echo "Test: Connection via $PROTOCOL"
+  curl $CURL_FLAGS $PROTOCOL://localhost:$PORT > /dev/null
+  assert_success $?
+}
+
+test_createNewRepo(){
+  toggleSSL $1
+  echo "Test: Create new repository via $PROTOCOL"
+  RESULT="$(createRemoteRepository)"
+  [ $RESULT = "201" ]
+  assert_success $?
+}
+
+test_createNewRepoWithoutCredentials(){
+  toggleSSL http
+  echo "Test: Create new repository without credentials"
+  curl $CURL_FLAGS $PROTOCOL://localhost:$PORT/new/test2.git
+  assert_failure $?
+}
+
+test_createNewRepoFalsePermissions(){
+  toggleSSL http
+  echo "Test: Create new repository with false permissions"
+  docker exec $CONTAINER_NAME \
+    /bin/bash -c "chown -R root:root /var/gerrit/git" > /dev/null
+  RESULT="$(createRemoteRepository)"
+  [ $RESULT = "400" ]
+  assert_success $?
+  docker exec $CONTAINER_NAME \
+    /bin/bash -c "chown -R gerrit:users /var/gerrit/git" > /dev/null
+}
+
+test_pushRepo(){
+  toggleSSL $1
+  echo "Test: Pushing git repository via $PROTOCOL"
+  prepareMockRepository 2>/dev/null > /dev/null
+  docker exec $CONTAINER_NAME \
+    su -c "git init --bare /var/gerrit/git/repo.git" gerrit > /dev/null
+  git remote add origin $PROTOCOL://git:secret@localhost:$PORT/git/repo.git
+  git push --set-upstream origin master 2>/dev/null > /dev/null
+  assert_success $?
+  docker exec $CONTAINER_NAME \
+    /bin/bash -c "rm -rf /var/gerrit/git/repo.git" > /dev/null
+  cleanMockRepository
+}
+
+test_disable_protocol(){
+  local disabled=$1
+  if [ $disabled = "http" ]; then
+    local enabled="https"
+  elif [ $disabled = "https" ]; then
+    local enabled="http"
+  else
+    echo "Unknown Protocol"
+    exit 1
+  fi
+
+  echo "Test: Disable $disabled"
+  cleanup $CONTAINER_NAME
+  docker run \
+    --detach \
+    --rm=true \
+    --name $CONTAINER_NAME \
+    -e "DISABLE_$(echo $disabled | tr '[:lower:]' '[:upper:]')=true" \
+    -v $WORKDIR/tmp:/var/apache/credentials \
+    -p $HTTP_PORT:80 \
+    -p $HTTPS_PORT:443 \
+    k8sgerrit/apache-git-http-backend:$TAG
+  sleep 10
+
+  toggleSSL $disabled
+  curl $CURL_FLAGS $PROTOCOL://git:secret@localhost:$PORT/new/test.git > /dev/null
+  assert_failure $?
+  toggleSSL $enabled
+  curl $CURL_FLAGS $PROTOCOL://git:secret@localhost:$PORT/new/test.git > /dev/null
+  assert_success $?
+
+  cleanup $CONTAINER_NAME
+}
+
+echo "--- Testing 'apache-git-http-backend'-container image. ---"
+
+before > /dev/null
+
+test_connection http
+test_connection https
+test_createNewRepo http
+test_createNewRepo https
+test_createNewRepoWithoutCredentials
+test_createNewRepoFalsePermissions
+test_pushRepo http
+test_pushRepo https
+test_disable_protocol http
+test_disable_protocol https
+
+cleanup $CONTAINER_NAME
+rm -rf $WORKDIR/tmp
+
+exit $(get_failure_count)

@@ -11,6 +11,15 @@ assert_success(){
   fi
 }
 
+assert_failure(){
+  if [ $1 -ne 0 ]; then
+    echo "SUCCESS"
+  else
+    let "NUM_FAILED += 1"
+    echo "FAILED"
+  fi
+}
+
 get_failure_count(){
   echo $NUM_FAILED
 }
