@@ -142,3 +142,34 @@ Persistent Volumes available using
 
 * Install a [MySQL slave](helm-charts/gerrit-slave/docs/mysqld.md)
 * Install a [Gerrit slave](helm-charts/gerrit-slave/README.md)
+
+# Running tests
+
+The tests are implemented using Python and `pytest`. To be able to run tests,
+some requirements have to be installed by running:
+
+```sh
+pip3 install -r requirements.txt
+```
+
+To run all tests, execute:
+
+```sh
+pytest
+```
+
+To run specific tests, execute one of the following:
+
+```sh
+# Run all tests in a directory (including subdirectories)
+pytest tests/container-images/base
+
+# Run all tests in a file
+pytest tests/container-images/base/test_container_build_base.py
+
+# Run a specific test
+pytest tests/container-images/base/test_container_build_base.py::test_build_base
+```
+
+For a more detailed description of how to use `pytest`, refer to the
+[official documentation](https://docs.pytest.org/en/latest/contents.html).
