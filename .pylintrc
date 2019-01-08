@@ -1,5 +1,8 @@
 [MESSAGES CONTROL]
-disable=C0111
+disable=C0111, W0621
+
+[BASIC]
+no-docstring-rgx=(test_.*)|(__.*__)
 
 [FORMAT]
 indent-string='  '

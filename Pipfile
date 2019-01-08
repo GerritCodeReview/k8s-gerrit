@@ -1,0 +1,14 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+docker = "~=3.5.1"
+gitpython = "~=2.1.11"
+pytest = "~=4.1"
+
+[requires]
+python_version = "3.7"
