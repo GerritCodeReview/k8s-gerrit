@@ -117,3 +117,45 @@ Persistent Volumes available using
 
 * Install a [MySQL slave](helm-charts/gerrit-slave/docs/mysqld.md)
 * Install a [Gerrit slave](helm-charts/gerrit-slave/README.md)
+
+# Running tests
+
+The tests are implemented using Python and `pytest`. To ensure a well-defined
+test-environment, `pipenv` is meant to be used to install packages and provide a
+virtual environment in which to run the tests. To install pipenv, use `brew`:
+
+```sh
+brew install pipenv
+```
+
+More detailed information can be found in the
+[pipenv GitHub repo](https://github.com/pypa/pipenv).
+
+To create the virtual environment with all required packages, run:
+
+```sh
+pipenv install
+```
+
+To run all tests, execute:
+
+```sh
+pipenv run pytest
+```
+
+To run specific tests, execute one of the following:
+
+```sh
+# Run all tests in a directory (including subdirectories)
+pipenv run pytest tests/container-images/base
+
+# Run all tests in a file
+pipenv run pytest tests/container-images/base/test_container_build_base.py
+
+# Run a specific test
+pipenv run \
+  pytest tests/container-images/base/test_container_build_base.py::test_build_base
+```
+
+For a more detailed description of how to use `pytest`, refer to the
+[official documentation](https://docs.pytest.org/en/latest/contents.html).

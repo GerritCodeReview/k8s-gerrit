@@ -4,3 +4,4 @@
 /helm-charts/*/requirements.lock
 
 __pycache__
+.pytest_cache
