@@ -1,3 +1,5 @@
+# pylint: disable=W0613
+
 # Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,3 +55,7 @@ def docker_build(docker_client):
 @pytest.fixture(scope="session")
 def base_image(container_images, docker_build):
   return docker_build(container_images["base"], "base")
+
+@pytest.fixture(scope="session")
+def gitgc_image(container_images, docker_build, base_image):
+  return docker_build(container_images["git-gc"], "git-gc")
