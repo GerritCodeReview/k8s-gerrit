@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30815950_ea1961e8",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-09T15:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fb071ba_c0997aad",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 6
+      },
+      "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9106fcce_322ab2e0",
         "filename": "container-images/gerrit-init/tools/gerrit_init.py",
         "patchSetId": 14
@@ -39,6 +63,24 @@
       "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3391fb_82210138",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-09T15:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9106fcce_322ab2e0",
+      "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "b6cb82f7_7ff2c196",
+        "filename": "container-images/gerrit-init/tools/git_config_parser.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-09T15:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b9d5114_d6740868",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 26
+      },
+      "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bfe7557_6a3522e0",
         "filename": "container-images/gerrit-init/tools/validate_db.py",
         "patchSetId": 14
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "6959787a_c3a4326d",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-09T15:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bfe7557_6a3522e0",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 15
+      },
+      "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba7ce3b8_62b16773",
         "filename": "container-images/gerrit-init/tools/validate_db.py",
         "patchSetId": 14
@@ -108,6 +198,30 @@
       "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54cee6d7_cff543ff",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-09T15:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba7ce3b8_62b16773",
+      "range": {
+        "startLine": 91,
+        "startChar": 26,
+        "endLine": 91,
+        "endChar": 38
+      },
+      "revId": "fe8eaa7f59cda808c2aabf23afe2786937f35ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
