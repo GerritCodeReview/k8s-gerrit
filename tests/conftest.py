@@ -55,5 +55,9 @@ def base_image(container_images, docker_build):
   return docker_build(container_images["base"], "base")
 
 @pytest.fixture(scope="session")
+def gerrit_base_image(container_images, docker_build, base_image):
+  return docker_build(container_images["gerrit-base"], "gerrit-base")
+
+@pytest.fixture(scope="session")
 def gitgc_image(container_images, docker_build, base_image):
   return docker_build(container_images["git-gc"], "git-gc")
