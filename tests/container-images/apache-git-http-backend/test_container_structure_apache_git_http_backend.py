@@ -1,26 +1,3 @@
-import pytest
-
-@pytest.fixture(scope="module")
-def container_run(request, docker_client, apache_git_http_backend_image):
-  print("Starting apache-git-http-backend-container...")
-  container_run = docker_client.containers.run(
-    image = apache_git_http_backend_image.id,
-    entrypoint = "/bin/bash",
-    command = ["-c", "tail -f /dev/null"],
-    user = "gerrit",
-    detach = True,
-    auto_remove = True
-  )
-
-  def stop_container():
-    print("Stopping apache-git-http-backend-container...")
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
-
-
 def test_apache_git_http_backend_contains_git(container_run):
   exit_code, _ = container_run.exec_run(
     "which git"
