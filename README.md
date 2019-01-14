@@ -158,6 +158,16 @@ To run all tests, execute:
 pytest
 ```
 
+Some tests will need to create files in a temporary directory. Some of these
+files will be mounted into docker containers by tests. For this to work make
+either sure that the system temporary ddirectory is accessible by the Docker
+daemon or set the base temporary directory to a directory accessible by Docker
+by executing:
+
+```sh
+pytest --basetemp=/tmp/k8sgerrit
+```
+
 To run specific tests, execute one of the following:
 
 ```sh
