@@ -12,29 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pytest
-
-@pytest.fixture(scope="module")
-def container_run(request, docker_client, apache_git_http_backend_image):
-  print("Starting apache-git-http-backend-container...")
-  container_run = docker_client.containers.run(
-    image = apache_git_http_backend_image.id,
-    entrypoint = "/bin/bash",
-    command = ["-c", "tail -f /dev/null"],
-    user = "gerrit",
-    detach = True,
-    auto_remove = True
-  )
-
-  def stop_container():
-    print("Stopping apache-git-http-backend-container...")
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
-
-
 def test_apache_git_http_backend_inherits_from_base(apache_git_http_backend_image):
   containsTag = False
   for layer in apache_git_http_backend_image.history():
