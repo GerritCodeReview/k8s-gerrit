@@ -19,6 +19,21 @@ import git
 import os
 import pytest
 
+# Base images that are not published and thus only tagged with "latest"
+BASE_IMGS = ["base", "gerrit-base"]
+DOCKER_ORG = "k8sgerrit"
+
+def pytest_addoption(parser):
+  parser.addoption(
+    "--tag", action="store", default=None,
+    help="Tag of cached container images to test. Missing images will be built." +
+         "(default: All container images will be built)"
+  )
+
+@pytest.fixture(scope="session")
+def tag_of_cached_container(request):
+  return request.config.getoption("--tag")
+
 @pytest.fixture(scope="session")
 def docker_client():
   return docker.from_env()
@@ -39,14 +54,25 @@ def container_images(repository_root):
   return image_paths
 
 @pytest.fixture(scope="session")
-def docker_build(docker_client):
+def docker_build(docker_client, tag_of_cached_container):
 
-  def docker_build(image, tag):
+  def docker_build(image, name):
+    image_name = "%s:latest" % name
+    if tag_of_cached_container:
+      if name not in BASE_IMGS:
+        image_name = "%s:%s" % (name, tag_of_cached_container)
+        if DOCKER_ORG:
+          image_name = "%s/%s" % (DOCKER_ORG, image_name)
+      try:
+        return docker_client.images.get(image_name)
+      except:
+        print("Image %s could not be loaded. Building it now." % image_name)
+
     build = docker_client.images.build(
         path=image,
         nocache=True,
         rm=True,
-        tag=tag
+        tag=image_name
       )
     return build[0]
 
