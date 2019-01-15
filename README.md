@@ -171,6 +171,13 @@ created by docker. To enable the cache, execute:
 pipenv run pytest --build-cache
 ```
 
+Slow tests may be marked with the decorator `@pytest.mark.slow`. These tests
+may then be skipped as follows:
+
+```sh
+pipenv run pytest --skip-slow
+```
+
 To run specific tests, execute one of the following:
 
 ```sh
