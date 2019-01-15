@@ -110,3 +110,9 @@ def apache_git_http_backend_image(container_images, docker_build, base_image):
   return docker_build(
     container_images["apache-git-http-backend"],
     "apache-git-http-backend")
+
+@pytest.fixture(scope="session")
+def mysql_replication_init_image(container_images, docker_build):
+  return docker_build(
+    container_images["mysql-replication-init"],
+    "mysql-replication-init")
