@@ -168,6 +168,17 @@ by executing:
 pytest --basetemp=/tmp/k8sgerrit
 ```
 
+By default the tests will build all images from scratch. This will greatly
+increase the time needed for testing. To use already existing container images,
+a tag can be provided as follows:
+
+```sh
+pytest --tag=v0.1
+```
+
+The tests will then use the existing images with the provided tag. If an image
+does not exist, it will still be built by the tests.
+
 To run specific tests, execute one of the following:
 
 ```sh
