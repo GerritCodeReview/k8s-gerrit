@@ -179,6 +179,13 @@ pytest --tag=v0.1
 The tests will then use the existing images with the provided tag. If an image
 does not exist, it will still be built by the tests.
 
+By default the build of the container images will not use the build cache
+created by docker. To enable the cache, execute:
+
+```sh
+pytest --build-cache
+```
+
 To run specific tests, execute one of the following:
 
 ```sh
