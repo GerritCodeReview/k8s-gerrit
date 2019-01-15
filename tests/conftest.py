@@ -13,6 +13,10 @@ def pytest_addoption(parser):
     help="Tag of chached container images to test. Missing images will be built." +
          "(default: All container images will be built)"
   )
+  parser.addoption(
+    "--build-cache", action="store_true",
+    help="Whether to use the docker cache, when building container images."
+  )
 
 @pytest.fixture(scope="session")
 def tag_of_cached_container(request):
@@ -38,7 +42,7 @@ def container_images(repository_root):
   return image_paths
 
 @pytest.fixture(scope="session")
-def docker_build(docker_client, tag_of_cached_container):
+def docker_build(request, docker_client, tag_of_cached_container):
 
   def docker_build(image, name):
     image_name = "%s:latest" % name
@@ -52,9 +56,11 @@ def docker_build(docker_client, tag_of_cached_container):
       except:
         print("Image %s could not be loaded. Building it now." % image_name)
 
+    no_cache = not request.config.getoption("--build-cache")
+
     build = docker_client.images.build(
         path=image,
-        nocache=True,
+        nocache=no_cache,
         rm=True,
         tag=image_name
       )
