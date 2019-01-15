@@ -31,6 +31,17 @@ def pytest_addoption(parser):
     "--build-cache", action="store_true",
     help="If set, the docker cache will be used when building container images."
   )
+  parser.addoption(
+    "--skip-slow", action="store_true",
+    help="If set, skip slow tests."
+  )
+
+def pytest_collection_modifyitems(config, items):
+  if config.getoption("--skip-slow"):
+    skip_slow = pytest.mark.skip(reason="--skip-slow was set.")
+    for item in items:
+      if "slow" in item.keywords:
+        item.add_marker(skip_slow)
 
 @pytest.fixture(scope="session")
 def tag_of_cached_container(request):
