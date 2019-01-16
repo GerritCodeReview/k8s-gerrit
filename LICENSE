@@ -226,6 +226,11 @@ Copyright (c) 2008-2017 Assurance Technologies, LLC.
 All rights reserved. \
 3-Clause BSD License (https://passlib.readthedocs.io/en/stable/copyright.html)
 
+PyMySQL \
+https://github.com/PyMySQL/PyMySQL \
+Copyright (c) 2010, 2013 PyMySQL contributors \
+MIT License (https://github.com/PyMySQL/PyMySQL/blob/master/LICENSE)
+
 pyOpenSSL \
 https://github.com/pyca/pyopenssl \
 Copyright (c) 2001 The pyOpenSSL developers \
@@ -240,6 +245,12 @@ Requests \
 https://github.com/requests/requests \
 Copyright 2018 Kenneth Reitz \
 Apache 2 license (https://github.com/requests/requests/blob/master/LICENSE)
+
+SQLAlchemy \
+https://www.sqlalchemy.org \
+Copyright (c) 2005-2019 Michael Bayer and contributors.
+SQLAlchemy is a trademark of Michael Bayer. \
+MIT License (https://docs.sqlalchemy.org/en/latest/copyright.html)
 
 ---
 ## The MIT License (MIT)
