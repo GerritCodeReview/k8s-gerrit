@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "93afa239ed3bd403789f0372de7573ca0023b2606bacbf43c8e1e9ba4a215a14"
+            "sha256": "0846e9a9aef5b2f7259a108da4fc05f8a52c4c43f8680d44b923a61388874bb9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -185,6 +185,14 @@
             ],
             "version": "==2.19"
         },
+        "pymysql": {
+            "hashes": [
+                "sha256:3943fbbbc1e902f41daf7f9165519f140c4451c179380677e6a848587042561a",
+                "sha256:d8c059dcd81dedb85a9f034d5e22dcb4442c0b201908bede99e306d65ea7c8e7"
+            ],
+            "index": "pypi",
+            "version": "==0.9.3"
+        },
         "pyopenssl": {
             "hashes": [
                 "sha256:26ff56a6b5ecaf3a2a59f132681e2a80afcc76b4f902f612f518f92c2a1bf854",
@@ -222,6 +230,13 @@
                 "sha256:29a9ffa0497e7f2be94ca0ed1ca1aa3cd4cf25a1f6b4f5f87f74b46ed91d609a"
             ],
             "version": "==2.0.5"
+        },
+        "sqlalchemy": {
+            "hashes": [
+                "sha256:6af3ca2f7f00844465ab4fa78337d487b39e53f516c51328aed4ed3a719d4264"
+            ],
+            "index": "pypi",
+            "version": "==1.2.16"
         },
         "urllib3": {
             "hashes": [
