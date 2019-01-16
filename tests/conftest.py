@@ -29,6 +29,18 @@ def pytest_collection_modifyitems(config, items):
       if "slow" in item.keywords:
         item.add_marker(skip_slow)
 
+def pytest_runtest_makereport(item, call):
+    if "incremental" in item.keywords:
+        if call.excinfo is not None:
+            parent = item.parent
+            parent._previousfailed = item
+
+def pytest_runtest_setup(item):
+    if "incremental" in item.keywords:
+        previousfailed = getattr(item.parent, "_previousfailed", None)
+        if previousfailed is not None:
+            pytest.xfail("previous test failed (%s)" % previousfailed.name)
+
 @pytest.fixture(scope="session")
 def tag_of_cached_container(request):
   return request.config.getoption("--tag")
@@ -78,6 +90,20 @@ def docker_build(request, docker_client, tag_of_cached_container):
     return build[0]
 
   return docker_build
+
+@pytest.fixture(scope="session")
+def docker_network(request, docker_client):
+  network = docker_client.networks.create(
+    name = "k8sgerrit-test-network",
+    scope = "local"
+  )
+
+  def remove_network():
+    network.remove()
+
+  request.addfinalizer(remove_network)
+
+  return network
 
 @pytest.fixture(scope="session")
 def base_image(container_images, docker_build):
