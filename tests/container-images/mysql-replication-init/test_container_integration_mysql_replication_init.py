@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 
 import os.path
 import pytest
+import re
 import time
 
 MYSQL_HOST = "k8sgerrit-mysql"
@@ -125,10 +126,8 @@ class TestMysqlInitScript(object):
     init_container.exec_run(cmd)
     timeout = time.time() + 20
     while time.time() < timeout:
-      logs = [
-        line.strip() for line in init_container.logs().decode("utf-8").splitlines()
-      ]
-      if "done" in logs:
+      logs = init_container.logs().decode("utf-8")
+      if re.search(r"Database dump received", logs):
         break
     assert timeout > time.time()
 
