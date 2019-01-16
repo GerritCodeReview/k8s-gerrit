@@ -124,6 +124,11 @@ def apache_git_http_backend_image(container_images, docker_build, base_image):
     "apache-git-http-backend")
 
 @pytest.fixture(scope="session")
+def gerrit_master_image(container_images, docker_build,
+    base_image, gerrit_base_image):
+  return docker_build(container_images["gerrit-master"], "gerrit-master")
+
+@pytest.fixture(scope="session")
 def mysql_replication_init_image(container_images, docker_build):
   return docker_build(
     container_images["mysql-replication-init"],
