@@ -13,24 +13,18 @@ getTimeFromLastChange() {
     echo ${timePassed}
 }
 
-while test -z ${FINISHED}; do
-    sleep 5
-    if [ -f ${FILEPATH} ]; then
-        FINISHED="true"
-    fi
-    echo "Waiting for database dump file at ${FILEPATH}"
+echo "$(date): Started"
+echo "Waiting for database dump file at ${FILEPATH}"
+while ! test -f ${FILEPATH}; do
+    sleep 1
 done
+echo "$(date): File appeared"
 
-while [ true ]; do
-    lastChange=$(getTimeFromLastChange ${FILEPATH})
-    if [ "${lastChange}" -lt 5 ]; then
-        echo "waiting"
-        sleep 1
-    else
-        echo "done"
-        break
-    fi
+echo "Waiting for the copy process to finish."
+while [ "$(getTimeFromLastChange ${FILEPATH})" -lt 5 ]; do
+    sleep 1
 done
+echo "$(date): Database dump received"
 
 # Load database dump into database
 mysql -h ${MYSQL_HOST} -P${MYSQL_PORT} -u root -p${MYSQL_ROOT_PASSWORD} < ${FILEPATH}
