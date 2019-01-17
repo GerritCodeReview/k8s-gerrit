@@ -22,6 +22,30 @@
       "revId": "8d9eff4acda18965211a805f09a3e5db9bb815e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bad815f_50ea66d3",
+        "filename": "tests/conftest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-17T12:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a16d488_49fe3ea0",
+      "range": {
+        "startLine": 13,
+        "startChar": 17,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "8d9eff4acda18965211a805f09a3e5db9bb815e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
