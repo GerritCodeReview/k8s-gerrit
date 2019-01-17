@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "35ea9000_6451f6af",
+        "filename": "requirements.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-17T12:35:54Z",
+      "side": 1,
+      "message": "I wasn\u0027t really happy with the solution as well. Pipenv looks like a good solution. Using virtualenv is anyway good practice. I haven\u0027t used it yet, but will look into it.",
+      "parentUuid": "c821ddc7_89138165",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d12685b_e17fdbcf",
         "filename": "tests/conftest.py",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07a0254_82f620b8",
+        "filename": "tests/conftest.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-17T12:35:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d12685b_e17fdbcf",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c7f90b82_de97feb8",
+        "filename": "tests/container-images/base/test_container_build_base.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-17T12:35:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91e2e245_6beb4383",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b97380a_839f2527",
         "filename": "tests/container-images/base/test_container_structure_base.py",
         "patchSetId": 9
@@ -67,6 +121,24 @@
       "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac83ee67_4d9422ad",
+        "filename": "tests/container-images/base/test_container_structure_base.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-17T12:35:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b97380a_839f2527",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
