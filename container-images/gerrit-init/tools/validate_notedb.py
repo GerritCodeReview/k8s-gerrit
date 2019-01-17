@@ -30,7 +30,7 @@ class NoteDbValidator:
 
         self.notedb_repos = ["All-Projects.git", "All-Users.git"]
         self.required_refs = {
-            "All-Projects.git": ["refs/meta/config"],
+            "All-Projects.git": ["refs/meta/config", "refs/meta/version"],
             "All-Users.git": ["refs/meta/config"],
         }
 

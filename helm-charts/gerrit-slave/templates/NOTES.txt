@@ -25,17 +25,6 @@ https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resourc
 
 The Gerrit slave is starting up.
 
-{{ if .Values.gerritSlave.initializeTestSite.enabled -}}
-Since the test-mode was activated, a Gerrit site will be initialized after the
-database connection could be established.
-{{- else }}
-The deployment will wait for the replication of repositories and the databse scheme.
-The repository replication is checked by testing for the presence of the 'All-Projects.git'-
-and 'All-Users.git'-repository. The database-scheme is tested by testing for the
-presence of a database with the configured name, containing the tables 'accounts',
-'changes' and 'patch_sets'.
-{{- end }}
-
 The initialization process may take some time. Afterwards the git repositories
 will be available under:
 

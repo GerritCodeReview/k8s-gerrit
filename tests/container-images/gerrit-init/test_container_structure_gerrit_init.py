@@ -24,23 +24,14 @@ def container_run(docker_client, container_endless_run_factory, gerrit_init_imag
 
 @pytest.fixture(
     scope="function",
-    params=[
-        "/var/tools/gerrit_init.py",
-        "/var/tools/git_config_parser.py",
-        "/var/tools/validate_db.py",
-    ],
+    params=["/var/tools/gerrit_init.py", "/var/tools/git_config_parser.py"],
 )
 def expected_script(request):
     return request.param
 
 
-@pytest.fixture(scope="function", params=["python3", "pip3", "mysql"])
+@pytest.fixture(scope="function", params=["python3"])
 def expected_tool(request):
-    return request.param
-
-
-@pytest.fixture(scope="function", params=["pymysql", "sqlalchemy"])
-def expected_pip_package(request):
     return request.param
 
 
@@ -62,13 +53,6 @@ def test_gerrit_init_contains_expected_scripts(container_run, expected_script):
 
 def test_gerrit_init_contains_expected_tools(container_run, expected_tool):
     exit_code, _ = container_run.exec_run("which %s" % expected_tool)
-    assert exit_code == 0
-
-
-def test_gerrit_init_contains_expected_pip_packages(
-    container_run, expected_pip_package
-):
-    exit_code, _ = container_run.exec_run("pip3 show %s" % expected_pip_package)
     assert exit_code == 0
 
 
