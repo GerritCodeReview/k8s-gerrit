@@ -63,7 +63,7 @@ fi
 
 if test $# -eq 0 ; then
     docker_build_gerrit_base
-    for IMAGE in apache-git-http-backend gerrit-master gerrit-slave git-gc mysql-replication-init gerrit-init; do
+    for IMAGE in apache-git-http-backend gerrit-master gerrit-slave git-gc gerrit-init; do
         docker_build $IMAGE
     done
 else
