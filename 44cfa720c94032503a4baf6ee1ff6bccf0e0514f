@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e276bd27_da361e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "we should discuss with Sasa where we store the review flag, is H2 ok or do we need a real database or something completely different (maybe we can use etcd ?)",
+      "range": {
+        "startLine": 14,
+        "startChar": 46,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7462be2f_ce809d22",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "the name of the service exposing the database deployment may be used as a hostname",
+      "range": {
+        "startLine": 194,
+        "startChar": 65,
+        "endLine": 195,
+        "endChar": 29
+      },
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63c45b76_91def5d3",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "rephrase this sentence",
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa05cbd_c144b655",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "an embedded H2-database",
+      "range": {
+        "startLine": 41,
+        "startChar": 60,
+        "endLine": 41,
+        "endChar": 73
+      },
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c5f25d_eed481d0",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "rephrase in the same way like in the master value.yaml",
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "568d0e84_aa0f072a",
+        "filename": "helm-charts/reviewdb/.helmignore",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63d43d9d_378a02fd",
+        "filename": "helm-charts/reviewdb/Chart.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "provisions",
+      "range": {
+        "startLine": 4,
+        "startChar": 15,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc7aef60_05a9ecea",
+        "filename": "helm-charts/reviewdb/Chart.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "if Gerrit version \u003c 2.16",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 15
+      },
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dab26911_4dee0763",
+        "filename": "helm-charts/reviewdb/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:52Z",
+      "side": 1,
+      "message": "isslave and mention that replication will be configured if this is a slave",
+      "range": {
+        "startLine": 76,
+        "startChar": 3,
+        "endLine": 76,
+        "endChar": 22
+      },
+      "revId": "44cfa720c94032503a4baf6ee1ff6bccf0e0514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
