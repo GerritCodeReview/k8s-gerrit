@@ -3,7 +3,6 @@ FROM base:latest
 RUN apt-get update && \
     apt-get -y install \
       curl \
-      unzip \
       openjdk-8-jdk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

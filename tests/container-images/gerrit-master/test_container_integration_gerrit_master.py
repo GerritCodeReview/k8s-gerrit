@@ -37,9 +37,6 @@ def config_files(tmp_path_factory):
       [gerrit]
         basePath = git
 
-      [database]
-        type = H2
-
       [httpd]
         listenUrl = http://*:8081
 

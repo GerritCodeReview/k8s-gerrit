@@ -129,9 +129,6 @@ gerritMaster:
   # automatic encoding using helm does not work here.
   keystore:
 
-  reviewdb:
-    enabled: false
-
   config:
     # Some values are expected to have a specific value for the deployment installed
     # by this chart to work. These are marked with `# FIXED`.

@@ -4,6 +4,11 @@ Gerrit is a web-based code review tool, which acts as a Git server. This helm
 chart provides a Gerrit setup that can be deployed on Kubernetes.
 In addition, the chart provides a CronJob to perform Git garbage collection.
 
+***note
+Gerrit versions before 3.0 are no longer supported, since the usage of ReviewDB
+was deprecated.
+***
+
 ## Prerequisites
 
 - Helm and Tiller (of course)
@@ -29,11 +34,6 @@ In addition, the chart provides a CronJob to perform Git garbage collection.
 - (Optional: Required, if SSL is configured)
   A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
   to be used by Gerrit.
-
-- (Optional: Required, for Gerrit versions lower than 2.16)
-  A relational database to contain the ReviewDB, e.g. as provided by the
-  [reviewdb chart](/helm-charts/reviewdb). With Gerrit 2.16 an embedded H2-
-  database is usually enough, since the data is not changed during runtime.
 
 ## Installing the Chart
 
@@ -197,17 +197,6 @@ intended with the chart:
 - `gerrit.canonicalWebUrl`
 
     The canonical web URL has to be set to the Ingress host.
-
-- `database.*`
-
-    If the database is installed in the same Kubernetes cluster, the name of the
-    service exposing the database deployment may be used as a hostname.
-
-    With newer versions of the MySQL-driver used by Gerrit, using SSL-encrypted
-    communication with the database is enforced by default. This can be deactivated
-    by setting the `useSSL=false`-option. To do that in Gerrit, the database-URL
-    has to be provided manually:
-    `url = jdbc:mysql://<db-host>:<db-port>/<db-name>?nullNamePatternMatchesAll=true&useSSL=false`
 
 - `httpd.listenURL`
 

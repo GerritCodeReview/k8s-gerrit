@@ -63,8 +63,6 @@ gerritSlave:
         basePath = git
         serverId = gerrit-slave-1
         canonicalWebUrl = http://slave.gerrit
-      [database]
-        type = h2
       [index]
         type = LUCENE
       [auth]
@@ -88,8 +86,3 @@ gerritSlave:
         javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
         javaOptions = -Xms300m
         javaOptions = -Xmx300m
-
-    secure: |-
-      [database]
-        username = gerrit
-        password = secret
