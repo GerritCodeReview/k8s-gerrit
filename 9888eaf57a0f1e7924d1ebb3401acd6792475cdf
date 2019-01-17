@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93c160ff_b8da9877",
+        "filename": "tests/conftest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T02:52:33Z",
+      "side": 1,
+      "message": "nit: unnecessary comma",
+      "range": {
+        "startLine": 18,
+        "startChar": 47,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "9888eaf57a0f1e7924d1ebb3401acd6792475cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f05a23c_13c8ae44",
+        "filename": "tests/conftest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T02:52:33Z",
+      "side": 1,
+      "message": "maybe I\u0027m missing something, but how does this new parameter get added on calls to docker_build?",
+      "range": {
+        "startLine": 45,
+        "startChar": 17,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "9888eaf57a0f1e7924d1ebb3401acd6792475cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
