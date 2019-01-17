@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c821ddc7_89138165",
+        "filename": "requirements.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T02:58:02Z",
+      "side": 1,
+      "message": "This is pinning the top level required packages to explicit versions, but it\u0027s possible that those have dependencies that don\u0027t have explicit versions. In this case there is the possibility that different versions of those dependencies get installed on subsequent builds.\n\nTo avoid this we could manage the dependencies with pipenv [1], which will pin the entire set of dependencies to explicit versions.\n\n[1] https://pipenv.readthedocs.io/en/latest/",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d12685b_e17fdbcf",
+        "filename": "tests/conftest.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T02:58:02Z",
+      "side": 1,
+      "message": "License/copyright header?",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e2e245_6beb4383",
+        "filename": "tests/container-images/base/test_container_build_base.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T02:58:02Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b97380a_839f2527",
+        "filename": "tests/container-images/base/test_container_structure_base.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-01-17T02:58:02Z",
+      "side": 1,
+      "message": "Missing header.",
+      "revId": "90f3bfa34e61ba1cfe73aa70337cf0a221b69c27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
