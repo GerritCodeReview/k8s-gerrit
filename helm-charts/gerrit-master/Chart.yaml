@@ -8,7 +8,7 @@ description: |-
 
     [1](https://en.wikipedia.org/wiki/Gerrit_(software)
 name: gerrit-master
-version: 0.1.0
+version: 0.2.0
 maintainers:
 - name: Thomas Draebing
   email: thomas.draebing@sap.com

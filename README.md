@@ -86,10 +86,6 @@ Therefore, make sure that `container.javaHome` is set to that path in the `gerri
   javaHome = /usr/lib/jvm/java-8-openjdk-amd64/jre
 ```
 
-The mysql-replication-init docker image is only required for setting up the Gerrit
-slave on Kubernetes. If deploying the Gerrit slave outside of Kubernetes, it can
-be ignored.
-
 # Helm Charts
 
 These Helm charts can be used to install a Gerrit cluster consisting of a
@@ -110,12 +106,10 @@ Persistent Volumes available using
 
 ## Gerrit Master
 
-* Install a [MySQL master](helm-charts/gerrit-master/docs/mysqld.md)
 * Install a [Gerrit master](helm-charts/gerrit-master/README.md)
 
 ## Gerrit Slave
 
-* Install a [MySQL slave](helm-charts/gerrit-slave/docs/mysqld.md)
 * Install a [Gerrit slave](helm-charts/gerrit-slave/README.md)
 
 # Running tests

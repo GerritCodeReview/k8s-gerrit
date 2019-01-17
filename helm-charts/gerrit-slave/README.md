@@ -10,6 +10,11 @@ This helm chart provides a Gerrit slave setup that can be deployed on Kubernetes
 The Gerrit slave is capable of receiving replicated git repositories from a
 Gerrit master. The Gerrit slave can then serve authenticated read-only requests.
 
+***note
+Gerrit versions before 3.0 are no longer supported, since the usage of ReviewDB
+was deprecated.
+***
+
 ## Prerequisites
 
 - Helm and Tiller (of course)
@@ -36,11 +41,6 @@ Gerrit master. The Gerrit slave can then serve authenticated read-only requests.
   A [Java keystore](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.sslKeyStore)
   to be used by Gerrit.
 
-- (Optional: Required, for Gerrit versions lower than 2.16)
-  A relational database to contain the ReviewDB, e.g. as provided by the
-  [reviewdb chart](/helm-charts/reviewdb). With Gerrit 2.16 an embedded H2-
-  database is usually enough, since the data is not changed during runtime.
-
 ## Installing the Chart
 
 ***note
@@ -62,11 +62,11 @@ The command deploys the Gerrit slave on the current Kubernetes cluster. The
 [configuration section](#Configuration) lists the parameters that can be
 configured during installation.
 
-If the NoteDB is used, he Gerrit slave requires the replicated `All-Projects.git`-
-and `All-Users.git`-repositories to be present in the `/var/gerrit/git`-directory.
-The `gerrit-init`-InitContainer will wait for this being the case. A way to do
-this is to access the Gerrit slave pod and to clone the repositories from the
-Gerrit master (Makesure that you have the correct access rights do so.):
+The Gerrit slave requires the replicated `All-Projects.git`- and `All-Users.git`-
+repositories to be present in the `/var/gerrit/git`-directory. The `gerrit-init`-
+InitContainer will wait for this being the case. A way to do this is to access
+the Gerrit slave pod and to clone the repositories from the Gerrit master (Make
+sure that you have the correct access rights do so.):
 
 ```sh
 kubectl exec -it <gerrit-slave-pod> -c gerrit-init bash
@@ -191,30 +191,30 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to the Gerrit slave is required!
 ***
 
-| Parameter                                   | Description                                                                                                              | Default                           |
-|---------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritSlave.images.gerritInit`             | Image name of the Gerrit init container image                                                                            | `k8s-gerrit/gerrit-init`          |
-| `gerritSlave.images.gerritSlave`            | Image name of the Gerrit slave container image                                                                           | `k8s-gerrit/gerrit-slave`         |
-| `gerritSlave.replicas`                      | Number of pod replicas to deploy                                                                                         | `1`                               |
-| `gerritSlave.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number                                       | `25%`                             |
-| `gerritSlave.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                                                    | `100%`                            |
-| `gerritSlave.initializeTestSite.enabled`    | Enable the initialization of a site. USE ONLY for testing, if you do not plan to replicate repositories or the database. | `true`                            |
-| `gerritSlave.resources`                     | Configure the amount of resources the pod requests/is allowed                                                            | `requests.cpu: 1`                 |
-|                                             |                                                                                                                          | `requests.memory: 5Gi`            |
-|                                             |                                                                                                                          | `limits.cpu: 1`                   |
-|                                             |                                                                                                                          | `limits.memory: 6Gi`              |
-| `gerritSlave.persistence.enabled`           | Whether to persist the Gerrit site                                                                                       | `true`                            |
-| `gerritSlave.persistence.size`              | Storage size for persisted Gerrit site                                                                                   | `10Gi`                            |
-| `gerritSlave.service.type`                  | Which kind of Service to deploy                                                                                          | `NodePort`                        |
-| `gerritSlave.service.http.port`             | Port over which to expose HTTP                                                                                           | `80`                              |
-| `gerritSlave.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                                        | `nil`                             |
-| `gerritSlave.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                                                   | `nil`                             |
-| `gerritSlave.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                                         | `false`                           |
-| `gerritSlave.ingress.tls.cert`              | Public SSL server certificate                                                                                            | `-----BEGIN CERTIFICATE-----`     |
-| `gerritSlave.ingress.tls.key`               | Private SSL server certificate                                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |
-| `gerritSlave.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL                          | `nil`                             |
-| `gerritSlave.config.gerrit`                 | The contents of the gerrit.config                                                                                        | [see here](#Gerrit-config-files)  |
-| `gerritSlave.config.secure`                 | The contents of the secure.config                                                                                        | [see here](#Gerrit-config-files)  |
+| Parameter                                   | Description                                                                                              | Default                           |
+|---------------------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------|
+| `gerritSlave.images.gerritInit`             | Image name of the Gerrit init container image                                                            | `k8s-gerrit/gerrit-init`          |
+| `gerritSlave.images.gerritSlave`            | Image name of the Gerrit slave container image                                                           | `k8s-gerrit/gerrit-slave`         |
+| `gerritSlave.replicas`                      | Number of pod replicas to deploy                                                                         | `1`                               |
+| `gerritSlave.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number                       | `25%`                             |
+| `gerritSlave.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                                    | `100%`                            |
+| `gerritSlave.initializeTestSite.enabled`    | Enable the initialization of a site. USE ONLY for testing, if you do not plan to replicate repositories. | `true`                            |
+| `gerritSlave.resources`                     | Configure the amount of resources the pod requests/is allowed                                            | `requests.cpu: 1`                 |
+|                                             |                                                                                                          | `requests.memory: 5Gi`            |
+|                                             |                                                                                                          | `limits.cpu: 1`                   |
+|                                             |                                                                                                          | `limits.memory: 6Gi`              |
+| `gerritSlave.persistence.enabled`           | Whether to persist the Gerrit site                                                                       | `true`                            |
+| `gerritSlave.persistence.size`              | Storage size for persisted Gerrit site                                                                   | `10Gi`                            |
+| `gerritSlave.service.type`                  | Which kind of Service to deploy                                                                          | `NodePort`                        |
+| `gerritSlave.service.http.port`             | Port over which to expose HTTP                                                                           | `80`                              |
+| `gerritSlave.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                        | `nil`                             |
+| `gerritSlave.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                                   | `nil`                             |
+| `gerritSlave.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                         | `false`                           |
+| `gerritSlave.ingress.tls.cert`              | Public SSL server certificate                                                                            | `-----BEGIN CERTIFICATE-----`     |
+| `gerritSlave.ingress.tls.key`               | Private SSL server certificate                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerritSlave.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL          | `nil`                             |
+| `gerritSlave.config.gerrit`                 | The contents of the gerrit.config                                                                        | [see here](#Gerrit-config-files)  |
+| `gerritSlave.config.secure`                 | The contents of the secure.config                                                                        | [see here](#Gerrit-config-files)  |
 
 ### Gerrit config files
 
@@ -243,17 +243,6 @@ work as intended:
 - `gerrit.canonicalWebUrl`
 
     The canonical web URL has to be set to the Ingress host.
-
-- `database.*`
-
-    If the database is installed in the same Kubernetes cluster, the name of the
-    service exposing the database deployment may be used as a hostname.
-
-    With newer versions of the MySQL-driver used by Gerrit, using SSL-encrypted
-    communication with the database is enforced by default. This can be deactivated
-    by setting the `useSSL=false`-option. To do that in Gerrit, the database-URL
-    has to be provided manually:
-    `url = jdbc:mysql://<db-host>:<db-port>/<db-name>?nullNamePatternMatchesAll=true&useSSL=false`
 
 - `httpd.listenURL`
 

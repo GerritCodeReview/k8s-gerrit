@@ -10,13 +10,9 @@ WORKDIR /var/tools
 
 RUN apt-get update && \
     apt-get install -y \
-      mysql-client \
-      python3 \
-      python3-pip && \
+      python3 && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip3 install pipenv && \
-    pipenv install --system
+    rm -rf /var/lib/apt/lists/*
 
 USER gerrit
 

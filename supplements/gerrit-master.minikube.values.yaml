@@ -45,8 +45,6 @@ gerritMaster:
         basePath = git
         serverId = gerrit-master-1
         canonicalWebUrl = http://master.gerrit
-      [database]
-        type = h2
       [index]
         type = LUCENE
       [auth]
@@ -71,10 +69,6 @@ gerritMaster:
         javaOptions = -Xmx300m
 
     secure: |-
-      [database]
-        username = gerrit
-        password = secret
-
       [remote "slave"]
         username = git
         password = secret

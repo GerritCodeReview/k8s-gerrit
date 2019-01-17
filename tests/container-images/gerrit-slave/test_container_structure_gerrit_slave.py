@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import re
-
 import pytest
 
 @pytest.fixture(scope="module")
@@ -24,7 +22,7 @@ def container_run(docker_client, container_endless_run_factory, gerrit_slave_ima
 
 
 @pytest.fixture(scope="function",
-                params=["/var/tools/start", "/var/tools/download_db_driver"])
+                params=["/var/tools/start"])
 def expected_script(request):
   return request.param
 
@@ -43,13 +41,6 @@ def test_gerrit_slave_contains_expected_scripts(container_run, expected_script):
 def test_gerrit_slave_contains_initialized_gerrit_site(container_run):
   exit_code, _ = container_run.exec_run("/var/gerrit/bin/gerrit.sh check")
   assert exit_code == 3
-
-def test_gerrit_slave_contains_downloaded_mysql_driver(container_run):
-  exit_code, output = container_run.exec_run(
-    "find /var/gerrit/lib -name 'mysql-connector-java-*.jar'")
-  output = output.decode("utf-8").strip()
-  assert exit_code == 0
-  assert re.match(r"/var/gerrit/lib/mysql-connector-java-.*\.jar", output)
 
 def test_gerrit_slave_gerrit_is_configured_slave(container_run):
   exit_code, output = container_run.exec_run(
