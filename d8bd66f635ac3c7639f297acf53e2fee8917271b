@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecb26098_e8beada7",
+        "filename": "LICENSE",
+        "patchSetId": 16
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-01-17T13:38:20Z",
+      "side": 1,
+      "message": "we don\u0027t need multiple copies of the same license text. Separate this in the following way:\n\nList of dependencies:\n\ncomponent-A name\nsource code URL\nCopyright\nLicense\n\nList of license texts:\n- one copy of each license used",
+      "revId": "d8bd66f635ac3c7639f297acf53e2fee8917271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
