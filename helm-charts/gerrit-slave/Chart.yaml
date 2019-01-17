@@ -1,11 +1,11 @@
 apiVersion: v1
-appVersion: 2.12
+appVersion: 3.0.1
 description: |-
     The Gerrit slave serves as a read-only Gerrit instance to serve repositories
     that it receives from a Gerrit master instance via replication. It can be
     used to reduce the load on Gerrit master instances.
 name: gerrit-slave
-version: 0.1.0
+version: 0.2.0
 maintainers:
 - name: Thomas Draebing
   email: thomas.draebing@sap.com

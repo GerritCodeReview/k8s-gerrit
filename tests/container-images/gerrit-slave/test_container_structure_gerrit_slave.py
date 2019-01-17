@@ -35,7 +35,7 @@ def container_run(request, docker_client, gerrit_slave_image):
   return container_run
 
 @pytest.fixture(scope="function",
-                params=["/var/tools/start", "/var/tools/download_db_driver"])
+                params=["/var/tools/start"])
 def expected_script(request):
   return request.param
 
@@ -54,13 +54,6 @@ def test_gerrit_slave_contains_expected_scripts(container_run, expected_script):
 def test_gerrit_slave_contains_initialized_gerrit_site(container_run):
   exit_code, _ = container_run.exec_run("/var/gerrit/bin/gerrit.sh check")
   assert exit_code == 3
-
-def test_gerrit_slave_contains_downloaded_mysql_driver(container_run):
-  exit_code, output = container_run.exec_run(
-    "find /var/gerrit/lib -name 'mysql-connector-java-*.jar'")
-  output = output.decode("utf-8").strip()
-  assert exit_code == 0
-  assert re.match(r"/var/gerrit/lib/mysql-connector-java-.*\.jar", output)
 
 def test_gerrit_slave_gerrit_is_configured_slave(container_run):
   exit_code, output = container_run.exec_run(

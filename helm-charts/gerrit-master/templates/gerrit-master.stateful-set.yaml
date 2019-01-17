@@ -70,9 +70,6 @@ spec:
           fi
 
           /var/tools/gerrit_init.py \
-            {{- if .Values.gerritMaster.reviewdb.enabled }}
-            --reviewdb \
-            {{- end }}
             -s /var/gerrit \
             -p replication \
             -p commit-message-length-validator \
@@ -80,8 +77,6 @@ spec:
             -p reviewnotes
 
           symlink_config_to_site
-
-          /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
