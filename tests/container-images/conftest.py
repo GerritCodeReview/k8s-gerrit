@@ -13,67 +13,8 @@
 # limitations under the License.
 
 import os.path
-import time
-
-from sqlalchemy import create_engine
-from sqlalchemy.exc import SQLAlchemyError
 
 import pytest
-
-class MySQLContainer():
-
-  def __init__(self, docker_client, docker_network, mysql_config):
-    self.docker_client = docker_client
-    self.docker_network = docker_network
-    self.mysql_config = mysql_config
-
-    self.mysql_container = None
-
-  def _wait_for_db_connection(self):
-    connection = None
-    while connection is None:
-      try:
-        connection = self.connect()
-        continue
-      except SQLAlchemyError:
-        time.sleep(1)
-    connection.close()
-
-  def connect(self):
-    engine = create_engine(
-      "mysql+pymysql://root:%s@localhost:%s" % (
-        self.mysql_config["MYSQL_ROOT_PASSWORD"],
-        self.mysql_config["MYSQL_PORT"]))
-    return engine.connect()
-
-  def start(self):
-    self.mysql_container = self.docker_client.containers.run(
-      image="mysql:5.5.61",
-      environment={
-        "MYSQL_ROOT_PASSWORD": self.mysql_config["MYSQL_ROOT_PASSWORD"],
-        "MYSQL_DATABASE": "reviewdb"
-      },
-      ports={
-        "3306": self.mysql_config["MYSQL_PORT"]
-      },
-      network=self.docker_network.name,
-      name=self.mysql_config["MYSQL_HOST"],
-      detach=True,
-      auto_remove=True
-    )
-
-    self._wait_for_db_connection()
-
-  def stop(self):
-    self.mysql_container.stop(timeout=1)
-
-@pytest.fixture(scope="session")
-def mysql_container_factory():
-  def get_mysql_container(docker_client, docker_network, mysql_config):
-    return MySQLContainer(docker_client, docker_network, mysql_config)
-
-  return get_mysql_container
-
 
 class GerritContainer():
 

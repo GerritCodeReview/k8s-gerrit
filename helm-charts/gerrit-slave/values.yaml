@@ -147,9 +147,8 @@ gerritSlave:
   maxUnavailable: 100%
 
   # If you only intend to test the Gerrit slave and do not wish to actually
-  # replicate repositories and the database, activate this option to initialize
-  # a new site.
-  # NOTE: The database must not run in read-only mode for this to work!
+  # replicate repositories, activate this option to initialize a new site,
+  # including a notedb.
   initializeTestSite:
     enabled: true
 
@@ -191,9 +190,6 @@ gerritSlave:
   # Since Java keystores are binary files, adding the unencoded content and
   # automatic encoding using helm does not work here.
   keystore:
-
-  reviewdb:
-    enabled: false
 
   config:
     # Some values are expected to have a specific value for the deployment installed
