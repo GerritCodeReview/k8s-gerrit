@@ -8,22 +8,10 @@ symlink_config_to_site(){
   done
 }
 
-create_missing_repository(){
-  test -d $1 || git init --bare $1
-}
-
 # Ensure that configuration provided at /var/config is symlinked to the Gerrit
 # site. This is necessary, because mounting files from secrets/configmaps in
 # Kubernetes make the containing directory read-only.
 symlink_config_to_site
-
-create_missing_repository /var/gerrit/git/All-Projects.git
-create_missing_repository /var/gerrit/git/All-Users.git
-
-DB=$(git config --file /var/gerrit/etc/gerrit.config --get database.type)
-if [[ "${DB^^}" == "MYSQL" ]]; then
-  /var/tools/download_db_driver
-fi
 
 # workaround gerrit.sh does not start httpd
 JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)

@@ -147,9 +147,8 @@ gerritSlave:
   maxUnavailable: 100%
 
   # If you only intend to test the Gerrit slave and do not wish to actually
-  # replicate repositories and the database, activate this option to initialize
-  # a new site.
-  # NOTE: The database must not run in read-only mode for this to work!
+  # replicate repositories, activate this option to initialize a new site,
+  # including a notedb.
   initializeTestSite:
     enabled: true
 
@@ -207,8 +206,6 @@ gerritSlave:
         # cluster.
         canonicalWebUrl = http://example.com/
         disableReverseDnsLookup = true
-      [database]
-        type = h2
       [index]
         type = LUCENE
       [auth]
@@ -237,12 +234,6 @@ gerritSlave:
         javaOptions = -Xmx4g
 
     secure: |-
-      # Database credentials should be the same as configured for the database
-      # Gerrit-slave chart, if the database was installed using the chart.
-      [database]
-        username = gerrit
-        password = secret
-
       # Password for the keystore added as value for 'gerritSlave.keystore'
       # Only needed, if SSL is enabled.
       #[httpd]

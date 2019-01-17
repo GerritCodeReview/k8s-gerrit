@@ -22,16 +22,14 @@ import time
 
 from git_config_parser import GitConfigParser
 from log import get_logger
-from validate_db import select_db
 
 LOG = get_logger("init")
 
 class GerritInit():
 
-  def __init__(self, site, wanted_plugins, enable_reviewdb):
+  def __init__(self, site, wanted_plugins):
     self.site = site
     self.wanted_plugins = set(wanted_plugins)
-    self.enable_reviewdb = enable_reviewdb
 
     self.gerrit_config = self._parse_gerrit_config()
     self.is_slave = self._is_slave()
@@ -44,10 +42,6 @@ class GerritInit():
       return GitConfigParser(gerrit_config_path)
 
     return None
-
-  def _ensure_database_connection(self):
-    database = select_db(self.site)
-    database.wait_for_db_server()
 
   def _is_slave(self):
     if self.gerrit_config:
@@ -112,8 +106,6 @@ class GerritInit():
 
     if self.gerrit_config:
       LOG.info("Existing gerrit.config found.")
-      if self.enable_reviewdb:
-        self._ensure_database_connection()
     else:
       LOG.info("No gerrit.config found. Initializing default site.")
 
@@ -157,13 +149,7 @@ if __name__ == "__main__":
     dest="wanted_plugins",
     action="append",
     default=list())
-  parser.add_argument(
-    "-d",
-    "--reviewdb",
-    help="Whether a reviewdb is part of the Gerrit installation.",
-    dest="reviewdb",
-    action="store_true")
   args = parser.parse_args()
 
-  init = GerritInit(args.site, args.wanted_plugins, args.reviewdb)
+  init = GerritInit(args.site, args.wanted_plugins)
   init.execute()
