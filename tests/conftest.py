@@ -145,6 +145,11 @@ def gerrit_master_image(container_images, docker_build,
   return docker_build(container_images["gerrit-master"], "gerrit-master")
 
 @pytest.fixture(scope="session")
+def gerrit_slave_image(container_images, docker_build,
+    base_image, gerrit_base_image):
+  return docker_build(container_images["gerrit-slave"], "gerrit-slave")
+
+@pytest.fixture(scope="session")
 def mysql_replication_init_image(container_images, docker_build):
   return docker_build(
     container_images["mysql-replication-init"],
