@@ -22,6 +22,30 @@
       "revId": "67191d7cbcf8c1e39aebae7afd9d0af339a938fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6b232c2_fd655cfd",
+        "filename": "helm-charts/reviewdb/README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-22T08:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ef2cd7a_106f3c10",
+      "range": {
+        "startLine": 95,
+        "startChar": 86,
+        "endLine": 95,
+        "endChar": 98
+      },
+      "revId": "67191d7cbcf8c1e39aebae7afd9d0af339a938fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
