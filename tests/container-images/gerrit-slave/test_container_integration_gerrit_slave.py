@@ -1,4 +1,4 @@
-# pylint: disable=W0613
+# pylint: disable=W0613, E1101
 
 # Copyright (C) 2018 The Android Open Source Project
 #
@@ -19,11 +19,12 @@ from glob import glob
 import os
 import os.path
 import re
-import time
 
 import git
 import pytest
 import requests
+
+import utils
 
 CONFIG_FILES = ["gerrit.config", "secure.config"]
 
@@ -148,13 +149,12 @@ class TestGerritSlaveH2(object):
     return request.param
 
   def test_gerrit_slave_gerrit_starts_up(self, container_run_h2):
-    timeout = time.time() + 60
-    while time.time() < timeout:
-      last_log_line = container_run_h2.logs().decode("utf-8")
-      if re.search(r"Gerrit Code Review .+ ready", last_log_line):
-        break
-      time.sleep(2)
-    assert timeout > time.time()
+    def wait_for_gerrit_start():
+      log = container_run_h2.logs().decode("utf-8")
+      return log, re.search(r"Gerrit Code Review .+ ready", log)
+
+    finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
+    assert finished_in_time
 
   def test_gerrit_slave_custom_gerrit_config_available(
       self, container_run_h2, config_file_to_test):
@@ -183,15 +183,16 @@ class TestGerritSlaveH2(object):
 
 @pytest.mark.slow
 def test_gerrit_slave_downloads_mysql_driver(container_run_mysql, tmp_dir):
-  timeout = time.time() + 20
-  while time.time() < timeout:
+
+  def wait_for_mysql_driver_download():
     _, output = container_run_mysql.exec_run(
       "find /var/gerrit/lib -name 'mysql-connector-java-*.jar'")
     output = output.decode("utf-8").strip()
-    if re.match(r"/var/gerrit/lib/mysql-connector-java-.*\.jar", output):
-      break
+    return output, re.match(r"/var/gerrit/lib/mysql-connector-java-.*\.jar", output)
 
-  assert timeout > time.time()
+  finished_in_time, _ = utils.exec_fn_with_timeout(
+    wait_for_mysql_driver_download, 20)
+  assert finished_in_time
 
   driver_path_pattern = os.path.join(tmp_dir, "lib", "mysql-connector-java-*.jar")
   lib_files = [f for f in glob(driver_path_pattern) if os.path.isfile(f)]
