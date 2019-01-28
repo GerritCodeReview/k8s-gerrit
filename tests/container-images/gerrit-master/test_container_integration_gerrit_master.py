@@ -1,4 +1,4 @@
-# pylint: disable=W0613
+# pylint: disable=W0613, E1101
 
 # Copyright (C) 2018 The Android Open Source Project
 #
@@ -16,10 +16,11 @@
 
 import os.path
 import re
-import time
 
 import pytest
 import requests
+
+import utils
 
 CONFIG_FILES = ["gerrit.config", "secure.config", "replication.config"]
 
@@ -78,13 +79,12 @@ def config_file_to_test(request):
 @pytest.mark.incremental
 class TestGerritMasterStartScript(object):
   def test_gerrit_master_gerrit_starts_up(self, container_run):
-    timeout = time.time() + 60
-    while time.time() < timeout:
-      last_log_line = container_run.logs().decode("utf-8")
-      if re.search(r"Gerrit Code Review .+ ready", last_log_line):
-        break
-      time.sleep(2)
-    assert timeout > time.time()
+    def wait_for_gerrit_start():
+      log = container_run.logs().decode("utf-8")
+      return log, re.search(r"Gerrit Code Review .+ ready", log)
+
+    finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
+    assert finished_in_time
 
   def test_gerrit_master_custom_gerrit_config_available(
       self, container_run, config_file_to_test):
