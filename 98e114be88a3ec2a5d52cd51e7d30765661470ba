@@ -46,6 +46,30 @@
       "revId": "98e114be88a3ec2a5d52cd51e7d30765661470ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e97fda0_ca900a2a",
+        "filename": "build",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-01-28T14:48:07Z",
+      "side": 0,
+      "message": "OK, I see. Another possibility would be to use local variable here or to unset BUILD_SUCESS before calling docker build.",
+      "parentUuid": "2fd80faa_ba88698a",
+      "range": {
+        "startLine": 35,
+        "startChar": 97,
+        "endLine": 35,
+        "endChar": 115
+      },
+      "revId": "98e114be88a3ec2a5d52cd51e7d30765661470ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

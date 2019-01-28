@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e5a2dd3_f887263b",
+        "filename": "build",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-01-28T14:48:07Z",
+      "side": 1,
+      "message": "This is not related to the bug with using global BUILD_SUCCESS variable.\nActually it looks like this code change is unnecessary? Does it fix anything?",
+      "revId": "2c4ed3444929275b344b9b802ddbb396309de6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
