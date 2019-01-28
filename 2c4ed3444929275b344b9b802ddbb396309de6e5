@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "78b24d81_dead0dc0",
+        "filename": "build",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-01-28T15:01:23Z",
+      "side": 1,
+      "message": "I did this just to stay consistent in how the success of a docker build is tested. So no this is not fixing a bug. I added a respective comment into the commit message.",
+      "parentUuid": "7e5a2dd3_f887263b",
+      "revId": "2c4ed3444929275b344b9b802ddbb396309de6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5b8477eb_5f3436e8",
         "filename": "build",
         "patchSetId": 5
