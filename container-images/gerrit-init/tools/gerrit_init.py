@@ -57,7 +57,8 @@ def initialize_gerrit(gerrit_site_path, plugins):
   init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
 
   if init_process.returncode > 0:
-    print("An error occured, when initializing Gerrit. Exit code: ", exit_code)
+    print("An error occured, when initializing Gerrit. Exit code: ",
+      init_process.returncode)
     sys.exit(1)
 
 if __name__ == "__main__":
