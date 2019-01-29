@@ -46,7 +46,7 @@ class GitConfigParser:
     Returns boolean value of given key in the configuration file. If the key
     appears multiple times, the last value is returned.
     """
-    if not type(default) == bool:
+    if not isinstance(default, bool):
       raise TypeError("Default has to be a boolean.")
 
     try:
