@@ -14,13 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from abc import ABC, abstractmethod
-from sqlalchemy import create_engine
-
 import argparse
 import os.path
 import sys
 import time
+
+from abc import ABC, abstractmethod
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 
 from git_config_parser import GitConfigParser
 
@@ -34,21 +35,18 @@ class AbstractGerritDB(ABC):
     """
     Read all required configuration values.
     """
-    pass
 
   @abstractmethod
   def _create_db_url(self):
     """
     Create a URL with which the database can be reached.
     """
-    pass
 
   @abstractmethod
   def wait_for_db_server(self):
     """
     Wait until a connection with the database server is achieved.
     """
-    pass
 
   @abstractmethod
   def wait_for_db(self):
@@ -56,7 +54,6 @@ class AbstractGerritDB(ABC):
     Check whether a database with the name configured for the ReviewDB
     exists on the database server and wait for its creation.
     """
-    pass
 
   @abstractmethod
   def wait_for_schema(self):
@@ -64,19 +61,19 @@ class AbstractGerritDB(ABC):
     Check whether the schema of the ReviewDBwas created and wait for its
     creation.
     """
-    pass
 
 
 class H2GerritDB(AbstractGerritDB):
 
   def __init__(self, config, secure_config, site):
     super().__init__(config, secure_config)
-    self.url = self._create_db_url(site)
+    self.site = site
+    self.url = self._create_db_url()
 
   def _read_config(self, config, secure_config):
     self.name = config.get("database.database", default="ReviewDB")
 
-  def _create_db_url(self, site):
+  def _create_db_url(self):
     suffix = '.h2.db'
     if os.path.isabs(self.name):
       if self.name.endswith(suffix):
@@ -84,7 +81,7 @@ class H2GerritDB(AbstractGerritDB):
       else:
         return self.name + suffix
     else:
-      return os.path.join(site, "db", self.name) + suffix
+      return os.path.join(self.site, "db", self.name) + suffix
 
   def wait_for_db_server(self):
     # Not required. H2 is an embedded database.
@@ -112,6 +109,9 @@ class MysqlGerritDB(AbstractGerritDB):
     self.tables = ['changes', 'patch_sets']
     self.server_url, self.reviewdb_url = self._create_db_url()
 
+    self.engine = None
+    self.connection = None
+
   def _read_config(self, config, secure_config):
     self.host = config.get("database.hostname", default="localhost")
     self.port = config.get("database.port", default="3306")
@@ -134,11 +134,11 @@ class MysqlGerritDB(AbstractGerritDB):
 
   def wait_for_db_server(self):
     print("%s: Waiting for database server connection..." % time.ctime())
-    while not hasattr(self, 'connection') or self.connection.closed:
+    while not self.connection or self.connection.closed:
       try:
         self._connect_to_db(self.server_url)
         continue
-      except:
+      except SQLAlchemyError:
         print("%s: Still waiting..." % time.ctime(), flush=True)
         time.sleep(3)
     self.connection.close()
@@ -147,11 +147,11 @@ class MysqlGerritDB(AbstractGerritDB):
   def wait_for_db(self):
     print("%s: Waiting for database to be available..." % time.ctime())
     self.connection.close()
-    while not hasattr(self, 'connection') or self.connection.closed:
+    while not self.connection or self.connection.closed:
       try:
         self._connect_to_db(self.reviewdb_url)
         continue
-      except:
+      except SQLAlchemyError:
         print("%s: Still waiting..." % time.ctime(), flush=True)
         time.sleep(3)
     self.connection.close()
@@ -161,10 +161,8 @@ class MysqlGerritDB(AbstractGerritDB):
     print("%s: Waiting for database schema to be created..." % time.ctime())
     for table in self.tables:
       while not self.engine.dialect.has_table(self.engine, table):
-        print("%s: Still waiting for table %s..." % (
-            time.ctime(),
-            table),
-          flush=True)
+        print("%s: Still waiting for table %s..." % (time.ctime(), table),
+              flush=True)
         time.sleep(3)
     print("%s: Schema appears to have been created!" % time.ctime())
 
@@ -194,6 +192,7 @@ def validate_db(gerrit_site_path):
   gerrit_db.wait_for_db()
   gerrit_db.wait_for_schema()
 
+# pylint: disable=C0103
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument(

@@ -24,8 +24,8 @@ from git_config_parser import GitConfigParser
 from validate_db import select_db
 
 def ensure_database_connection(gerrit_site_path):
-  db = select_db(gerrit_site_path)
-  db.wait_for_db_server()
+  database = select_db(gerrit_site_path)
+  database.wait_for_db_server()
 
 def determine_is_slave(gerrit_site_path):
   gerrit_config_path = os.path.join(gerrit_site_path, "etc/gerrit.config")
@@ -58,9 +58,10 @@ def initialize_gerrit(gerrit_site_path, plugins):
 
   if init_process.returncode > 0:
     print("An error occured, when initializing Gerrit. Exit code: ",
-      init_process.returncode)
+          init_process.returncode)
     sys.exit(1)
 
+# pylint: disable=C0103
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument(
