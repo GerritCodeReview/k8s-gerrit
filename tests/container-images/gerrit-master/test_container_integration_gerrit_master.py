@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os.path
 import re
 
 import pytest
@@ -22,16 +21,15 @@ import requests
 
 import utils
 
-CONFIG_FILES = ["gerrit.config", "secure.config", "replication.config"]
-
 @pytest.fixture(scope="module")
-def config_files(tmp_path_factory):
-  tmp_config_dir = tmp_path_factory.mktemp('gerrit_master_config')
-  configs = {}
-  for config in CONFIG_FILES:
-    gerrit_config_file = os.path.join(tmp_config_dir, config)
-    with open(gerrit_config_file, "w") as config_file:
-      config_file.write("""
+def tmp_dir(tmp_path_factory):
+  return tmp_path_factory.mktemp("gerrit-master-test")
+
+@pytest.fixture(scope="class")
+def container_run(request, docker_client, docker_network, tmp_dir,
+                  gerrit_master_image, gerrit_container_factory):
+  configs = {
+    "gerrit.config": """
       [gerrit]
         basePath = git
 
@@ -43,35 +41,23 @@ def config_files(tmp_path_factory):
 
       [test]
         success = True
-      """)
-    configs[config] = gerrit_config_file
+      """,
+    "secure.config": """
+      [test]
+        success = True
+      """,
+    "replication.config": """
+      [test]
+        success = True
+      """}
+  test_setup = gerrit_container_factory(
+    docker_client, docker_network, tmp_dir, gerrit_master_image, configs, 8081)
 
-  return configs
+  request.addfinalizer(test_setup.stop_gerrit_container)
 
-@pytest.fixture(scope="module")
-def container_run(request, docker_client, gerrit_master_image, config_files):
-  container_run = docker_client.containers.run(
-    image=gerrit_master_image.id,
-    user="gerrit",
-    volumes={v: {
-      "bind": "/var/config/%s" % k,
-      "mode": "rw"
-    } for (k, v) in config_files.items()},
-    ports={
-      "8081": "8081"
-    },
-    detach=True,
-    auto_remove=True
-  )
+  return test_setup.gerrit_container
 
-  def stop_container():
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
-
-@pytest.fixture(params=CONFIG_FILES)
+@pytest.fixture(params=["gerrit.config", "secure.config", "replication.config"])
 def config_file_to_test(request):
   return request.param
 
