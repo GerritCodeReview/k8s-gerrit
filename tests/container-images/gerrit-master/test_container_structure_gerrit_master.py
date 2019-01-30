@@ -14,6 +14,8 @@
 
 import pytest
 
+import utils
+
 @pytest.fixture(scope="module")
 def container_run(docker_client, container_endless_run_factory, gerrit_master_image):
   container_run = container_endless_run_factory(docker_client, gerrit_master_image)
@@ -21,13 +23,10 @@ def container_run(docker_client, container_endless_run_factory, gerrit_master_im
   container_run.stop(timeout=1)
 
 
+# pylint: disable=E1101
 def test_gerrit_master_inherits_from_gerrit_base(gerrit_master_image):
-  contains_tag = False
-  for layer in gerrit_master_image.history():
-    contains_tag = layer['Tags'] is not None and "gerrit-base:latest" in layer['Tags']
-    if contains_tag:
-      break
-  assert contains_tag
+  assert utils.check_if_ancestor_image_is_inherited(
+    gerrit_master_image, "gerrit-base:latest")
 
 def test_gerrit_master_contains_start_script(container_run):
   exit_code, _ = container_run.exec_run("test -f /var/tools/start")
