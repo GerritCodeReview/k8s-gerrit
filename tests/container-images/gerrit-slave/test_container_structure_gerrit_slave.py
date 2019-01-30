@@ -14,6 +14,8 @@
 
 import pytest
 
+import utils
+
 
 @pytest.fixture(scope="module")
 def container_run(docker_client, container_endless_run_factory, gerrit_slave_image):
@@ -27,16 +29,12 @@ def expected_script(request):
     return request.param
 
 
+# pylint: disable=E1101
 @pytest.mark.structure
 def test_gerrit_slave_inherits_from_gerrit_base(gerrit_slave_image):
-    contains_tag = False
-    for layer in gerrit_slave_image.history():
-        contains_tag = (
-            layer["Tags"] is not None and "gerrit-base:latest" in layer["Tags"]
-        )
-        if contains_tag:
-            break
-    assert contains_tag
+    assert utils.check_if_ancestor_image_is_inherited(
+        gerrit_slave_image, "gerrit-base:latest"
+    )
 
 
 @pytest.mark.docker

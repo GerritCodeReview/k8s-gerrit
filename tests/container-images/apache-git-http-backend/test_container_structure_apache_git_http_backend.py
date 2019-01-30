@@ -13,16 +13,15 @@
 # limitations under the License.
 
 import pytest
+import utils
 
 
+# pylint: disable=E1101
 @pytest.mark.structure
 def test_apache_git_http_backend_inherits_from_base(apache_git_http_backend_image):
-    contains_tag = False
-    for layer in apache_git_http_backend_image.history():
-        contains_tag = layer["Tags"] is not None and "base:latest" in layer["Tags"]
-        if contains_tag:
-            break
-    assert contains_tag
+    assert utils.check_if_ancestor_image_is_inherited(
+        apache_git_http_backend_image, "base:latest"
+    )
 
 
 @pytest.mark.docker
