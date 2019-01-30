@@ -14,6 +14,8 @@
 
 import pytest
 
+import utils
+
 
 @pytest.fixture(scope="module")
 def container_run(docker_client, container_endless_run_factory, gitgc_image):
@@ -22,14 +24,10 @@ def container_run(docker_client, container_endless_run_factory, gitgc_image):
     container_run.stop(timeout=1)
 
 
+# pylint: disable=E1101
 @pytest.mark.structure
 def test_gitgc_inherits_from_base(gitgc_image):
-    contains_tag = False
-    for layer in gitgc_image.history():
-        contains_tag = layer["Tags"] is not None and "base:latest" in layer["Tags"]
-        if contains_tag:
-            break
-    assert contains_tag
+    assert utils.check_if_ancestor_image_is_inherited(gitgc_image, "base:latest")
 
 
 @pytest.mark.docker
