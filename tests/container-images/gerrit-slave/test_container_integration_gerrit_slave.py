@@ -26,86 +26,36 @@ import utils
 
 CONFIG_FILES = ["gerrit.config", "secure.config"]
 
-class GerritSlaveTestSetup():
-
-  def __init__(self, docker_client, docker_network, tmp_dir, image,
-               gerrit_config, port):
-    self.docker_client = docker_client
-    self.docker_network = docker_network
-    self.tmp_dir = tmp_dir
-    self.image = image
-    self.gerrit_config = gerrit_config
-    self.port = port
-
-    self.gerrit_container = None
-
-    self._start_gerrit_container()
-
-  def _create_config_files(self):
-    tmp_config_dir = os.path.join(self.tmp_dir, "configs")
-    if not os.path.isdir(tmp_config_dir):
-      os.mkdir(tmp_config_dir)
-    configs = {}
-    for config in CONFIG_FILES:
-      gerrit_config_file = os.path.join(tmp_config_dir, config)
-      with open(gerrit_config_file, "w") as config_file:
-        config_file.write(self.gerrit_config)
-      configs[config] = gerrit_config_file
-    return configs
-
-  def _define_volume_mounts(self):
-    volumes = {v: {
-      "bind": "/var/config/%s" % k,
-      "mode": "rw"
-    } for (k, v) in self._create_config_files().items()}
-    volumes[os.path.join(self.tmp_dir, "lib")] = {
-      "bind": "/var/gerrit/lib",
-      "mode": "rw"
-    }
-    return volumes
-
-  def _start_gerrit_container(self):
-    self.gerrit_container = self.docker_client.containers.run(
-      image=self.image.id,
-      user="gerrit",
-      volumes=self._define_volume_mounts(),
-      ports={
-        str(self.port): str(self.port)
-      },
-      network=self.docker_network.name,
-      detach=True,
-      auto_remove=True
-    )
-
-  def stop_gerrit_container(self):
-    self.gerrit_container.stop(timeout=1)
-
-
 @pytest.fixture(scope="module")
 def tmp_dir(tmp_path_factory):
   return tmp_path_factory.mktemp("gerrit-slave-test")
 
 @pytest.fixture(scope="class")
 def container_run_h2(request, docker_client, docker_network, tmp_dir,
-                     gerrit_slave_image):
-  config = """
-    [gerrit]
-      basePath = git
+                     gerrit_slave_image, gerrit_container_factory):
+  configs = {
+    "gerrit.config": """
+      [gerrit]
+        basePath = git
 
-    [database]
-      type = H2
+      [database]
+        type = H2
 
-    [httpd]
-      listenUrl = http://*:8081
+      [httpd]
+        listenUrl = http://*:8081
 
-    [container]
-      slave = true
+      [container]
+        slave = true
 
-    [test]
-      success = True
-    """
-  test_setup = GerritSlaveTestSetup(
-    docker_client, docker_network, tmp_dir, gerrit_slave_image, config, 8081)
+      [test]
+        success = True
+      """,
+    "secure.config": """
+      [test]
+          success = True
+      """}
+  test_setup = gerrit_container_factory(
+    docker_client, docker_network, tmp_dir, gerrit_slave_image, configs, 8081)
 
   request.addfinalizer(test_setup.stop_gerrit_container)
 
@@ -113,22 +63,23 @@ def container_run_h2(request, docker_client, docker_network, tmp_dir,
 
 @pytest.fixture(scope="class")
 def container_run_mysql(request, docker_client, docker_network, tmp_dir,
-                        gerrit_slave_image):
-  config = """
-    [gerrit]
-      basePath = git
+                        gerrit_slave_image, gerrit_container_factory):
+  configs = {
+    "gerrit.config": """
+      [gerrit]
+        basePath = git
 
-    [database]
-      type = MySQL
+      [database]
+        type = MySQL
 
-    [httpd]
-      listenUrl = http://*:8082
+      [httpd]
+        listenUrl = http://*:8082
 
-    [container]
-      slave = true
-    """
-  test_setup = GerritSlaveTestSetup(
-    docker_client, docker_network, tmp_dir, gerrit_slave_image, config, 8082)
+      [container]
+        slave = true
+      """}
+  test_setup = gerrit_container_factory(
+    docker_client, docker_network, tmp_dir, gerrit_slave_image, configs, 8082)
 
   request.addfinalizer(test_setup.stop_gerrit_container)
 
