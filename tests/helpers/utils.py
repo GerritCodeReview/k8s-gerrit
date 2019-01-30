@@ -38,3 +38,23 @@ def exec_fn_with_timeout(func, limit=60):
     if is_finished:
       return True, output
   return False, output
+
+def check_if_ancestor_image_is_inherited(image, ancestor):
+  """Helper function that looks for a given ancestor image in the layers of a
+     provided image. It can be used to check, whether an image uses the expected
+     FROM-statement
+
+  Arguments:
+    image {docker.images.Image} -- Docker image object to be checked
+    ancestor {str} -- Complete name of the expected ancestor image
+
+  Returns:
+    boolean -- True, if ancestor is inherited by image
+  """
+
+  contains_tag = False
+  for layer in image.history():
+    contains_tag = layer['Tags'] is not None and ancestor in layer['Tags']
+    if contains_tag:
+      break
+  return contains_tag
