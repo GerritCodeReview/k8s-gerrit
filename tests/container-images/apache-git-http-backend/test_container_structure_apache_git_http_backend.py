@@ -12,14 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import utils
 
+# pylint: disable=E1101
 def test_apache_git_http_backend_inherits_from_base(apache_git_http_backend_image):
-    contains_tag = False
-    for layer in apache_git_http_backend_image.history():
-        contains_tag = layer["Tags"] is not None and "base:latest" in layer["Tags"]
-        if contains_tag:
-            break
-    assert contains_tag
+    assert utils.check_if_ancestor_image_is_inherited(
+        apache_git_http_backend_image, "base:latest"
+    )
 
 
 def test_apache_git_http_backend_contains_apache2(container_run):
