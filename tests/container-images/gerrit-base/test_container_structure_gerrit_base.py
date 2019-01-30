@@ -16,6 +16,8 @@ import re
 
 import pytest
 
+import utils
+
 @pytest.fixture(scope="module")
 def container_run(request, docker_client, gerrit_base_image):
   container_run = docker_client.containers.run(
@@ -34,13 +36,10 @@ def container_run(request, docker_client, gerrit_base_image):
 
   return container_run
 
+# pylint: disable=E1101
 def test_gerrit_base_inherits_from_base(gerrit_base_image):
-  contains_tag = False
-  for layer in gerrit_base_image.history():
-    contains_tag = layer['Tags'] is not None and "base:latest" in layer['Tags']
-    if contains_tag:
-      break
-  assert contains_tag
+  assert utils.check_if_ancestor_image_is_inherited(
+    gerrit_base_image, "base:latest")
 
 def test_gerrit_base_contains_java8(container_run):
   _, output = container_run.exec_run(
