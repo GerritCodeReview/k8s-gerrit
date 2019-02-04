@@ -214,6 +214,15 @@ Marks integration tests. These tests test interactions between containers,
 between outside clients and containers and between the components installed
 by a helm chart.
 
+### kubernetes
+
+Marks tests that require a Kubernetes cluster. These tests are used to test the
+functionality of the helm charts in this project and the interaction of the
+components installed by them. The cluster should not be used for other purposes
+to minimize unforeseen interactions.
+
+Currently these tests also require access to an EFS volume.
+
 ### slow
 
 Marks tests that need an above average time to run.
