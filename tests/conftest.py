@@ -60,6 +60,34 @@ def pytest_addoption(parser):
     help="If set, the docker cache will be used when building container images."
   )
   parser.addoption(
+    "--kubeconfig", action="store", default=None,
+    help= \
+      "Kubeconfig to use for cluster connection. If none is given the currently" + \
+      "configured context is used."
+  )
+  parser.addoption(
+    "--infra-provider", action="store", default="aws", choices=["aws"],
+    help= \
+      "Infrastructure provider used for Kubernetes cluster deployments." + \
+      "(default: aws; options: [aws])"
+  )
+  parser.addoption(
+    "--efs-id", action="store", default=None,
+    help= \
+      "ID of EFS-volume. Required to set up shared volume, if using AWS as " + \
+      "infrastructure provider."
+  )
+  parser.addoption(
+    "--efs-region", action="store", default=None,
+    help= \
+      "AWS region of EFS-volume. Required to set up shared volume, if using AWS" + \
+      "as infrastructure provider."
+  )
+  parser.addoption(
+    "--ingress-url", action="store", default=None,
+    help="URL of the ingress domain used by the cluster."
+  )
+  parser.addoption(
     "--skip-slow", action="store_true",
     help="If set, skip slow tests."
   )
