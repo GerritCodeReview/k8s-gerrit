@@ -7,3 +7,6 @@ no-docstring-rgx=(test_.*)|(__.*__)
 [FORMAT]
 indent-string='  '
 indent-after-paren=2
+
+[MASTER]
+init-hook='import sys; sys.path.append("./tests/helpers")'
