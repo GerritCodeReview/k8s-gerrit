@@ -11,3 +11,6 @@ good-names=i,f
 
 [SIMILARITIES]
 min-similarity-lines=6
+
+[MASTER]
+init-hook='import sys; sys.path.append("./tests/helpers")'
