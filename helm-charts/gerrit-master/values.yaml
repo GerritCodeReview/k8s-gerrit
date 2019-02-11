@@ -131,16 +131,7 @@ gerritMaster:
         canonicalWebUrl = http://example.com/
         disableReverseDnsLookup = true
       [database]
-        type = mysql
-        # The name of a Kubernetes service managing the connection to a pod
-        # running the database can be used as a hostname. E.g. if the reviewdb-
-        # chart is used and installed with the name 'db-master', the service
-        # will be named db-master-mysql.
-        hostname = db-master-mysql
-        port = 3306
-        database = reviewdb
-        # To switch off enforced SSL-encrypted communication uncomment:
-        # url = jdbc:mysql://db-master-mysql:3306/reviewdb?nullNamePatternMatchesAll=true&useSSL=false
+        type = h2
       [index]
         type = LUCENE
       [auth]
