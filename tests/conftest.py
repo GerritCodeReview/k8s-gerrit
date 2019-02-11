@@ -25,10 +25,40 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "helpers"))
 
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
-DOCKER_ORG = "k8sgerrit"
 
 
 def pytest_addoption(parser):
+    parser.addoption(
+        "--registry",
+        action="store",
+        default="",
+        help="Container registry to push (if --push=true) and pull container images"
+        + "from for tests on Kubernetes clusters (default: '')",
+    )
+    parser.addoption(
+        "--registry-user",
+        action="store",
+        default="",
+        help="Username for container registry (default: '')",
+    )
+    parser.addoption(
+        "--registry-pwd",
+        action="store",
+        default="",
+        help="Password for container registry (default: '')",
+    )
+    parser.addoption(
+        "--org",
+        action="store",
+        default="k8sgerrit",
+        help="Docker organization (default: 'k8sgerrit')",
+    )
+    parser.addoption(
+        "--push",
+        action="store_true",
+        help="If set, the docker images will be pushed to the registry configured"
+        + "by --registry (default: false)",
+    )
     parser.addoption(
         "--tag",
         action="store",
@@ -95,14 +125,47 @@ def container_images(repository_root):
 
 
 @pytest.fixture(scope="session")
-def docker_build(request, docker_client, tag_of_cached_container):
+def docker_registry(request):
+    registry = request.config.getoption("--registry")
+    if registry and not registry[-1] == "/":
+        registry += "/"
+    return registry
+
+
+@pytest.fixture(scope="session")
+def docker_org(request):
+    org = request.config.getoption("--org")
+    if org and not org[-1] == "/":
+        org += "/"
+    return org
+
+
+@pytest.fixture(scope="session")
+def docker_tag(tag_of_cached_container):
+    if tag_of_cached_container:
+        return tag_of_cached_container
+    return git.Repo(".", search_parent_directories=True).git.describe(dirty=True)
+
+
+@pytest.fixture(scope="session")
+def docker_build(
+    request,
+    docker_client,
+    tag_of_cached_container,
+    docker_registry,
+    docker_org,
+    docker_tag,
+):
     def docker_build(image, name):
-        image_name = "%s:latest" % name
+
+        if name in BASE_IMGS:
+            image_name = "{image}:latest".format(image=name)
+        else:
+            image_name = "{registry}{org}{image}:{tag}".format(
+                registry=docker_registry, org=docker_org, image=name, tag=docker_tag
+            )
+
         if tag_of_cached_container:
-            if name not in BASE_IMGS:
-                image_name = "%s:%s" % (name, tag_of_cached_container)
-                if DOCKER_ORG:
-                    image_name = "%s/%s" % (DOCKER_ORG, image_name)
             try:
                 return docker_client.images.get(image_name)
             except docker.errors.ImageNotFound:
@@ -116,6 +179,30 @@ def docker_build(request, docker_client, tag_of_cached_container):
         return build[0]
 
     return docker_build
+
+
+@pytest.fixture(scope="session")
+def docker_login(request, docker_client, docker_registry):
+    username = request.config.getoption("--registry-user")
+    if username:
+        docker_client.login(
+            username=username,
+            password=request.config.getoption("--registry-pwd"),
+            registry=docker_registry,
+        )
+
+
+@pytest.fixture(scope="session")
+def docker_push(
+    request, docker_client, docker_registry, docker_login, docker_org, docker_tag
+):
+    def docker_push(image):
+        docker_repository = "{registry}{org}{image}".format(
+            registry=docker_registry, org=docker_org, image=image
+        )
+        docker_client.images.push(docker_repository, tag=docker_tag)
+
+    return docker_push
 
 
 @pytest.fixture(scope="session")
@@ -143,27 +230,52 @@ def gerrit_base_image(container_images, docker_build, base_image):
 
 
 @pytest.fixture(scope="session")
-def gitgc_image(container_images, docker_build, base_image):
-    return docker_build(container_images["git-gc"], "git-gc")
+def gitgc_image(request, container_images, docker_build, docker_push, base_image):
+    gitgc_image = docker_build(container_images["git-gc"], "git-gc")
+    if request.config.getoption("--push"):
+        docker_push("git-gc")
+    return gitgc_image
 
 
 @pytest.fixture(scope="session")
-def apache_git_http_backend_image(container_images, docker_build, base_image):
-    return docker_build(
+def apache_git_http_backend_image(
+    request, container_images, docker_build, docker_push, base_image
+):
+    apache_git_http_backend_image = docker_build(
         container_images["apache-git-http-backend"], "apache-git-http-backend"
     )
+    if request.config.getoption("--push"):
+        docker_push("apache-git-http-backend")
+    return apache_git_http_backend_image
 
 
 @pytest.fixture(scope="session")
-def gerrit_master_image(container_images, docker_build, base_image, gerrit_base_image):
-    return docker_build(container_images["gerrit-master"], "gerrit-master")
+def gerrit_master_image(
+    request, container_images, docker_build, docker_push, base_image, gerrit_base_image
+):
+    gerrit_master_image = docker_build(
+        container_images["gerrit-master"], "gerrit-master"
+    )
+    if request.config.getoption("--push"):
+        docker_push("gerrit-master")
+    return gerrit_master_image
 
 
 @pytest.fixture(scope="session")
-def gerrit_slave_image(container_images, docker_build, base_image, gerrit_base_image):
-    return docker_build(container_images["gerrit-slave"], "gerrit-slave")
+def gerrit_slave_image(
+    request, container_images, docker_build, docker_push, base_image, gerrit_base_image
+):
+    gerrit_slave_image = docker_build(container_images["gerrit-slave"], "gerrit-slave")
+    if request.config.getoption("--push"):
+        docker_push("gerrit-slave")
+    return gerrit_slave_image
 
 
 @pytest.fixture(scope="session")
-def gerrit_init_image(container_images, docker_build, base_image, gerrit_base_image):
-    return docker_build(container_images["gerrit-init"], "gerrit-init")
+def gerrit_init_image(
+    request, container_images, docker_build, docker_push, base_image, gerrit_base_image
+):
+    gerrit_init_image = docker_build(container_images["gerrit-init"], "gerrit-init")
+    if request.config.getoption("--push"):
+        docker_push("gerrit-init")
+    return gerrit_init_image
