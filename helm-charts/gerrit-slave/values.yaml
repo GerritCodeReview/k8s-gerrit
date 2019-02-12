@@ -59,6 +59,14 @@ gitBackend:
       cpu: 100m
       memory: 256Mi
 
+  livenessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 1
+
   logging:
     persistence:
       enabled: true
