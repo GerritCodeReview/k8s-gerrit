@@ -166,6 +166,14 @@ gerritSlave:
     enabled: true
     size: 10Gi
 
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 1
+
   service:
     type: NodePort
     http:
