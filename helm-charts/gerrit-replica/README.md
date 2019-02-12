@@ -181,6 +181,8 @@ ignored.
 |                                            |                                                                                    | `requests.memory: 256Mi`                                                  |
 |                                            |                                                                                    | `limits.cpu: 100m`                                                        |
 |                                            |                                                                                    | `limits.memory: 256Mi`                                                    |
+| `gitBackend.livenessProbe`                 | Configuration of the liveness probe timings                                        | `{initialDelaySeconds: 10, periodSeconds: 5}`                             |
+| `gitBackend.readinessProbe`                | Configuration of the readiness probe timings                                       | `{initialDelaySeconds: 5, periodSeconds: 1}`                              |
 | `gitBackend.credentials.htpasswd`          | `.htpasswd`-file containing username/password-credentials for accessing git        | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
 | `gitBackend.logging.persistence.enabled`   | Whether to persist logs                                                            | `true`                                                                    |
 | `gitBackend.logging.persistence.size`      | Storage size for persisted logs                                                    | `1Gi`                                                                     |
