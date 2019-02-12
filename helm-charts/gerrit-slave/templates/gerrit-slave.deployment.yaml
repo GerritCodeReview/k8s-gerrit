@@ -161,7 +161,8 @@ spec:
 
           tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
         ports:
-        - containerPort: 8080
+        - name: gerrit-port
+          containerPort: 8080
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
@@ -184,6 +185,14 @@ spec:
         {{- end }}
         resources:
 {{ toYaml .Values.gerritSlave.resources | indent 10 }}
+        livenessProbe:
+          tcpSocket:
+            port: gerrit-port
+{{ toYaml .Values.gerritSlave.livenessProbe | indent 10 }}
+        readinessProbe:
+          tcpSocket:
+            port: gerrit-port
+{{ toYaml .Values.gerritSlave.readinessProbe | indent 10 }}
       volumes:
       - name: gerrit-site
         emptyDir: {}

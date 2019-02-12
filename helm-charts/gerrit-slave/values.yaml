@@ -149,6 +149,14 @@ gerritSlave:
       cpu: 1
       memory: 6Gi
 
+  livenessProbe:
+    initialDelaySeconds: 30
+    periodSeconds: 5
+
+  readinessProbe:
+    initialDelaySeconds: 5
+    periodSeconds: 1
+
   logging:
     persistence:
       enabled: true
