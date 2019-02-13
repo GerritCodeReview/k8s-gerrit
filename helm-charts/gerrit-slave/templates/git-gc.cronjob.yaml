@@ -12,6 +12,9 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: {{ .Release.Name }}-git-gc
         spec:
           restartPolicy: OnFailure
           securityContext:

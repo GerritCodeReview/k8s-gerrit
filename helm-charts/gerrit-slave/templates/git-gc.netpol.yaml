@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-git-gc-netpol-deny-all
+  labels:
+    app: git-gc
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Release.Name }}-git-gc
+  policyTypes:
+  - Ingress
+  - Egress
