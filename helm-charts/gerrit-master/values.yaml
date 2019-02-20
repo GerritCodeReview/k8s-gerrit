@@ -42,6 +42,13 @@ storageClasses:
       mountOptions: vers=4.1
 
 
+networkPolicies:
+  enabled: false
+  dnsPorts:
+  - 53
+  - 8053
+
+
 gitRepositoryStorage:
   size: 5Gi
 
@@ -83,6 +90,13 @@ gerritMaster:
     persistence:
       enabled: true
       size: 1Gi
+
+  # The general NetworkPolicy rules implemented by this chart may be to restrictive
+  # for some setups, e.g. when trying to connect to an external database. Here
+  # custom rules may be added to whitelist some additional connections.
+  networkPolicy:
+    ingress: []
+    egress: []
 
   service:
     type: NodePort

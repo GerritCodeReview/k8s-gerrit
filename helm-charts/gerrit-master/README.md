@@ -102,6 +102,13 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy`  | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
 | `storageClasses.shared.parameters`     | Parameters for the provisioner                                    | `parameters.mountOptions: vers=4.1`               |
 
+### Network policies
+
+| Parameter                  | Description                                      | Default      |
+|----------------------------|--------------------------------------------------|--------------|
+| `networkPolicies.enabled`  | Whether to enable preconfigured NetworkPolicies  | `false`      |
+| `networkPolicies.dnsPorts` | List of ports used by DNS-service (e.g. KubeDNS) | `[53, 8053]` |
+
 ### Storage for Git repositories
 
 | Parameter                   | Description                                     | Default |
@@ -148,6 +155,8 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.logging.persistence.size`       | Storage size for persisted logs                                                                 | `1Gi`                             |
 | `gerritMaster.h2Database.persistence.enabled` | Whether to persist h2 databases                                                                 | `true`                            |
 | `gerritMaster.h2Database.persistence.size`    | Storage size for persisted h2 databases                                                         | `1Gi`                             |
+| `gerritMaster.networkPolicy.ingress`          | Custom ingress-network policy for gerrit-master pods                                            | `nil`                             |
+| `gerritMaster.networkPolicy.egress`           | Custom egress-network policy for gerrit-master pods                                             | `nil`                             |
 | `gerritMaster.service.type`                   | Which kind of Service to deploy                                                                 | `NodePort`                        |
 | `gerritMaster.service.http.port`              | Port over which to expose HTTP                                                                  | `80`                              |
 | `gerritMaster.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
