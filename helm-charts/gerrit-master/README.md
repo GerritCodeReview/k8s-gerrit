@@ -102,6 +102,62 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy`  | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
 | `storageClasses.shared.parameters`     | Parameters for the provisioner                                    | `parameters.mountOptions: vers=4.1`               |
 
+### Network policies
+
+| Parameter                  | Description                                      | Default      |
+|----------------------------|--------------------------------------------------|--------------|
+| `networkPolicies.enabled`  | Whether to enable preconfigured NetworkPolicies  | `false`      |
+| `networkPolicies.dnsPorts` | List of ports used by DNS-service (e.g. KubeDNS) | `[53, 8053]` |
+
+The NetworkPolicies provided here are quite strict and do not account for all
+possible scenarios. Thus, custom NetworkPolicies have to be added, e.g. for
+allowing Gerrit to replicate to a Gerrit slave. By default, the egress traffic
+of the gerrit-master pod is blocked, except for connections to the DNS-server.
+Thus, replication which requires Gerrit to perform git pushes to the slave will
+not work. The chart provides the possibility to define custom rules for egress-
+traffic of the gerrit-master pod under `gerritMaster.networkPolicy.egress`.
+Depending on the scenario, there are different ways to allow the required
+connections. The easiest way is to allow all egress-traffic for the gerrit-master
+pods:
+
+```yaml
+gerritMaster:
+  networkPolicy:
+    egress:
+    - {}
+```
+
+If the remote that is replicated to is running in a pod on the same cluster and
+the service-DNS is used as the remote's URL (e.g. http://gerrit-slave-git-backend-service:80/git/${name}.git),
+a podSelector (and namespaceSelector, if the pod is running in a different
+namespace) can be used to whitelist the traffic:
+
+```yaml
+gerritMaster:
+  networkPolicy:
+    egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            app: git-backend
+```
+
+If the remote is outside the cluster, the IP of the remote or its load balancer
+can also be whitelisted, e.g.:
+
+```yaml
+gerritMaster:
+  networkPolicy:
+    egress:
+    - to:
+      - ipBlock:
+          cidr: xxx.xxx.0.0/16
+```
+
+The same principle also applies to other use cases, e.g. connecting to a database.
+For more information about the NetworkPolicy resource refer to the
+[Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
+
 ### Storage for Git repositories
 
 | Parameter                   | Description                                     | Default |
@@ -148,6 +204,8 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.logging.persistence.size`       | Storage size for persisted logs                                                                 | `1Gi`                             |
 | `gerritMaster.h2Database.persistence.enabled` | Whether to persist h2 databases                                                                 | `true`                            |
 | `gerritMaster.h2Database.persistence.size`    | Storage size for persisted h2 databases                                                         | `1Gi`                             |
+| `gerritMaster.networkPolicy.ingress`          | Custom ingress-network policy for gerrit-master pods                                            | `nil`                             |
+| `gerritMaster.networkPolicy.egress`           | Custom egress-network policy for gerrit-master pods                                             | `nil`                             |
 | `gerritMaster.service.type`                   | Which kind of Service to deploy                                                                 | `NodePort`                        |
 | `gerritMaster.service.http.port`              | Port over which to expose HTTP                                                                  | `80`                              |
 | `gerritMaster.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
