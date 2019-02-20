@@ -19,21 +19,12 @@ spec:
   template:
     metadata:
       labels:
-        app: gerrit
         chart: {{ template "gerrit.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
-      securityContext:
-        fsGroup: 100
-      {{ if .Values.images.registry.ImagePullSecret.name -}}
-      imagePullSecrets:
-      - name: {{ .Values.images.registry.ImagePullSecret.name }}
-      {{- end }}
-      initContainers:
-      - name: site-cleanup
         image: busybox
         securityContext:
           runAsUser: 1000
