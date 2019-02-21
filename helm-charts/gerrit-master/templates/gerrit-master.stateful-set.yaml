@@ -84,6 +84,13 @@ spec:
           {{- if .Values.gerritMaster.reviewdb.enabled }}
           /var/tools/validate_db.py -s /var/gerrit
           {{- end }}
+
+          {{ if not .Values.gerritMaster.persistence.enabled -}}
+            FLAGS="$FLAGS --force"
+          {{- end }}
+
+          /var/tools/gerrit_reindex.py $FLAGS \
+            -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
