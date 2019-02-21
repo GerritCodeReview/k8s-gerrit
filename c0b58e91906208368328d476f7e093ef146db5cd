@@ -45,6 +45,54 @@
       "revId": "c0b58e91906208368328d476f7e093ef146db5cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1272a80_6b7ad74e",
+        "filename": "tests/helpers/utils.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-02-21T08:07:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca9bda8a_18584566",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "c0b58e91906208368328d476f7e093ef146db5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c29c3f8a_0741d40a",
+        "filename": "tests/helpers/utils.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-02-21T08:07:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21e3308e_0d408e98",
+      "range": {
+        "startLine": 22,
+        "startChar": 21,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "c0b58e91906208368328d476f7e093ef146db5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
