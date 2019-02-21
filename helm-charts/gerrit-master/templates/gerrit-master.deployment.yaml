@@ -69,6 +69,13 @@ spec:
           fi
 
           /var/tools/validate_db.py -s /var/gerrit
+
+          {{ if and (eq .Values.gerritMaster.indices.type "lucene") (not .Values.gerritMaster.indices.lucene.persistence.enabled) -}}
+            FLAGS="$FLAGS --force"
+          {{- end }}
+
+          /var/tools/gerrit_reindex.py $FLAGS \
+            -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
