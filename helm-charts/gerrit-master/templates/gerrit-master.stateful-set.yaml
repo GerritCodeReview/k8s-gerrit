@@ -77,6 +77,13 @@ spec:
             -p reviewnotes
 
           symlink_config_to_site
+
+          {{ if not .Values.gerritMaster.persistence.enabled -}}
+            FLAGS="$FLAGS --force"
+          {{- end }}
+
+          /var/tools/gerrit_reindex.py $FLAGS \
+            -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"

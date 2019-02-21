@@ -24,7 +24,11 @@ def container_run(docker_client, container_endless_run_factory, gerrit_init_imag
 
 @pytest.fixture(
     scope="function",
-    params=["/var/tools/gerrit_init.py", "/var/tools/git_config_parser.py"],
+    params=[
+        "/var/tools/gerrit_init.py",
+        "/var/tools/gerrit_reindex.py",
+        "/var/tools/git_config_parser.py",
+    ],
 )
 def expected_script(request):
     return request.param
