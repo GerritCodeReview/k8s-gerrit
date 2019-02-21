@@ -29,11 +29,31 @@ class GitConfigParser:
         command = "git config -f %s --get %s" % (self.path, key)
         return self._execute_shell_command_and_get_output_lines(command)
 
+    def list(self):
+        command = "git config -f %s --list" % (self.path)
+        options = self._execute_shell_command_and_get_output_lines(command)
+        option_list = list()
+        for opt in options:
+            parsed_opt = dict()
+            full_key, value = opt.split("=", 1)
+            parsed_opt["value"] = value
+            full_key = full_key.split(".")
+            parsed_opt["section"] = full_key[0]
+            if len(full_key) == 2:
+                parsed_opt["subsection"] = None
+                parsed_opt["key"] = full_key[1]
+            elif len(full_key) == 3:
+                parsed_opt["subsection"] = full_key[1]
+                parsed_opt["key"] = full_key[2]
+            option_list.append(parsed_opt)
+
+        return option_list
+
     def get(self, key, default=None):
         """
-    Returns value of given key in the configuration file. If the key appears
-    multiple times, the last value is returned.
-    """
+        Returns value of given key in the configuration file. If the key appears
+        multiple times, the last value is returned.
+        """
         try:
             return self._get_value(key)[-1]
         except subprocess.CalledProcessError:
