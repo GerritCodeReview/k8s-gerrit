@@ -34,6 +34,7 @@ def container_run(request, docker_client, gerrit_init_image):
 
 @pytest.fixture(scope="function",
                 params=["/var/tools/gerrit_init.py",
+                        "/var/tools/gerrit_reindex.py",
                         "/var/tools/git_config_parser.py",
                         "/var/tools/validate_db.py"])
 def expected_script(request):
