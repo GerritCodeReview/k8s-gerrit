@@ -13,8 +13,5 @@ symlink_config_to_site(){
 # Kubernetes make the containing directory read-only.
 symlink_config_to_site
 
-java -jar /var/gerrit/bin/gerrit.war reindex \
-    -d /var/gerrit
-
 /var/gerrit/bin/gerrit.sh start
 tail -F -n +1 /var/gerrit/logs/{error,httpd,sshd}_log
