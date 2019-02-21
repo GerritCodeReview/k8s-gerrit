@@ -31,6 +31,11 @@ class GitConfigParser:
     command = "git config -f %s --get %s" % (self.path, key)
     return self._execute_shell_command_and_get_output_lines(command)
 
+  def list(self):
+    command = "git config -f %s --list" % (self.path)
+    options = self._execute_shell_command_and_get_output_lines(command)
+    return [opt.split("=", 1) for opt in options]
+
   def get(self, key, default=None):
     """
     Returns value of given key in the configuration file. If the key appears
