@@ -46,6 +46,13 @@ nfsWorkaround:
   idDomain: localdomain.com
 
 
+networkPolicies:
+  enabled: false
+  dnsPorts:
+  - 53
+  - 8053
+
+
 gitRepositoryStorage:
   externalPVC:
     use: false
@@ -119,6 +126,16 @@ gitBackend:
   # For just one replica, 100 % unavailability has to be allowed for updates to
   # work.
   maxUnavailable: 100%
+
+  # The general NetworkPolicy rules implemented by this chart may be too restrictive
+  # for some setups. Here custom rules may be added to whitelist some additional
+  # connections.
+  networkPolicy:
+    # This allows ingress traffic from all sources. If possible, this should be
+    # limited to the respective primary Gerrit that replicates to this replica.
+    ingress:
+    - {}
+    egress: []
 
   resources:
     requests:
@@ -229,6 +246,13 @@ gerritReplica:
     limits:
       cpu: 1
       memory: 6Gi
+
+  # The general NetworkPolicy rules implemented by this chart may be too restrictive
+  # for some setups, e.g. when trying to connect to an external database. Here
+  # custom rules may be added to whitelist some additional connections.
+  networkPolicy:
+    ingress: []
+    egress: []
 
   service:
     type: NodePort
