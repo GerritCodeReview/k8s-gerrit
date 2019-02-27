@@ -13,11 +13,16 @@ spec:
   jobTemplate:
     spec:
       template:
-        {{ if .Values.istio.enabled -}}
         metadata:
+          {{ if .Values.istio.enabled -}}
           annotations:
             sidecar.istio.io/inject: "false"
-        {{- end }}
+          {{- end }}
+          labels:
+            app: git-gc
+            chart: {{ template "gerrit-replica.chart" . }}
+            heritage: {{ .Release.Service }}
+            release: {{ .Release.Name }}
         spec:
           restartPolicy: OnFailure
           securityContext:

@@ -138,6 +138,54 @@ ID-mapping.
 | `nfsWorkaround.idDomain` | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com` |
 
 
+### Network policies
+
+| Parameter                  | Description                                      | Default      |
+|----------------------------|--------------------------------------------------|--------------|
+| `networkPolicies.enabled`  | Whether to enable preconfigured NetworkPolicies  | `false`      |
+| `networkPolicies.dnsPorts` | List of ports used by DNS-service (e.g. KubeDNS) | `[53, 8053]` |
+
+The NetworkPolicies provided here are quite strict and do not account for all
+possible scenarios. Thus, custom NetworkPolicies have to be added, e.g. for
+connecting to a database. On the other hand some defaults may be not restrictive
+enough. By default, the ingress traffic of the git-backend pod is not restricted.
+Thus, every source (with the right credentials) could push to the git-backend.
+To add an additional layer of security, the ingress rule could be defined more
+finegrained. The chart provides the possibility to define custom rules for ingress-
+traffic of the git-backend pod under `gitBackend.networkPolicy.ingress`.
+Depending on the scenario, there are different ways to restrict the incoming
+connections.
+
+If the replicator (e.g. Gerrit) is running in a pod on the same cluster,
+a podSelector (and namespaceSelector, if the pod is running in a different
+namespace) can be used to whitelist the traffic:
+
+```yaml
+gitBackend:
+  networkPolicy:
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: gerrit
+```
+
+If the replicator is outside the cluster, the IP of the replicator can also be
+whitelisted, e.g.:
+
+```yaml
+gitBackend:
+  networkPolicy:
+    ingress:
+    - from:
+      - ipBlock:
+          cidr: xxx.xxx.0.0/16
+```
+
+The same principle also applies to other use cases, e.g. connecting to a database.
+For more information about the NetworkPolicy resource refer to the
+[Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
+
 ### Storage for Git repositories
 
 | Parameter                               | Description                                     | Default                |
@@ -220,6 +268,8 @@ project.
 | `gitBackend.replicas`                      | Number of pod replicas to deploy                                                   | `1`                                                                       |
 | `gitBackend.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%`                                                                     |
 | `gitBackend.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time              | `100%`                                                                    |
+| `gitBackend.networkPolicy.ingress`         | Custom ingress-network policy for git-backend pods                                 | `[{}]` (allow all)                                                        |
+| `gitBackend.networkPolicy.egress`          | Custom egress-network policy for git-backend pods                                  | `nil`                                                                     |
 | `gitBackend.resources`                     | Configure the amount of resources the pod requests/is allowed                      | `requests.cpu: 100m`                                                      |
 |                                            |                                                                                    | `requests.memory: 256Mi`                                                  |
 |                                            |                                                                                    | `limits.cpu: 100m`                                                        |
@@ -285,6 +335,8 @@ is mandatory, if access to the Gerrit replica is required!
 |                                               |                                                                                                     | `requests.memory: 5Gi`                                                          |
 |                                               |                                                                                                     | `limits.cpu: 1`                                                                 |
 |                                               |                                                                                                     | `limits.memory: 6Gi`                                                            |
+| `gerritReplica.networkPolicy.ingress`         | Custom ingress-network policy for gerrit-replica pods                                               | `nil`                                                                           |
+| `gerritReplica.networkPolicy.egress`          | Custom egress-network policy for gerrit-replica pods                                                | `nil`                                                                           |
 | `gerritReplica.service.type`                  | Which kind of Service to deploy                                                                     | `NodePort`                                                                      |
 | `gerritReplica.service.http.port`             | Port over which to expose HTTP                                                                      | `80`                                                                            |
 | `gerritReplica.service.ssh.enabled`           | Whether to enable SSH for the Gerrit replica                                                        | `false`                                                                         |
