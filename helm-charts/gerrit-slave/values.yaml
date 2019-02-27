@@ -42,6 +42,13 @@ storageClasses:
       mountOptions: vers=4.1
 
 
+networkPolicies:
+  enabled: false
+  dnsPorts:
+  - 53
+  - 8053
+
+
 gitRepositoryStorage:
   size: 5Gi
 
@@ -54,6 +61,16 @@ gitBackend:
   # For just one replica, 100 % unavailability has to be allowed for updates to
   # work.
   maxUnavailable: 100%
+
+  # The general NetworkPolicy rules implemented by this chart may be to restrictive
+  # for some setups. Here custom rules may be added to whitelist some additional
+  # connections.
+  networkPolicy:
+    # This allows ingress traffic from all sources. If possible, this should be
+    # limited to the respective Gerrit master that replicates to this slave.
+    ingress:
+    - {}
+    egress: []
 
   resources:
     requests:
@@ -151,6 +168,14 @@ gerritSlave:
   # including a notedb.
   initializeTestSite:
     enabled: true
+
+  # The general NetworkPolicy rules implemented by this chart may be to restrictive
+  # for some setups, e.g. when trying to connect to an external database. Here
+  # custom rules may be added to whitelist some additional connections.
+  networkPolicy:
+    customRules:
+      ingress: []
+      egress: []
 
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
