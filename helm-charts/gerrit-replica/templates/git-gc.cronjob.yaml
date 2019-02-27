@@ -12,6 +12,12 @@ spec:
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app: git-gc
+            chart: {{ template "gerrit-replica.chart" . }}
+            heritage: {{ .Release.Service }}
+            release: {{ .Release.Name }}
         spec:
           restartPolicy: OnFailure
           securityContext:
