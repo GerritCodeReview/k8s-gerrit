@@ -1,0 +1,154 @@
+{{ if .Values.networkPolicies.enabled -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-default-deny-all
+  labels:
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress: []
+  egress: []
+---
+{{ if .Values.networkPolicies.dnsPorts -}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-allow-dns-access
+  labels:
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    {{ range .Values.networkPolicies.dnsPorts -}}
+    - port: {{ . }}
+      protocol: UDP
+    - port: {{ . }}
+      protocol: TCP
+    {{ end }}
+{{- end }}
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: gerrit-slave-allow-external
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+      app: gerrit-slave
+  ingress:
+  - ports:
+    - port: 8080
+    from: []
+---
+{{ if or .Values.gitBackend.networkPolicy.ingress -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: git-backend-custom-ingress-policies
+  labels:
+    app: git-backend
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+      app: git-backend
+  ingress:
+{{ toYaml .Values.gitBackend.networkPolicy.ingress | indent 2 }}
+{{- end }}
+---
+{{ if or .Values.gitBackend.networkPolicy.egress -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: git-backend-custom-egress-policies
+  labels:
+    app: git-backend
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  policyTypes:
+  - Egress
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+      app: git-backend
+  egress:
+{{ toYaml .Values.gitBackend.networkPolicy.egress | indent 2 }}
+{{- end }}
+---
+{{ if or .Values.gerritSlave.networkPolicy.ingress -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: gerrit-slave-custom-ingress-policies
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  policyTypes:
+  - Ingress
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+      app: gerrit-slave
+  ingress:
+{{ toYaml .Values.gerritSlave.networkPolicy.ingress | indent 2 }}
+{{- end }}
+---
+{{ if or .Values.gerritSlave.networkPolicy.egress -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: gerrit-slave-custom-egress-policies
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  policyTypes:
+  - Egress
+  podSelector:
+    matchLabels:
+      chart: {{ template "gerrit-slave.chart" . }}
+      release: {{ .Release.Name }}
+      app: gerrit-slave
+  egress:
+{{ toYaml .Values.gerritSlave.networkPolicy.egress | indent 2 }}
+{{- end }}
+{{- end }}
