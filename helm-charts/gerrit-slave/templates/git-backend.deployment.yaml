@@ -20,6 +20,9 @@ spec:
     metadata:
       labels:
         app: git-backend
+        chart: {{ template "gerrit-slave.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
     spec:
       securityContext:
         fsGroup: 100
