@@ -64,6 +64,108 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.default.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
 | `storageClasses.default.parameters`    | Parameters for the provisioner                                    | `parameters.type: gp2`, `parameters.fsType: ext4` |
 
+#### Network policies
+
+| Parameter                  | Description                                                                       | Default      |
+|----------------------------|-----------------------------------------------------------------------------------|--------------|
+| `networkPolicies.enabled`  | Whether to enable preconfigured NetworkPolicies                                   | `false`      |
+| `networkPolicies.dnsPorts` | List of ports used by DNS-service (e.g. KubeDNS)                                  | `[53, 8053]` |
+| `networkPolicies.ingress`  | List of selectors to decide, which pods are allowed to access the ReviewDB-pod    | `[]`         |
+| `networkPolicies.egress`   | List of selectors to decide, which pods the ReviewDB-pod is allowed to connect to | `[]`         |
+
+The configuration of NetworkPolicies is strongly dependent on the setup. Thus, it
+is not easy to define rules that would satisfy all scenarios, especially since
+the Gerrit-charts are fully independent.
+
+As an example, take a setup that includes one Gerrit-master and one Gerrit-slave
+with each having a MySQL-based ReviewDB of their own. All pods are installed in
+the same namespace of a cluster. In this setup the following connections
+involving one of the databases need to be possible:
+
+```
+a) gerrit (master) -> reviewdb (master)
+b) gerrit (slave) -> reviewdb (slave)
+c) reviewdb (slave) -> reviewdb (master)
+d) mysql-replication-init -> reviewdb (slave)
+```
+
+These connections can be opened by changing the `values.yaml`-files as follows:
+
+- gerrit (master):
+
+```yaml
+gerritMaster:
+  NetworkPolicy:
+    egress:
+    # Required for a)
+    - ports:
+        port: 3306
+      to:
+      - podSelector:
+          matchLabels:
+            owner: gerrit-master
+```
+
+- reviewdb (master):
+
+```yaml
+networkPolicies:
+  enabled: true
+  ingress:
+  # Required for a)
+  - podSelector:
+      matchLabels:
+        app: gerrit-master
+  # Required for c)
+  - podSelector:
+      matchLabels:
+        owner: gerrit-slave
+
+mysql:
+  podLabels:
+    # Required for a) and c)
+    owner: gerrit-master
+```
+
+- gerrit (slave):
+
+```yaml
+gerritSlave:
+  NetworkPolicy:
+    # Required for b)
+    egress:
+    - ports:
+        port: 3306
+      to:
+      - podSelector:
+          matchLabels:
+            owner: gerrit-slave
+```
+
+- reviewdb (slave):
+
+```yaml
+networkPolicies:
+  enabled: true
+  # Required for b)
+  ingress:
+  - podSelector:
+      matchLabels:
+        app: gerrit-slave
+  # Required for c)
+  egress:
+  - podSelector:
+      matchLabels:
+        owner: gerrit-master
+
+mysql:
+  podLabels:
+    # Required for b) and c)
+    owner: gerrit-slave
+```
+
+The NetworkPolicy needed for connection d) will be automatically set up.
+
 #### Replication
 
 ***note
@@ -98,6 +200,7 @@ the mysql-chart can be viewed in the chart's
 | `mysql.replication.dbDumpAcceptPath`       | Path, where the replication init script will expect the database dump file to appear                                                            | `/var/data/db/master_dump.sql`                                                                 |
 | `mysql.image`                              | Which container image containing MySQL to use                                                                                                   | `mysql`                                                                                        |
 | `mysql.imageTag`                           | Tag of container image (usually the database version)                                                                                           | `5.5.61`                                                                                       |
+| `mysql.podLabels`                          | Labels that will be used to detect mysql-pods (required for NetworkPolicies to work)                                                            | `{owner: gerrit-master}`                                                                       |
 | `mysql.mysqlRootPassword`                  | Password of the database `root` user                                                                                                            | `big_secret`                                                                                   |
 | `mysql.mysqlUser`                          | Database user (The technical user used by Gerrit)                                                                                               | `gerrit`                                                                                       |
 | `mysql.mysqlPassword`                      | Password of the database user                                                                                                                   | `secret`                                                                                       |
