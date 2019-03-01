@@ -31,6 +31,27 @@ storageClasses:
       fsType: ext4
 
 
+networkPolicies:
+  enabled: false
+  dnsPorts:
+  - 53
+  - 8053
+  # The chart will use these labels to select pods, which have access to the
+  # database. This typically should only be the Gerrit instance(s) using the DB
+  # or a database-slave/master.
+  ingress: []
+  # - podSelector:
+  #     matchLabels:
+  #       app: gerrit-master
+  # - podSelector:
+  #     matchLabels:
+  #       app: gerrit-slave
+  egress: []
+  # - podSelector:
+  #     matchLabels:
+  #       owner: gerrit-master
+
+
 isSlave: false
 
 
@@ -53,6 +74,11 @@ mysql:
   image: mysql
   # The major.minor version of mysql should be the same as for the master database
   imageTag: 5.5.61
+
+  # The NetworkPolicies need a label to select the pods. These labels have to be
+  # set here for the mysql-pods.
+  podLabels:
+    owner: gerrit-master
 
   mysqlRootPassword: big_secret
   mysqlUser: gerrit

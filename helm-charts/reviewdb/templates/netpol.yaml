@@ -1,0 +1,109 @@
+{{ if .Values.networkPolicies.enabled -}}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-default-deny-all
+  labels:
+    chart: {{ template "reviewdb.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+{{ toYaml .Values.mysql.podLabels | indent 6 }}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress: []
+  egress: []
+---
+{{ if .Values.networkPolicies.dnsPorts -}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-allow-dns-access
+  labels:
+    chart: {{ template "reviewdb.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+{{ toYaml .Values.mysql.podLabels | indent 6 }}
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    {{ range .Values.networkPolicies.dnsPorts -}}
+    - port: {{ . }}
+      protocol: UDP
+    - port: {{ . }}
+      protocol: TCP
+    {{ end }}
+{{- end }}
+---
+{{ if .Values.mysql.enabled }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-reviewdb-allow-internal-db-access
+  labels:
+    app: reviewdb
+    chart: {{ template "reviewdb.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+{{ toYaml .Values.mysql.podLabels | indent 6 }}
+  policyTypes:
+{{- if .Values.networkPolicies.egress }}
+  - Egress
+{{- end }}
+  - Ingress
+  ingress:
+  - ports:
+    - port: 3306
+    from:
+{{ toYaml .Values.networkPolicies.ingress | indent 4 }}
+{{ if .Values.isSlave }}
+    - podSelector:
+        matchLabels:
+          app: mysql-replication-init
+          chart: {{ template "reviewdb.chart" . }}
+          release: {{ .Release.Name }}
+{{- end }}
+{{ if or .Values.networkPolicies.egress }}
+  egress:
+  - to:
+{{ toYaml .Values.networkPolicies.egress | indent 4 }}
+{{- end }}
+---
+{{ if .Values.isSlave }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ .Release.Name }}-reviewdb-allow-replication-init
+  labels:
+    app: reviewdb
+    chart: {{ template "reviewdb.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector:
+    matchLabels:
+      app: mysql-replication-init
+      chart: {{ template "reviewdb.chart" . }}
+      release: {{ .Release.Name }}
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    - port: 3306
+    to:
+    - podSelector:
+        matchLabels:
+{{ toYaml .Values.mysql.podLabels | indent 10 }}
+{{- end }}
+{{- end }}
+{{- end }}
