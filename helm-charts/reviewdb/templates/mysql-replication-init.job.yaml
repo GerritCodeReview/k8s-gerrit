@@ -60,6 +60,10 @@ spec:
       name:  {{ .Release.Name }}-mysql-replication-init
       labels:
         app: mysql-replication-init
+        chart: {{ template "reviewdb.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
+{{ toYaml .Values.mysql.podLabels | indent 8 }}
     spec:
       restartPolicy: OnFailure
       {{ if .Values.images.registry.ImagePullSecret.name -}}
