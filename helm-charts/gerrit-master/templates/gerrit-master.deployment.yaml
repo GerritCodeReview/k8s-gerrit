@@ -20,6 +20,9 @@ spec:
     metadata:
       labels:
         app: gerrit-master
+        chart: {{ template "gerrit-master.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
     spec:
       securityContext:
         fsGroup: 100
