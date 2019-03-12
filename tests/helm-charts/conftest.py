@@ -159,7 +159,7 @@ class TestCluster:
             else:
                 raise exc
 
-    def _create_image_pull_secret(self):
+    def create_image_pull_secret(self, namespace="default"):
         secret_metadata = client.V1ObjectMeta(name="image-pull-secret")
         auth_string = str.encode(
             "%s:%s" % (self.registry["user"], self.registry["pwd"])
@@ -181,7 +181,7 @@ class TestCluster:
         )
         core_v1 = client.CoreV1Api()
         try:
-            core_v1.create_namespaced_secret("default", secret_body)
+            core_v1.create_namespaced_secret(namespace, secret_body)
         except client.rest.ApiException as exc:
             if exc.status == 409 and exc.reason == "Conflict":
                 warnings.warn(
@@ -189,6 +189,19 @@ class TestCluster:
                 )
             else:
                 raise exc
+
+    def create_namespace(self, name):
+        namespace_metadata = client.V1ObjectMeta(name=name)
+        namespace_body = client.V1Namespace(
+            kind="Namespace", api_version="v1", metadata=namespace_metadata
+        )
+        core_v1 = client.CoreV1Api()
+        core_v1.create_namespace(body=namespace_body)
+        self.create_image_pull_secret(name)
+
+    def delete_namespace(self, name):
+        core_v1 = client.CoreV1Api()
+        core_v1.delete_namespace(name, body=client.V1DeleteOptions())
 
     def init_helm(self):
         self._create_and_deploy_helm_crb()
@@ -225,7 +238,7 @@ class TestCluster:
 
     def setup(self):
         self._load_kube_config()
-        self._create_image_pull_secret()
+        self.create_image_pull_secret()
         self.init_helm()
         self.install_storage_provisioner()
 
