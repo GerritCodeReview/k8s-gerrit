@@ -12,7 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import random
+import string
 import time
+
+class TimeOutException(Exception):
+  """ Exception to be raised, if some action does not finish in time. """
 
 def exec_fn_with_timeout(func, limit=60):
   """Helper function that executes a given function until it returns True or a
@@ -58,3 +63,7 @@ def check_if_ancestor_image_is_inherited(image, ancestor):
     if contains_tag:
       break
   return contains_tag
+
+def create_random_string(length=8):
+  return "".join(
+    [random.choice(string.ascii_letters) for n in range(length)]).lower()
