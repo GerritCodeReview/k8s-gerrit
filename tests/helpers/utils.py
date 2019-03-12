@@ -12,11 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import random
+import string
+
+
+class TimeOutException(Exception):
+    """ Exception to be raised, if some action does not finish in time. """
+
 
 def check_if_ancestor_image_is_inherited(image, ancestor):
     """Helper function that looks for a given ancestor image in the layers of a
-     provided image. It can be used to check, whether an image uses the expected
-     FROM-statement
+    provided image. It can be used to check, whether an image uses the expected
+    FROM-statement
 
   Arguments:
     image {docker.images.Image} -- Docker image object to be checked
@@ -32,3 +39,7 @@ def check_if_ancestor_image_is_inherited(image, ancestor):
         if contains_tag:
             break
     return contains_tag
+
+
+def create_random_string(length=8):
+    return "".join([random.choice(string.ascii_letters) for n in range(length)]).lower()
