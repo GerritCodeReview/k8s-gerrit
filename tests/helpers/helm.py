@@ -57,7 +57,7 @@ class Helm:
     return self._exec_command(helm_cmd)
 
   def install(self, chart, name, values_file=None, set_values=None,
-              fail_on_err=True):
+              namespace=None, fail_on_err=True):
     """Installs a chart on the cluster
 
     Arguments:
@@ -69,6 +69,7 @@ class Helm:
       set_values {dict} -- Dictionary containing key-value-pairs that are used
                            to overwrite values in the values.yaml-file.
                            (default: {None})
+      namespace {str} -- Namespace to install the release into (default: {default})
       fail_on_err {bool} -- Whether to fail with an exception if the installation
                             fails (default: {True})
 
@@ -84,6 +85,8 @@ class Helm:
     if set_values:
       opt_list = ["%s=%s" % (k, v) for k, v in set_values.items()]
       helm_cmd.extend(("--set", ",".join(opt_list)))
+    if namespace:
+      helm_cmd.extend(("--namespace", namespace))
     return self._exec_command(helm_cmd, fail_on_err)
 
   def list(self):
