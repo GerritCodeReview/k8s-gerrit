@@ -50,6 +50,10 @@ gitBackend:
   image: k8sgerrit/apache-git-http-backend
 
   replicas: 1
+  maxSurge: 25%
+  # For just one replica, 100 % unavailability has to be allowed for updates to
+  # work.
+  maxUnavailable: 100%
 
   resources:
     requests:
@@ -132,6 +136,12 @@ gerritSlave:
   images:
     gerritInit: k8sgerrit/gerrit-init
     gerritSlave: k8sgerrit/gerrit-slave
+
+  replicas: 1
+  maxSurge: 25%
+  # For just one replica, 100 % unavailability has to be allowed for updates to
+  # work.
+  maxUnavailable: 100%
 
   # If you only intend to test the Gerrit slave and do not wish to actually
   # replicate repositories and the database, activate this option to initialize
