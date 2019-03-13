@@ -140,6 +140,9 @@ is mandatory, if access to Gerrit is required!
 |-----------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|
 | `gerritMaster.images.gerritInit`              | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-init`          |
 | `gerritMaster.images.gerritMaster`            | Image name of the Gerrit master container image                                                 | `k8s-gerrit/gerrit-master`        |
+| `gerritMaster.replicas`                       | Number of replica pods to deploy                                                                | `1`                               |
+| `gerritMaster.maxSurge`                       | Max. number of pods allowed to be scheduled above the desired number                            | `25%`                             |
+| `gerritMaster.maxUnavailable`                 | Max. number of pods allowed to be unavailable at a time                                         | `100%`                            |
 | `gerritMaster.resources`                      | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                 |
 |                                               |                                                                                                 | `requests.memory: 5Gi`            |
 |                                               |                                                                                                 | `limits.cpu: 1`                   |

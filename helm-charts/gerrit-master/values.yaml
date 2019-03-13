@@ -70,6 +70,12 @@ gerritMaster:
     gerritInit: k8sgerrit/gerrit-init
     gerritMaster: k8sgerrit/gerrit-master
 
+  replicas: 1
+  maxSurge: 25%
+  # For just one replica, 100 % unavailability has to be allowed for updates to
+  # work.
+  maxUnavailable: 100%
+
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
     requests:
