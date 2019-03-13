@@ -9,6 +9,10 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.gitBackend.replicas | default 1 }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.gitBackend.maxSurge }}
+      maxUnavailable: {{ .Values.gitBackend.maxUnavailable }}
   selector:
     matchLabels:
       app: git-backend
