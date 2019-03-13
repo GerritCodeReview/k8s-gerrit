@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35319d8c_6d6a9347",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-13T14:34:15Z",
+      "side": 1,
+      "message": "The description says that it is a number?! If the default is a percentage then it must be a percentage of some (other) number?",
+      "range": {
+        "startLine": 144,
+        "startChar": 149,
+        "endLine": 144,
+        "endChar": 153
+      },
+      "revId": "38901be2c8599f943d51ab73bec439ae7d2e6ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee5d6834_1e247685",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-13T14:34:15Z",
+      "side": 1,
+      "message": "The same here...",
+      "revId": "38901be2c8599f943d51ab73bec439ae7d2e6ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
