@@ -186,6 +186,8 @@ is mandatory, if access to the Gerrit slave is required!
 | `gerritSlave.logging.persistence.size`       | Storage size for persisted logs                                                                                          | `1Gi`                             |
 | `gerritSlave.h2Database.persistence.enabled` | Whether to persist h2 databases                                                                                          | `true`                            |
 | `gerritSlave.h2Database.persistence.size`    | Storage size for persisted h2 databases                                                                                  | `1Gi`                             |
+| `gerritSlave.cache.persistence.enabled`      | Whether to persist the caches                                                                                            | `true`                            |
+| `gerritSlave.cache.persistence.size`         | Storage size for persisted caches                                                                                        | `1Gi`                             |
 | `gerritSlave.service.type`                   | Which kind of Service to deploy                                                                                          | `NodePort`                        |
 | `gerritSlave.service.http.port`              | Port over which to expose HTTP                                                                                           | `80`                              |
 | `gerritSlave.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                                                        | `nil`                             |

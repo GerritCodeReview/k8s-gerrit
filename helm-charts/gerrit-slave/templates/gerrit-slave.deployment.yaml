@@ -60,6 +60,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
+        - name: gerrit-cache
+          mountPath: "/var/gerrit/cache"
       {{- end }}
       # Wait for database to be ready and, if configured, run initialization
       # taking the given Gerrit configuration and persisted volumes into account.
@@ -98,6 +100,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
+        - name: gerrit-cache
+          mountPath: "/var/gerrit/cache"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -120,6 +124,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
+        - name: gerrit-cache
+          mountPath: "/var/gerrit/cache"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
         - name: gerrit-logs
@@ -144,6 +150,13 @@ spec:
         {{ if .Values.gerritSlave.h2Database.persistence.enabled -}}
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-gerrit-slave-db-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
+      - name: gerrit-cache
+        {{ if .Values.gerritSlave.cache.persistence.enabled -}}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-gerrit-slave-cache-pvc
         {{ else -}}
         emptyDir: {}
         {{- end }}

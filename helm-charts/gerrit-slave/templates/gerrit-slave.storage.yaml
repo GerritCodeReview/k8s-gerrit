@@ -35,3 +35,22 @@ spec:
       storage: {{ .Values.gerritSlave.h2Database.persistence.size }}
   storageClassName: {{ .Values.storageClasses.default.name }}
 {{- end }}
+---
+{{ if .Values.gerritSlave.cache.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-gerrit-slave-cache-pvc
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.gerritSlave.cache.persistence.size }}
+  storageClassName: {{ .Values.storageClasses.default.name }}
+{{- end }}

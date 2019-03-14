@@ -74,6 +74,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
+        - name: gerrit-cache
+          mountPath: "/var/gerrit/cache"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
         - name: gerrit-config
@@ -98,6 +100,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: gerrit-db
           mountPath: "/var/gerrit/db"
+        - name: gerrit-cache
+          mountPath: "/var/gerrit/cache"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
         - name: gerrit-logs
@@ -125,6 +129,13 @@ spec:
         {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-gerrit-master-db-pvc
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
+      - name: gerrit-cache
+        {{ if .Values.gerritMaster.cache.persistence.enabled -}}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-gerrit-master-cache-pvc
         {{ else -}}
         emptyDir: {}
         {{- end }}

@@ -159,6 +159,11 @@ gerritSlave:
       enabled: true
       size: 1Gi
 
+  cache:
+    persistence:
+      enabled: true
+      size: 1Gi
+
   service:
     type: NodePort
     http:

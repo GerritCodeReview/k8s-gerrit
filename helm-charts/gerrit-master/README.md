@@ -148,6 +148,8 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.logging.persistence.size`       | Storage size for persisted logs                                                                 | `1Gi`                             |
 | `gerritMaster.h2Database.persistence.enabled` | Whether to persist h2 databases                                                                 | `true`                            |
 | `gerritMaster.h2Database.persistence.size`    | Storage size for persisted h2 databases                                                         | `1Gi`                             |
+| `gerritMaster.cache.persistence.enabled`      | Whether to persist the caches                                                                   | `true`                            |
+| `gerritMaster.cache.persistence.size`         | Storage size for persisted caches                                                               | `1Gi`                             |
 | `gerritMaster.service.type`                   | Which kind of Service to deploy                                                                 | `NodePort`                        |
 | `gerritMaster.service.http.port`              | Port over which to expose HTTP                                                                  | `80`                              |
 | `gerritMaster.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
