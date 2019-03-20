@@ -17,6 +17,14 @@ plugins.
 
 * start the container via start script `/var/tools/gerrit_init.py`
 
+The `download_plugins.py`-script
+
+* parses required plugins from config file
+* removes unwnated plugins
+* installs and updates plugins not packaged in Gerrit's war-file
+* plugin files are validated using SHA1
+* plugin files may optionally be cached
+
 The `gerrit_init.py`-script
 
 * reads configuration from gerrit.config (via `gerrit_config_parser.py`)
