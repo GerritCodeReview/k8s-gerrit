@@ -3,7 +3,7 @@
 Kubernetes init container for initializing gerrit. The python script running in
 the container makes sure, that the database is initialized (currently supported:
 H2 and MySQL) and initializes Gerrit including the installation of configured
-core plugins.
+plugins.
 
 ## Content
 
