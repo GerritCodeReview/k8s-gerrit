@@ -131,6 +131,8 @@ class TestGerritInitPluginInstallation:
     exit_code, _ = container_run_endless.exec_run(cmd)
     assert exit_code == 0
 
+    # TODO: The init-script should again be able to delete packaged plugins.
+    # This could be achieved using a config file instead of single parameters.
     cmd = "/bin/bash -c '" + \
       "test -f /var/gerrit/plugins/reviewnotes.jar'"
     exit_code, _ = container_run_endless.exec_run(cmd)

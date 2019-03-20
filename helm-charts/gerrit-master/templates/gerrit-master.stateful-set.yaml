@@ -72,6 +72,15 @@ spec:
             ln -sf /var/mnt/git /var/gerrit/
           fi
 
+          /var/tools/download_plugins.py \
+            -f /var/config/plugins.yaml \
+            {{- if .Values.gerritMaster.plugins.cache.enabled }}
+            -c /var/mnt/plugins \
+            {{- else }}
+            --nocache \
+            {{- end }}
+            -s /var/gerrit
+
           /var/tools/gerrit_init.py \
             {{- if .Values.gerritMaster.reviewdb.enabled }}
             --reviewdb \
@@ -93,12 +102,19 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        {{- if and .Values.gerritMaster.plugins.cache.enabled .Values.gerritMaster.plugins.downloaded }}
+        - name: gerrit-plugin-cache
+          mountPath: "/var/mnt/plugins"
+        {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
         - name: gerrit-master-secure-config
           mountPath: "/var/config/secure.config"
           subPath: secure.config
+        - name: gerrit-config
+          mountPath: "/var/config/plugins.yaml"
+          subPath: plugins.yaml
         {{ if .Values.gerritMaster.keystore -}}
         - name: gerrit-master-secure-config
           mountPath: "/var/config/keystore"
@@ -146,6 +162,11 @@ spec:
       {{ if not .Values.gerritMaster.persistence.enabled -}}
       - name: gerrit-site
         emptyDir: {}
+      {{- end }}
+      {{- if and .Values.gerritMaster.plugins.cache.enabled .Values.gerritMaster.plugins.downloaded }}
+      - name: gerrit-plugin-cache
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-plugin-cache-pvc
       {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:

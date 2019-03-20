@@ -12,3 +12,12 @@ data:
 {{ .Values.gerritMaster.config.gerrit | indent 4 }}
   replication.config: |-
 {{ .Values.gerritMaster.config.replication | indent 4 }}
+  plugins.yaml: |-
+  {{- if .Values.gerritMaster.plugins.downloaded }}
+{{ toYaml .Values.gerritMaster.plugins.downloaded | indent 4 }}
+  {{- end }}
+  {{- range .Values.gerritMaster.plugins.packaged }}
+    {{- if . }}
+    - name: {{ . }}
+    {{- end }}
+  {{- end }}

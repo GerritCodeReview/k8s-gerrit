@@ -72,12 +72,12 @@ class GerritInit():
 
     return installed_plugins
 
-  def _remove_unwanted_plugins(self):
-    for plugin in self.installed_plugins.difference(self.wanted_plugins):
-      LOG.info("Removing plugin %s", plugin)
-      os.remove(os.path.join(self.site, "plugins", "%s.jar" % plugin))
-
   def _needs_init(self):
+    init_lock_path = os.path.join(self.site, "init.lock")
+    if os.path.exists(init_lock_path):
+      LOG.info("Found %s. Initializing.", init_lock_path)
+      return True
+
     installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
     if not os.path.exists(installed_war_path):
       LOG.info("Gerrit is not yet installed. Initializing new site.")
@@ -98,8 +98,6 @@ class GerritInit():
     return False
 
   def execute(self):
-    self._remove_unwanted_plugins()
-
     if not self._needs_init():
       return
 
@@ -132,6 +130,10 @@ class GerritInit():
                 init_process.returncode)
       sys.exit(1)
 
+    init_lock_path = os.path.join(self.site, "init.lock")
+    if os.path.exists(init_lock_path):
+      os.remove(init_lock_path)
+
 # pylint: disable=C0103
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
@@ -146,7 +148,7 @@ if __name__ == "__main__":
   parser.add_argument(
     "-p",
     "--plugin",
-    help="Gerrit plugin to be installed. Can be used multiple times.",
+    help="Gerrit plugin to be installed from war-file. Can be used multiple times.",
     dest="wanted_plugins",
     action="append",
     default=list())
