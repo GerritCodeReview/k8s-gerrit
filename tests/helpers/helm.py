@@ -57,7 +57,7 @@ class Helm:
     return self._exec_command(helm_cmd)
 
   def install(self, chart, name, values_file=None, set_values=None,
-              namespace=None, fail_on_err=True):
+              namespace=None, fail_on_err=True, wait=True):
     """Installs a chart on the cluster
 
     Arguments:
@@ -79,7 +79,7 @@ class Helm:
                           executed command.
     """
 
-    helm_cmd = ["install", chart, "--dep-up", "-n", name, "--wait"]
+    helm_cmd = ["install", chart, "--dep-up", "-n", name]
     if values_file:
       helm_cmd.extend(("-f", values_file))
     if set_values:
@@ -87,6 +87,8 @@ class Helm:
       helm_cmd.extend(("--set", ",".join(opt_list)))
     if namespace:
       helm_cmd.extend(("--namespace", namespace))
+    if wait:
+      helm_cmd.append("--wait")
     return self._exec_command(helm_cmd, fail_on_err)
 
   def list(self):

@@ -1,1 +1,2 @@
 enableReviewDB: true
+pluginCache: false
