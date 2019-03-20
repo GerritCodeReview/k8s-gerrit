@@ -45,6 +45,46 @@ spec:
         volumeMounts:
         - name: gerrit-logs
           mountPath: "/var/gerrit/logs"
+      {{- if .Values.gerritMaster.plugins.other }}
+      - name: install-plugins
+        image: busybox
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - sh
+        - -ce
+        args:
+        - |
+          mkdir -p /var/gerrit/plugins
+          cd /var/gerrit/plugins
+          {{- range .Values.gerritMaster.plugins.other }}
+          {{- if . }}
+          JAR=$(basename {{ .url }})
+          if [ ! -f $JAR ]; then
+            echo "Downloading {{ .name }}-plugin"
+            wget -q {{ .url }}
+          else
+            echo "{{ .name }}-plugin already available. Skipping download."
+          fi
+          {{ if .sha256 -}}
+          echo "Checking SHA-sum of $JAR"
+          SHASUM="$(sha256sum $JAR | cut -f1 -d' ')"
+          if [[ "$SHASUM" != {{ .sha256 | quote }} ]]; then
+            echo "The plugin-jar did not have the expected sha256-sum."
+            echo "got $SHASUM"
+            echo "expected {{ .sha256 }}"
+            exit 1
+          else
+            echo "SHA-sum of $JAR correct."
+          fi
+          {{- end }}
+          {{- end }}
+          {{- end }}
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+      {{- end }}
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
