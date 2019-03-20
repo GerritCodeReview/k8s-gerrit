@@ -166,6 +166,12 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.ingress.tls.key`               | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----`                                                        |
 | `gerritMaster.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                                                                                    |
 | `gerritMaster.plugins.packaged`              | List of Gerrit plugins that are packaged into the Gerrit-war-file to install                    | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
+| `gerritMaster.plugins.downloaded`            | List of Gerrit plugins that will be downloaded                                                  | `nil`                                                                                    |
+| `gerritMaster.plugins.downloaded[0].name`    | Name of plugin                                                                                  | `nil`                                                                                    |
+| `gerritMaster.plugins.downloaded[0].url`     | Download url of plugin                                                                          | `nil`                                                                                    |
+| `gerritMaster.plugins.downloaded[0].sha1`    | SHA1 sum of plugin jar used to ensure file integrity and version (optional)                     | `nil`                                                                                    |
+| `gerritMaster.plugins.cache.enabled`         | Whether to cache downloaded plugins                                                             | `false`                                                                                  |
+| `gerritMaster.plugins.cache.size`            | Size of the volume used to store cached plugins                                                 | `1Gi`                                                                                    |
 | `gerritMaster.config.gerrit`                 | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)                                                         |
 | `gerritMaster.config.secure`                 | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)                                                         |
 | `gerritMaster.config.replication`            | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)                                                         |
@@ -231,6 +237,24 @@ intended with the chart:
     The maximum heap size has to be set. And its value has to be lower than the
     memory resource limit set for the container (e.g. `-Xmx4g`). In your calculation,
     allow memory for other components running in the container.
+
+### Installing Gerrit plugins
+
+There are several different ways to install plugins for Gerrit:
+
+- **RECOMMENDED: Package the plugins to install into the WAR-file containing Gerrit.**
+  This method provides the most stable way to install plugins, but requires to
+  use a custom build gerrit-war file and container images, if plugins are required
+  that are not part of the official `release.war`-file.
+
+- **Download and cache plugins.** The chart supports downloading the plugin files and
+  to cache them in a separate volume, that is shared between Gerrit-pods. SHA1-
+  sums are used to validate plugin-files and versions.
+
+- **Download plugins, but do not cache them.** This should only be used during
+  development to save resources (the shared volume). Each pod will download the
+  plugin-files on its own. Pods will fail to start up, if the download-URL is
+  not valid anymore at some point in time.
 
 ## Upgrading the Chart
 
