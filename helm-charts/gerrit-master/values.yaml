@@ -138,6 +138,11 @@ gerritMaster:
     - download-commands
     - replication
     - reviewnotes
+    other:
+    - name: delete-project
+      url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-2.16/job/plugin-delete-project-bazel-stable-2.16/lastSuccessfulBuild/artifact/bazel-genfiles/plugins/delete-project/delete-project.jar
+      sha256:
+
 
   config:
     # Some values are expected to have a specific value for the deployment installed
