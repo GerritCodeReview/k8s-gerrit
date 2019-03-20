@@ -38,6 +38,35 @@ spec:
         volumeMounts:
         - name: gerrit-logs
           mountPath: "/var/gerrit/logs"
+      - name: install-plugins
+        image: busybox
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+        - sh
+        - -cxe
+        args:
+        - |
+          mkdir -p /var/gerrit/plugins
+          cd /var/gerrit/plugins
+          {{- range .Values.gerritMaster.plugins.other }}
+          if [ ! -f {{ .name }}.jar ]; then
+            wget -q {{ .url }}
+          fi
+          {{ if .sha256 -}}
+          SHASUM="$(sha256sum {{ .name }}.jar | cut -f1 -d' ')"
+          if [[ "$SHASUM" != {{ .sha256 | quote }} ]]; then
+            echo "The plugin-jar did not have the expected sha256-sum."
+            echo "got $SHASUM"
+            echo "expected {{ .sha256 }}"
+            exit 1
+          fi
+          {{- end }}
+          {{- end }}
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
