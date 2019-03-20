@@ -19,8 +19,11 @@ import yaml
 class InitConfig:
 
   def __init__(self):
+    self.downloaded_plugins = list()
     self.enable_reviewdb = True
+    self.plugin_cache_enabled = False
     self.packaged_plugins = set()
+    self.plugin_cache_dir = None
 
   def parse(self, config_file):
     if not os.path.exists(config_file):
@@ -32,9 +35,15 @@ class InitConfig:
     if config is None:
       raise ValueError("Invalid config-file: %s" % config_file)
 
+    if "downloadedPlugins" in config:
+      self.downloaded_plugins = config["downloadedPlugins"]
     if "enableReviewDB" in config:
       self.enable_reviewdb = config["enableReviewDB"]
     if "packagedPlugins" in config:
       self.packaged_plugins = set(config["packagedPlugins"])
+    if "pluginCache" in config:
+      self.plugin_cache_enabled = config["pluginCache"]
+    if "pluginCacheDir" in config and config["pluginCacheDir"]:
+      self.plugin_cache_dir = config["pluginCacheDir"]
 
     return self
