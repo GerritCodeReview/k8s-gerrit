@@ -120,34 +120,38 @@ class Helm:
         values_file=None,
         set_values=None,
         reuse_values=True,
+        recreate_pods=False,
         fail_on_err=True,
     ):
         """Updates a chart on the cluster
 
-    Arguments:
-      chart {str} -- Release name or path of a helm chart
-      name {str} -- Name with which the chart will be installed on the cluster
+      Arguments:
+        chart {str} -- Release name or path of a helm chart
+        name {str} -- Name with which the chart will be installed on the cluster
 
-    Keyword Arguments:
-      values_file {str} -- Path to a custom values.yaml file (default: {None})
-      set_values {dict} -- Dictionary containing key-value-pairs that are used
-                           to overwrite values in the values.yaml-file.
-                           (default: {None})
-      reuse_values {bool} -- Whether to reuse existing not overwritten values
-                            (default: {True})
-      fail_on_err {bool} -- Whether to fail with an exception if the installation
-                            fails (default: {True})
+      Keyword Arguments:
+        values_file {str} -- Path to a custom values.yaml file (default: {None})
+        set_values {dict} -- Dictionary containing key-value-pairs that are used
+                            to overwrite values in the values.yaml-file.
+                            (default: {None})
+        reuse_values {bool} -- Whether to reuse existing not overwritten values
+                              (default: {True})
+        recreate_pods {bool} -- Whether to restart changed pods (default: {False})
+        fail_on_err {bool} -- Whether to fail with an exception if the installation
+                              fails (default: {True})
 
-    Returns:
-      CompletedProcess -- CompletedProcess-object returned by subprocess
-                          containing details about the result and output of the
-                          executed command.
-    """
+      Returns:
+        CompletedProcess -- CompletedProcess-object returned by subprocess
+                            containing details about the result and output of the
+                            executed command.
+      """
         helm_cmd = ["upgrade", name, chart, "--wait"]
         if values_file:
             helm_cmd.extend(("-f", values_file))
         if reuse_values:
             helm_cmd.append("--reuse-values")
+        if recreate_pods:
+            helm_cmd.append("--recreate-pods")
         if set_values:
             opt_list = ["%s=%s" % (k, v) for k, v in set_values.items()]
             helm_cmd.extend(("--set", ",".join(opt_list)))
@@ -156,18 +160,18 @@ class Helm:
     def delete(self, name, purge=True):
         """Deletes a chart from the cluster
 
-    Arguments:
-      name {str} -- Name of the chart to delete
+      Arguments:
+        name {str} -- Name of the chart to delete
 
-    Keyword Arguments:
-      purge {bool} -- Whether to also remove the release metadata as well
-                      (default: {True})
+      Keyword Arguments:
+        purge {bool} -- Whether to also remove the release metadata as well
+                        (default: {True})
 
-    Returns:
-      CompletedProcess -- CompletedProcess-object returned by subprocess
-                          containing details about the result and output of the
-                          executed command.
-    """
+      Returns:
+        CompletedProcess -- CompletedProcess-object returned by subprocess
+                            containing details about the result and output of the
+                            executed command.
+      """
 
         helm_cmd = ["delete", name]
         if purge:

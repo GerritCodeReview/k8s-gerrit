@@ -2,7 +2,7 @@
 
 Kubernetes init container for initializing gerrit. The python script running in
 the container initializes Gerrit including the installation of configured
-core plugins.
+plugins.
 
 ## Content
 

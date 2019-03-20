@@ -129,6 +129,13 @@ gerritMaster:
   # automatic encoding using helm does not work here.
   keystore:
 
+  plugins:
+    packaged:
+    - commit-message-length-validator
+    - download-commands
+    - replication
+    - reviewnotes
+
   config:
     # Some values are expected to have a specific value for the deployment installed
     # by this chart to work. These are marked with `# FIXED`.
