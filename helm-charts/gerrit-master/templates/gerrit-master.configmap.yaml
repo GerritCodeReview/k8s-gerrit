@@ -24,7 +24,13 @@ metadata:
     release: {{ .Release.Name }}
 data:
   gerrit-init.yaml: |-
+    pluginCache: {{ .Values.gerritMaster.plugins.cache.enabled }}
+    pluginCacheDir: /var/mnt/plugins
     {{- if .Values.gerritMaster.plugins.packaged }}
     packagedPlugins:
 {{ toYaml .Values.gerritMaster.plugins.packaged | indent 6}}
+    {{- end }}
+    {{- if .Values.gerritMaster.plugins.downloaded }}
+    downloadedPlugins:
+{{ toYaml .Values.gerritMaster.plugins.downloaded | indent 6 }}
     {{- end }}
