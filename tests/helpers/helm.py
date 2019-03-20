@@ -69,29 +69,31 @@ class Helm:
         set_values=None,
         namespace=None,
         fail_on_err=True,
+        wait=True,
     ):
         """Installs a chart on the cluster
 
-    Arguments:
-      chart {str} -- Release name or path of a helm chart
-      name {str} -- Name with which the chart will be installed on the cluster
+      Arguments:
+        chart {str} -- Release name or path of a helm chart
+        name {str} -- Name with which the chart will be installed on the cluster
 
-    Keyword Arguments:
-      values_file {str} -- Path to a custom values.yaml file (default: {None})
-      set_values {dict} -- Dictionary containing key-value-pairs that are used
-                           to overwrite values in the values.yaml-file.
-                           (default: {None})
-      namespace {str} -- Namespace to install the release into (default: {default})
-      fail_on_err {bool} -- Whether to fail with an exception if the installation
-                            fails (default: {True})
+      Keyword Arguments:
+        values_file {str} -- Path to a custom values.yaml file (default: {None})
+        set_values {dict} -- Dictionary containing key-value-pairs that are used
+                            to overwrite values in the values.yaml-file.
+                            (default: {None})
+        namespace {str} -- Namespace to install the release into (default: {default})
+        fail_on_err {bool} -- Whether to fail with an exception if the installation
+                              fails (default: {True})
+        wait {bool} -- Whether to wait for all pods to be ready (default: {True})
 
-    Returns:
-      CompletedProcess -- CompletedProcess-object returned by subprocess
-                          containing details about the result and output of the
-                          executed command.
-    """
+      Returns:
+        CompletedProcess -- CompletedProcess-object returned by subprocess
+                            containing details about the result and output of the
+                            executed command.
+      """
 
-        helm_cmd = ["install", chart, "--dep-up", "-n", name, "--wait"]
+        helm_cmd = ["install", chart, "--dep-up", "-n", name]
         if values_file:
             helm_cmd.extend(("-f", values_file))
         if set_values:
@@ -99,6 +101,8 @@ class Helm:
             helm_cmd.extend(("--set", ",".join(opt_list)))
         if namespace:
             helm_cmd.extend(("--namespace", namespace))
+        if wait:
+            helm_cmd.append("--wait")
         return self._exec_command(helm_cmd, fail_on_err)
 
     def list(self):

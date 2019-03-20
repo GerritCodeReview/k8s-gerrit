@@ -19,6 +19,7 @@ import os
 import subprocess
 import sys
 
+from download_plugins import get_installer
 from git_config_parser import GitConfigParser
 from init_config import InitConfig
 from log import get_logger
@@ -30,6 +31,8 @@ class GerritInit:
     def __init__(self, site, config):
         self.site = site
         self.config = config
+
+        self.plugin_installer = get_installer(self.site, self.config)
 
         self.gerrit_config = self._parse_gerrit_config()
         self.is_slave = self._is_slave()
@@ -65,11 +68,6 @@ class GerritInit:
 
         return installed_plugins
 
-    def _remove_unwanted_plugins(self):
-        for plugin in self.installed_plugins.difference(self.config.packaged_plugins):
-            LOG.info("Removing plugin %s", plugin)
-            os.remove(os.path.join(self.site, "plugins", "%s.jar" % plugin))
-
     def _gerrit_war_updated(self):
         installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
         installed_version = self._get_gerrit_version(installed_war_path)
@@ -82,6 +80,10 @@ class GerritInit:
         return installed_version != provided_version
 
     def _needs_init(self):
+        if self.plugin_installer.plugins_changed:
+            LOG.info("Plugins were installed or updated. Initializing.")
+            return True
+
         installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
         if not os.path.exists(installed_war_path):
             LOG.info("Gerrit is not yet installed. Initializing new site.")
@@ -99,7 +101,7 @@ class GerritInit:
         return False
 
     def execute(self):
-        self._remove_unwanted_plugins()
+        self.plugin_installer.execute()
 
         if not self._needs_init():
             return
