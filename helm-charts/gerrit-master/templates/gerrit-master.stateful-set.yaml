@@ -73,11 +73,12 @@ spec:
           fi
 
           /var/tools/gerrit_init.py \
-            -s /var/gerrit \
-            -p replication \
-            -p commit-message-length-validator \
-            -p download-commands \
-            -p reviewnotes
+            {{- range .Values.gerritMaster.plugins.packaged }}
+            {{- if . }}
+            -p {{ . }} \
+            {{- end }}
+            {{- end }}
+            -s /var/gerrit
 
           symlink_config_to_site
         volumeMounts:
