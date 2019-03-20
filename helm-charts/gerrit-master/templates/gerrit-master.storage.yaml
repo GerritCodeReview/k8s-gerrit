@@ -1,0 +1,18 @@
+{{- if and .Values.gerritMaster.plugins.cache.enabled .Values.gerritMaster.plugins.downloaded }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-plugin-cache-pvc
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.gerritMaster.plugins.cache.size }}
+  storageClassName: {{ .Values.storageClasses.shared.name }}
+{{- end }}
