@@ -102,7 +102,7 @@ class Helm:
     return output["Releases"]
 
   def upgrade(self, chart, name, values_file=None, set_values=None,
-              reuse_values=True, fail_on_err=True):
+              reuse_values=True, recreate_pods=False, fail_on_err=True):
     """Updates a chart on the cluster
 
     Arguments:
@@ -116,6 +116,7 @@ class Helm:
                            (default: {None})
       reuse_values {bool} -- Whether to reuse existing not overwritten values
                             (default: {True})
+      recreate_pods {bool} -- Whether to restart changed pods (default: {False})
       fail_on_err {bool} -- Whether to fail with an exception if the installation
                             fails (default: {True})
 
@@ -129,6 +130,8 @@ class Helm:
       helm_cmd.extend(("-f", values_file))
     if reuse_values:
       helm_cmd.append("--reuse-values")
+    if recreate_pods:
+      helm_cmd.append("--recreate-pods")
     if set_values:
       opt_list = ["%s=%s" % (k, v) for k, v in set_values.items()]
       helm_cmd.extend(("--set", ",".join(opt_list)))

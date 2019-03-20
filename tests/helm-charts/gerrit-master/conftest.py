@@ -15,54 +15,54 @@
 # limitations under the License.
 
 import os.path
-import time
 
 import pytest
 
-from kubernetes import client
-
 import utils
 
+@pytest.fixture(scope="session")
+def gerrit_master_h2_deployment_factory(
+    request, repository_root, test_cluster, namespace_factory, docker_tag,
+    gerrit_master_image, gitgc_image, gerrit_init_image):
+
+  def install_chart(chart_opts):
+    chart_path = os.path.join(repository_root, "helm-charts", "gerrit-master")
+    chart_name = "gerrit-master-" + utils.create_random_string()
+    namespace_name = utils.create_random_string()
+    namespace_factory(namespace_name)
+    test_cluster.helm.install(
+      chart_path, chart_name, set_values=chart_opts, fail_on_err=True,
+      namespace=namespace_name)
+
+    return {
+      "chart": chart_path,
+      "name": chart_name,
+      "namespace": namespace_name
+    }
+
+  return install_chart
+
 @pytest.fixture(scope="module")
-def gerrit_master_h2_deployment(request, repository_root, test_cluster,
-                                namespace_factory, docker_tag, gerrit_master_image,
-                                gitgc_image, gerrit_init_image):
-  chart_path = os.path.join(repository_root, "helm-charts", "gerrit-master")
-  chart_name = "gerrit-master-" + utils.create_random_string()
+def gerrit_master_h2_deployment(request, docker_tag, test_cluster,
+                                gerrit_master_h2_deployment_factory):
   chart_opts = {
     "images.registry.name": request.config.getoption("--registry"),
     "images.version": docker_tag,
     "gerritMaster.ingress.host": "master.%s" % request.config.getoption("--ingress-url")
   }
-  namespace_name = utils.create_random_string()
-  namespace_factory(namespace_name)
-  test_cluster.helm.install(
-    chart_path, chart_name, set_values=chart_opts, fail_on_err=True,
-    namespace=namespace_name)
+  chart = gerrit_master_h2_deployment_factory(chart_opts)
 
-  yield {
-    "name": chart_name,
-    "namespace": namespace_name
-  }
+  yield chart
 
-  test_cluster.helm.delete(chart_name)
+  test_cluster.helm.delete(chart["name"])
 
 @pytest.fixture(scope="module")
 def gerrit_master_h2_ready_deployment(gerrit_master_h2_deployment):
-  def wait_for_readiness():
-    pod_labels = "app=gerrit-master,release=%s" % gerrit_master_h2_deployment["name"]
-    core_v1 = client.CoreV1Api()
-    pod_list = core_v1.list_pod_for_all_namespaces(
-      watch=False, label_selector=pod_labels)
-    for condition in pod_list.items[0].status.conditions:
-      if condition.type == "Ready" and condition.status == "True":
-        return None, True
-    return None, False
 
-  finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_readiness, 180)
+  pod_labels = "app=gerrit-master,release=%s" % gerrit_master_h2_deployment["name"]
+  finished_in_time = utils.wait_for_pod_readiness(pod_labels, timeout=180)
+
   if not finished_in_time:
     raise utils.TimeOutException("Gerrit master pod was not ready in time.")
-
-  time.sleep(5)
 
   yield finished_in_time
