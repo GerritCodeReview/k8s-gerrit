@@ -63,11 +63,10 @@ spec:
 
           if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
             /var/tools/gerrit_init.py \
-              -s /var/gerrit \
-              -p replication \
-              -p commit-message-length-validator \
-              -p download-commands \
-              -p reviewnotes
+              {{- range .Values.gerritMaster.plugins.core }}
+              -p {{ . }} \
+              {{- end }}
+              -s /var/gerrit
 
             symlink_config_to_site
           fi
