@@ -35,7 +35,7 @@ def gerrit_master_h2_deployment_factory(
     gitgc_image,
     gerrit_init_image,
 ):
-    def install_chart(chart_opts):
+    def install_chart(chart_opts, wait=True):
         chart_path = os.path.join(repository_root, "helm-charts", "gerrit-master")
         chart_name = "gerrit-master-" + utils.create_random_string()
         namespace_name = utils.create_random_string()
@@ -67,6 +67,7 @@ def gerrit_master_h2_deployment_factory(
             set_values=chart_opts,
             fail_on_err=True,
             namespace=namespace_name,
+            wait=wait,
         )
 
         return {"chart": chart_path, "name": chart_name, "namespace": namespace_name}

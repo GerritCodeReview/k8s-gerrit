@@ -89,6 +89,10 @@ spec:
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
+        {{- if and .Values.gerritMaster.plugins.cache.enabled .Values.gerritMaster.plugins.downloaded }}
+        - name: gerrit-plugin-cache
+          mountPath: "/var/mnt/plugins"
+        {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -142,6 +146,11 @@ spec:
       {{ if not .Values.gerritMaster.persistence.enabled -}}
       - name: gerrit-site
         emptyDir: {}
+      {{- end }}
+      {{- if and .Values.gerritMaster.plugins.cache.enabled .Values.gerritMaster.plugins.downloaded }}
+      - name: gerrit-plugin-cache
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-plugin-cache-pvc
       {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
