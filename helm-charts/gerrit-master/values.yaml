@@ -138,6 +138,11 @@ gerritMaster:
     - download-commands
     - replication
     - reviewnotes
+    other:
+    # - name: delete-project
+    #   url: https://example.com/gerrit-plugins/delete-project.jar
+    #   sha256:
+
 
   config:
     # Some values are expected to have a specific value for the deployment installed
