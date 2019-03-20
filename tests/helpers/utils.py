@@ -16,7 +16,7 @@ import random
 import string
 import time
 
-from kubernetes import client, config
+from kubernetes import client
 
 class TimeOutException(Exception):
   """ Exception to be raised, if some action does not finish in time. """
@@ -45,6 +45,36 @@ def exec_fn_with_timeout(func, limit=60):
     if is_finished:
       return True, output
   return False, output
+
+def wait_for_pod_readiness(pod_labels, timeout=180):
+  """Helper function that can be used to wait for all pods with a given set of
+     labels to be ready.
+
+  Arguments:
+    pod_labels {str} -- Label selector string to be used to select pods.
+                        (https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
+
+  Keyword Arguments:
+    timeout {int} -- Seconds until stop waiting (default: {180})
+
+  Returns:
+    boolean -- Whether pods were ready in time.
+  """
+
+  def check_pod_readiness():
+    core_v1 = client.CoreV1Api()
+    pod_list = core_v1.list_pod_for_all_namespaces(
+      watch=False, label_selector=pod_labels)
+    for pod in pod_list.items:
+      for condition in pod.status.conditions:
+        if condition.type != "Ready" and condition.status != "True":
+          return None, False
+    return None, True
+
+  finished_in_time, _ = exec_fn_with_timeout(
+    check_pod_readiness, limit=timeout)
+  time.sleep(5)
+  return finished_in_time
 
 def check_if_ancestor_image_is_inherited(image, ancestor):
   """Helper function that looks for a given ancestor image in the layers of a
