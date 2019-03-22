@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
+import getpass
 import os
 import sys
 
@@ -25,6 +27,25 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'helpers'))
 
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
+
+# pylint: disable=W0622
+class PasswordPromptAction(argparse.Action):
+  def __init__(self, option_strings, dest=None, nargs=0, default=None,
+               required=False, type=None, metavar=None, help=None):
+
+    super(PasswordPromptAction, self).__init__(
+      option_strings=option_strings,
+      dest=dest,
+      nargs=nargs,
+      default=default,
+      required=required,
+      metavar=metavar,
+      type=type,
+      help=help)
+
+  def __call__(self, parser, args, values, option_string=None):
+    password = getpass.getpass()
+    setattr(args, self.dest, password)
 
 def pytest_addoption(parser):
   parser.addoption(
@@ -86,6 +107,14 @@ def pytest_addoption(parser):
   parser.addoption(
     "--ingress-url", action="store", default=None,
     help="URL of the ingress domain used by the cluster."
+  )
+  parser.addoption(
+    "--gerrit-user", action="store", default="admin",
+    help="Gerrit admin username to be used for smoke tests. (default: admin)"
+  )
+  parser.addoption(
+    "--gerrit-pwd", action=PasswordPromptAction, default="secret",
+    help="Gerrit admin password to be used for smoke tests. (default: secret)"
   )
   parser.addoption(
     "--skip-slow", action="store_true",
