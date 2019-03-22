@@ -140,8 +140,13 @@ pipenv install
 To run all tests, execute:
 
 ```sh
-pipenv run pytest
+pipenv run pytest -m "not smoke"
 ```
+
+***note
+The `-m "not smoke"`-option excludes the smoke tests, which will fail, since
+no Gerrit-instance will be running, when they are executed.
+***
 
 Some tests will need to create files in a temporary directory. Some of these
 files will be mounted into docker containers by tests. For this to work make
@@ -150,7 +155,7 @@ daemon or set the base temporary directory to a directory accessible by Docker
 by executing:
 
 ```sh
-pipenv run pytest --basetemp=/tmp/k8sgerrit
+pipenv run pytest --basetemp=/tmp/k8sgerrit -m "not smoke"
 ```
 
 By default the tests will build all images from scratch. This will greatly
@@ -158,7 +163,7 @@ increase the time needed for testing. To use already existing container images,
 a tag can be provided as follows:
 
 ```sh
-pipenv run pytest --tag=v0.1
+pipenv run pytest --tag=v0.1 -m "not smoke"
 ```
 
 The tests will then use the existing images with the provided tag. If an image
@@ -168,14 +173,14 @@ By default the build of the container images will not use the build cache
 created by docker. To enable the cache, execute:
 
 ```sh
-pipenv run pytest --build-cache
+pipenv run pytest --build-cache -m "not smoke"
 ```
 
 Slow tests may be marked with the decorator `@pytest.mark.slow`. These tests
 may then be skipped as follows:
 
 ```sh
-pipenv run pytest --skip-slow
+pipenv run pytest --skip-slow -m "not smoke"
 ```
 
 To run specific tests, execute one of the following:
@@ -194,3 +199,21 @@ pipenv run \
 
 For a more detailed description of how to use `pytest`, refer to the
 [official documentation](https://docs.pytest.org/en/latest/contents.html).
+
+## Running smoke tests
+
+To run smoke tests, use the following command:
+
+```sh
+pipenv run pytest \
+  -m "smoke" \
+  --basetemp="<tmp-dir for tests>" \
+  --ingress-url="<Gerrit URL>" \
+  --gerrit-user="<Gerrit user>" \
+  --gerrit-pwd
+```
+
+The smoke tests require a Gerrit user that is allowed to create and delete
+projects. The username has to be given by `--gerit-user`. Setting the
+`--gerrit-pwd`-flag will cause a password prompt to enter the password of the
+Gerrit-user.
