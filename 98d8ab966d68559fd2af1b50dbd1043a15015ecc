@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4a1acb2_ca75255d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T14:13:54Z",
+      "side": 1,
+      "message": "Did you also consider the option of letting the still running job finish and\nnot starting a new instance?",
+      "range": {
+        "startLine": 15,
+        "startChar": 68,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "98d8ab966d68559fd2af1b50dbd1043a15015ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
