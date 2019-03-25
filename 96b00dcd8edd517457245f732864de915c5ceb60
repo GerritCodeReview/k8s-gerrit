@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b43b14ca_97d7432b",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T14:25:17Z",
+      "side": 1,
+      "message": "Looking at the method body, the code could be made less dense by inserting an empty line\nto separate logical parts. At least put an empty line between lines 83 and 84",
+      "revId": "96b00dcd8edd517457245f732864de915c5ceb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d943f0_f99d46fb",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T14:25:17Z",
+      "side": 1,
+      "message": "Looks like this test is only asserting the HEAD? If this is the case then why\ninitialize the remote_refs map with all other values? We actually do not even need the\nremote_refs map, instead we only need one variable for the HEAD value.",
+      "revId": "96b00dcd8edd517457245f732864de915c5ceb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88ce33f4_810604b4",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T14:25:17Z",
+      "side": 1,
+      "message": "would be nice to give name(s) to the status code(s)",
+      "range": {
+        "startLine": 108,
+        "startChar": 35,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "96b00dcd8edd517457245f732864de915c5ceb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
