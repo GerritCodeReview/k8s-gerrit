@@ -16,6 +16,24 @@
       "revId": "15b8d43bff4ae94510d43db4ff5cffd5f175e1cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278e409a_758eda09",
+        "filename": "tests/container-images/apache-git-http-backend/test_container_structure_apache_git_http_backend.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T16:07:01Z",
+      "side": 1,
+      "message": "This basically checks, whether the FROM-statement is as we expect it. This is mainly done as a security measure to avoid that images are published that inherit from a container that is not containing what we expect. It would be even better to check also the inherited containers deeper in the inheritance chain.\n\nDoing it here, let\u0027s us also test containers, we did not build ourselves.",
+      "parentUuid": "82c145c3_64d9ca2c",
+      "revId": "15b8d43bff4ae94510d43db4ff5cffd5f175e1cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
