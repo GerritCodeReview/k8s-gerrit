@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c803a00d_1c7ed775",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:12:32Z",
+      "side": 1,
+      "message": "Include also the timeout value in the error message?",
+      "range": {
+        "startLine": 64,
+        "startChar": 56,
+        "endLine": 64,
+        "endChar": 74
+      },
+      "revId": "5da01e18635f13ffdf206607457efdefb88c0b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd10ef6c_2291045d",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:12:32Z",
+      "side": 1,
+      "message": "What is the purpose of this sleep?",
+      "revId": "5da01e18635f13ffdf206607457efdefb88c0b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73133e8_f9c66b9c",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_setup.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:12:32Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "5da01e18635f13ffdf206607457efdefb88c0b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c8cb8c9_f25ce804",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_usage.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:12:32Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "5da01e18635f13ffdf206607457efdefb88c0b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
