@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7d39d32c_58bec314",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:03:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1d5796c_e12d2bd4",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "db8060412725605845857268d7765b10f28d5b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7eee084_77fe7efb",
         "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
         "patchSetId": 14
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "01a43c86_3aba4886",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:03:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7eee084_77fe7efb",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 5
+      },
+      "revId": "db8060412725605845857268d7765b10f28d5b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9e95367_e3357884",
         "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
         "patchSetId": 14
@@ -62,6 +110,24 @@
       "revId": "db8060412725605845857268d7765b10f28d5b27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285cdd14_8a6b9e30",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:03:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9e95367_e3357884",
+      "revId": "db8060412725605845857268d7765b10f28d5b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
