@@ -16,6 +16,24 @@
       "revId": "364eeb3a4c4f6155910ca9231b14d4f9e47efc51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c60b30_27960f46",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T15:30:34Z",
+      "side": 1,
+      "message": "Unfortunately not [1].\n\n[1] https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#probe-v1-core",
+      "parentUuid": "2c4f9859_6d5e3eb6",
+      "revId": "364eeb3a4c4f6155910ca9231b14d4f9e47efc51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
