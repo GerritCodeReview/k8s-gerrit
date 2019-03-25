@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85da3e41_3a6f5b6f",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:04:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1686640_e2b8a3ca",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "6adb177a351cffbb078630c967baa3aca2ee57eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcd5d0c8_7507774d",
         "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a559ebd0_bbeebfcd",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:04:37Z",
+      "side": 1,
+      "message": "The current readiness probe does not wait for all endpoints to be ready. Thus, the tests have to wait for some additional time. I added comments indicating that and a TODO for a possible fix.",
+      "parentUuid": "fcd5d0c8_7507774d",
+      "revId": "6adb177a351cffbb078630c967baa3aca2ee57eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0149788_1c9f752f",
         "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
         "patchSetId": 5
@@ -53,6 +95,24 @@
       "writtenOn": "2019-03-25T15:22:20Z",
       "side": 1,
       "message": "What is the purpose of this sleep?",
+      "revId": "6adb177a351cffbb078630c967baa3aca2ee57eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47516d67_56a73ca9",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:04:37Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "a0149788_1c9f752f",
       "revId": "6adb177a351cffbb078630c967baa3aca2ee57eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
