@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad862b38_618f0959",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43b14ca_97d7432b",
+      "revId": "96b00dcd8edd517457245f732864de915c5ceb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88d943f0_f99d46fb",
         "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f45bbe95_08c271e6",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:04:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88d943f0_f99d46fb",
+      "revId": "96b00dcd8edd517457245f732864de915c5ceb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88ce33f4_810604b4",
         "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2019-03-25T14:25:17Z",
       "side": 1,
       "message": "would be nice to give name(s) to the status code(s)",
+      "range": {
+        "startLine": 108,
+        "startChar": 35,
+        "endLine": 108,
+        "endChar": 38
+      },
+      "revId": "96b00dcd8edd517457245f732864de915c5ceb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b161552b_1b14da24",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T17:04:48Z",
+      "side": 1,
+      "message": "Done.\nI used the lookup dict provided by requests to do this, instead of defining my own named variables.",
+      "parentUuid": "88ce33f4_810604b4",
       "range": {
         "startLine": 108,
         "startChar": 35,
