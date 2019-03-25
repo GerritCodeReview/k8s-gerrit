@@ -9,6 +9,7 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   schedule: {{ .Values.gitGC.schedule | quote }}
+  concurrencyPolicy: "Forbid"
   jobTemplate:
     spec:
       template:
