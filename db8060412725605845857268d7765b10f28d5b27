@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1d5796c_e12d2bd4",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:01:38Z",
+      "side": 1,
+      "message": "2019\n\neven the first patch-set of this change was created in 2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "db8060412725605845857268d7765b10f28d5b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7eee084_77fe7efb",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:01:38Z",
+      "side": 1,
+      "message": "This looks too much Java-like. Doesn\u0027t python provide multiline strings?",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 5
+      },
+      "revId": "db8060412725605845857268d7765b10f28d5b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e95367_e3357884",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_mysql.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:01:38Z",
+      "side": 1,
+      "message": "Eliminate the join by using a multiline string?",
+      "revId": "db8060412725605845857268d7765b10f28d5b27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
