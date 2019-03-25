@@ -22,6 +22,30 @@
       "revId": "98d8ab966d68559fd2af1b50dbd1043a15015ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8156d1ce_77ce7e8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-25T15:13:16Z",
+      "side": 1,
+      "message": "I wanted to avoid endless runs, but thinking about it and looking how Kubernetes handles the restarts, it might be better to take the chance of endless running jobs, since Kubernetes does not mark restarted jobs as \"failed\", hiding possible issues. However, job run times or skipped schedules might be a better indicator to alert an operator.",
+      "parentUuid": "a4a1acb2_ca75255d",
+      "range": {
+        "startLine": 15,
+        "startChar": 68,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "98d8ab966d68559fd2af1b50dbd1043a15015ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
