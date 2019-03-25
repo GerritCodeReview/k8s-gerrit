@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82c145c3_64d9ca2c",
+        "filename": "tests/container-images/apache-git-http-backend/test_container_structure_apache_git_http_backend.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-25T15:04:17Z",
+      "side": 1,
+      "message": "Could this check be done already at the build time?",
+      "revId": "15b8d43bff4ae94510d43db4ff5cffd5f175e1cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
