@@ -10,11 +10,16 @@ RUN apt-get update && \
 
 RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
-    mkdir -p /var/war
+    mkdir -p /var/war && \
+    mkdir -p /var/plugins
 
 # Download Gerrit release
 ARG GERRIT_WAR_URL=https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-2.16/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war
 RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
+
+# Install Healthcheck plugin
+ARG HEALTHCHECK_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-2.16/job/plugin-healthcheck-bazel-stable-2.16/lastSuccessfulBuild/artifact/bazel-genfiles/plugins/healthcheck/healthcheck.jar
+RUN curl -k -o /var/plugins/healthcheck.jar ${HEALTHCHECK_JAR_URL} && ln -s /var/plugins /var/gerrit/plugins
 
 # Allow incoming traffic
 EXPOSE 29418 8080

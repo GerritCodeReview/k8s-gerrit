@@ -1,8 +1,14 @@
 #!/bin/bash
 
 symlink_config_to_site(){
+    local config_files="\
+        keystore \
+        gerrit.config \
+        secure.config \
+        replication.config \
+        healthcheck.config"
     mkdir -p /var/gerrit/etc
-    for file in keystore gerrit.config secure.config replication.config; do
+    for file in $config_files; do
         test -f /var/config/$file && \
             ln -sf /var/config/$file /var/gerrit/etc/$file
     done

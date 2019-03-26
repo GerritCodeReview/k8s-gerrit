@@ -12,3 +12,5 @@ data:
 {{ .Values.gerritMaster.config.gerrit | indent 4 }}
   replication.config: |-
 {{ .Values.gerritMaster.config.replication | indent 4 }}
+  healthcheck.config: |-
+{{ .Values.gerritMaster.config.healthcheck | indent 4 }}
