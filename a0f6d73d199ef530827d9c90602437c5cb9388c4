@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4c15253c_732add6b",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-26T12:49:51Z",
+      "side": 1,
+      "message": "I wanted to avoid a backslash. Changed it now.",
+      "parentUuid": "0545a607_bae9605f",
+      "range": {
+        "startLine": 68,
+        "startChar": 58,
+        "endLine": 68,
+        "endChar": 59
+      },
+      "revId": "a0f6d73d199ef530827d9c90602437c5cb9388c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8236e4ac_ff38d214",
         "filename": "tests/helm-charts/gerrit-master/conftest.py",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2019-03-26T10:33:30Z",
       "side": 1,
       "message": "There is no guarantee that this is enough :-)",
+      "revId": "a0f6d73d199ef530827d9c90602437c5cb9388c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cd97b59_7939fcb0",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-26T12:49:51Z",
+      "side": 1,
+      "message": "I know. That\u0027s why we should get the healthcheck plugin into place asap.",
+      "parentUuid": "8236e4ac_ff38d214",
       "revId": "a0f6d73d199ef530827d9c90602437c5cb9388c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
