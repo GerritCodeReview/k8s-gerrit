@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0545a607_bae9605f",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-26T10:33:30Z",
+      "side": 1,
+      "message": "The parentheses are not necessary when the only one parameter is provided to the % operator",
+      "range": {
+        "startLine": 68,
+        "startChar": 58,
+        "endLine": 68,
+        "endChar": 59
+      },
+      "revId": "a0f6d73d199ef530827d9c90602437c5cb9388c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8236e4ac_ff38d214",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-26T10:33:30Z",
+      "side": 1,
+      "message": "There is no guarantee that this is enough :-)",
+      "revId": "a0f6d73d199ef530827d9c90602437c5cb9388c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
