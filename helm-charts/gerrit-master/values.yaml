@@ -211,3 +211,13 @@ gerritMaster:
       # url = http://gerrit-slave.example.com/git/${name}.git
       # replicationDelay = 0
       # timeout = 30
+
+    healthcheck: |-
+      # The auth-healthceck is disabled by default, because in a fresh installation
+      # no healthceck-user will exist.
+      [healthcheck "auth"]
+        enabled = false
+      # The querychanges-healthceck is disabled by default, because in a fresh
+      # installation not enough changes will exist.
+      [healthcheck "querychanges"]
+        enabled = false

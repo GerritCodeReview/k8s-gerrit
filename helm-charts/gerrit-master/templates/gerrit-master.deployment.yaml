@@ -104,6 +104,8 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
+          cp -Rf /var/plugins /var/gerrit/plugins
+
           if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
             /var/tools/gerrit_init.py \
               {{- range .Values.gerritMaster.plugins.core }}
@@ -157,6 +159,9 @@ spec:
         - name: gerrit-config
           mountPath: "/var/config/replication.config"
           subPath: replication.config
+        - name: gerrit-config
+          mountPath: "/var/config/healthcheck.config"
+          subPath: healthcheck.config
         - name: gerrit-master-secure-config
           mountPath: "/var/config/secure.config"
           subPath: secure.config
