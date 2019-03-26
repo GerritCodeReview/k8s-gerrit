@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7617c9a1_2b26ee6f",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-26T12:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57fed03f_650bb2f1",
+      "range": {
+        "startLine": 48,
+        "startChar": 49,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "d3d0d6770e5ddddb8f9348988d3200b6e46205eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef933e68_11e21ccf",
         "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "d3d0d6770e5ddddb8f9348988d3200b6e46205eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "873b2eec_00d4797f",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-26T12:48:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef933e68_11e21ccf",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "d3d0d6770e5ddddb8f9348988d3200b6e46205eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
