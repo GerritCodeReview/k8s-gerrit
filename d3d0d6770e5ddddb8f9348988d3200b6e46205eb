@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57fed03f_650bb2f1",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-26T10:42:56Z",
+      "side": 1,
+      "message": "Would this also work with all uppercase names: OK, NO_CONTENT, etc...\nIf yes, then please use uppercase names as this would improve the readability.",
+      "range": {
+        "startLine": 48,
+        "startChar": 49,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "d3d0d6770e5ddddb8f9348988d3200b6e46205eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef933e68_11e21ccf",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_smoke_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-26T10:42:56Z",
+      "side": 1,
+      "message": "Name this variable head. Even better avoid this variable by:\n* moving the assert inside this block\n* removing the initialization at the line 86\n* replacing break with return\n* adding a pytest.fail after the for loop exits",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "d3d0d6770e5ddddb8f9348988d3200b6e46205eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
