@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c389ce3_d3511d1a",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-03-26T10:35:23Z",
+      "side": 1,
+      "message": "Maybe a better wording would be:\n\nIncrease the probability that all REST endpoints are started",
+      "revId": "b0c6c1346cf73ff06054466c88fe52260a5e4a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
