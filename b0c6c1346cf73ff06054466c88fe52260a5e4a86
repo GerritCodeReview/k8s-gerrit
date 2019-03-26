@@ -16,6 +16,24 @@
       "revId": "b0c6c1346cf73ff06054466c88fe52260a5e4a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baae1a4f_8f710e47",
+        "filename": "tests/helm-charts/gerrit-master/test_chart_gerrit_master_plugins.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-03-26T12:49:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c389ce3_d3511d1a",
+      "revId": "b0c6c1346cf73ff06054466c88fe52260a5e4a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
