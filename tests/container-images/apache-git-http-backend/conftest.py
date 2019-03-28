@@ -19,10 +19,11 @@ import random
 import string
 import time
 
-from OpenSSL import crypto
 from passlib.apache import HtpasswdFile
 
 import pytest
+
+import mock_ssl
 
 @pytest.fixture(scope="module")
 def container_run_factory(
@@ -71,25 +72,12 @@ def credentials_dir(tmp_path_factory):
 
 @pytest.fixture(scope="module")
 def mock_certificates(credentials_dir):
-  key = crypto.PKey()
-  key.generate_key(crypto.TYPE_RSA, 1024)
-
-  cert = crypto.X509()
-  cert.get_subject().C = "DE"
-  cert.get_subject().O = "Gerrit"
-  cert.get_subject().CN = "localhost"
-  cert.add_extensions(
-    [crypto.X509Extension(b"subjectAltName", False, b"DNS:localhost")])
-  cert.gmtime_adj_notBefore(0)
-  cert.gmtime_adj_notAfter(10*365*24*60*60)
-  cert.set_issuer(cert.get_subject())
-  cert.set_pubkey(key)
-  cert.sign(key, "sha1")
+  keypair = mock_ssl.MockSSLKeyPair("localhost", "localhost")
 
   open(os.path.join(credentials_dir, "server.crt"), "wb").write(
-    crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
+    keypair.get_cert())
   open(os.path.join(credentials_dir, "server.key"), "wb").write(
-    crypto.dump_privatekey(crypto.FILETYPE_PEM, key))
+    keypair.get_key())
 
 @pytest.fixture(scope="module")
 def mock_htpasswd(credentials_dir, basic_auth_creds):
