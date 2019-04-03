@@ -1,8 +1,8 @@
-{{ if .Values.gerritMaster.logging.persistence.enabled -}}
+{{ if .Values.gerritMaster.persistence.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-gerrit-master-logs-pvc
+  name: {{ .Release.Name }}-gerrit-master-pvc
   labels:
     app: gerrit-master
     chart: {{ template "gerrit-master.chart" . }}
@@ -13,25 +13,6 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.gerritMaster.logging.persistence.size }}
-  storageClassName: {{ .Values.storageClasses.default.name }}
-{{- end }}
----
-{{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: {{ .Release.Name }}-gerrit-master-db-pvc
-  labels:
-    app: gerrit-master
-    chart: {{ template "gerrit-master.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.gerritMaster.h2Database.persistence.size }}
+      storage: {{ .Values.gerritMaster.persistence.size }}
   storageClassName: {{ .Values.storageClasses.default.name }}
 {{- end }}
