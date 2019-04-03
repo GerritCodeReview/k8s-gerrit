@@ -1,8 +1,8 @@
-{{ if .Values.gerritSlave.logging.persistence.enabled -}}
+{{ if .Values.gerritSlave.persistence.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-gerrit-slave-logs-pvc
+  name: {{ .Release.Name }}-gerrit-slave-pvc
   labels:
     app: gerrit-slave
     chart: {{ template "gerrit-slave.chart" . }}
@@ -13,25 +13,6 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.gerritSlave.logging.persistence.size }}
-  storageClassName: {{ .Values.storageClasses.default.name }}
-{{- end }}
----
-{{ if .Values.gerritSlave.h2Database.persistence.enabled -}}
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: {{ .Release.Name }}-gerrit-slave-db-pvc
-  labels:
-    app: gerrit-slave
-    chart: {{ template "gerrit-slave.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: {{ .Values.gerritSlave.h2Database.persistence.size }}
+      storage: {{ .Values.gerritSlave.persistence.size }}
   storageClassName: {{ .Values.storageClasses.default.name }}
 {{- end }}

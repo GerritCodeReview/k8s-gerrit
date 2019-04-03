@@ -39,17 +39,13 @@ spec:
         - -c
         args:
         - |
-          # Remove directories that should be mounted rather than exist with the
+          # Remove git directory that should be mounted rather than exist with the
           # rest of the site
-          for dir in git db logs; do
-            [ ! -L /var/gerrit/$dir ] && rm -rf /var/gerrit/$dir
-          done
-          rm -f /var/mnt/logs/gerrit.pid
+          [ ! -L /var/gerrit/git ] && rm -rf /var/gerrit/git
+          rm -f /var/gerrit/logs/gerrit.pid
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -69,33 +65,25 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          for dir in git db logs; do
-            if [ ! -d /var/gerrit/$dir ]; then
-              ln -sf /var/mnt/$dir /var/gerrit/
-            fi
-          done
-
-          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
-            /var/tools/gerrit_init.py \
-              -s /var/gerrit \
-              -p replication \
-              -p commit-message-length-validator \
-              -p download-commands \
-              -p reviewnotes
-
-            symlink_config_to_site
+          if [ ! -d /var/gerrit/git ]; then
+            ln -sf /var/mnt/git /var/gerrit/
           fi
+
+          /var/tools/gerrit_init.py \
+            -s /var/gerrit \
+            -p replication \
+            -p commit-message-length-validator \
+            -p download-commands \
+            -p reviewnotes
+
+          symlink_config_to_site
 
           /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/mnt/db"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -117,12 +105,8 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/mnt/db"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -150,10 +134,8 @@ spec:
             port: gerrit-port
 {{ toYaml .Values.gerritMaster.readinessProbe | indent 10 }}
       volumes:
+      {{ if not .Values.gerritMaster.persistence.enabled -}}
       - name: gerrit-site
-        emptyDir: {}
-      {{ if not .Values.gerritMaster.h2Database.persistence.enabled -}}
-      - name: gerrit-db
         emptyDir: {}
       {{- end }}
       - name: git-filesystem
@@ -163,10 +145,6 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-filesystem-pvc
           {{- end }}
-      {{ if not .Values.gerritMaster.logging.persistence.enabled -}}
-      - name: gerrit-logs
-        emptyDir: {}
-      {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
@@ -174,9 +152,9 @@ spec:
         secret:
           secretName: {{ .Release.Name }}-gerrit-master-secure-config
   volumeClaimTemplates:
-  {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
+  {{ if .Values.gerritMaster.persistence.enabled -}}
   - metadata:
-      name: gerrit-db
+      name: gerrit-site
       labels:
         app: gerrit-master
         chart: {{ template "gerrit-master.chart" . }}
@@ -187,22 +165,6 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .Values.gerritMaster.h2Database.persistence.size }}
-      storageClassName: {{ .Values.storageClasses.default.name }}
-  {{- end }}
-  {{ if .Values.gerritMaster.logging.persistence.enabled -}}
-  - metadata:
-      name: gerrit-logs
-      labels:
-        app: gerrit-master
-        chart: {{ template "gerrit-master.chart" . }}
-        heritage: {{ .Release.Service }}
-        release: {{ .Release.Name }}
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: {{ .Values.gerritMaster.logging.persistence.size }}
+          storage: {{ .Values.gerritMaster.persistence.size }}
       storageClassName: {{ .Values.storageClasses.default.name }}
   {{- end }}
