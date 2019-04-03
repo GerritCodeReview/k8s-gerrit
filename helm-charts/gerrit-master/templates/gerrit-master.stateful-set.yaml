@@ -1,13 +1,14 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-gerrit-master-deployment
+  name: {{ .Release.Name }}-gerrit-master-stateful-set
   labels:
     app: gerrit-master
     chart: {{ template "gerrit-master.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
+  serviceName: {{ .Release.Name }}-gerrit-master-service
   replicas: {{ .Values.gerritMaster.replicas | default 1 }}
   strategy:
     rollingUpdate:
@@ -133,13 +134,10 @@ spec:
             port: gerrit-port
 {{ toYaml .Values.gerritMaster.readinessProbe | indent 10 }}
       volumes:
+      {{ if not .Values.gerritMaster.persistence.enabled -}}
       - name: gerrit-site
-        {{ if .Values.gerritMaster.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-master-pvc
-        {{ else -}}
         emptyDir: {}
-        {{- end }}
+      {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
@@ -149,3 +147,20 @@ spec:
       - name: gerrit-master-secure-config
         secret:
           secretName: {{ .Release.Name }}-gerrit-master-secure-config
+  volumeClaimTemplates:
+  {{ if .Values.gerritMaster.persistence.enabled -}}
+  - metadata:
+      name: gerrit-site
+      labels:
+        app: gerrit-master
+        chart: {{ template "gerrit-master.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.gerritMaster.persistence.size }}
+      storageClassName: {{ .Values.storageClasses.default.name }}
+  {{- end }}
