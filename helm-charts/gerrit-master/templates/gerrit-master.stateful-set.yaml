@@ -1,13 +1,14 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-gerrit-master-deployment
+  name: {{ .Release.Name }}-gerrit-master-stateful-set
   labels:
     app: gerrit-master
     chart: {{ template "gerrit-master.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
+  serviceName: {{ .Release.Name }}-gerrit-master-service
   replicas: {{ .Values.gerritMaster.replicas | default 1 }}
   strategy:
     rollingUpdate:
@@ -136,26 +137,53 @@ spec:
       volumes:
       - name: gerrit-site
         emptyDir: {}
+      {{ if not .Values.gerritMaster.h2Database.persistence.enabled -}}
       - name: gerrit-db
-        {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-master-db-pvc
-        {{ else -}}
         emptyDir: {}
-        {{- end }}
+      {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
+      {{ if not .Values.gerritMaster.logging.persistence.enabled -}}
       - name: gerrit-logs
-        {{ if .Values.gerritMaster.logging.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-master-logs-pvc
-        {{ else -}}
         emptyDir: {}
-        {{- end }}
+      {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
       - name: gerrit-master-secure-config
         secret:
           secretName: {{ .Release.Name }}-gerrit-master-secure-config
+  volumeClaimTemplates:
+  {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
+  - metadata:
+      name: gerrit-db
+      labels:
+        app: gerrit-master
+        chart: {{ template "gerrit-master.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.gerritMaster.h2Database.persistence.size }}
+      storageClassName: {{ .Values.storageClasses.default.name }}
+  {{- end }}
+  {{ if .Values.gerritMaster.logging.persistence.enabled -}}
+  - metadata:
+      name: gerrit-logs
+      labels:
+        app: gerrit-master
+        chart: {{ template "gerrit-master.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.gerritMaster.logging.persistence.size }}
+      storageClassName: {{ .Values.storageClasses.default.name }}
+  {{- end }}
