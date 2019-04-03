@@ -140,7 +140,11 @@ spec:
       {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
+          {{- if .Values.gitRepositoryStorage.externalPVC.use }}
+          claimName: {{ .Values.gitRepositoryStorage.externalPVC.name }}
+          {{- else }}
           claimName: {{ .Release.Name }}-git-filesystem-pvc
+          {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
