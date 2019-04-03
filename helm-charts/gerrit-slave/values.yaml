@@ -159,15 +159,9 @@ gerritSlave:
       cpu: 1
       memory: 6Gi
 
-  logging:
-    persistence:
-      enabled: true
-      size: 1Gi
-
-  h2Database:
-    persistence:
-      enabled: true
-      size: 1Gi
+  persistence:
+    enabled: true
+    size: 10Gi
 
   service:
     type: NodePort

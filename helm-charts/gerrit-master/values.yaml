@@ -88,6 +88,10 @@ gerritMaster:
       cpu: 1
       memory: 6Gi
 
+  persistence:
+    enabled: true
+    size: 10Gi
+
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 5
@@ -96,20 +100,10 @@ gerritMaster:
     initialDelaySeconds: 5
     periodSeconds: 1
 
-  logging:
-    persistence:
-      enabled: true
-      size: 1Gi
-
   service:
     type: NodePort
     http:
       port: 80
-
-  h2Database:
-    persistence:
-      enabled: true
-      size: 1Gi
 
   ingress:
     host:

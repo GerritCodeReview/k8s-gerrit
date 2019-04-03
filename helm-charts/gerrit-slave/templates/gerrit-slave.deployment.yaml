@@ -38,17 +38,13 @@ spec:
         - -c
         args:
         - |
-          # Remove directories that should be mounted rather than exist with the
+          # Remove git directory that should be mounted rather than exist with the
           # rest of the site
-          for dir in git db logs; do
-            [ ! -L /var/gerrit/$dir ] && rm -rf /var/gerrit/$dir
-          done
-          rm -f /var/mnt/logs/gerrit.pid
+          [ ! -L /var/gerrit/git ] && rm -rf /var/gerrit/git
+          rm -f /var/gerrit/logs/gerrit.pid
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
       {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
       # Initialize the emptyDir containing the whole Gerrit-site with defaults
       # Not needed, when running in test mode, since then the configured site will
@@ -61,11 +57,9 @@ spec:
         - -ce
         args:
         - |
-          for dir in git db logs; do
-            if [ ! -d /var/gerrit/$dir ]; then
-              ln -sf /var/mnt/$dir /var/gerrit/
-            fi
-          done
+          if [ ! -d /var/gerrit/git ]; then
+            ln -sf /var/mnt/git /var/gerrit/
+          fi
 
           if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
             /var/tools/gerrit_init.py \
@@ -77,10 +71,6 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        - name: gerrit-db
-          mountPath: "/var/mnt/db"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
       {{- end }}
       # Wait for database to be ready and, if configured, run initialization
       # taking the given Gerrit configuration and persisted volumes into account.
@@ -103,11 +93,9 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          for dir in git db logs; do
-            if [ ! -d /var/gerrit/$dir ]; then
-              ln -sf /var/mnt/$dir /var/gerrit/
-            fi
-          done
+          if [ ! -d /var/gerrit/git ]; then
+            ln -sf /var/mnt/git /var/gerrit/
+          fi
 
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
           if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
@@ -125,10 +113,6 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        - name: gerrit-db
-          mountPath: "/var/mnt/db"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -149,12 +133,8 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/mnt/db"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        - name: gerrit-logs
-          mountPath: "/var/mnt/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -170,24 +150,15 @@ spec:
 {{ toYaml .Values.gerritSlave.resources | indent 10 }}
       volumes:
       - name: gerrit-site
-        emptyDir: {}
-      - name: gerrit-db
-        {{ if .Values.gerritSlave.h2Database.persistence.enabled -}}
+        {{ if .Values.gerritSlave.persistence.enabled -}}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-slave-db-pvc
+          claimName: {{ .Release.Name }}-gerrit-slave-pvc
         {{ else -}}
         emptyDir: {}
         {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
-      - name: gerrit-logs
-        {{ if .Values.gerritSlave.logging.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-slave-logs-pvc
-        {{ else -}}
-        emptyDir: {}
-        {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-slave-configmap
