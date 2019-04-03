@@ -43,6 +43,9 @@ storageClasses:
 
 
 gitRepositoryStorage:
+  externalPVC:
+    use: false
+    name: git-filesystem-pvc
   size: 5Gi
 
 
