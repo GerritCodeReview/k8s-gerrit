@@ -40,8 +40,8 @@ spec:
         - |
           rm -f /var/gerrit/logs/gerrit.pid
         volumeMounts:
-        - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -61,23 +61,19 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
-            /var/tools/gerrit_init.py \
-              -s /var/gerrit \
-              -p replication \
-              -p commit-message-length-validator \
-              -p download-commands \
-              -p reviewnotes
+          /var/tools/gerrit_init.py \
+            -s /var/gerrit \
+            -p replication \
+            -p commit-message-length-validator \
+            -p download-commands \
+            -p reviewnotes
 
-            symlink_config_to_site
-          fi
+          symlink_config_to_site
 
           /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/gerrit/db"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
         - name: gerrit-config
@@ -101,12 +97,8 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/gerrit/db"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
-        - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -135,24 +127,15 @@ spec:
 {{ toYaml .Values.gerritMaster.readinessProbe | indent 10 }}
       volumes:
       - name: gerrit-site
-        emptyDir: {}
-      - name: gerrit-db
-        {{ if .Values.gerritMaster.h2Database.persistence.enabled -}}
+        {{ if .Values.gerritMaster.persistence.enabled -}}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-master-db-pvc
+          claimName: {{ .Release.Name }}-gerrit-master-pvc
         {{ else -}}
         emptyDir: {}
         {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
-      - name: gerrit-logs
-        {{ if .Values.gerritMaster.logging.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-master-logs-pvc
-        {{ else -}}
-        emptyDir: {}
-        {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap

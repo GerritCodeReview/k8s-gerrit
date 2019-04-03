@@ -32,7 +32,37 @@ def determine_is_slave(gerrit_site_path):
   config = GitConfigParser(gerrit_config_path)
   return config.get_boolean("container.slave", False)
 
+def get_gerrit_version(gerrit_war_path):
+  command = "java -jar %s version" % gerrit_war_path
+  version_process = subprocess.run(
+    command.split(),
+    stdout=subprocess.PIPE)
+  return version_process.stdout.decode().strip()
+
+def needs_init(gerrit_site_path):
+  installed_war_path = os.path.join(gerrit_site_path, "bin", "gerrit.war")
+  if not os.path.exists(installed_war_path):
+    print("%s: Gerrit is not yet installed. Initializing new site." % time.ctime())
+    return True
+
+  installed_version = get_gerrit_version(installed_war_path)
+  provided_version = get_gerrit_version("/var/war/gerrit.war")
+  if installed_version != provided_version:
+    print((
+      "%s: New Gerrit version was provided (current: %s; new: %s). "
+      "Reinitializing site.") % (
+        time.ctime(),
+        installed_version,
+        provided_version))
+    return True
+
+  print("%s: No initialization required." % time.ctime())
+  return False
+
 def initialize_gerrit(gerrit_site_path, plugins):
+  if not needs_init(gerrit_site_path):
+    return
+
   if os.path.exists(os.path.join(gerrit_site_path, "etc/gerrit.config")):
     print("%s: Existing gerrit.config found." % time.ctime())
     ensure_database_connection(gerrit_site_path)
