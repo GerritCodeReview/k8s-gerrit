@@ -39,10 +39,17 @@ spec:
         - -c
         args:
         - |
-          rm -f /var/gerrit/logs/gerrit.pid
+          # Remove directories that should be mounted rather than exist with the
+          # rest of the site
+          for dir in git db logs; do
+            [ ! -L /var/gerrit/$dir ] && rm -rf /var/gerrit/$dir
+          done
+          rm -f /var/mnt/logs/gerrit.pid
         volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
         - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
+          mountPath: "/var/mnt/logs"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -53,7 +60,7 @@ spec:
         - |
           symlink_config_to_site(){
             {{ if .Values.gerritMaster.keystore -}}
-            ln -s /var/keystore /var/gerrit/etc/keystore
+            ln -s /var/config/keystore /var/gerrit/etc/keystore
             {{- end }}
             ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
             ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
@@ -61,6 +68,12 @@ spec:
 
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
+
+          for dir in git db logs; do
+            if [ ! -d /var/gerrit/$dir ]; then
+              ln -sf /var/mnt/$dir /var/gerrit/
+            fi
+          done
 
           if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
             /var/tools/gerrit_init.py \
@@ -78,9 +91,11 @@ spec:
         - name: gerrit-site
           mountPath: "/var/gerrit"
         - name: gerrit-db
-          mountPath: "/var/gerrit/db"
+          mountPath: "/var/mnt/db"
         - name: git-filesystem
-          mountPath: "/var/gerrit/git"
+          mountPath: "/var/mnt/git"
+        - name: gerrit-logs
+          mountPath: "/var/mnt/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -89,7 +104,7 @@ spec:
           subPath: secure.config
         {{ if .Values.gerritMaster.keystore -}}
         - name: gerrit-master-secure-config
-          mountPath: "/var/keystore"
+          mountPath: "/var/config/keystore"
           subPath: keystore
         {{- end }}
       containers:
@@ -103,11 +118,11 @@ spec:
         - name: gerrit-site
           mountPath: "/var/gerrit"
         - name: gerrit-db
-          mountPath: "/var/gerrit/db"
+          mountPath: "/var/mnt/db"
         - name: git-filesystem
-          mountPath: "/var/gerrit/git"
+          mountPath: "/var/mnt/git"
         - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
+          mountPath: "/var/mnt/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
