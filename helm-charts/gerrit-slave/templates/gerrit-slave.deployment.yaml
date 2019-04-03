@@ -40,10 +40,10 @@ spec:
         - |
           rm -f /var/gerrit/logs/gerrit.pid
         volumeMounts:
-        - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
       {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
-      # Initialize the emptyDir containing the whole Gerrit-site with defaults
+      # Initialize the volume containing the whole Gerrit-site with defaults
       # Not needed, when running in test mode, since then the configured site will
       # be initialized
       - name: populate-gerrit-site-volume
@@ -54,16 +54,12 @@ spec:
         - -ce
         args:
         - |
-          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
-            /var/tools/gerrit_init.py \
-              -s /var/gerrit \
-              -p singleusergroup
-          fi
+          /var/tools/gerrit_init.py \
+            -s /var/gerrit \
+            -p singleusergroup
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/gerrit/db"
       {{- end }}
       # Wait for database to be ready and, if configured, run initialization
       # taking the given Gerrit configuration and persisted volumes into account.
@@ -87,21 +83,19 @@ spec:
           symlink_config_to_site
 
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
-          if [ ! -f /var/gerrit/bin/gerrit.sh ]; then
-            /var/tools/gerrit_init.py \
-              -s /var/gerrit \
-              -p singleusergroup
+          /var/tools/gerrit_init.py \
+            -s /var/gerrit \
+            -p singleusergroup
 
-            symlink_config_to_site
-          fi
+          symlink_config_to_site
           {{- end }}
 
           /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/gerrit/db"
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -122,12 +116,8 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: gerrit-db
-          mountPath: "/var/gerrit/db"
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
-        - name: gerrit-logs
-          mountPath: "/var/gerrit/logs"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -143,24 +133,15 @@ spec:
 {{ toYaml .Values.gerritSlave.resources | indent 10 }}
       volumes:
       - name: gerrit-site
-        emptyDir: {}
-      - name: gerrit-db
-        {{ if .Values.gerritSlave.h2Database.persistence.enabled -}}
+        {{ if .Values.gerritSlave.persistence.enabled -}}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-slave-db-pvc
+          claimName: {{ .Release.Name }}-gerrit-slave-pvc
         {{ else -}}
         emptyDir: {}
         {{- end }}
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
-      - name: gerrit-logs
-        {{ if .Values.gerritSlave.logging.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-slave-logs-pvc
-        {{ else -}}
-        emptyDir: {}
-        {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-slave-configmap
