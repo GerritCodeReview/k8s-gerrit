@@ -15,7 +15,7 @@
 # limitations under the License.
 
 import argparse
-import os.path
+import os
 import subprocess
 import sys
 import time
@@ -32,15 +32,61 @@ def determine_is_slave(gerrit_site_path):
   config = GitConfigParser(gerrit_config_path)
   return config.get_boolean("container.slave", False)
 
-def initialize_gerrit(gerrit_site_path, plugins):
+def get_gerrit_version(gerrit_war_path):
+  command = "java -jar %s version" % gerrit_war_path
+  version_process = subprocess.run(
+    command.split(),
+    stdout=subprocess.PIPE)
+  return version_process.stdout.decode().strip()
+
+def get_installed_plugins(gerrit_site_path):
+  plugin_path = os.path.join(gerrit_site_path, "plugins")
+  installed_plugins = set()
+
+  for f in os.listdir(plugin_path):
+    if os.path.isfile(os.path.join(plugin_path, f)) and f.endswith(".jar"):
+      installed_plugins.add(os.path.splitext(f)[0])
+
+  return installed_plugins
+
+def needs_init(gerrit_site_path, wanted_plugins):
+  installed_war_path = os.path.join(gerrit_site_path, "bin", "gerrit.war")
+  if not os.path.exists(installed_war_path):
+    print("%s: Gerrit is not yet installed. Initializing new site." % time.ctime())
+    return True
+
+  installed_version = get_gerrit_version(installed_war_path)
+  provided_version = get_gerrit_version("/var/war/gerrit.war")
+  if installed_version != provided_version:
+    print((
+      "%s: New Gerrit version was provided (current: %s; new: %s). "
+      "Reinitializing site.") % (
+        time.ctime(),
+        installed_version,
+        provided_version))
+    return True
+
+  installed_plugins = get_installed_plugins(gerrit_site_path)
+  if installed_plugins.symmetric_difference(wanted_plugins):
+    for plugin in installed_plugins.difference(wanted_plugins):
+      os.remove(os.path.join(gerrit_site_path, "plugins", "%s.jar" % plugin))
+    return True
+
+  print("%s: No initialization required." % time.ctime())
+  return False
+
+def initialize_gerrit(gerrit_site_path, wanted_plugins):
+  if not needs_init(gerrit_site_path, wanted_plugins):
+    return
+
   if os.path.exists(os.path.join(gerrit_site_path, "etc/gerrit.config")):
     print("%s: Existing gerrit.config found." % time.ctime())
     ensure_database_connection(gerrit_site_path)
   else:
     print("%s: No gerrit.config found. Initializing default site." % time.ctime())
 
-  if plugins:
-    plugin_options = ' '.join(['--install-plugin %s' % plugin for plugin in plugins])
+  if wanted_plugins:
+    plugin_options = ' '.join(['--install-plugin %s' % plugin for plugin in wanted_plugins])
   else:
     plugin_options = ''
 
@@ -76,9 +122,9 @@ if __name__ == "__main__":
     "-p",
     "--plugin",
     help="Gerrit plugin to be installed. Can be used multiple times.",
-    dest="plugins",
+    dest="wanted_plugins",
     action="append",
     default=None)
   args = parser.parse_args()
 
-  initialize_gerrit(args.site, args.plugins)
+  initialize_gerrit(args.site, args.wanted_plugins)
