@@ -11,6 +11,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install \
       PyMySQL~=0.9.2 \
+      requests~=2.21.0 \
       sqlalchemy~=1.3.0
 
 COPY tools/* /var/tools/
