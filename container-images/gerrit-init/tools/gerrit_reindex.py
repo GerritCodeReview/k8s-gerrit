@@ -14,30 +14,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import abc
 import argparse
+import enum
 import os.path
 import subprocess
 import sys
 
+import requests
+
 from git_config_parser import GitConfigParser
+from init_config import InitConfig
 from log import get_logger
 
 LOG = get_logger("reindex")
 
 
-class GerritReindexer:
-    def __init__(self, gerrit_site_path):
+class IndexType(enum.Enum):
+    LUCENE = enum.auto()
+    ELASTICSEARCH = enum.auto()
+
+
+class GerritAbstractReindexer(abc.ABC):
+    def __init__(self, gerrit_site_path, config):
         self.gerrit_site_path = gerrit_site_path
         self.index_config_path = "%s/index/gerrit_index.config" % self.gerrit_site_path
+        self.init_config = config
 
-        self.index_type = self._get_index_type()
         self.configured_indices = self._parse_gerrit_index_config()
 
-    def _get_index_type(self):
-        gerrit_config = GitConfigParser(
-            os.path.join(self.gerrit_site_path, "etc", "gerrit.config")
-        )
-        return gerrit_config.get("index.type", "lucene")
+    @abc.abstractmethod
+    def _get_indices(self):
+        pass
 
     def _parse_gerrit_index_config(self):
         indices = dict()
@@ -62,24 +70,14 @@ class GerritReindexer:
                 unready_indices.append(index)
         return unready_indices
 
-    def _get_lucene_indices(self):
-        file_list = os.listdir(os.path.join(self.gerrit_site_path, "index"))
-        file_list.remove("gerrit_index.config")
-        lucene_indices = dict()
-        for index in file_list:
-            try:
-                (name, version) = index.split("_")
-                lucene_indices[name] = int(version)
-            except ValueError:
-                LOG.debug("Ignoring invalid file in index-directory: %s", index)
-        return lucene_indices
+    def _check_index_versions(self):
+        indices = self._get_indices()
 
-    def _check_lucene_index_versions(self):
-        lucene_indices = self._get_lucene_indices()
-        if not lucene_indices:
+        if not indices:
             return False
+
         for index, index_attrs in self.configured_indices.items():
-            if index_attrs["version"] is not lucene_indices[index]:
+            if index_attrs["version"] is not indices[index]:
                 return False
         return True
 
@@ -115,16 +113,73 @@ class GerritReindexer:
         if unready_indices:
             self.reindex(unready_indices)
 
-        if self.index_type == "lucene":
-            if not self._check_lucene_index_versions():
-                LOG.info("Not all indices are up-to-date.")
-                self.reindex()
-                return
-        else:
+        if not self._check_index_versions():
+            LOG.info("Not all indices are up-to-date.")
             self.reindex()
             return
 
         LOG.info("Skipping reindexing.")
+
+
+class GerritLuceneReindexer(GerritAbstractReindexer):
+    def _get_indices(self):
+        file_list = os.listdir(os.path.join(self.gerrit_site_path, "index"))
+        file_list.remove("gerrit_index.config")
+        lucene_indices = dict()
+        for index in file_list:
+            try:
+                (name, version) = index.split("_")
+                lucene_indices[name] = int(version)
+            except ValueError:
+                LOG.debug("Ignoring invalid file in index-directory: %s", index)
+        return lucene_indices
+
+
+class GerritElasticSearchReindexer(GerritAbstractReindexer):
+    def _get_elasticsearch_config(self):
+        es_config = dict()
+        gerrit_config = GitConfigParser(
+            os.path.join(self.gerrit_site_path, "etc", "gerrit.config")
+        )
+        es_config["prefix"] = gerrit_config.get("elasticsearch.prefix", default="")
+        es_config["server"] = gerrit_config.get("elasticsearch.server", default="")
+        return es_config
+
+    def _get_indices(self):
+        es_config = self._get_elasticsearch_config()
+        url = "{url}/{prefix}*".format(
+            url=es_config["server"], prefix=es_config["prefix"]
+        )
+        try:
+            response = requests.get(url)
+        except requests.exceptions.SSLError:
+            response = requests.get(url, verify=self.init_config.ca_cert_path)
+
+        es_indices = dict()
+        for index, _ in response.json().items():
+            try:
+                index = index.replace(es_config["prefix"], "", 1)
+                (name, version) = index.split("_")
+                es_indices[name] = int(version)
+            except ValueError:
+                LOG.debug("Found unknown index: %s", index)
+
+        return es_indices
+
+
+def get_reindexer(gerrit_site_path, config):
+    gerrit_config = GitConfigParser(
+        os.path.join(gerrit_site_path, "etc", "gerrit.config")
+    )
+    index_type = gerrit_config.get("index.type", default=IndexType.LUCENE.name)
+
+    if IndexType[index_type.upper()] is IndexType.LUCENE:
+        return GerritLuceneReindexer(gerrit_site_path, config)
+
+    if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
+        return GerritElasticSearchReindexer(gerrit_site_path, config)
+
+    raise RuntimeError("Unknown index type %s." % index_type)
 
 
 # pylint: disable=C0103
@@ -146,7 +201,17 @@ if __name__ == "__main__":
         dest="force",
         action="store_true",
     )
+    parser.add_argument(
+        "-c",
+        "--config",
+        help="Path to configuration file for init process.",
+        dest="config",
+        action="store",
+        required=True,
+    )
     args = parser.parse_args()
 
-    reindexer = GerritReindexer(args.site)
+    config = InitConfig().parse(args.config)
+
+    reindexer = get_reindexer(args.site, config)
     reindexer.start(args.force)
