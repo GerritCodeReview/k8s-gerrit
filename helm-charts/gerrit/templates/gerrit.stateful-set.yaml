@@ -84,6 +84,7 @@ spec:
           # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
           # is configured.
           /var/tools/gerrit_reindex.py $FLAGS \
+            -c /var/config/gerrit-init.yaml \
             -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
