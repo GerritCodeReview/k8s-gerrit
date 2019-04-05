@@ -22,6 +22,7 @@ import time
 
 from git_config_parser import GitConfigParser
 from validate_db import select_db
+from gerrit_reindex import GerritReindexer
 
 def ensure_database_connection(gerrit_site_path):
   database = select_db(gerrit_site_path)
@@ -75,8 +76,9 @@ def initialize_gerrit(gerrit_site_path, plugins):
     plugin_options = ''
 
   flags = "--no-auto-start --batch"
+  is_slave = determine_is_slave(gerrit_site_path)
 
-  if determine_is_slave(gerrit_site_path):
+  if is_slave:
     flags += " --no-reindex"
 
   command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
@@ -90,6 +92,10 @@ def initialize_gerrit(gerrit_site_path, plugins):
     print("An error occured, when initializing Gerrit. Exit code: ",
           init_process.returncode)
     sys.exit(1)
+
+  if not is_slave:
+    reindexer = GerritReindexer(gerrit_site_path)
+    reindexer.start(is_forced=True)
 
 # pylint: disable=C0103
 if __name__ == "__main__":
