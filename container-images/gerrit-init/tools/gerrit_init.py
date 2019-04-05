@@ -23,6 +23,7 @@ import time
 from git_config_parser import GitConfigParser
 from log import get_logger
 from validate_db import select_db
+from gerrit_reindex import IndexType, GerritElasticSearchReindexer
 
 LOG = get_logger("init")
 
@@ -134,6 +135,13 @@ class GerritInit():
       LOG.error("An error occured, when initializing Gerrit. Exit code: %d" %
             init_process.returncode)
       sys.exit(1)
+
+    if not self.gerrit_config:
+      self.gerrit_config = self._parse_gerrit_config()
+    index_type = self.gerrit_config.get("index.type", IndexType.LUCENE.name)
+    if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
+      reindexer = GerritElasticSearchReindexer(self.site)
+      reindexer.start(is_forced=True)
 
 # pylint: disable=C0103
 if __name__ == "__main__":
