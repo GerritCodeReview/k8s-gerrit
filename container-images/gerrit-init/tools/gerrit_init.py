@@ -23,6 +23,7 @@ from download_plugins import get_installer
 from git_config_parser import GitConfigParser
 from init_config import InitConfig
 from log import get_logger
+from gerrit_reindex import IndexType, GerritElasticSearchReindexer
 
 LOG = get_logger("init")
 
@@ -141,6 +142,13 @@ class GerritInit:
                 init_process.returncode,
             )
             sys.exit(1)
+
+        if not self.gerrit_config:
+            self.gerrit_config = self._parse_gerrit_config()
+        index_type = self.gerrit_config.get("index.type", IndexType.LUCENE.name)
+        if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
+            reindexer = GerritElasticSearchReindexer(self.site)
+            reindexer.start(is_forced=True)
 
 
 # pylint: disable=C0103
