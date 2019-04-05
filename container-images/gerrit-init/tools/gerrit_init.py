@@ -22,6 +22,7 @@ import time
 
 from git_config_parser import GitConfigParser
 from validate_db import select_db
+from gerrit_reindex import GerritReindexer
 
 def ensure_database_connection(gerrit_site_path):
   database = select_db(gerrit_site_path)
@@ -90,6 +91,9 @@ def initialize_gerrit(gerrit_site_path, plugins):
     print("An error occured, when initializing Gerrit. Exit code: ",
           init_process.returncode)
     sys.exit(1)
+
+  reindexer = GerritReindexer(gerrit_site_path)
+  reindexer.start(is_forced=True)
 
 # pylint: disable=C0103
 if __name__ == "__main__":
