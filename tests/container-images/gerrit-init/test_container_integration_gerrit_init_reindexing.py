@@ -74,7 +74,7 @@ class TestGerritReindex:
         timestamp_index_dir = os.path.getctime(os.path.join(temp_site, "index"))
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_reindex.py -s /var/gerrit"
+            "/var/tools/gerrit_reindex.py -s /var/gerrit -c /var/config/default.config.yaml"
         )
         assert exit_code == 0
         assert timestamp_index_dir == os.path.getctime(os.path.join(temp_site, "index"))
@@ -88,7 +88,7 @@ class TestGerritReindex:
         os.remove(os.path.join(temp_site, "index", "gerrit_index.config"))
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_reindex.py -s /var/gerrit"
+            "/var/tools/gerrit_reindex.py -s /var/gerrit -c /var/config/default.config.yaml"
         )
         assert exit_code == 0
 
@@ -107,7 +107,7 @@ class TestGerritReindex:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_reindex.py -s /var/gerrit"
+            "/var/tools/gerrit_reindex.py -s /var/gerrit -c /var/config/default.config.yaml"
         )
         assert exit_code == 0
 
@@ -129,7 +129,7 @@ class TestGerritReindex:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_reindex.py -s /var/gerrit"
+            "/var/tools/gerrit_reindex.py -s /var/gerrit -c /var/config/default.config.yaml"
         )
         assert exit_code == 0
 
