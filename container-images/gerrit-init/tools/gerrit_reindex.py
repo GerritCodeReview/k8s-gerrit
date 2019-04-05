@@ -21,6 +21,8 @@ import subprocess
 import sys
 import time
 
+import requests
+
 from git_config_parser import GitConfigParser
 
 class GerritReindexer:
@@ -67,12 +69,45 @@ class GerritReindexer:
         lucene_indices[match.group("name")] = int(match.group("version"))
     return lucene_indices
 
-  def _check_lucene_index_versions(self):
-    lucene_indices = self._get_lucene_indices()
-    if not lucene_indices:
+  def _get_elasticsearch_config(self):
+    es_config = dict()
+    gerrit_config = GitConfigParser(
+      os.path.join(self.gerrit_site_path, "etc", "gerrit.config"))
+    es_config["prefix"] = \
+      gerrit_config.get("elasticsearch.prefix", default="").lower()
+    es_config["server"] = \
+      gerrit_config.get("elasticsearch.server", default="").lower()
+    return es_config
+
+  def _get_elasticsearch_indices(self):
+    es_config = self._get_elasticsearch_config()
+    url = "{url}/{prefix}*".format(
+      url=es_config["server"],
+      prefix=es_config["prefix"])
+    response = requests.get(url)
+    response.raise_for_status()
+
+    es_indices = dict()
+    for index, _ in response.json().items():
+      index = index.replace(es_config["prefix"], "", 1)
+      match = re.match(r"^(?P<name>.+)_(?P<version>\d+)$", index)
+      if match:
+        es_indices[match.group("name")] = int(match.group("version"))
+
+    return es_indices
+
+  def _check_index_versions(self):
+    indices = None
+    if self.index_type == "lucene":
+      indices = self._get_lucene_indices()
+    elif self.index_type == "elasticsearch":
+      indices = self._get_elasticsearch_indices()
+
+    if not indices:
       return False
+
     for index, index_attrs in self.configured_indices.items():
-      if index_attrs["version"] is not lucene_indices[index]:
+      if index_attrs["version"] is not indices[index]:
         return False
     return True
 
@@ -102,12 +137,8 @@ class GerritReindexer:
       self.reindex()
       return
 
-    if self.index_type == "lucene":
-      if not self._check_lucene_index_versions():
-        print("%s: Not all indices are up-to-date." % time.ctime())
-        self.reindex()
-        return
-    else:
+    if not self._check_index_versions():
+      print("%s: Not all indices are up-to-date." % time.ctime())
       self.reindex()
       return
 

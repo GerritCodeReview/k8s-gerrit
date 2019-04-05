@@ -22,6 +22,7 @@ import time
 
 from git_config_parser import GitConfigParser
 from validate_db import select_db
+from gerrit_reindex import GerritReindexer
 
 class GerritInit():
 
@@ -107,6 +108,10 @@ class GerritInit():
       print("An error occured, when initializing Gerrit. Exit code: ",
             init_process.returncode)
       sys.exit(1)
+
+    if not self.is_slave:
+      reindexer = GerritReindexer(self.site)
+      reindexer.start(is_forced=True)
 
 # pylint: disable=C0103
 if __name__ == "__main__":
