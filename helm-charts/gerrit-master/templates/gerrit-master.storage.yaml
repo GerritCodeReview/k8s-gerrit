@@ -1,4 +1,4 @@
-{{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+{{ if .Values.gerritMaster.scaling.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -14,5 +14,22 @@ spec:
   resources:
     requests:
       storage: 10Mi
+  storageClassName: {{ .Values.storageClasses.shared.name }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-shared-websession-pvc
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
   storageClassName: {{ .Values.storageClasses.shared.name }}
 {{- end }}
