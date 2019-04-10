@@ -1,0 +1,54 @@
+{{- $root := . -}}
+
+{{ if .Values.gerritMaster.scaling.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-loadbalancer
+  labels:
+    app: gerrit-master-loadbalancer
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  strategy:
+    rollingUpdate:
+      maxUnavailable: "100%"
+  selector:
+    matchLabels:
+      app: gerrit-master-loadbalancer
+  template:
+    metadata:
+      labels:
+        app: gerrit-master-loadbalancer
+    spec:
+      initContainers:
+      - name: wait-for-gerrit-pods
+        image: centos
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - |
+          {{ range $k, $v := int .Values.gerritMaster.scaling.replicas | until }}
+          SERVERS="$SERVERS {{ $root.Release.Name }}-gerrit-master-stateful-set-{{$v}}.{{ $root.Release.Name }}-gerrit-master-service:8080"
+          {{- end }}
+          for SERVER in $SERVERS; do
+            while [ $(curl -sw '%{http_code}' "$SERVER" -o /dev/null) -ne 200 ]; do
+              sleep 2;
+            done
+          done
+      containers:
+      - name: gerrit-loadbalancer
+        image: "haproxy:1.9.6-alpine"
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: haproxy-config
+          mountPath: "/usr/local/etc/haproxy"
+      volumes:
+      - name: haproxy-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-master-loadbalancer-configmap
+{{- end }}
