@@ -9,7 +9,11 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   serviceName: {{ .Release.Name }}-gerrit-master-service
-  replicas: {{ .Values.gerritMaster.replicas | default 1 }}
+  {{ if .Values.gerritMaster.scaling.enabled -}}
+  replicas: {{ .Values.gerritMaster.scaling.replicas }}
+  {{- else }}
+  replicas: 1
+  {{- end }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.gerritMaster.maxSurge }}
@@ -85,6 +89,13 @@ spec:
 
           symlink_config_to_site
 
+          {{ if .Values.gerritMaster.scaling.enabled -}}
+          # TODO: Install websession-flatfile plugin with the mechanism implemented
+          # in change 218572 as soon as the plugin is fixed.
+          mkdir -p /var/gerrit/plugins
+          cp /var/plugins/websession-flatfile.jar /var/gerrit/plugins/websession-flatfile.jar
+          {{- end }}
+
           /var/tools/validate_db.py -s /var/gerrit
 
           {{ if not .Values.gerritMaster.persistence.enabled -}}
@@ -103,6 +114,10 @@ spec:
         {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
+        {{- end }}
+        {{ if .Values.gerritMaster.scaling.enabled -}}
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
@@ -130,6 +145,10 @@ spec:
         {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
+        {{- end }}
+        {{ if .Values.gerritMaster.scaling.enabled -}}
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
@@ -173,6 +192,11 @@ spec:
       - name: gerrit-index-config
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-gerrit-index-config-pvc
+      {{- end }}
+      {{ if .Values.gerritMaster.scaling.enabled -}}
+      - name: shared-websession
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-shared-websession-pvc
       {{- end }}
       - name: gerrit-config
         configMap:

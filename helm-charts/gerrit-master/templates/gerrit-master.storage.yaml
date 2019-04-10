@@ -16,3 +16,22 @@ spec:
       storage: 10Mi
   storageClassName: {{ .Values.storageClasses.shared.name }}
 {{- end }}
+---
+{{ if .Values.gerritMaster.scaling.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-shared-websession-pvc
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: {{ .Values.storageClasses.shared.name }}
+{{- end }}
