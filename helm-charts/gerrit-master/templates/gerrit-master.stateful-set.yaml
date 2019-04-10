@@ -99,6 +99,8 @@ spec:
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
         {{- end }}
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -126,6 +128,8 @@ spec:
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
         {{- end }}
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -169,6 +173,9 @@ spec:
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-gerrit-index-config-pvc
       {{- end }}
+      - name: shared-websession
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-shared-websession-pvc
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap

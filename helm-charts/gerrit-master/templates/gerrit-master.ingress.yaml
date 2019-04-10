@@ -23,5 +23,6 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ .Release.Name }}-gerrit-master-service
-          servicePort: {{ .Values.gerritMaster.service.http.port }}
+          serviceName: {{ .Release.Name }}-gerrit-master-loadbalancer-service
+          servicePort: 80
+          #servicePort: {{ .Values.gerritMaster.service.http.port }}
