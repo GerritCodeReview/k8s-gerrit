@@ -73,11 +73,14 @@ gerritMaster:
     gerritInit: k8sgerrit/gerrit-init
     gerritMaster: k8sgerrit/gerrit-master
 
-  replicas: 1
   maxSurge: 25%
   # For just one replica, 100 % unavailability has to be allowed for updates to
   # work.
   maxUnavailable: 100%
+
+  scaling:
+    enabled: false
+    replicas: 1
 
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
@@ -128,10 +131,6 @@ gerritMaster:
   # Since Java keystores are binary files, adding the unencoded content and
   # automatic encoding using helm does not work here.
   keystore:
-
-  index:
-    # Either `lucene` or `elasticsearch`
-    type: lucene
 
   config:
     # Some values are expected to have a specific value for the deployment installed
