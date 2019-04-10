@@ -1,0 +1,19 @@
+{{ if .Values.gerritMaster.scaling.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-loadbalancer-service
+  labels:
+    app: gerrit-master-loadbalancer
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: gerrit-master-loadbalancer
+  type: LoadBalancer
+{{- end }}
