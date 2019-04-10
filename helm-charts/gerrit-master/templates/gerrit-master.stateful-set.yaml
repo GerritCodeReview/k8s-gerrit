@@ -9,7 +9,11 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   serviceName: {{ .Release.Name }}-gerrit-master-service
-  replicas: {{ .Values.gerritMaster.replicas | default 1 }}
+  {{ if .Values.gerritMaster.scaling.enabled -}}
+  replicas: {{ .Values.gerritMaster.scaling.replicas }}
+  {{- else }}
+  replicas: 1
+  {{- end }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.gerritMaster.maxSurge }}
@@ -41,7 +45,7 @@ spec:
         - |
           # Remove directories that should be mounted rather than exist with the
           # rest of the site
-          for dir in git {{ if eq .Values.gerritMaster.index.type "elasticsearch" }}index{{ end }}; do
+          for dir in git {{ if .Values.gerritMaster.scaling.enabled }}index{{ end }}; do
             [ ! -L /var/gerrit/$dir ] && rm -rf /var/gerrit/$dir
           done
           rm -f /var/gerrit/logs/gerrit.pid
@@ -67,11 +71,18 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          for dir in git {{ if eq .Values.gerritMaster.index.type "elasticsearch" }}index{{ end }}; do
+          for dir in git {{ if .Values.gerritMaster.scaling.enabled }}index{{ end }}; do
             if [ ! -d /var/gerrit/$dir ]; then
               ln -sf /var/mnt/$dir /var/gerrit/
             fi
           done
+
+          {{ if .Values.gerritMaster.scaling.enabled -}}
+          # TODO: Install websession-flatfile plugin with the mechanism implemented
+          # in change 218572 as soon as the plugin is fixed.
+          mkdir -p /var/gerrit/plugins
+          cp /var/plugins/websession-flatfile.jar /var/gerrit/plugins/websession-flatfile.jar
+          {{- end }}
 
           /var/tools/gerrit_init.py \
             -s /var/gerrit \
@@ -95,9 +106,11 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+        {{ if .Values.gerritMaster.scaling.enabled -}}
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
@@ -122,9 +135,11 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
-        {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+        {{ if .Values.gerritMaster.scaling.enabled -}}
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
@@ -164,10 +179,13 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-filesystem-pvc
           {{- end }}
-      {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+      {{ if .Values.gerritMaster.scaling.enabled -}}
       - name: gerrit-index-config
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-gerrit-index-config-pvc
+      - name: shared-websession
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-shared-websession-pvc
       {{- end }}
       - name: gerrit-config
         configMap:
