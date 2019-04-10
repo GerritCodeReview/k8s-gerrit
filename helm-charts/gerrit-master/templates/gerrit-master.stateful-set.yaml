@@ -91,6 +91,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -114,6 +116,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        - name: shared-websession
+          mountPath: "/var/mnt/websessions"
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -152,6 +156,9 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-filesystem-pvc
           {{- end }}
+      - name: shared-websession
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-shared-websession-pvc
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
