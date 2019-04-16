@@ -23,73 +23,90 @@ import time
 from git_config_parser import GitConfigParser
 from validate_db import select_db
 
-def ensure_database_connection(gerrit_site_path):
-  database = select_db(gerrit_site_path)
-  database.wait_for_db_server()
+class GerritInit():
 
-def determine_is_slave(gerrit_site_path):
-  gerrit_config_path = os.path.join(gerrit_site_path, "etc/gerrit.config")
-  config = GitConfigParser(gerrit_config_path)
-  return config.get_boolean("container.slave", False)
+  def __init__(self, site):
+    self.site = site
 
-def get_gerrit_version(gerrit_war_path):
-  command = "java -jar %s version" % gerrit_war_path
-  version_process = subprocess.run(
-    command.split(),
-    stdout=subprocess.PIPE)
-  return version_process.stdout.decode().strip()
+    self.gerrit_config = self._parse_gerrit_config()
+    self.is_slave = self._determine_is_slave()
 
-def needs_init(gerrit_site_path):
-  installed_war_path = os.path.join(gerrit_site_path, "bin", "gerrit.war")
-  if not os.path.exists(installed_war_path):
-    print("%s: Gerrit is not yet installed. Initializing new site." % time.ctime())
-    return True
+  def _parse_gerrit_config(self):
+    gerrit_config_path = os.path.join(self.site, "etc/gerrit.config")
 
-  installed_version = get_gerrit_version(installed_war_path)
-  provided_version = get_gerrit_version("/var/war/gerrit.war")
-  if installed_version != provided_version:
-    print((
-      "%s: New Gerrit version was provided (current: %s; new: %s). "
-      "Reinitializing site.") % (
-        time.ctime(),
-        installed_version,
-        provided_version))
-    return True
+    if os.path.exists(gerrit_config_path):
+      return GitConfigParser(gerrit_config_path)
 
-  print("%s: No initialization required." % time.ctime())
-  return False
+    return None
 
-def initialize_gerrit(gerrit_site_path, plugins):
-  if not needs_init(gerrit_site_path):
-    return
+  def _ensure_database_connection(self):
+    database = select_db(self.site)
+    database.wait_for_db_server()
 
-  if os.path.exists(os.path.join(gerrit_site_path, "etc/gerrit.config")):
-    print("%s: Existing gerrit.config found." % time.ctime())
-    ensure_database_connection(gerrit_site_path)
-  else:
-    print("%s: No gerrit.config found. Initializing default site." % time.ctime())
+  def _determine_is_slave(self):
+    if self.gerrit_config:
+      return self.gerrit_config.get_boolean("container.slave", False)
 
-  if plugins:
-    plugin_options = ' '.join(['--install-plugin %s' % plugin for plugin in plugins])
-  else:
-    plugin_options = ''
+    return False
 
-  flags = "--no-auto-start --batch"
+  def _get_gerrit_version(self, gerrit_war_path):
+    command = "java -jar %s version" % gerrit_war_path
+    version_process = subprocess.run(
+      command.split(),
+      stdout=subprocess.PIPE)
+    return version_process.stdout.decode().strip()
 
-  if determine_is_slave(gerrit_site_path):
-    flags += " --no-reindex"
+  def _needs_init(self):
+    installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
+    if not os.path.exists(installed_war_path):
+      print("%s: Gerrit is not yet installed. Initializing new site." % time.ctime())
+      return True
 
-  command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
-    flags,
-    plugin_options,
-    gerrit_site_path)
+    installed_version = self._get_gerrit_version(installed_war_path)
+    provided_version = self._get_gerrit_version("/var/war/gerrit.war")
+    if installed_version != provided_version:
+      print((
+        "%s: New Gerrit version was provided (current: %s; new: %s). "
+        "Reinitializing site.") % (
+          time.ctime(),
+          installed_version,
+          provided_version))
+      return True
 
-  init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
+    print("%s: No initialization required." % time.ctime())
+    return False
 
-  if init_process.returncode > 0:
-    print("An error occured, when initializing Gerrit. Exit code: ",
-          init_process.returncode)
-    sys.exit(1)
+  def start(self, plugins):
+    if not self._needs_init():
+      return
+
+    if self.gerrit_config:
+      print("%s: Existing gerrit.config found." % time.ctime())
+      self._ensure_database_connection()
+    else:
+      print("%s: No gerrit.config found. Initializing default site." % time.ctime())
+
+    if plugins:
+      plugin_options = ' '.join(['--install-plugin %s' % plugin for plugin in plugins])
+    else:
+      plugin_options = ''
+
+    flags = "--no-auto-start --batch"
+
+    if self.is_slave:
+      flags += " --no-reindex"
+
+    command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
+      flags,
+      plugin_options,
+      self.site)
+
+    init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
+
+    if init_process.returncode > 0:
+      print("An error occured, when initializing Gerrit. Exit code: ",
+            init_process.returncode)
+      sys.exit(1)
 
 # pylint: disable=C0103
 if __name__ == "__main__":
@@ -111,4 +128,5 @@ if __name__ == "__main__":
     default=None)
   args = parser.parse_args()
 
-  initialize_gerrit(args.site, args.plugins)
+  init = GerritInit(args.site)
+  init.start(args.plugins)
