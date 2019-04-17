@@ -22,7 +22,7 @@ import sys
 from git_config_parser import GitConfigParser
 from log import get_logger
 from validate_db import select_db
-from gerrit_reindex import IndexType, GerritElasticSearchReindexer
+from gerrit_reindex import IndexType
 
 LOG = get_logger("init")
 
@@ -36,6 +36,7 @@ class GerritInit:
         self.gerrit_config = self._parse_gerrit_config()
         self.is_slave = self._is_slave()
         self.installed_plugins = self._get_installed_plugins()
+        self.index_type = self._determine_index_type()
 
     def _parse_gerrit_config(self):
         gerrit_config_path = os.path.join(self.site, "etc/gerrit.config")
@@ -48,6 +49,13 @@ class GerritInit:
     def _ensure_database_connection(self):
         database = select_db(self.site)
         database.wait_for_db_server()
+
+    def _determine_index_type(self):
+        if self.gerrit_config:
+            index_type = self.gerrit_config.get("index.type", "lucene").upper()
+            return IndexType[index_type]
+
+        return IndexType["LUCENE"]
 
     def _is_slave(self):
         if self.gerrit_config:
@@ -122,7 +130,7 @@ class GerritInit:
 
         flags = "--no-auto-start --batch"
 
-        if self.is_slave:
+        if self.is_slave or self.index_type is IndexType.ELASTICSEARCH:
             flags += " --no-reindex"
 
         command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
@@ -139,13 +147,6 @@ class GerritInit:
                 init_process.returncode,
             )
             sys.exit(1)
-
-        if not self.gerrit_config:
-            self.gerrit_config = self._parse_gerrit_config()
-        index_type = self.gerrit_config.get("index.type", IndexType.LUCENE.name)
-        if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
-            reindexer = GerritElasticSearchReindexer(self.site)
-            reindexer.start(is_forced=True)
 
 
 # pylint: disable=C0103
