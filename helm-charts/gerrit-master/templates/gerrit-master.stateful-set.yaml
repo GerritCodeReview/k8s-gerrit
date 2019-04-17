@@ -41,7 +41,9 @@ spec:
         - |
           # Remove directories that should be mounted rather than exist with the
           # rest of the site
-          [ ! -L /var/gerrit/git ] && rm -rf /var/gerrit/git
+          for dir in git {{ if eq .Values.gerritMaster.index.type "elasticsearch" }}index{{ end }}; do
+            [ ! -L /var/gerrit/$dir ] && rm -rf /var/gerrit/$dir
+          done
           rm -f /var/gerrit/logs/gerrit.pid
         volumeMounts:
         - name: gerrit-site
@@ -65,9 +67,11 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          if [ ! -d /var/gerrit/git ]; then
-            ln -sf /var/mnt/git /var/gerrit/
-          fi
+          for dir in git {{ if eq .Values.gerritMaster.index.type "elasticsearch" }}index{{ end }}; do
+            if [ ! -d /var/gerrit/$dir ]; then
+              ln -sf /var/mnt/$dir /var/gerrit/
+            fi
+          done
 
           /var/tools/gerrit_init.py \
             -s /var/gerrit \
@@ -91,6 +95,10 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+        - name: gerrit-index-config
+          mountPath: "/var/mnt/index"
+        {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -114,6 +122,10 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+        - name: gerrit-index-config
+          mountPath: "/var/mnt/index"
+        {{- end }}
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -152,6 +164,11 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-filesystem-pvc
           {{- end }}
+      {{ if eq .Values.gerritMaster.index.type "elasticsearch" -}}
+      - name: gerrit-index-config
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-gerrit-index-config-pvc
+      {{- end }}
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
