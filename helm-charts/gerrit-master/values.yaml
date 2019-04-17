@@ -126,6 +126,10 @@ gerritMaster:
   # automatic encoding using helm does not work here.
   keystore:
 
+  index:
+    # Either `lucene` or `elasticsearch`
+    type: lucene
+
   plugins:
     packaged:
     - commit-message-length-validator
