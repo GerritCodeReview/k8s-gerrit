@@ -22,7 +22,6 @@ import time
 
 from git_config_parser import GitConfigParser
 from validate_db import select_db
-from gerrit_reindex import GerritReindexer
 
 class GerritInit():
 
@@ -31,6 +30,7 @@ class GerritInit():
 
     self.gerrit_config = self._parse_gerrit_config()
     self.is_slave = self._is_slave()
+    self.index_type = self._determine_index_type()
 
   def _parse_gerrit_config(self):
     gerrit_config_path = os.path.join(self.site, "etc/gerrit.config")
@@ -43,6 +43,12 @@ class GerritInit():
   def _ensure_database_connection(self):
     database = select_db(self.site)
     database.wait_for_db_server()
+
+  def _determine_index_type(self):
+    if self.gerrit_config:
+      return self.gerrit_config.get("index.type", "lucene").lower()
+
+    return "lucene"
 
   def _is_slave(self):
     if self.gerrit_config:
@@ -94,7 +100,7 @@ class GerritInit():
 
     flags = "--no-auto-start --batch"
 
-    if self.is_slave:
+    if self.is_slave or self.index_type == "elasticsearch":
       flags += " --no-reindex"
 
     command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
@@ -108,11 +114,6 @@ class GerritInit():
       print("An error occured, when initializing Gerrit. Exit code: ",
             init_process.returncode)
       sys.exit(1)
-
-    index_type = self.gerrit_config.get("index.type", "lucene").lower()
-    if index_type == "elasticsearch":
-      reindexer = GerritReindexer(self.site)
-      reindexer.start(is_forced=True)
 
 # pylint: disable=C0103
 if __name__ == "__main__":
