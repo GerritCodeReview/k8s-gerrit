@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9330577d_0f202c43",
+        "filename": "Pipfile",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-04-17T01:43:49Z",
+      "side": 1,
+      "message": "Github\u0027s automated vulnerability detection has raised an alert about this version of SqlAlchemy, and recommended upgrading to \u003e\u003d1.3.0. See [1] and [2] for details.\n\n[1] https://github.com/GerritCodeReview/k8s-gerrit/network/alert/Pipfile.lock/SQLAlchemy/open\n[2] https://nvd.nist.gov/vuln/detail/CVE-2019-7164",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "1b801411080ae25bb223e6a47895f8db16d4efe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
