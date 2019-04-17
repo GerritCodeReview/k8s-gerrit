@@ -165,6 +165,7 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.ingress.tls.cert`              | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`     |
 | `gerritMaster.ingress.tls.key`               | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
 | `gerritMaster.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                             |
+| `gerritMaster.index.type`                    | Index type used by Gerrit (either `lucene` or `elasticsearch`)                                  | `lucene`                          |
 | `gerritMaster.config.gerrit`                 | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)  |
 | `gerritMaster.config.secure`                 | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)  |
 | `gerritMaster.config.replication`            | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)  |
