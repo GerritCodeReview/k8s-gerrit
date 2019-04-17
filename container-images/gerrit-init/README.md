@@ -11,8 +11,8 @@ core plugins.
 
 ## Setup and configuration
 
-* install mysql-client, python 3 and pip
-* install sqlalchemy and mysql driver for python
+* install mysql-client, python 3, pip and pipenv
+* install sqlalchemy and mysql driver for python using pipenv
 * copy tool scripts
 
 ## Start
@@ -31,3 +31,13 @@ The `validate_db.py`-script
 * waits for the database to start
 * waits for the reviewdb database
 + waits for some selected tables to ensure that the schema is initialized
+
+## How to install/update python packages in container
+
+* Python 3.6 is required
+* Install `pipenv`
+* Navigate to `./container-images/gerrit-init/tools`
+* Run `pipenv install <package>`
+
+This will update the `Pipfile` and `Pipfile.lock`, which will be copied into the
+container image, when the container image is built.

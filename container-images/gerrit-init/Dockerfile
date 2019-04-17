@@ -2,6 +2,12 @@ FROM gerrit-base:latest
 
 USER root
 
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+COPY tools/* /var/tools/
+WORKDIR /var/tools
+
 RUN apt-get update && \
     apt-get install -y \
       mysql-client \
@@ -9,11 +15,8 @@ RUN apt-get update && \
       python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    pip3 install \
-      PyMySQL~=0.9.2 \
-      sqlalchemy~=1.3.0
-
-COPY tools/* /var/tools/
+    pip3 install pipenv && \
+    pipenv install --system
 
 USER gerrit
 
