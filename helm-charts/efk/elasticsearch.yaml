@@ -1,0 +1,86 @@
+# Versions supported by Gerrit: https://www.gerritcodereview.com/elasticsearch.html
+appVersion: "6.5.4"
+
+image:
+  # Use only repositories with `-oss`-prefix, if you do not own a commercial
+  # elasticsearch license!
+  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  tag: "6.5.4"
+  pullPolicy: "IfNotPresent"
+
+initImage:
+  repository: "busybox"
+  tag: "latest"
+  pullPolicy: "Always"
+
+cluster:
+  name: "elasticsearch-gerrit-index"
+  # Xpack is commercial and has to be deactivated (not included in oss-images
+  # anyway)
+  xpackEnable: false
+  env:
+    MINIMUM_MASTER_NODES: "2"
+  plugins: []
+
+client:
+  name: client
+  replicas: 2
+  serviceType: ClusterIP
+  heapSize: "512m"
+  antiAffinity: "soft"
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1024Mi"
+    requests:
+      cpu: "25m"
+      memory: "512Mi"
+  ingress:
+    enabled: false
+
+master:
+  name: master
+  exposeHttp: false
+  replicas: 3
+  heapSize: "512m"
+  persistence:
+    enabled: true
+    size: "4Gi"
+  antiAffinity: "soft"
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1024Mi"
+    requests:
+      cpu: "25m"
+      memory: "512Mi"
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: OnDelete
+
+data:
+  name: data
+  exposeHttp: false
+  replicas: 2
+  heapSize: "1536m"
+  persistence:
+    enabled: true
+    size: "30Gi"
+  terminationGracePeriodSeconds: 3600
+  antiAffinity: "soft"
+  resources:
+    limits:
+      cpu: "1"
+      memory: "3Gi"
+    requests:
+      cpu: "25m"
+      memory: "1536Mi"
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: OnDelete
+  hooks:
+    drain:
+      enabled: true
+
+sysctlInitContainer:
+  enabled: true
