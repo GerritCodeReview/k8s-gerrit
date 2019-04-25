@@ -17,6 +17,8 @@ spec:
       app: gerrit-master-loadbalancer
   template:
     metadata:
+      annotations:
+        fluentbit.io/parser: haproxy
       labels:
         app: gerrit-master-loadbalancer
     spec:
