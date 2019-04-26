@@ -1,0 +1,19 @@
+image:
+  fluent_bit:
+    repository: fluent/fluent-bit
+    tag: 1.0.6
+
+backend:
+  type: es
+  es:
+    host: es-index-elasticsearch-client.elasticsearch.svc.cluster.local
+    time_key: "@timestamp_fb"
+    port: 9200
+
+parsers:
+  enabled: true
+  regex:
+  - name: loadtester
+    regex: '^(?<time>\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2},\d{3})\s(?<action>[^\s]+)\s(?<result>(?:OK)|(?:FAILED))\s(?<message>.*)$'
+    timeKey: time
+    timeFormat: "%Y-%d-%m %H:%M:%S.%f"

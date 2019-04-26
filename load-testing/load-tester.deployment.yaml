@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gerrit-load-tester
+spec:
+  replicas: 15
+  selector:
+    matchLabels:
+      app: gerrit-load-tester
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/parser: loadtester
+      labels:
+        app: gerrit-load-tester
+    spec:
+      containers:
+      - name: gerrit-load-tester
+        image: k8sgerrit/loadtest
+        args:
+        - "-U"
+        - "http://gerrit.example.com"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
