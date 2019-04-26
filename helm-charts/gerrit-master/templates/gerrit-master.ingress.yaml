@@ -7,10 +7,11 @@ metadata:
     chart: {{ template "gerrit-master.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  {{ if .Values.gerritMaster.ingress.alias -}}
   annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.gerritMaster.ingress.maxBodySize | default "50m" }}
+    {{ if .Values.gerritMaster.ingress.alias -}}
     nginx.ingress.kubernetes.io/server-alias: {{ .Values.gerritMaster.ingress.alias }}
-  {{- end }}
+    {{- end }}
 spec:
   {{ if .Values.gerritMaster.ingress.tls.enabled -}}
   tls:

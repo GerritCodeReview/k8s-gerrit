@@ -139,6 +139,7 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `gitBackend.ingress.enabled`             | Whether to deploy an Ingress                                                       | `false`                                                                   |
 | `gitBackend.ingress.host`                | Host name to use for the Ingress (required for Ingress)                            | `nil`                                                                     |
 | `gitBackend.ingress.alias`               | Optional: ALias host name for the Ingress                                          | `nil`                                                                     |
+| `gitBackend.ingress.maxBodySize`         | Maximum request body size allowed (Set to 0 for an unlimited request body size)    | `50m`                                                                     |
 | `gitBackend.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                   | `false`                                                                   |
 | `gitBackend.ingress.tls.cert`            | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
 | `gitBackend.ingress.tls.key`             | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |

@@ -9,7 +9,7 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.gitBackend.ingress.maxBodySize | default "50m" }}
     {{ if .Values.gitBackend.ingress.alias -}}
     nginx.ingress.kubernetes.io/server-alias: {{ .Values.gitBackend.ingress.alias }}
     {{- end }}

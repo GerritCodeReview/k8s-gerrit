@@ -113,6 +113,9 @@ gerritMaster:
     # Provide a second host name used as an alias. Leave empty, if no alias is
     # desired.
     alias:
+    # The maximum body size to allow for requests. Use "0" to allow unlimited
+    # reuqest body sizes.
+    maxBodySize: 50m
     tls:
       enabled: false
       cert: |-
