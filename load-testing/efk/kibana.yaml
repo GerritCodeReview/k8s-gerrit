@@ -1,0 +1,22 @@
+image:
+  repository: "docker.elastic.co/kibana/kibana-oss"
+  tag: "6.5.4"
+
+env:
+  ELASTICSEARCH_URL: http://es-index-elasticsearch-client.elasticsearch.svc.cluster.local:9200
+files:
+  kibana.yml:
+    server.name: kibana
+    server.host: "0"
+    elasticsearch.url: http://es-index-elasticsearch-client.elasticsearch.svc.cluster.local:9200
+service:
+  type: ClusterIP
+
+dashboardImport:
+  enabled: false
+  timeout: 60
+  xpackauth:
+    enabled: false
+  dashboards:
+    loadbalancer: |-
+      {}
