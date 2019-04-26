@@ -7,6 +7,8 @@ metadata:
     chart: {{ template "gerrit-master.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
   {{ if .Values.gerritMaster.ingress.alias -}}
   annotations:
     nginx.ingress.kubernetes.io/server-alias: {{ .Values.gerritMaster.ingress.alias }}
