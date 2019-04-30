@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93282af8_cb950f76",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:43:15Z",
+      "side": 1,
+      "message": "These index type names should be factored out somewhere as constants",
+      "range": {
+        "startLine": 113,
+        "startChar": 21,
+        "endLine": 113,
+        "endChar": 36
+      },
+      "revId": "6bc8a8eca9d8ae3ed98b76d4147c8fe13633a08d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c71ef0ff_3a26b0ea",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:43:15Z",
+      "side": 1,
+      "message": "Consider having two subclasses of this class:\n* GerritLuceneReindexer\n* GerritElasticSearchReindexer\n\nMove the specific code in the subclasses, keep the common code in this class.\nWe then only need to once instantiate the proper (sub)class (depending on the configuration).",
+      "revId": "6bc8a8eca9d8ae3ed98b76d4147c8fe13633a08d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
