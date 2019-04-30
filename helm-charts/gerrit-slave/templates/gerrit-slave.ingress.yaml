@@ -7,9 +7,9 @@ metadata:
     chart: {{ template "gerrit-slave.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  {{ if .Values.gerritSlave.ingress.alias -}}
+  {{ if .Values.gerritSlave.ingress.additionalAnnotations -}}
   annotations:
-    nginx.ingress.kubernetes.io/server-alias: {{ .Values.gerritSlave.ingress.alias }}
+{{ toYaml .Values.gerritSlave.ingress.additionalAnnotations  | indent 4 }}
   {{- end }}
 spec:
   {{ if .Values.gerritSlave.ingress.tls.enabled -}}

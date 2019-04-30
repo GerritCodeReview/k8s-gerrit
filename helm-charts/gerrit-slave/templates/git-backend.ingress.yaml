@@ -10,8 +10,8 @@ metadata:
     release: {{ .Release.Name }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.gitBackend.ingress.maxBodySize | default "50m" }}
-    {{ if .Values.gitBackend.ingress.alias -}}
-    nginx.ingress.kubernetes.io/server-alias: {{ .Values.gitBackend.ingress.alias }}
+    {{- if .Values.gitBackend.ingress.additionalAnnotations }}
+{{ toYaml .Values.gitBackend.ingress.additionalAnnotations  | indent 4 }}
     {{- end }}
 spec:
   {{ if .Values.gitBackend.ingress.tls.enabled -}}

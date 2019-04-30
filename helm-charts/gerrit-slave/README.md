@@ -116,33 +116,33 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 
 ### Apache-Git-HTTP-Backend (Git-Backend)
 
-| Parameter                                | Description                                                                        | Default                                                                   |
-|------------------------------------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| `gitBackend.image`                       | Image name of the Apache-git-http-backend container image                          | `k8s-gerrit/apache-git-http-backend`                                      |
-| `gitBackend.replicas`                    | Number of pod replicas to deploy                                                   | `1`                                                                       |
-| `gitBackend.maxSurge`                    | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%`                                                                     |
-| `gitBackend.maxUnavailable`              | Max. percentage or number of pods allowed to be unavailable at a time              | `100%`                                                                    |
-| `gitBackend.resources`                   | Configure the amount of resources the pod requests/is allowed                      | `requests.cpu: 100m`                                                      |
-|                                          |                                                                                    | `requests.memory: 256Mi`                                                  |
-|                                          |                                                                                    | `limits.cpu: 100m`                                                        |
-|                                          |                                                                                    | `limits.memory: 256Mi`                                                    |
-| `gitBackend.credentials.htpasswd`        | `.htpasswd`-file containing username/password-credentials for accessing git        | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
-| `gitBackend.logging.persistence.enabled` | Whether to persist logs                                                            | `true`                                                                    |
-| `gitBackend.logging.persistence.size`    | Storage size for persisted logs                                                    | `1Gi`                                                                     |
-| `gitBackend.service.type`                | Which kind of Service to deploy                                                    | `LoadBalancer`                                                            |
-| `gitBackend.service.http.enabled`        | Whether to serve HTTP-requests (needed for Ingress)                                | `true`                                                                    |
-| `gitBackend.service.http.port`           | Port over which to expose HTTP                                                     | `80`                                                                      |
-| `gitBackend.service.https.enabled`       | Whether to serve HTTPS-requests                                                    | `false`                                                                   |
-| `gitBackend.service.https.port`          | Port over which to expose HTTPS                                                    | `443`                                                                     |
-| `gitBackend.service.https.cert`          | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.service.https.key`           | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
-| `gitBackend.ingress.enabled`             | Whether to deploy an Ingress                                                       | `false`                                                                   |
-| `gitBackend.ingress.host`                | Host name to use for the Ingress (required for Ingress)                            | `nil`                                                                     |
-| `gitBackend.ingress.alias`               | Optional: ALias host name for the Ingress                                          | `nil`                                                                     |
-| `gitBackend.ingress.maxBodySize`         | Maximum request body size allowed (Set to 0 for an unlimited request body size)    | `50m`                                                                     |
-| `gitBackend.ingress.tls.enabled`         | Whether to enable TLS termination in the Ingress                                   | `false`                                                                   |
-| `gitBackend.ingress.tls.cert`            | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.ingress.tls.key`             | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
+| Parameter                                  | Description                                                                        | Default                                                                   |
+|--------------------------------------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| `gitBackend.image`                         | Image name of the Apache-git-http-backend container image                          | `k8s-gerrit/apache-git-http-backend`                                      |
+| `gitBackend.replicas`                      | Number of pod replicas to deploy                                                   | `1`                                                                       |
+| `gitBackend.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%`                                                                     |
+| `gitBackend.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time              | `100%`                                                                    |
+| `gitBackend.resources`                     | Configure the amount of resources the pod requests/is allowed                      | `requests.cpu: 100m`                                                      |
+|                                            |                                                                                    | `requests.memory: 256Mi`                                                  |
+|                                            |                                                                                    | `limits.cpu: 100m`                                                        |
+|                                            |                                                                                    | `limits.memory: 256Mi`                                                    |
+| `gitBackend.credentials.htpasswd`          | `.htpasswd`-file containing username/password-credentials for accessing git        | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
+| `gitBackend.logging.persistence.enabled`   | Whether to persist logs                                                            | `true`                                                                    |
+| `gitBackend.logging.persistence.size`      | Storage size for persisted logs                                                    | `1Gi`                                                                     |
+| `gitBackend.service.type`                  | Which kind of Service to deploy                                                    | `LoadBalancer`                                                            |
+| `gitBackend.service.http.enabled`          | Whether to serve HTTP-requests (needed for Ingress)                                | `true`                                                                    |
+| `gitBackend.service.http.port`             | Port over which to expose HTTP                                                     | `80`                                                                      |
+| `gitBackend.service.https.enabled`         | Whether to serve HTTPS-requests                                                    | `false`                                                                   |
+| `gitBackend.service.https.port`            | Port over which to expose HTTPS                                                    | `443`                                                                     |
+| `gitBackend.service.https.cert`            | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
+| `gitBackend.service.https.key`             | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
+| `gitBackend.ingress.enabled`               | Whether to deploy an Ingress                                                       | `false`                                                                   |
+| `gitBackend.ingress.host`                  | Host name to use for the Ingress (required for Ingress)                            | `nil`                                                                     |
+| `gitBackend.ingress.maxBodySize`           | Maximum request body size allowed (Set to 0 for an unlimited request body size)    | `50m`                                                                     |
+| `gitBackend.ingress.additionalAnnotations` | Additional annotations for the Ingress                                             | `nil`                                                                     |
+| `gitBackend.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                   | `false`                                                                   |
+| `gitBackend.ingress.tls.cert`              | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
+| `gitBackend.ingress.tls.key`               | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 
 ***note
 At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
@@ -195,7 +195,7 @@ is mandatory, if access to the Gerrit slave is required!
 | `gerritSlave.service.type`                   | Which kind of Service to deploy                                                                                          | `NodePort`                        |
 | `gerritSlave.service.http.port`              | Port over which to expose HTTP                                                                                           | `80`                              |
 | `gerritSlave.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                                                        | `nil`                             |
-| `gerritSlave.ingress.alias`                  | Optional: Alias host name for the Ingress                                                                                | `nil`                             |
+| `gerritSlave.ingress.additionalAnnotations`  | Additional annotations for the Ingress                                                                                   | `nil`                             |
 | `gerritSlave.ingress.tls.enabled`            | Whether to enable TLS termination in the Ingress                                                                         | `false`                           |
 | `gerritSlave.ingress.tls.cert`               | Public SSL server certificate                                                                                            | `-----BEGIN CERTIFICATE-----`     |
 | `gerritSlave.ingress.tls.key`                | Private SSL server certificate                                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |

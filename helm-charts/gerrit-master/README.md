@@ -154,8 +154,8 @@ is mandatory, if access to Gerrit is required!
 | `gerritMaster.service.type`                   | Which kind of Service to deploy                                                                 | `NodePort`                        |
 | `gerritMaster.service.http.port`              | Port over which to expose HTTP                                                                  | `80`                              |
 | `gerritMaster.ingress.host`                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
-| `gerritMaster.ingress.alias`                  | Optional: ALias host name for the Ingress                                                       | `nil`                             |
 | `gerritMaster.ingress.maxBodySize`            | Maximum request body size allowed (Set to 0 for an unlimited request body size)                 | `50m`                             |
+| `gerritMaster.ingress.additionalAnnotations`  | Additional annotations for the Ingress                                                          | `nil`                             |
 | `gerritMaster.ingress.tls.enabled`            | Whether to enable TLS termination in the Ingress                                                | `false`                           |
 | `gerritMaster.ingress.tls.cert`               | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`     |
 | `gerritMaster.ingress.tls.key`                | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----` |

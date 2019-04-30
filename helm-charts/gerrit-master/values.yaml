@@ -110,12 +110,12 @@ gerritMaster:
 
   ingress:
     host:
-    # Provide a second host name used as an alias. Leave empty, if no alias is
-    # desired.
-    alias:
     # The maximum body size to allow for requests. Use "0" to allow unlimited
     # reuqest body sizes.
     maxBodySize: 50m
+    additionalAnnotations: {}
+    #  nginx.ingress.kubernetes.io/server-alias: example.com
+    #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
     tls:
       enabled: false
       cert: |-
