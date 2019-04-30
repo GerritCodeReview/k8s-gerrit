@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7f971122_3fd7539b",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T13:27:33Z",
+      "side": 1,
+      "message": "Yes. This is a good idea. Since I have used this pattern here before, I would rather implement using the logging-package in a separate change.",
+      "parentUuid": "3dcf926f_61a24555",
+      "range": {
+        "startLine": 45,
+        "startChar": 68,
+        "endLine": 45,
+        "endChar": 83
+      },
+      "revId": "ef407a9cd2754c53b010a94071636218693d6011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ef63e3b_ab46ff19",
         "filename": "helm-charts/gerrit-slave/values.yaml",
         "patchSetId": 9
@@ -39,6 +63,24 @@
       "revId": "ef407a9cd2754c53b010a94071636218693d6011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c54e9e3_0697c336",
+        "filename": "helm-charts/gerrit-slave/values.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T13:27:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef63e3b_ab46ff19",
+      "revId": "ef407a9cd2754c53b010a94071636218693d6011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
