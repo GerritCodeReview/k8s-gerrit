@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38f164ec_4348124a",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:38:35Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "452c3ac6_8471ab33",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:38:35Z",
+      "side": 1,
+      "message": "IMHO this is unnecessarily complex. Just take the subsection name, for example \"changes_0039\",\nand split it on \"_\":\n\n  name, version \u003d opt[\"subsection\"].split(\"_\")",
+      "range": {
+        "startLine": 46,
+        "startChar": 25,
+        "endLine": 46,
+        "endChar": 58
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ee768fb_f0bd4df7",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:38:35Z",
+      "side": 1,
+      "message": "This can be written as one-liner:\n\n  indicies_ready \u003d self.configured_indices and self._all_indicies_ready()",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5641a343_7a7bdae1",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:38:35Z",
+      "side": 1,
+      "message": "Does this mean that even if only one index is not ready, we will recompute all indexes?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50267530_429c4d1e",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-04-30T13:38:35Z",
+      "side": 1,
+      "message": "I didn\u0027t check Gerrit code but I guess that some kind of version check should also exist for\nthe Elastic search based indexes.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 20
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
