@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7915b53_c07cc131",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T16:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f164ec_4348124a",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "452c3ac6_8471ab33",
         "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
         "patchSetId": 12
@@ -45,6 +69,30 @@
       "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8253655_78ffd675",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T16:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "452c3ac6_8471ab33",
+      "range": {
+        "startLine": 46,
+        "startChar": 25,
+        "endLine": 46,
+        "endChar": 58
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e9c86b35_0960daa0",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T16:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee768fb_f0bd4df7",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5641a343_7a7bdae1",
         "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
         "patchSetId": 12
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "14aa6116_bfbe63cb",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T16:38:36Z",
+      "side": 1,
+      "message": "Yes, let me change that.\nDone.",
+      "parentUuid": "5641a343_7a7bdae1",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 20
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50267530_429c4d1e",
         "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
         "patchSetId": 12
@@ -105,6 +201,30 @@
       "writtenOn": "2019-04-30T13:38:35Z",
       "side": 1,
       "message": "I didn\u0027t check Gerrit code but I guess that some kind of version check should also exist for\nthe Elastic search based indexes.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 20
+      },
+      "revId": "17012e62b3dbb4a40798594d501ea0a41562e770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf32c4eb_683edc25",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T16:38:36Z",
+      "side": 1,
+      "message": "Yes it works more or less the same. It is implemented in a change later in this series. This is basically just to make sure that it probably works at least somehow regardless of whether it was yet looked at.",
+      "parentUuid": "50267530_429c4d1e",
       "range": {
         "startLine": 110,
         "startChar": 0,
