@@ -22,6 +22,30 @@
       "revId": "fa4925bab4d97d4b3d2d4d15d94055d3b442c5f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0517def8_a484ade4",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-04-30T13:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f232e475_6a361cc1",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 25
+      },
+      "revId": "fa4925bab4d97d4b3d2d4d15d94055d3b442c5f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
