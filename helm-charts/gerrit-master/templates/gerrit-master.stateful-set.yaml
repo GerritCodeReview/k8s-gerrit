@@ -78,6 +78,9 @@ spec:
           done
 
           /var/tools/gerrit_init.py \
+            {{- if .Values.gerritMaster.reviewdb.enabled }}
+            --reviewdb \
+            {{- end }}
             -s /var/gerrit \
             -p replication \
             -p commit-message-length-validator \
@@ -93,7 +96,9 @@ spec:
           cp /var/plugins/websession-flatfile.jar /var/gerrit/plugins/websession-flatfile.jar
           {{- end }}
 
+          {{- if .Values.gerritMaster.reviewdb.enabled }}
           /var/tools/validate_db.py -s /var/gerrit
+          {{- end }}
 
           {{ if not .Values.gerritMaster.persistence.enabled -}}
             FLAGS="$FLAGS --force"
