@@ -25,9 +25,10 @@ from validate_db import select_db
 
 class GerritInit():
 
-  def __init__(self, site, wanted_plugins):
+  def __init__(self, site, wanted_plugins, enable_reviewdb):
     self.site = site
     self.wanted_plugins = set(wanted_plugins)
+    self.enable_reviewdb = enable_reviewdb
 
     self.gerrit_config = self._parse_gerrit_config()
     self.is_slave = self._is_slave()
@@ -106,7 +107,8 @@ class GerritInit():
 
     if self.gerrit_config:
       print("%s: Existing gerrit.config found." % time.ctime())
-      self._ensure_database_connection()
+      if self.enable_reviewdb:
+        self._ensure_database_connection()
     else:
       print("%s: No gerrit.config found. Initializing default site." % time.ctime())
 
@@ -150,7 +152,13 @@ if __name__ == "__main__":
     dest="wanted_plugins",
     action="append",
     default=list())
+  parser.add_argument(
+    "-d",
+    "--reviewdb",
+    help="Whether a reviewdb is part of the Gerrit installation.",
+    dest="reviewdb",
+    action="store_true")
   args = parser.parse_args()
 
-  init = GerritInit(args.site, args.wanted_plugins)
+  init = GerritInit(args.site, args.wanted_plugins, args.reviewdb)
   init.execute()

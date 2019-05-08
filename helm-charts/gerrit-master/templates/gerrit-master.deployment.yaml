@@ -62,6 +62,9 @@ spec:
           symlink_config_to_site
 
           /var/tools/gerrit_init.py \
+            {{- if .Values.gerritMaster.reviewdb.enabled }}
+            --reviewdb \
+            {{- end }}
             -s /var/gerrit \
             -p replication \
             -p commit-message-length-validator \
