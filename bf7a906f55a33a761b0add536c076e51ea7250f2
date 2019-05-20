@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4632e4f6_350cbb23",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-20T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7fd9f6d_2d813e42",
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4dbc724_ca75fa08",
         "filename": "container-images/gerrit-init/tools/gerrit_init.py",
         "patchSetId": 12
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "fc1c9b69_c190386d",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-20T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4dbc724_ca75fa08",
+      "range": {
+        "startLine": 52,
+        "startChar": 33,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f6ab869_6aa8cd13",
         "filename": "container-images/gerrit-init/tools/gerrit_init.py",
         "patchSetId": 12
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "1d91caf3_fec64612",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-20T15:44:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f6ab869_6aa8cd13",
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dc3c840_10732acb",
         "filename": "container-images/gerrit-init/tools/gerrit_init.py",
         "patchSetId": 12
@@ -70,6 +130,30 @@
       "writtenOn": "2019-05-20T13:28:40Z",
       "side": 1,
       "message": "This logic seems buggy to me.\n\nFor example, assume:\n\n  installed_plugins \u003d {\"A\", \"B\"}\n  plugins \u003d {\"A\", \"B\", \"C\"}\n\nthen the:\n\n  installed_plugins.difference(plugins)\n\nis an empty set, so the condition in the line 70 is false and we end-up in\nthe line 76 which returns False.\n\nFurther, even in the case the two sets are identical:\n\n  installed_plugins \u003d {\"A\", \"B\", \"C\"}\n  plugins \u003d {\"A\", \"B\", \"C\"}\n\nthe installed plugin versions may be older than the plugins versions contained in\ngerrit.war. However, the installed plugins will not be upgraded in this case as\nagain this method will return False.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbde3c56_50780d3b",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-20T15:44:13Z",
+      "side": 1,
+      "message": "Done the first part.\n\nTo the second part: This only handles core plugins. Since I check for the Gerrit-version and reinit, if that changes, the core-plugins will be reinstalled, if a new version is available (or does Gerrit not enforce reinstallation of core plugins in that case?). Of course, if somebody does not change the Gerrit version number when changing the core-plugin version, this will lead to issues, but I don\u0027t think that I should have to care about that, or should I?",
+      "parentUuid": "4dc3c840_10732acb",
       "range": {
         "startLine": 70,
         "startChar": 0,
