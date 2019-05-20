@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7fd9f6d_2d813e42",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T13:28:40Z",
+      "side": 1,
+      "message": "Why create here a list and then convert it to set in the line 50?\nCreate here a set:\n\n  installed_plugins \u003d set()\n\nand use installed_plugins.add (instead of append) in the line 48",
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4dbc724_ca75fa08",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T13:28:40Z",
+      "side": 1,
+      "message": "[optional] name it wanted_plugins or to_be_installed_plugins\n\nFurther, expect this to be a set and let the caller take care to pass a set here.",
+      "range": {
+        "startLine": 52,
+        "startChar": 33,
+        "endLine": 52,
+        "endChar": 40
+      },
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f6ab869_6aa8cd13",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T13:28:40Z",
+      "side": 1,
+      "message": "[optional] According to the \"PEP 8 -- Style Guide for Python Code\" [1] this should\nbe written as:\n\n  if installed_plugins.difference(set(plugins)):\n\nThis uses the fact that empty collection is false.\n\n[1] https://www.python.org/dev/peps/pep-0008/",
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dc3c840_10732acb",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T13:28:40Z",
+      "side": 1,
+      "message": "This logic seems buggy to me.\n\nFor example, assume:\n\n  installed_plugins \u003d {\"A\", \"B\"}\n  plugins \u003d {\"A\", \"B\", \"C\"}\n\nthen the:\n\n  installed_plugins.difference(plugins)\n\nis an empty set, so the condition in the line 70 is false and we end-up in\nthe line 76 which returns False.\n\nFurther, even in the case the two sets are identical:\n\n  installed_plugins \u003d {\"A\", \"B\", \"C\"}\n  plugins \u003d {\"A\", \"B\", \"C\"}\n\nthe installed plugin versions may be older than the plugins versions contained in\ngerrit.war. However, the installed plugins will not be upgraded in this case as\nagain this method will return False.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "bf7a906f55a33a761b0add536c076e51ea7250f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
