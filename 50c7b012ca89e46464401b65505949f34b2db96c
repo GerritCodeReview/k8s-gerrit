@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db9f9d87_c5d95d4b",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-20T16:17:13Z",
+      "side": 1,
+      "message": "This will still cause unnecessary plugin (re)installation, see my comment in the previous patch-set.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "50c7b012ca89e46464401b65505949f34b2db96c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
