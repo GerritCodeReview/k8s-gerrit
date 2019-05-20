@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "053fd13b_53bd0282",
+        "filename": "helm-charts/gerrit-master/templates/loadbalancer.configmap.yaml",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-20T15:45:20Z",
+      "side": 1,
+      "message": "Merge project-name extraction of Git and JGut clients.",
+      "revId": "0a93575b5fc08b8d7d59efed63e5ad280e0f5879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
