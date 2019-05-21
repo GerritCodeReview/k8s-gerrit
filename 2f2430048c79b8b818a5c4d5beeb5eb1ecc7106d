@@ -39,6 +39,23 @@
       "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46cbf68e_9de9ac85",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T09:02:07Z",
+      "side": 1,
+      "message": "If wanted_plugins is a subset of the installed_plugins and if there is otherwise no\nneed to perform init, this method will exit here. This means that an already installed\nplugin will not be upgraded. This may or may not be an issue.\n\nHowever, if there is a single new wanted plugin then all installed plugins (which are\nstill wanted) will get upgraded. I don\u0027t see a good reason for this difference in\nbehaviour.",
+      "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
