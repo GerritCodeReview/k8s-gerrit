@@ -46,6 +46,30 @@
       "revId": "50c7b012ca89e46464401b65505949f34b2db96c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e17eb129_64bbfea9",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T08:06:11Z",
+      "side": 1,
+      "message": "\u003e Done.\n\u003e Now, only plugins in the installed_plugins and not in wnated_plugins are deleted.\n\u003e \n\u003e I also checked in the Gerrit source code. Gerrit init will upgrade a core plugin, if the corresponding jar-file already exists [1].\n\nThe concept of \"core plugin\" exists only in Gerrit\u0027s development process: some plugins\nare declared as core plugins. They are maintained by Gerrit maintainters and are included\nin the official gerrit.war when a release is created.\n\nHowever, at the init/upgrade/run time all plugins are technically equal. There is no\ndistinction between core and non-core plugins. All plugins packaged in the gerrit.war\nare treated equally.\n\nJust wanted to clarify a potential misconception. Sorry if this was already clear :-)\n\n\u003e \n\u003e [1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/pgm/init/InitPlugins.java#120",
+      "parentUuid": "a0c7f242_c07821fc",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "50c7b012ca89e46464401b65505949f34b2db96c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
