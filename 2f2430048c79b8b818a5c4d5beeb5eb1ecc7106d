@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47546361_de40e7b0",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T08:42:07Z",
+      "side": 1,
+      "message": "This code doesn\u0027t depend on the condition in the line 70. We could also run it\nbefore the line 70 and have the same side effect: the already installed plugins which are\nnot wanted will be deleted.\n\nThis code is actually a side-effect: we call a boolean method (needs_init) which should\ndetermine if an init is needed or not, but it does more than that: it also removed some\nplugins jar files. Such side-effects are not considered a good practice is programming.\nI would suggest to keep this method clean and side-effect free. If an init is needed\nyou can cleanup already installed plugins which are not wanted in an explicit step\njust before calling the init program.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 77
+      },
+      "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca750960_0b3751c5",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-21T08:42:07Z",
+      "side": 1,
+      "message": "I think that this is still incorrect. An init is only needed if there is a wanted plugin\nwhich is not already installed i.e:\n\n  wanted_plugins.difference(installed_plugins)\n\nis not empty.\n\nIf wanted_plugins is a subset of installed_plugins then we only need to delete:\n\n  installed_plugins.difference(wanted_plugins)\n\nbut do not need to init because of that.",
+      "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
