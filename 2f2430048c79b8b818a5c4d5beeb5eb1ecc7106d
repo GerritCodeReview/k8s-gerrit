@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d30c4ae3_c59ffc29",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-22T11:53:20Z",
+      "side": 1,
+      "message": "Good point. I put that statement into the a separate method, which is called from the initialize_gerrit() method, if a init is scheduled.",
+      "parentUuid": "47546361_de40e7b0",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 77
+      },
+      "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca750960_0b3751c5",
         "filename": "container-images/gerrit-init/tools/gerrit_init.py",
         "patchSetId": 14
@@ -36,6 +60,24 @@
       "writtenOn": "2019-05-21T08:42:07Z",
       "side": 1,
       "message": "I think that this is still incorrect. An init is only needed if there is a wanted plugin\nwhich is not already installed i.e:\n\n  wanted_plugins.difference(installed_plugins)\n\nis not empty.\n\nIf wanted_plugins is a subset of installed_plugins then we only need to delete:\n\n  installed_plugins.difference(wanted_plugins)\n\nbut do not need to init because of that.",
+      "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d53c9d3_bd8496ad",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-22T11:53:20Z",
+      "side": 1,
+      "message": "Done.\nNow `wanted_plugins.difference(installed_plugins)` is used to check, whether an init is necessary. Plugins that are not wanted anymore will be deleted independent of whether `gerrit init`is called.",
+      "parentUuid": "ca750960_0b3751c5",
       "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dca71979_19a25116",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-22T11:53:20Z",
+      "side": 1,
+      "message": "Done\n\nFixed. The unwanted plugins will now be deleted independently of the init.\nTo upgrade all plugins, if just one is added, is the behaviour of `gerrit init`. There may be init-steps for the new plugin, so we would have to do an init to be on the safe side. The overwriting/updating of existing plugins should hopefully be only a relatively fast operation.",
+      "parentUuid": "46cbf68e_9de9ac85",
+      "revId": "2f2430048c79b8b818a5c4d5beeb5eb1ecc7106d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
