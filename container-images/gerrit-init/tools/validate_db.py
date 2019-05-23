@@ -24,6 +24,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
 from git_config_parser import GitConfigParser
+from logger import Logger
+
+LOG = Logger()
 
 class AbstractGerritDB(ABC):
 
@@ -88,11 +91,11 @@ class H2GerritDB(AbstractGerritDB):
     pass
 
   def wait_for_db(self):
-    print("%s: Waiting for database to be available..." % time.ctime())
+    LOG.info("Waiting for database to be available...")
     while not os.path.exists(self.url):
       time.sleep(3)
-      print("%s: Still waiting..." % time.ctime(), flush=True)
-    print("%s: Found it!" % time.ctime())
+      LOG.info("Still waiting...")
+    LOG.info("Found it!")
 
   def wait_for_schema(self):
     # Since no replication of a H2 databas is implemented yet, this test is not
@@ -133,38 +136,37 @@ class MysqlGerritDB(AbstractGerritDB):
     self.connection = self.engine.connect()
 
   def wait_for_db_server(self):
-    print("%s: Waiting for database server connection..." % time.ctime())
+    LOG.info("Waiting for database server connection...")
     while not self.connection or self.connection.closed:
       try:
         self._connect_to_db(self.server_url)
         continue
       except SQLAlchemyError:
-        print("%s: Still waiting..." % time.ctime(), flush=True)
+        LOG.info("Still waiting...")
         time.sleep(3)
     self.connection.close()
-    print("%s: Connection successful!" % time.ctime())
+    LOG.info("Connection successful!")
 
   def wait_for_db(self):
-    print("%s: Waiting for database to be available..." % time.ctime())
+    LOG.info("Waiting for database to be available...")
     self.connection.close()
     while not self.connection or self.connection.closed:
       try:
         self._connect_to_db(self.reviewdb_url)
         continue
       except SQLAlchemyError:
-        print("%s: Still waiting..." % time.ctime(), flush=True)
+        LOG.info("Still waiting...")
         time.sleep(3)
     self.connection.close()
-    print("%s: Found it!" % time.ctime())
+    LOG.info("Found it!")
 
   def wait_for_schema(self):
-    print("%s: Waiting for database schema to be created..." % time.ctime())
+    LOG.info("Waiting for database schema to be created...")
     for table in self.tables:
       while not self.engine.dialect.has_table(self.engine, table):
-        print("%s: Still waiting for table %s..." % (time.ctime(), table),
-              flush=True)
+        LOG.info("Still waiting for table %s..." % table)
         time.sleep(3)
-    print("%s: Schema appears to have been created!" % time.ctime())
+    LOG.info("Schema appears to have been created!")
 
 def select_db(gerrit_site_path):
   gerrit_config_path = os.path.join(gerrit_site_path, "etc/gerrit.config")
