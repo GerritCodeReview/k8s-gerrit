@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "766f80ad_d591956f",
+        "filename": "container-images/gerrit-init/tools/logger.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T08:49:46Z",
+      "side": 1,
+      "message": "Let\u0027s use python\u0027s `logging`-package [1]. Since it is built into python-core, it also won\u0027t increase the image size.\n\n[1] https://docs.python.org/3/library/logging.html",
+      "revId": "e393addd70bf8dae4e2352b1393c60eea5c75535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
