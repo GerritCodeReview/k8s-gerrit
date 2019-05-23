@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import argparse
+import logging
 import os
 import subprocess
 import sys
@@ -22,6 +23,12 @@ import time
 
 from git_config_parser import GitConfigParser
 from validate_db import select_db
+
+LOG = logging.Logger("init")
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('[%(asctime)s] %(levelname)s %(message)s'))
+LOG.addHandler(handler)
+LOG.setLevel(logging.DEBUG)
 
 class GerritInit():
 
@@ -72,31 +79,29 @@ class GerritInit():
 
   def _remove_unwanted_plugins(self):
     for plugin in self.installed_plugins.difference(self.wanted_plugins):
-      print("%s: Removing plugin %s." % (time.ctime(), plugin))
+      LOG.info("Removing plugin %s" % plugin)
       os.remove(os.path.join(self.site, "plugins", "%s.jar" % plugin))
 
   def _needs_init(self):
     installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
     if not os.path.exists(installed_war_path):
-      print("%s: Gerrit is not yet installed. Initializing new site." % time.ctime())
+      LOG.info("Gerrit is not yet installed. Initializing new site.")
       return True
 
     installed_version = self._get_gerrit_version(installed_war_path)
     provided_version = self._get_gerrit_version("/var/war/gerrit.war")
     if installed_version != provided_version:
-      print((
-        "%s: New Gerrit version was provided (current: %s; new: %s). "
+      LOG.info("New Gerrit version was provided (current: %s; new: %s). "
         "Reinitializing site.") % (
-          time.ctime(),
           installed_version,
           provided_version))
       return True
 
     if self.wanted_plugins.difference(self.installed_plugins):
-      print("%s: Reininitializing site to install additional plugins." % time.ctime())
+      LOG.info("Reininitializing site to install additional plugins.")
       return True
 
-    print("%s: No initialization required." % time.ctime())
+    LOG.info("No initialization required.")
     return False
 
   def execute(self):
@@ -106,11 +111,11 @@ class GerritInit():
       return
 
     if self.gerrit_config:
-      print("%s: Existing gerrit.config found." % time.ctime())
+      LOG.info("Existing gerrit.config found.")
       if self.enable_reviewdb:
         self._ensure_database_connection()
     else:
-      print("%s: No gerrit.config found. Initializing default site." % time.ctime())
+      LOG.info("No gerrit.config found. Initializing default site.")
 
     if self.wanted_plugins:
       plugin_options = ' '.join(['--install-plugin %s' % plugin for plugin in self.wanted_plugins])
@@ -130,7 +135,7 @@ class GerritInit():
     init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
 
     if init_process.returncode > 0:
-      print("An error occured, when initializing Gerrit. Exit code: %d" %
+      LOG.error("An error occured, when initializing Gerrit. Exit code: %d" %
             init_process.returncode)
       sys.exit(1)
 
