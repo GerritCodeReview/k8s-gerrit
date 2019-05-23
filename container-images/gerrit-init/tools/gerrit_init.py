@@ -75,21 +75,25 @@ class GerritInit:
             LOG.info("Removing plugin %s", plugin)
             os.remove(os.path.join(self.site, "plugins", "%s.jar" % plugin))
 
+    def _gerrit_war_updated(self):
+        installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
+        installed_version = self._get_gerrit_version(installed_war_path)
+        provided_version = self._get_gerrit_version("/var/war/gerrit.war")
+        LOG.info(
+            "Installed Gerrit version: %s; Provided Gerrit version: %s). ",
+            installed_version,
+            provided_version,
+        )
+        return installed_version != provided_version
+
     def _needs_init(self):
         installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
         if not os.path.exists(installed_war_path):
             LOG.info("Gerrit is not yet installed. Initializing new site.")
             return True
 
-        installed_version = self._get_gerrit_version(installed_war_path)
-        provided_version = self._get_gerrit_version("/var/war/gerrit.war")
-        if installed_version != provided_version:
-            LOG.info(
-                "New Gerrit version was provided (current: %s; new: %s). "
-                "Reinitializing site.",
-                installed_version,
-                provided_version,
-            )
+        if self._gerrit_war_updated():
+            LOG.info("Reinitializing site to perform update.")
             return True
 
         if self.wanted_plugins.difference(self.installed_plugins):
