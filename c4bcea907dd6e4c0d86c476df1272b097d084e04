@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73466697_d680ae61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T13:10:00Z",
+      "side": 1,
+      "message": "The commit message should be updated to correctly reflect PatchSet 2.",
+      "revId": "c4bcea907dd6e4c0d86c476df1272b097d084e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7802b5_8813a87e",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T13:10:00Z",
+      "side": 1,
+      "message": "nit: the logging-module allows to use a comma here:\n\n  LOG.info(\"Removing plugin %s\", plugin)",
+      "range": {
+        "startLine": 63,
+        "startChar": 33,
+        "endLine": 63,
+        "endChar": 35
+      },
+      "revId": "c4bcea907dd6e4c0d86c476df1272b097d084e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d8e1800_2ecc744f",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T13:10:00Z",
+      "side": 1,
+      "message": "see my previous comment.",
+      "range": {
+        "startLine": 76,
+        "startChar": 30,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "c4bcea907dd6e4c0d86c476df1272b097d084e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d548b45f_2ed41686",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-05-23T13:10:00Z",
+      "side": 1,
+      "message": "Both scripts can be called independently. They are currently not structured as a package. While we may do this later, this means for now, we would also configure the logger here. Thus, we should probably put the logger configuration into its own method and file, which is called from both scripts.",
+      "revId": "c4bcea907dd6e4c0d86c476df1272b097d084e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
