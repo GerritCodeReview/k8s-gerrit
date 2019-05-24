@@ -34,6 +34,24 @@
       "revId": "e393addd70bf8dae4e2352b1393c60eea5c75535",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2cab189_76b6e20b",
+        "filename": "container-images/gerrit-init/tools/logger.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-05-24T09:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5256ad8_195defd6",
+      "revId": "e393addd70bf8dae4e2352b1393c60eea5c75535",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
