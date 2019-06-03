@@ -44,6 +44,8 @@ class GerritReindexer:
       options = config.list()
       for opt in options:
         name, version = opt["subsection"].rsplit("_", 1)
+        # TODO (Thomas): Properly handle multiple versions of the same index,
+        # which may be present due to online-reindexing in progress.
         indices[name] = {
           "version": int(version),
           "ready": opt["value"].lower() == "true"
