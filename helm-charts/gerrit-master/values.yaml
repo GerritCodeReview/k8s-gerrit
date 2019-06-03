@@ -151,6 +151,7 @@ gerritMaster:
         type = h2
       [index]
         type = LUCENE
+        onlineUpgrade = false # FIXED
       [auth]
         type = DEVELOPMENT_BECOME_ANY_ACCOUNT
       [httpd]

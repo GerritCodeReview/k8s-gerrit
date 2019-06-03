@@ -209,6 +209,13 @@ intended with the chart:
     has to be provided manually:
     `url = jdbc:mysql://<db-host>:<db-port>/<db-name>?nullNamePatternMatchesAll=true&useSSL=false`
 
+- `index.onlineUpgrade`
+
+    Online reindexing is currently **NOT** supported. An offline reindexing will
+    be enforced upon Gerrit updates. Online-reindexing might under some circum-
+    stances interfere with the Gerrit-pod startup procedure and thus has to be
+    deactivated.
+
 - `httpd.listenURL`
 
     This has to be set to `proxy-http://*:8080/` or `proxy-https://*:8080`,
