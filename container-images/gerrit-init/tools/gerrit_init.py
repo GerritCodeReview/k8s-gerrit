@@ -130,7 +130,7 @@ class GerritInit():
     init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
 
     if init_process.returncode > 0:
-      print("An error occured, when initializing Gerrit. Exit code: ",
+      print("An error occured, when initializing Gerrit. Exit code: " %
             init_process.returncode)
       sys.exit(1)
 
