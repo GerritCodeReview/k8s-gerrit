@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "717b60a7_263f2716",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:01:20Z",
+      "side": 1,
+      "message": "runs",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f02353_af977751",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:01:20Z",
+      "side": 1,
+      "message": "remove this duplicate",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "066dfe94_9de2889e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:01:20Z",
+      "side": 1,
+      "message": "AFAIK gerrit_index.config may contain multiple versions when creation of the new index was started but didn\u0027t complete yet. Please check with Sasa",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b4ef98_7faec246",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_reindexing.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:01:20Z",
+      "side": 1,
+      "message": "can we assert that init populated indexes ?",
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120a607a_1aadc1e6",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_reindexing.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:01:20Z",
+      "side": 1,
+      "message": "can we assert that this is a noop in this case",
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
