@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da42f342_c88f1230",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:09:30Z",
+      "side": 1,
+      "message": "looks like this could go wrong if there are multiple versions for the same index, this can happen during online reindexing",
+      "revId": "43d0639927e2d6d49c14ccd06190391c45f7980a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41caa500_4a5b0ebd",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-06-03T12:09:30Z",
+      "side": 1,
+      "message": "same problem here if there are multiple versions of the same index",
+      "revId": "43d0639927e2d6d49c14ccd06190391c45f7980a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
