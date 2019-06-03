@@ -82,6 +82,8 @@ spec:
             FLAGS="$FLAGS --force"
           {{- end }}
 
+          # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
+          # is configured.
           /var/tools/gerrit_reindex.py $FLAGS \
             -s /var/gerrit
         volumeMounts:
