@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c366cb1b_abf72521",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T13:32:44Z",
+      "side": 1,
+      "message": "Ignoring",
+      "range": {
+        "startLine": 73,
+        "startChar": 19,
+        "endLine": 73,
+        "endChar": 24
+      },
+      "revId": "002d2662d5914fb9664402bb1047921e55a87119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb68bf4_e38a5d3f",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T13:32:44Z",
+      "side": 1,
+      "message": "for one liners like these (and short loops) it is OK to use one letter variable names:\n\n  \" \".join([\"--index %s\" % i for i in indices])\n\nIMHO, this even improves readability of this line",
+      "range": {
+        "startLine": 90,
+        "startChar": 42,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "002d2662d5914fb9664402bb1047921e55a87119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

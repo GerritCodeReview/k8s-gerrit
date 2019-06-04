@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "74494307_ecf741df",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T13:32:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "165756b6_20e880c1",
+      "range": {
+        "startLine": 82,
+        "startChar": 15,
+        "endLine": 82,
+        "endChar": 19
+      },
+      "revId": "ae7a564ac3fcb4aef6ca89d0f9aef3ecce9fc6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5d7220a_0d7bf07a",
         "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
         "patchSetId": 24
@@ -363,6 +387,30 @@
       "revId": "ae7a564ac3fcb4aef6ca89d0f9aef3ecce9fc6b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44a560c_80a9116e",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T13:32:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a81ccacc_7665093e",
+      "range": {
+        "startLine": 128,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 7
+      },
+      "revId": "ae7a564ac3fcb4aef6ca89d0f9aef3ecce9fc6b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
