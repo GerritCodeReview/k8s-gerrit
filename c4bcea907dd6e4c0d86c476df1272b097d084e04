@@ -163,6 +163,24 @@
       "revId": "c4bcea907dd6e4c0d86c476df1272b097d084e04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4321ec22_9758bca6",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T08:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d548b45f_2ed41686",
+      "revId": "c4bcea907dd6e4c0d86c476df1272b097d084e04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

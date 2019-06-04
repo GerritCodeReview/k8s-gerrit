@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca487e97_684c00df",
+        "filename": "container-images/gerrit-init/tools/log.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T08:19:59Z",
+      "side": 1,
+      "message": "This solution to have the same logger configuration without code duplication over all scripts is not very elegant. I suggest to restructure the python scripts into a single package. So that only one main script is called, giving it the command to execute.\n\ne.g.: gerrit-init initialize -s /var/gerrit\n\nThat would be a far better structure and would also allow us to build a binary, which may require far less space in the container image.\n\nI will try that in a future change.",
+      "revId": "08fd90fdacca8ad013c38353c8202ec37d85a1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
