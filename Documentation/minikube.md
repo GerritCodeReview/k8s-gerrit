@@ -31,7 +31,8 @@ Finally, Minikube can be installed. Download the latest binary
 [here](https://github.com/kubernetes/minikube/releases). To install it on OSX, run:
 
 ```sh
-curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.30.0/minikube-darwin-amd64 && \
+VERSION=1.1.0
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v$VERSION/minikube-darwin-amd64 && \
   chmod +x minikube && \
   sudo cp minikube /usr/local/bin/ && \
   rm minikube
@@ -76,7 +77,7 @@ to test whether the cluster is up:
 kubectl get nodes
 
 NAME       STATUS   ROLES    AGE   VERSION
-minikube   Ready    master   1h    v1.10.0
+minikube   Ready    master   1h    v1.14.2
 ```
 
 The helm-charts use ingresses, which can be used in Minikube by enabling the
@@ -104,7 +105,7 @@ This will only redirect traffic from the computer running Minikube.
 To see whether all cluster components are ready, run:
 
 ```sh
-kubectl get pos --all-namespaces
+kubectl get pods --all-namespaces
 ```
 
 The status of all components should be `Ready`. The kubernetes dashboard giving
@@ -161,20 +162,13 @@ helm install ./helm-charts/gerrit-master \
 
 Startup may take some time, especially when allowing only a small amount of
 resources to the containers. Check progress with `kubectl get pods -w` until
-it says that the pod `gerrit-master-gerrit-master-deployment-<id>` is `Running`.
-Then use `kubectl logs -f gerrit-master-gerrit-master-deployment-<id>` to follow
+it says that the pod `gerrit-master-gerrit-master-stateful-set-0` is `Running`.
+Then use `kubectl logs -f gerrit-master-gerrit-master-stateful-set-0` to follow
 the startup process of Gerrit until a line like this shows that Gerrit is ready:
 
 ```sh
-[2018-11-27 09:58:52,066] [main] INFO  com.google.gerrit.pgm.Daemon : Gerrit Code Review 2.16-18-ge42b76d4ba ready
+[2019-06-04 15:24:25,914] [main] INFO  com.google.gerrit.pgm.Daemon : Gerrit Code Review 2.16.8-86-ga831ebe687 ready
 ```
-
-***note
-The `gerrit.sh start` command may return `FAILED`. Nevertheless, when testing the
-setup, Gerrit started up anyway after some time. This happens, if due to low
-resources Gerrit needs too long to start up and the `gerrit.sh`-scripts runs into
-a timeout.
-***
 
 To open Gerrit's UI, run:
 
@@ -184,61 +178,8 @@ open http://master.gerrit
 
 ## Installing the gerrit-slave helm chart
 
-Before installing the gerrit-slave chart, some information and configuration is
-needed from the master's database. First find out the name of the pod running
-the mysql database of the master. It can be looked up by running:
-
-```sh
-kubectl get pods
-```
-
-It should have the format `gerrit-master-mysql-<id>`. Then exec the pod and log
-into the database by executing:
-
-```sh
-kubectl exec -it gerrit-master-mysql-<id> bash
-mysql -u root -pbig_secret
-```
-
-Create a user for the database replication:
-
-```sql
-CREATE USER 'repl' IDENTIFIED BY 'password';
-GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'repl'
-  IDENTIFIED BY 'password';
-FLUSH PRIVILEGES;
-```
-
-Get the current position of the transaction logs by executing the following SQL
-statement:
-
-```sql
-SHOW MASTER STATUS;
-
-  +------------------+----------+--------------+------------------+-------------------+
-  | File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
-  +------------------+----------+--------------+------------------+-------------------+
-  | mysql-bin.000004 | 4918     |              |                  |                   |
-  +------------------+----------+--------------+------------------+-------------------+
-```
-
-Further, a dump of the reviewdb is needed. Exit mysql by typing `quit` and run:
-
-```sh
-mysqldump -u root -p --databases reviewdb > master_dump.sql
-```
-
-To get the dump to the host, exit the pod and run:
-
-```sh
-kubectl cp gerrit-master-mysql-<id>:/master_dump.sql master_dump.sql
-```
-
 A custom configuration file to configure the gerrit-slave chart is provided at
-`./supplements/gerrit-slave.minikube.values.yaml`. Change the values of
-`database.replication.mysql.config.masterLogFile` and
-`database.replication.mysql.config.masterLogPos` to the values retrieved beforehand.
-Then, the gerrit-slave chart can be started:
+`./supplements/gerrit-slave.minikube.values.yaml`. Install it by running:
 
 ```sh
 helm install ./helm-charts/gerrit-slave \
@@ -247,31 +188,7 @@ helm install ./helm-charts/gerrit-slave \
   -n gerrit-slave
 ```
 
-When the `gerrit-slave-mysql-<id>`-pod and the `gerrit-slave-mysql-replication-init-<id>`-
-pod are ready, provide the database dump to the database by executing:
-
-```sh
-kubectl cp master_dump.sql gerrit-slave-mysql-replication-init-<id>:/var/data/db/master_dump.sql
-```
-
-The status of database initialization can be followed by running:
-
-```sh
-kubectl logs -f gerrit-slave-mysql-replication-init-<id>
-```
-
-As soon as the status of the database slave is displayed, the database should be
-ready.
-
-As a next step the `All-Projects` and `All-Users` repositories have to be created
-on the slave by running:
-
-```sh
-curl -L -u git http://backend.gerrit/new/All-Projects.git
-curl -L -u git http://backend.gerrit/new/All-Users.git
-```
-
-Afterwards, the slave will start up, which can be followed by running:
+The slave will start up, which can be followed by running:
 
 ```sh
 kubectl logs -f gerrit-slave-gerrit-slave-deployment-<id>
