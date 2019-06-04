@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1ba07ffb_e2891743",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T07:47:22Z",
+      "side": 1,
+      "message": "Actually this one is OK but the closed parentheses in the line 95 has to be removed",
+      "parentUuid": "e8cce7da_68896b1d",
+      "range": {
+        "startLine": 97,
+        "startChar": 27,
+        "endLine": 97,
+        "endChar": 28
+      },
+      "revId": "44ce18137bb33d8b40a58fb0bdfac37fc0865c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f03d8c59_e085ba81",
         "filename": "container-images/gerrit-init/tools/validate_db.py",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "44ce18137bb33d8b40a58fb0bdfac37fc0865c84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e9f3a9_b7a20ced",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T07:47:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f03d8c59_e085ba81",
+      "revId": "44ce18137bb33d8b40a58fb0bdfac37fc0865c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
