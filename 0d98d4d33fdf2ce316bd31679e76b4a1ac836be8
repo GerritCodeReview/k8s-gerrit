@@ -16,6 +16,24 @@
       "revId": "0d98d4d33fdf2ce316bd31679e76b4a1ac836be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4e4de8_31079aec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T07:12:29Z",
+      "side": 1,
+      "message": "No it is not. `print`will automatically concatenate all arguments given to it. So it works.",
+      "parentUuid": "05bf39a8_1af713fb",
+      "revId": "0d98d4d33fdf2ce316bd31679e76b4a1ac836be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
