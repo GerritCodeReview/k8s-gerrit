@@ -22,6 +22,30 @@
       "revId": "f1a01d70c90c0e9eb559704032d140825b4328f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "025bcbb1_058a9dfa",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T13:54:58Z",
+      "side": 1,
+      "message": "I am also not 100 % sure about the nuances, but at least looking it up in the dictionary, it gave me the expected translation.\n\nHopefully, we don\u0027t need that anymore soon. It would be nice to handle configuration with a bit more knowledge of the Kubernetes setup, so that these values which have a fixed/hard-coded value are set automatically.",
+      "parentUuid": "2115d4ac_30ab352b",
+      "range": {
+        "startLine": 154,
+        "startChar": 30,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "f1a01d70c90c0e9eb559704032d140825b4328f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
