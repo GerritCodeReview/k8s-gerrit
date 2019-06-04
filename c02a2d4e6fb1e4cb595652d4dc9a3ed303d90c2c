@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c334df09_ec10d14c",
+        "filename": "container-images/gerrit-init/tools/log.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T13:25:17Z",
+      "side": 1,
+      "message": "How about __name__ as the default name?",
+      "range": {
+        "startLine": 19,
+        "startChar": 20,
+        "endLine": 19,
+        "endChar": 30
+      },
+      "revId": "c02a2d4e6fb1e4cb595652d4dc9a3ed303d90c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
