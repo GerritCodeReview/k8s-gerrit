@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2115d4ac_30ab352b",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-06-04T13:36:14Z",
+      "side": 1,
+      "message": "I am not sure if FIXED is the right word in english for a hardcoded value?",
+      "range": {
+        "startLine": 154,
+        "startChar": 30,
+        "endLine": 154,
+        "endChar": 37
+      },
+      "revId": "f1a01d70c90c0e9eb559704032d140825b4328f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
