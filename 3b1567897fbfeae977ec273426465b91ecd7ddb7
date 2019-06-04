@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d5df6bdd_27eac1a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T11:43:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "717b60a7_263f2716",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 35
+      },
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89f02353_af977751",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "cc99db30_9abd55fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T11:43:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89f02353_af977751",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "066dfe94_9de2889e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
@@ -59,6 +107,30 @@
       "writtenOn": "2019-06-03T12:01:20Z",
       "side": 1,
       "message": "AFAIK gerrit_index.config may contain multiple versions when creation of the new index was started but didn\u0027t complete yet. Please check with Sasa",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 21
+      },
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f764f09_31763948",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T11:43:19Z",
+      "side": 1,
+      "message": "As discussed, online reindexing is not yet fully supported by this installation. I will add a corresponding note to the documentation and implement online reindexing in future changes.",
+      "parentUuid": "066dfe94_9de2889e",
       "range": {
         "startLine": 20,
         "startChar": 2,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "a6d5a5e8_594cc18e",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_reindexing.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T11:43:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3b4ef98_7faec246",
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "120a607a_1aadc1e6",
         "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_reindexing.py",
         "patchSetId": 23
@@ -102,6 +192,24 @@
       "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef4840d4_5ba19b9e",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_reindexing.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-06-04T11:43:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "120a607a_1aadc1e6",
+      "revId": "3b1567897fbfeae977ec273426465b91ecd7ddb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
