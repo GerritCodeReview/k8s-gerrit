@@ -81,7 +81,9 @@ spec:
 
           symlink_config_to_site
 
+          {{- if .Values.gerritMaster.reviewdb.enabled }}
           /var/tools/validate_db.py -s /var/gerrit
+          {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
