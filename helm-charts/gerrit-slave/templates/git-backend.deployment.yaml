@@ -27,6 +27,22 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
+      initContainers:
+      {{ if .Values.storageClasses.shared.applyPermissionsManually -}}
+      - name: set-fs-permissions
+        image: busybox
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          if [ "$(stat -c '%g' /var/gerrit/git)" != "100" ]; then
+            chown -R 1000:100 /var/gerrit/git
+          fi
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/gerrit/git"
+      {{- end }}
       containers:
       - name: apache-git-http-backend
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}

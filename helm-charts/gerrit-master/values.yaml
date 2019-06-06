@@ -34,6 +34,11 @@ storageClasses:
     # If create is set to false, an existing StorageClass with RWM access
     # mode and the given name has to be provided.
     name: shared-storage
+    # Some storage provisioners like NFS do not support permission handlicng via
+    # the securityContext. The file permissions have to be manually applied in
+    # an initContainer. Set this option to `true` to add these initContainers,
+    # where required.
+    applyPermissionsManually: false
     create: false
     provisioner: nfs
     reclaimPolicy: Delete
