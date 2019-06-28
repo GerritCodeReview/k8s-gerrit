@@ -77,14 +77,24 @@ gitBackend:
     https:
       enabled: false
       port: 443
-      cert: |-
-        -----BEGIN CERTIFICATE-----
+      secret:
+        # If using an external secret, make sure to name the keys `server.crt`
+        # and `server.key`, respectively.
+        create: true
+        # `name` will only be used, if `create` is set to false to bind an
+        # existing secret. Otherwise the name will be automatically generated to
+        # avoid conflicts between multiple chart installations.
+        name:
+        # `cert`and `key` will only be used, if the secret will be created by
+        # this chart.
+        cert: |-
+          -----BEGIN CERTIFICATE-----
 
-        -----END CERTIFICATE-----
-      key: |-
-        -----BEGIN RSA PRIVATE KEY-----
+          -----END CERTIFICATE-----
+        key: |-
+          -----BEGIN RSA PRIVATE KEY-----
 
-        -----END RSA PRIVATE KEY-----
+          -----END RSA PRIVATE KEY-----
 
   ingress:
     enabled: false
@@ -97,14 +107,22 @@ gitBackend:
     #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
     tls:
       enabled: false
-      cert: |-
-        -----BEGIN CERTIFICATE-----
+      secret:
+        create: true
+        # `name` will only be used, if `create` is set to false to bind an
+        # existing secret. Otherwise the name will be automatically generated to
+        # avoid conflicts between multiple chart installations.
+        name:
+        # `cert`and `key` will only be used, if the secret will be created by
+        # this chart.
+        cert: |-
+          -----BEGIN CERTIFICATE-----
 
-        -----END CERTIFICATE-----
-      key: |-
-        -----BEGIN RSA PRIVATE KEY-----
+          -----END CERTIFICATE-----
+        key: |-
+          -----BEGIN RSA PRIVATE KEY-----
 
-        -----END RSA PRIVATE KEY-----
+          -----END RSA PRIVATE KEY-----
 
   credentials:
     # example: user: 'git'; password: 'secret'
@@ -178,14 +196,22 @@ gerritSlave:
     #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
     tls:
       enabled: false
-      cert: |-
-        -----BEGIN CERTIFICATE-----
+      secret:
+        create: true
+        # `name` will only be used, if `create` is set to false to bind an
+        # existing secret. Otherwise the name will be automatically generated to
+        # avoid conflicts between multiple chart installations.
+        name:
+        # `cert`and `key` will only be used, if the secret will be created by
+        # this chart.
+        cert: |-
+          -----BEGIN CERTIFICATE-----
 
-        -----END CERTIFICATE-----
-      key: |-
-        -----BEGIN RSA PRIVATE KEY-----
+          -----END CERTIFICATE-----
+        key: |-
+          -----BEGIN RSA PRIVATE KEY-----
 
-        -----END RSA PRIVATE KEY-----
+          -----END RSA PRIVATE KEY-----
 
   # `gerritSlave.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and

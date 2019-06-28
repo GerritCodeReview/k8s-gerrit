@@ -134,15 +134,19 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `gitBackend.service.http.port`             | Port over which to expose HTTP                                                     | `80`                                                                      |
 | `gitBackend.service.https.enabled`         | Whether to serve HTTPS-requests                                                    | `false`                                                                   |
 | `gitBackend.service.https.port`            | Port over which to expose HTTPS                                                    | `443`                                                                     |
-| `gitBackend.service.https.cert`            | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.service.https.key`             | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
+| `gitBackend.service.https.secret.create`   | Whether to create a TLS-secret                                                     | `true`                                                                    |
+| `gitBackend.service.https.secret.name`     | Name of an external secret that will be used as a TLS-secret                       | `nil`                                                                     |
+| `gitBackend.service.https.secret.cert`     | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
+| `gitBackend.service.https.secret.key`      | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 | `gitBackend.ingress.enabled`               | Whether to deploy an Ingress                                                       | `false`                                                                   |
 | `gitBackend.ingress.host`                  | Host name to use for the Ingress (required for Ingress)                            | `nil`                                                                     |
 | `gitBackend.ingress.maxBodySize`           | Maximum request body size allowed (Set to 0 for an unlimited request body size)    | `50m`                                                                     |
 | `gitBackend.ingress.additionalAnnotations` | Additional annotations for the Ingress                                             | `nil`                                                                     |
 | `gitBackend.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                   | `false`                                                                   |
-| `gitBackend.ingress.tls.cert`              | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.ingress.tls.key`               | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
+| `gitBackend.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                     | `true`                                                                    |
+| `gitBackend.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                       | `nil`                                                                     |
+| `gitBackend.ingress.tls.secret.cert`       | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
+| `gitBackend.ingress.tls.secret.key`        | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 
 ***note
 At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
@@ -195,8 +199,10 @@ is mandatory, if access to the Gerrit slave is required!
 | `gerritSlave.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                                        | `nil`                             |
 | `gerritSlave.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                                                   | `nil`                             |
 | `gerritSlave.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                                         | `false`                           |
-| `gerritSlave.ingress.tls.cert`              | Public SSL server certificate                                                                                            | `-----BEGIN CERTIFICATE-----`     |
-| `gerritSlave.ingress.tls.key`               | Private SSL server certificate                                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerritSlave.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                                                           | `true`                            |
+| `gerritSlave.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                                                             | `nil`                             |
+| `gerritSlave.ingress.tls.secret.cert`       | Public SSL server certificate                                                                                            | `-----BEGIN CERTIFICATE-----`     |
+| `gerritSlave.ingress.tls.secret.key`        | Private SSL server certificate                                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |
 | `gerritSlave.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL                          | `nil`                             |
 | `gerritSlave.config.gerrit`                 | The contents of the gerrit.config                                                                                        | [see here](#Gerrit-config-files)  |
 | `gerritSlave.config.secure`                 | The contents of the secure.config                                                                                        | [see here](#Gerrit-config-files)  |
