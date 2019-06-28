@@ -52,7 +52,18 @@ spec:
           mountPath: "/var/gerrit/git"
         - name: git-backend-secret
           readOnly: true
-          mountPath: "/var/apache/credentials"
+          subPath: .htpasswd
+          mountPath: "/var/apache/credentials/.htpasswd"
+        {{ if .Values.gitBackend.service.https.enabled -}}
+        - name: git-backend-tls-secret
+          readOnly: true
+          subPath: server.key
+          mountPath: "/var/apache/credentials/server.key"
+        - name: git-backend-tls-secret
+          readOnly: true
+          subPath: server.crt
+          mountPath: "/var/apache/credentials/server.crt"
+        {{ end }}
         - name: apache-logs
           mountPath: "/var/log/apache2"
       volumes:
@@ -62,6 +73,15 @@ spec:
       - name: git-backend-secret
         secret:
           secretName: {{ .Release.Name }}-git-backend-secret
+      {{ if and .Values.gitBackend.service.https.enabled -}}
+      - name: git-backend-tls-secret
+        secret:
+          {{ if .Values.gitBackend.service.https.secret.create -}}
+          secretName: {{ .Release.Name }}-git-backend-secret
+          {{- else }}
+          secretName: {{ .Values.gitBackend.service.https.secret.name }}
+          {{- end }}
+      {{ end }}
       - name: apache-logs
         {{ if .Values.gitBackend.logging.persistence.enabled -}}
         persistentVolumeClaim:
