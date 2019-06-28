@@ -16,7 +16,11 @@ spec:
   tls:
   - hosts:
     - {{ .Values.gerritSlave.ingress.host }}
+    {{ if .Values.gerritSlave.ingress.tls.secret.create -}}
     secretName: {{ .Release.Name }}-gerrit-slave-tls-secret
+    {{- else }}
+    secretName: {{ .Values.gerritSlave.ingress.tls.secret.name }}
+    {{- end }}
   {{- end }}
   rules:
   - host: {{required "A host URL is required for the Gerrit slave Ingress. Please set 'gerritSlave.ingress.host'" .Values.gerritSlave.ingress.host }}
