@@ -112,14 +112,22 @@ gerrit:
     #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
     tls:
       enabled: false
-      cert: |-
-        -----BEGIN CERTIFICATE-----
+      secret:
+        create: true
+        # `name` will only be used, if `create` is set to false to bind an
+        # existing secret. Otherwise the name will be automatically generated to
+        # avoid conflicts between multiple chart installations.
+        name:
+        # `cert`and `key` will only be used, if the secret will be created by
+        # this chart.
+        cert: |-
+          -----BEGIN CERTIFICATE-----
 
-        -----END CERTIFICATE-----
-      key: |-
-        -----BEGIN RSA PRIVATE KEY-----
+          -----END CERTIFICATE-----
+        key: |-
+          -----BEGIN RSA PRIVATE KEY-----
 
-        -----END RSA PRIVATE KEY-----
+          -----END RSA PRIVATE KEY-----
 
   # `gerrit.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and
