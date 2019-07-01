@@ -60,6 +60,9 @@ spec:
           /var/tools/gerrit_init.py \
             -s /var/gerrit \
             -p singleusergroup
+
+          # The git repositories will be mounted from a volume
+          [ -L /var/gerrit/git ] || rm -rf /var/gerrit/git
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
