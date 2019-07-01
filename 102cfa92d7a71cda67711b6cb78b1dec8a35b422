@@ -16,6 +16,24 @@
       "revId": "102cfa92d7a71cda67711b6cb78b1dec8a35b422",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54fc736e_03b93f9e",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-01T07:09:37Z",
+      "side": 1,
+      "message": "Due to the deprecaation of reviewdb some changes are needed to use \u003e 3.0. I already did the preliminary changes for the gerrit-master chart here in change 223981. But it does not work yet for the gerrit-slave chart. Since this docker image is used as the base for both, I did not update the default yet.\nHowever, I am currently working on the slave (probably by removing the reviewdb functionality entirely) and will upload the respective changes today.",
+      "parentUuid": "c2f831bf_d87fe5f5",
+      "revId": "102cfa92d7a71cda67711b6cb78b1dec8a35b422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
