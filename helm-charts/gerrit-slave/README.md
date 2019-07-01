@@ -62,6 +62,21 @@ The command deploys the Gerrit slave on the current Kubernetes cluster. The
 [configuration section](#Configuration) lists the parameters that can be
 configured during installation.
 
+If the NoteDB is used, the Gerrit slave requires the replicated `All-Projects.git`-
+and `All-Users.git`-repositories to be present in the `/var/gerrit/git`-directory.
+The `gerrit-init`-InitContainer will wait for this being the case. A way to do
+this is to access the Gerrit slave pod and to clone the repositories from the
+Gerrit master (Make sure that you have the correct access rights do so.):
+
+```sh
+kubectl exec -it <gerrit-slave-pod> -c gerrit-init bash
+gerrit@<gerrit-slave-pod>:/var/tools$ cd /var/gerrit/git
+gerrit@<gerrit-slave-pod>:/var/gerrit/git$ git clone "http://gerrit-master.com/All-Projects" --mirror
+Cloning into bare repository 'All-Projects.git'...
+gerrit@<gerrit-slave-pod>:/var/gerrit/git$ git clone "http://gerrit-master.com/All-Users" --mirror
+Cloning into bare repository 'All-Users.git'...
+```
+
 ## Configuration
 
 The following sections list the configurable values in `values.yaml`. To configure

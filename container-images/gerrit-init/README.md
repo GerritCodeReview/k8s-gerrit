@@ -32,6 +32,13 @@ The `validate_db.py`-script
 * waits for the reviewdb database
 + waits for some selected tables to ensure that the schema is initialized
 
+The `validate_notedb.py`-script
+
+* validates and waits for the repository `All-Projects.git` with the refs
+`refs/meta/config`.
+* validates and waits for the repository `All-Users.git` with the ref
+`refs/meta/config`.
+
 ## How to install/update python packages in container
 
 * Python 3.6 is required
