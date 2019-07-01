@@ -130,7 +130,7 @@ gerritMaster:
   keystore:
 
   reviewdb:
-    enabled: true
+    enabled: false
 
   config:
     # Some values are expected to have a specific value for the deployment installed
@@ -147,8 +147,6 @@ gerritMaster:
         # cluster.
         canonicalWebUrl = http://example.com/
         disableReverseDnsLookup = true
-      [database]
-        type = h2
       [index]
         type = LUCENE
       [auth]
@@ -176,12 +174,6 @@ gerritMaster:
         javaOptions = -Xmx4g
 
     secure: |-
-      # Database credentials should be the same as configured for the database
-      # Gerrit-master chart, if the database was installed using the chart.
-      [database]
-        username = gerrit
-        password = secret
-
       # Password for the keystore added as value for 'gerritSlave.keystore'
       # Only needed, if SSL is enabled.
       #[httpd]
