@@ -57,7 +57,13 @@ spec:
         - -ce
         args:
         - |
+          mkdir -p /var/gerrit/etc
+          ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+
           /var/tools/gerrit_init.py \
+            {{- if .Values.gerritSlave.reviewdb.enabled }}
+            --reviewdb \
+            {{- end }}
             -s /var/gerrit \
             -p singleusergroup
 
@@ -66,6 +72,9 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
+        - name: gerrit-slave-secure-config
+          mountPath: "/var/config/secure.config"
+          subPath: secure.config
       {{- end }}
       # Wait for database to be ready and, if configured, run initialization
       # taking the given Gerrit configuration and persisted volumes into account.
@@ -94,13 +103,20 @@ spec:
 
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
           /var/tools/gerrit_init.py \
+            {{- if .Values.gerritSlave.reviewdb.enabled }}
+            --reviewdb \
+            {{- end }}
             -s /var/gerrit \
             -p singleusergroup
 
           symlink_config_to_site
           {{- end }}
 
+          {{- if .Values.gerritSlave.reviewdb.enabled }}
           /var/tools/validate_db.py -s /var/gerrit
+          {{- else }}
+          /var/tools/validate_notedb.py -s /var/gerrit
+          {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
