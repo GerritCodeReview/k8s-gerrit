@@ -34,6 +34,24 @@
       "revId": "102cfa92d7a71cda67711b6cb78b1dec8a35b422",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46d7c35e_f8bbf721",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-03T02:15:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "54fc736e_03b93f9e",
+      "revId": "102cfa92d7a71cda67711b6cb78b1dec8a35b422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
