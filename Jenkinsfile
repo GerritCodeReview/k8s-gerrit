@@ -26,6 +26,17 @@ node("master") {
                 "--no-cache ./container-images/${it}")
         }
     }
+    // The job to run this build will need a boolean parameter called `PUBLISH`.
+    if (params.PUBLISH) {
+        stage("Publish images") {
+            docker.withRegistry(params.REGISTRY_URL, params.CREDENTIAL_ID) {
+                images.each { name, image ->
+                    image.push(revision)
+                    image.push("latest")
+                }
+            }
+        }
+    }
     stage("Cleanup") {
         images.each { name, image ->
             sh("docker rmi -f ${image.id}")
