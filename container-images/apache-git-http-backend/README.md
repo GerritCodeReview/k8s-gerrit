@@ -8,7 +8,7 @@ from a Gerrit master to a Gerrit slave.
 * base image
 * Apache webserver
 * Apache configurations for http and https
-* git (via base image)
+* git (via base image) and git-deamon for git-http-backend
 * `tools/create_repo.sh`: cgi script to enable remote creation of new git
  repository over http. This is triggered by the Gerrit replication plugin
  if a new repository on the Gerrit master does not yet exist in a Gerrit slave,
@@ -21,8 +21,8 @@ from a Gerrit master to a Gerrit slave.
 
 ## Setup and Configuration
 
-* install Apache webserver
-* configure Apache for http and/or https
+* install Apache webserver, additional Apache tools and git daemon
+* configure Apache
 * install cgi script
 * map volumes
 

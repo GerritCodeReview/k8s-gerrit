@@ -1,0 +1,43 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# envvars-std - default environment variables for apachectl
+#
+# This file is generated from envvars-std.in
+#
+if test "x$LD_LIBRARY_PATH" != "x" ; then
+  LD_LIBRARY_PATH="/usr/lib:$LD_LIBRARY_PATH"
+else
+  LD_LIBRARY_PATH="/usr/lib"
+fi
+export LD_LIBRARY_PATH
+#
+
+# this won't be correct after changing uid
+unset HOME
+
+# Since there is no sane way to get the parsed apache2 config in scripts, some
+# settings are defined via environment variables and then used in apache2ctl,
+# /etc/init.d/apache2, /etc/logrotate.d/apache2, etc.
+export APACHE_RUN_USER=gerrit
+export APACHE_RUN_GROUP=users
+# Only /var/log/apache2 is handled by /etc/logrotate.d/apache2.
+export APACHE_LOG_DIR=/var/log/apache2$SUFFIX
+
+## Uncomment the following line to use the system default locale instead:
+#. /etc/default/locale
+
+export LANG

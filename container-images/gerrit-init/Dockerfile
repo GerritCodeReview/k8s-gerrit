@@ -8,11 +8,9 @@ ENV LANG=C.UTF-8
 COPY tools/* /var/tools/
 WORKDIR /var/tools
 
-RUN apt-get update && \
-    apt-get install -y \
-      python3 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add --no-cache \
+      python3
 
 USER gerrit
 
