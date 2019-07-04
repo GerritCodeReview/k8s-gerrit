@@ -24,6 +24,7 @@ def container_run(docker_client, container_endless_run_factory, gerrit_base_imag
     container_run.stop(timeout=1)
 
 
+@pytest.mark.structure
 def test_gerrit_base_inherits_from_base(gerrit_base_image):
     contains_tag = False
     for layer in gerrit_base_image.history():
@@ -34,6 +35,7 @@ def test_gerrit_base_inherits_from_base(gerrit_base_image):
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_contains_java8(container_run):
     _, output = container_run.exec_run("java -version")
     output = output.strip().decode("utf-8")
@@ -41,6 +43,7 @@ def test_gerrit_base_contains_java8(container_run):
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_java_path(container_run):
     exit_code, output = container_run.exec_run(
         '/bin/ash -c "readlink -f $(which java)"'
@@ -51,6 +54,7 @@ def test_gerrit_base_java_path(container_run):
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_contains_gerrit_war(container_run):
     exit_code, _ = container_run.exec_run("test -f /var/war/gerrit.war")
     assert exit_code == 0
@@ -60,6 +64,7 @@ def test_gerrit_base_contains_gerrit_war(container_run):
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_war_contains_gerrit(container_run):
     exit_code, output = container_run.exec_run("java -jar /var/war/gerrit.war version")
     assert exit_code == 0
@@ -75,17 +80,20 @@ def test_gerrit_base_war_contains_gerrit(container_run):
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_site_permissions(container_run):
     exit_code, _ = container_run.exec_run("test -O /var/gerrit")
     assert exit_code == 0
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_war_dir_permissions(container_run):
     exit_code, _ = container_run.exec_run("test -O /var/war")
     assert exit_code == 0
 
 
+@pytest.mark.structure
 def test_gerrit_base_has_entrypoint(gerrit_base_image):
     entrypoint = gerrit_base_image.attrs["ContainerConfig"]["Entrypoint"]
     assert "/var/tools/start" in entrypoint

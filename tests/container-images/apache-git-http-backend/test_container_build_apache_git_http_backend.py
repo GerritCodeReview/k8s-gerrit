@@ -15,6 +15,7 @@
 import pytest
 
 
+@pytest.mark.structure
 def test_build_apache_git_http_backend_image(
     apache_git_http_backend_image, tag_of_cached_container
 ):

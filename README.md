@@ -211,3 +211,9 @@ incrementally.
 ### slow
 
 Marks tests that need an above average time to run.
+
+### structure
+
+Marks structure tests. These tests are meant to test, whether certain components
+exist in a container. These tests ensure that components expected by the users
+of the container, e.g. the helm charts, are present in the containers.
