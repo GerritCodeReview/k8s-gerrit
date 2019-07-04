@@ -71,6 +71,7 @@ def config_file_to_test(request):
 
 @pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.integration
 @pytest.mark.slow
 class TestGerritMasterStartScript:
     @pytest.mark.timeout(60)
