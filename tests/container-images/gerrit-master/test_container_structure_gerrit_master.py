@@ -29,6 +29,7 @@ def test_gerrit_master_inherits_from_gerrit_base(gerrit_master_image):
       break
   assert contains_tag
 
+@pytest.mark.docker
 def test_gerrit_master_contains_start_script(container_run):
   exit_code, _ = container_run.exec_run("test -f /var/tools/start")
   assert exit_code == 0

@@ -29,12 +29,14 @@ def test_gitgc_inherits_from_base(gitgc_image):
       break
   assert contains_tag
 
+@pytest.mark.docker
 def test_gitgc_log_dir_writable_by_gerrit(container_run):
   exit_code, _ = container_run.exec_run(
     "touch /var/log/git/test.log"
   )
   assert exit_code == 0
 
+@pytest.mark.docker
 def test_gitgc_contains_gc_script(container_run):
   exit_code, _ = container_run.exec_run(
     "test -f /var/tools/gc-all.sh"
