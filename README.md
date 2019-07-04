@@ -208,6 +208,12 @@ sure that your system supports this kind of interaction.
 Marks test classes, in which the contained test functions have to run
 incrementally.
 
+### integration
+
+Marks integration tests. These tests test interactions between containers,
+between outside clients and containers and between the components installed
+by a helm chart.
+
 ### slow
 
 Marks tests that need an above average time to run.
