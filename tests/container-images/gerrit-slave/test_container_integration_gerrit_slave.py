@@ -71,6 +71,7 @@ def container_run(
 
 @pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.integration
 @pytest.mark.slow
 class TestGerritSlave:
     @pytest.fixture(params=CONFIG_FILES)
