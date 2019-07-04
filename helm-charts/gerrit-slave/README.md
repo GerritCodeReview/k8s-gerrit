@@ -69,7 +69,7 @@ the Gerrit slave pod and to clone the repositories from the Gerrit master (Make
 sure that you have the correct access rights do so.):
 
 ```sh
-kubectl exec -it <gerrit-slave-pod> -c gerrit-init bash
+kubectl exec -it <gerrit-slave-pod> -c gerrit-init ash
 gerrit@<gerrit-slave-pod>:/var/tools$ cd /var/gerrit/git
 gerrit@<gerrit-slave-pod>:/var/gerrit/git$ git clone "http://gerrit-master.com/All-Projects" --mirror
 Cloning into bare repository 'All-Projects.git'...

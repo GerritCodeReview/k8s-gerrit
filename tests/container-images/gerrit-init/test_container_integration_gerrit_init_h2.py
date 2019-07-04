@@ -50,7 +50,7 @@ def container_run_endless(docker_client, gerrit_init_image, tmp_path_factory):
     tmp_site_dir = tmp_path_factory.mktemp("gerrit_site")
     container_run = docker_client.containers.run(
         image=gerrit_init_image.id,
-        entrypoint="/bin/bash",
+        entrypoint="/bin/ash",
         command=["-c", "tail -f /dev/null"],
         user="gerrit",
         volumes={tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"}},
@@ -93,7 +93,7 @@ class TestGerritInitPluginInstallation:
         )
         assert exit_code == 0
         cmd = (
-            "/bin/bash -c '"
+            "/bin/ash -c '"
             + "test -f /var/gerrit/plugins/replication.jar && "
             + "test -f /var/gerrit/plugins/reviewnotes.jar'"
         )
@@ -109,7 +109,7 @@ class TestGerritInitPluginInstallation:
         assert exit_code == 0
 
         cmd = (
-            "/bin/bash -c '"
+            "/bin/ash -c '"
             + "test -f /var/gerrit/plugins/replication.jar && "
             + "test -f /var/gerrit/plugins/reviewnotes.jar && "
             + "test -f /var/gerrit/plugins/hooks.jar'"
@@ -125,10 +125,10 @@ class TestGerritInitPluginInstallation:
         )
         assert exit_code == 0
 
-        cmd = "/bin/bash -c '" + "test -f /var/gerrit/plugins/download-commands.jar'"
+        cmd = "/bin/ash -c '" + "test -f /var/gerrit/plugins/download-commands.jar'"
         exit_code, _ = container_run_endless.exec_run(cmd)
         assert exit_code == 0
 
-        cmd = "/bin/bash -c '" + "test -f /var/gerrit/plugins/reviewnotes.jar'"
+        cmd = "/bin/ash -c '" + "test -f /var/gerrit/plugins/reviewnotes.jar'"
         exit_code, _ = container_run_endless.exec_run(cmd)
         assert exit_code == 1

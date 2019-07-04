@@ -1,10 +1,7 @@
-FROM ubuntu:18.04
+FROM alpine:3.10.0
 
-RUN apt-get update && \
-    apt-get -y install \
-      git && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add --no-cache git
 
 ARG GERRIT_UID=1000
-RUN useradd gerrit -u $GERRIT_UID -g users
+RUN adduser -D gerrit -u $GERRIT_UID -G users

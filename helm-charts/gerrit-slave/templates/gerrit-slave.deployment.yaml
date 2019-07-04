@@ -53,7 +53,7 @@ spec:
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
-        - /bin/bash
+        - /bin/ash
         - -ce
         args:
         - |
@@ -73,7 +73,7 @@ spec:
         image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
-        - /bin/bash
+        - /bin/ash
         - -ce
         args:
         - |
