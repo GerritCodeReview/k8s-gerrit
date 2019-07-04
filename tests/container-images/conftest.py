@@ -82,7 +82,7 @@ def container_endless_run_factory():
   def get_container(docker_client, image):
     return docker_client.containers.run(
       image=image.id,
-      entrypoint="/bin/bash",
+      entrypoint="/bin/ash",
       command=["-c", "tail -f /dev/null"],
       user="gerrit",
       detach=True,
