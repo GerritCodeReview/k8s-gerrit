@@ -34,6 +34,7 @@ def container_run(request, docker_client, gerrit_base_image):
 
   return container_run
 
+@pytest.mark.structure
 def test_gerrit_base_inherits_from_base(gerrit_base_image):
   contains_tag = False
   for layer in gerrit_base_image.history():
@@ -43,6 +44,7 @@ def test_gerrit_base_inherits_from_base(gerrit_base_image):
   assert contains_tag
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_contains_java8(container_run):
   _, output = container_run.exec_run(
     "java -version"
@@ -51,6 +53,7 @@ def test_gerrit_base_contains_java8(container_run):
   assert re.search(re.compile('openjdk version "1.8.[0-9]_[0-9]+"'), output)
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_java_path(container_run):
   exit_code, output = container_run.exec_run(
     '/bin/bash -c "readlink -f $(which java)"'
@@ -60,6 +63,7 @@ def test_gerrit_base_java_path(container_run):
   assert output == "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java"
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_contains_gerrit_war(container_run):
   exit_code, _ = container_run.exec_run(
     "test -f /var/war/gerrit.war"
@@ -72,6 +76,7 @@ def test_gerrit_base_contains_gerrit_war(container_run):
   assert exit_code == 0
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_war_contains_gerrit(container_run):
   exit_code, output = container_run.exec_run(
     "java -jar /var/war/gerrit.war version"
@@ -88,6 +93,7 @@ def test_gerrit_base_war_contains_gerrit(container_run):
   assert re.search(re.compile("gerrit version.*"), output)
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_site_permissions(container_run):
   exit_code, _ = container_run.exec_run(
     "test -O /var/gerrit"
@@ -95,12 +101,14 @@ def test_gerrit_base_site_permissions(container_run):
   assert exit_code == 0
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_war_dir_permissions(container_run):
   exit_code, _ = container_run.exec_run(
     "test -O /var/war"
   )
   assert exit_code == 0
 
+@pytest.mark.structure
 def test_gerrit_base_has_entrypoint(gerrit_base_image):
   entrypoint = gerrit_base_image.attrs["ContainerConfig"]["Entrypoint"]
   assert "/var/tools/start" in entrypoint

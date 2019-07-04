@@ -33,6 +33,7 @@ def container_run(request, docker_client, base_image):
   return container_run
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_base_contains_git(container_run):
   exit_code, _ = container_run.exec_run(
     "which git"
@@ -40,6 +41,7 @@ def test_base_contains_git(container_run):
   assert exit_code == 0
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_base_has_non_root_user_gerrit(container_run):
   exit_code, output = container_run.exec_run(
     "id -u gerrit"
@@ -49,6 +51,7 @@ def test_base_has_non_root_user_gerrit(container_run):
   assert uid != 0
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_base_gerrit_no_root_permissions(container_run):
   exit_code, _ = container_run.exec_run(
     "su -c 'rm -rf /bin' gerrit"

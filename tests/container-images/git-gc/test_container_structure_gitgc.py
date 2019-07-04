@@ -35,6 +35,7 @@ def container_run(request, docker_client, gitgc_image):
   return container_run
 
 
+@pytest.mark.structure
 def test_gitgc_inherits_from_base(gitgc_image):
   contains_tag = False
   for layer in gitgc_image.history():
@@ -44,6 +45,7 @@ def test_gitgc_inherits_from_base(gitgc_image):
   assert contains_tag
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gitgc_log_dir_writable_by_gerrit(container_run):
   exit_code, _ = container_run.exec_run(
     "touch /var/log/git/test.log"
@@ -51,12 +53,14 @@ def test_gitgc_log_dir_writable_by_gerrit(container_run):
   assert exit_code == 0
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gitgc_contains_gc_script(container_run):
   exit_code, _ = container_run.exec_run(
     "test -f /var/tools/gc-all.sh"
   )
   assert exit_code == 0
 
+@pytest.mark.structure
 def test_gitgc_has_entrypoint(gitgc_image):
   entrypoint = gitgc_image.attrs["ContainerConfig"]["Entrypoint"]
   assert len(entrypoint) == 1
