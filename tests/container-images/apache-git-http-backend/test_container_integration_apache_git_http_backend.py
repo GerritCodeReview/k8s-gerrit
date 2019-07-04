@@ -44,6 +44,7 @@ def mock_repo(repo_dir):
     return repo
 
 
+@pytest.mark.docker
 def test_apache_git_http_backend_apache_running(
     container_run, base_url, apache_credentials_dir
 ):
@@ -53,6 +54,7 @@ def test_apache_git_http_backend_apache_running(
     assert request.status_code == 200
 
 
+@pytest.mark.docker
 def test_apache_git_http_backend_repo_creation(
     container_run, apache_credentials_dir, basic_auth_creds, repo_creation_url
 ):
@@ -66,6 +68,7 @@ def test_apache_git_http_backend_repo_creation(
     assert request.status_code == 201
 
 
+@pytest.mark.docker
 def test_apache_git_http_backend_repo_creation_fails_without_credentials(
     container_run, apache_credentials_dir, repo_creation_url
 ):
@@ -75,6 +78,7 @@ def test_apache_git_http_backend_repo_creation_fails_without_credentials(
     assert request.status_code == 401
 
 
+@pytest.mark.docker
 def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
     container_run, apache_credentials_dir, basic_auth_creds, repo_creation_url
 ):
@@ -90,6 +94,7 @@ def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
     assert request.status_code == 500
 
 
+@pytest.mark.docker
 def test_apache_git_http_backend_repo_creation_push_repo(
     container_run,
     base_url,
