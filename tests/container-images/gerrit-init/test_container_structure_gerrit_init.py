@@ -35,6 +35,7 @@ def expected_tool(request):
     return request.param
 
 
+@pytest.mark.structure
 def test_gerrit_init_inherits_from_gerrit_base(gerrit_init_image):
     contains_tag = False
     for layer in gerrit_init_image.history():
@@ -47,17 +48,20 @@ def test_gerrit_init_inherits_from_gerrit_base(gerrit_init_image):
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_init_contains_expected_scripts(container_run, expected_script):
     exit_code, _ = container_run.exec_run("test -f %s" % expected_script)
     assert exit_code == 0
 
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_init_contains_expected_tools(container_run, expected_tool):
     exit_code, _ = container_run.exec_run("which %s" % expected_tool)
     assert exit_code == 0
 
 
+@pytest.mark.structure
 def test_gerrit_init_has_entrypoint(gerrit_init_image):
     entrypoint = gerrit_init_image.attrs["ContainerConfig"]["Entrypoint"]
     assert len(entrypoint) >= 1
