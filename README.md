@@ -172,6 +172,9 @@ may then be skipped as follows:
 pipenv run pytest --skip-slow
 ```
 
+There are also other marks, allowing to select tests (refer to
+[this section](#test-marks)).
+
 To run specific tests, execute one of the following:
 
 ```sh
@@ -184,7 +187,27 @@ pipenv run pytest tests/container-images/base/test_container_build_base.py
 # Run a specific test
 pipenv run \
   pytest tests/container-images/base/test_container_build_base.py::test_build_base
+
+# Run tests with a specific marker
+pipenv run pytest -m "docker"
 ```
 
 For a more detailed description of how to use `pytest`, refer to the
 [official documentation](https://docs.pytest.org/en/latest/contents.html).
+
+## Test marks
+
+### docker
+
+Marks tests, which start up docker containers. These tests will interact with
+the containers by either using `docker exec` or sending HTTP-requests. Make
+sure that your system supports this kind of interaction.
+
+### incremental
+
+Marks test classes, in which the contained test functions have to run
+incrementally.
+
+### slow
+
+Marks tests that need an above average time to run.

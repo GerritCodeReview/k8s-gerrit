@@ -37,6 +37,7 @@ def container_run_with_disabled_protocol(request, container_run_factory):
     return container_run, request.param
 
 
+@pytest.mark.docker
 @pytest.mark.slow
 def test_apache_git_http_backend_disable_protocol(
     container_run_with_disabled_protocol,
