@@ -26,6 +26,7 @@ def container_run(docker_client, container_endless_run_factory, gerrit_slave_ima
 def expected_script(request):
   return request.param
 
+@pytest.mark.structure
 def test_gerrit_slave_inherits_from_gerrit_base(gerrit_slave_image):
   contains_tag = False
   for layer in gerrit_slave_image.history():
@@ -35,16 +36,19 @@ def test_gerrit_slave_inherits_from_gerrit_base(gerrit_slave_image):
   assert contains_tag
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_slave_contains_expected_scripts(container_run, expected_script):
   exit_code, _ = container_run.exec_run("test -f %s" % expected_script)
   assert exit_code == 0
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_slave_contains_initialized_gerrit_site(container_run):
   exit_code, _ = container_run.exec_run("/var/gerrit/bin/gerrit.sh check")
   assert exit_code == 3
 
 @pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_slave_gerrit_is_configured_slave(container_run):
   exit_code, output = container_run.exec_run(
     "git config -f /var/gerrit/etc/gerrit.config --get container.slave")
