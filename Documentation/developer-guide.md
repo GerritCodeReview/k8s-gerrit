@@ -57,6 +57,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 ```
 
+In Alpine based images use the `--no-cache`-flag of `apk`.
+
 - **Clean up temporary files immediately:** If temporary files are created by a
 command remove them in the same command chain.
 

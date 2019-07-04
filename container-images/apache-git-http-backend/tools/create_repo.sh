@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/ash
 
 echo "Content-type: text/html"
 REPO=${REQUEST_URI##/new/}
 
-if [[ "${REPO}" != *".git" ]]; then
+if test "$REPO" == "${REPO%.git}"; then
     REPO="${REPO}.git"
 fi
 
