@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 log() {
   # Rotate the $LOG if current date is different from the last modification of $LOG

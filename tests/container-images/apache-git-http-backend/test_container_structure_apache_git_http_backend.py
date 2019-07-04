@@ -21,20 +21,22 @@ def test_apache_git_http_backend_inherits_from_base(apache_git_http_backend_imag
   assert contains_tag
 
 def test_apache_git_http_backend_contains_apache2(container_run):
-  exit_code, _ = container_run.exec_run(
-    "which apache2"
+  exit_code, output = container_run.exec_run(
+    "which httpd"
   )
+  print(output)
   assert exit_code == 0
 
 def test_apache_git_http_backend_http_site_configured(container_run):
-  exit_code, _ = container_run.exec_run(
-    "test -f /etc/apache2/sites-enabled/git-http-backend.conf"
+  exit_code, output = container_run.exec_run(
+    "test -f /etc/apache2/conf.d/git-http-backend.conf"
   )
+  print(output)
   assert exit_code == 0
 
 def test_apache_git_http_backend_https_site_configured(container_run):
   exit_code, _ = container_run.exec_run(
-    "test -f /etc/apache2/sites-enabled/git-https-backend.conf"
+    "test -f /etc/apache2/conf.d/git-https-backend.conf"
   )
   assert exit_code == 0
 
@@ -52,5 +54,5 @@ def test_apache_git_http_backend_contains_repo_creation_cgi_script(container_run
 
 def test_apache_git_http_backend_has_entrypoint(apache_git_http_backend_image):
   entrypoint = apache_git_http_backend_image.attrs["ContainerConfig"]["Entrypoint"]
-  assert len(entrypoint) == 1
-  assert entrypoint[0] == "/var/tools/start"
+  assert len(entrypoint) == 2
+  assert entrypoint[1] == "/var/tools/start"

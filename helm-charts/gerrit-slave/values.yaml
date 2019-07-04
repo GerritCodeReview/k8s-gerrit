@@ -226,7 +226,7 @@ gerritSlave:
       [container]
         user = gerrit # FIXED
         slave = true # FIXED
-        javaHome = /usr/lib/jvm/java-8-openjdk-amd64 # FIXED
+        javaHome = /usr/lib/jvm/java-1.8-openjdk # FIXED
         javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
         javaOptions = -Xms200m
         # Has to be lower than 'gerritSlave.resources.limits.memory'. Also
