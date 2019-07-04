@@ -69,8 +69,9 @@ def config_file_to_test(request):
     return request.param
 
 
-@pytest.mark.slow
+@pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.slow
 class TestGerritMasterStartScript:
     @pytest.mark.timeout(60)
     def test_gerrit_master_gerrit_starts_up(self, container_run):
