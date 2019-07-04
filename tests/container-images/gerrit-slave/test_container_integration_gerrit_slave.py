@@ -61,6 +61,7 @@ def container_run(request, docker_client, docker_network, tmp_dir,
 
 @pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.integration
 @pytest.mark.slow
 class TestGerritSlave:
 

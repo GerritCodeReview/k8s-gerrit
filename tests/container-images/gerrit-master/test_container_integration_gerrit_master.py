@@ -74,6 +74,7 @@ def config_file_to_test(request):
 
 @pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.integration
 @pytest.mark.slow
 class TestGerritMasterStartScript:
   def test_gerrit_master_gerrit_starts_up(self, container_run):
