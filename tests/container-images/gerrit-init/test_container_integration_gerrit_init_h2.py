@@ -75,6 +75,7 @@ def container_run_endless(
 
   return container_run
 
+@pytest.mark.docker
 @pytest.mark.incremental
 class TestGerritInitEmptySite(object):
   def test_gerrit_init_gerrit_is_initialized(self, container_run_default):
@@ -97,6 +98,7 @@ class TestGerritInitEmptySite(object):
     assert finished_in_time
     assert container_run_default.attrs["State"]["ExitCode"] == 0
 
+@pytest.mark.docker
 @pytest.mark.incremental
 class TestGerritInitPluginInstallation(object):
   def test_gerrit_init_plugins_are_installed(self, container_run_endless):

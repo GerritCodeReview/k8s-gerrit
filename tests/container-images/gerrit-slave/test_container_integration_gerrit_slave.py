@@ -60,8 +60,9 @@ def container_run(request, docker_client, docker_network, tmp_dir,
 
   return test_setup.gerrit_container
 
-@pytest.mark.slow
+@pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.slow
 class TestGerritSlave(object):
 
   @pytest.fixture(params=CONFIG_FILES)
