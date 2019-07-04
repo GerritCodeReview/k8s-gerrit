@@ -64,6 +64,7 @@ def container_run_endless(docker_client, gerrit_init_image, tmp_path_factory):
 
 @pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.integration
 class TestGerritInitEmptySite:
     def test_gerrit_init_gerrit_is_initialized(self, container_run_default):
         def wait_for_init_success_message():
@@ -88,6 +89,7 @@ class TestGerritInitEmptySite:
 
 @pytest.mark.docker
 @pytest.mark.incremental
+@pytest.mark.integration
 class TestGerritInitPluginInstallation:
     def test_gerrit_init_plugins_are_installed(self, container_run_endless):
         exit_code, _ = container_run_endless.exec_run(
