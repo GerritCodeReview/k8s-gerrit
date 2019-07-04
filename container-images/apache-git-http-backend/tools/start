@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/bin/ash
 
 if [ "$DISABLE_HTTP" = "true" ] ;then
-  rm /etc/apache2/sites-enabled/git-http-backend.conf
+  rm -f /etc/apache2/conf.d/git-http-backend.conf
 fi
 
 if [ "$DISABLE_HTTPS" = "true" ] ;then
-  rm /etc/apache2/sites-enabled/git-https-backend.conf
+  rm -f /etc/apache2/conf.d/git-https-backend.conf
 fi
 
-/etc/init.d/apache2 start \
+/usr/sbin/apachectl start \
   && tail -F -q -n +1 /var/log/apache2/*.log

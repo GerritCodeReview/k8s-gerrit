@@ -1,11 +1,10 @@
 FROM base:latest
 
-RUN apt-get update && \
-    apt-get -y install \
+RUN apk update && \
+    apk add --no-cache \
       curl \
-      openjdk-8-jdk && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+      openssh-keygen \
+      openjdk8
 
 RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
@@ -13,7 +12,8 @@ RUN mkdir -p /var/gerrit/bin && \
 
 # Download Gerrit release
 ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.0.1.war
-RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
+RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
+    ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
 # Allow incoming traffic
 EXPOSE 29418 8080
@@ -27,4 +27,4 @@ RUN java -jar /var/gerrit/bin/gerrit.war init \
       --no-auto-start \
       -d /var/gerrit
 
-ENTRYPOINT ["/bin/bash", "/var/tools/start"]
+ENTRYPOINT ["ash", "/var/tools/start"]

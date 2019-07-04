@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 log() {
   # Rotate the $LOG if current date is different from the last modification of $LOG
@@ -37,7 +37,7 @@ log_opts() {
   fi
 }
 
-find $TOP -type d -name \*.git -print0 | sed 's,^./,,' | while IFS= read -r -d $'\0' d
+find $TOP -type d -name \*.git | sed 's,^./,,' | while IFS= read -r -d $'\n' d
 do
   OPTS=$(gc_options $d)
   LOG_OPTS=$(log_opts $OPTS)
