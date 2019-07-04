@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 
 echo "Content-type: text/html"
 REPO=${REQUEST_URI##/new/}

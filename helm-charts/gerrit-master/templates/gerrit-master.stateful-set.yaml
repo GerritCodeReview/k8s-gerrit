@@ -50,7 +50,7 @@ spec:
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
-        - /bin/bash
+        - /bin/ash
         - -ce
         args:
         - |

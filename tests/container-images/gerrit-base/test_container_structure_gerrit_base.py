@@ -40,11 +40,11 @@ def test_gerrit_base_contains_java8(container_run):
 
 def test_gerrit_base_java_path(container_run):
   exit_code, output = container_run.exec_run(
-    '/bin/bash -c "readlink -f $(which java)"'
+    '/bin/ash -c "readlink -f $(which java)"'
   )
-  assert exit_code == 0
   output = output.strip().decode("utf-8")
-  assert output == "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java"
+  assert exit_code == 0
+  assert output == "/usr/lib/jvm/java-1.8-openjdk/jre/bin/java"
 
 def test_gerrit_base_contains_gerrit_war(container_run):
   exit_code, _ = container_run.exec_run(
