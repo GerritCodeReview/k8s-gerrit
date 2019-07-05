@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 # Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
 import os
 import subprocess
 import sys
 
-from git_config_parser import GitConfigParser
-from log import get_logger
-from validate_db import select_db
+from ..helpers import git, log
+from .validate_db import select_db
 
-LOG = get_logger("init")
+LOG = log.get_logger("init")
 
 
 class GerritInit:
@@ -40,7 +36,7 @@ class GerritInit:
         gerrit_config_path = os.path.join(self.site, "etc/gerrit.config")
 
         if os.path.exists(gerrit_config_path):
-            return GitConfigParser(gerrit_config_path)
+            return git.GitConfigParser(gerrit_config_path)
 
         return None
 
@@ -138,36 +134,3 @@ class GerritInit:
                 init_process.returncode,
             )
             sys.exit(1)
-
-
-# pylint: disable=C0103
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s",
-        "--site",
-        help="Path to Gerrit site",
-        dest="site",
-        action="store",
-        default="/var/gerrit",
-        required=True,
-    )
-    parser.add_argument(
-        "-p",
-        "--plugin",
-        help="Gerrit plugin to be installed. Can be used multiple times.",
-        dest="wanted_plugins",
-        action="append",
-        default=list(),
-    )
-    parser.add_argument(
-        "-d",
-        "--reviewdb",
-        help="Whether a reviewdb is part of the Gerrit installation.",
-        dest="reviewdb",
-        action="store_true",
-    )
-    args = parser.parse_args()
-
-    init = GerritInit(args.site, args.wanted_plugins, args.reviewdb)
-    init.execute()
