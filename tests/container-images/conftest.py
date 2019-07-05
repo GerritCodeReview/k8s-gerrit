@@ -29,15 +29,6 @@ class MySQLContainer():
 
     self.mysql_container = None
 
-    self._start_mysql_container()
-
-  def connect(self):
-    engine = create_engine(
-      "mysql+pymysql://root:%s@localhost:%s" % (
-        self.mysql_config["MYSQL_ROOT_PASSWORD"],
-        self.mysql_config["MYSQL_PORT"]))
-    return engine.connect()
-
   def _wait_for_db_connection(self):
     connection = None
     while connection is None:
@@ -48,7 +39,14 @@ class MySQLContainer():
         time.sleep(1)
     connection.close()
 
-  def _start_mysql_container(self):
+  def connect(self):
+    engine = create_engine(
+      "mysql+pymysql://root:%s@localhost:%s" % (
+        self.mysql_config["MYSQL_ROOT_PASSWORD"],
+        self.mysql_config["MYSQL_PORT"]))
+    return engine.connect()
+
+  def start(self):
     self.mysql_container = self.docker_client.containers.run(
       image="mysql:5.5.61",
       environment={
@@ -66,7 +64,7 @@ class MySQLContainer():
 
     self._wait_for_db_connection()
 
-  def stop_mysql_container(self):
+  def stop(self):
     self.mysql_container.stop(timeout=1)
 
 @pytest.fixture(scope="session")
@@ -89,8 +87,6 @@ class GerritContainer():
     self.port = port
 
     self.gerrit_container = None
-
-    self._start_gerrit_container()
 
   def _create_config_files(self):
     tmp_config_dir = os.path.join(self.tmp_dir, "configs")
@@ -115,7 +111,7 @@ class GerritContainer():
     }
     return volumes
 
-  def _start_gerrit_container(self):
+  def start(self):
     self.gerrit_container = self.docker_client.containers.run(
       image=self.image.id,
       user="gerrit",
@@ -128,7 +124,7 @@ class GerritContainer():
       auto_remove=True
     )
 
-  def stop_gerrit_container(self):
+  def stop(self):
     self.gerrit_container.stop(timeout=1)
 
 @pytest.fixture(scope="session")
