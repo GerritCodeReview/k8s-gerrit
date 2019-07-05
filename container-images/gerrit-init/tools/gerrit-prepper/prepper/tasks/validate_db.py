@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 # Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +13,7 @@
 # limitations under the License.
 
 # pylint: disable=R0903
-import argparse
+
 import os.path
 import sys
 import time
@@ -24,10 +22,9 @@ from abc import ABC, abstractmethod
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 
-from git_config_parser import GitConfigParser
-from log import get_logger
+from ..helpers import git, log
 
-LOG = get_logger("validate-db")
+LOG = log.get_logger("validate-db")
 
 class DatabaseConfig:
 
@@ -181,10 +178,10 @@ class MysqlGerritDB(AbstractGerritDB):
 
 def select_db(gerrit_site_path):
   gerrit_config_path = os.path.join(gerrit_site_path, "etc/gerrit.config")
-  config = GitConfigParser(gerrit_config_path)
+  config = git.GitConfigParser(gerrit_config_path)
 
   gerrit_secure_config_path = os.path.join(gerrit_site_path, "etc/secure.config")
-  secure_config = GitConfigParser(gerrit_secure_config_path)
+  secure_config = git.GitConfigParser(gerrit_secure_config_path)
 
   db_type = config.get("database.type")
 
@@ -198,24 +195,9 @@ def select_db(gerrit_site_path):
 
   return gerrit_db
 
-def validate_db(gerrit_site_path):
+def execute(gerrit_site_path):
   gerrit_db = select_db(gerrit_site_path)
 
   gerrit_db.wait_for_db_server()
   gerrit_db.wait_for_db()
   gerrit_db.wait_for_schema()
-
-# pylint: disable=C0103
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser()
-  parser.add_argument(
-    "-s",
-    "--site",
-    help="Path to Gerrit site",
-    dest="site",
-    action="store",
-    default="/var/gerrit",
-    required=True)
-  args = parser.parse_args()
-
-  validate_db(args.site)
