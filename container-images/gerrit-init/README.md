@@ -15,22 +15,14 @@ plugins.
 
 ## Start
 
-* start the container via start script `/var/tools/gerrit_init.py`
+* start the container via start script `python3 /var/tools/gerrit-initializer init`
 
-The `download_plugins.py`-script
-
-* parses required plugins from config file
-* removes unwanted plugins
-* installs and updates plugins not packaged in Gerrit's war-file
-* plugin files are validated using SHA1
-* plugin files may optionally be cached
-
-The `gerrit_init.py`-script
+The `main.py init`-command
 
 * reads configuration from gerrit.config (via `gerrit_config_parser.py`)
 * initializes Gerrit
 
-The `validate_notedb.py`-script
+The `main.py validate_notedb`-command
 
 * validates and waits for the repository `All-Projects.git` with the refs
 `refs/meta/config`.

@@ -75,9 +75,10 @@ spec:
             fi
           done
 
-          /var/tools/gerrit_init.py \
+          python3 /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
-            -s /var/gerrit
+            -s /var/gerrit \
+            init
 
           symlink_config_to_site
 
@@ -87,9 +88,12 @@ spec:
 
           # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
           # is configured.
-          /var/tools/gerrit_reindex.py $FLAGS \
+          python3 /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
-            -s /var/gerrit
+            -s /var/gerrit \
+            reindex \
+            $FLAGS
+
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
