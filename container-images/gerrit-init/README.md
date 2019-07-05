@@ -17,15 +17,15 @@ core plugins.
 
 ## Start
 
-* start the container via start script `/var/tools/gerrit_init.py`
+* start the container via start script `/var/tools/gerrit-prepper/main.py init`
 
-The `gerrit_init.py`-script
+The `main.py init`-command
 
 * reads configuration from gerrit.config (via `gerrit_config_parser.py`)
 * waits for the database to start (via `validate_db.py`)
 * initializes Gerrit
 
-The `validate_db.py`-script
+The `main.py validate-db`-command
 
 * reads database configuration from gerrit.config (via `gerrit_config_parser.py`)
 * waits for the database to start
