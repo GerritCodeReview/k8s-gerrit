@@ -51,11 +51,8 @@ class GitConfigParser:
 
     try:
       value = self._get_value(key)[-1].lower()
-      if value == "true":
-        return True
-      elif value == "false":
-        return False
-      else:
+      if value not in ["true", "false"]:
         raise TypeError("Value is not a boolean.")
+      return value == "true"
     except subprocess.CalledProcessError:
       return default

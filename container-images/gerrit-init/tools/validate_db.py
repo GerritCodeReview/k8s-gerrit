@@ -81,10 +81,8 @@ class H2GerritDB(AbstractGerritDB):
     if os.path.isabs(self.name):
       if self.name.endswith(suffix):
         return self.name
-      else:
-        return self.name + suffix
-    else:
-      return os.path.join(self.site, "db", self.name) + suffix
+      return self.name + suffix
+    return os.path.join(self.site, "db", self.name) + suffix
 
   def wait_for_db_server(self):
     # Not required. H2 is an embedded database.
