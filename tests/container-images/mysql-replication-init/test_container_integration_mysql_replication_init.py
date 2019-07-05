@@ -92,7 +92,7 @@ def containers(mysql_container, init_container):
 
 @pytest.mark.slow
 @pytest.mark.incremental
-class TestMysqlInitScript(object):
+class TestMysqlInitScript:
   def test_mysql_replication_init_waiting_for_dump(self, containers):
     (_, init_container) = containers
     timeout = time.time() + 20

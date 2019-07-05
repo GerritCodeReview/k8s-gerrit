@@ -89,7 +89,7 @@ def container_run_mysql(request, docker_client, docker_network, tmp_dir,
 
 @pytest.mark.slow
 @pytest.mark.incremental
-class TestGerritSlaveH2(object):
+class TestGerritSlaveH2:
 
   @pytest.fixture(params=CONFIG_FILES)
   def config_file_to_test(self, request):

@@ -76,7 +76,7 @@ def container_run_endless(
   return container_run
 
 @pytest.mark.incremental
-class TestGerritInitEmptySite(object):
+class TestGerritInitEmptySite:
   def test_gerrit_init_gerrit_is_initialized(self, container_run_default):
     def wait_for_init_success_message():
       log = container_run_default.logs().decode("utf-8")
@@ -98,7 +98,7 @@ class TestGerritInitEmptySite(object):
     assert container_run_default.attrs["State"]["ExitCode"] == 0
 
 @pytest.mark.incremental
-class TestGerritInitPluginInstallation(object):
+class TestGerritInitPluginInstallation:
   def test_gerrit_init_plugins_are_installed(self, container_run_endless):
     exit_code, _ = container_run_endless.exec_run(
       "/var/tools/gerrit_init.py -s /var/gerrit -p replication -p reviewnotes")

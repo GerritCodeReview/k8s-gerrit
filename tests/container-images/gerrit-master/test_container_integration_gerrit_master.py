@@ -77,7 +77,7 @@ def config_file_to_test(request):
 
 @pytest.mark.slow
 @pytest.mark.incremental
-class TestGerritMasterStartScript(object):
+class TestGerritMasterStartScript:
   def test_gerrit_master_gerrit_starts_up(self, container_run):
     def wait_for_gerrit_start():
       log = container_run.logs().decode("utf-8")
