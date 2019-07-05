@@ -15,7 +15,6 @@
 # limitations under the License.
 
 # pylint: disable=R0903
-
 import argparse
 import os.path
 import sys

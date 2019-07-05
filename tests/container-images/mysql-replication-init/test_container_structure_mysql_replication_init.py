@@ -15,7 +15,7 @@
 import pytest
 
 @pytest.fixture(scope="module")
-def container_run(request, docker_client, mysql_replication_init_image):
+def container_run(docker_client, mysql_replication_init_image):
   container_run = docker_client.containers.run(
     image=mysql_replication_init_image.id,
     entrypoint="/bin/bash",
@@ -24,13 +24,8 @@ def container_run(request, docker_client, mysql_replication_init_image):
     auto_remove=True
   )
 
-  def stop_container():
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
-
+  yield container_run
+  container_run.stop(timeout=1)
 
 def test_mysql_replication_init_contains_mysql_client(container_run):
   exit_code, _ = container_run.exec_run(
