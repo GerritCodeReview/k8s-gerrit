@@ -68,3 +68,13 @@ use [multi stage builds][3]
 [1]: https://gerrit-review.googlesource.com/Documentation/user-upload.html#_git_push
 [2]: https://gerrit.googlesource.com/new-password
 [3]: https://docs.docker.com/develop/develop-images/multistage-build/
+
+## Writing clean python code
+
+When writing python code, either for tests or for scripts, use pylint to ensure
+a clean code style. Pylint can be run by the following command:
+
+```sh
+pipenv install --dev
+pipenv run pylint $(find . -name '*.py')
+```

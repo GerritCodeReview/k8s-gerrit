@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "~=2.3.1"
 
 [packages]
 docker = "~=3.5.1"
