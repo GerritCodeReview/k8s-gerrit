@@ -128,7 +128,7 @@ class TestGerritInitPluginInstallation:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -c /var/config/init.yaml"
+            "/var/tools/gerrit-initializer/main.py -s /var/gerrit  -c /var/config/init.yaml init"
         )
         assert exit_code == 0
 
@@ -150,7 +150,7 @@ class TestGerritInitPluginInstallation:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -c /var/config/init.yaml"
+            "/var/tools/gerrit-initializer/main.py -s /var/gerrit  -c /var/config/init.yaml init"
         )
         assert exit_code == 0
 

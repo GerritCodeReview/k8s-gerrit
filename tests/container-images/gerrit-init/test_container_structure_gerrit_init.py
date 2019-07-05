@@ -24,16 +24,7 @@ def container_run(docker_client, container_endless_run_factory, gerrit_init_imag
     container_run.stop(timeout=1)
 
 
-@pytest.fixture(
-    scope="function",
-    params=[
-        "/var/tools/download_plugins.py",
-        "/var/tools/gerrit_init.py",
-        "/var/tools/gerrit_reindex.py",
-        "/var/tools/git_config_parser.py",
-        "/var/tools/init_config.py",
-    ],
-)
+@pytest.fixture(scope="function", params=["/var/tools/gerrit-initializer/main.py"])
 def expected_script(request):
     return request.param
 
@@ -74,4 +65,4 @@ def test_gerrit_init_contains_expected_tools(container_run, expected_tool):
 def test_gerrit_init_has_entrypoint(gerrit_init_image):
     entrypoint = gerrit_init_image.attrs["ContainerConfig"]["Entrypoint"]
     assert len(entrypoint) >= 1
-    assert entrypoint == ["/var/tools/gerrit_init.py", "-s", "/var/gerrit"]
+    assert entrypoint == ["/var/tools/gerrit-initializer/main.py"]

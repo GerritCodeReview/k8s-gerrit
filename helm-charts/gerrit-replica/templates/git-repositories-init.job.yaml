@@ -64,9 +64,10 @@ spec:
           ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
           ln -sf /var/mnt/git /var/gerrit/
 
-          /var/tools/gerrit_init.py \
+          /var/tools/gerrit-initializer/main.py \
             -c /var/config/gerrit-init.yaml \
-            -s /var/gerrit
+            -s /var/gerrit \
+            init
         env:
         - name: POD_NAME
           valueFrom:
