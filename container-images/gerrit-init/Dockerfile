@@ -5,7 +5,7 @@ USER root
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-COPY tools/* /var/tools/
+COPY tools /var/tools/
 WORKDIR /var/tools
 
 RUN apk update && \
@@ -14,4 +14,4 @@ RUN apk update && \
 
 USER gerrit
 
-ENTRYPOINT ["/var/tools/gerrit_init.py", "-s", "/var/gerrit"]
+ENTRYPOINT ["/var/tools/gerrit-prepper/main.py", "-s", "/var/gerrit", "init"]
