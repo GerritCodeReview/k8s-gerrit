@@ -162,7 +162,7 @@ class MysqlGerritDB(AbstractGerritDB):
     LOG.info("Waiting for database schema to be created...")
     for table in self.tables:
       while not self.engine.dialect.has_table(self.engine, table):
-        LOG.info("Still waiting for table %s..." % table)
+        LOG.info("Still waiting for table %s...", table)
         time.sleep(3)
     LOG.info("Schema appears to have been created!")
 
