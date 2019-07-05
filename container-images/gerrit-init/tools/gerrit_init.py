@@ -18,7 +18,6 @@ import argparse
 import os
 import subprocess
 import sys
-import time
 
 from git_config_parser import GitConfigParser
 from log import get_logger
