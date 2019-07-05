@@ -17,22 +17,11 @@ import re
 import pytest
 
 @pytest.fixture(scope="module")
-def container_run(request, docker_client, gerrit_slave_image):
-  container_run = docker_client.containers.run(
-    image=gerrit_slave_image.id,
-    entrypoint="/bin/bash",
-    command=["-c", "tail -f /dev/null"],
-    user="gerrit",
-    detach=True,
-    auto_remove=True
-  )
+def container_run(docker_client, container_endless_run_factory, gerrit_slave_image):
+  container_run = container_endless_run_factory(docker_client, gerrit_slave_image)
+  yield container_run
+  container_run.stop(timeout=1)
 
-  def stop_container():
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
 
 @pytest.fixture(scope="function",
                 params=["/var/tools/start", "/var/tools/download_db_driver"])

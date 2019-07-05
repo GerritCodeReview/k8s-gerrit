@@ -8,3 +8,6 @@ no-docstring-rgx=(test_.*)|(__.*__)
 indent-string='  '
 indent-after-paren=2
 good-names=i,f
+
+[SIMILARITIES]
+min-similarity-lines=6

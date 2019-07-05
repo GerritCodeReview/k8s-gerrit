@@ -15,22 +15,10 @@
 import pytest
 
 @pytest.fixture(scope="module")
-def container_run(request, docker_client, base_image):
-  print("Starting base-container...")
-  container_run = docker_client.containers.run(
-    image=base_image.id,
-    command="tail -f /dev/null",
-    detach=True,
-    auto_remove=True
-  )
-
-  def stop_container():
-    print("Stopping base-container...")
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
+def container_run(docker_client, container_endless_run_factory, base_image):
+  container_run = container_endless_run_factory(docker_client, base_image)
+  yield container_run
+  container_run.stop(timeout=1)
 
 
 def test_base_contains_git(container_run):

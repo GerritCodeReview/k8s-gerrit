@@ -50,8 +50,7 @@ def container_run_default(
   return container_run
 
 @pytest.fixture(scope="class")
-def container_run_endless(
-    request, docker_client, gerrit_init_image, tmp_path_factory):
+def container_run_endless(docker_client, gerrit_init_image, tmp_path_factory):
   tmp_site_dir = tmp_path_factory.mktemp('gerrit_site')
   container_run = docker_client.containers.run(
     image=gerrit_init_image.id,
@@ -68,12 +67,8 @@ def container_run_endless(
     auto_remove=True
   )
 
-  def stop_container():
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
+  yield container_run
+  container_run.stop(timeout=1)
 
 @pytest.mark.incremental
 class TestGerritInitEmptySite:

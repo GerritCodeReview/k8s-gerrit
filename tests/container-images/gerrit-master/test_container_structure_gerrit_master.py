@@ -15,20 +15,11 @@
 import pytest
 
 @pytest.fixture(scope="module")
-def container_run(request, docker_client, gerrit_master_image):
-  container_run = docker_client.containers.run(
-    image=gerrit_master_image.id,
-    user="gerrit",
-    detach=True,
-    auto_remove=True
-  )
+def container_run(docker_client, container_endless_run_factory, gerrit_master_image):
+  container_run = container_endless_run_factory(docker_client, gerrit_master_image)
+  yield container_run
+  container_run.stop(timeout=1)
 
-  def stop_container():
-    container_run.stop(timeout=1)
-
-  request.addfinalizer(stop_container)
-
-  return container_run
 
 def test_gerrit_master_inherits_from_gerrit_base(gerrit_master_image):
   contains_tag = False

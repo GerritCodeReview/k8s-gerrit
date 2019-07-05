@@ -135,3 +135,17 @@ def gerrit_container_factory():
                            gerrit_config, port)
 
   return get_gerrit_container
+
+@pytest.fixture(scope="session")
+def container_endless_run_factory():
+  def get_container(docker_client, image):
+    return docker_client.containers.run(
+      image=image.id,
+      entrypoint="/bin/bash",
+      command=["-c", "tail -f /dev/null"],
+      user="gerrit",
+      detach=True,
+      auto_remove=True
+    )
+
+  return get_container
