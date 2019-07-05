@@ -15,7 +15,6 @@
 # limitations under the License.
 
 import abc
-import argparse
 import enum
 import os.path
 import subprocess
@@ -23,11 +22,9 @@ import sys
 
 import requests
 
-from git_config_parser import GitConfigParser
-from init_config import InitConfig
-from log import get_logger
+from ..helpers import git, log
 
-LOG = get_logger("reindex")
+LOG = log.get_logger("reindex")
 
 
 class IndexType(enum.Enum):
@@ -50,7 +47,7 @@ class GerritAbstractReindexer(abc.ABC):
     def _parse_gerrit_index_config(self):
         indices = dict()
         if os.path.exists(self.index_config_path):
-            config = GitConfigParser(self.index_config_path)
+            config = git.GitConfigParser(self.index_config_path)
             options = config.list()
             for opt in options:
                 name, version = opt["subsection"].rsplit("_", 1)
@@ -138,7 +135,7 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
 class GerritElasticSearchReindexer(GerritAbstractReindexer):
     def _get_elasticsearch_config(self):
         es_config = dict()
-        gerrit_config = GitConfigParser(
+        gerrit_config = git.GitConfigParser(
             os.path.join(self.gerrit_site_path, "etc", "gerrit.config")
         )
         es_config["prefix"] = gerrit_config.get(
@@ -172,7 +169,7 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
 
 
 def get_reindexer(gerrit_site_path, config):
-    gerrit_config = GitConfigParser(
+    gerrit_config = git.GitConfigParser(
         os.path.join(gerrit_site_path, "etc", "gerrit.config")
     )
     index_type = gerrit_config.get("index.type", default=IndexType.LUCENE.name)
@@ -184,38 +181,3 @@ def get_reindexer(gerrit_site_path, config):
         return GerritElasticSearchReindexer(gerrit_site_path, config)
 
     raise RuntimeError("Unknown index type %s." % index_type)
-
-
-# pylint: disable=C0103
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s",
-        "--site",
-        help="Path to Gerrit site",
-        dest="site",
-        action="store",
-        default="/var/gerrit",
-        required=True,
-    )
-    parser.add_argument(
-        "-f",
-        "--force",
-        help="Reindex even if indices are ready.",
-        dest="force",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-c",
-        "--config",
-        help="Path to configuration file for init process.",
-        dest="config",
-        action="store",
-        required=True,
-    )
-    args = parser.parse_args()
-
-    config = InitConfig().parse(args.config)
-
-    reindexer = get_reindexer(args.site, config)
-    reindexer.start(args.force)

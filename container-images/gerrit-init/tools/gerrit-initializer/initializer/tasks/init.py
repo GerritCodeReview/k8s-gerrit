@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 # Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
 import os
 import subprocess
 import sys
 
-from download_plugins import get_installer
-from git_config_parser import GitConfigParser
-from init_config import InitConfig
-from log import get_logger
+from ..helpers import git, log
+from .download_plugins import get_installer
 
-LOG = get_logger("init")
+LOG = log.get_logger("init")
 
 
 class GerritInit:
@@ -41,7 +36,7 @@ class GerritInit:
         gerrit_config_path = os.path.join(self.site, "etc/gerrit.config")
 
         if os.path.exists(gerrit_config_path):
-            return GitConfigParser(gerrit_config_path)
+            return git.GitConfigParser(gerrit_config_path)
 
         return None
 
@@ -131,31 +126,3 @@ class GerritInit:
                 init_process.returncode,
             )
             sys.exit(1)
-
-
-# pylint: disable=C0103
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s",
-        "--site",
-        help="Path to Gerrit site",
-        dest="site",
-        action="store",
-        default="/var/gerrit",
-        required=True,
-    )
-    parser.add_argument(
-        "-c",
-        "--config",
-        help="Path to configuration file for init process.",
-        dest="config",
-        action="store",
-        required=True,
-    )
-    args = parser.parse_args()
-
-    config = InitConfig().parse(args.config)
-
-    init = GerritInit(args.site, config)
-    init.execute()

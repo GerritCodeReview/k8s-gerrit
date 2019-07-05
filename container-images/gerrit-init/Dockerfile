@@ -13,10 +13,9 @@ RUN apk update && \
     pip3 install --no-cache --upgrade pip setuptools wheel pipenv && \
     pipenv install --python 3.7.3 --system
 
-COPY tools/* /var/tools/
+COPY tools /var/tools/
 COPY config/* /var/config/
 
 USER gerrit
 
-ENTRYPOINT ["/var/tools/gerrit_init.py", "-s", "/var/gerrit"]
-CMD ["-c", "/var/config/default.config.yaml"]
+ENTRYPOINT ["/var/tools/gerrit-initializer/main.py"]
