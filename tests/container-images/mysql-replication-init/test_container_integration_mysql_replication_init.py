@@ -18,10 +18,12 @@ import time
 
 import pytest
 
-MYSQL_HOST = "k8sgerrit-mysql"
-MYSQL_PORT = 3306
-MYSQL_ROOT_PASSWORD = "big_secret"
-REPL_PASSWORD = "test"
+MYSQL_CONFIG = {
+  "MYSQL_HOST": "k8sgerrit-mysql",
+  "MYSQL_PORT": 3306,
+  "MYSQL_ROOT_PASSWORD": "big_secret",
+  "REPL_PASSWORD": "test"
+}
 
 @pytest.fixture()
 def mock_dump():
@@ -50,7 +52,7 @@ def mock_sql_script(tmp_path_factory):
 @pytest.fixture(scope="module")
 def mysql_container(request, docker_client, docker_network, mysql_container_factory):
   mysql_container = mysql_container_factory(
-    docker_client, docker_network, MYSQL_HOST, MYSQL_PORT, MYSQL_ROOT_PASSWORD)
+    docker_client, docker_network, MYSQL_CONFIG)
 
   request.addfinalizer(mysql_container.stop_mysql_container)
 
@@ -61,12 +63,7 @@ def init_container(request, docker_client, docker_network,
                    mysql_replication_init_image, mock_sql_script):
   container_run = docker_client.containers.run(
     image=mysql_replication_init_image.id,
-    environment={
-      "MYSQL_HOST": MYSQL_HOST,
-      "MYSQL_PORT": MYSQL_PORT,
-      "MYSQL_ROOT_PASSWORD": MYSQL_ROOT_PASSWORD,
-      "REPL_PASSWORD": REPL_PASSWORD
-    },
+    environment=MYSQL_CONFIG,
     volumes={
       mock_sql_script: {
         "bind": "/var/sql",
@@ -138,4 +135,4 @@ class TestMysqlInitScript:
     result = connection.execute("SELECT password FROM users WHERE id=1 LIMIT 1;")
     connection.close()
     for row in result:
-      assert REPL_PASSWORD in row["password"]
+      assert MYSQL_CONFIG["REPL_PASSWORD"] in row["password"]
