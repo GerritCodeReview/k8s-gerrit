@@ -22,12 +22,10 @@ import pytest
 
 class MySQLContainer():
 
-  def __init__(self, docker_client, docker_network, host, port, root_pwd):
+  def __init__(self, docker_client, docker_network, mysql_config):
     self.docker_client = docker_client
     self.docker_network = docker_network
-    self.host = host
-    self.port = port
-    self.root_pwd = root_pwd
+    self.mysql_config = mysql_config
 
     self.mysql_container = None
 
@@ -35,7 +33,9 @@ class MySQLContainer():
 
   def connect(self):
     engine = create_engine(
-      "mysql+pymysql://root:%s@localhost:%s" % (self.root_pwd, self.port))
+      "mysql+pymysql://root:%s@localhost:%s" % (
+        self.mysql_config["MYSQL_ROOT_PASSWORD"],
+        self.mysql_config["MYSQL_PORT"]))
     return engine.connect()
 
   def _wait_for_db_connection(self):
@@ -52,14 +52,14 @@ class MySQLContainer():
     self.mysql_container = self.docker_client.containers.run(
       image="mysql:5.5.61",
       environment={
-        "MYSQL_ROOT_PASSWORD": self.root_pwd,
+        "MYSQL_ROOT_PASSWORD": self.mysql_config["MYSQL_ROOT_PASSWORD"],
         "MYSQL_DATABASE": "reviewdb"
       },
       ports={
-        "3306": self.port
+        "3306": self.mysql_config["MYSQL_PORT"]
       },
       network=self.docker_network.name,
-      name=self.host,
+      name=self.mysql_config["MYSQL_HOST"],
       detach=True,
       auto_remove=True
     )
@@ -71,10 +71,11 @@ class MySQLContainer():
 
 @pytest.fixture(scope="session")
 def mysql_container_factory():
-  def get_mysql_container(docker_client, docker_network, host, port, root_pwd):
-    return MySQLContainer(docker_client, docker_network, host, port, root_pwd)
+  def get_mysql_container(docker_client, docker_network, mysql_config):
+    return MySQLContainer(docker_client, docker_network, mysql_config)
 
   return get_mysql_container
+
 
 class GerritContainer():
 
