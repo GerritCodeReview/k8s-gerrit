@@ -88,9 +88,9 @@ class GerritInit():
     provided_version = self._get_gerrit_version("/var/war/gerrit.war")
     if installed_version != provided_version:
       LOG.info("New Gerrit version was provided (current: %s; new: %s). "
-        "Reinitializing site." % (
-          installed_version,
-          provided_version))
+               "Reinitializing site." % (
+                 installed_version,
+                 provided_version))
       return True
 
     if self.wanted_plugins.difference(self.installed_plugins):
@@ -132,7 +132,7 @@ class GerritInit():
 
     if init_process.returncode > 0:
       LOG.error("An error occured, when initializing Gerrit. Exit code: %d" %
-            init_process.returncode)
+                init_process.returncode)
       sys.exit(1)
 
 # pylint: disable=C0103
