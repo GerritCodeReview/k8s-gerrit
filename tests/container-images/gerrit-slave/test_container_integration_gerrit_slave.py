@@ -58,8 +58,9 @@ def container_run_h2(request, docker_client, docker_network, tmp_dir,
       """}
   test_setup = gerrit_container_factory(
     docker_client, docker_network, tmp_dir, gerrit_slave_image, configs, 8081)
+  test_setup.start()
 
-  request.addfinalizer(test_setup.stop_gerrit_container)
+  request.addfinalizer(test_setup.stop)
 
   return test_setup.gerrit_container
 
@@ -82,8 +83,9 @@ def container_run_mysql(request, docker_client, docker_network, tmp_dir,
       """}
   test_setup = gerrit_container_factory(
     docker_client, docker_network, tmp_dir, gerrit_slave_image, configs, 8082)
+  test_setup.start()
 
-  request.addfinalizer(test_setup.stop_gerrit_container)
+  request.addfinalizer(test_setup.stop)
 
   return test_setup.gerrit_container
 

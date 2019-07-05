@@ -53,8 +53,9 @@ def mock_sql_script(tmp_path_factory):
 def mysql_container(request, docker_client, docker_network, mysql_container_factory):
   mysql_container = mysql_container_factory(
     docker_client, docker_network, MYSQL_CONFIG)
+  mysql_container.start()
 
-  request.addfinalizer(mysql_container.stop_mysql_container)
+  request.addfinalizer(mysql_container.stop)
 
   return mysql_container
 
