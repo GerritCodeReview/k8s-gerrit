@@ -28,6 +28,16 @@ from log import get_logger
 
 LOG = get_logger("validate-db")
 
+class DatabaseConfig:
+
+  def __init__(self, name, host, port, user, pwd):
+    self.name = name
+    self.host = host
+    self.port = port
+    self.user = user
+    self.pwd = pwd
+
+
 class AbstractGerritDB(ABC):
 
   def __init__(self, config, secure_config):
@@ -74,15 +84,16 @@ class H2GerritDB(AbstractGerritDB):
     self.url = self._create_db_url()
 
   def _read_config(self, config, secure_config):
-    self.name = config.get("database.database", default="ReviewDB")
+    name = config.get("database.database", default="ReviewDB")
+    self.db_config = DatabaseConfig(name, None, None, None, None)
 
   def _create_db_url(self):
     suffix = '.h2.db'
-    if os.path.isabs(self.name):
-      if self.name.endswith(suffix):
-        return self.name
-      return self.name + suffix
-    return os.path.join(self.site, "db", self.name) + suffix
+    if os.path.isabs(self.db_config.name):
+      if self.db_config.name.endswith(suffix):
+        return self.db_config.name
+      return self.db_config.name + suffix
+    return os.path.join(self.site, "db", self.db_config.name) + suffix
 
   def wait_for_db_server(self):
     # Not required. H2 is an embedded database.
@@ -114,19 +125,20 @@ class MysqlGerritDB(AbstractGerritDB):
     self.connection = None
 
   def _read_config(self, config, secure_config):
-    self.host = config.get("database.hostname", default="localhost")
-    self.port = config.get("database.port", default="3306")
-    self.name = config.get("database.database", default="reviewdb")
-    self.user = secure_config.get("database.username", default="")
-    self.pwd = secure_config.get("database.password", default="")
+    name = config.get("database.database", default="reviewdb")
+    host = config.get("database.hostname", default="localhost")
+    port = config.get("database.port", default="3306")
+    user = secure_config.get("database.username", default="")
+    pwd = secure_config.get("database.password", default="")
+    self.db_config = DatabaseConfig(name, host, port, user, pwd)
 
   def _create_db_url(self):
     server_url = "mysql+pymysql://%s:%s@%s:%s" % (
-      self.user,
-      self.pwd,
-      self.host,
-      self.port)
-    reviewdb_url = "%s/%s" % (server_url, self.name)
+      self.db_config.user,
+      self.db_config.pwd,
+      self.db_config.host,
+      self.db_config.port)
+    reviewdb_url = "%s/%s" % (server_url, self.db_config.name)
     return (server_url, reviewdb_url)
 
   def _connect_to_db(self, url):
