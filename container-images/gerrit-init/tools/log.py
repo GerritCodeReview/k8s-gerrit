@@ -17,9 +17,9 @@
 import logging
 
 def get_logger(name):
-  LOG = logging.Logger(name)
+  log = logging.Logger(name)
   handler = logging.StreamHandler()
   handler.setFormatter(logging.Formatter('[%(asctime)s] %(levelname)s %(message)s'))
-  LOG.addHandler(handler)
-  LOG.setLevel(logging.DEBUG)
-  return LOG
+  log.addHandler(handler)
+  log.setLevel(logging.DEBUG)
+  return log
