@@ -90,7 +90,8 @@ class TestGerritInitEmptySite:
 class TestGerritInitPluginInstallation:
     def test_gerrit_init_plugins_are_installed(self, container_run_endless):
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -p replication -p reviewnotes"
+            "/var/tools/gerrit-prepper/main.py -s /var/gerrit init "
+            + "-p replication -p reviewnotes"
         )
         assert exit_code == 0
         cmd = (
@@ -105,7 +106,8 @@ class TestGerritInitPluginInstallation:
         self, container_run_endless
     ):
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -p replication -p reviewnotes -p hooks"
+            "/var/tools/gerrit-prepper/main.py -s /var/gerrit init "
+            + "-p replication -p reviewnotes -p hooks"
         )
         assert exit_code == 0
 
@@ -122,7 +124,7 @@ class TestGerritInitPluginInstallation:
         self, container_run_endless
     ):
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -p download-commands"
+            "/var/tools/gerrit-prepper/main.py -s /var/gerrit init -p download-commands"
         )
         assert exit_code == 0
 

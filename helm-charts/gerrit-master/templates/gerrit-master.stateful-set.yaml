@@ -69,8 +69,9 @@ spec:
             ln -sf /var/mnt/git /var/gerrit/
           fi
 
-          /var/tools/gerrit_init.py \
+          /var/tools/gerrit-prepper/main.py \
             -s /var/gerrit \
+            init \
             -p replication \
             -p commit-message-length-validator \
             -p download-commands \

@@ -57,8 +57,9 @@ spec:
         - -ce
         args:
         - |
-          /var/tools/gerrit_init.py \
+          /var/tools/gerrit-prepper/main.py \
             -s /var/gerrit \
+            init \
             -p singleusergroup
 
           # The git repositories will be mounted from a volume
@@ -93,14 +94,15 @@ spec:
           fi
 
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
-          /var/tools/gerrit_init.py \
+          /var/tools/gerrit-prepper/main.py \
             -s /var/gerrit \
+            init \
             -p singleusergroup
 
           symlink_config_to_site
           {{- end }}
 
-          /var/tools/validate_notedb.py -s /var/gerrit
+          /var/tools/gerrit-prepper/main.py -s /var/gerrit validate-notedb
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
