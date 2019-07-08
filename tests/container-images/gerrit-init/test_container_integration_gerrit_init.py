@@ -29,6 +29,7 @@ def container_run_default(request, docker_client, gerrit_init_image, tmp_path_fa
     container_run = docker_client.containers.run(
         image=gerrit_init_image.id,
         user="gerrit",
+        command=["-s", "/var/gerrit", "-c", "/var/config/default.config.yaml", "init"],
         volumes={tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"}},
         detach=True,
         auto_remove=True,
@@ -128,7 +129,7 @@ class TestGerritInitPluginInstallation:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit-initializer/main.py -s /var/gerrit  -c /var/config/init.yaml init"
+            "/var/tools/gerrit-initializer -s /var/gerrit -c /var/config/init.yaml init"
         )
         assert exit_code == 0
 
@@ -150,7 +151,7 @@ class TestGerritInitPluginInstallation:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit-initializer/main.py -s /var/gerrit  -c /var/config/init.yaml init"
+            "/var/tools/gerrit-initializer -s /var/gerrit -c /var/config/init.yaml init"
         )
         assert exit_code == 0
 

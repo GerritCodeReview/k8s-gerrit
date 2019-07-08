@@ -84,7 +84,7 @@ spec:
         - -ce
         args:
         - |
-          /var/tools/gerrit-initializer/main.py \
+          /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit \
             init
@@ -133,7 +133,7 @@ spec:
             ln -sf /var/mnt/logs /var/gerrit/
           fi
 
-          /var/tools/gerrit-initializer/main.py \
+          /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit \
             validate-notedb

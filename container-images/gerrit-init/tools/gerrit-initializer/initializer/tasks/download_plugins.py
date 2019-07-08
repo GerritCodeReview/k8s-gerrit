@@ -21,6 +21,10 @@ import time
 
 from abc import ABC, abstractmethod
 
+# Required since cxFreeze misses this dependency of requests otherwise
+# pylint: disable=W0611
+from multiprocessing import Queue
+
 import requests
 
 from ..helpers import log
