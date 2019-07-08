@@ -69,7 +69,7 @@ spec:
             ln -sf /var/mnt/git /var/gerrit/
           fi
 
-          /var/tools/gerrit-prepper/main.py
+          /var/tools/gerrit-prepper/gerrit-prepper \
             -s /var/gerrit \
             init \
             {{- if .Values.gerritMaster.reviewdb.enabled }}
@@ -83,7 +83,7 @@ spec:
           symlink_config_to_site
 
           {{- if .Values.gerritMaster.reviewdb.enabled }}
-          /var/tools/gerrit-prepper/main.py -s /var/gerrit validate_db
+          /var/tools/gerrit-prepper/gerrit-prepper -s /var/gerrit validate-db
           {{- end }}
         volumeMounts:
         - name: gerrit-site
