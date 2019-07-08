@@ -69,7 +69,7 @@ spec:
             ln -sf /var/mnt/git /var/gerrit/
           fi
 
-          /var/tools/gerrit-prepper/main.py \
+          /var/tools/gerrit-prepper \
             -s /var/gerrit \
             init \
             -p replication \

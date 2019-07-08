@@ -57,7 +57,7 @@ spec:
         - -ce
         args:
         - |
-          /var/tools/gerrit-prepper/main.py \
+          /var/tools/gerrit-prepper \
             -s /var/gerrit \
             init \
             -p singleusergroup
@@ -94,7 +94,7 @@ spec:
           fi
 
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
-          /var/tools/gerrit-prepper/main.py \
+          /var/tools/gerrit-prepper \
             -s /var/gerrit \
             init \
             -p singleusergroup
@@ -102,7 +102,7 @@ spec:
           symlink_config_to_site
           {{- end }}
 
-          /var/tools/gerrit-prepper/main.py -s /var/gerrit validate-notedb
+          /var/tools/gerrit-prepper -s /var/gerrit validate-notedb
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
