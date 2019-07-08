@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d64445ed_a46d8d16",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-08T23:55:09Z",
+      "side": 0,
+      "message": "Unrelated whitespace change?",
+      "revId": "bda2808b924f4e176eda461c547ae164911ff7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
