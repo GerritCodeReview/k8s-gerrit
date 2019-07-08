@@ -1,6 +1,4 @@
-FROM gerrit-base:latest
-
-USER root
+FROM python:3.7.3-stretch AS build
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
@@ -16,8 +14,25 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install pipenv && \
-    pipenv install --system
+    pipenv install --system --dev
+
+RUN pyinstaller gerrit-prepper.spec
+
+################################################################################
+
+FROM gerrit-base:latest
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y \
+      mysql-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /var/tools/dist /var/tools
+WORKDIR /var/tools/gerrit-prepper
 
 USER gerrit
 
-ENTRYPOINT ["/var/tools/gerrit-prepper/main.py", "-s", "/var/gerrit", "init"]
+ENTRYPOINT ["./gerrit-prepper", "-s", "/var/gerrit", "init"]
