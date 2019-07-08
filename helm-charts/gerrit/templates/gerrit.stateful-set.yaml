@@ -75,7 +75,7 @@ spec:
             fi
           done
 
-          /var/tools/gerrit-initializer/main.py \
+          /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit \
             init
@@ -88,7 +88,7 @@ spec:
 
           # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
           # is configured.
-          /var/tools/gerrit-initializer/main.py \
+          /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit \
             reindex \

@@ -10,21 +10,38 @@ plugins.
 
 ## Setup and configuration
 
-* install python 3
-* copy tool scripts
+The container image is build in a multistage build.
+
+The build-image:
+* install python 3, pip and pipenv
+* install pyinstaller for python using pipenv
+* freeze the CLI tool
+
+The gerrit-init image:
+* copy CLI-executable from build-image
 
 ## Start
 
-* start the container via start script `/var/tools/gerrit-initializer/main.py init`
+* start the container via start script `./gerrit-initializer init`
 
-The `main.py init`-command
+The `gerrit-initializer init`-command
 
-* reads configuration from gerrit.config (via `gerrit_config_parser.py`)
+* reads configuration from gerrit.config
 * initializes Gerrit
 
-The `main.py validate_notedb`-command
+The `gerrit-initializer validate-notedb`-command
 
 * validates and waits for the repository `All-Projects.git` with the refs
 `refs/meta/config`.
 * validates and waits for the repository `All-Users.git` with the ref
 `refs/meta/config`.
+
+## How to install/update python packages in container
+
+* Python 3.7 is required
+* Install `pipenv`
+* Navigate to `./container-images/gerrit-init/tools`
+* Run `pipenv install <package>`
+
+This will update the `Pipfile` and `Pipfile.lock`, which will be copied into the
+container image, when the container image is built.
