@@ -11,23 +11,30 @@ core plugins.
 
 ## Setup and configuration
 
-* install mysql-client, python 3, pip and pipenv
-* install sqlalchemy and mysql driver for python using pipenv
-* copy tool scripts
+The container image is build in a multistage build.
+
+The build-image:
+* install python 3, pip and pipenv
+* install pyinstaller, sqlalchemy and mysql driver for python using pipenv
+* freeze the CLI tool
+
+The gerrit-init image:
+* install mysql-client
+* copy CLI-executable from build-image
 
 ## Start
 
-* start the container via start script `/var/tools/gerrit-prepper/main.py init`
+* start the container via start script `./gerrit-prepper init`
 
-The `main.py init`-command
+The `gerrit-prepper init`-command
 
-* reads configuration from gerrit.config (via `gerrit_config_parser.py`)
-* waits for the database to start (via `validate_db.py`)
+* reads configuration from gerrit.config
+* waits for the database to start
 * initializes Gerrit
 
-The `main.py validate-db`-command
+The `gerrit-prepper validate-db`-command
 
-* reads database configuration from gerrit.config (via `gerrit_config_parser.py`)
+* reads database configuration from gerrit.config
 * waits for the database to start
 * waits for the reviewdb database
 + waits for some selected tables to ensure that the schema is initialized
