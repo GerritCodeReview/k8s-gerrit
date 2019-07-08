@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ed0135c_79b677a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-08T23:50:11Z",
+      "side": 1,
+      "message": "Add a blank line before the footer.",
+      "revId": "80a772b884363e22c93ec00463c311b0430de595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3c4c1c_1e9bc4d6",
+        "filename": "container-images/gerrit-init/tools/git_config_parser.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-08T23:50:11Z",
+      "side": 1,
+      "message": "Unrelated to this change, but is there any chance that the value is not lower case?  I.e. should there be a call to lower() before the comparison?",
+      "revId": "80a772b884363e22c93ec00463c311b0430de595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
