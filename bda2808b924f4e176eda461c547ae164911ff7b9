@@ -16,6 +16,24 @@
       "revId": "bda2808b924f4e176eda461c547ae164911ff7b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98fe4900_3e4733cb",
+        "filename": "container-images/gerrit-init/tools/validate_db.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-09T07:41:29Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d64445ed_a46d8d16",
+      "revId": "bda2808b924f4e176eda461c547ae164911ff7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
