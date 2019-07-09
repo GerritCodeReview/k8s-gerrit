@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b17aa440_040889fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-09T07:39:51Z",
+      "side": 1,
+      "message": "I agree that this is far too strict and not applicable in a lot of cases. In the only case it came up so far, the refactoring made the code arguably a bit more readable, so I did it. But I would also be in favor to disable this rule as soon as it does not make sense for some code or to increase the allowed number of instance variables by setting `max-attributes\u003d`.",
+      "parentUuid": "e74d5cc3_7d5ed46a",
+      "revId": "faea58fe944a26f065f9defb6040e8c3aafb0682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1753cdba_d63dd148",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "faea58fe944a26f065f9defb6040e8c3aafb0682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f92a138_8bcd7e76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-09T07:39:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1753cdba_d63dd148",
+      "revId": "faea58fe944a26f065f9defb6040e8c3aafb0682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
