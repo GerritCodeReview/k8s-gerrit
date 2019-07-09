@@ -69,6 +69,24 @@
       "revId": "80a772b884363e22c93ec00463c311b0430de595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43c0fe1b_176b9ca7",
+        "filename": "container-images/gerrit-init/tools/git_config_parser.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-09T08:06:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb3b2823_716ff4ae",
+      "revId": "80a772b884363e22c93ec00463c311b0430de595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
