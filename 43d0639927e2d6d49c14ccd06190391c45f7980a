@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "41b3e9a8_dbe0f410",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-09T12:49:40Z",
+      "side": 1,
+      "message": "As discussed, I added a note in the documentation, that online reindexing is not yet supported and will add it in future changes.",
+      "parentUuid": "da42f342_c88f1230",
+      "revId": "43d0639927e2d6d49c14ccd06190391c45f7980a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41caa500_4a5b0ebd",
         "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
         "patchSetId": 22
@@ -33,6 +51,24 @@
       "revId": "43d0639927e2d6d49c14ccd06190391c45f7980a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c3b89bc_110ebb6e",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-09T12:49:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "41caa500_4a5b0ebd",
+      "revId": "43d0639927e2d6d49c14ccd06190391c45f7980a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
