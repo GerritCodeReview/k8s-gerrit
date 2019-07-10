@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1340de4c_b32ae380",
+        "filename": "container-images/apache-git-http-backend/config/envvars",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:13:49Z",
+      "side": 1,
+      "message": "Do we need to support non-ASCII path names, e.g. for branch names ? If yes, we need to set a unicode locale.",
+      "revId": "58e2a0dafdc451f1b5783b96a43d596946784a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9afb42c_040621e8",
+        "filename": "container-images/apache-git-http-backend/config/envvars",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-07-10T18:13:49Z",
+      "side": 1,
+      "message": "LANG is already exported above",
+      "revId": "58e2a0dafdc451f1b5783b96a43d596946784a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
