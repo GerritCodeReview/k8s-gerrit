@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8efb2f0d_4fb3d9b3",
+        "filename": "container-images/apache-git-http-backend/config/envvars",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-11T07:21:42Z",
+      "side": 1,
+      "message": "I copied this file from the current ubuntu-base container and only modified it in some places, e.g. where paths are different in alpine. Thus, so far we were using just the `export LANG` below. I don\u0027t know, if we even use mod_dav. Since this file was created by just installing Apache2 on Ubuntu, this were just the defaults.\n\nIf there were no issues so far for the docker-based setup, I wouldn\u0027t think we need to change that.",
+      "parentUuid": "1340de4c_b32ae380",
+      "revId": "58e2a0dafdc451f1b5783b96a43d596946784a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9afb42c_040621e8",
         "filename": "container-images/apache-git-http-backend/config/envvars",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-07-10T18:13:49Z",
       "side": 1,
       "message": "LANG is already exported above",
+      "revId": "58e2a0dafdc451f1b5783b96a43d596946784a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8666fb46_7b8e3243",
+        "filename": "container-images/apache-git-http-backend/config/envvars",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-11T07:21:42Z",
+      "side": 1,
+      "message": "Removed the export above, since we anyway did not use mod_dav",
+      "parentUuid": "f9afb42c_040621e8",
       "revId": "58e2a0dafdc451f1b5783b96a43d596946784a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
