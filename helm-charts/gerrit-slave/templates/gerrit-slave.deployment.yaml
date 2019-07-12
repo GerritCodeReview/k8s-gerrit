@@ -60,25 +60,6 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-      {{ if not .Values.gerritSlave.initializeTestSite.enabled -}}
-      # Initialize the volume containing the whole Gerrit-site with defaults
-      # Not needed, when running in test mode, since then the configured site will
-      # be initialized
-      - name: populate-gerrit-site-volume
-        image: {{ template "registry" . }}{{ .Values.gerritSlave.images.gerritInit }}:{{ .Values.images.version }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command:
-        - /bin/bash
-        - -ce
-        args:
-        - |
-          /var/tools/gerrit_init.py \
-            -s /var/gerrit \
-            -p singleusergroup
-        volumeMounts:
-        - name: gerrit-site
-          mountPath: "/var/gerrit"
-      {{- end }}
       # Wait for database to be ready and, if configured, run initialization
       # taking the given Gerrit configuration and persisted volumes into account.
       - name: gerrit-init
@@ -97,20 +78,29 @@ spec:
             ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
           }
 
+          symlink_repositories_to_site(){
+            if [ ! -d /var/gerrit/git ]; then
+              ln -sf /var/mnt/git /var/gerrit/
+            fi
+          }
+
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          if [ ! -d /var/gerrit/git ]; then
-            ln -sf /var/mnt/git /var/gerrit/
-          fi
-
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
+          symlink_repositories_to_site
+          {{- end }}
+
           /var/tools/gerrit_init.py \
             -s /var/gerrit \
             -p singleusergroup
 
+          if [ ! -L /var/gerrit/git ]; then
+            rm -rf /var/gerrit/git
+            symlink_repositories_to_site
+          fi
+
           symlink_config_to_site
-          {{- end }}
 
           /var/tools/validate_db.py -s /var/gerrit
         volumeMounts:
