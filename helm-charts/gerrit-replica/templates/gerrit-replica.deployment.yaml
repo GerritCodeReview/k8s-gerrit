@@ -84,7 +84,7 @@ spec:
         - |
           symlink_config_to_site(){
             {{ if .Values.gerritReplica.keystore -}}
-            ln -s /var/config/keystore /var/gerrit/etc/keystore
+            ln -sf /var/config/keystore /var/gerrit/etc/keystore
             {{- end }}
             ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
             ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
