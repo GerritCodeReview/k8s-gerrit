@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "875da940_d85e66be",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-07-18T11:04:22Z",
+      "side": 1,
+      "message": "sent",
+      "range": {
+        "startLine": 164,
+        "startChar": 101,
+        "endLine": 164,
+        "endChar": 105
+      },
+      "revId": "bce328611f30b1eb58f860df9611b4092d8f12bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
