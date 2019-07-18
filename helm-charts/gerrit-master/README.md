@@ -144,30 +144,38 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to Gerrit is required!
 ***
 
-| Parameter                                    | Description                                                                                     | Default                           |
-|----------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritMaster.images.gerritInit`             | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-init`          |
-| `gerritMaster.images.gerritMaster`           | Image name of the Gerrit master container image                                                 | `k8s-gerrit/gerrit-master`        |
-| `gerritMaster.replicas`                      | Number of replica pods to deploy                                                                | `1`                               |
-| `gerritMaster.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number              | `25%`                             |
-| `gerritMaster.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                           | `100%`                            |
-| `gerritMaster.resources`                     | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                 |
-|                                              |                                                                                                 | `requests.memory: 5Gi`            |
-|                                              |                                                                                                 | `limits.cpu: 1`                   |
-|                                              |                                                                                                 | `limits.memory: 6Gi`              |
-| `gerritMaster.persistence.enabled`           | Whether to persist the Gerrit site                                                              | `true`                            |
-| `gerritMaster.persistence.size`              | Storage size for persisted Gerrit site                                                          | `10Gi`                            |
-| `gerritMaster.service.type`                  | Which kind of Service to deploy                                                                 | `NodePort`                        |
-| `gerritMaster.service.http.port`             | Port over which to expose HTTP                                                                  | `80`                              |
-| `gerritMaster.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
-| `gerritMaster.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                          | `nil`                             |
-| `gerritMaster.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                | `false`                           |
-| `gerritMaster.ingress.tls.cert`              | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`     |
-| `gerritMaster.ingress.tls.key`               | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
-| `gerritMaster.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                             |
-| `gerritMaster.config.gerrit`                 | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)  |
-| `gerritMaster.config.secure`                 | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)  |
-| `gerritMaster.config.replication`            | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)  |
+| Parameter                                                     | Description                                                                                     | Default                                  |
+|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------|------------------------------------------|
+| `gerritMaster.images.gerritInit`                              | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-init`                 |
+| `gerritMaster.images.gerritMaster`                            | Image name of the Gerrit master container image                                                 | `k8s-gerrit/gerrit-master`               |
+| `gerritMaster.replicas`                                       | Number of replica pods to deploy                                                                | `1`                                      |
+| `gerritMaster.maxSurge`                                       | Max. percentage or number of pods allowed to be scheduled above the desired number              | `25%`                                    |
+| `gerritMaster.maxUnavailable`                                 | Max. percentage or number of pods allowed to be unavailable at a time                           | `100%`                                   |
+| `gerritMaster.resources`                                      | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                        |
+|                                                               |                                                                                                 | `requests.memory: 5Gi`                   |
+|                                                               |                                                                                                 | `limits.cpu: 1`                          |
+|                                                               |                                                                                                 | `limits.memory: 6Gi`                     |
+| `gerritMaster.persistence.enabled`                            | Whether to persist the Gerrit site                                                              | `true`                                   |
+| `gerritMaster.persistence.size`                               | Storage size for persisted Gerrit site                                                          | `10Gi`                                   |
+| `gerritMaster.sidecars.fluentbit.enabled`                     | Whether to install a fluentbit sidecar container for log collection                             | `false`                                  |
+| `gerritMaster.sidecars.fluentbit.image`                       | Container image for fluent bit                                                                  | `fluent/fluent-bit`                      |
+| `gerritMaster.sidecars.fluentbit.tag`                         | Tag of the container image                                                                      | `1.2.1`                                  |
+| `gerritMaster.sidecars.fluentbit.resources`                   | Configure the amount of resources the container requests/is allowed                             | `limits.cpu: 100m; limits.memory: 200Mi` |
+| `gerritMaster.sidecars.fluentbit.output.type`                 | To which resource the logs will be send (currently only `elasticsearch` is supported)           | `elasticsearch`                          |
+| `gerritMaster.sidecars.fluentbit.output.elasticsearch.host`   | Hostname of the ElasticSearch-cluster                                                           | `elasticsearch.svc.cluster.local`        |
+| `gerritMaster.sidecars.fluentbit.output.elasticsearch.port`   | Port of the ElasticSearch-cluster                                                               | `9200`                                   |
+| `gerritMaster.sidecars.fluentbit.output.elasticsearch.prefix` | Prefix of the index that will be created                                                        | `gerrit-master`                          |
+| `gerritMaster.service.type`                                   | Which kind of Service to deploy                                                                 | `NodePort`                               |
+| `gerritMaster.service.http.port`                              | Port over which to expose HTTP                                                                  | `80`                                     |
+| `gerritMaster.ingress.host`                                   | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                                    |
+| `gerritMaster.ingress.additionalAnnotations`                  | Additional annotations for the Ingress                                                          | `nil`                                    |
+| `gerritMaster.ingress.tls.enabled`                            | Whether to enable TLS termination in the Ingress                                                | `false`                                  |
+| `gerritMaster.ingress.tls.cert`                               | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`            |
+| `gerritMaster.ingress.tls.key`                                | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----`        |
+| `gerritMaster.keystore`                                       | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                                    |
+| `gerritMaster.config.gerrit`                                  | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)         |
+| `gerritMaster.config.secure`                                  | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)         |
+| `gerritMaster.config.replication`                             | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)         |
 
 ### Gerrit config files
 

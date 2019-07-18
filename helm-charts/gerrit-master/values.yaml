@@ -92,6 +92,22 @@ gerritMaster:
     enabled: true
     size: 10Gi
 
+  sidecars:
+    fluentbit:
+      enabled: false
+      image: fluent/fluent-bit
+      tag: 1.2.1
+      resources:
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      output:
+        type: elasticsearch
+        elasticsearch:
+          host: elasticsearch.svc.cluster.local
+          port: 9200
+          prefix: gerrit-master
+
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 5
