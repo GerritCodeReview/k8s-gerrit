@@ -12,3 +12,41 @@ data:
 {{ .Values.gerritMaster.config.gerrit | indent 4 }}
   replication.config: |-
 {{ .Values.gerritMaster.config.replication | indent 4 }}
+---
+{{- if .Values.gerritMaster.sidecars.fluentbit.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-master-fluentd-config
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+{{- with .Values.gerritMaster.sidecars.fluentbit }}
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+      Flush           1
+      Daemon          Off
+      Parsers_File    parsers.conf
+
+    [INPUT]
+      Name            tail
+      Path            /var/gerrit/logs/*_log
+      Tag             gerrit-error.*
+      Mem_Buf_Limit   5MB
+
+    {{- if eq .output.type "elasticsearch" }}
+    [OUTPUT]
+      Name              es
+      Match             *
+      Host              {{ .output.elasticsearch.host }}
+      Port              {{ .output.elasticsearch.port }}
+      Logstash_Format   On
+      Logstash_Prefix   {{ .output.elasticsearch.prefix }}
+      Type              flb_type
+      Retry_Limit       False
+    {{- end }}
+{{- end }}
+{{- end }}

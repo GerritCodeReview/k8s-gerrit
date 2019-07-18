@@ -138,6 +138,19 @@ spec:
             path: /config/server/version
             port: gerrit-port
 {{ toYaml .Values.gerritMaster.readinessProbe | indent 10 }}
+      {{- if .Values.gerritMaster.sidecars.fluentbit.enabled }}
+      - name: fluentbit-sidecar
+        image: {{ .Values.gerritMaster.sidecars.fluentbit.image }}:{{ .Values.gerritMaster.sidecars.fluentbit.tag }}
+        volumeMounts:
+        - name: gerrit-site
+          readOnly: true
+          mountPath: /var/gerrit
+        - name: fluentbit-config
+          mountPath: /fluent-bit/etc/fluent-bit.conf
+          subPath: fluent-bit.conf
+        resources:
+{{ toYaml .Values.gerritMaster.sidecars.fluentbit.resources | indent 10 }}
+      {{- end }}
       volumes:
       {{ if not .Values.gerritMaster.persistence.enabled -}}
       - name: gerrit-site
@@ -156,6 +169,11 @@ spec:
       - name: gerrit-master-secure-config
         secret:
           secretName: {{ .Release.Name }}-gerrit-master-secure-config
+      {{- if .Values.gerritMaster.sidecars.fluentbit.enabled }}
+      - name: fluentbit-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-master-fluentd-config
+      {{- end }}
   volumeClaimTemplates:
   {{ if .Values.gerritMaster.persistence.enabled -}}
   - metadata:
