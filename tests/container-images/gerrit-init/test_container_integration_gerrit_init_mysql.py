@@ -198,9 +198,10 @@ class TestGerritInitMySQLForSlave:
       self, container_run_gerrit_init_manual, mysql_container):
     container_run, _ = container_run_gerrit_init_manual
 
-    exit_code, _ = container_run.exec_run(
+    exit_code, output = container_run.exec_run(
       "/var/tools/validate_db.py -s /var/gerrit"
     )
+    print(output)
 
     assert exit_code == 0
 

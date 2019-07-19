@@ -139,9 +139,9 @@ gerritMaster:
     - replication
     - reviewnotes
     other:
-    - name: delete-project
-      url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-2.16/job/plugin-delete-project-bazel-stable-2.16/lastSuccessfulBuild/artifact/bazel-genfiles/plugins/delete-project/delete-project.jar
-      sha256:
+    # - name: delete-project
+    #   url: https://example.com/gerrit-plugins/delete-project.jar
+    #   sha256:
 
 
   config:
