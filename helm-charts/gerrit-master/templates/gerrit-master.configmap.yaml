@@ -8,10 +8,10 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 data:
-  gerrit.config: |-
-{{ .Values.gerritMaster.config.gerrit | indent 4 }}
-  replication.config: |-
-{{ .Values.gerritMaster.config.replication | indent 4 }}
+  {{- range $key, $value := .Values.gerritMaster.etc.config }}
+  {{ $key }}:
+{{ toYaml $value | indent 4 }}
+  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap
