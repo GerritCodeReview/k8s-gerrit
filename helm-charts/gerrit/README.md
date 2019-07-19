@@ -146,47 +146,49 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to Gerrit is required!
 ***
 
-| Parameter                              | Description                                                                                     | Default                                                                                  |
-|----------------------------------------|-------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| `gerrit.images.gerritInit`             | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-init`                                                                 |
-| `gerrit.images.gerrit`                 | Image name of the Gerrit container image                                                        | `k8s-gerrit/gerrit`                                                                      |
-| `gerrit.replicas`                      | Number of replica pods to deploy                                                                | `1`                                                                                      |
-| `gerrit.updatePartition`               | Number of pods to update simultaneously                                                         | `1`                                                                                      |
-| `gerrit.resources`                     | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                                                                        |
-|                                        |                                                                                                 | `requests.memory: 5Gi`                                                                   |
-|                                        |                                                                                                 | `limits.cpu: 1`                                                                          |
-|                                        |                                                                                                 | `limits.memory: 6Gi`                                                                     |
-| `gerrit.persistence.enabled`           | Whether to persist the Gerrit site                                                              | `true`                                                                                   |
-| `gerrit.persistence.size`              | Storage size for persisted Gerrit site                                                          | `10Gi`                                                                                   |
-| `gerrit.service.type`                  | Which kind of Service to deploy                                                                 | `NodePort`                                                                               |
-| `gerrit.service.http.port`             | Port over which to expose HTTP                                                                  | `80`                                                                                     |
-| `gerrit.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                                                                                    |
-| `gerrit.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                          | `nil`                                                                                    |
-| `gerrit.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                | `false`                                                                                  |
-| `gerrit.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                                  | `true`                                                                                   |
-| `gerrit.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                                    | `nil`                                                                                    |
-| `gerrit.ingress.tls.secret.cert`       | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`                                                            |
-| `gerrit.ingress.tls.secret.key`        | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----`                                                        |
-| `gerrit.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                                                                                    |
-| `gerrit.plugins.packaged`              | List of Gerrit plugins that are packaged into the Gerrit-war-file to install                    | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
-| `gerrit.plugins.downloaded`            | List of Gerrit plugins that will be downloaded                                                  | `nil`                                                                                    |
-| `gerrit.plugins.downloaded[0].name`    | Name of plugin                                                                                  | `nil`                                                                                    |
-| `gerrit.plugins.downloaded[0].url`     | Download url of plugin                                                                          | `nil`                                                                                    |
-| `gerrit.plugins.downloaded[0].sha1`    | SHA1 sum of plugin jar used to ensure file integrity and version (optional)                     | `nil`                                                                                    |
-| `gerrit.plugins.cache.enabled`         | Whether to cache downloaded plugins                                                             | `false`                                                                                  |
-| `gerrit.plugins.cache.size`            | Size of the volume used to store cached plugins                                                 | `1Gi`                                                                                    |
-| `gerrit.config.gerrit`                 | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)                                                         |
-| `gerrit.config.secure`                 | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)                                                         |
-| `gerrit.config.replication`            | The contents of the replication.config                                                          | [see here](#Gerrit-config-files)                                                         |
+| Parameter                              | Description                                                                                         | Default                                                                                  |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| `gerrit.images.gerritInit`             | Image name of the Gerrit init container image                                                       | `k8s-gerrit/gerrit-init`                                                                 |
+| `gerrit.images.gerrit`                 | Image name of the Gerrit container image                                                            | `k8s-gerrit/gerrit`                                                                      |
+| `gerrit.replicas`                      | Number of replica pods to deploy                                                                    | `1`                                                                                      |
+| `gerrit.updatePartition`               | Number of pods to update simultaneously                                                             | `1`                                                                                      |
+| `gerrit.resources`                     | Configure the amount of resources the pod requests/is allowed                                       | `requests.cpu: 1`                                                                        |
+|                                        |                                                                                                     | `requests.memory: 5Gi`                                                                   |
+|                                        |                                                                                                     | `limits.cpu: 1`                                                                          |
+|                                        |                                                                                                     | `limits.memory: 6Gi`                                                                     |
+| `gerrit.persistence.enabled`           | Whether to persist the Gerrit site                                                                  | `true`                                                                                   |
+| `gerrit.persistence.size`              | Storage size for persisted Gerrit site                                                              | `10Gi`                                                                                   |
+| `gerrit.service.type`                  | Which kind of Service to deploy                                                                     | `NodePort`                                                                               |
+| `gerrit.service.http.port`             | Port over which to expose HTTP                                                                      | `80`                                                                                     |
+| `gerrit.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                   | `nil`                                                                                    |
+| `gerrit.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                              | `nil`                                                                                    |
+| `gerrit.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                    | `false`                                                                                  |
+| `gerrit.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                                      | `true`                                                                                   |
+| `gerrit.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                                        | `nil`                                                                                    |
+| `gerrit.ingress.tls.secret.cert`       | Public SSL server certificate                                                                       | `-----BEGIN CERTIFICATE-----`                                                            |
+| `gerrit.ingress.tls.secret.key`        | Private SSL server certificate                                                                      | `-----BEGIN RSA PRIVATE KEY-----`                                                        |
+| `gerrit.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL     | `nil`                                                                                    |
+| `gerrit.plugins.packaged`              | List of Gerrit plugins that are packaged into the Gerrit-war-file to install                        | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
+| `gerrit.plugins.downloaded`            | List of Gerrit plugins that will be downloaded                                                      | `nil`                                                                                    |
+| `gerrit.plugins.downloaded[0].name`    | Name of plugin                                                                                      | `nil`                                                                                    |
+| `gerrit.plugins.downloaded[0].url`     | Download url of plugin                                                                              | `nil`                                                                                    |
+| `gerrit.plugins.downloaded[0].sha1`    | SHA1 sum of plugin jar used to ensure file integrity and version (optional)                         | `nil`                                                                                    |
+| `gerrit.plugins.cache.enabled`         | Whether to cache downloaded plugins                                                                 | `false`                                                                                  |
+| `gerrit.plugins.cache.size`            | Size of the volume used to store cached plugins                                                     | `1Gi`                                                                                    |
+| `gerrit.etc.config`                    | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files)          |
+| `gerrit.etc.secret`                    | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret    | `{secure.config: ...}` [see here](#Gerrit-config-files)                                  |
 
 ### Gerrit config files
 
-The gerrit chart provides a ConfigMap containing the `gerrit.config` as well
-as `replication.config` and a Secret containing the `secure.config` to configure
-the Gerrit installation in the Gerrit component. The content of the config files
-can be set in the `values.yaml` under the keys `gerrit.config.gerrit`,
-`gerrit.config.replication` and `gerrit.config.secure` respectively.
-All configuration options are described in detail in the
+The gerrit chart provides a ConfigMap containing the configuration files
+used by Gerrit, e.g. `gerrit.config` and a Secret containing sensitive configuration
+like the `secure.config` to configure the Gerrit installation in the Gerrit
+component. The content of the config files can be set in the `values.yaml` under
+the keys `gerrit.etc.config` and `gerrit.etc.secret` respectively.
+The key has to be the filename (eg. `gerrit.config`) and the file's contents
+the value. This way an arbitrary number of configuration files can be loaded into
+the `$GERRIT_SITE/etc`-directory, e.g. for plugins.
+All configuration options for Gerrit are described in detail in the
 [official documentation of Gerrit](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html).
 Some options however have to be set in a specified way for Gerrit to work as
 intended with the chart:
