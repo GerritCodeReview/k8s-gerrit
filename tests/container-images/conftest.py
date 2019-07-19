@@ -42,7 +42,7 @@ class GerritContainer:
 
     def _define_volume_mounts(self):
         volumes = {
-            v: {"bind": "/var/config/%s" % k, "mode": "rw"}
+            v: {"bind": "/var/mnt/etc/config/%s" % k, "mode": "rw"}
             for (k, v) in self._create_config_files().items()
         }
         volumes[os.path.join(self.tmp_dir, "lib")] = {
