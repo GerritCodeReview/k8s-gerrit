@@ -55,11 +55,9 @@ spec:
         args:
         - |
           symlink_config_to_site(){
-            {{ if .Values.gerritMaster.keystore -}}
-            ln -s /var/config/keystore /var/gerrit/etc/keystore
-            {{- end }}
-            ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-            ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+            for file in /var/mnt/etc/config/* /var/mnt/etc/secret/*; do
+              ln -sf $file /var/gerrit/etc/$(basename $file)
+            done
           }
 
           mkdir -p /var/gerrit/etc
@@ -90,16 +88,9 @@ spec:
         - name: git-filesystem
           mountPath: "/var/mnt/git"
         - name: gerrit-config
-          mountPath: "/var/config/gerrit.config"
-          subPath: gerrit.config
+          mountPath: "/var/mnt/etc/config"
         - name: gerrit-master-secure-config
-          mountPath: "/var/config/secure.config"
-          subPath: secure.config
-        {{ if .Values.gerritMaster.keystore -}}
-        - name: gerrit-master-secure-config
-          mountPath: "/var/config/keystore"
-          subPath: keystore
-        {{- end }}
+          mountPath: "/var/mnt/etc/secret"
       containers:
       - name: gerrit-master
         image: {{ template "registry" . }}{{ .Values.gerritMaster.images.gerritMaster }}:{{ .Values.images.version }}
@@ -113,19 +104,9 @@ spec:
         - name: git-filesystem
           mountPath: "/var/mnt/git"
         - name: gerrit-config
-          mountPath: "/var/config/gerrit.config"
-          subPath: gerrit.config
-        - name: gerrit-config
-          mountPath: "/var/config/replication.config"
-          subPath: replication.config
+          mountPath: "/var/mnt/etc/config"
         - name: gerrit-master-secure-config
-          mountPath: "/var/config/secure.config"
-          subPath: secure.config
-        {{ if .Values.gerritMaster.keystore -}}
-        - name: gerrit-master-secure-config
-          mountPath: "/var/config/keystore"
-          subPath: keystore
-        {{- end }}
+          mountPath: "/var/mnt/etc/secret"
         resources:
 {{ toYaml .Values.gerritMaster.resources | indent 10 }}
         livenessProbe:

@@ -132,73 +132,70 @@ gerritMaster:
   reviewdb:
     enabled: true
 
-  config:
+  etc:
     # Some values are expected to have a specific value for the deployment installed
     # by this chart to work. These are marked with `# FIXED`.
     # Do not change them!
-    gerrit: |-
-      [gerrit]
-        basePath = git # FIXED
-        serverId = gerrit-master-1
-        # The canonical web URL has to be set to the Ingress host, if an Ingress
-        # is used. If a LoadBalancer-service is used, this should be set to the
-        # LoadBalancer's external IP. This can only be done manually after installing
-        # the chart, when you know the external IP the LoadBalancer got from the
-        # cluster.
-        canonicalWebUrl = http://example.com/
-        disableReverseDnsLookup = true
-      [database]
-        type = h2
-      [index]
-        type = LUCENE
-      [auth]
-        type = DEVELOPMENT_BECOME_ANY_ACCOUNT
-      [httpd]
-        # If using an ingress use proxy-http or proxy-https
-        listenUrl = proxy-http://*:8080/
-      [sshd]
-        listenAddress = off
-      [transfer]
-        timeout = 120 s
-      [user]
-        name = Gerrit Code Review
-        email = gerrit@example.com
-        anonymousCoward = Unnamed User
-      [cache]
-        directory = cache
-      [container]
-        user = gerrit # FIXED
-        javaHome = /usr/lib/jvm/java-8-openjdk-amd64 # FIXED
-        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
-        javaOptions = -Xms200m
-        # Has to be lower than 'gerritMaster.resources.limits.memory'. Also
-        # consider memories used by other applications in the container.
-        javaOptions = -Xmx4g
+    config:
+      gerrit.config: |-
+        [gerrit]
+          basePath = git # FIXED
+          serverId = gerrit-master-1
+          # The canonical web URL has to be set to the Ingress host, if an Ingress
+          # is used. If a LoadBalancer-service is used, this should be set to the
+          # LoadBalancer's external IP. This can only be done manually after installing
+          # the chart, when you know the external IP the LoadBalancer got from the
+          # cluster.
+          canonicalWebUrl = http://example.com/
+          disableReverseDnsLookup = true
+        [database]
+          type = h2
+        [index]
+          type = LUCENE
+        [auth]
+          type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+        [httpd]
+          # If using an ingress use proxy-http or proxy-https
+          listenUrl = proxy-http://*:8080/
+        [sshd]
+          listenAddress = off
+        [transfer]
+          timeout = 120 s
+        [user]
+          name = Gerrit Code Review
+          email = gerrit@example.com
+          anonymousCoward = Unnamed User
+        [cache]
+          directory = cache
+        [container]
+          user = gerrit # FIXED
+          javaHome = /usr/lib/jvm/java-8-openjdk-amd64 # FIXED
+          javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
+          javaOptions = -Xms200m
+          # Has to be lower than 'gerritMaster.resources.limits.memory'. Also
+          # consider memories used by other applications in the container.
+          javaOptions = -Xmx4g
 
-    secure: |-
-      # Database credentials should be the same as configured for the database
-      # Gerrit-master chart, if the database was installed using the chart.
-      [database]
-        username = gerrit
-        password = secret
+      replication.config: |-
+        [gerrit]
+          autoReload = false
+          replicateOnStartup = true
+          defaultForceUpdate = true
 
-      # Password for the keystore added as value for 'gerritSlave.keystore'
-      # Only needed, if SSL is enabled.
-      #[httpd]
-      #  sslKeyPassword = gerrit
+        # [remote "slave"]
+        # url = http://gerrit-slave.example.com/git/${name}.git
+        # replicationDelay = 0
+        # timeout = 30
 
-      # Credentials for replication targets
-      # [remote "slave"]
-      # username = git
-      # password = secret
+    secret:
+      secure.config: |-
+        # Password for the keystore added as value for 'gerritSlave.keystore'
+        # Only needed, if SSL is enabled.
+        #[httpd]
+        #  sslKeyPassword = gerrit
 
-    replication: |-
-      [gerrit]
-        autoReload = false
-        replicateOnStartup = true
-        defaultForceUpdate = true
-
-      # [remote "slave"]
-      # url = http://gerrit-slave.example.com/git/${name}.git
-      # replicationDelay = 0
-      # timeout = 30
+        # Credentials for replication targets
+        # [remote "slave"]
+        # username = git
+        # password = secret
+ 
