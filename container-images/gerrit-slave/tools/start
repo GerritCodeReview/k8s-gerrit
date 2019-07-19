@@ -1,20 +1,19 @@
 #!/bin/bash
 
 symlink_config_to_site(){
-  mkdir -p /var/gerrit/etc
-  for file in keystore gerrit.config secure.config; do
-    test -f /var/config/$file && \
-      ln -sf /var/config/$file /var/gerrit/etc/$file
-  done
+    mkdir -p /var/gerrit/etc
+    for file in /var/mnt/etc/config/* /var/mnt/etc/secret/*; do
+        ln -sf $file /var/gerrit/etc/$(basename $file)
+    done
 }
 
 create_missing_repository(){
   test -d $1 || git init --bare $1
 }
 
-# Ensure that configuration provided at /var/config is symlinked to the Gerrit
-# site. This is necessary, because mounting files from secrets/configmaps in
-# Kubernetes make the containing directory read-only.
+# Ensure that configuration provided at /var/mnt/config and /var/mnt/secret
+# is symlinked to the Gerrit site. This is necessary, because mounting files
+# from secrets/configmaps in Kubernetes make the containing directory read-only.
 symlink_config_to_site
 
 create_missing_repository /var/gerrit/git/All-Projects.git
