@@ -21,8 +21,6 @@ import docker
 import git
 import pytest
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'helpers'))
-
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
 DOCKER_ORG = "k8sgerrit"

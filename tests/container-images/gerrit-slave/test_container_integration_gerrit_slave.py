@@ -24,8 +24,6 @@ import git
 import pytest
 import requests
 
-import utils
-
 CONFIG_FILES = ["gerrit.config", "secure.config"]
 
 @pytest.fixture(scope="module")
@@ -101,13 +99,14 @@ class TestGerritSlaveH2:
   def expected_repository(self, request):
     return request.param
 
+  @pytest.mark.timeout(60)
   def test_gerrit_slave_gerrit_starts_up(self, container_run_h2):
     def wait_for_gerrit_start():
       log = container_run_h2.logs().decode("utf-8")
-      return log, re.search(r"Gerrit Code Review .+ ready", log)
+      return re.search(r"Gerrit Code Review .+ ready", log)
 
-    finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
-    assert finished_in_time
+    while not wait_for_gerrit_start():
+      continue
 
   def test_gerrit_slave_custom_gerrit_config_available(
       self, container_run_h2, config_file_to_test):
@@ -135,17 +134,17 @@ class TestGerritSlaveH2:
 
 
 @pytest.mark.slow
+@pytest.mark.timeout(20)
 def test_gerrit_slave_downloads_mysql_driver(container_run_mysql, tmp_dir):
 
   def wait_for_mysql_driver_download():
     _, output = container_run_mysql.exec_run(
       "find /var/gerrit/lib -name 'mysql-connector-java-*.jar'")
     output = output.decode("utf-8").strip()
-    return output, re.match(r"/var/gerrit/lib/mysql-connector-java-.*\.jar", output)
+    return re.match(r"/var/gerrit/lib/mysql-connector-java-.*\.jar", output)
 
-  finished_in_time, _ = utils.exec_fn_with_timeout(
-    wait_for_mysql_driver_download, 20)
-  assert finished_in_time
+  while not wait_for_mysql_driver_download():
+    continue
 
   driver_path_pattern = os.path.join(tmp_dir, "lib", "mysql-connector-java-*.jar")
   lib_files = [f for f in glob(driver_path_pattern) if os.path.isfile(f)]

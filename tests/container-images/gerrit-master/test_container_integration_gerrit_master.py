@@ -16,11 +16,10 @@
 
 import os.path
 import re
+import time
 
 import pytest
 import requests
-
-import utils
 
 CONFIG_FILES = ["gerrit.config", "secure.config", "replication.config"]
 
@@ -78,13 +77,15 @@ def config_file_to_test(request):
 @pytest.mark.slow
 @pytest.mark.incremental
 class TestGerritMasterStartScript:
+
+  @pytest.mark.timeout(60)
   def test_gerrit_master_gerrit_starts_up(self, container_run):
     def wait_for_gerrit_start():
       log = container_run.logs().decode("utf-8")
-      return log, re.search(r"Gerrit Code Review .+ ready", log)
+      return re.search(r"Gerrit Code Review .+ ready", log)
 
-    finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
-    assert finished_in_time
+    while not wait_for_gerrit_start:
+      continue
 
   def test_gerrit_master_custom_gerrit_config_available(
       self, container_run, config_file_to_test):
@@ -94,7 +95,15 @@ class TestGerritMasterStartScript:
     assert exit_code == 0
     assert output == "True"
 
+  @pytest.mark.timeout(60)
   def test_gerrit_master_httpd_is_responding(self, container_run):
-    response = requests.get("http://localhost:8081")
+    status = None
+    while not status == 200:
+      try:
+        response = requests.get("http://localhost:8081")
+        status = response.status_code
+      except requests.exceptions.ConnectionError:
+        time.sleep(1)
+
     assert response.status_code == 200
     assert re.search(r'content="Gerrit Code Review"', response.text)
