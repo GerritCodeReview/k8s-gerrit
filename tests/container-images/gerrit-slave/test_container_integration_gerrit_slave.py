@@ -22,8 +22,6 @@ import git
 import pytest
 import requests
 
-import utils
-
 CONFIG_FILES = ["gerrit.config", "secure.config"]
 
 
@@ -82,13 +80,14 @@ class TestGerritSlave:
     def expected_repository(self, request):
         return request.param
 
+    @pytest.mark.timeout(60)
     def test_gerrit_slave_gerrit_starts_up(self, container_run):
         def wait_for_gerrit_start():
             log = container_run.logs().decode("utf-8")
-            return log, re.search(r"Gerrit Code Review .+ ready", log)
+            return re.search(r"Gerrit Code Review .+ ready", log)
 
-        finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
-        assert finished_in_time
+        while not wait_for_gerrit_start():
+            continue
 
     def test_gerrit_slave_custom_gerrit_config_available(
         self, container_run, config_file_to_test

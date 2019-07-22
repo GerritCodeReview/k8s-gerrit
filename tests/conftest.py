@@ -15,13 +15,10 @@
 # limitations under the License.
 
 import os
-import sys
 
 import docker
 import git
 import pytest
-
-sys.path.append(os.path.join(os.path.dirname(__file__), "helpers"))
 
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
