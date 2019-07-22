@@ -14,7 +14,6 @@
 
 import os.path
 import re
-import time
 
 import pytest
 
@@ -103,37 +102,35 @@ def containers(mysql_container, init_container):
 @pytest.mark.slow
 @pytest.mark.incremental
 class TestMysqlInitScript:
+    @pytest.mark.timeout(20)
     def test_mysql_replication_init_waiting_for_dump(self, containers):
         (_, init_container) = containers
-        timeout = time.time() + 20
-        while time.time() < timeout:
+        is_waiting = False
+        while not is_waiting:
             last_log_line = init_container.logs(tail=1).decode("utf-8").strip()
-            if (
+            is_waiting = (
                 last_log_line
                 == "Waiting for database dump file at /var/data/db/master_dump.sql"
-            ):
-                break
-        assert timeout > time.time()
+            )
+        assert is_waiting
 
+    @pytest.mark.timeout(20)
     def test_mysql_replication_init_accepts_dump(self, containers, mock_dump):
         (_, init_container) = containers
         cmd = "/bin/bash -c \"echo '%s' > /var/data/db/master_dump.sql\"" % mock_dump
         init_container.exec_run(cmd)
-        timeout = time.time() + 20
-        while time.time() < timeout:
+        accepted_dump = False
+        while not accepted_dump:
             logs = init_container.logs().decode("utf-8")
             if re.search(r"Database dump received", logs):
-                break
-        assert timeout > time.time()
+                accepted_dump = True
+        assert accepted_dump
 
+    @pytest.mark.timeout(20)
     def test_mysql_replication_init_finishes(self, containers):
         (_, init_container) = containers
-        timeout = time.time() + 20
-        while time.time() < timeout:
+        while not init_container.status == "exited":
             init_container.reload()
-            if init_container.status == "exited":
-                break
-        assert timeout > time.time()
         assert init_container.attrs["State"]["ExitCode"] == 0
 
     def test_mysql_replication_init_applies_dump(self, containers):

@@ -20,8 +20,6 @@ from docker.errors import NotFound
 
 import pytest
 
-import utils
-
 
 @pytest.fixture(scope="class")
 def container_run_default(request, docker_client, gerrit_init_image, tmp_path_factory):
@@ -64,24 +62,27 @@ def container_run_endless(docker_client, gerrit_init_image, tmp_path_factory):
 
 @pytest.mark.incremental
 class TestGerritInitEmptySite:
+    @pytest.mark.timeout(60)
     def test_gerrit_init_gerrit_is_initialized(self, container_run_default):
         def wait_for_init_success_message():
             log = container_run_default.logs().decode("utf-8")
             return log, re.search(r"Initialized /var/gerrit", log)
 
-        finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_init_success_message)
-        assert finished_in_time
+        while not wait_for_init_success_message():
+            continue
 
+    @pytest.mark.timeout(60)
     def test_gerrit_init_exits_after_init(self, container_run_default):
         def wait_for_container_exit():
             try:
                 container_run_default.reload()
-                return None, False
+                return False
             except NotFound:
-                return None, True
+                return True
 
-        finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_container_exit)
-        assert finished_in_time
+        while not wait_for_container_exit():
+            continue
+
         assert container_run_default.attrs["State"]["ExitCode"] == 0
 
 
