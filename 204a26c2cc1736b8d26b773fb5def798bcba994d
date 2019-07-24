@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f96a0eb6_9d18d262",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_h2.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-24T16:21:26Z",
+      "side": 1,
+      "message": "Should be fixed first.",
+      "revId": "204a26c2cc1736b8d26b773fb5def798bcba994d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
