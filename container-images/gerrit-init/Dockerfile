@@ -5,7 +5,7 @@ USER root
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-COPY tools/* /var/tools/
+COPY dependencies/* /var/tools/
 WORKDIR /var/tools
 
 RUN apt-get update && \
@@ -17,6 +17,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install pipenv && \
     pipenv install --system
+
+COPY tools/* /var/tools/
 
 USER gerrit
 
