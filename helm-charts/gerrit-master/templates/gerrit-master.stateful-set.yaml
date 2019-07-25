@@ -73,11 +73,7 @@ spec:
           fi
 
           /var/tools/gerrit_init.py \
-            {{- range .Values.gerritMaster.plugins.packaged }}
-            {{- if . }}
-            -p {{ . }} \
-            {{- end }}
-            {{- end }}
+            -c /var/config/gerrit-init.yaml \
             -s /var/gerrit
 
           symlink_config_to_site
@@ -86,6 +82,9 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        - name: gerrit-init-config
+          mountPath: "/var/config/gerrit-init.yaml"
+          subPath: gerrit-init.yaml
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -147,6 +146,9 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-filesystem-pvc
           {{- end }}
+      - name: gerrit-init-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-init-configmap
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-master-configmap
