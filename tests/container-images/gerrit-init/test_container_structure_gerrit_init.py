@@ -26,7 +26,11 @@ def container_run(docker_client, container_endless_run_factory, gerrit_init_imag
 
 @pytest.fixture(
     scope="function",
-    params=["/var/tools/gerrit_init.py", "/var/tools/git_config_parser.py"],
+    params=[
+        "/var/tools/gerrit_init.py",
+        "/var/tools/git_config_parser.py",
+        "/var/tools/init_config.py",
+    ],
 )
 def expected_script(request):
     return request.param
@@ -34,6 +38,11 @@ def expected_script(request):
 
 @pytest.fixture(scope="function", params=["python3"])
 def expected_tool(request):
+    return request.param
+
+
+@pytest.fixture(scope="function", params=["pyyaml"])
+def expected_pip_package(request):
     return request.param
 
 

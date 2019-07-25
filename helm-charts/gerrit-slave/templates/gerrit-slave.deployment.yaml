@@ -58,14 +58,17 @@ spec:
         args:
         - |
           /var/tools/gerrit_init.py \
-            -s /var/gerrit \
-            -p singleusergroup
+            -c /var/config/gerrit-init.yaml \
+            -s /var/gerrit
 
           # The git repositories will be mounted from a volume
           [ -L /var/gerrit/git ] || rm -rf /var/gerrit/git
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
+        - name: gerrit-init-config
+          mountPath: "/var/config/gerrit-init.yaml"
+          subPath: gerrit-init.yaml
       {{- end }}
       # If configured, run initialization taking the given Gerrit configuration
       # and persisted volumes into account.
@@ -94,8 +97,8 @@ spec:
 
           {{ if .Values.gerritSlave.initializeTestSite.enabled -}}
           /var/tools/gerrit_init.py \
-            -s /var/gerrit \
-            -p singleusergroup
+            -c /var/config/gerrit-init.yaml \
+            -s /var/gerrit
 
           symlink_config_to_site
           {{- end }}
@@ -106,6 +109,9 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        - name: gerrit-init-config
+          mountPath: "/var/config/gerrit-init.yaml"
+          subPath: gerrit-init.yaml
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
@@ -152,6 +158,9 @@ spec:
       - name: git-filesystem
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-git-filesystem-pvc
+      - name: gerrit-init-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-init-configmap
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-slave-configmap
