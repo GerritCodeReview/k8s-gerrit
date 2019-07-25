@@ -10,3 +10,18 @@ metadata:
 data:
   gerrit.config: |-
 {{ .Values.gerritSlave.config.gerrit | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-init-configmap
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit-init.yaml: |-
+    enableReviewDB: True
+    packagedPlugins:
+      - singleusergroup

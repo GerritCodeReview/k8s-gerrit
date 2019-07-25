@@ -19,7 +19,9 @@ RUN apt-get update && \
     pipenv install --system
 
 COPY tools/* /var/tools/
+COPY config/* /var/config/
 
 USER gerrit
 
 ENTRYPOINT ["/var/tools/gerrit_init.py", "-s", "/var/gerrit"]
+CMD ["-c", "/var/config/default.config.yaml"]
