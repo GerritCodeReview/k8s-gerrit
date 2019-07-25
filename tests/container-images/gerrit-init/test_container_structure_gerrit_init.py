@@ -29,6 +29,7 @@ def container_run(docker_client, container_endless_run_factory, gerrit_init_imag
     params=[
         "/var/tools/gerrit_init.py",
         "/var/tools/git_config_parser.py",
+        "/var/tools/init_config.py",
         "/var/tools/validate_db.py",
     ],
 )
@@ -41,7 +42,7 @@ def expected_tool(request):
     return request.param
 
 
-@pytest.fixture(scope="function", params=["pymysql", "sqlalchemy"])
+@pytest.fixture(scope="function", params=["pymysql", "pyyaml", "sqlalchemy"])
 def expected_pip_package(request):
     return request.param
 

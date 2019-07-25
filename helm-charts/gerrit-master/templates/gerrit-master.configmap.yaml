@@ -12,3 +12,20 @@ data:
 {{ .Values.gerritMaster.config.gerrit | indent 4 }}
   replication.config: |-
 {{ .Values.gerritMaster.config.replication | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-init-configmap
+  labels:
+    app: gerrit-master
+    chart: {{ template "gerrit-master.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit-init.yaml: |-
+    enableReviewDB: {{ .Values.gerritMaster.reviewdb.enabled }}
+    {{- if .Values.gerritMaster.plugins.packaged }}
+    packagedPlugins:
+{{ toYaml .Values.gerritMaster.plugins.packaged | indent 6}}
+    {{- end }}

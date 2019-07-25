@@ -204,7 +204,9 @@ class TestGerritInitMySQLForSlave:
         container_run.exec_run(
             "git config -f /var/gerrit/etc/gerrit.config container.slave true"
         )
-        container_run.exec_run("/var/tools/gerrit_init.py -s /var/gerrit")
+        container_run.exec_run(
+            "/var/tools/gerrit_init.py -s /var/gerrit -c /var/config/default.config.yaml"
+        )
 
         assert os.path.exists(os.path.join(site_path, "bin", "gerrit.sh"))
 
