@@ -14,34 +14,35 @@
 
 from OpenSSL import crypto
 
+
 class MockSSLKeyPair:
+    def __init__(self, common_name, subject_alt_name):
+        self.common_name = common_name
+        self.subject_alt_name = subject_alt_name
+        self.cert = None
+        self.key = None
 
-  def __init__(self, common_name, subject_alt_name):
-    self.common_name = common_name
-    self.subject_alt_name = subject_alt_name
-    self.cert = None
-    self.key = None
+        self._create_keypair()
 
-    self._create_keypair()
+    def _create_keypair(self):
+        self.key = crypto.PKey()
+        self.key.generate_key(crypto.TYPE_RSA, 2048)
 
-  def _create_keypair(self):
-    self.key = crypto.PKey()
-    self.key.generate_key(crypto.TYPE_RSA, 2048)
+        self.cert = crypto.X509()
+        self.cert.get_subject().O = "Gerrit"
+        self.cert.get_subject().CN = self.common_name
+        san = "DNS:%s" % self.subject_alt_name
+        self.cert.add_extensions(
+            [crypto.X509Extension(b"subjectAltName", False, san.encode())]
+        )
+        self.cert.gmtime_adj_notBefore(0)
+        self.cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
+        self.cert.set_issuer(self.cert.get_subject())
+        self.cert.set_pubkey(self.key)
+        self.cert.sign(self.key, "sha1")
 
-    self.cert = crypto.X509()
-    self.cert.get_subject().O = "Gerrit"
-    self.cert.get_subject().CN = self.common_name
-    san = "DNS:%s" % self.subject_alt_name
-    self.cert.add_extensions(
-      [crypto.X509Extension(b"subjectAltName", False, san.encode())])
-    self.cert.gmtime_adj_notBefore(0)
-    self.cert.gmtime_adj_notAfter(10*365*24*60*60)
-    self.cert.set_issuer(self.cert.get_subject())
-    self.cert.set_pubkey(self.key)
-    self.cert.sign(self.key, "sha1")
+    def get_key(self):
+        return crypto.dump_privatekey(crypto.FILETYPE_PEM, self.key)
 
-  def get_key(self):
-    return crypto.dump_privatekey(crypto.FILETYPE_PEM, self.key)
-
-  def get_cert(self):
-    return crypto.dump_certificate(crypto.FILETYPE_PEM, self.cert)
+    def get_cert(self):
+        return crypto.dump_certificate(crypto.FILETYPE_PEM, self.cert)

@@ -25,91 +25,92 @@ import pytest
 
 import mock_ssl
 
+
 @pytest.fixture(scope="module")
 def container_run_factory(
-    docker_client, apache_git_http_backend_image, apache_credentials_dir):
+    docker_client, apache_git_http_backend_image, apache_credentials_dir
+):
+    def run_container(env=None):
+        return docker_client.containers.run(
+            image=apache_git_http_backend_image.id,
+            ports={"80": "8080", "443": "8443"},
+            volumes={
+                str(apache_credentials_dir): {
+                    "bind": "/var/apache/credentials",
+                    "mode": "ro",
+                }
+            },
+            environment=env,
+            detach=True,
+            auto_remove=True,
+        )
 
-  def run_container(env=None):
-    return docker_client.containers.run(
-      image=apache_git_http_backend_image.id,
-      ports={
-        "80":"8080",
-        "443":"8443"
-      },
-      volumes={
-        str(apache_credentials_dir): {
-          "bind": "/var/apache/credentials",
-          "mode": "ro"}
-      },
-      environment=env,
-      detach=True,
-      auto_remove=True
-    )
+    return run_container
 
-  return run_container
 
 @pytest.fixture(scope="module")
 def container_run(request, container_run_factory):
-  container_run = container_run_factory()
-  time.sleep(3)
+    container_run = container_run_factory()
+    time.sleep(3)
 
-  def stop_container():
-    container_run.stop(timeout=1)
+    def stop_container():
+        container_run.stop(timeout=1)
 
-  request.addfinalizer(stop_container)
-  return container_run
+    request.addfinalizer(stop_container)
+    return container_run
+
 
 @pytest.fixture(scope="module")
 def basic_auth_creds():
-  return {
-    "user": "git",
-    "password": "secret"
-  }
+    return {"user": "git", "password": "secret"}
+
 
 @pytest.fixture(scope="module")
 def credentials_dir(tmp_path_factory):
-  return tmp_path_factory.mktemp("apache_creds")
+    return tmp_path_factory.mktemp("apache_creds")
+
 
 @pytest.fixture(scope="module")
 def mock_certificates(credentials_dir):
-  keypair = mock_ssl.MockSSLKeyPair("localhost", "localhost")
+    keypair = mock_ssl.MockSSLKeyPair("localhost", "localhost")
 
-  open(os.path.join(credentials_dir, "server.crt"), "wb").write(
-    keypair.get_cert())
-  open(os.path.join(credentials_dir, "server.key"), "wb").write(
-    keypair.get_key())
+    open(os.path.join(credentials_dir, "server.crt"), "wb").write(keypair.get_cert())
+    open(os.path.join(credentials_dir, "server.key"), "wb").write(keypair.get_key())
+
 
 @pytest.fixture(scope="module")
 def mock_htpasswd(credentials_dir, basic_auth_creds):
-  htpasswd_file = HtpasswdFile(os.path.join(credentials_dir, ".htpasswd"), new=True)
-  htpasswd_file.set_password(
-    basic_auth_creds["user"],
-    basic_auth_creds["password"])
-  htpasswd_file.save()
+    htpasswd_file = HtpasswdFile(os.path.join(credentials_dir, ".htpasswd"), new=True)
+    htpasswd_file.set_password(basic_auth_creds["user"], basic_auth_creds["password"])
+    htpasswd_file.save()
+
 
 @pytest.fixture(scope="module")
 def apache_credentials_dir(credentials_dir, mock_certificates, mock_htpasswd):
-  return credentials_dir
+    return credentials_dir
+
 
 @pytest.fixture(scope="module", params=["http", "https"])
 def container_connection_data(request):
-  port = 8080 if request.param == "http" else 8443
-  return {
-    "protocol": request.param,
-    "port": port
-  }
+    port = 8080 if request.param == "http" else 8443
+    return {"protocol": request.param, "port": port}
+
 
 @pytest.fixture(scope="module")
 def base_url(container_connection_data):
-  return "{protocol}://localhost:{port}".format(
-    protocol=container_connection_data["protocol"],
-    port=container_connection_data["port"])
+    return "{protocol}://localhost:{port}".format(
+        protocol=container_connection_data["protocol"],
+        port=container_connection_data["port"],
+    )
+
 
 @pytest.fixture(scope="function")
 def random_repo_name():
-  return "".join(
-    [random.choice(string.ascii_letters + string.digits) for n in range(8)])
+    return "".join(
+        [random.choice(string.ascii_letters + string.digits) for n in range(8)]
+    )
+
 
 @pytest.fixture(scope="function")
 def repo_creation_url(base_url, random_repo_name):
-  return "%s/new/%s" % (base_url, random_repo_name)
+    return "%s/new/%s" % (base_url, random_repo_name)

@@ -20,29 +20,33 @@ import git
 import pytest
 import requests
 
+
 @pytest.mark.slow
 @pytest.mark.incremental
 class TestGerritMasterChartSetup:
+    @pytest.mark.timeout(240)
+    def test_create_project_rest(
+        self, request, test_cluster, gerrit_master_h2_ready_deployment
+    ):
+        create_project_url = "http://master.%s/a/projects/test" % (
+            request.config.getoption("--ingress-url")
+        )
+        response = None
 
-  @pytest.mark.timeout(240)
-  def test_create_project_rest(self, request, test_cluster,
-                               gerrit_master_h2_ready_deployment):
-    create_project_url = "http://master.%s/a/projects/test" % (
-      request.config.getoption("--ingress-url"))
-    response = None
+        while not response:
+            try:
+                response = requests.put(create_project_url, auth=("admin", "secret"))
+            except requests.exceptions.ConnectionError:
+                continue
 
-    while not response:
-      try:
-        response = requests.put(create_project_url, auth=('admin', 'secret'))
-      except requests.exceptions.ConnectionError:
-        continue
+        assert response.status_code == 201
 
-    assert response.status_code == 201
-
-  def test_cloning_project(self, request, tmp_path_factory, test_cluster,
-                           gerrit_master_h2_ready_deployment):
-    clone_dest = tmp_path_factory.mktemp("gerrit_master_chart_clone_test")
-    repo_url = "http://master.%s/test.git" % (
-      request.config.getoption("--ingress-url"))
-    repo = git.Repo.clone_from(repo_url, clone_dest)
-    assert repo.git_dir == os.path.join(clone_dest, ".git")
+    def test_cloning_project(
+        self, request, tmp_path_factory, test_cluster, gerrit_master_h2_ready_deployment
+    ):
+        clone_dest = tmp_path_factory.mktemp("gerrit_master_chart_clone_test")
+        repo_url = "http://master.%s/test.git" % (
+            request.config.getoption("--ingress-url")
+        )
+        repo = git.Repo.clone_from(repo_url, clone_dest)
+        assert repo.git_dir == os.path.join(clone_dest, ".git")

@@ -18,11 +18,13 @@ import time
 
 from kubernetes import client
 
+
 class TimeOutException(Exception):
-  """ Exception to be raised, if some action does not finish in time. """
+    """ Exception to be raised, if some action does not finish in time. """
+
 
 def exec_fn_with_timeout(func, limit=60):
-  """Helper function that executes a given function until it returns True or a
+    """Helper function that executes a given function until it returns True or a
      given time limit is reached.
 
   Arguments:
@@ -39,15 +41,16 @@ def exec_fn_with_timeout(func, limit=60):
     any -- Last output of fn
   """
 
-  timeout = time.time() + limit
-  while time.time() < timeout:
-    is_finished = func()
-    if is_finished:
-      return True
-  return False
+    timeout = time.time() + limit
+    while time.time() < timeout:
+        is_finished = func()
+        if is_finished:
+            return True
+    return False
+
 
 def wait_for_pod_readiness(pod_labels, timeout=180):
-  """Helper function that can be used to wait for all pods with a given set of
+    """Helper function that can be used to wait for all pods with a given set of
      labels to be ready.
 
   Arguments:
@@ -61,20 +64,22 @@ def wait_for_pod_readiness(pod_labels, timeout=180):
     boolean -- Whether pods were ready in time.
   """
 
-  def check_pod_readiness():
-    core_v1 = client.CoreV1Api()
-    pod_list = core_v1.list_pod_for_all_namespaces(
-      watch=False, label_selector=pod_labels)
-    for pod in pod_list.items:
-      for condition in pod.status.conditions:
-        if condition.type != "Ready" and condition.status != "True":
-          return False
-    return True
+    def check_pod_readiness():
+        core_v1 = client.CoreV1Api()
+        pod_list = core_v1.list_pod_for_all_namespaces(
+            watch=False, label_selector=pod_labels
+        )
+        for pod in pod_list.items:
+            for condition in pod.status.conditions:
+                if condition.type != "Ready" and condition.status != "True":
+                    return False
+        return True
 
-  return exec_fn_with_timeout(check_pod_readiness, limit=timeout)
+    return exec_fn_with_timeout(check_pod_readiness, limit=timeout)
+
 
 def check_if_ancestor_image_is_inherited(image, ancestor):
-  """Helper function that looks for a given ancestor image in the layers of a
+    """Helper function that looks for a given ancestor image in the layers of a
      provided image. It can be used to check, whether an image uses the expected
      FROM-statement
 
@@ -86,13 +91,13 @@ def check_if_ancestor_image_is_inherited(image, ancestor):
     boolean -- True, if ancestor is inherited by image
   """
 
-  contains_tag = False
-  for layer in image.history():
-    contains_tag = layer['Tags'] is not None and ancestor in layer['Tags']
-    if contains_tag:
-      break
-  return contains_tag
+    contains_tag = False
+    for layer in image.history():
+        contains_tag = layer["Tags"] is not None and ancestor in layer["Tags"]
+        if contains_tag:
+            break
+    return contains_tag
+
 
 def create_random_string(length=8):
-  return "".join(
-    [random.choice(string.ascii_letters) for n in range(length)]).lower()
+    return "".join([random.choice(string.ascii_letters) for n in range(length)]).lower()

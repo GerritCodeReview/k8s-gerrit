@@ -16,18 +16,20 @@
 
 import pytest
 
+
 @pytest.mark.slow
 @pytest.mark.incremental
 class TestGerritMasterChartSetup:
-  def test_deployment(self, test_cluster, gerrit_master_h2_deployment):
-    installed_charts = test_cluster.helm.list()
-    gerrit_master_chart = None
-    for chart in installed_charts:
-      if chart["Name"] == gerrit_master_h2_deployment["name"]:
-        gerrit_master_chart = chart
-    assert gerrit_master_chart is not None
-    assert gerrit_master_chart["Status"] == "DEPLOYED"
+    def test_deployment(self, test_cluster, gerrit_master_h2_deployment):
+        installed_charts = test_cluster.helm.list()
+        gerrit_master_chart = None
+        for chart in installed_charts:
+            if chart["Name"] == gerrit_master_h2_deployment["name"]:
+                gerrit_master_chart = chart
+        assert gerrit_master_chart is not None
+        assert gerrit_master_chart["Status"] == "DEPLOYED"
 
-  def test_gerrit_pod_gets_ready(self, request, test_cluster,
-                                 gerrit_master_h2_ready_deployment):
-    assert gerrit_master_h2_ready_deployment
+    def test_gerrit_pod_gets_ready(
+        self, request, test_cluster, gerrit_master_h2_ready_deployment
+    ):
+        assert gerrit_master_h2_ready_deployment
