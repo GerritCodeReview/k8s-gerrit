@@ -24,14 +24,16 @@ import utils
 
 CONFIG_FILES = ["gerrit.config", "secure.config", "replication.config"]
 
+
 @pytest.fixture(scope="module")
 def config_files(tmp_path_factory):
-  tmp_config_dir = tmp_path_factory.mktemp('gerrit_master_config')
-  configs = {}
-  for config in CONFIG_FILES:
-    gerrit_config_file = os.path.join(tmp_config_dir, config)
-    with open(gerrit_config_file, "w") as config_file:
-      config_file.write("""
+    tmp_config_dir = tmp_path_factory.mktemp("gerrit_master_config")
+    configs = {}
+    for config in CONFIG_FILES:
+        gerrit_config_file = os.path.join(tmp_config_dir, config)
+        with open(gerrit_config_file, "w") as config_file:
+            config_file.write(
+                """
       [gerrit]
         basePath = git
 
@@ -43,58 +45,63 @@ def config_files(tmp_path_factory):
 
       [test]
         success = True
-      """)
-    configs[config] = gerrit_config_file
+      """
+            )
+        configs[config] = gerrit_config_file
 
-  return configs
+    return configs
+
 
 @pytest.fixture(scope="module")
 def container_run(request, docker_client, gerrit_master_image, config_files):
-  container_run = docker_client.containers.run(
-    image=gerrit_master_image.id,
-    user="gerrit",
-    volumes={v: {
-      "bind": "/var/config/%s" % k,
-      "mode": "rw"
-    } for (k, v) in config_files.items()},
-    ports={
-      "8081": "8081"
-    },
-    detach=True,
-    auto_remove=True
-  )
+    container_run = docker_client.containers.run(
+        image=gerrit_master_image.id,
+        user="gerrit",
+        volumes={
+            v: {"bind": "/var/config/%s" % k, "mode": "rw"}
+            for (k, v) in config_files.items()
+        },
+        ports={"8081": "8081"},
+        detach=True,
+        auto_remove=True,
+    )
 
-  def stop_container():
-    container_run.stop(timeout=1)
+    def stop_container():
+        container_run.stop(timeout=1)
 
-  request.addfinalizer(stop_container)
+    request.addfinalizer(stop_container)
 
-  return container_run
+    return container_run
+
 
 @pytest.fixture(params=CONFIG_FILES)
 def config_file_to_test(request):
-  return request.param
+    return request.param
+
 
 @pytest.mark.slow
 @pytest.mark.incremental
 class TestGerritMasterStartScript:
-  def test_gerrit_master_gerrit_starts_up(self, container_run):
-    def wait_for_gerrit_start():
-      log = container_run.logs().decode("utf-8")
-      return log, re.search(r"Gerrit Code Review .+ ready", log)
+    def test_gerrit_master_gerrit_starts_up(self, container_run):
+        def wait_for_gerrit_start():
+            log = container_run.logs().decode("utf-8")
+            return log, re.search(r"Gerrit Code Review .+ ready", log)
 
-    finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
-    assert finished_in_time
+        finished_in_time, _ = utils.exec_fn_with_timeout(wait_for_gerrit_start, 60)
+        assert finished_in_time
 
-  def test_gerrit_master_custom_gerrit_config_available(
-      self, container_run, config_file_to_test):
-    exit_code, output = container_run.exec_run(
-      "git config --file=/var/gerrit/etc/%s --get test.success" % config_file_to_test)
-    output = output.decode("utf-8").strip()
-    assert exit_code == 0
-    assert output == "True"
+    def test_gerrit_master_custom_gerrit_config_available(
+        self, container_run, config_file_to_test
+    ):
+        exit_code, output = container_run.exec_run(
+            "git config --file=/var/gerrit/etc/%s --get test.success"
+            % config_file_to_test
+        )
+        output = output.decode("utf-8").strip()
+        assert exit_code == 0
+        assert output == "True"
 
-  def test_gerrit_master_httpd_is_responding(self, container_run):
-    response = requests.get("http://localhost:8081")
-    assert response.status_code == 200
-    assert re.search(r'content="Gerrit Code Review"', response.text)
+    def test_gerrit_master_httpd_is_responding(self, container_run):
+        response = requests.get("http://localhost:8081")
+        assert response.status_code == 200
+        assert re.search(r'content="Gerrit Code Review"', response.text)

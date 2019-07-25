@@ -14,45 +14,43 @@
 
 import subprocess
 
+
 class GitConfigParser:
+    def __init__(self, config_path):
+        self.path = config_path
 
-  def __init__(self, config_path):
-    self.path = config_path
+    def _execute_shell_command_and_get_output_lines(self, command):
+        sub_process_run = subprocess.run(
+            command.split(), stdout=subprocess.PIPE, check=True, universal_newlines=True
+        )
+        return [line.strip() for line in sub_process_run.stdout.splitlines()]
 
-  def _execute_shell_command_and_get_output_lines(self, command):
-    sub_process_run = subprocess.run(
-      command.split(),
-      stdout=subprocess.PIPE,
-      check=True,
-      universal_newlines=True)
-    return [line.strip() for line in sub_process_run.stdout.splitlines()]
+    def _get_value(self, key):
+        command = "git config -f %s --get %s" % (self.path, key)
+        return self._execute_shell_command_and_get_output_lines(command)
 
-  def _get_value(self, key):
-    command = "git config -f %s --get %s" % (self.path, key)
-    return self._execute_shell_command_and_get_output_lines(command)
-
-  def get(self, key, default=None):
-    """
+    def get(self, key, default=None):
+        """
     Returns value of given key in the configuration file. If the key appears
     multiple times, the last value is returned.
     """
-    try:
-      return self._get_value(key)[-1]
-    except subprocess.CalledProcessError:
-      return default
+        try:
+            return self._get_value(key)[-1]
+        except subprocess.CalledProcessError:
+            return default
 
-  def get_boolean(self, key, default=False):
-    """
+    def get_boolean(self, key, default=False):
+        """
     Returns boolean value of given key in the configuration file. If the key
     appears multiple times, the last value is returned.
     """
-    if not isinstance(default, bool):
-      raise TypeError("Default has to be a boolean.")
+        if not isinstance(default, bool):
+            raise TypeError("Default has to be a boolean.")
 
-    try:
-      value = self._get_value(key)[-1].lower()
-      if value not in ["true", "false"]:
-        raise TypeError("Value is not a boolean.")
-      return value == "true"
-    except subprocess.CalledProcessError:
-      return default
+        try:
+            value = self._get_value(key)[-1].lower()
+            if value not in ["true", "false"]:
+                raise TypeError("Value is not a boolean.")
+            return value == "true"
+        except subprocess.CalledProcessError:
+            return default
