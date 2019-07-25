@@ -20,6 +20,7 @@ import subprocess
 import sys
 
 from git_config_parser import GitConfigParser
+from init_config import InitConfig
 from log import get_logger
 from validate_db import select_db
 
@@ -27,10 +28,9 @@ LOG = get_logger("init")
 
 class GerritInit():
 
-  def __init__(self, site, wanted_plugins, enable_reviewdb):
+  def __init__(self, site, config):
     self.site = site
-    self.wanted_plugins = set(wanted_plugins)
-    self.enable_reviewdb = enable_reviewdb
+    self.config = config
 
     self.gerrit_config = self._parse_gerrit_config()
     self.is_slave = self._is_slave()
@@ -73,7 +73,7 @@ class GerritInit():
     return installed_plugins
 
   def _remove_unwanted_plugins(self):
-    for plugin in self.installed_plugins.difference(self.wanted_plugins):
+    for plugin in self.installed_plugins.difference(self.config.packaged_plugins):
       LOG.info("Removing plugin %s", plugin)
       os.remove(os.path.join(self.site, "plugins", "%s.jar" % plugin))
 
@@ -90,7 +90,7 @@ class GerritInit():
                "Reinitializing site.", installed_version, provided_version)
       return True
 
-    if self.wanted_plugins.difference(self.installed_plugins):
+    if self.config.packaged_plugins.difference(self.installed_plugins):
       LOG.info("Reininitializing site to install additional plugins.")
       return True
 
@@ -105,13 +105,14 @@ class GerritInit():
 
     if self.gerrit_config:
       LOG.info("Existing gerrit.config found.")
-      if self.enable_reviewdb:
+      if self.config.enable_reviewdb:
         self._ensure_database_connection()
     else:
       LOG.info("No gerrit.config found. Initializing default site.")
 
-    if self.wanted_plugins:
-      plugin_options = ' '.join(['--install-plugin %s' % plugin for plugin in self.wanted_plugins])
+    if self.config.packaged_plugins:
+      plugin_options = ' '.join(
+        ['--install-plugin %s' % plugin for plugin in self.config.packaged_plugins if plugin])
     else:
       plugin_options = ''
 
@@ -144,19 +145,15 @@ if __name__ == "__main__":
     default="/var/gerrit",
     required=True)
   parser.add_argument(
-    "-p",
-    "--plugin",
-    help="Gerrit plugin to be installed. Can be used multiple times.",
-    dest="wanted_plugins",
-    action="append",
-    default=list())
-  parser.add_argument(
-    "-d",
-    "--reviewdb",
-    help="Whether a reviewdb is part of the Gerrit installation.",
-    dest="reviewdb",
-    action="store_true")
+    "-c",
+    "--config",
+    help="Path to configuration file for init process.",
+    dest="config",
+    action="store",
+    required=True)
   args = parser.parse_args()
 
-  init = GerritInit(args.site, args.wanted_plugins, args.reviewdb)
+  config = InitConfig().parse(args.config)
+
+  init = GerritInit(args.site, config)
   init.execute()
