@@ -119,6 +119,7 @@ class TestGerritMasterChartPackagedPluginInstall:
         chart = gerrit_master_deployment_with_packaged_plugins
         chart["removed_plugin"] = chart["installed_plugins"].pop()
         plugins_opts_string = "{%s}" % (",".join(chart["installed_plugins"]))
+        plugins_opts_string = plugins_opts_string if plugins_opts_string else "false"
         update_chart(
             test_cluster.helm,
             chart,
