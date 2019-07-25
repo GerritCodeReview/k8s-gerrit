@@ -20,15 +20,16 @@ import subprocess
 import sys
 
 from git_config_parser import GitConfigParser
+from init_config import InitConfig
 from log import get_logger
 
 LOG = get_logger("init")
 
 
 class GerritInit:
-    def __init__(self, site, wanted_plugins):
+    def __init__(self, site, config):
         self.site = site
-        self.wanted_plugins = set(wanted_plugins)
+        self.config = config
 
         self.gerrit_config = self._parse_gerrit_config()
         self.is_slave = self._is_slave()
@@ -65,7 +66,7 @@ class GerritInit:
         return installed_plugins
 
     def _remove_unwanted_plugins(self):
-        for plugin in self.installed_plugins.difference(self.wanted_plugins):
+        for plugin in self.installed_plugins.difference(self.config.packaged_plugins):
             LOG.info("Removing plugin %s", plugin)
             os.remove(os.path.join(self.site, "plugins", "%s.jar" % plugin))
 
@@ -90,7 +91,7 @@ class GerritInit:
             LOG.info("Reinitializing site to perform update.")
             return True
 
-        if self.wanted_plugins.difference(self.installed_plugins):
+        if self.config.packaged_plugins.difference(self.installed_plugins):
             LOG.info("Reininitializing site to install additional plugins.")
             return True
 
@@ -108,9 +109,13 @@ class GerritInit:
         else:
             LOG.info("No gerrit.config found. Initializing default site.")
 
-        if self.wanted_plugins:
+        if self.config.packaged_plugins:
             plugin_options = " ".join(
-                ["--install-plugin %s" % plugin for plugin in self.wanted_plugins]
+                [
+                    "--install-plugin %s" % plugin
+                    for plugin in self.config.packaged_plugins
+                    if plugin
+                ]
             )
         else:
             plugin_options = ""
@@ -149,14 +154,16 @@ if __name__ == "__main__":
         required=True,
     )
     parser.add_argument(
-        "-p",
-        "--plugin",
-        help="Gerrit plugin to be installed. Can be used multiple times.",
-        dest="wanted_plugins",
-        action="append",
-        default=list(),
+        "-c",
+        "--config",
+        help="Path to configuration file for init process.",
+        dest="config",
+        action="store",
+        required=True,
     )
     args = parser.parse_args()
 
-    init = GerritInit(args.site, args.wanted_plugins)
+    config = InitConfig().parse(args.config)
+
+    init = GerritInit(args.site, config)
     init.execute()

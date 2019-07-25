@@ -14,11 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os.path
 import re
 
 from docker.errors import NotFound
 
 import pytest
+import yaml
 
 
 @pytest.fixture(scope="class")
@@ -44,14 +46,28 @@ def container_run_default(request, docker_client, gerrit_init_image, tmp_path_fa
 
 
 @pytest.fixture(scope="class")
-def container_run_endless(docker_client, gerrit_init_image, tmp_path_factory):
-    tmp_site_dir = tmp_path_factory.mktemp("gerrit_site")
+def init_config_dir(tmp_path_factory):
+    return tmp_path_factory.mktemp("init_config")
+
+
+@pytest.fixture(scope="class")
+def tmp_site_dir(tmp_path_factory):
+    return tmp_path_factory.mktemp("gerrit_site")
+
+
+@pytest.fixture(scope="class")
+def container_run_endless(
+    docker_client, gerrit_init_image, init_config_dir, tmp_site_dir
+):
     container_run = docker_client.containers.run(
         image=gerrit_init_image.id,
         entrypoint="/bin/ash",
         command=["-c", "tail -f /dev/null"],
         user="gerrit",
-        volumes={tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"}},
+        volumes={
+            tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"},
+            init_config_dir: {"bind": "/var/config", "mode": "rw"},
+        },
         detach=True,
         auto_remove=True,
     )
@@ -88,52 +104,44 @@ class TestGerritInitEmptySite:
         assert container_run_default.attrs["State"]["ExitCode"] == 0
 
 
+@pytest.fixture(
+    scope="function",
+    params=[
+        ["replication", "reviewnotes"],
+        ["replication", "reviewnotes", "hooks"],
+        ["download-commands"],
+        [],
+    ],
+)
+def plugins_to_install(request):
+    return request.param
+
+
 @pytest.mark.docker
 @pytest.mark.incremental
 @pytest.mark.integration
 class TestGerritInitPluginInstallation:
-    def test_gerrit_init_plugins_are_installed(self, container_run_endless):
-        exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -p replication -p reviewnotes"
-        )
-        assert exit_code == 0
-        cmd = (
-            "/bin/ash -c '"
-            + "test -f /var/gerrit/plugins/replication.jar && "
-            + "test -f /var/gerrit/plugins/reviewnotes.jar'"
-        )
-        exit_code, _ = container_run_endless.exec_run(cmd)
-        assert exit_code == 0
+    def _configure_packaged_plugins(self, file_path, plugins):
+        with open(file_path, "w") as f:
+            yaml.dump({"packagedPlugins": plugins}, f, default_flow_style=False)
 
-    def test_gerrit_init_plugins_are_added_in_existing_site(
-        self, container_run_endless
+    def test_gerrit_init_plugins_are_installed(
+        self, container_run_endless, init_config_dir, plugins_to_install, tmp_site_dir
     ):
+        self._configure_packaged_plugins(
+            os.path.join(init_config_dir, "init.yaml"), plugins_to_install
+        )
+
         exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -p replication -p reviewnotes -p hooks"
+            "/var/tools/gerrit_init.py -s /var/gerrit -c /var/config/init.yaml"
         )
         assert exit_code == 0
 
-        cmd = (
-            "/bin/ash -c '"
-            + "test -f /var/gerrit/plugins/replication.jar && "
-            + "test -f /var/gerrit/plugins/reviewnotes.jar && "
-            + "test -f /var/gerrit/plugins/hooks.jar'"
-        )
-        exit_code, _ = container_run_endless.exec_run(cmd)
-        assert exit_code == 0
+        plugins_path = os.path.join(tmp_site_dir, "plugins")
 
-    def test_gerrit_init_plugins_are_installed_in_existing_site(
-        self, container_run_endless
-    ):
-        exit_code, _ = container_run_endless.exec_run(
-            "/var/tools/gerrit_init.py -s /var/gerrit -p download-commands"
-        )
-        assert exit_code == 0
+        for plugin in plugins_to_install:
+            assert os.path.exists(os.path.join(plugins_path, "%s.jar" % plugin))
 
-        cmd = "/bin/ash -c '" + "test -f /var/gerrit/plugins/download-commands.jar'"
-        exit_code, _ = container_run_endless.exec_run(cmd)
-        assert exit_code == 0
-
-        cmd = "/bin/ash -c '" + "test -f /var/gerrit/plugins/reviewnotes.jar'"
-        exit_code, _ = container_run_endless.exec_run(cmd)
-        assert exit_code == 1
+        installed_plugins = os.listdir(plugins_path)
+        for plugin in installed_plugins:
+            assert os.path.splitext(plugin)[0] in plugins_to_install
