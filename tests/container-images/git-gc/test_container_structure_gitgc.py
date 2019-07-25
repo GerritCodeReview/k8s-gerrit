@@ -14,34 +14,34 @@
 
 import pytest
 
+
 @pytest.fixture(scope="module")
 def container_run(docker_client, container_endless_run_factory, gitgc_image):
-  container_run = container_endless_run_factory(docker_client, gitgc_image)
-  yield container_run
-  container_run.stop(timeout=1)
+    container_run = container_endless_run_factory(docker_client, gitgc_image)
+    yield container_run
+    container_run.stop(timeout=1)
 
 
 def test_gitgc_inherits_from_base(gitgc_image):
-  contains_tag = False
-  for layer in gitgc_image.history():
-    contains_tag = layer['Tags'] is not None and "base:latest" in layer['Tags']
-    if contains_tag:
-      break
-  assert contains_tag
+    contains_tag = False
+    for layer in gitgc_image.history():
+        contains_tag = layer["Tags"] is not None and "base:latest" in layer["Tags"]
+        if contains_tag:
+            break
+    assert contains_tag
+
 
 def test_gitgc_log_dir_writable_by_gerrit(container_run):
-  exit_code, _ = container_run.exec_run(
-    "touch /var/log/git/test.log"
-  )
-  assert exit_code == 0
+    exit_code, _ = container_run.exec_run("touch /var/log/git/test.log")
+    assert exit_code == 0
+
 
 def test_gitgc_contains_gc_script(container_run):
-  exit_code, _ = container_run.exec_run(
-    "test -f /var/tools/gc-all.sh"
-  )
-  assert exit_code == 0
+    exit_code, _ = container_run.exec_run("test -f /var/tools/gc-all.sh")
+    assert exit_code == 0
+
 
 def test_gitgc_has_entrypoint(gitgc_image):
-  entrypoint = gitgc_image.attrs["ContainerConfig"]["Entrypoint"]
-  assert len(entrypoint) == 1
-  assert entrypoint[0] == "/var/tools/gc-all.sh"
+    entrypoint = gitgc_image.attrs["ContainerConfig"]["Entrypoint"]
+    assert len(entrypoint) == 1
+    assert entrypoint[0] == "/var/tools/gc-all.sh"

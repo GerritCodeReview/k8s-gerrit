@@ -14,8 +14,9 @@
 
 import time
 
+
 def exec_fn_with_timeout(func, limit=60):
-  """Helper function that executes a given function until it returns True or a
+    """Helper function that executes a given function until it returns True or a
      given time limit is reached.
 
   Arguments:
@@ -32,9 +33,9 @@ def exec_fn_with_timeout(func, limit=60):
     any -- Last output of fn
   """
 
-  timeout = time.time() + limit
-  while time.time() < timeout:
-    output, is_finished = func()
-    if is_finished:
-      return True, output
-  return False, output
+    timeout = time.time() + limit
+    while time.time() < timeout:
+        output, is_finished = func()
+        if is_finished:
+            return True, output
+    return False, output

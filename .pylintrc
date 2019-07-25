@@ -1,12 +1,11 @@
 [MESSAGES CONTROL]
-disable=C0111, W0621, R0201, R0913, R0903, W0511
+disable=C0111, W0621, R0201, R0913, R0903, W0511, C0330
 
 [BASIC]
 no-docstring-rgx=(test_.*)|(__.*__)
 
 [FORMAT]
-indent-string='  '
-indent-after-paren=2
+indent-string='    '
 good-names=i,f
 
 [SIMILARITIES]

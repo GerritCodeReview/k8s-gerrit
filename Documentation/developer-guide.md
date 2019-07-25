@@ -71,10 +71,11 @@ use [multi stage builds][3]
 
 ## Writing clean python code
 
-When writing python code, either for tests or for scripts, use pylint to ensure
-a clean code style. Pylint can be run by the following command:
+When writing python code, either for tests or for scripts, use `black` and `pylint`
+to ensure a clean code style. They can be run by the following commands:
 
 ```sh
 pipenv install --dev
+pipenv run black $(find . -name '*.py')
 pipenv run pylint $(find . -name '*.py')
 ```
