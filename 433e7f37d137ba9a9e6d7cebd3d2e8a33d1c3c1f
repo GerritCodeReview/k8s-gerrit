@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cedbd0c1_362bcc1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-26T07:06:32Z",
+      "side": 1,
+      "message": "We will have to change the configuration in .pylintrc to adapt to the new indentation size.",
+      "revId": "433e7f37d137ba9a9e6d7cebd3d2e8a33d1c3c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "730412bf_e75896ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-07-26T07:06:32Z",
+      "side": 1,
+      "message": "We should add a note of using black to Documentation/developer-guide.md.",
+      "revId": "433e7f37d137ba9a9e6d7cebd3d2e8a33d1c3c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
