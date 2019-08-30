@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "18d2464f_f28a5a09",
+        "filename": "container-images/gerrit-slave/tools/start",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-08-30T14:39:17Z",
+      "side": 1,
+      "message": "I provided the empty All-Users and Ull-Projects repository before, so that Gerrit could start up even if they weren\u0027t filled yet by replication. This worked, because some information was still in the ReviewDB. With NoteDB this doesn\u0027t work anymore, so we anyway have to wait for the replication to happen and can thus remove this code here, since ReviewDB is not an option anymore.",
+      "parentUuid": "38c1aa40_b3368dac",
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50cb5f86_7eaee9bc",
         "filename": "helm-charts/gerrit-master/README.md",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "37948c1a_e679fbdb",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-08-30T14:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50cb5f86_7eaee9bc",
+      "range": {
+        "startLine": 8,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3195dac7_430ff33e",
         "filename": "helm-charts/gerrit-slave/README.md",
         "patchSetId": 9
@@ -62,6 +104,30 @@
       "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7cbaa4a_764be5de",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-08-30T14:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3195dac7_430ff33e",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
