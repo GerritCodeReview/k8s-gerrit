@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38c1aa40_b3368dac",
+        "filename": "container-images/gerrit-slave/tools/start",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-30T13:08:17Z",
+      "side": 1,
+      "message": "can we do this since replication plugin 3.0.1 does this for us ?",
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50cb5f86_7eaee9bc",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-30T13:08:17Z",
+      "side": 1,
+      "message": "support of ReviewDB was removed",
+      "range": {
+        "startLine": 8,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3195dac7_430ff33e",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-30T13:08:17Z",
+      "side": 1,
+      "message": "see comments for master",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
