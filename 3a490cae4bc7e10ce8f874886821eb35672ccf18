@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f8ae152_9ae8afc9",
+        "filename": "tests/conftest.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-30T13:37:08Z",
+      "side": 1,
+      "message": "let\u0027s first submit the upgrade to 3.0 then we can remove the db related code",
+      "revId": "3a490cae4bc7e10ce8f874886821eb35672ccf18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
