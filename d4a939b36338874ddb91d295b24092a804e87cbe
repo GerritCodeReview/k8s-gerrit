@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cdd8344f_53d19fff",
+        "filename": "container-images/gerrit-slave/tools/start",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-30T19:36:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "18d2464f_f28a5a09",
+      "revId": "d4a939b36338874ddb91d295b24092a804e87cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50cb5f86_7eaee9bc",
         "filename": "helm-charts/gerrit-master/README.md",
         "patchSetId": 9
