@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5eaa63af_e421999a",
+        "filename": "tests/helm-charts/gerrit-master/conftest.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-09-09T13:29:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5094549_2f833f60",
+      "range": {
+        "startLine": 78,
+        "startChar": 18,
+        "endLine": 78,
+        "endChar": 20
+      },
+      "revId": "b0b79fc1606e6020c9e18daf26c22add984cd195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c20fb0f4_50e6ab20",
         "filename": "tests/helpers/utils.py",
         "patchSetId": 15
@@ -45,6 +69,30 @@
       "revId": "b0b79fc1606e6020c9e18daf26c22add984cd195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bf262d0_3c8b6bde",
+        "filename": "tests/helpers/utils.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-09-09T13:29:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c20fb0f4_50e6ab20",
+      "range": {
+        "startLine": 61,
+        "startChar": 21,
+        "endLine": 61,
+        "endChar": 48
+      },
+      "revId": "b0b79fc1606e6020c9e18daf26c22add984cd195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
