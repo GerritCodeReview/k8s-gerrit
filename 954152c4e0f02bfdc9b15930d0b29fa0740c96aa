@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e388b84_ffb04feb",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-18T11:50:54Z",
+      "side": 1,
+      "message": "unnecessary hyphen",
+      "range": {
+        "startLine": 204,
+        "startChar": 43,
+        "endLine": 204,
+        "endChar": 44
+      },
+      "revId": "954152c4e0f02bfdc9b15930d0b29fa0740c96aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17bdbbf_29d90c61",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-18T11:50:54Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 205,
+        "startChar": 37,
+        "endLine": 205,
+        "endChar": 38
+      },
+      "revId": "954152c4e0f02bfdc9b15930d0b29fa0740c96aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4994627e_d465f956",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-18T11:50:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this comment is meant to indicate",
+      "range": {
+        "startLine": 149,
+        "startChar": 30,
+        "endLine": 149,
+        "endChar": 37
+      },
+      "revId": "954152c4e0f02bfdc9b15930d0b29fa0740c96aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
