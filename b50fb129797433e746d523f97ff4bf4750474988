@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfe7050_e780fe07",
+        "filename": "container-images/gerrit-init/README.md",
+        "patchSetId": 22
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-12T13:43:44Z",
+      "side": 1,
+      "message": "unwanted",
+      "range": {
+        "startLine": 23,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec1bf36c_f5afb41a",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-12T13:43:44Z",
+      "side": 1,
+      "message": "cached",
+      "range": {
+        "startLine": 135,
+        "startChar": 26,
+        "endLine": 135,
+        "endChar": 32
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6051e060_7a725bea",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-12T13:43:44Z",
+      "side": 1,
+      "message": "download and comparing hash should have one implementation and reused wherever you want to download a plugin",
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0e5ebb_1f992734",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-12T13:43:44Z",
+      "side": 1,
+      "message": "maybe we could symlink this ?",
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9375870d_e25610c0",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-12T13:43:44Z",
+      "side": 1,
+      "message": "I would implement this in the install from cache method so that the caller doesn\u0027t need to care about cache internals",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 54
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab31f5c_3953bca7",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 22
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-12T13:43:44Z",
+      "side": 1,
+      "message": "built",
+      "range": {
+        "startLine": 236,
+        "startChar": 15,
+        "endLine": 236,
+        "endChar": 20
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
