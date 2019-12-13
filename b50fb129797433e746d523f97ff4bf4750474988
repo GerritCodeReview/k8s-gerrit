@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ebbfb8f8_10137f0e",
+        "filename": "container-images/gerrit-init/README.md",
+        "patchSetId": 22
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddfe7050_e780fe07",
+      "range": {
+        "startLine": 23,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec1bf36c_f5afb41a",
         "filename": "container-images/gerrit-init/tools/download_plugins.py",
         "patchSetId": 22
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f456cf1a_8e3fa015",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec1bf36c_f5afb41a",
+      "range": {
+        "startLine": 135,
+        "startChar": 26,
+        "endLine": 135,
+        "endChar": 32
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6051e060_7a725bea",
         "filename": "container-images/gerrit-init/tools/download_plugins.py",
         "patchSetId": 22
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "dda46d3b_cd38e733",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6051e060_7a725bea",
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef0e5ebb_1f992734",
         "filename": "container-images/gerrit-init/tools/download_plugins.py",
         "patchSetId": 22
@@ -79,6 +145,24 @@
       "revId": "b50fb129797433e746d523f97ff4bf4750474988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0240bf_04bbadc1",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef0e5ebb_1f992734",
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "0d32e374_e0ff2e0e",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9375870d_e25610c0",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 54
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bab31f5c_3953bca7",
         "filename": "helm-charts/gerrit-master/README.md",
         "patchSetId": 22
@@ -125,6 +233,30 @@
       "revId": "b50fb129797433e746d523f97ff4bf4750474988",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b550ca00_f4f3e2e0",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 22
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab31f5c_3953bca7",
+      "range": {
+        "startLine": 236,
+        "startChar": 15,
+        "endLine": 236,
+        "endChar": 20
+      },
+      "revId": "b50fb129797433e746d523f97ff4bf4750474988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
