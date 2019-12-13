@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4f64ae5_d84f71af",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-13T10:48:35Z",
+      "side": 1,
+      "message": "does it make sense to log the error and then throw an exception which is probably logged higher up on the stack ?",
+      "revId": "a7f0cc5647c41aa30204b85dbd2c16648544badc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6e3e017_9761cf43",
+        "filename": "container-images/gerrit-init/tools/download_plugins.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-13T10:48:35Z",
+      "side": 1,
+      "message": "Include both the expected and actual SHA1 like bazel does ?\nAnd also add the file name so that it\u0027s clear which plugin couldn\u0027t be downloaded.\nWhy is the logged message different from this exception\u0027s message ?",
+      "revId": "a7f0cc5647c41aa30204b85dbd2c16648544badc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
