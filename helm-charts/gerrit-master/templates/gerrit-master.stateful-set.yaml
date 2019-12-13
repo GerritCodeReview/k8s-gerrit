@@ -10,10 +10,9 @@ metadata:
 spec:
   serviceName: {{ .Release.Name }}-gerrit-master-service
   replicas: {{ .Values.gerritMaster.replicas | default 1 }}
-  strategy:
+  updateStrategy:
     rollingUpdate:
-      maxSurge: {{ .Values.gerritMaster.maxSurge }}
-      maxUnavailable: {{ .Values.gerritMaster.maxUnavailable }}
+      partition: {{ .Values.gerritMaster.updatePartition }}
   selector:
     matchLabels:
       app: gerrit-master
