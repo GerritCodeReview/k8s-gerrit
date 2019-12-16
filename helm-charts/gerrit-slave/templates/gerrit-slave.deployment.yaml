@@ -20,6 +20,8 @@ spec:
     metadata:
       labels:
         app: gerrit-slave
+      annotations:
+        chartRevision: "{{ .Release.Revision }}"
     spec:
       securityContext:
         fsGroup: 100
