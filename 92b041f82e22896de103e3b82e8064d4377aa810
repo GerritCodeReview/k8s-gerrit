@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d7eee48_8a7e63a5",
+        "filename": "tests/helpers/helm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-16T16:30:23Z",
+      "side": 1,
+      "message": "Update docstrings",
+      "revId": "92b041f82e22896de103e3b82e8064d4377aa810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8f4122f_c4ff7c87",
+        "filename": "tests/helpers/helm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-16T16:30:23Z",
+      "side": 1,
+      "message": "Remove this",
+      "revId": "92b041f82e22896de103e3b82e8064d4377aa810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
