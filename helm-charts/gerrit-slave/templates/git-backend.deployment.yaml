@@ -20,6 +20,8 @@ spec:
     metadata:
       labels:
         app: git-backend
+      annotations:
+        chartRevision: "{{ .Release.Revision }}"
     spec:
       securityContext:
         fsGroup: 100

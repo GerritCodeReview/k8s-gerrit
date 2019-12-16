@@ -23,6 +23,8 @@ spec:
         chart: {{ template "gerrit-master.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
+      annotations:
+        chartRevision: "{{ .Release.Revision }}"
     spec:
       securityContext:
         fsGroup: 100

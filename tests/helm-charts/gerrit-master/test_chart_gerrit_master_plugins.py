@@ -62,7 +62,7 @@ def gerrit_master_deployment_with_packaged_plugins(
 
     yield chart
 
-    test_cluster.helm.delete(chart["name"])
+    test_cluster.helm.delete(chart["name"], namespace=chart["namespace"])
     test_cluster.delete_namespace(chart["namespace"])
 
 
@@ -70,9 +70,9 @@ def update_chart(helm, chart, opts):
     helm.upgrade(
         chart=chart["chart"],
         name=chart["name"],
+        namespace=chart["namespace"],
         set_values=opts,
         reuse_values=True,
-        recreate_pods=True,
         fail_on_err=True,
     )
 

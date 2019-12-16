@@ -88,7 +88,7 @@ def gerrit_master_deployment(
 
     yield chart
 
-    test_cluster.helm.delete(chart["name"])
+    test_cluster.helm.delete(chart["name"], namespace=chart["namespace"])
     test_cluster.delete_namespace(chart["namespace"])
 
 

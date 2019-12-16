@@ -20,10 +20,10 @@ import pytest
 @pytest.mark.integration
 @pytest.mark.kubernetes
 def test_deployment(test_cluster, gerrit_master_deployment):
-    installed_charts = test_cluster.helm.list()
+    installed_charts = test_cluster.helm.list(gerrit_master_deployment["namespace"])
     gerrit_master_chart = None
     for chart in installed_charts:
-        if chart["Name"].startswith("gerrit-master"):
+        if chart["name"].startswith("gerrit-master"):
             gerrit_master_chart = chart
     assert gerrit_master_chart is not None
-    assert gerrit_master_chart["Status"] == "DEPLOYED"
+    assert gerrit_master_chart["status"].lower() == "deployed"

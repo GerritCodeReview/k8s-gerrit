@@ -74,7 +74,7 @@ gerritMaster:
     gerritMaster: k8sgerrit/gerrit-master
 
   replicas: 1
-  updatePartition: 1
+  updatePartition: 0
 
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
