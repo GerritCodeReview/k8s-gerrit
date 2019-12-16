@@ -89,7 +89,8 @@ Therefore, make sure that `container.javaHome` is set to that path in the `gerri
 # Helm Charts
 
 These Helm charts can be used to install a Gerrit cluster consisting of a
-Gerrit master and a Gerrit slave on a Kubernetes cluster.
+Gerrit master and a Gerrit slave on a Kubernetes cluster. A helm version newer
+than 3.0 is required to follow the instructions provided with the helm charts.
 
 To evaluate and test the helm-charts, they can be installed on a local machine
 running Minikube. Follow this [guide](Documentation/minikube.md) to get a detailed

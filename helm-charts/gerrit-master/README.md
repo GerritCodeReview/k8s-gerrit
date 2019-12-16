@@ -11,7 +11,7 @@ was removed.
 
 ## Prerequisites
 
-- Helm and Tiller (of course)
+- Helm (> version 3.0)
 
     (Check out [this guide](https://docs.helm.sh/using_helm/#quickstart-guide)
     how to install and use helm.)
@@ -47,8 +47,9 @@ To install the chart with the release name `gerrit-master`, execute:
 
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
-helm install ./gerrit-master \
-  -n gerrit-master \
+helm install \
+  gerrit-master \  # release name
+  ./gerrit-master \  # path to chart
   -f <path-to-custom-values>.yaml
 ```
 
@@ -67,8 +68,9 @@ In addition, single options can be set without creating a custom `values.yaml`:
 
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
-helm install ./gerrit-master \
-  -n gerrit-master \
+helm install \
+  gerrit-master \  # release name
+  ./gerrit-master \  # path to chart
   --set=gitRepositoryStorage.size=100Gi
 ```
 
@@ -252,9 +254,10 @@ the following command:
 
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts
-helm upgrade <release-name> \
-  -f <path-to-custom-values>.yaml \
-  ./gerrit-master
+helm upgrade
+  <release-name> \
+  ./gerrit-master \ # path to chart
+  -f <path-to-custom-values>.yaml
 ```
 
 ## Uninstalling the Chart
@@ -262,6 +265,5 @@ helm upgrade <release-name> \
 To delete the chart from the cluster, use:
 
 ```sh
-helm delete <release-name> \
-  --purge
+helm delete <release-name>
 ```

@@ -126,13 +126,6 @@ brew install kubernetes-helm
 
 A guide for all suported OSs can be found [here](https://docs.helm.sh/using_helm/#installing-helm).
 
-For helm being able to install charts on a Kubernetes cluster, it needs Tiller
-installed. To do that, run:
-
-```sh
-helm init
-```
-
 ## Start an NFS-server
 
 The helm-charts need a volume with ReadWriteMany access mode to store
@@ -142,8 +135,8 @@ provisioner-chart is provided in the supplements-directory. It can be installed
 by running:
 
 ```sh
-helm install stable/nfs-server-provisioner \
-  --name nfs \
+helm install nfs \
+  stable/nfs-server-provisioner \
   -f ./supplements/nfs.minikube.values.yaml
 ```
 
@@ -154,10 +147,9 @@ A configuration file to configure the gerrit-master chart is provided at
 chart on Minikube, run:
 
 ```sh
-helm install ./helm-charts/gerrit-master \
-  -f ./supplements/gerrit-master.minikube.values.yaml \
-  --dep-up \
-  -n gerrit-master
+helm install gerrit-master \
+  ./helm-charts/gerrit-master \
+  -f ./supplements/gerrit-master.minikube.values.yaml
 ```
 
 Startup may take some time, especially when allowing only a small amount of
@@ -182,10 +174,10 @@ A custom configuration file to configure the gerrit-slave chart is provided at
 `./supplements/gerrit-slave.minikube.values.yaml`. Install it by running:
 
 ```sh
-helm install ./helm-charts/gerrit-slave \
-  -f ./supplements/gerrit-slave.minikube.values.yaml \
-  --dep-up \
-  -n gerrit-slave
+helm install gerrit-slave \
+  ./helm-charts/gerrit-slave \
+  --dependency-update \
+  -f ./supplements/gerrit-slave.minikube.values.yaml
 ```
 
 The slave will start up, which can be followed by running:
