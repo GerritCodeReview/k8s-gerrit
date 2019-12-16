@@ -13,8 +13,8 @@ Kubernetes cluster. The chart's sources can be found [here](https://github.com/h
 
 ## Prerequisites
 
-This guide will use Helm to install the NFS-provisioner. Thus, Helm and Tiller
-will have to be installed.
+This guide will use Helm to install the NFS-provisioner. Thus, Helm has to be
+installed.
 
 ## Installing the nfs-server-provisioner chart
 
@@ -28,8 +28,8 @@ further and then run:
 
 ```sh
 cd $(git rev-parse --show-toplevel)/helm-charts/gerrit-master/supplements/nfs
-helm install stable/nfs-server-provisioner \
-  --name nfs \
+helm install nfs \
+  stable/nfs-server-provisioner \
   -f values.yaml \
   --version $(cat VERSION)
 ```
@@ -60,6 +60,5 @@ If no Pod or PVC is using a NFS-volume provisioned by the NFS server provisioner
 anymore, delete it like any other chart:
 
 ```sh
-helm delete nfs \
-  --purge
+helm delete nfs
 ```
