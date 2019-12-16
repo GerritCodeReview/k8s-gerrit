@@ -5,7 +5,7 @@ Container images, configurations and [Helm](https://helm.sh/) charts for install
 
 # Docker images
 
-Images to run a Gerrit master and slave setup based on the latest stable-2.12 Gerrit build.
+Images to run a Gerrit master and slave setup based on the 3.0.3 Gerrit release.
 
 ## Building images
 
