@@ -20,11 +20,11 @@ class Helm:
     def __init__(self, kubeconfig, kubecontext):
         """Wrapper for Helm CLI.
 
-  Arguments:
-    kubeconfig {str} -- Path to kubeconfig-file describing the cluster to
-                        connect to.
-    kubecontext {str} -- Name of the context to use.
-  """
+        Arguments:
+            kubeconfig {str} -- Path to kubeconfig-file describing the cluster to
+                                connect to.
+            kubecontext {str} -- Name of the context to use.
+        """
 
         self.kubeconfig = kubeconfig
         self.kubecontext = kubecontext
@@ -48,15 +48,15 @@ class Helm:
     def init(self, serviceaccount):
         """Installs tiller on the cluster.
 
-    Arguments:
-      serviceaccount {str} -- Name of the service account, which tiller is meant
-                              to use.
+        Arguments:
+        serviceaccount {str} -- Name of the service account, which tiller is meant
+                                to use.
 
-    Returns:
-      CompletedProcess -- CompletedProcess-object returned by subprocess
-                          containing details about the result and output of the
-                          executed command.
-    """
+        Returns:
+        CompletedProcess -- CompletedProcess-object returned by subprocess
+                            containing details about the result and output of the
+                            executed command.
+        """
 
         helm_cmd = ["init", "--wait", "--service-account", serviceaccount]
         return self._exec_command(helm_cmd)
@@ -73,25 +73,25 @@ class Helm:
     ):
         """Installs a chart on the cluster
 
-      Arguments:
-        chart {str} -- Release name or path of a helm chart
-        name {str} -- Name with which the chart will be installed on the cluster
+        Arguments:
+            chart {str} -- Release name or path of a helm chart
+            name {str} -- Name with which the chart will be installed on the cluster
 
-      Keyword Arguments:
-        values_file {str} -- Path to a custom values.yaml file (default: {None})
-        set_values {dict} -- Dictionary containing key-value-pairs that are used
-                            to overwrite values in the values.yaml-file.
-                            (default: {None})
-        namespace {str} -- Namespace to install the release into (default: {default})
-        fail_on_err {bool} -- Whether to fail with an exception if the installation
-                              fails (default: {True})
-        wait {bool} -- Whether to wait for all pods to be ready (default: {True})
+        Keyword Arguments:
+            values_file {str} -- Path to a custom values.yaml file (default: {None})
+            set_values {dict} -- Dictionary containing key-value-pairs that are used
+                                to overwrite values in the values.yaml-file.
+                                (default: {None})
+            namespace {str} -- Namespace to install the release into (default: {default})
+            fail_on_err {bool} -- Whether to fail with an exception if the installation
+                                fails (default: {True})
+            wait {bool} -- Whether to wait for all pods to be ready (default: {True})
 
-      Returns:
-        CompletedProcess -- CompletedProcess-object returned by subprocess
-                            containing details about the result and output of the
-                            executed command.
-      """
+        Returns:
+            CompletedProcess -- CompletedProcess-object returned by subprocess
+                                containing details about the result and output of the
+                                executed command.
+        """
 
         helm_cmd = ["install", chart, "--dep-up", "-n", name]
         if values_file:
@@ -108,9 +108,9 @@ class Helm:
     def list(self):
         """Lists helm charts installed on the cluster.
 
-    Returns:
-      list -- List of helm chart realeases installed on the cluster.
-    """
+        Returns:
+            list -- List of helm chart realeases installed on the cluster.
+        """
 
         helm_cmd = ["list", "--all", "--output", "json"]
         output = self._exec_command(helm_cmd).stdout
@@ -129,26 +129,26 @@ class Helm:
     ):
         """Updates a chart on the cluster
 
-      Arguments:
-        chart {str} -- Release name or path of a helm chart
-        name {str} -- Name with which the chart will be installed on the cluster
+        Arguments:
+            chart {str} -- Release name or path of a helm chart
+            name {str} -- Name with which the chart will be installed on the cluster
 
-      Keyword Arguments:
-        values_file {str} -- Path to a custom values.yaml file (default: {None})
-        set_values {dict} -- Dictionary containing key-value-pairs that are used
-                            to overwrite values in the values.yaml-file.
-                            (default: {None})
-        reuse_values {bool} -- Whether to reuse existing not overwritten values
-                              (default: {True})
-        recreate_pods {bool} -- Whether to restart changed pods (default: {False})
-        fail_on_err {bool} -- Whether to fail with an exception if the installation
-                              fails (default: {True})
+        Keyword Arguments:
+            values_file {str} -- Path to a custom values.yaml file (default: {None})
+            set_values {dict} -- Dictionary containing key-value-pairs that are used
+                                to overwrite values in the values.yaml-file.
+                                (default: {None})
+            reuse_values {bool} -- Whether to reuse existing not overwritten values
+                                (default: {True})
+            recreate_pods {bool} -- Whether to restart changed pods (default: {False})
+            fail_on_err {bool} -- Whether to fail with an exception if the installation
+                                fails (default: {True})
 
-      Returns:
-        CompletedProcess -- CompletedProcess-object returned by subprocess
-                            containing details about the result and output of the
-                            executed command.
-      """
+        Returns:
+            CompletedProcess -- CompletedProcess-object returned by subprocess
+                                containing details about the result and output of the
+                                executed command.
+        """
         helm_cmd = ["upgrade", name, chart, "--wait"]
         if values_file:
             helm_cmd.extend(("-f", values_file))
@@ -164,18 +164,18 @@ class Helm:
     def delete(self, name, purge=True):
         """Deletes a chart from the cluster
 
-      Arguments:
-        name {str} -- Name of the chart to delete
+        Arguments:
+            name {str} -- Name of the chart to delete
 
-      Keyword Arguments:
-        purge {bool} -- Whether to also remove the release metadata as well
-                        (default: {True})
+        Keyword Arguments:
+            purge {bool} -- Whether to also remove the release metadata as well
+                            (default: {True})
 
-      Returns:
-        CompletedProcess -- CompletedProcess-object returned by subprocess
-                            containing details about the result and output of the
-                            executed command.
-      """
+        Returns:
+            CompletedProcess -- CompletedProcess-object returned by subprocess
+                                containing details about the result and output of the
+                                executed command.
+        """
 
         helm_cmd = ["delete", name]
         if purge:
@@ -185,9 +185,9 @@ class Helm:
     def delete_all(self, exceptions=None):
         """Deletes all charts on the cluster
 
-    Keyword Arguments:
-      exceptions {list} -- List of chart names not to delete (default: {None})
-    """
+        Keyword Arguments:
+            exceptions {list} -- List of chart names not to delete (default: {None})
+        """
 
         charts = self.list()
         for chart in charts:
@@ -198,11 +198,11 @@ class Helm:
     def reset(self):
         """Uninstall Tiller from cluster
 
-    Returns:
-      CompletedProcess -- CompletedProcess-object returned by subprocess
-                          containing details about the result and output of the
-                          executed command.
-    """
+        Returns:
+            CompletedProcess -- CompletedProcess-object returned by subprocess
+                                containing details about the result and output of
+                                the executed command.
+        """
 
         helm_cmd = ["reset", "--force"]
         return self._exec_command(helm_cmd, fail_on_err=True)
