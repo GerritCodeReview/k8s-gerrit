@@ -25,8 +25,8 @@ from kubernetes import client
 
 import utils
 
-PLUGINS = ["owners", "reviewers"]
-GERRIT_VERSION = "3.0"
+PLUGINS = ["uploadvalidator", "serviceuser"]
+GERRIT_VERSION = "3.1"
 
 
 @pytest.fixture(scope="module")
@@ -35,7 +35,7 @@ def plugin_list():
     for plugin in PLUGINS:
         url = (
             "https://gerrit-ci.gerritforge.com/view/Plugins-stable-{gerrit_version}/"
-            "job/plugin-{plugin}-bazel-stable-{gerrit_version}/lastSuccessfulBuild/"
+            "job/plugin-{plugin}-bazel-master-stable-{gerrit_version}/lastSuccessfulBuild/"
             "artifact/bazel-bin/plugins/{plugin}/{plugin}.jar"
         ).format(plugin=plugin, gerrit_version=GERRIT_VERSION)
         jar = requests.get(url, verify=False).content
