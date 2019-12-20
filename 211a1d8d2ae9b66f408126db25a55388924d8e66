@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20a20b56_d5b4c6aa",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-20T14:57:54Z",
+      "side": 1,
+      "message": "\u003e\u003d 3.0 ?",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75c8d982_bc129327",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-20T14:57:54Z",
+      "side": 1,
+      "message": "missing \\ at the end ?",
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6745aadc_36e75f65",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-20T14:57:54Z",
+      "side": 1,
+      "message": "how is that related to Helm 3 ?",
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc5a26f6_5af6947a",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-20T14:57:54Z",
+      "side": 1,
+      "message": "\u003e\u003d ?",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdba678d_9dbcc6d8",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-20T14:57:54Z",
+      "side": 1,
+      "message": "missing \\ at the end ?",
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
