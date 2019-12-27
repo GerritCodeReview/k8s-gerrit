@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b8584dd_3624085f",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-27T09:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a20b56_d5b4c6aa",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75c8d982_bc129327",
         "filename": "helm-charts/gerrit-master/README.md",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "34c999b8_6a678190",
+        "filename": "helm-charts/gerrit-master/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-27T09:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75c8d982_bc129327",
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6745aadc_36e75f65",
         "filename": "helm-charts/gerrit-master/values.yaml",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2019-12-20T14:57:54Z",
       "side": 1,
       "message": "how is that related to Helm 3 ?",
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a20b8718_577cf766",
+        "filename": "helm-charts/gerrit-master/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-27T09:34:58Z",
+      "side": 1,
+      "message": "This was an independent fix. I moved it to a separate change.",
+      "parentUuid": "6745aadc_36e75f65",
       "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "636a8229_5704c7c8",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-27T09:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc5a26f6_5af6947a",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdba678d_9dbcc6d8",
         "filename": "helm-charts/gerrit-slave/README.md",
         "patchSetId": 2
@@ -96,6 +180,24 @@
       "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ff53d1_9b653fba",
+        "filename": "helm-charts/gerrit-slave/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-27T09:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdba678d_9dbcc6d8",
+      "revId": "211a1d8d2ae9b66f408126db25a55388924d8e66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
