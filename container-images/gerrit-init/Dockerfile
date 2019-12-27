@@ -16,8 +16,6 @@ RUN apk update && \
 COPY tools/* /var/tools/
 COPY config/* /var/config/
 
-COPY tools/* /var/tools/
-
 USER gerrit
 
 ENTRYPOINT ["/var/tools/gerrit_init.py", "-s", "/var/gerrit"]
