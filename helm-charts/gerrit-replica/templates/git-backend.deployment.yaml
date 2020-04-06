@@ -20,6 +20,9 @@ spec:
     metadata:
       labels:
         app: git-backend
+        chart: {{ template "gerrit-replica.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
