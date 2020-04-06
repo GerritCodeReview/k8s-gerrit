@@ -46,6 +46,21 @@ gitRepositoryStorage:
   size: 5Gi
 
 
+istio:
+  enabled: false
+  host:
+  tls:
+    enabled: false
+    cert: |-
+      -----BEGIN CERTIFICATE-----
+
+      -----END CERTIFICATE-----
+    key: |-
+      -----BEGIN RSA PRIVATE KEY-----
+
+      -----END RSA PRIVATE KEY-----
+
+
 gitBackend:
   image: k8sgerrit/apache-git-http-backend
 

@@ -12,6 +12,11 @@ spec:
   jobTemplate:
     spec:
       template:
+        {{ if .Values.istio.enabled -}}
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"
+        {{- end }}
         spec:
           restartPolicy: OnFailure
           securityContext:
