@@ -131,6 +131,27 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 |-----------------------------|-------------------------------------------------|---------|
 | `gitRepositoryStorage.size` | Size of the volume storing the Git repositories | `5Gi`   |
 
+
+### Istio
+
+Istio can be used as an alternative to Kubernetes Ingresses to manage the traffic
+into the cluster and also inside the cluster. This requires istio to be installed
+beforehand. Some guidance on how to set up istio can be found [here](/Documentation/istio.md).
+The helm chart expects `istio-injection` to be enabled in the namespace, in which
+it will be installed.
+
+In the case istio is used, all configuration for ingresses in the chart will be
+ignored.
+
+| Parameter           | Description                                                               | Default                           |
+|---------------------|---------------------------------------------------------------------------|-----------------------------------|
+| `istio.enabled`     | Whether istio should be used (requires istio to be installed)             | `false`                           |
+| `istio.host`        | Hostname (CNAME must point to istio ingress gateway loadbalancer service) | `nil`                             |
+| `istio.tls.enabled` | Whether to enable TLS                                                     | `false`                           |
+| `istio.tls.cert`    | TLS certificate                                                           | `-----BEGIN CERTIFICATE-----`     |
+| `istio.tls.key`     | TLS key                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
+
+
 ### Apache-Git-HTTP-Backend (Git-Backend)
 
 | Parameter                                  | Description                                                                        | Default                                                                   |
