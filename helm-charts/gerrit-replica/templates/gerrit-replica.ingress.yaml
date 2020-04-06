@@ -1,3 +1,4 @@
+{{ if and .Values.gerritSlave.ingress.enabled (not .Values.istio.enabled) -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -25,3 +26,4 @@ spec:
       - backend:
           serviceName: {{ .Release.Name }}-gerrit-replica-service
           servicePort: {{ .Values.gerritReplica.service.http.port }}
+{{- end }}
