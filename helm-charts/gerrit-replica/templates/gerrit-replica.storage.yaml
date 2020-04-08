@@ -16,3 +16,22 @@ spec:
       storage: {{ .Values.gerritReplica.persistence.size }}
   storageClassName: {{ .Values.storageClasses.default.name }}
 {{- end }}
+{{- if and .Values.gerritSlave.plugins.cache.enabled .Values.gerritSlave.plugins.downloaded }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-plugin-cache-pvc
+  labels:
+    app: gerrit-slave
+    chart: {{ template "gerrit-slave.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.gerritSlave.plugins.cache.size }}
+  storageClassName: {{ .Values.storageClasses.shared.name }}
+{{- end }}
