@@ -1,4 +1,4 @@
-{{ if and .Values.gerritSlave.ingress.enabled (not .Values.istio.enabled) -}}
+{{ if and .Values.gerritReplica.ingress.enabled (not .Values.istio.enabled) -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
