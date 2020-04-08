@@ -22,5 +22,13 @@ metadata:
     release: {{ .Release.Name }}
 data:
   gerrit-init.yaml: |-
+    pluginCache: {{ .Values.gerritReplica.plugins.cache.enabled }}
+    pluginCacheDir: /var/mnt/plugins
+    {{- if .Values.gerritReplica.plugins.packaged }}
     packagedPlugins:
-      - singleusergroup
+{{ toYaml .Values.gerritReplica.plugins.packaged | indent 6}}
+    {{- end }}
+    {{- if .Values.gerritReplica.plugins.downloaded }}
+    downloadedPlugins:
+{{ toYaml .Values.gerritReplica.plugins.downloaded | indent 6 }}
+    {{- end }}
