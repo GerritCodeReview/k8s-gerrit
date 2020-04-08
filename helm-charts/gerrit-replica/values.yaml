@@ -206,6 +206,20 @@ gerritReplica:
   # automatic encoding using helm does not work here.
   keystore:
 
+  plugins:
+    packaged:
+    - singleusergroup
+    downloaded:
+    # - name: delete-project
+    #   url: https://example.com/gerrit-plugins/delete-project.jar
+    #   sha1:
+
+    # Only downloaded plugins will be cached. This will be ignored, if no plugins
+    # are downloaded.
+    cache:
+      enabled: false
+      size: 1Gi
+
   config:
     # Some values are expected to have a specific value for the deployment installed
     # by this chart to work. These are marked with `# FIXED`.
