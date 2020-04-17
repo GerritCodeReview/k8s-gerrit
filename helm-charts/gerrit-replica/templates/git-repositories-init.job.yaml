@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-git-filesystem-init
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  template:
+    {{ if .Values.istio.enabled -}}
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    {{- end }}
+    spec:
+      securityContext:
+        fsGroup: 100
+      {{ if .Values.images.registry.ImagePullSecret.name -}}
+      imagePullSecrets:
+      - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      {{- end }}
+      containers:
+      - name: create-repositories
+        image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritInit }}:{{ .Values.images.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - /bin/ash
+        - -ce
+        args:
+        - |
+          if test -d /var/mnt/git/All-Projects.git && \
+              test -d /var/mnt/git/All-Users.git; then
+            echo "Repositories already exist. Won't perform initial creation."
+            exit 0
+          fi
+
+          mkdir -p /var/gerrit/etc
+          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
+          ln -sf /var/mnt/git /var/gerrit/
+
+          /var/tools/gerrit_init.py \
+            -c /var/config/gerrit-init.yaml \
+            -s /var/gerrit
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: "/var/gerrit"
+        - name: git-filesystem
+          mountPath: "/var/mnt/git"
+        - name: gerrit-init-config
+          mountPath: "/var/config/gerrit-init.yaml"
+          subPath: gerrit-init.yaml
+        - name: gerrit-config
+          mountPath: "/var/config/gerrit.config"
+          subPath: gerrit.config
+      volumes:
+      - name: gerrit-site
+        emptyDir: {}
+      - name: git-filesystem
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-git-filesystem-pvc
+      - name: gerrit-init-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-init-configmap
+      - name: gerrit-config
+        configMap:
+          name: {{ .Release.Name }}-gerrit-replica-configmap
+      restartPolicy: Never
