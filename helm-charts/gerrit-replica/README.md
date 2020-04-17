@@ -221,7 +221,6 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.replicas`                      | Number of pod replicas to deploy                                                                         | `1`                               |
 | `gerritReplica.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number                       | `25%`                             |
 | `gerritReplica.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                                    | `100%`                            |
-| `gerritReplica.initializeTestSite.enabled`    | Enable the initialization of a site. USE ONLY for testing, if you do not plan to replicate repositories. | `true`                            |
 | `gerritReplica.resources`                     | Configure the amount of resources the pod requests/is allowed                                            | `requests.cpu: 1`                 |
 |                                               |                                                                                                          | `requests.memory: 5Gi`            |
 |                                               |                                                                                                          | `limits.cpu: 1`                   |

@@ -50,7 +50,6 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-      {{ if not .Values.gerritReplica.initializeTestSite.enabled -}}
       # Initialize the volume containing the whole Gerrit-site with defaults
       # Not needed, when running in test mode, since then the configured site will
       # be initialized
@@ -74,7 +73,6 @@ spec:
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
-      {{- end }}
       # If configured, run initialization taking the given Gerrit configuration
       # and persisted volumes into account.
       - name: gerrit-init
@@ -99,14 +97,6 @@ spec:
           if [ ! -d /var/gerrit/git ]; then
             ln -sf /var/mnt/git /var/gerrit/
           fi
-
-          {{ if .Values.gerritReplica.initializeTestSite.enabled -}}
-          /var/tools/gerrit_init.py \
-            -c /var/config/gerrit-init.yaml \
-            -s /var/gerrit
-
-          symlink_config_to_site
-          {{- end }}
 
           /var/tools/validate_notedb.py -s /var/gerrit
         volumeMounts:
