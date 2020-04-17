@@ -1,3 +1,4 @@
+{{- if not .Values.gitRepositoryStorage.externalPVC.use }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -9,3 +10,4 @@ spec:
     requests:
       storage: {{ .Values.gitRepositoryStorage.size }}
   storageClassName: {{ .Values.storageClasses.shared.name }}
+{{- end }}
