@@ -165,12 +165,6 @@ gerritReplica:
   # work.
   maxUnavailable: 100%
 
-  # If you only intend to test the Gerrit replica and do not wish to actually
-  # replicate repositories, activate this option to initialize a new site,
-  # including a notedb.
-  initializeTestSite:
-    enabled: true
-
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
     requests:
