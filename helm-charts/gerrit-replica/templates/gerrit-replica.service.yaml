@@ -13,6 +13,11 @@ spec:
   - name: http
     port: {{ .http.port }}
     targetPort: 8080
+  {{ if .ssh.enabled -}}
+  - name: ssh
+    port: {{ .ssh.port }}
+    targetPort: 29418
+  {{- end }}
   selector:
     app: gerrit-replica
   type: {{ .type }}

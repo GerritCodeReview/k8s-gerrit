@@ -157,6 +157,7 @@ ignored.
 | `istio.tls.enabled` | Whether to enable TLS                                                     | `false`                           |
 | `istio.tls.cert`    | TLS certificate                                                           | `-----BEGIN CERTIFICATE-----`     |
 | `istio.tls.key`     | TLS key                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
+| `istio.ssh.enabled` | Whether to enable SSH                                                     | `false`                           |
 
 
 ### Apache-Git-HTTP-Backend (Git-Backend)
@@ -221,29 +222,32 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to the Gerrit replica is required!
 ***
 
-| Parameter                                     | Description                                                                                              | Default                           |
-|-----------------------------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------|
-| `gerritReplica.images.gerritInit`             | Image name of the Gerrit init container image                                                            | `k8s-gerrit/gerrit-init`          |
-| `gerritReplica.images.gerritReplica`          | Image name of the Gerrit replica container image                                                         | `k8s-gerrit/gerrit-replica`       |
-| `gerritReplica.replicas`                      | Number of pod replicas to deploy                                                                         | `1`                               |
-| `gerritReplica.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number                       | `25%`                             |
-| `gerritReplica.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                                    | `100%`                            |
-| `gerritReplica.resources`                     | Configure the amount of resources the pod requests/is allowed                                            | `requests.cpu: 1`                 |
-|                                               |                                                                                                          | `requests.memory: 5Gi`            |
-|                                               |                                                                                                          | `limits.cpu: 1`                   |
-|                                               |                                                                                                          | `limits.memory: 6Gi`              |
-| `gerritReplica.persistence.enabled`           | Whether to persist the Gerrit site                                                                       | `true`                            |
-| `gerritReplica.persistence.size`              | Storage size for persisted Gerrit site                                                                   | `10Gi`                            |
-| `gerritReplica.service.type`                  | Which kind of Service to deploy                                                                          | `NodePort`                        |
-| `gerritReplica.service.http.port`             | Port over which to expose HTTP                                                                           | `80`                              |
-| `gerritReplica.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                        | `nil`                             |
-| `gerritReplica.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                                   | `nil`                             |
-| `gerritReplica.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                         | `false`                           |
-| `gerritReplica.ingress.tls.cert`              | Public SSL server certificate                                                                            | `-----BEGIN CERTIFICATE-----`     |
-| `gerritReplica.ingress.tls.key`               | Private SSL server certificate                                                                           | `-----BEGIN RSA PRIVATE KEY-----` |
-| `gerritReplica.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL          | `nil`                             |
-| `gerritReplica.config.gerrit`                 | The contents of the gerrit.config                                                                        | [see here](#Gerrit-config-files)  |
-| `gerritReplica.config.secure`                 | The contents of the secure.config                                                                        | [see here](#Gerrit-config-files)  |
+| Parameter                                     | Description                                                                                     | Default                           |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------|-----------------------------------|
+| `gerritReplica.images.gerritInit`             | Image name of the Gerrit init container image                                                   | `k8s-gerrit/gerrit-init`          |
+| `gerritReplica.images.gerritReplica`          | Image name of the Gerrit replica container image                                                | `k8s-gerrit/gerrit-replica`       |
+| `gerritReplica.replicas`                      | Number of pod replicas to deploy                                                                | `1`                               |
+| `gerritReplica.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number              | `25%`                             |
+| `gerritReplica.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                           | `100%`                            |
+| `gerritReplica.resources`                     | Configure the amount of resources the pod requests/is allowed                                   | `requests.cpu: 1`                 |
+|                                               |                                                                                                 | `requests.memory: 5Gi`            |
+|                                               |                                                                                                 | `limits.cpu: 1`                   |
+|                                               |                                                                                                 | `limits.memory: 6Gi`              |
+| `gerritReplica.persistence.enabled`           | Whether to persist the Gerrit site                                                              | `true`                            |
+| `gerritReplica.persistence.size`              | Storage size for persisted Gerrit site                                                          | `10Gi`                            |
+| `gerritReplica.service.type`                  | Which kind of Service to deploy                                                                 | `NodePort`                        |
+| `gerritReplica.service.http.port`             | Port over which to expose HTTP                                                                  | `80`                              |
+| `gerritReplica.service.ssh.enabled`           | Whether to enable SSH for the Gerrit replica                                                    | `false`                           |
+| `gerritReplica.service.ssh.port`              | Port for SSH                                                                                    | `29418`                           |
+| `gerritReplica.service.ssh.rsaKey`            | Private SSH key in RSA format                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerritReplica.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                               | `nil`                             |
+| `gerritReplica.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                          | `nil`                             |
+| `gerritReplica.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                | `false`                           |
+| `gerritReplica.ingress.tls.cert`              | Public SSL server certificate                                                                   | `-----BEGIN CERTIFICATE-----`     |
+| `gerritReplica.ingress.tls.key`               | Private SSL server certificate                                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerritReplica.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil`                             |
+| `gerritReplica.config.gerrit`                 | The contents of the gerrit.config                                                               | [see here](#Gerrit-config-files)  |
+| `gerritReplica.config.secure`                 | The contents of the secure.config                                                               | [see here](#Gerrit-config-files)  |
 
 ### Gerrit config files
 
