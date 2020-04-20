@@ -67,6 +67,9 @@ spec:
 
           # The git repositories will be mounted from a volume
           [ -L /var/gerrit/git ] || rm -rf /var/gerrit/git
+          {{ if .Values.gerritReplica.service.ssh.enabled -}}
+          rm -f /var/gerrit/etc/ssh_host*key*
+          {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
@@ -89,6 +92,9 @@ spec:
             {{- end }}
             ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
             ln -sf /var/config/secure.config /var/gerrit/etc/secure.config
+            {{ if .Values.gerritReplica.service.ssh.enabled -}}
+            ln -sf /var/config/ssh_host_rsa_key /var/gerrit/etc/ssh_host_rsa_key
+            {{- end }}
           }
 
           mkdir -p /var/gerrit/etc
@@ -122,12 +128,20 @@ spec:
           mountPath: "/var/config/keystore"
           subPath: keystore
         {{- end }}
+        {{ if .Values.gerritReplica.service.ssh.enabled -}}
+        - name: gerrit-replica-ssh
+          mountPath: "/var/config/ssh_host_rsa_key"
+          subPath: ssh_host_rsa_key
+        {{- end }}
       containers:
       - name: gerrit-replica
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritReplica }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         ports:
         - containerPort: 8080
+        {{ if .Values.gerritReplica.service.ssh -}}
+        - containerPort: 29418
+        {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
@@ -147,6 +161,11 @@ spec:
         - name: gerrit-replica-secure-config
           mountPath: "/var/config/keystore"
           subPath: keystore
+        {{- end }}
+        {{ if .Values.gerritReplica.service.ssh.enabled -}}
+        - name: gerrit-replica-ssh
+          mountPath: "/var/config/ssh_host_rsa_key"
+          subPath: ssh_host_rsa_key
         {{- end }}
         resources:
 {{ toYaml .Values.gerritReplica.resources | indent 10 }}
@@ -179,3 +198,8 @@ spec:
       - name: gerrit-replica-secure-config
         secret:
           secretName: {{ .Release.Name }}-gerrit-replica-secure-config
+      {{ if .Values.gerritReplica.service.ssh.enabled -}}
+      - name: gerrit-replica-ssh
+        secret:
+          secretName: {{ .Release.Name }}-gerrit-replica-ssh-secret
+      {{- end }}
