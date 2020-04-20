@@ -62,6 +62,8 @@ istio:
       -----BEGIN RSA PRIVATE KEY-----
 
       -----END RSA PRIVATE KEY-----
+  ssh:
+    enabled: false
 
 
 gitBackend:
@@ -181,6 +183,13 @@ gerritReplica:
     type: NodePort
     http:
       port: 80
+    ssh:
+      enabled: false
+      port: 29418
+      rsaKey: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
 
   ingress:
     host:
@@ -240,7 +249,7 @@ gerritReplica:
         # If using an ingress use proxy-http or proxy-https
         listenUrl = proxy-http://*:8080/
       [sshd]
-        listenAddress = off
+        listenAddress = *:29418
       [transfer]
         timeout = 120 s
       [user]
