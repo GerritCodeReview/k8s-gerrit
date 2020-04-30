@@ -168,6 +168,27 @@ ignored.
 | `istio.tls.key`     | TLS key                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
 | `istio.ssh.enabled` | Whether to enable SSH                                                     | `false`                           |
 
+### Promtail Sidecar
+
+To collect Gerrit logs, a Promtail sidecar can be deployed into the Gerrit replica
+pods. This can for example be used together with the [gerrit-monitoring](https://gerrit-review.googlesource.com/admin/repos/gerrit-monitoring)
+project.
+
+| Parameter                        | Description                                                         | Default                       |
+|----------------------------------|---------------------------------------------------------------------|-------------------------------|
+| `promtailSidecar.enabled`        | Whether to install the Promatil sidecar container                   | `false`                       |
+| `promtailSidecar.image`          | The promtail container image to use                                 | `grafana/promtail`            |
+| `promtailSidecar.version`        | The promtail container image version                                | `1.3.0`                       |
+| `promtailSidecar.resources`      | Configure the amount of resources the container requests/is allowed | `requests.cpu: 100m`          |
+|                                  |                                                                     | `requests.memory: 128Mi`      |
+|                                  |                                                                     | `limits.cpu: 200m`            |
+|                                  |                                                                     | `limits.memory: 128Mi`        |
+| `promtailSidecar.tls.skipverify` | Whether to skip TLS verification                                    | `true`                        |
+| `promtailSidecar.tls.caCert`     | CA certificate for TLS verification                                 | `-----BEGIN CERTIFICATE-----` |
+| `promtailSidecar.loki.url`       | URL to reach Loki                                                   | `loki.example.com`            |
+| `promtailSidecar.loki.user`      | Loki user                                                           | `admin`                       |
+| `promtailSidecar.loki.password`  | Loki password                                                       | `secret`                      |
+
 
 ### Apache-Git-HTTP-Backend (Git-Backend)
 

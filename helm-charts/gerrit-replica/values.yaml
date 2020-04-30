@@ -69,6 +69,29 @@ istio:
     enabled: false
 
 
+promtailSidecar:
+  enabled: false
+  image: grafana/promtail
+  version: 1.3.0
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+  tls:
+    skipVerify: true
+    caCert: |-
+      -----BEGIN CERTIFICATE-----
+
+      -----END CERTIFICATE-----
+  loki:
+    url: loki.example.com
+    user: admin
+    password: secret
+
+
 gitBackend:
   image: k8sgerrit/apache-git-http-backend
 
