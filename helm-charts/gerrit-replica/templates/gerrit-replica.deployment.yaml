@@ -179,6 +179,34 @@ spec:
         {{- end }}
         resources:
 {{ toYaml .Values.gerritReplica.resources | indent 10 }}
+      {{ if .Values.promtailSidecar.enabled -}}
+      - name: promtail
+        image: {{ .Values.promtailSidecar.image }}:v{{ .Values.promtailSidecar.version }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+        - sh
+        - -ec
+        args:
+        - |-
+          /usr/bin/promtail \
+            -config.file=/etc/promtail/promtail.yaml \
+            -client.url={{ .Values.promtailSidecar.loki.url }}/loki/api/v1/push \
+            -client.external-labels=instance=$HOSTNAME
+        resources:
+{{ toYaml .Values.promtailSidecar.resources | indent 10 }}
+        volumeMounts:
+          - name: promtail-config
+            mountPath: /etc/promtail/promtail.yaml
+            subPath: promtail.yaml
+          - name: promtail-secret
+            mountPath: /etc/promtail/promtail.secret
+            subPath: promtail.secret
+          - name: promtail-secret
+            mountPath: /etc/promtail/promtail.ca.crt
+            subPath: promtail.ca.crt
+          - name: gerrit-site
+            mountPath: "/var/gerrit"
+      {{- end }}
       volumes:
       - name: gerrit-site
         {{ if .Values.gerritReplica.persistence.enabled -}}
@@ -217,4 +245,12 @@ spec:
       - name: gerrit-replica-ssh
         secret:
           secretName: {{ .Release.Name }}-gerrit-replica-ssh-secret
+      {{- end }}
+      {{ if .Values.promtailSidecar.enabled -}}
+      - name: promtail-config
+        configMap:
+          name: {{ .Release.Name }}-promtail-gerrit-configmap
+      - name: promtail-secret
+        secret:
+          secretName: {{ .Release.Name }}-promtail-secret
       {{- end }}
