@@ -53,6 +53,11 @@ spec:
         volumeMounts:
         - name: git-filesystem
           mountPath: "/var/gerrit/git"
+        {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
         - name: git-backend-secret
           readOnly: true
           subPath: .htpasswd
@@ -96,3 +101,8 @@ spec:
         {{ else -}}
         emptyDir: {}
         {{- end }}
+      {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+      - name: nfs-config
+        configMap:
+          name: {{ .Release.Name }}-nfs-configmap
+      {{- end }}

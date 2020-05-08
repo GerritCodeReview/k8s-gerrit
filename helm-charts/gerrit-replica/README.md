@@ -127,17 +127,26 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 
 ### Storage for Git repositories
 
-| Parameter                               | Description                                     | Default              |
-|-----------------------------------------|-------------------------------------------------|----------------------|
-| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart | `false`              |
-| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                        | `git-filesystem-pvc` |
-| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories | `5Gi`                |
+| Parameter                               | Description                                                                | Default              |
+|-----------------------------------------|----------------------------------------------------------------------------|----------------------|
+| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart                            | `false`              |
+| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                                                   | `git-filesystem-pvc` |
+| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories                            | `5Gi`                |
+| `gitRepositoryStorage.nfs.enabled`      | Whether the volume used is an NFS-volume                                   | `false`              |
+| `gitRepositoryStorage.nfs.idDomain`     | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com`    |
 
 If the git repositories should be persisted even if the chart is deleted and in
 a way that the volume containing them can be mounted by the reinstalled chart,
 the PVC claiming the volume has to be created independently of the chart. To use
 the external PVC, set `gitRepositoryStorage.externalPVC.enabled` to `true` and
 give the name of the PVC under `gitRepositoryStorage.externalPVC.name`.
+
+Using an NFS mount in Kubernetes can be a bit tricky. To make it work, this chart
+provides a workaround that can be activated by setting `gitRepositoryStorage.nfs.enabled`
+to `true`. One thing it does, is to provide a `idmapd.conf` file that configures
+the ID domain set in `gitRepositoryStorage.nfs.idDomain`. It will also add an
+init-container to the init-job that will ensure that the directory that will
+contain the repositories is owned by the correct user.
 
 ### Istio
 

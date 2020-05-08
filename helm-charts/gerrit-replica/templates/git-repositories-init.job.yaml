@@ -21,6 +21,23 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
+      {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+      initContainers:
+      - name: nfs-init
+        image: busybox
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          chown -R 1000:100 /var/mnt/git
+        volumeMounts:
+        - name: git-filesystem
+          mountPath: "/var/mnt/git"
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+      {{- end }}
       containers:
       - name: create-repositories
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritInit }}:{{ .Values.images.version }}
@@ -70,4 +87,9 @@ spec:
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-replica-configmap
+      {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+      - name: nfs-config
+        configMap:
+          name: {{ .Release.Name }}-nfs-configmap
+      {{- end }}
       restartPolicy: Never

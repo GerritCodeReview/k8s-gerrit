@@ -110,6 +110,11 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
@@ -147,6 +152,11 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-filesystem
           mountPath: "/var/mnt/git"
+        {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
         {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
         - name: gerrit-plugin-cache
           mountPath: "/var/mnt/plugins"
@@ -188,6 +198,11 @@ spec:
       - name: gerrit-plugin-cache
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-plugin-cache-pvc
+      {{- end }}
+      {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+      - name: nfs-config
+        configMap:
+          name: {{ .Release.Name }}-nfs-configmap
       {{- end }}
       - name: gerrit-init-config
         configMap:

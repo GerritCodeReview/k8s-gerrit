@@ -47,6 +47,9 @@ gitRepositoryStorage:
     use: false
     name: git-filesystem-pvc
   size: 5Gi
+  nfs:
+    enabled: false
+    idDomain: localdomain.com
 
 
 istio:
