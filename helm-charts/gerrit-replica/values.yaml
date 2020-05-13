@@ -259,6 +259,7 @@ gerritReplica:
       [httpd]
         # If using an ingress use proxy-http or proxy-https
         listenUrl = proxy-http://*:8080/
+        requestLog = true
       [sshd]
         listenAddress = *:29418
       [transfer]
