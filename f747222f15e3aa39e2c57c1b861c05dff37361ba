@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c05092e1_d2b27b93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1099936
+      },
+      "writtenOn": "2020-05-17T21:50:37Z",
+      "side": 1,
+      "message": "I\u0027m new user for  gatling and i m try to use it to test my gerrit performance .\n\nI have a problem with SBT .\n\nWhen i try to run sbt commande i have this error message with gatling-git project :\n\n\n[root@tunsx20012 gatling-sbt-plugin-demo]# sbt\n[info] [launcher] getting org.scala-sbt sbt 1.3.3  (this may take some time)...\n\n:: problems summary ::\n:::: WARNINGS\n        Your proxy requires authentication.\n\n        Your proxy requires authentication.\n\n        Your proxy requires authentication.\n\n                module not found: org.scala-sbt#sbt;1.3.3\n\n        \u003d\u003d\u003d\u003d local: tried\n\n          /root/.ivy2/local/org.scala-sbt/sbt/1.3.3/ivys/ivy.xml\n\n          -- artifact org.scala-sbt#sbt;1.3.3!sbt.jar:\n\n          /root/.ivy2/local/org.scala-sbt/sbt/1.3.3/jars/sbt.jar\n\n        \u003d\u003d\u003d\u003d my-ivy-proxy-releases: tried\n\n          http://repo.company.com/ivy-releases/org.scala-sbt/sbt/1.3.3/ivys/ivy.xml\n\n        \u003d\u003d\u003d\u003d my-maven-proxy-releases: tried\n\n          http://repo.company.com/maven-releases/org/scala-sbt/sbt/1.3.3/sbt-1.3.3.pom\n\n          -- artifact org.scala-sbt#sbt;1.3.3!sbt.jar:\n\n          http://repo.company.com/maven-releases/org/scala-sbt/sbt/1.3.3/sbt-1.3.3.jar\n\n                ::::::::::::::::::::::::::::::::::::::::::::::\n\n                ::          UNRESOLVED DEPENDENCIES         ::\n\n                ::::::::::::::::::::::::::::::::::::::::::::::\n\n                :: org.scala-sbt#sbt;1.3.3: not found\n\n                ::::::::::::::::::::::::::::::::::::::::::::::\n\n\n\n:: USE VERBOSE OR DEBUG MESSAGE LEVEL FOR MORE DETAILS\n[error] [launcher] unresolved dependency: org.scala-sbt#sbt;1.3.3: not found\n[error] [launcher] error during sbt launcher: error retrieving required libraries\n  (see /root/.sbt/boot/update.log for complete log)\n[error] [launcher] could not retrieve sbt 1.3.3\n\n",
+      "revId": "f747222f15e3aa39e2c57c1b861c05dff37361ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
