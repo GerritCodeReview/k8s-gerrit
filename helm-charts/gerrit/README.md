@@ -158,6 +158,8 @@ is mandatory, if access to Gerrit is required!
 |                                        |                                                                                                     | `limits.memory: 6Gi`                                                                     |
 | `gerrit.persistence.enabled`           | Whether to persist the Gerrit site                                                                  | `true`                                                                                   |
 | `gerrit.persistence.size`              | Storage size for persisted Gerrit site                                                              | `10Gi`                                                                                   |
+| `gerrit.livenessProbe`                 | Configuration of the liveness probe timings                                                         | `{initialDelaySeconds: 30, periodSeconds: 5}`                                            |
+| `gerrit.readinessProbe`                | Configuration of the readiness probe timings                                                        | `{initialDelaySeconds: 5, periodSeconds: 1}`                                             |
 | `gerrit.service.type`                  | Which kind of Service to deploy                                                                     | `NodePort`                                                                               |
 | `gerrit.service.http.port`             | Port over which to expose HTTP                                                                      | `80`                                                                                     |
 | `gerrit.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                   | `nil`                                                                                    |
@@ -229,6 +231,14 @@ intended with the chart:
     The maximum heap size has to be set. And its value has to be lower than the
     memory resource limit set for the container (e.g. `-Xmx4g`). In your calculation,
     allow memory for other components running in the container.
+
+To enable liveness- and readiness probes, the healthcheck plugin will be installed
+by default. Note, that by configuring to use a packaged or downloaded version of
+the healthcheck plugin, the configured version will take precedence over the default
+version. The plugin is by default configured to disable the `querychanges` and
+`auth` healthchecks, since these would not work on a new and empty Gerrit server.
+The default configuration can be overwritten by adding the `healthcheck.config`
+file as a key-value pair to `gerrit.etc.config` as for every other configuration.
 
 ### Installing Gerrit plugins
 
