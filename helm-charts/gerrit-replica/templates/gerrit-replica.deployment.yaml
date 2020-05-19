@@ -126,9 +126,11 @@ spec:
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritReplica }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         ports:
-        - containerPort: 8080
+        - name: http
+          containerPort: 8080
         {{ if .Values.gerritReplica.service.ssh -}}
-        - containerPort: 29418
+        - name: ssh
+          containerPort: 29418
         {{- end }}
         volumeMounts:
         - name: gerrit-site
@@ -148,6 +150,16 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
           mountPath: "/var/mnt/etc/secret"
+        livenessProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: http
+{{ toYaml .Values.gerritReplica.livenessProbe | indent 10 }}
+        readinessProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: http
+{{ toYaml .Values.gerritReplica.readinessProbe | indent 10 }}
         resources:
 {{ toYaml .Values.gerritReplica.resources | indent 10 }}
       {{ if .Values.promtailSidecar.enabled -}}
