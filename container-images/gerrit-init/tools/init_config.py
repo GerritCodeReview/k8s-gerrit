@@ -44,3 +44,8 @@ class InitConfig:
             self.plugin_cache_dir = config["pluginCacheDir"]
 
         return self
+
+    def get_all_configured_plugins(self):
+        plugins = set(self.packaged_plugins)
+        plugins.update([p["name"] for p in self.downloaded_plugins])
+        return plugins
