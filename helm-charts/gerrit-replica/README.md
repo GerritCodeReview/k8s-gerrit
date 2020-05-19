@@ -261,6 +261,8 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.replicas`                      | Number of pod replicas to deploy                                                                    | `1`                                                                             |
 | `gerritReplica.maxSurge`                      | Max. percentage or number of pods allowed to be scheduled above the desired number                  | `25%`                                                                           |
 | `gerritReplica.maxUnavailable`                | Max. percentage or number of pods allowed to be unavailable at a time                               | `100%`                                                                          |
+| `gerritReplica.livenessProbe`                 | Configuration of the liveness probe timings                                                         | `{initialDelaySeconds: 60, periodSeconds: 5}`                                   |
+| `gerritReplica.readinessProbe`                | Configuration of the readiness probe timings                                                        | `{initialDelaySeconds: 10, periodSeconds: 10}`                                  |
 | `gerritReplica.resources`                     | Configure the amount of resources the pod requests/is allowed                                       | `requests.cpu: 1`                                                               |
 |                                               |                                                                                                     | `requests.memory: 5Gi`                                                          |
 |                                               |                                                                                                     | `limits.cpu: 1`                                                                 |
@@ -341,6 +343,16 @@ intended with the chart:
     The maximum heap size has to be set. And its value has to be lower than the
     memory resource limit set for the container (e.g. `-Xmx4g`). In your calculation
     allow memory for other components running in the container.
+
+To enable liveness- and readiness probes, the healthcheck plugin will be installed
+by default. Note, that by configuring to use a packaged or downloaded version of
+the healthcheck plugin, the configured version will take precedence over the default
+version. The plugin is by default configured to disable the `querychanges` and
+`auth` healthchecks, since the Gerrit replica does not index changes and a new
+Gerrit server will not yet necessarily have an user to validate authentication.
+
+The default configuration can be overwritten by adding the `healthcheck.config`
+file as a key-value pair to `gerritReplica.etc.config` as for every other configuration.
 
 ## Upgrading the Chart
 

@@ -79,6 +79,14 @@ def test_gerrit_base_war_contains_gerrit(container_run):
 
 @pytest.mark.docker
 @pytest.mark.structure
+def test_gerrit_base_contains_required_plugins(container_run, required_plugins):
+    for plugin in required_plugins:
+        exit_code, _ = container_run.exec_run("test -f /var/plugins/%s.jar" % plugin)
+        assert exit_code == 0
+
+
+@pytest.mark.docker
+@pytest.mark.structure
 def test_gerrit_base_site_permissions(container_run):
     exit_code, _ = container_run.exec_run("test -O /var/gerrit")
     assert exit_code == 0

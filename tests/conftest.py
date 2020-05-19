@@ -357,3 +357,8 @@ def gerrit_init_image(
     if request.config.getoption("--push"):
         docker_push("gerrit-init")
     return gerrit_init_image
+
+
+@pytest.fixture(scope="session")
+def required_plugins(request):
+    return ["healthcheck"]
