@@ -17,6 +17,7 @@
 import argparse
 import hashlib
 import os
+import shutil
 import time
 
 from abc import ABC, abstractmethod
@@ -40,6 +41,8 @@ class AbstractPluginInstaller(ABC):
         self.site = site
         self.config = config
 
+        self.required_plugins = self._get_required_plugins()
+
         self.plugin_dir = os.path.join(site, "plugins")
         self.plugins_changed = False
 
@@ -53,6 +56,31 @@ class AbstractPluginInstaller(ABC):
             return [f for f in os.listdir(self.plugin_dir) if f.endswith(".jar")]
 
         return list()
+
+    def _get_required_plugins(self):
+        required = [
+            os.path.splitext(f)[0]
+            for f in os.listdir("/var/plugins")
+            if f.endswith(".jar")
+        ]
+        return list(
+            filter(
+                lambda x: x not in self.config.get_all_configured_plugins(), required
+            )
+        )
+
+    def _install_plugins_from_container(self):
+        source_dir = "/var/plugins"
+        for plugin in self.required_plugins:
+            source_file = os.path.join(source_dir, plugin + ".jar")
+            target_file = os.path.join(self.plugin_dir, plugin + ".jar")
+            if os.path.exists(target_file) and self._get_file_sha(
+                source_file
+            ) == self._get_file_sha(target_file):
+                continue
+
+            shutil.copyfile(source_file, target_file)
+            self.plugins_changed = True
 
     @staticmethod
     def _get_file_sha(file):
@@ -69,8 +97,8 @@ class AbstractPluginInstaller(ABC):
         return file_hash.hexdigest()
 
     def _remove_unwanted_plugins(self):
-        wanted_plugins = [plugin["name"] for plugin in self.config.downloaded_plugins]
-        wanted_plugins.extend(self.config.packaged_plugins)
+        wanted_plugins = list(self.config.get_all_configured_plugins())
+        wanted_plugins.extend(self.required_plugins)
         for plugin in self._get_installed_plugins():
             if os.path.splitext(plugin)[0] not in wanted_plugins:
                 os.remove(os.path.join(self.plugin_dir, plugin))
@@ -79,6 +107,7 @@ class AbstractPluginInstaller(ABC):
     def execute(self):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()
+        self._install_plugins_from_container()
 
         for plugin in self.config.downloaded_plugins:
             self._install_plugin(plugin)

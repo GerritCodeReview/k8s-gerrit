@@ -200,6 +200,14 @@ gerritReplica:
   # work.
   maxUnavailable: 100%
 
+  livenessProbe:
+    initialDelaySeconds: 60
+    periodSeconds: 5
+
+  readinessProbe:
+    initialDelaySeconds: 10
+    periodSeconds: 10
+
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
     requests:
