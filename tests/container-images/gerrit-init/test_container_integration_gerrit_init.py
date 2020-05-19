@@ -126,7 +126,12 @@ class TestGerritInitPluginInstallation:
             yaml.dump({"packagedPlugins": plugins}, f, default_flow_style=False)
 
     def test_gerrit_init_plugins_are_installed(
-        self, container_run_endless, init_config_dir, plugins_to_install, tmp_site_dir
+        self,
+        container_run_endless,
+        init_config_dir,
+        plugins_to_install,
+        tmp_site_dir,
+        required_plugins,
     ):
         self._configure_packaged_plugins(
             os.path.join(init_config_dir, "init.yaml"), plugins_to_install
@@ -143,5 +148,23 @@ class TestGerritInitPluginInstallation:
             assert os.path.exists(os.path.join(plugins_path, "%s.jar" % plugin))
 
         installed_plugins = os.listdir(plugins_path)
+        expected_plugins = plugins_to_install + required_plugins
         for plugin in installed_plugins:
-            assert os.path.splitext(plugin)[0] in plugins_to_install
+            assert os.path.splitext(plugin)[0] in expected_plugins
+
+    def test_required_plugins_are_installed(
+        self, container_run_endless, init_config_dir, tmp_site_dir, required_plugins
+    ):
+        self._configure_packaged_plugins(
+            os.path.join(init_config_dir, "init.yaml"), ["hooks"]
+        )
+
+        exit_code, _ = container_run_endless.exec_run(
+            "/var/tools/gerrit_init.py -s /var/gerrit -c /var/config/init.yaml"
+        )
+        assert exit_code == 0
+
+        for plugin in required_plugins:
+            assert os.path.exists(
+                os.path.join(tmp_site_dir, "plugins", "%s.jar" % plugin)
+            )
