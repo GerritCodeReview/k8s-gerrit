@@ -1,4 +1,4 @@
-{{- if .Values.gitRepositoryStorage.nfs.enabled -}}
+{{- if .Values.nfsWorkaround.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -15,7 +15,7 @@ data:
     Verbosity = 0
     Pipefs-Directory = /run/rpc_pipefs
     # set your own domain here, if it differs from FQDN minus hostname
-    Domain = {{ .Values.gitRepositoryStorage.nfs.idDomain }}
+    Domain = {{ .Values.nfsWorkaround.idDomain }}
 
     [Mapping]
 

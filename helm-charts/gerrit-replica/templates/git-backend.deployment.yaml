@@ -32,6 +32,29 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
+      initContainers:
+      {{- if .Values.nfsWorkaround.enabled }}
+      - name: nfs-init
+        image: busybox
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          chown -R 1000:100 /var/mnt/logs
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: logs
+          subPathExpr: "gerrit-replica/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+      {{- end }}
       containers:
       - name: apache-git-http-backend
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -45,6 +68,10 @@ spec:
         - name: DISABLE_HTTP
           value: "true"
         {{- end }}
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         ports:
         {{ if eq .Values.gitBackend.service.http.enabled true -}}
         - name: http-port
@@ -77,7 +104,10 @@ spec:
         volumeMounts:
         - name: git-repositories
           mountPath: "/var/gerrit/git"
-        {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+        - name: logs
+          subPathExpr: "apache-git-http-backend/$(POD_NAME)"
+          mountPath: "/var/log/apache2"
+        {{- if .Values.nfsWorkaround.enabled }}
         - name: nfs-config
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
@@ -85,8 +115,6 @@ spec:
         - name: git-backend-secret
           readOnly: true
           mountPath: "/var/apache/credentials"
-        - name: apache-logs
-          mountPath: "/var/log/apache2"
       volumes:
       - name: git-repositories
         persistentVolumeClaim:
@@ -98,14 +126,18 @@ spec:
       - name: git-backend-secret
         secret:
           secretName: {{ .Release.Name }}-git-backend-secret
-      - name: apache-logs
-        {{ if .Values.gitBackend.logging.persistence.enabled -}}
+      - name: logs
+        {{ if .Values.logStorage.enabled -}}
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-apache-logs-pvc
+          {{- if .Values.logStorage.externalPVC.use }}
+          claimName: {{ .Values.logStorage.externalPVC.name }}
+          {{- else }}
+          claimName: {{ .Release.Name }}-log-pvc
+          {{- end }}
         {{ else -}}
         emptyDir: {}
         {{- end }}
-      {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+      {{- if .Values.nfsWorkaround.enabled }}
       - name: nfs-config
         configMap:
           name: {{ .Release.Name }}-nfs-configmap
