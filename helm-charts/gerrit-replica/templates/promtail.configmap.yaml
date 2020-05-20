@@ -10,7 +10,7 @@ metadata:
 data:
   promtail.yaml: |-
     positions:
-      filename: /var/gerrit/etc/promtail-positions.yaml
+      filename: /var/gerrit/logs/promtail-positions.yaml
 
     clients:
       - url: {{ .Values.promtailSidecar.loki.url }}/loki/api/v1/push

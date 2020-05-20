@@ -41,15 +41,24 @@ storageClasses:
     parameters:
       mountOptions: vers=4.1
 
+nfsWorkaround:
+  enabled: false
+  idDomain: localdomain.com
+
 
 gitRepositoryStorage:
   externalPVC:
     use: false
     name: git-repositories-pvc
   size: 5Gi
-  nfs:
-    enabled: false
-    idDomain: localdomain.com
+
+
+logStorage:
+  enabled: false
+  externalPVC:
+    use: false
+    name: gerrit-logs-pvc
+  size: 5Gi
 
 
 istio:
@@ -117,11 +126,6 @@ gitBackend:
     initialDelaySeconds: 5
     periodSeconds: 1
 
-  logging:
-    persistence:
-      enabled: true
-      size: 1Gi
-
   tls:
     secret:
       # If using an external secret, make sure to name the keys `tls.crt`
@@ -187,11 +191,6 @@ gitGC:
       cpu: 100m
       memory: 256Mi
 
-  logging:
-    persistence:
-      enabled: true
-      size: 1Gi
-
 
 gerritReplica:
   images:
@@ -220,10 +219,6 @@ gerritReplica:
     limits:
       cpu: 1
       memory: 6Gi
-
-  persistence:
-    enabled: true
-    size: 10Gi
 
   service:
     type: NodePort
