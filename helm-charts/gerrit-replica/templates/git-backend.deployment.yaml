@@ -75,7 +75,7 @@ spec:
             {{- end }}
 {{ toYaml .Values.gitBackend.readinessProbe | indent 10 }}
         volumeMounts:
-        - name: git-filesystem
+        - name: git-repositories
           mountPath: "/var/gerrit/git"
         {{- if .Values.gitRepositoryStorage.nfs.enabled }}
         - name: nfs-config
@@ -99,12 +99,12 @@ spec:
         - name: apache-logs
           mountPath: "/var/log/apache2"
       volumes:
-      - name: git-filesystem
+      - name: git-repositories
         persistentVolumeClaim:
           {{- if .Values.gitRepositoryStorage.externalPVC.use }}
           claimName: {{ .Values.gitRepositoryStorage.externalPVC.name }}
           {{- else }}
-          claimName: {{ .Release.Name }}-git-filesystem-pvc
+          claimName: {{ .Release.Name }}-git-repositories-pvc
           {{- end }}
       - name: git-backend-secret
         secret:

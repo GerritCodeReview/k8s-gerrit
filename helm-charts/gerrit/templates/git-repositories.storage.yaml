@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-git-filesystem-pvc
+  name: {{ .Release.Name }}-git-repositories-pvc
   labels:
     app: gerrit
     chart: {{ template "gerrit.chart" . }}
