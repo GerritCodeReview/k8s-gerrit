@@ -127,13 +127,13 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 
 ### Storage for Git repositories
 
-| Parameter                               | Description                                                                | Default              |
-|-----------------------------------------|----------------------------------------------------------------------------|----------------------|
-| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart                            | `false`              |
-| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                                                   | `git-filesystem-pvc` |
-| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories                            | `5Gi`                |
-| `gitRepositoryStorage.nfs.enabled`      | Whether the volume used is an NFS-volume                                   | `false`              |
-| `gitRepositoryStorage.nfs.idDomain`     | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com`    |
+| Parameter                               | Description                                                                | Default                |
+|-----------------------------------------|----------------------------------------------------------------------------|------------------------|
+| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart                            | `false`                |
+| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                                                   | `git-repositories-pvc` |
+| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories                            | `5Gi`                  |
+| `gitRepositoryStorage.nfs.enabled`      | Whether the volume used is an NFS-volume                                   | `false`                |
+| `gitRepositoryStorage.nfs.idDomain`     | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com`      |
 
 If the git repositories should be persisted even if the chart is deleted and in
 a way that the volume containing them can be mounted by the reinstalled chart,
