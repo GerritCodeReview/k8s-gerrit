@@ -28,17 +28,17 @@ spec:
             resources:
 {{ toYaml .Values.gitGC.resources | indent 14 }}
             volumeMounts:
-            - name: git-filesystem
+            - name: git-repositories
               mountPath: "/var/gerrit/git"
             - name: git-gc-logs
               mountPath: "/var/log/git"
           volumes:
-          - name: git-filesystem
+          - name: git-repositories
             persistentVolumeClaim:
               {{- if .Values.gitRepositoryStorage.externalPVC.use }}
               claimName: {{ .Values.gitRepositoryStorage.externalPVC.name }}
               {{- else }}
-              claimName: {{ .Release.Name }}-git-filesystem-pvc
+              claimName: {{ .Release.Name }}-git-repositories-pvc
               {{- end }}
           - name: git-gc-logs
             {{ if .Values.gitGC.logging.persistence.enabled -}}
