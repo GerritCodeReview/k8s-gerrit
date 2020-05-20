@@ -20,11 +20,33 @@ spec:
         spec:
           restartPolicy: OnFailure
           securityContext:
-            runAsUser: 1000
             fsGroup: 100
           {{ if .Values.images.registry.ImagePullSecret.name -}}
           imagePullSecrets:
           - name: {{ .Values.images.registry.ImagePullSecret.name }}
+          {{- end }}
+          initContainers:
+          {{- if .Values.nfsWorkaround.enabled }}
+          - name: nfs-init
+            image: busybox
+            command:
+            - sh
+            - -c
+            args:
+            - |
+              chown -R 1000:100 /var/mnt/logs
+            env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            volumeMounts:
+            - name: logs
+              subPathExpr: "git-gc/$(POD_NAME)"
+              mountPath: "/var/mnt/logs"
+            - name: nfs-config
+              mountPath: "/etc/idmapd.conf"
+              subPath: idmapd.conf
           {{- end }}
           containers:
           - name: git-gc
@@ -32,11 +54,22 @@ spec:
             image: {{ template "registry" . }}{{ .Values.gitGC.image }}:{{ .Values.images.version }}
             resources:
 {{ toYaml .Values.gitGC.resources | indent 14 }}
+            env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             volumeMounts:
             - name: git-repositories
               mountPath: "/var/gerrit/git"
-            - name: git-gc-logs
+            - name: logs
+              subPathExpr: "git-gc/$(POD_NAME)"
               mountPath: "/var/log/git"
+            {{- if .Values.nfsWorkaround.enabled }}
+            - name: nfs-config
+              mountPath: "/etc/idmapd.conf"
+              subPath: idmapd.conf
+            {{- end }}
           volumes:
           - name: git-repositories
             persistentVolumeClaim:
@@ -45,10 +78,19 @@ spec:
               {{- else }}
               claimName: {{ .Release.Name }}-git-repositories-pvc
               {{- end }}
-          - name: git-gc-logs
-            {{ if .Values.gitGC.logging.persistence.enabled -}}
+          - name: logs
+            {{ if .Values.logStorage.enabled -}}
             persistentVolumeClaim:
-              claimName: {{ .Release.Name }}-git-gc-logs-pvc
+              {{- if .Values.logStorage.externalPVC.use }}
+              claimName: {{ .Values.logStorage.externalPVC.name }}
+              {{- else }}
+              claimName: {{ .Release.Name }}-log-pvc
+              {{- end }}
             {{ else -}}
             emptyDir: {}
             {{- end }}
+          {{- if .Values.nfsWorkaround.enabled }}
+          - name: nfs-config
+            configMap:
+              name: {{ .Release.Name }}-nfs-configmap
+          {{- end }}
