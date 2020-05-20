@@ -1,0 +1,27 @@
+{{- if not .Values.gitRepositoryStorage.externalPVC.use }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-git-repositories-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.gitRepositoryStorage.size }}
+  storageClassName: {{ .Values.storageClasses.shared.name }}
+{{- end }}
+{{- if and .Values.logStorage.enabled (not .Values.logStorage.externalPVC.use) }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-log-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.logStorage.size }}
+  storageClassName: {{ .Values.storageClasses.shared.name }}
+{{- end }}

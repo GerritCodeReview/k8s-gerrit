@@ -33,6 +33,28 @@ spec:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
       {{- end }}
       initContainers:
+      {{- if .Values.nfsWorkaround.enabled }}
+      - name: nfs-init
+        image: busybox
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          chown -R 1000:100 /var/mnt/logs
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: logs
+          subPathExpr: "gerrit-replica/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+      {{- end }}
       - name: site-cleanup
         image: busybox
         securityContext:
@@ -46,6 +68,7 @@ spec:
           # Remove directories that should be mounted rather than exist with the
           # rest of the site
           [ ! -L /var/gerrit/git ] && rm -rf /var/gerrit/git
+          [ ! -L /var/gerrit/logs ] && rm -rf /var/gerrit/logs
           rm -f /var/gerrit/logs/gerrit.pid
         volumeMounts:
         - name: gerrit-site
@@ -65,8 +88,9 @@ spec:
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit
 
-          # The git repositories will be mounted from a volume
+          # The git repositories and logs will be mounted from a volume
           [ -L /var/gerrit/git ] || rm -rf /var/gerrit/git
+          [ -L /var/gerrit/logs ] || rm -rf /var/gerrit/logs
           {{ if .Values.gerritReplica.service.ssh.enabled -}}
           rm -f /var/gerrit/etc/ssh_host*key*
           {{- end }}
@@ -99,13 +123,25 @@ spec:
             ln -sf /var/mnt/git /var/gerrit/
           fi
 
+          if [ ! -d /var/gerrit/logs ]; then
+            ln -sf /var/mnt/logs /var/gerrit/
+          fi
+
           /var/tools/validate_notedb.py -s /var/gerrit
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
         - name: git-repositories
           mountPath: "/var/mnt/git"
-        {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+        - name: logs
+          subPathExpr: "gerrit-replica/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
+        {{- if .Values.nfsWorkaround.enabled }}
         - name: nfs-config
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
@@ -125,6 +161,11 @@ spec:
       - name: gerrit-replica
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritReplica }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         ports:
         - name: http
           containerPort: 8080
@@ -137,7 +178,10 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-repositories
           mountPath: "/var/mnt/git"
-        {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+        - name: logs
+          subPathExpr: "gerrit-replica/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
+        {{- if .Values.nfsWorkaround.enabled }}
         - name: nfs-config
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
@@ -175,29 +219,35 @@ spec:
             -config.file=/etc/promtail/promtail.yaml \
             -client.url={{ .Values.promtailSidecar.loki.url }}/loki/api/v1/push \
             -client.external-labels=instance=$HOSTNAME
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         resources:
 {{ toYaml .Values.promtailSidecar.resources | indent 10 }}
         volumeMounts:
-          - name: promtail-config
-            mountPath: /etc/promtail/promtail.yaml
-            subPath: promtail.yaml
-          - name: promtail-secret
-            mountPath: /etc/promtail/promtail.secret
-            subPath: promtail.secret
-          - name: promtail-secret
-            mountPath: /etc/promtail/promtail.ca.crt
-            subPath: promtail.ca.crt
-          - name: gerrit-site
-            mountPath: "/var/gerrit"
+        - name: promtail-config
+          mountPath: /etc/promtail/promtail.yaml
+          subPath: promtail.yaml
+        - name: promtail-secret
+          mountPath: /etc/promtail/promtail.secret
+          subPath: promtail.secret
+        - name: promtail-secret
+          mountPath: /etc/promtail/promtail.ca.crt
+          subPath: promtail.ca.crt
+        - name: logs
+          subPathExpr: "gerrit-replica/$(POD_NAME)"
+          mountPath: "/var/gerrit/logs"
+        {{- if .Values.nfsWorkaround.enabled }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
       {{- end }}
       volumes:
       - name: gerrit-site
-        {{ if .Values.gerritReplica.persistence.enabled -}}
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-gerrit-replica-pvc
-        {{ else -}}
         emptyDir: {}
-        {{- end }}
       - name: git-repositories
         persistentVolumeClaim:
           {{- if .Values.gitRepositoryStorage.externalPVC.use }}
@@ -205,12 +255,23 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-repositories-pvc
           {{- end }}
+      - name: logs
+        {{ if .Values.logStorage.enabled -}}
+        persistentVolumeClaim:
+          {{- if .Values.logStorage.externalPVC.use }}
+          claimName: {{ .Values.logStorage.externalPVC.name }}
+          {{- else }}
+          claimName: {{ .Release.Name }}-log-pvc
+          {{- end }}
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
       {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
       - name: gerrit-plugin-cache
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-plugin-cache-pvc
       {{- end }}
-      {{- if .Values.gitRepositoryStorage.nfs.enabled }}
+      {{- if .Values.nfsWorkaround.enabled }}
       - name: nfs-config
         configMap:
           name: {{ .Release.Name }}-nfs-configmap

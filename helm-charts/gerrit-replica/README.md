@@ -125,15 +125,26 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy`  | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
 | `storageClasses.shared.parameters`     | Parameters for the provisioner                                    | `parameters.mountOptions: vers=4.1`               |
 
+### Workaround for NFS
+
+Kubernetes will not be able to adapt the ownership of the files within NFS
+volumes. Thus, a workaround exists that will add init-containers and jobs to
+adapt file ownership. Also the ID-domain will be configured to ensure correct
+ID-mapping.
+
+| Parameter                | Description                                                                | Default           |
+|--------------------------|----------------------------------------------------------------------------|-------------------|
+| `nfsWorkaround.enabled`  | Whether the volume used is an NFS-volume                                   | `false`           |
+| `nfsWorkaround.idDomain` | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com` |
+
+
 ### Storage for Git repositories
 
-| Parameter                               | Description                                                                | Default                |
-|-----------------------------------------|----------------------------------------------------------------------------|------------------------|
-| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart                            | `false`                |
-| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                                                   | `git-repositories-pvc` |
-| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories                            | `5Gi`                  |
-| `gitRepositoryStorage.nfs.enabled`      | Whether the volume used is an NFS-volume                                   | `false`                |
-| `gitRepositoryStorage.nfs.idDomain`     | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com`      |
+| Parameter                               | Description                                     | Default                |
+|-----------------------------------------|-------------------------------------------------|------------------------|
+| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart | `false`                |
+| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                        | `git-repositories-pvc` |
+| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories | `5Gi`                  |
 
 If the git repositories should be persisted even if the chart is deleted and in
 a way that the volume containing them can be mounted by the reinstalled chart,
@@ -141,12 +152,21 @@ the PVC claiming the volume has to be created independently of the chart. To use
 the external PVC, set `gitRepositoryStorage.externalPVC.enabled` to `true` and
 give the name of the PVC under `gitRepositoryStorage.externalPVC.name`.
 
-Using an NFS mount in Kubernetes can be a bit tricky. To make it work, this chart
-provides a workaround that can be activated by setting `gitRepositoryStorage.nfs.enabled`
-to `true`. One thing it does, is to provide a `idmapd.conf` file that configures
-the ID domain set in `gitRepositoryStorage.nfs.idDomain`. It will also add an
-init-container to the init-job that will ensure that the directory that will
-contain the repositories is owned by the correct user.
+### Storage for Logs
+
+In addition to collecting logs with a log collection tool like Promtail, the logs
+can also be stored in a persistent volume. This volume has to be a read-write-many
+volume to be able to be used by multiple pods.
+
+| Parameter                     | Description                                     | Default           |
+|-------------------------------|-------------------------------------------------|-------------------|
+| `logStorage.enabled`          | Whether to enable persistence of logs           | `false`           |
+| `logStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart | `false`           |
+| `logStorage.externalPVC.name` | Name of the external PVC                        | `gerrit-logs-pvc` |
+| `logStorage.size`             | Size of the volume                              | `5Gi`             |
+
+Each pod will create a separate folder for its logs, allowing to trace logs to
+the respective pods.
 
 ### Istio
 
@@ -205,8 +225,6 @@ project.
 | `gitBackend.livenessProbe`                 | Configuration of the liveness probe timings                                        | `{initialDelaySeconds: 10, periodSeconds: 5}`                             |
 | `gitBackend.readinessProbe`                | Configuration of the readiness probe timings                                       | `{initialDelaySeconds: 5, periodSeconds: 1}`                              |
 | `gitBackend.credentials.htpasswd`          | `.htpasswd`-file containing username/password-credentials for accessing git        | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
-| `gitBackend.logging.persistence.enabled`   | Whether to persist logs                                                            | `true`                                                                    |
-| `gitBackend.logging.persistence.size`      | Storage size for persisted logs                                                    | `1Gi`                                                                     |
 | `gitBackend.service.type`                  | Which kind of Service to deploy                                                    | `LoadBalancer`                                                            |
 | `gitBackend.service.http.enabled`          | Whether to serve HTTP-requests (needed for Ingress)                                | `true`                                                                    |
 | `gitBackend.service.http.port`             | Port over which to expose HTTP                                                     | `80`                                                                      |
@@ -236,8 +254,6 @@ At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
 |                                     |                                                                  | `requests.memory: 256Mi` |
 |                                     |                                                                  | `limits.cpu: 100m`       |
 |                                     |                                                                  | `limits.memory: 256Mi`   |
-| `gitGC.logging.persistence.enabled` | Whether to persist logs                                          | `true`                   |
-| `gitGC.logging.persistence.size`    | Storage size for persisted logs                                  | `1Gi`                    |
 
 ### Gerrit replica
 
@@ -267,8 +283,6 @@ is mandatory, if access to the Gerrit replica is required!
 |                                               |                                                                                                     | `requests.memory: 5Gi`                                                          |
 |                                               |                                                                                                     | `limits.cpu: 1`                                                                 |
 |                                               |                                                                                                     | `limits.memory: 6Gi`                                                            |
-| `gerritReplica.persistence.enabled`           | Whether to persist the Gerrit site                                                                  | `true`                                                                          |
-| `gerritReplica.persistence.size`              | Storage size for persisted Gerrit site                                                              | `10Gi`                                                                          |
 | `gerritReplica.service.type`                  | Which kind of Service to deploy                                                                     | `NodePort`                                                                      |
 | `gerritReplica.service.http.port`             | Port over which to expose HTTP                                                                      | `80`                                                                            |
 | `gerritReplica.service.ssh.enabled`           | Whether to enable SSH for the Gerrit replica                                                        | `false`                                                                         |
