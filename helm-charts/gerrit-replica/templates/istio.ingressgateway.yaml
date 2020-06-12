@@ -106,4 +106,19 @@ spec:
         port:
           number: {{ .Values.gerritReplica.service.ssh.port }}
   {{- end }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ .Release.Name }}-gerrit-destination-rule
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  host: {{ .Release.Name }}-gerrit-replica-service.{{ .Release.Namespace }}.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
 {{- end }}
