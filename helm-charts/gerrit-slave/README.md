@@ -146,24 +146,20 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `gitBackend.credentials.htpasswd`          | `.htpasswd`-file containing username/password-credentials for accessing git        | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
 | `gitBackend.logging.persistence.enabled`   | Whether to persist logs                                                            | `true`                                                                    |
 | `gitBackend.logging.persistence.size`      | Storage size for persisted logs                                                    | `1Gi`                                                                     |
+| `gitBackend.tls.secret.create`             | Whether to create a TLS-secret                                                     | `true`                                                                    |
+| `gitBackend.tls.secret.name`               | Name of an external secret that will be used as a TLS-secret                       | `nil`                                                                     |
+| `gitBackend.tls.cert`                      | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
+| `gitBackend.tls.key`                       | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 | `gitBackend.service.type`                  | Which kind of Service to deploy                                                    | `LoadBalancer`                                                            |
 | `gitBackend.service.http.enabled`          | Whether to serve HTTP-requests (needed for Ingress)                                | `true`                                                                    |
 | `gitBackend.service.http.port`             | Port over which to expose HTTP                                                     | `80`                                                                      |
 | `gitBackend.service.https.enabled`         | Whether to serve HTTPS-requests                                                    | `false`                                                                   |
 | `gitBackend.service.https.port`            | Port over which to expose HTTPS                                                    | `443`                                                                     |
-| `gitBackend.service.https.secret.create`   | Whether to create a TLS-secret                                                     | `true`                                                                    |
-| `gitBackend.service.https.secret.name`     | Name of an external secret that will be used as a TLS-secret                       | `nil`                                                                     |
-| `gitBackend.service.https.secret.cert`     | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.service.https.secret.key`      | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 | `gitBackend.ingress.enabled`               | Whether to deploy an Ingress                                                       | `false`                                                                   |
 | `gitBackend.ingress.host`                  | Host name to use for the Ingress (required for Ingress)                            | `nil`                                                                     |
 | `gitBackend.ingress.maxBodySize`           | Maximum request body size allowed (Set to 0 for an unlimited request body size)    | `50m`                                                                     |
 | `gitBackend.ingress.additionalAnnotations` | Additional annotations for the Ingress                                             | `nil`                                                                     |
 | `gitBackend.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                   | `false`                                                                   |
-| `gitBackend.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                     | `true`                                                                    |
-| `gitBackend.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                       | `nil`                                                                     |
-| `gitBackend.ingress.tls.secret.cert`       | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.ingress.tls.secret.key`        | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 
 ***note
 At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
