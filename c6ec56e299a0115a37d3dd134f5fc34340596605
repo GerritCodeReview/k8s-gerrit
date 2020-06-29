@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "539b34f7_b9081aa2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-06-29T07:53:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0ac5fec_9678be8c",
+      "revId": "c6ec56e299a0115a37d3dd134f5fc34340596605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da0c48b6_2996c8a3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -50,6 +68,24 @@
       "revId": "c6ec56e299a0115a37d3dd134f5fc34340596605",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117f61b0_5d921387",
+        "filename": "helm-charts/gerrit-slave/templates/git-backend.secrets.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-06-29T07:53:54Z",
+      "side": 1,
+      "message": "Yes, that is probably not a bad idea. Let me do that in a separate change.",
+      "parentUuid": "abe285a5_f5430c2a",
+      "revId": "c6ec56e299a0115a37d3dd134f5fc34340596605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

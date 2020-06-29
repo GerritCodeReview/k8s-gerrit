@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64070821_618c54cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-06-29T07:53:54Z",
+      "side": 1,
+      "message": "Hi Terin, thanks a lot for the feedback!\n\nPlease let me know if you find any further room for improvement. It would also be nice to here, how it works for you in general. This would be very valuable feedback!\n\nYou are of course also very welcome to contribute to the project!",
+      "revId": "30facaa0a93e6042ff1e0aefd63847c979c72488",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
