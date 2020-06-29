@@ -34,6 +34,24 @@
       "revId": "30facaa0a93e6042ff1e0aefd63847c979c72488",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "363bd724_04faedb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-06-29T08:45:39Z",
+      "side": 1,
+      "message": "I started this project, because we at SAP would like to move at least some of our Gerrit instances to Kubernetes. However, we are a really small team and have a lot in our backlog, so the work on k8s-gerrit slowed down a lot or even stopped, including reviews. Since as far as I know these charts are not used by the teams that contribute most to Gerrit so far, I am also lacking reviewers outside of my own team to fill in. If you have some time to do some reviews, especially on changes you would like to see submitted, that would be really awesome!",
+      "parentUuid": "1717be16_ee0ad27b",
+      "revId": "30facaa0a93e6042ff1e0aefd63847c979c72488",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
