@@ -18,10 +18,10 @@ spec:
   tls:
   - hosts:
     - {{ .Values.gitBackend.ingress.host }}
-    {{ if .Values.gitBackend.ingress.tls.secret.create -}}
+    {{ if .Values.gitBackend.tls.secret.create -}}
     secretName: {{ .Release.Name }}-git-backend-tls-secret
     {{- else }}
-    secretName: {{ .Values.gitBackend.ingress.tls.secret.name }}
+    secretName: {{ .Values.gitBackend.tls.secret.name }}
     {{- end }}
   {{- end }}
   rules:
