@@ -57,11 +57,11 @@ spec:
         {{ if .Values.gitBackend.service.https.enabled -}}
         - name: git-backend-tls-secret
           readOnly: true
-          subPath: server.key
+          subPath: tls.key
           mountPath: "/var/apache/credentials/server.key"
         - name: git-backend-tls-secret
           readOnly: true
-          subPath: server.crt
+          subPath: tls.crt
           mountPath: "/var/apache/credentials/server.crt"
         {{ end }}
         - name: apache-logs
@@ -77,7 +77,7 @@ spec:
       - name: git-backend-tls-secret
         secret:
           {{ if .Values.gitBackend.service.https.secret.create -}}
-          secretName: {{ .Release.Name }}-git-backend-secret
+          secretName: {{ .Release.Name }}-git-backend-service-tls-secret
           {{- else }}
           secretName: {{ .Values.gitBackend.service.https.secret.name }}
           {{- end }}
