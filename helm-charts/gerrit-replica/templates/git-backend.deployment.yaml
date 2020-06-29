@@ -76,10 +76,10 @@ spec:
       {{ if and .Values.gitBackend.service.https.enabled -}}
       - name: git-backend-tls-secret
         secret:
-          {{ if .Values.gitBackend.service.https.secret.create -}}
-          secretName: {{ .Release.Name }}-git-backend-service-tls-secret
+          {{ if .Values.gitBackend.tls.secret.create -}}
+          secretName: {{ .Release.Name }}-git-backend-tls-secret
           {{- else }}
-          secretName: {{ .Values.gitBackend.service.https.secret.name }}
+          secretName: {{ .Values.gitBackend.tls.secret.name }}
           {{- end }}
       {{ end }}
       - name: apache-logs
