@@ -5,7 +5,7 @@ Container images, configurations and [Helm](https://helm.sh/) charts for install
 
 # Docker images
 
-Images to run a Gerrit master and slave setup based on the 3.1.7 Gerrit release.
+Images to run a Gerrit master and Gerrit replica setup based on the 3.1.7 Gerrit release.
 
 ## Building images
 
@@ -20,7 +20,7 @@ If a specific image should be build, the image name can be specified as an argum
 Multiple images can be specified at once:
 
 ```
-./build gerrit-slave git-gc
+./build gerrit-replica git-gc
 ```
 
 The build-script usually uses the `latest`-tag to tag the images. By using the
@@ -60,7 +60,7 @@ case they override the values from env variables:
 ```
 
 The `<component-name>` is one of: `apache-git-http-backend`, `git-gc`,
-`gerrit-slave`.
+`gerrit-replica`.
 
 Adding the `--update-latest`-flag will also update the images tagged `latest` in
 the repository:
@@ -89,7 +89,7 @@ Therefore, make sure that `container.javaHome` is set to that path in the `gerri
 # Helm Charts
 
 These Helm charts can be used to install a Gerrit cluster consisting of a
-Gerrit master and a Gerrit slave on a Kubernetes cluster. A helm version newer
+Gerrit master and a Gerrit replica on a Kubernetes cluster. A helm version newer
 than 3.0 is required to follow the instructions provided with the helm charts.
 
 To evaluate and test the helm-charts, they can be installed on a local machine
@@ -109,9 +109,9 @@ Persistent Volumes available using
 
 * Install a [Gerrit master](helm-charts/gerrit-master/README.md)
 
-## Gerrit Slave
+## Gerrit Replica
 
-* Install a [Gerrit slave](helm-charts/gerrit-slave/README.md)
+* Install a [Gerrit replica](helm-charts/gerrit-replica/README.md)
 
 # Running tests
 

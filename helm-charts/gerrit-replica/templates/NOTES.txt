@@ -1,0 +1,31 @@
+A Gerrit replica has been deployed.
+=================================
+
+The Apache-Git-HTTP-Backend is now ready to receive replication requests from the
+Gerrit master. Please configure the replication plugin of the Gerrit-master to
+push the repositories to:
+
+{{ if .Values.gitBackend.ingress.enabled -}}
+  http {{- if .Values.gitBackend.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gitBackend.ingress.host -}} /git/${name}.git
+{{- else }}
+  {{ if .Values.gitBackend.service.https.enabled -}}
+  https://<EXTERNAL-IP>: {{- .Values.gitBackend.service.https.port -}} /git/${name}.git
+  {{ else }}
+  http://<EXTERNAL-IP>: {{- .Values.gitBackend.service.http.port -}} /git/${name}.git
+  {{ end }}
+  The external IP of the service can be found by running:
+  kubectl get svc git-backend-service
+{{- end }}
+
+Requests to create new repositories have to be directed to the route /new/${name}.git
+over HTTP(S). A detailed guide of how to configure Gerrit's replication plugin
+can be found here:
+
+https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md
+
+The Gerrit replica is starting up.
+
+The initialization process may take some time. Afterwards the git repositories
+will be available under:
+
+http {{- if .Values.gerritReplica.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gerritReplica.ingress.host -}} /<repository-name>.git

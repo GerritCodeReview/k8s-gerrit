@@ -340,13 +340,15 @@ def gerrit_master_image(
 
 
 @pytest.fixture(scope="session")
-def gerrit_slave_image(
+def gerrit_replica_image(
     request, container_images, docker_build, docker_push, base_image, gerrit_base_image
 ):
-    gerrit_slave_image = docker_build(container_images["gerrit-slave"], "gerrit-slave")
+    gerrit_replica_image = docker_build(
+        container_images["gerrit-replica"], "gerrit-replica"
+    )
     if request.config.getoption("--push"):
-        docker_push("gerrit-slave")
-    return gerrit_slave_image
+        docker_push("gerrit-replica")
+    return gerrit_replica_image
 
 
 @pytest.fixture(scope="session")

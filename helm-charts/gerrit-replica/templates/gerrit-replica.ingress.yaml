@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-gerrit-replica-ingress
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  {{ if .Values.gerritReplica.ingress.additionalAnnotations -}}
+  annotations:
+{{ toYaml .Values.gerritReplica.ingress.additionalAnnotations  | indent 4 }}
+  {{- end }}
+spec:
+  {{ if .Values.gerritReplica.ingress.tls.enabled -}}
+  tls:
+  - hosts:
+    - {{ .Values.gerritReplica.ingress.host }}
+    secretName: {{ .Release.Name }}-gerrit-replica-tls-secret
+  {{- end }}
+  rules:
+  - host: {{required "A host URL is required for the Gerrit replica Ingress. Please set 'gerritReplica.ingress.host'" .Values.gerritReplica.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-gerrit-replica-service
+          servicePort: {{ .Values.gerritReplica.service.http.port }}

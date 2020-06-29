@@ -5,7 +5,7 @@ images:
     ImagePullSecret:
       # Leave blank, if no ImagePullSecret is needed.
       name: image-pull-secret
-      # If set to false, the gerrit-master chart expects either a ImagePullSecret
+      # If set to false, the gerrit-replica chart expects either a ImagePullSecret
       # with the name configured above to be present on the cluster or that no
       # credentials are needed.
       create: false
@@ -43,10 +43,77 @@ storageClasses:
 
 
 gitRepositoryStorage:
-  externalPVC:
-    use: false
-    name: git-filesystem-pvc
   size: 5Gi
+
+
+gitBackend:
+  image: k8sgerrit/apache-git-http-backend
+
+  replicas: 1
+  maxSurge: 25%
+  # For just one replica, 100 % unavailability has to be allowed for updates to
+  # work.
+  maxUnavailable: 100%
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
+
+  logging:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+  service:
+    type: LoadBalancer
+    # At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
+    http:
+      enabled: true
+      port: 80
+    https:
+      enabled: false
+      port: 443
+      cert: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
+
+  ingress:
+    enabled: false
+    host:
+    # The maximum body size to allow for requests. Use "0" to allow unlimited
+    # reuqest body sizes.
+    maxBodySize: 50m
+    additionalAnnotations: {}
+    #  nginx.ingress.kubernetes.io/server-alias: example.com
+    #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
+    tls:
+      enabled: false
+      cert: |-
+        -----BEGIN CERTIFICATE-----
+
+        -----END CERTIFICATE-----
+      key: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
+
+  credentials:
+    # example: user: 'git'; password: 'secret'
+    # run `man htpasswd` to learn about how to create .htpasswd-files
+    htpasswd: git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.
+    # TODO: Create htpasswd-file on container startup instead and set user
+    # and password in values.yaml.
+    #user:
+    #password:
 
 
 gitGC:
@@ -68,13 +135,22 @@ gitGC:
       size: 1Gi
 
 
-gerritMaster:
+gerritReplica:
   images:
     gerritInit: k8sgerrit/gerrit-init
-    gerritMaster: k8sgerrit/gerrit-master
+    gerritReplica: k8sgerrit/gerrit-replica
 
   replicas: 1
-  updatePartition: 0
+  maxSurge: 25%
+  # For just one replica, 100 % unavailability has to be allowed for updates to
+  # work.
+  maxUnavailable: 100%
+
+  # If you only intend to test the Gerrit replica and do not wish to actually
+  # replicate repositories, activate this option to initialize a new site,
+  # including a notedb.
+  initializeTestSite:
+    enabled: true
 
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
@@ -89,14 +165,6 @@ gerritMaster:
     enabled: true
     size: 10Gi
 
-  livenessProbe:
-    initialDelaySeconds: 30
-    periodSeconds: 5
-
-  readinessProbe:
-    initialDelaySeconds: 5
-    periodSeconds: 1
-
   service:
     type: NodePort
     http:
@@ -104,9 +172,6 @@ gerritMaster:
 
   ingress:
     host:
-    # The maximum body size to allow for requests. Use "0" to allow unlimited
-    # reuqest body sizes.
-    maxBodySize: 50m
     additionalAnnotations: {}
     #  nginx.ingress.kubernetes.io/server-alias: example.com
     #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
@@ -121,27 +186,10 @@ gerritMaster:
 
         -----END RSA PRIVATE KEY-----
 
-  # `gerritMaster.keystore` expects a base64-encoded Java-keystore
+  # `gerritReplica.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and
   # automatic encoding using helm does not work here.
   keystore:
-
-  plugins:
-    packaged:
-    - commit-message-length-validator
-    - download-commands
-    - replication
-    - reviewnotes
-    downloaded:
-    # - name: delete-project
-    #   url: https://example.com/gerrit-plugins/delete-project.jar
-    #   sha1:
-
-    # Only downloaded plugins will be cached. This will be ignored, if no plugins
-    # are downloaded.
-    cache:
-      enabled: false
-      size: 1Gi
 
   config:
     # Some values are expected to have a specific value for the deployment installed
@@ -150,7 +198,7 @@ gerritMaster:
     gerrit: |-
       [gerrit]
         basePath = git # FIXED
-        serverId = gerrit-master-1
+        serverId = gerrit-replica-1
         # The canonical web URL has to be set to the Ingress host, if an Ingress
         # is used. If a LoadBalancer-service is used, this should be set to the
         # LoadBalancer's external IP. This can only be done manually after installing
@@ -177,10 +225,11 @@ gerritMaster:
         directory = cache
       [container]
         user = gerrit # FIXED
+        replica = true # FIXED
         javaHome = /usr/lib/jvm/java-1.8-openjdk # FIXED
         javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
         javaOptions = -Xms200m
-        # Has to be lower than 'gerritMaster.resources.limits.memory'. Also
+        # Has to be lower than 'gerritReplica.resources.limits.memory'. Also
         # consider memories used by other applications in the container.
         javaOptions = -Xmx4g
 
@@ -189,19 +238,3 @@ gerritMaster:
       # Only needed, if SSL is enabled.
       #[httpd]
       #  sslKeyPassword = gerrit
-
-      # Credentials for replication targets
-      # [remote "replica"]
-      # username = git
-      # password = secret
-
-    replication: |-
-      [gerrit]
-        autoReload = false
-        replicateOnStartup = true
-        defaultForceUpdate = true
-
-      # [remote "replica"]
-      # url = http://gerrit-replica.example.com/git/${name}.git
-      # replicationDelay = 0
-      # timeout = 30

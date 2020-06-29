@@ -4,7 +4,7 @@ To test Gerrit on Kubernetes locally, a one-node cluster can be set up using
 Minikube. Minikube provides basic Kubernetes functionality and allows to quickly
 deploy and evaluate a Kubernetes deployment.
 This tutorial will guide through setting up Minikube to deploy the gerrit-
-master and gerrit-slave helm charts to it. Note, that due to limited compute
+master and gerrit-replica helm charts to it. Note, that due to limited compute
 resources on a single local machine and the restricted functionality of Minikube,
 the full functionality of the charts might not be usable.
 
@@ -49,7 +49,7 @@ hypervisor driver other than virtual box (e.g. hyperkit) is used, set the
 minikube config set vm-driver hyperkit
 ```
 
-The gerrit-master and gerrit-slave charts are configured to work with the default
+The gerrit-master and gerrit-replica charts are configured to work with the default
 resource limits configured for minikube (2 cpus and 2Gi RAM). If more resources
 are desired (e.g. to speed up deployment startup or for more resource intensive
 tests), configure the resource limits using:
@@ -59,7 +59,7 @@ minikube config set memory 4096
 minikube config set cpus 4
 ```
 
-To install a full Gerrit master and Gerrit slave setup with reasonable startup
+To install a full Gerrit master and Gerrit replica setup with reasonable startup
 times, Minikube will need about 9.5 GB of RAM and 3-4 CPUs! But the more the
 better.
 
@@ -94,7 +94,7 @@ file, adding a line containing the Minikube IP and a whitespace-delimited list
 of all the hostnames:
 
 ```sh
-echo "$(minikube ip) master.gerrit backend.gerrit slave.gerrit" | sudo tee -a /etc/hosts
+echo "$(minikube ip) master.gerrit backend.gerrit replica.gerrit" | sudo tee -a /etc/hosts
 ```
 
 The host names (e.g. `master.gerrit`) are the defaults, when using the values.yaml
@@ -168,26 +168,26 @@ To open Gerrit's UI, run:
 open http://master.gerrit
 ```
 
-## Installing the gerrit-slave helm chart
+## Installing the gerrit-replica helm chart
 
-A custom configuration file to configure the gerrit-slave chart is provided at
-`./supplements/gerrit-slave.minikube.values.yaml`. Install it by running:
+A custom configuration file to configure the gerrit-replica chart is provided at
+`./supplements/gerrit-replica.minikube.values.yaml`. Install it by running:
 
 ```sh
-helm install gerrit-slave \
-  ./helm-charts/gerrit-slave \
-  -f ./supplements/gerrit-slave.minikube.values.yaml
+helm install gerrit-replica \
+  ./helm-charts/gerrit-replica \
+  -f ./supplements/gerrit-replica.minikube.values.yaml
 ```
 
-The slave will start up, which can be followed by running:
+The replica will start up, which can be followed by running:
 
 ```sh
-kubectl logs -f gerrit-slave-gerrit-slave-deployment-<id>
+kubectl logs -f gerrit-replica-gerrit-replica-deployment-<id>
 ```
 
 Replication of repositories has to be started on the Gerrit master, e.g. by making
 a change in the respective repositories. Only then previous changes to the
-repositories will be available on the slave.
+repositories will be available on the replica.
 
 ## Cleanup
 

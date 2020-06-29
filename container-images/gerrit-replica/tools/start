@@ -1,0 +1,23 @@
+#!/bin/ash
+
+symlink_config_to_site(){
+  mkdir -p /var/gerrit/etc
+  for file in keystore gerrit.config secure.config; do
+    test -f /var/config/$file && \
+      ln -sf /var/config/$file /var/gerrit/etc/$file
+  done
+}
+
+# Ensure that configuration provided at /var/config is symlinked to the Gerrit
+# site. This is necessary, because mounting files from secrets/configmaps in
+# Kubernetes make the containing directory read-only.
+symlink_config_to_site
+
+# workaround gerrit.sh does not start httpd
+JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
+java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war daemon \
+  -d /var/gerrit \
+  --enable-httpd \
+  --replica &
+
+tail -F -n +1 /var/gerrit/logs/error_log

@@ -1,4 +1,4 @@
-# Gerrit slave init container image
+# Gerrit replica init container image
 
 Kubernetes init container for initializing gerrit. The python script running in
 the container initializes Gerrit including the installation of configured

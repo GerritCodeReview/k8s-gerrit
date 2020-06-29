@@ -1,13 +1,10 @@
 apiVersion: v2
 appVersion: 3.1.7
 description: |-
-    Gerrit is a free, web-based team code collaboration tool. Software developers
-    in a team can review each other's modifications on their source code using
-    a Web browser and approve or reject those changes. It integrates closely with
-    Git, a distributed version control system. [1]
-
-    [1](https://en.wikipedia.org/wiki/Gerrit_(software)
-name: gerrit-master
+    The Gerrit replica serves as a read-only Gerrit instance to serve repositories
+    that it receives from a Gerrit master instance via replication. It can be
+    used to reduce the load on Gerrit master instances.
+name: gerrit-replica
 version: 0.2.0
 maintainers:
 - name: Thomas Draebing
@@ -21,7 +18,7 @@ maintainers:
 home: https://gerrit.googlesource.com/k8s-gerrit/+/master/helm-charts/gerrit-replica
 icon: http://commondatastorage.googleapis.com/gerrit-static/diffy-w200.png
 sources:
-- https://gerrit.googlesource.com/k8s-gerrit/+/master/
+- https://gerrit.googlesource.com/k8s-gerrit/+/master
 keywords:
 - gerrit
 - git

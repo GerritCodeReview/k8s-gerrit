@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-replica-configmap
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit.config: |-
+{{ .Values.gerritReplica.config.gerrit | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-init-configmap
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit-init.yaml: |-
+    packagedPlugins:
+      - singleusergroup

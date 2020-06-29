@@ -39,7 +39,7 @@ gitGC:
     persistence:
       enabled: false
 
-gerritSlave:
+gerritReplica:
   initializeTestSite:
     enabled: true
 
@@ -55,14 +55,14 @@ gerritSlave:
     enabled: false
 
   ingress:
-    host: slave.gerrit
+    host: replica.gerrit
 
   config:
     gerrit: |-
       [gerrit]
         basePath = git
-        serverId = gerrit-slave-1
-        canonicalWebUrl = http://slave.gerrit
+        serverId = gerrit-replica-1
+        canonicalWebUrl = http://replica.gerrit
       [index]
         type = LUCENE
       [auth]
@@ -81,7 +81,7 @@ gerritSlave:
         directory = cache
       [container]
         user = gerrit
-        slave = true
+        replica = true
         javaHome = /usr/lib/jvm/java-8-openjdk-amd64
         javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
         javaOptions = -Xms300m

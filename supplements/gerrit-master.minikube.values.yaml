@@ -69,7 +69,7 @@ gerritMaster:
         javaOptions = -Xmx300m
 
     secure: |-
-      [remote "slave"]
+      [remote "replica"]
         username = git
         password = secret
 
@@ -79,7 +79,7 @@ gerritMaster:
         replicateOnStartup = true
         defaultForceUpdate = true
 
-      [remote "slave"]
-        url = http://gerrit-slave-git-backend-service/git/${name}.git
+      [remote "replica"]
+        url = http://gerrit-replica-git-backend-service/git/${name}.git
         replicationDelay = 0
         timeout = 30
