@@ -4,7 +4,7 @@ storageClass:
   create: true
   defaultClass: false
   # The name of the StorageClass has to be the same as the one defined in the
-  # gerrit-master chart for `storageClasses.shared.name`
+  # gerrit chart for `storageClasses.shared.name`
   name: shared-storage
   parameters:
     # Required!

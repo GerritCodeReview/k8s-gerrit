@@ -1,6 +1,6 @@
 # Gerrit base image
 
-Gerrit base image for Gerrit master and Gerrit replica images.
+Gerrit base image for Gerrit and Gerrit replica images.
 It is only used in the build process and not published on Dockerhub.
 
 ## Content

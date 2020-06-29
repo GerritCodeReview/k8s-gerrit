@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-configmap
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit.config: |-
+{{ .Values.gerrit.config.gerrit | indent 4 }}
+  replication.config: |-
+{{ .Values.gerrit.config.replication | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-gerrit-init-configmap
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  gerrit-init.yaml: |-
+    pluginCache: {{ .Values.gerrit.plugins.cache.enabled }}
+    pluginCacheDir: /var/mnt/plugins
+    {{- if .Values.gerrit.plugins.packaged }}
+    packagedPlugins:
+{{ toYaml .Values.gerrit.plugins.packaged | indent 6}}
+    {{- end }}
+    {{- if .Values.gerrit.plugins.downloaded }}
+    downloadedPlugins:
+{{ toYaml .Values.gerrit.plugins.downloaded | indent 6 }}
+    {{- end }}

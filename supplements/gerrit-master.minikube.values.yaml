@@ -19,7 +19,7 @@ gitGC:
     persistence:
       enabled: false
 
-gerritMaster:
+gerrit:
 
   resources:
     requests:
@@ -37,14 +37,14 @@ gerritMaster:
     periodSeconds: 5
 
   ingress:
-    host: master.gerrit
+    host: primary.gerrit
 
   config:
     gerrit: |-
       [gerrit]
         basePath = git
-        serverId = gerrit-master-1
-        canonicalWebUrl = http://master.gerrit
+        serverId = gerrit-1
+        canonicalWebUrl = http://primary.gerrit
       [index]
         type = LUCENE
       [auth]

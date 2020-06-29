@@ -5,7 +5,7 @@ Container images, configurations and [Helm](https://helm.sh/) charts for install
 
 # Docker images
 
-Images to run a Gerrit master and Gerrit replica setup based on the 3.1.7 Gerrit release.
+Images to run a Gerrit and Gerrit replica setup based on the 3.1.7 Gerrit release.
 
 ## Building images
 
@@ -89,7 +89,7 @@ Therefore, make sure that `container.javaHome` is set to that path in the `gerri
 # Helm Charts
 
 These Helm charts can be used to install a Gerrit cluster consisting of a
-Gerrit master and a Gerrit replica on a Kubernetes cluster. A helm version newer
+Gerrit and a Gerrit replica on a Kubernetes cluster. A helm version newer
 than 3.0 is required to follow the instructions provided with the helm charts.
 
 To evaluate and test the helm-charts, they can be installed on a local machine
@@ -103,11 +103,11 @@ Currently this deployment uses NFS, some options:
 * Create an EFS volume on AWS
 * Install a NFS server on Kubernetes cluster which doesn't have read-write-many
 Persistent Volumes available using
-[NFS-provisioner](helm-charts/gerrit-master/docs/nfs-provisioner.md)
+[NFS-provisioner](helm-charts/gerrit/docs/nfs-provisioner.md)
 
-## Gerrit Master
+## Gerrit
 
-* Install a [Gerrit master](helm-charts/gerrit-master/README.md)
+* Install a [Gerrit](helm-charts/gerrit/README.md)
 
 ## Gerrit Replica
 

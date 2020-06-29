@@ -2,7 +2,7 @@ A Gerrit replica has been deployed.
 =================================
 
 The Apache-Git-HTTP-Backend is now ready to receive replication requests from the
-Gerrit master. Please configure the replication plugin of the Gerrit-master to
+primary Gerrit. Please configure the replication plugin of the primary Gerrit to
 push the repositories to:
 
 {{ if .Values.gitBackend.ingress.enabled -}}

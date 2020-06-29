@@ -3,12 +3,12 @@
 Gerrit is a web-based code review tool, which acts as a Git server. On large setups
 Gerrit servers can see a sizable amount of traffic from git operations performed by
 developers and build servers. The major part of requests are read-only requests
-(e.g. by `git fetch` operations). To take some load of the Gerrit master server,
+(e.g. by `git fetch` operations). To take some load of the Gerrit server,
 Gerrit replicas can be deployed to serve read-only requests.
 
 This helm chart provides a Gerrit replica setup that can be deployed on Kubernetes.
 The Gerrit replica is capable of receiving replicated git repositories from a
-Gerrit master. The Gerrit replica can then serve authenticated read-only requests.
+Gerrit. The Gerrit replica can then serve authenticated read-only requests.
 
 ***note
 Gerrit versions before 3.0 are no longer supported, since the support of ReviewDB
@@ -66,15 +66,15 @@ configured during installation.
 The Gerrit replica requires the replicated `All-Projects.git`- and `All-Users.git`-
 repositories to be present in the `/var/gerrit/git`-directory. The `gerrit-init`-
 InitContainer will wait for this being the case. A way to do this is to access
-the Gerrit replica pod and to clone the repositories from the Gerrit master (Make
+the Gerrit replica pod and to clone the repositories from the primary Gerrit (Make
 sure that you have the correct access rights do so.):
 
 ```sh
 kubectl exec -it <gerrit-replica-pod> -c gerrit-init ash
 gerrit@<gerrit-replica-pod>:/var/tools$ cd /var/gerrit/git
-gerrit@<gerrit-replica-pod>:/var/gerrit/git$ git clone "http://gerrit-master.com/All-Projects" --mirror
+gerrit@<gerrit-replica-pod>:/var/gerrit/git$ git clone "http://gerrit.com/All-Projects" --mirror
 Cloning into bare repository 'All-Projects.git'...
-gerrit@<gerrit-replica-pod>:/var/gerrit/git$ git clone "http://gerrit-master.com/All-Users" --mirror
+gerrit@<gerrit-replica-pod>:/var/gerrit/git$ git clone "http://gerrit.com/All-Users" --mirror
 Cloning into bare repository 'All-Users.git'...
 ```
 

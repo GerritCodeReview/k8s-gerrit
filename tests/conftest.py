@@ -328,15 +328,13 @@ def apache_git_http_backend_image(
 
 
 @pytest.fixture(scope="session")
-def gerrit_master_image(
+def gerrit_image(
     request, container_images, docker_build, docker_push, base_image, gerrit_base_image
 ):
-    gerrit_master_image = docker_build(
-        container_images["gerrit-master"], "gerrit-master"
-    )
+    gerrit_image = docker_build(container_images["gerrit"], "gerrit")
     if request.config.getoption("--push"):
-        docker_push("gerrit-master")
-    return gerrit_master_image
+        docker_push("gerrit")
+    return gerrit_image
 
 
 @pytest.fixture(scope="session")

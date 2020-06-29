@@ -3,8 +3,8 @@
 To test Gerrit on Kubernetes locally, a one-node cluster can be set up using
 Minikube. Minikube provides basic Kubernetes functionality and allows to quickly
 deploy and evaluate a Kubernetes deployment.
-This tutorial will guide through setting up Minikube to deploy the gerrit-
-master and gerrit-replica helm charts to it. Note, that due to limited compute
+This tutorial will guide through setting up Minikube to deploy the gerrit and
+gerrit-replica helm charts to it. Note, that due to limited compute
 resources on a single local machine and the restricted functionality of Minikube,
 the full functionality of the charts might not be usable.
 
@@ -49,7 +49,7 @@ hypervisor driver other than virtual box (e.g. hyperkit) is used, set the
 minikube config set vm-driver hyperkit
 ```
 
-The gerrit-master and gerrit-replica charts are configured to work with the default
+The gerrit and gerrit-replica charts are configured to work with the default
 resource limits configured for minikube (2 cpus and 2Gi RAM). If more resources
 are desired (e.g. to speed up deployment startup or for more resource intensive
 tests), configure the resource limits using:
@@ -59,7 +59,7 @@ minikube config set memory 4096
 minikube config set cpus 4
 ```
 
-To install a full Gerrit master and Gerrit replica setup with reasonable startup
+To install a full Gerrit and Gerrit replica setup with reasonable startup
 times, Minikube will need about 9.5 GB of RAM and 3-4 CPUs! But the more the
 better.
 
@@ -94,10 +94,10 @@ file, adding a line containing the Minikube IP and a whitespace-delimited list
 of all the hostnames:
 
 ```sh
-echo "$(minikube ip) master.gerrit backend.gerrit replica.gerrit" | sudo tee -a /etc/hosts
+echo "$(minikube ip) primary.gerrit backend.gerrit replica.gerrit" | sudo tee -a /etc/hosts
 ```
 
-The host names (e.g. `master.gerrit`) are the defaults, when using the values.yaml
+The host names (e.g. `primary.gerrit`) are the defaults, when using the values.yaml
 files provided as and example for minikube. Change them accordingly, if a different
 one is chosen.
 This will only redirect traffic from the computer running Minikube.
@@ -140,22 +140,22 @@ helm install nfs \
   -f ./supplements/nfs.minikube.values.yaml
 ```
 
-## Installing the gerrit-master helm chart
+## Installing the gerrit helm chart
 
-A configuration file to configure the gerrit-master chart is provided at
-`./supplements/gerrit-master.minikube.values.yaml`. To install the gerrit-master
+A configuration file to configure the gerrit chart is provided at
+`./supplements/gerrit.minikube.values.yaml`. To install the gerrit
 chart on Minikube, run:
 
 ```sh
-helm install gerrit-master \
-  ./helm-charts/gerrit-master \
-  -f ./supplements/gerrit-master.minikube.values.yaml
+helm install gerrit \
+  ./helm-charts/gerrit \
+  -f ./supplements/gerrit.minikube.values.yaml
 ```
 
 Startup may take some time, especially when allowing only a small amount of
 resources to the containers. Check progress with `kubectl get pods -w` until
-it says that the pod `gerrit-master-gerrit-master-stateful-set-0` is `Running`.
-Then use `kubectl logs -f gerrit-master-gerrit-master-stateful-set-0` to follow
+it says that the pod `gerrit-gerrit-stateful-set-0` is `Running`.
+Then use `kubectl logs -f gerrit-gerrit-stateful-set-0` to follow
 the startup process of Gerrit until a line like this shows that Gerrit is ready:
 
 ```sh
@@ -165,7 +165,7 @@ the startup process of Gerrit until a line like this shows that Gerrit is ready:
 To open Gerrit's UI, run:
 
 ```sh
-open http://master.gerrit
+open http://primary.gerrit
 ```
 
 ## Installing the gerrit-replica helm chart
@@ -185,7 +185,7 @@ The replica will start up, which can be followed by running:
 kubectl logs -f gerrit-replica-gerrit-replica-deployment-<id>
 ```
 
-Replication of repositories has to be started on the Gerrit master, e.g. by making
+Replication of repositories has to be started on the Gerrit, e.g. by making
 a change in the respective repositories. Only then previous changes to the
 repositories will be available on the replica.
 
