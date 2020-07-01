@@ -55,6 +55,7 @@ gitRepositoryStorage:
     name: git-repositories-pvc
   size: 5Gi
 
+caCert:
 
 gitGC:
   image: k8sgerrit/git-gc

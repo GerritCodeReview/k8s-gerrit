@@ -114,7 +114,11 @@ class AbstractPluginInstaller(ABC):
 
     def _download_plugin(self, plugin, target):
         LOG.info("Downloading %s plugin to %s", plugin["name"], target)
-        response = requests.get(plugin["url"])
+        try:
+            response = requests.get(plugin["url"])
+        except requests.exceptions.SSLError:
+            response = requests.get(plugin["url"], verify=self.config.ca_cert_path)
+
         with open(target, "wb") as f:
             f.write(response.content)
 

@@ -100,6 +100,11 @@ spec:
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
+        {{ if .Values.caCert -}}
+        - name: tls-ca
+          subPath: ca.crt
+          mountPath: "/var/config/ca.crt"
+        {{- end }}
       # If configured, run initialization taking the given Gerrit configuration
       # and persisted volumes into account.
       - name: gerrit-init
@@ -233,9 +238,11 @@ spec:
         - name: promtail-secret
           mountPath: /etc/promtail/promtail.secret
           subPath: promtail.secret
-        - name: promtail-secret
+        {{- if not .Values.promtailSidecar.tls.skipVerify }}
+        - name: tls-ca
           mountPath: /etc/promtail/promtail.ca.crt
-          subPath: promtail.ca.crt
+          subPath: ca.crt
+        {{- end }}
         - name: logs
           subPathExpr: "gerrit-replica/$(POD_NAME)"
           mountPath: "/var/gerrit/logs"
@@ -285,6 +292,11 @@ spec:
       - name: gerrit-replica-secure-config
         secret:
           secretName: {{ .Release.Name }}-gerrit-replica-secure-config
+      {{ if .Values.caCert -}}
+      - name: tls-ca
+        secret:
+          secretName: {{ .Release.Name }}-tls-ca
+      {{- end }}
       {{ if .Values.gerritReplica.service.ssh.enabled -}}
       - name: gerrit-replica-ssh
         secret:

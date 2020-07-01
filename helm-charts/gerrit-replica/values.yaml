@@ -94,6 +94,7 @@ istio:
   ssh:
     enabled: false
 
+caCert:
 
 promtailSidecar:
   enabled: false
@@ -108,10 +109,6 @@ promtailSidecar:
       memory: 128Mi
   tls:
     skipVerify: true
-    caCert: |-
-      -----BEGIN CERTIFICATE-----
-
-      -----END CERTIFICATE-----
   loki:
     url: loki.example.com
     user: admin
