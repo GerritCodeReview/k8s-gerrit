@@ -118,6 +118,16 @@ the PVC claiming the volume has to be created independently of the chart. To use
 the external PVC, set `gitRepositoryStorage.externalPVC.enabled` to `true` and
 give the name of the PVC under `gitRepositoryStorage.externalPVC.name`.
 
+### CA certificate
+
+Some application may require TLS verification. If the default CA built into the
+containers is not enough a custom CA certificate can be given to the deployment.
+Note, that Gerrit will require its CA in a JKS keytore, which is described below.
+
+| Parameter | Description                                                                | Default |
+|-----------|----------------------------------------------------------------------------|---------|
+| `caCert`  | CA certificate for TLS verification (if not set, the default will be used) | `None`  |
+
 ### Git garbage collection
 
 | Parameter                           | Description                                                      | Default                  |

@@ -125,6 +125,16 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy`  | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
 | `storageClasses.shared.parameters`     | Parameters for the provisioner                                    | `parameters.mountOptions: vers=4.1`               |
 
+### CA certificate
+
+Some application may require TLS verification. If the default CA built into the
+containers is not enough a custom CA certificate can be given to the deployment.
+Note, that Gerrit will require its CA in a JKS keytore, which is described below.
+
+| Parameter | Description                                                                | Default |
+|-----------|----------------------------------------------------------------------------|---------|
+| `caCert`  | CA certificate for TLS verification (if not set, the default will be used) | `None`  |
+
 ### Workaround for NFS
 
 Kubernetes will not be able to adapt the ownership of the files within NFS
