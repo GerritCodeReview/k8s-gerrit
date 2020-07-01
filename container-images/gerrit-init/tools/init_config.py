@@ -24,6 +24,8 @@ class InitConfig:
         self.packaged_plugins = set()
         self.plugin_cache_dir = None
 
+        self.ca_cert_path = True
+
     def parse(self, config_file):
         if not os.path.exists(config_file):
             raise FileNotFoundError("Could not find config file: %s" % config_file)
@@ -42,6 +44,9 @@ class InitConfig:
             self.plugin_cache_enabled = config["pluginCache"]
         if "pluginCacheDir" in config and config["pluginCacheDir"]:
             self.plugin_cache_dir = config["pluginCacheDir"]
+
+        if "caCertPath" in config:
+            self.ca_cert_path = config["caCertPath"]
 
         return self
 
