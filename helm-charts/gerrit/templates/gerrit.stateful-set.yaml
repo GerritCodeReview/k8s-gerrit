@@ -101,6 +101,11 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{ if .Values.caCert -}}
+        - name: tls-ca
+          subPath: ca.crt
+          mountPath: "/var/mnt/etc/ca.crt"
+        {{- end }}
       containers:
       - name: gerrit
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerrit }}:{{ .Values.images.version }}
@@ -155,6 +160,11 @@ spec:
       - name: gerrit-secure-config
         secret:
           secretName: {{ .Release.Name }}-gerrit-secure-config
+      {{ if .Values.caCert -}}
+      - name: tls-ca
+        secret:
+          secretName: {{ .Release.Name }}-tls-ca
+      {{- end }}
   volumeClaimTemplates:
   {{ if .Values.gerrit.persistence.enabled -}}
   - metadata:

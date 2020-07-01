@@ -81,6 +81,11 @@ spec:
         - name: gerrit-config
           mountPath: "/var/config/gerrit.config"
           subPath: gerrit.config
+        {{ if .Values.caCert -}}
+        - name: tls-ca
+          subPath: ca.crt
+          mountPath: "/var/config/ca.crt"
+        {{- end }}
       volumes:
       - name: gerrit-site
         emptyDir: {}
@@ -108,6 +113,9 @@ spec:
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-replica-configmap
+      - name: tls-ca
+        secret:
+          secretName: {{ .Release.Name }}-tls-ca
       {{- if .Values.nfsWorkaround.enabled }}
       - name: nfs-config
         configMap:
