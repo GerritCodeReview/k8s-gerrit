@@ -33,6 +33,9 @@ metadata:
     release: {{ .Release.Name }}
 data:
   gerrit-init.yaml: |-
+    {{ if .Values.caCert -}}
+    caCertPath: /var/config/ca.crt
+    {{- end }}
     pluginCache: {{ .Values.gerrit.plugins.cache.enabled }}
     pluginCacheDir: /var/mnt/plugins
     {{- if .Values.gerrit.plugins.packaged }}
