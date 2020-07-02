@@ -124,9 +124,6 @@ class GerritInit:
 
         flags = "--no-auto-start --batch"
 
-        if self.is_replica:
-            flags += " --no-reindex"
-
         command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
             flags,
             plugin_options,
