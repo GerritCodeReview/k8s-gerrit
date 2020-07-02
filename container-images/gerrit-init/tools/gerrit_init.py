@@ -35,7 +35,6 @@ class GerritInit:
         self.plugin_installer = get_installer(self.site, self.config)
 
         self.gerrit_config = self._parse_gerrit_config()
-        self.is_replica = self._is_replica()
         self.installed_plugins = self._get_installed_plugins()
 
     def _parse_gerrit_config(self):
@@ -45,12 +44,6 @@ class GerritInit:
             return GitConfigParser(gerrit_config_path)
 
         return None
-
-    def _is_replica(self):
-        if self.gerrit_config:
-            return self.gerrit_config.get_boolean("container.replica", False)
-
-        return False
 
     def _get_gerrit_version(self, gerrit_war_path):
         command = "java -jar %s version" % gerrit_war_path
@@ -123,9 +116,6 @@ class GerritInit:
             plugin_options = ""
 
         flags = "--no-auto-start --batch"
-
-        if self.is_replica:
-            flags += " --no-reindex"
 
         command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
             flags,
