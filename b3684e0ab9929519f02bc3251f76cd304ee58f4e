@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6859394f_d9a6a1ad",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-02T14:01:33Z",
+      "side": 0,
+      "message": "The self.is_replica field should be removed completely",
+      "revId": "b3684e0ab9929519f02bc3251f76cd304ee58f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
