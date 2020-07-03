@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b91ee9f0_40234c72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-03T07:27:37Z",
+      "side": 1,
+      "message": "nit: it seems the lines of the commit message are a bit too wide, Gerrit renders a lot of soft breaks, or is this caused by a Gerrit bug ?",
+      "revId": "f689a7df4c322aeb2f2890b7f4e34ccf4f8419ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
