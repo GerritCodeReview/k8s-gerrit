@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9cca444c_cd1ed6da",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-03T09:32:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b766e651_f548068e",
+      "revId": "e5b740b6c011a88729e4f7c7f801ac663b0dc374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99d03394_8921e2b3",
         "filename": "helm-charts/gerrit-replica/values.yaml",
         "patchSetId": 5
@@ -69,6 +87,24 @@
       "revId": "e5b740b6c011a88729e4f7c7f801ac663b0dc374",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3dc1867_c7482c10",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-03T09:32:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e024b16e_afdb183a",
+      "revId": "e5b740b6c011a88729e4f7c7f801ac663b0dc374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
