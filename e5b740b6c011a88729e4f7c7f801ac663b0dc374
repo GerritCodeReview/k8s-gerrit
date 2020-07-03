@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b766e651_f548068e",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T07:20:46Z",
+      "side": 1,
+      "message": "SSH will only work, if a RSA key is configured below. Since that is not set by default, SSH would not work correctly. Thus, for this basic example of a setup, it is deactivated, as is TLS. The defaults in a helm-chart should be as simple as possible, so that everybody can have a quick initial setup.",
+      "parentUuid": "d5f85b91_1e8a0660",
+      "revId": "e5b740b6c011a88729e4f7c7f801ac663b0dc374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99d03394_8921e2b3",
         "filename": "helm-charts/gerrit-replica/values.yaml",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-03T07:15:22Z",
       "side": 1,
       "message": "why is this disabled ?",
+      "revId": "e5b740b6c011a88729e4f7c7f801ac663b0dc374",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e024b16e_afdb183a",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T07:20:46Z",
+      "side": 1,
+      "message": "see response above",
+      "parentUuid": "99d03394_8921e2b3",
       "revId": "e5b740b6c011a88729e4f7c7f801ac663b0dc374",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
