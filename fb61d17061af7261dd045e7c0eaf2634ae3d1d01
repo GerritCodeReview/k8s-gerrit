@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "592464e2_d0b33bff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T12:54:11Z",
+      "side": 1,
+      "message": "The cert manager chart should be updated to the current version (0.15.2)",
+      "revId": "fb61d17061af7261dd045e7c0eaf2634ae3d1d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
