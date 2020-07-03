@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40045c9f_bfe236fa",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-03T07:22:50Z",
+      "side": 1,
+      "message": "shouldn\u0027t this default to false ?",
+      "range": {
+        "startLine": 186,
+        "startChar": 107,
+        "endLine": 186,
+        "endChar": 115
+      },
+      "revId": "6ff3a8a343fda89475d9d85f93ba7cc334e8f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
