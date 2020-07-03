@@ -16,6 +16,24 @@
       "revId": "3af4bea24dbbd1b40b975960db794b658a910482",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe1dad7_ef5451f5",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T11:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5ea00e4_20c876ca",
+      "revId": "3af4bea24dbbd1b40b975960db794b658a910482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
