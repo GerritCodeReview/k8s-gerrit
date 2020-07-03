@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5ea00e4_20c876ca",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-03T09:42:24Z",
+      "side": 1,
+      "message": "this shouldn\u0027t be in this change",
+      "revId": "3af4bea24dbbd1b40b975960db794b658a910482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
