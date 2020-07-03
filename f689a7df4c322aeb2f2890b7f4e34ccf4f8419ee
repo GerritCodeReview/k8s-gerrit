@@ -16,6 +16,24 @@
       "revId": "f689a7df4c322aeb2f2890b7f4e34ccf4f8419ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e814258_50b76219",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T07:29:34Z",
+      "side": 1,
+      "message": "The width of the lines in the commit message in the UI changed with 3.something. That is why the cherry-picked message does not fit well here. Let me adapt it.",
+      "parentUuid": "b91ee9f0_40234c72",
+      "revId": "f689a7df4c322aeb2f2890b7f4e34ccf4f8419ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
