@@ -22,6 +22,30 @@
       "revId": "6ff3a8a343fda89475d9d85f93ba7cc334e8f9f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0787bd3e_d4d6c2d9",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T07:26:05Z",
+      "side": 1,
+      "message": "No, since that would require additional configuration steps (giving a CA). I follow the rule, keep the defaults as simple as possible, so that a developer can set up a basic installation very fast and then configure it further as required.",
+      "parentUuid": "40045c9f_bfe236fa",
+      "range": {
+        "startLine": 186,
+        "startChar": 107,
+        "endLine": 186,
+        "endChar": 115
+      },
+      "revId": "6ff3a8a343fda89475d9d85f93ba7cc334e8f9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
