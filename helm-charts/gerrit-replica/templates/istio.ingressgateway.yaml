@@ -1,5 +1,5 @@
 {{ if .Values.istio.enabled -}}
-{{ if .Values.istio.tls.enabled }}
+{{ if and .Values.istio.tls.enabled .Values.istio.tls.secret.create }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -48,7 +48,11 @@ spec:
     - {{ .Values.istio.host }}
     tls:
       mode: SIMPLE
+      {{ if .Values.istio.tls.secret.create }}
       credentialName: {{ .Release.Name }}-istio-tls-secret
+      {{- else  }}
+      credentialName: {{ .Values.istio.tls.secret.name }}
+      {{- end }}
   {{- end }}
   {{ if .Values.istio.ssh.enabled }}
   - port:

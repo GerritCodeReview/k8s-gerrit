@@ -179,14 +179,16 @@ it will be installed.
 In the case istio is used, all configuration for ingresses in the chart will be
 ignored.
 
-| Parameter           | Description                                                               | Default                           |
-|---------------------|---------------------------------------------------------------------------|-----------------------------------|
-| `istio.enabled`     | Whether istio should be used (requires istio to be installed)             | `false`                           |
-| `istio.host`        | Hostname (CNAME must point to istio ingress gateway loadbalancer service) | `nil`                             |
-| `istio.tls.enabled` | Whether to enable TLS                                                     | `false`                           |
-| `istio.tls.cert`    | TLS certificate                                                           | `-----BEGIN CERTIFICATE-----`     |
-| `istio.tls.key`     | TLS key                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
-| `istio.ssh.enabled` | Whether to enable SSH                                                     | `false`                           |
+| Parameter                 | Description                                                               | Default                           |
+|---------------------------|---------------------------------------------------------------------------|-----------------------------------|
+| `istio.enabled`           | Whether istio should be used (requires istio to be installed)             | `false`                           |
+| `istio.host`              | Hostname (CNAME must point to istio ingress gateway loadbalancer service) | `nil`                             |
+| `istio.tls.enabled`       | Whether to enable TLS                                                     | `false`                           |
+| `istio.tls.secret.create` | Whether to create TLS certificate secret                                  | `true`                            |
+| `istio.tls.secret.name`   | Name of external secret containing TLS certificates                       | `nil`                             |
+| `istio.tls.cert`          | TLS certificate                                                           | `-----BEGIN CERTIFICATE-----`     |
+| `istio.tls.key`           | TLS key                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
+| `istio.ssh.enabled`       | Whether to enable SSH                                                     | `false`                           |
 
 ### Promtail Sidecar
 
