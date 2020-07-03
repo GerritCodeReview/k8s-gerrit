@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecd4f83d_a4c1a827",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-03T07:18:01Z",
+      "side": 1,
+      "message": "could chown\u0027ing the volume slow down init if there are a lot of repositories already ?",
+      "revId": "15745b0d2e461dbdc2285ebdc4b06ae4534a739d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
