@@ -16,6 +16,24 @@
       "revId": "15745b0d2e461dbdc2285ebdc4b06ae4534a739d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57f2ebb6_0fc2de52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T07:23:29Z",
+      "side": 1,
+      "message": "The job doing the chown is just running once on the initial setup. Then there shouldn\u0027t be any repositories in the volume and if they are, it would take a long time once. Afterwards, the file ownership will be persisted and just work. That is why I created a separate job and did not just use an init container.",
+      "parentUuid": "ecd4f83d_a4c1a827",
+      "revId": "15745b0d2e461dbdc2285ebdc4b06ae4534a739d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
