@@ -22,6 +22,30 @@
       "revId": "1487b6b2b16578fdecf61e76eed09231031f0e7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb78a6ab_5c791fdf",
+        "filename": "Documentation/istio.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-03T07:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af181a22_e5a36d05",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "1487b6b2b16578fdecf61e76eed09231031f0e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
