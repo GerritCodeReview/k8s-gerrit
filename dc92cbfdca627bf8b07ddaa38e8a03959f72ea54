@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f81ab0fd_ccc2b3e5",
+        "filename": "container-images/gerrit-init/tools/gerrit_init.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:37:16Z",
+      "side": 1,
+      "message": "check if ES indexer still needs to always run during init",
+      "revId": "dc92cbfdca627bf8b07ddaa38e8a03959f72ea54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a90e00cb_82365763",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:37:16Z",
+      "side": 1,
+      "message": "handle self-signed certs ?",
+      "revId": "dc92cbfdca627bf8b07ddaa38e8a03959f72ea54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf11f71_27bd6883",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:37:16Z",
+      "side": 1,
+      "message": "doesn\u0027t look like a factory method, rename to create_reindexer ?\nI\u0027d create the object in this factory method and return the actual reindexer object",
+      "revId": "dc92cbfdca627bf8b07ddaa38e8a03959f72ea54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
