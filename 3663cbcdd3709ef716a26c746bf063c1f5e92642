@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3edbf11d_af1be597",
+        "filename": "helm-charts/gerrit/templates/gerrit.storage.yaml",
+        "patchSetId": 32
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:42:38Z",
+      "side": 1,
+      "message": "add document separator before this line ?",
+      "revId": "3663cbcdd3709ef716a26c746bf063c1f5e92642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
