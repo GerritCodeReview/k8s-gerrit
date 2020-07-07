@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9df55126_8f8d3342",
+        "filename": "build",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:59:44Z",
+      "side": 1,
+      "message": "use option --always to ensure you get a version string even if there is no tag yet",
+      "revId": "607f2ce7ab8f937560dbca5397551f2e4198e30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
