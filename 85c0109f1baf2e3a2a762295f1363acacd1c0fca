@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94e9326a_7b82a90d",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:24:34Z",
+      "side": 1,
+      "message": "do the case handling in the parser to avoid each caller needs to care for that",
+      "revId": "85c0109f1baf2e3a2a762295f1363acacd1c0fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
