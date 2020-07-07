@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5052fdf5_d7e07d24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-07T12:47:25Z",
+      "side": 1,
+      "message": "we may need to monitor these jobs to notice if they hang\nalso a timeout for the job could make sense to purge zombies",
+      "revId": "1f5b2a5703070739d8a19893d0e76486dbf61f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
