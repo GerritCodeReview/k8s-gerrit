@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aea2ca1_2d65b158",
+        "filename": "Jenkinsfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:16:56Z",
+      "side": 1,
+      "message": "Should we check that this ISN\u0027T done for non-merged changes?",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "1a24df32449117dceb9785768a0914f5ba07022c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
