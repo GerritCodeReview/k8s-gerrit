@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34921dc0_54f32e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:16:16Z",
+      "side": 1,
+      "message": "Can we also add the pipeline on the gerrit-ci-scripts project?",
+      "revId": "cf81c1c1ed46050b1da3de39f1649d6a96551718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
