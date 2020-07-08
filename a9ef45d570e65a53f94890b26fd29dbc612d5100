@@ -16,6 +16,24 @@
       "revId": "a9ef45d570e65a53f94890b26fd29dbc612d5100",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b9129a_9792178d",
+        "filename": "container-images/gerrit-init/tools/git_config_parser.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-08T14:37:41Z",
+      "side": 1,
+      "message": "Soem vlaues are handled case-insensitive by Gerrit, but yes that should then be done in a case by case way.",
+      "parentUuid": "94a12026_b15d3836",
+      "revId": "a9ef45d570e65a53f94890b26fd29dbc612d5100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
