@@ -35,9 +35,9 @@ class GitConfigParser:
     multiple times, the last value is returned.
     """
         try:
-            return self._get_value(key)[-1]
+            return self._get_value(key)[-1].lower()
         except subprocess.CalledProcessError:
-            return default
+            return default.lower()
 
     def get_boolean(self, key, default=False):
         """
