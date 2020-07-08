@@ -6,7 +6,7 @@ primary Gerrit. Please configure the replication plugin of the primary Gerrit to
 push the repositories to:
 
 {{ if .Values.istio.enabled -}}
-  http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /receiver/git/${name}.git
+  http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /git/${name}.git
 {{ else if .Values.gitBackend.ingress.enabled -}}
   http {{- if .Values.gitBackend.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gitBackend.ingress.host -}} /git/${name}.git
 {{- else }}
@@ -19,8 +19,7 @@ push the repositories to:
   kubectl get svc git-backend-service
 {{- end }}
 
-Requests to create new repositories have to be directed to the route
-{{ if .Values.istio.enabled -}} /receiver {{- end -}} /new/${name}.git
+Requests to create new repositories have to be directed to the route /new/${name}.git
 over HTTP(S). A detailed guide of how to configure Gerrit's replication plugin
 can be found here:
 
@@ -32,7 +31,7 @@ The initialization process may take some time. Afterwards the git repositories
 will be available under:
 
 {{ if .Values.istio.enabled -}}
-  http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /gerrit/<repository-name>.git
+  http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /<repository-name>.git
 {{- else }}
   http {{- if .Values.gerritReplica.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gerritReplica.ingress.host -}} /<repository-name>.git
 {{- end }}
