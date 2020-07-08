@@ -78,23 +78,18 @@ spec:
   gateways:
   - {{ .Release.Name }}-istio-gateway
   http:
-  - match:
+  - name: apache-git-http-backend
+    match:
     - uri:
-        prefix: /receiver/
-    rewrite:
-      uri: /
+        prefix: /git/
+    - uri:
+        prefix: /new/
     route:
     - destination:
         host: {{ .Release.Name }}-git-backend-service.{{ .Release.Namespace }}.svc.cluster.local
         port:
           number: 80
-  - match:
-    - uri:
-        prefix: /gerrit/
-    - uri:
-        prefix: /gerrit
-    rewrite:
-      uri: /
+  - name: gerrit-replica
     route:
     - destination:
         host: {{ .Release.Name }}-gerrit-replica-service.{{ .Release.Namespace }}.svc.cluster.local
