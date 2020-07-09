@@ -16,6 +16,24 @@
       "revId": "3663cbcdd3709ef716a26c746bf063c1f5e92642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1208bb32_4670d10d",
+        "filename": "helm-charts/gerrit/templates/gerrit.storage.yaml",
+        "patchSetId": 32
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-09T06:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3edbf11d_af1be597",
+      "revId": "3663cbcdd3709ef716a26c746bf063c1f5e92642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
