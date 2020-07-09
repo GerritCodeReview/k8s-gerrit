@@ -76,6 +76,15 @@ spec:
             -s /var/gerrit
 
           symlink_config_to_site
+
+          {{ if not .Values.gerrit.persistence.enabled -}}
+            FLAGS="$FLAGS --force"
+          {{- end }}
+
+          # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
+          # is configured.
+          /var/tools/gerrit_reindex.py $FLAGS \
+            -s /var/gerrit
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
