@@ -2,11 +2,12 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--update-latest] [--registry REGISTRY] --tag TAG [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--update-latest] [--registry REGISTRY] [--org ORGANIZATION] --tag TAG [IMAGE]"
     exit 1
 }
 
 UPDATE_LATEST=false
+ORGANIZATION=k8sgerrit
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -20,6 +21,11 @@ while test $# -gt 0 ; do
   --registry)
     shift
     REGISTRY=$1
+    shift
+    ;;
+  --org)
+    shift
+    ORGANIZATION=$1
     shift
     ;;
   --tag)
@@ -47,12 +53,12 @@ test -n "$REGISTRY" && [[ "$REGISTRY" != */ ]] && REGISTRY="$REGISTRY/"
 publish_image(){
   IMAGE=$1
   if test "$UPDATE_LATEST" = "true" ; then
-    docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:latest
-    docker push ${REGISTRY}k8sgerrit/$IMAGE:latest
+    docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:latest
+    docker push ${REGISTRY}${ORGANIZATION}/$IMAGE:latest
   fi
 
-  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}k8sgerrit/$IMAGE:$TAG
-  docker push ${REGISTRY}k8sgerrit/$IMAGE:$TAG
+  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG
+  docker push ${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG
 }
 
 if test $# -eq 0 ; then
