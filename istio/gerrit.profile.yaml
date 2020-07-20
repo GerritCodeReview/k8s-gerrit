@@ -482,7 +482,7 @@ spec:
       enableProtocolSniffingForOutbound: true
       env: {}
       image: pilot
-      keepaliveMaxServerConnectionAge: 30m
+      keepaliveMaxServerConnectionAge: 24h
       nodeSelector: {}
       podAntiAffinityLabelSelector: []
       podAntiAffinityTermLabelSelector: []
