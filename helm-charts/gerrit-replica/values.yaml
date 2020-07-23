@@ -327,6 +327,8 @@ gerritReplica:
           disableReverseDnsLookup = true
         [index]
           type = LUCENE
+        [index "scheduledIndexer"]
+          runOnStartup = false
         [auth]
           type = DEVELOPMENT_BECOME_ANY_ACCOUNT
         [httpd]
