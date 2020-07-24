@@ -9,11 +9,16 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   template:
-    {{ if .Values.istio.enabled -}}
     metadata:
+      labels:
+        app: gerrit-replica
+        chart: {{ template "gerrit-replica.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
+      {{ if .Values.istio.enabled -}}
       annotations:
         sidecar.istio.io/inject: "false"
-    {{- end }}
+      {{- end }}
     spec:
       securityContext:
         fsGroup: 100
