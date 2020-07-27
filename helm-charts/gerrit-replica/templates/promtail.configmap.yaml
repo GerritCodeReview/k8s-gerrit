@@ -12,8 +12,7 @@ data:
     positions:
       filename: /var/gerrit/logs/promtail-positions.yaml
 
-    clients:
-      - url: {{ .Values.promtailSidecar.loki.url }}/loki/api/v1/push
+    client:
         tls_config:
           insecure_skip_verify: {{ .Values.promtailSidecar.tls.skipVerify }}
           {{- if not .Values.promtailSidecar.tls.skipVerify }}
