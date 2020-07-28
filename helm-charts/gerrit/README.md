@@ -248,6 +248,7 @@ future.
 | `gerrit.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 30, periodSeconds: 5}` |
 | `gerrit.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 5, periodSeconds: 1}` |
 | `gerrit.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
+| `gerrit.gracefulStopTimeout` | Time in  seconds Kubernetes will wait until killing the pod during termination (has to be longer then Gerrit's httpd.gracefulStopTimeout to allow graceful shutdown of Gerrit) | `90` |
 | `gerrit.networkPolicy.ingress` | Custom ingress-network policy for gerrit pods | `nil` |
 | `gerrit.networkPolicy.egress` | Custom egress-network policy for gerrit pods | `nil` |
 | `gerrit.service.type` | Which kind of Service to deploy | `NodePort` |

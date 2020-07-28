@@ -358,6 +358,7 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 60, periodSeconds: 5}` |
 | `gerritReplica.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 10, periodSeconds: 10}` |
 | `gerritReplica.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
+| `gerritReplica.gracefulStopTimeout` | Time in  seconds Kubernetes will wait until killing the pod during termination (has to be longer then Gerrit's httpd.gracefulStopTimeout to allow graceful shutdown of Gerrit) | `90` |
 | `gerritReplica.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 1` |
 |                           |                                                               | `requests.memory: 5Gi` |
 |                           |                                                               | `limits.cpu: 1` |
