@@ -317,6 +317,12 @@ intended with the chart:
     depending of TLS is enabled in the Ingress or not, otherwise the Jetty
     servlet will run into an endless redirect loop.
 
+- `httpd.gracefulStopTimeout` / `sshd.gracefulStopTimeout`
+
+    To enable graceful shutdown of the embedded jetty server and SSHD, a timeout
+    has to be set with this option. This will be the maximum time, Gerrit will wait
+    for HTTP requests to finish before shutdown.
+
 - `container.user`
 
     The technical user in the Gerrit container is called `gerrit`. Thus, this
