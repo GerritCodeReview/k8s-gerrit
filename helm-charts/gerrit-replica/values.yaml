@@ -247,6 +247,8 @@ gerritReplica:
     initialDelaySeconds: 10
     periodSeconds: 30
 
+  gracefulStopTimeout: 90
+
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
     requests:

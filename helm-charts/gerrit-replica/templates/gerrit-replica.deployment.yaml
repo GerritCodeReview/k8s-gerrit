@@ -28,6 +28,7 @@ spec:
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
+      terminationGracePeriodSeconds: {{ .Values.gerritReplica.gracefulStopTimeout }}
       securityContext:
         fsGroup: 100
       {{ if .Values.images.registry.ImagePullSecret.name -}}
