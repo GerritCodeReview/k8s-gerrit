@@ -7,7 +7,8 @@ RUN apk update && \
       apache2-ctl \
       apache2-utils \
       apache2-ssl \
-      git-daemon
+      git-daemon && \
+    rm /etc/apache2/conf.d/default.conf
 
 # Configure git-http-backend
 COPY config/git-https-backend.conf /etc/apache2/conf.d/
