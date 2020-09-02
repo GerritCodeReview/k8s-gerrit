@@ -64,13 +64,6 @@ docker_build_gerrit_base(){
     fi
 }
 
-create_image_tag(){
-    GERRIT_VERSION=$(docker run --entrypoint "/bin/sh" gerrit-base \
-        -c "java -jar /var/gerrit/bin/gerrit.war version")
-    GERRIT_VERSION=$(echo "${GERRIT_VERSION##*$'\n'}" | cut -d' ' -f3 | tr -d '[:space:]')
-    GIT_REV_TAG="$(git describe --dirty)-$GERRIT_VERSION"
-}
-
 REPORT="Build results: \n"
 RETURN_CODE=0
 
@@ -82,15 +75,15 @@ fi
 
 if test $# -eq 0 ; then
     docker_build_gerrit_base
-    create_image_tag
+    source get_version.sh
     for IMAGE in $IMAGES; do
         docker_build $IMAGE
     done
 else
     while test $# -gt 0 ; do
-        if [[ $1 = gerrit-* ]]; then
+        if [[ $1 = gerrit* ]]; then
             docker_build_gerrit_base
-            create_image_tag
+            source get_version.sh
         else
             echo -e "\nNo Image containing Gerrit will be built." \
                     "The Gerrit-version can thus not be determinded." \
