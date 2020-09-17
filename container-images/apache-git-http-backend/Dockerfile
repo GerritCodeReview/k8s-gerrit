@@ -7,13 +7,15 @@ RUN apk update && \
       apache2-ctl \
       apache2-utils \
       apache2-ssl \
-      git-daemon
+      git-daemon \
+      logrotate
 
 # Configure git-http-backend
 COPY config/git-https-backend.conf /etc/apache2/conf.d/
 COPY config/git-http-backend.conf /etc/apache2/conf.d/
 COPY config/envvars /usr/sbin/envvars
 COPY config/httpd.conf /etc/apache2/httpd.conf
+COPY config/logrotation /etc/logrotate.d/apache2
 
 COPY tools/start /var/tools/start
 COPY tools/create_repo.sh /var/cgi/create_repo.sh
