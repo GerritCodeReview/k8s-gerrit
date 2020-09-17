@@ -216,12 +216,19 @@ In addition to collecting logs with a log collection tool like Promtail, the log
 can also be stored in a persistent volume. This volume has to be a read-write-many
 volume to be able to be used by multiple pods.
 
-| Parameter                     | Description                                     | Default           |
-|-------------------------------|-------------------------------------------------|-------------------|
-| `logStorage.enabled`          | Whether to enable persistence of logs           | `false`           |
-| `logStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart | `false`           |
-| `logStorage.externalPVC.name` | Name of the external PVC                        | `gerrit-logs-pvc` |
-| `logStorage.size`             | Size of the volume                              | `5Gi`             |
+| Parameter                          | Description                                        | Default                  |
+|------------------------------------|----------------------------------------------------|--------------------------|
+| `logStorage.enabled`               | Whether to enable persistence of logs              | `false`                  |
+| `logStorage.externalPVC.use`       | Whether to use a PVC deployed outside the chart    | `false`                  |
+| `logStorage.externalPVC.name`      | Name of the external PVC                           | `gerrit-logs-pvc`        |
+| `logStorage.size`                  | Size of the volume                                 | `5Gi`                    |
+| `logStorage.cleanup.enabled`       | Whether to regularly delete old logs               | `false`                  |
+| `logStorage.cleanup.schedule`      | Cron schedule defining hwen to run the cleanup job | `0 0 * * *`              |
+| `logStorage.cleanup.retentionDays` | Number of days to retain the logs                  | `14`                     |
+| `logStorage.cleanup.resources`     | Resources the container is allowed to use          | `requests.cpu: 100m`     |
+|                                    |                                                    | `requests.memory: 256Mi` |
+|                                    |                                                    | `limits.cpu: 100m`       |
+|                                    |                                                    | `limits.memory: 256Mi`   |
 
 Each pod will create a separate folder for its logs, allowing to trace logs to
 the respective pods.
