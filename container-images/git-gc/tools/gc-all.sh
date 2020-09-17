@@ -1,16 +1,6 @@
 #!/bin/ash
 
 log() {
-  # Rotate the $LOG if current date is different from the last modification of $LOG
-  if test -f "$LOG" ; then
-    TODAY=$(date +%Y-%m-%d)
-    LOG_LAST_MODIFIED=$(date +%Y-%m-%d -r $LOG)
-    if test "$TODAY" != "$LOG_LAST_MODIFIED" ; then
-      mv "$LOG" "$LOG.$LOG_LAST_MODIFIED"
-      gzip "$LOG.$LOG_LAST_MODIFIED"
-    fi
-  fi
-
   echo $1 | tee -a $LOG
 }
 
@@ -70,3 +60,4 @@ do
 done
 
 OUT=$(date +"%D %r Finished") && log "$OUT"
+gzip "$LOG.$(date)"
