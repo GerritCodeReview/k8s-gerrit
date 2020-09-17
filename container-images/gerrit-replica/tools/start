@@ -14,7 +14,7 @@ symlink_config_to_site
 
 IS_REPLICA=$(git config -f /var/gerrit/etc/gerrit.config --get container.replica)
 if [[ ! "$IS_REPLICA" == "true" ]]; then
-  echo "`container.replica` in `gerrit.config` has to be `true`"
+  echo "container.replica in gerrit.config has to be true"
   exit 1
 fi
 
