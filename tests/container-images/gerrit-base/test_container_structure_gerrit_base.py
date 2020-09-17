@@ -19,6 +19,9 @@ import pytest
 import utils
 
 
+JAVA_VER = 11
+
+
 @pytest.fixture(scope="module")
 def container_run(docker_client, container_endless_run_factory, gerrit_base_image):
     container_run = container_endless_run_factory(docker_client, gerrit_base_image)
@@ -37,7 +40,7 @@ def test_gerrit_base_inherits_from_base(gerrit_base_image):
 def test_gerrit_base_contains_java8(container_run):
     _, output = container_run.exec_run("java -version")
     output = output.strip().decode("utf-8")
-    assert re.search(re.compile('openjdk version "1.8.[0-9]_[0-9]+"'), output)
+    assert re.search(re.compile(f'openjdk version "{JAVA_VER}.[0-9]+.[0-9]+"'), output)
 
 
 @pytest.mark.docker
@@ -48,7 +51,7 @@ def test_gerrit_base_java_path(container_run):
     )
     output = output.strip().decode("utf-8")
     assert exit_code == 0
-    assert output == "/usr/lib/jvm/java-1.8-openjdk/jre/bin/java"
+    assert output == f"/usr/lib/jvm/java-{JAVA_VER}-openjdk/bin/java"
 
 
 @pytest.mark.docker
