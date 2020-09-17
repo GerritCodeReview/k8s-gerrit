@@ -4,7 +4,7 @@ RUN apk update && \
     apk add --no-cache \
       curl \
       openssh-keygen \
-      openjdk8
+      openjdk11
 
 RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
@@ -13,13 +13,13 @@ RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/war
 
 # Download Gerrit release
-ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.1.7.war
+ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.3.0.war
 RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
     ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
 # Download healthcheck plugin
 RUN curl -k -o /var/plugins/healthcheck.jar \
-        https://gerrit-ci.gerritforge.com/job/plugin-healthcheck-bazel-stable-3.1/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar && \
+        https://gerrit-ci.gerritforge.com/job/plugin-healthcheck-bazel-stable-3.3/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar && \
     ln -s /var/plugins/healthcheck.jar /var/gerrit/plugins/healthcheck.jar
 
 # Allow incoming traffic
