@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f63172c_5287ded7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-09-26T05:22:23Z",
+      "side": 1,
+      "message": "If a pod was stopped, it is nmot guaranteed that all logs are gzipped and thus some logs will never be removed.",
+      "revId": "23cc43248eefe9db9093bb4230dceeec2b4fff9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
