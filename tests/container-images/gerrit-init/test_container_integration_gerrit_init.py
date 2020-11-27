@@ -91,17 +91,7 @@ class TestGerritInitEmptySite:
 
     @pytest.mark.timeout(60)
     def test_gerrit_init_exits_after_init(self, container_run_default):
-        def wait_for_container_exit():
-            try:
-                container_run_default.reload()
-                return False
-            except NotFound:
-                return True
-
-        while not wait_for_container_exit():
-            continue
-
-        assert container_run_default.attrs["State"]["ExitCode"] == 0
+        assert container_run_default.wait()["StatusCode"] == 0
 
 
 @pytest.fixture(
