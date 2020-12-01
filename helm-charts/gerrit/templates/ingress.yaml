@@ -1,0 +1,52 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-gerrit-ingress
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.maxBodySize | default "50m" }}
+    {{- if .Values.ingress.additionalAnnotations }}
+{{ toYaml .Values.ingress.additionalAnnotations  | indent 4 }}
+    {{- end }}
+spec:
+  {{ if .Values.ingress.tls.enabled -}}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    {{ if .Values.ingress.tls.secret.create -}}
+    secretName: {{ .Release.Name }}-gerrit-tls-secret
+    {{- else }}
+    secretName: {{ .Values.ingress.tls.secret.name }}
+    {{- end }}
+  {{- end }}
+  rules:
+  - host: {{required "A host URL is required for the Gerrit Ingress. Please set 'ingress.host'" .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-gerrit-service
+          servicePort: {{ .Values.gerrit.service.http.port }}
+{{- end }}
+---
+{{ if and .Values.ingress.tls.enabled .Values.ingress.tls.secret.create -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  {{ .Release.Name }}-gerrit-tls-secret
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+type: kubernetes.io/tls
+data:
+  {{ with .Values.ingress.tls -}}
+  tls.crt: {{ .cert | b64enc }}
+  tls.key: {{ .key | b64enc }}
+  {{- end }}
+{{- end }}

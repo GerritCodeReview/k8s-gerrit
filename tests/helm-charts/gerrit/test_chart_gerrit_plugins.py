@@ -73,7 +73,8 @@ def gerrit_deployment_with_packaged_plugins(
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
-        "gerrit.ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.enabled": True,
+        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
         "gerrit.plugins.packaged": plugins_opts_string,
     }
     chart = gerrit_deployment_with_plugins_factory(chart_opts)
@@ -99,7 +100,8 @@ def gerrit_deployment_with_other_plugins(
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
-        "gerrit.ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.enabled": True,
+        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
     }
     selected_plugins = plugin_list[: request.param]
     for counter, plugin in enumerate(selected_plugins):
@@ -122,7 +124,8 @@ def gerrit_deployment_with_other_plugin_wrong_sha(
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
-        "gerrit.ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.enabled": True,
+        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
     }
     plugin = plugin_list[0]
     chart_opts["gerrit.plugins.downloaded[0].name"] = plugin["name"]
