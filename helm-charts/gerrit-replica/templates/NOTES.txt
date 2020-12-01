@@ -7,8 +7,8 @@ push the repositories to:
 
 {{ if .Values.istio.enabled -}}
   http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /receiver/git/${name}.git
-{{ else if .Values.gitBackend.ingress.enabled -}}
-  http {{- if .Values.gitBackend.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gitBackend.ingress.host -}} /git/${name}.git
+{{ else if .Values.ingress.enabled -}}
+  http {{- if .Values.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.ingress.host -}} /git/${name}.git
 {{- else }}
   {{ if .Values.gitBackend.service.https.enabled -}}
   https://<EXTERNAL-IP>: {{- .Values.gitBackend.service.https.port -}} /git/${name}.git
@@ -34,5 +34,5 @@ will be available under:
 {{ if .Values.istio.enabled -}}
   http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /gerrit/<repository-name>.git
 {{- else }}
-  http {{- if .Values.gerritReplica.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.gerritReplica.ingress.host -}} /<repository-name>.git
+  http {{- if .Values.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.ingress.host -}} /<repository-name>.git
 {{- end }}

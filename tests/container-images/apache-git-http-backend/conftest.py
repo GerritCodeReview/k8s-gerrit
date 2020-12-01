@@ -23,24 +23,20 @@ from passlib.apache import HtpasswdFile
 
 import pytest
 
-import mock_ssl
-
-
 @pytest.fixture(scope="module")
 def container_run_factory(
     docker_client, apache_git_http_backend_image, apache_credentials_dir
 ):
-    def run_container(env=None):
+    def run_container():
         return docker_client.containers.run(
             image=apache_git_http_backend_image.id,
-            ports={"80": "8080", "443": "8443"},
+            ports={"80": "8080"},
             volumes={
                 str(apache_credentials_dir): {
                     "bind": "/var/apache/credentials",
                     "mode": "ro",
                 }
             },
-            environment=env,
             detach=True,
             auto_remove=True,
         )
@@ -71,14 +67,6 @@ def credentials_dir(tmp_path_factory):
 
 
 @pytest.fixture(scope="module")
-def mock_certificates(credentials_dir):
-    keypair = mock_ssl.MockSSLKeyPair("localhost", "localhost")
-
-    open(os.path.join(credentials_dir, "server.crt"), "wb").write(keypair.get_cert())
-    open(os.path.join(credentials_dir, "server.key"), "wb").write(keypair.get_key())
-
-
-@pytest.fixture(scope="module")
 def mock_htpasswd(credentials_dir, basic_auth_creds):
     htpasswd_file = HtpasswdFile(os.path.join(credentials_dir, ".htpasswd"), new=True)
     htpasswd_file.set_password(basic_auth_creds["user"], basic_auth_creds["password"])
@@ -86,22 +74,13 @@ def mock_htpasswd(credentials_dir, basic_auth_creds):
 
 
 @pytest.fixture(scope="module")
-def apache_credentials_dir(credentials_dir, mock_certificates, mock_htpasswd):
+def apache_credentials_dir(credentials_dir, mock_htpasswd):
     return credentials_dir
 
 
-@pytest.fixture(scope="module", params=["http", "https"])
-def container_connection_data(request):
-    port = 8080 if request.param == "http" else 8443
-    return {"protocol": request.param, "port": port}
-
-
 @pytest.fixture(scope="module")
-def base_url(container_connection_data):
-    return "{protocol}://localhost:{port}".format(
-        protocol=container_connection_data["protocol"],
-        port=container_connection_data["port"],
-    )
+def base_url():
+    return "http://localhost:8080"
 
 
 @pytest.fixture(scope="function")

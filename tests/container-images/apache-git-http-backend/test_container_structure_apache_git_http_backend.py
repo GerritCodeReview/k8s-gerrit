@@ -42,15 +42,6 @@ def test_apache_git_http_backend_http_site_configured(container_run):
 
 @pytest.mark.docker
 @pytest.mark.structure
-def test_apache_git_http_backend_https_site_configured(container_run):
-    exit_code, _ = container_run.exec_run(
-        "test -f /etc/apache2/conf.d/git-https-backend.conf"
-    )
-    assert exit_code == 0
-
-
-@pytest.mark.docker
-@pytest.mark.structure
 def test_apache_git_http_backend_contains_start_script(container_run):
     exit_code, _ = container_run.exec_run("test -f /var/tools/start")
     assert exit_code == 0

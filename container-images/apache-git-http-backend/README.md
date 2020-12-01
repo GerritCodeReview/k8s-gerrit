@@ -7,7 +7,7 @@ from a Gerrit to a Gerrit replica.
 
 * base image
 * Apache webserver
-* Apache configurations for http and https
+* Apache configurations for http
 * git (via base image) and git-deamon for git-http-backend
 * `tools/create_repo.sh`: cgi script to enable remote creation of new git
  repository over http. This is triggered by the Gerrit replication plugin
