@@ -44,7 +44,7 @@ was removed.
 ## Installing the Chart
 
 ***note
-**ATTENTION:** The value for `gerritReplica.ingress.host` is required for rendering
+**ATTENTION:** The value for `ingress.host` is required for rendering
 the chart's templates. The nature of the value does not allow defaults.
 Thus a custom `values.yaml`-file setting this value is required!
 ***
@@ -248,6 +248,23 @@ ignored.
 | `istio.tls.key`           | TLS key                                                                   | `-----BEGIN RSA PRIVATE KEY-----` |
 | `istio.ssh.enabled`       | Whether to enable SSH                                                     | `false`                           |
 
+### Ingress
+
+As an alternative to istio the Nginx Ingress controller can be used to manage
+ingress traffic.
+
+| Parameter                       | Description                                                                     | Default                           |
+|---------------------------------|---------------------------------------------------------------------------------|-----------------------------------|
+| `ingress.enabled`               | Whether to deploy an Ingress                                                    | `false`                           |
+| `ingress.host`                  | Host name to use for the Ingress (required for Ingress)                         | `nil`                             |
+| `ingress.maxBodySize`           | Maximum request body size allowed (Set to 0 for an unlimited request body size) | `50m`                             |
+| `ingress.additionalAnnotations` | Additional annotations for the Ingress                                          | `nil`                             |
+| `ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                | `false`                           |
+| `ingress.tls.secret.create`     | Whether to create a TLS-secret                                                  | `true`                            |
+| `ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                    | `nil`                             |
+| `ingress.tls.cert`              | Public SSL server certificate                                                   | `-----BEGIN CERTIFICATE-----`     |
+| `ingress.tls.key`               | Private SSL server certificate                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
+
 ### Promtail Sidecar
 
 To collect Gerrit logs, a Promtail sidecar can be deployed into the Gerrit replica
@@ -287,20 +304,11 @@ project.
 | `gitBackend.livenessProbe`                 | Configuration of the liveness probe timings                                        | `{initialDelaySeconds: 10, periodSeconds: 5}`                             |
 | `gitBackend.readinessProbe`                | Configuration of the readiness probe timings                                       | `{initialDelaySeconds: 5, periodSeconds: 1}`                              |
 | `gitBackend.credentials.htpasswd`          | `.htpasswd`-file containing username/password-credentials for accessing git        | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
-| `gitBackend.tls.secret.create`             | Whether to create a TLS-secret                                                     | `true`                                                                    |
-| `gitBackend.tls.secret.name`               | Name of an external secret that will be used as a TLS-secret                       | `nil`                                                                     |
-| `gitBackend.tls.cert`                      | Public SSL server certificate                                                      | `-----BEGIN CERTIFICATE-----`                                             |
-| `gitBackend.tls.key`                       | Private SSL server certificate                                                     | `-----BEGIN RSA PRIVATE KEY-----`                                         |
 | `gitBackend.service.type`                  | Which kind of Service to deploy                                                    | `LoadBalancer`                                                            |
 | `gitBackend.service.http.enabled`          | Whether to serve HTTP-requests (needed for Ingress)                                | `true`                                                                    |
 | `gitBackend.service.http.port`             | Port over which to expose HTTP                                                     | `80`                                                                      |
 | `gitBackend.service.https.enabled`         | Whether to serve HTTPS-requests                                                    | `false`                                                                   |
 | `gitBackend.service.https.port`            | Port over which to expose HTTPS                                                    | `443`                                                                     |
-| `gitBackend.ingress.enabled`               | Whether to deploy an Ingress                                                       | `false`                                                                   |
-| `gitBackend.ingress.host`                  | Host name to use for the Ingress (required for Ingress)                            | `nil`                                                                     |
-| `gitBackend.ingress.maxBodySize`           | Maximum request body size allowed (Set to 0 for an unlimited request body size)    | `50m`                                                                     |
-| `gitBackend.ingress.additionalAnnotations` | Additional annotations for the Ingress                                             | `nil`                                                                     |
-| `gitBackend.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                   | `false`                                                                   |
 
 ***note
 At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
@@ -352,13 +360,6 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.service.ssh.enabled`           | Whether to enable SSH for the Gerrit replica                                                        | `false`                                                                         |
 | `gerritReplica.service.ssh.port`              | Port for SSH                                                                                        | `29418`                                                                         |
 | `gerritReplica.service.ssh.rsaKey`            | Private SSH key in RSA format                                                                       | `-----BEGIN RSA PRIVATE KEY-----`                                               |
-| `gerritReplica.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                   | `nil`                                                                           |
-| `gerritReplica.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                              | `nil`                                                                           |
-| `gerritReplica.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                    | `false`                                                                         |
-| `gerritReplica.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                                      | `true`                                                                          |
-| `gerritReplica.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                                        | `nil`                                                                           |
-| `gerritReplica.ingress.tls.secret.cert`       | Public SSL server certificate                                                                       | `-----BEGIN CERTIFICATE-----`                                                   |
-| `gerritReplica.ingress.tls.secret.key`        | Private SSL server certificate                                                                      | `-----BEGIN RSA PRIVATE KEY-----`                                               |
 | `gerritReplica.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL     | `nil`                                                                           |
 | `gerritReplica.etc.config`                    | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
 | `gerritReplica.etc.secret`                    | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret    | `{secure.config: ...}` [see here](#Gerrit-config-files)                         |

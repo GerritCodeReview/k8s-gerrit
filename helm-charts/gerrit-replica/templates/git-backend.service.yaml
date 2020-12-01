@@ -10,16 +10,9 @@ metadata:
 spec:
   {{ with .Values.gitBackend.service }}
   ports:
-  {{ if .http.enabled -}}
   - name: http
     port: {{ .http.port }}
     targetPort: 80
-  {{- end }}
-  {{ if .https.enabled -}}
-  - name: https
-    port: {{ .https.port }}
-    targetPort: 443
-  {{- end }}
   selector:
     app: git-backend
   type: {{ .type }}
