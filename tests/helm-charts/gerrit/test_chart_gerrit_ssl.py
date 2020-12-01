@@ -44,10 +44,11 @@ def gerrit_deployment_with_ssl(
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
-        "gerrit.ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
-        "gerrit.ingress.tls.enabled": "true",
-        "gerrit.ingress.tls.cert": ssl_certificate.get_cert().decode(),
-        "gerrit.ingress.tls.key": ssl_certificate.get_key().decode(),
+        "ingress.enabled": True,
+        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.tls.enabled": "true",
+        "ingress.tls.cert": ssl_certificate.get_cert().decode(),
+        "ingress.tls.key": ssl_certificate.get_key().decode(),
     }
     chart = gerrit_deployment_factory(chart_opts)
     pod_labels = "app=gerrit,release=%s" % chart["name"]
