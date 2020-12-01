@@ -6,13 +6,11 @@ RUN apk update && \
       apache2 \
       apache2-ctl \
       apache2-utils \
-      apache2-ssl \
       git-daemon && \
     rm /etc/apache2/conf.d/default.conf && \
     rm /etc/apache2/conf.d/info.conf
 
 # Configure git-http-backend
-COPY config/git-https-backend.conf /etc/apache2/conf.d/
 COPY config/git-http-backend.conf /etc/apache2/conf.d/
 COPY config/envvars /usr/sbin/envvars
 COPY config/httpd.conf /etc/apache2/httpd.conf

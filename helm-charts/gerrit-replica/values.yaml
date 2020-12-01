@@ -96,6 +96,36 @@ istio:
 
 caCert:
 
+ingress:
+  enabled: false
+  host:
+  # The maximum body size to allow for requests. Use "0" to allow unlimited
+  # reuqest body sizes.
+  maxBodySize: 50m
+  additionalAnnotations: {}
+  #  nginx.ingress.kubernetes.io/server-alias: example.com
+  #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
+  tls:
+    enabled: false
+    secret:
+      # If using an external secret, make sure to name the keys `tls.crt`
+      # and `tls.key`, respectively.
+      create: true
+      # `name` will only be used, if `create` is set to false to bind an
+      # existing secret. Otherwise the name will be automatically generated to
+      # avoid conflicts between multiple chart installations.
+      name:
+    # `cert`and `key` will only be used, if the secret will be created by
+    # this chart.
+    cert: |-
+      -----BEGIN CERTIFICATE-----
+
+      -----END CERTIFICATE-----
+    key: |-
+      -----BEGIN RSA PRIVATE KEY-----
+
+      -----END RSA PRIVATE KEY-----
+
 promtailSidecar:
   enabled: false
   image: grafana/promtail
@@ -150,47 +180,10 @@ gitBackend:
     initialDelaySeconds: 5
     periodSeconds: 1
 
-  tls:
-    secret:
-      # If using an external secret, make sure to name the keys `tls.crt`
-      # and `tls.key`, respectively.
-      create: true
-      # `name` will only be used, if `create` is set to false to bind an
-      # existing secret. Otherwise the name will be automatically generated to
-      # avoid conflicts between multiple chart installations.
-      name:
-    # `cert`and `key` will only be used, if the secret will be created by
-    # this chart.
-    cert: |-
-      -----BEGIN CERTIFICATE-----
-
-      -----END CERTIFICATE-----
-    key: |-
-      -----BEGIN RSA PRIVATE KEY-----
-
-      -----END RSA PRIVATE KEY-----
-
   service:
-    type: LoadBalancer
-    # At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
+    type: NodePort
     http:
-      enabled: true
       port: 80
-    https:
-      enabled: false
-      port: 443
-
-  ingress:
-    enabled: false
-    host:
-    # The maximum body size to allow for requests. Use "0" to allow unlimited
-    # reuqest body sizes.
-    maxBodySize: 50m
-    additionalAnnotations: {}
-    #  nginx.ingress.kubernetes.io/server-alias: example.com
-    #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
-    tls:
-      enabled: false
 
   credentials:
     # example: user: 'git'; password: 'secret'
@@ -262,30 +255,6 @@ gerritReplica:
         -----BEGIN RSA PRIVATE KEY-----
 
         -----END RSA PRIVATE KEY-----
-
-  ingress:
-    host:
-    additionalAnnotations: {}
-    #  nginx.ingress.kubernetes.io/server-alias: example.com
-    #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
-    tls:
-      enabled: false
-      secret:
-        create: true
-        # `name` will only be used, if `create` is set to false to bind an
-        # existing secret. Otherwise the name will be automatically generated to
-        # avoid conflicts between multiple chart installations.
-        name:
-        # `cert`and `key` will only be used, if the secret will be created by
-        # this chart.
-        cert: |-
-          -----BEGIN CERTIFICATE-----
-
-          -----END CERTIFICATE-----
-        key: |-
-          -----BEGIN RSA PRIVATE KEY-----
-
-          -----END RSA PRIVATE KEY-----
 
   # `gerritReplica.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and
