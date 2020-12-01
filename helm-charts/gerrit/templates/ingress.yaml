@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled }}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-gerrit-ingress
@@ -28,9 +28,13 @@ spec:
   - host: {{required "A host URL is required for the Gerrit Ingress. Please set 'ingress.host'" .Values.ingress.host }}
     http:
       paths:
-      - backend:
-          serviceName: {{ .Release.Name }}-gerrit-service
-          servicePort: {{ .Values.gerrit.service.http.port }}
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: {{ .Release.Name }}-gerrit-service
+            port:
+              number: {{ .Values.gerrit.service.http.port }}
 {{- end }}
 ---
 {{ if and .Values.ingress.tls.enabled .Values.ingress.tls.secret.create -}}
