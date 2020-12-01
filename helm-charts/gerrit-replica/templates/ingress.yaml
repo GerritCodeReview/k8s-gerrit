@@ -1,0 +1,60 @@
+{{ if and .Values.ingress.enabled (not .Values.istio.enabled) -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.maxBodySize | default "50m" }}
+    {{- if .Values.ingress.additionalAnnotations }}
+{{ toYaml .Values.ingress.additionalAnnotations  | indent 4 }}
+    {{- end }}
+spec:
+  {{ if .Values.ingress.tls.enabled -}}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    {{ if .Values.ingress.tls.secret.create -}}
+    secretName: {{ .Release.Name }}-tls-secret
+    {{- else }}
+    secretName: {{ .Values.ingress.tls.secret.name }}
+    {{- end }}
+  {{- end }}
+  rules:
+  - host: {{required "A host URL is required for the ingress. Please set 'ingress.host'" .Values.ingress.host }}
+    http:
+      paths:
+      - path: /new
+        backend:
+          serviceName: {{ .Release.Name }}-git-backend-service
+          servicePort: {{ .Values.gerritReplica.service.http.port }}
+      - path: /git
+        backend:
+          serviceName: {{ .Release.Name }}-git-backend-service
+          servicePort: {{ .Values.gerritReplica.service.http.port }}
+      - backend:
+          serviceName: {{ .Release.Name }}-gerrit-replica-service
+          servicePort: {{ .Values.gitBackend.service.http.port }}
+{{- end }}
+---
+{{ if and (and .Values.ingress.tls.enabled .Values.ingress.tls.secret.create) (not .Values.istio.enabled) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  {{ .Release.Name }}-tls-secret
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+type: kubernetes.io/tls
+data:
+  {{ with .Values.ingress.tls -}}
+  tls.crt: {{ .cert | b64enc }}
+  tls.key: {{ .key | b64enc }}
+  {{- end }}
+{{- end }}

@@ -23,12 +23,6 @@ import pytest
 import requests
 
 
-@pytest.fixture(scope="module", params=["http", "https"])
-def base_url(request):
-    port = 8080 if request.param == "http" else 8443
-    return "{protocol}://localhost:{port}".format(protocol=request.param, port=port)
-
-
 @pytest.fixture(scope="function")
 def repo_dir(tmp_path_factory, random_repo_name):
     return tmp_path_factory.mktemp(random_repo_name)
@@ -46,26 +40,21 @@ def mock_repo(repo_dir):
 
 @pytest.mark.docker
 @pytest.mark.integration
-def test_apache_git_http_backend_apache_running(
-    container_run, base_url, apache_credentials_dir
-):
-    request = requests.get(
-        base_url, verify=os.path.join(apache_credentials_dir, "server.crt")
-    )
+def test_apache_git_http_backend_apache_running(container_run, base_url):
+    request = requests.get(base_url)
     assert request.status_code == 200
 
 
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation(
-    container_run, apache_credentials_dir, basic_auth_creds, repo_creation_url
+    container_run, basic_auth_creds, repo_creation_url
 ):
     request = requests.get(
         repo_creation_url,
         auth=requests.auth.HTTPBasicAuth(
             basic_auth_creds["user"], basic_auth_creds["password"]
         ),
-        verify=os.path.join(apache_credentials_dir, "server.crt"),
     )
     assert request.status_code == 201
 
@@ -73,18 +62,16 @@ def test_apache_git_http_backend_repo_creation(
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation_fails_without_credentials(
-    container_run, apache_credentials_dir, repo_creation_url
+    container_run, repo_creation_url
 ):
-    request = requests.get(
-        repo_creation_url, verify=os.path.join(apache_credentials_dir, "server.crt")
-    )
+    request = requests.get(repo_creation_url)
     assert request.status_code == 401
 
 
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
-    container_run, apache_credentials_dir, basic_auth_creds, repo_creation_url
+    container_run, basic_auth_creds, repo_creation_url
 ):
     container_run.exec_run("chown -R root:root /var/gerrit/git")
     request = requests.get(
@@ -92,7 +79,6 @@ def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
         auth=requests.auth.HTTPBasicAuth(
             basic_auth_creds["user"], basic_auth_creds["password"]
         ),
-        verify=os.path.join(apache_credentials_dir, "server.crt"),
     )
     container_run.exec_run("chown -R gerrit:users /var/gerrit/git")
     assert request.status_code == 500
@@ -101,12 +87,7 @@ def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation_push_repo(
-    container_run,
-    base_url,
-    apache_credentials_dir,
-    basic_auth_creds,
-    mock_repo,
-    random_repo_name,
+    container_run, base_url, basic_auth_creds, mock_repo, random_repo_name
 ):
     container_run.exec_run(
         "su -c 'git init --bare /var/gerrit/git/%s.git' gerrit" % random_repo_name
@@ -117,14 +98,14 @@ def test_apache_git_http_backend_repo_creation_push_repo(
     )
     origin = mock_repo.create_remote("origin", url)
     assert origin.exists()
-    with mock_repo.git.custom_environment(GIT_SSL_NO_VERIFY="true"):
-        origin.fetch()
-        result = origin.push(refspec="master:master")
-        assert result
+
+    origin.fetch()
+    result = origin.push(refspec="master:master")
+    assert result
+
     remote_refs = {}
     git_cmd = git.cmd.Git()
-    with git_cmd.custom_environment(GIT_SSL_NO_VERIFY="true"):
-        for ref in git_cmd.ls_remote(url).split("\n"):
-            hash_ref_list = ref.split("\t")
-            remote_refs[hash_ref_list[1]] = hash_ref_list[0]
-        assert remote_refs["HEAD"] == mock_repo.head.object.hexsha
+    for ref in git_cmd.ls_remote(url).split("\n"):
+        hash_ref_list = ref.split("\t")
+        remote_refs[hash_ref_list[1]] = hash_ref_list[0]
+    assert remote_refs["HEAD"] == mock_repo.head.object.hexsha
