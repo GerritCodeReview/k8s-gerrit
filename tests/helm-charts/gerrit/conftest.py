@@ -81,7 +81,8 @@ def gerrit_deployment(request, docker_tag, test_cluster, gerrit_deployment_facto
     chart_opts = {
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
-        "gerrit.ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.enabled": True,
+        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
     }
     chart = gerrit_deployment_factory(chart_opts)
 

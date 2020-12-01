@@ -38,7 +38,7 @@ was removed.
 ## Installing the Chart
 
 ***note
-**ATTENTION:** The value for `gerrit.ingress.host` is required for rendering
+**ATTENTION:** The value for `ingress.host` is required for rendering
 the chart's templates. The nature of the value does not allow defaults.
 Thus a custom `values.yaml`-file setting this value is required!
 ***
@@ -184,6 +184,19 @@ Note, that Gerrit will require its CA in a JKS keytore, which is described below
 |-----------|----------------------------------------------------------------------------|---------|
 | `caCert`  | CA certificate for TLS verification (if not set, the default will be used) | `None`  |
 
+### Ingress
+
+| Parameter                       | Description                                                       | Default                           |
+|---------------------------------|-------------------------------------------------------------------|-----------------------------------|
+| `ingress.enabled`               | Whether to enable the Ingress                                     | `false`                           |
+| `ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress) | `nil`                             |
+| `ingress.additionalAnnotations` | Additional annotations for the Ingress                            | `nil`                             |
+| `ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                  | `false`                           |
+| `ingress.tls.secret.create`     | Whether to create a TLS-secret                                    | `true`                            |
+| `ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret      | `nil`                             |
+| `ingress.tls.cert`              | Public SSL server certificate                                     | `-----BEGIN CERTIFICATE-----`     |
+| `ingress.tls.key`               | Private SSL server certificate                                    | `-----BEGIN RSA PRIVATE KEY-----` |
+
 ### Git garbage collection
 
 | Parameter                           | Description                                                      | Default                  |
@@ -230,13 +243,6 @@ is mandatory, if access to Gerrit is required!
 | `gerrit.networkPolicy.egress`          | Custom egress-network policy for gerrit pods                                                        | `nil`                                                                                    |
 | `gerrit.service.type`                  | Which kind of Service to deploy                                                                     | `NodePort`                                                                               |
 | `gerrit.service.http.port`             | Port over which to expose HTTP                                                                      | `80`                                                                                     |
-| `gerrit.ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress)                                   | `nil`                                                                                    |
-| `gerrit.ingress.additionalAnnotations` | Additional annotations for the Ingress                                                              | `nil`                                                                                    |
-| `gerrit.ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                                                    | `false`                                                                                  |
-| `gerrit.ingress.tls.secret.create`     | Whether to create a TLS-secret                                                                      | `true`                                                                                   |
-| `gerrit.ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret                                        | `nil`                                                                                    |
-| `gerrit.ingress.tls.secret.cert`       | Public SSL server certificate                                                                       | `-----BEGIN CERTIFICATE-----`                                                            |
-| `gerrit.ingress.tls.secret.key`        | Private SSL server certificate                                                                      | `-----BEGIN RSA PRIVATE KEY-----`                                                        |
 | `gerrit.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL     | `nil`                                                                                    |
 | `gerrit.index.type`                    | Index type used by Gerrit (either `lucene` or `elasticsearch`)                                      | `lucene`                                                                                 |
 | `gerrit.plugins.packaged`              | List of Gerrit plugins that are packaged into the Gerrit-war-file to install                        | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
