@@ -159,6 +159,13 @@ Setting the canonical web URL in the gerrit.config to the host used for the Ingr
 is mandatory, if access to Gerrit is required!
 ***
 
+***note
+While the chart allows to configuremultiple replica for the Gerrit StatefulSet,
+scaling of Gerrit is currently not supported, since no mechanism to guarantee a
+consistent state is currently in place. This is planned to be implemented in the
+future.
+***
+
 | Parameter                              | Description                                                                                         | Default                                                                                  |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
 | `gerrit.images.gerritInit`             | Image name of the Gerrit init container image                                                       | `k8s-gerrit/gerrit-init`                                                                 |
