@@ -97,6 +97,9 @@ gerrit:
     initialDelaySeconds: 5
     periodSeconds: 1
 
+  startupProbe:
+    initialDelaySeconds: 10
+
   service:
     type: NodePort
     http:
