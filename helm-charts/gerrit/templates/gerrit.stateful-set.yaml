@@ -129,6 +129,11 @@ spec:
             path: /config/server/healthcheck~status
             port: gerrit-port
 {{ toYaml .Values.gerrit.readinessProbe | indent 10 }}
+        startupProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: gerrit-port
+{{ toYaml .Values.gerrit.startupProbe | indent 10 }}
       volumes:
       {{ if not .Values.gerrit.persistence.enabled -}}
       - name: gerrit-site
