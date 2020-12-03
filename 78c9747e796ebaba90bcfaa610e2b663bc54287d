@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9b8920c_a3d2e5a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:09:24Z",
+      "side": 1,
+      "message": "nit: You don\u0027t add a SSHD daemon, you configure a Kubernetes Service to allow traffic on the SSH port usually used by Gerrit.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea75905_ff3b2ce0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:09:24Z",
+      "side": 1,
+      "message": "This should be documented in the README of the chart. Otherwise, users might expect SSH to work with the ingress. At least with the Nginx Ingress controller this is not possible AFAIK. Even if other ingress controller have support, I would guess it will be hard to support this within the chart. In the gerrit-replica chart I enabled it when using istio, since envoy supports SSH load balancing. I am planning to also add istio support to this chart eventually.",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b26c72ed_11d18ad4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:09:24Z",
+      "side": 1,
+      "message": "Thanks for sharing your change. It looks good overall, but I have some suggestions for improvements in the comments.",
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5d37a51_76bdfcb9",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:09:24Z",
+      "side": 1,
+      "message": "It would be more consistent to name this port gerrit-http then. (Would have been better from the start. My bad :-( )",
+      "range": {
+        "startLine": 109,
+        "startChar": 16,
+        "endLine": 109,
+        "endChar": 27
+      },
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53287e70_fc4297a0",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:09:24Z",
+      "side": 1,
+      "message": "I would prefer to use a similar pattern as in the gerrit-replica chart [1]. That makes configuration of both easier.\n\n[1] https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/helm-charts/gerrit-replica/values.yaml#237",
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dd7238b_03893ebf",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:09:24Z",
+      "side": 1,
+      "message": "Please add the new options to the chart\u0027s README.md.",
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
