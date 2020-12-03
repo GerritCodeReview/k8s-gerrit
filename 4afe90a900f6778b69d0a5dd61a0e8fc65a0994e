@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68cf7313_dc49442e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-03T13:55:40Z",
+      "side": 1,
+      "message": "looks good except typo",
+      "revId": "4afe90a900f6778b69d0a5dd61a0e8fc65a0994e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bae18eda_0099aae5",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-03T13:55:40Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 130,
+        "startChar": 69,
+        "endLine": 130,
+        "endChar": 72
+      },
+      "revId": "4afe90a900f6778b69d0a5dd61a0e8fc65a0994e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
