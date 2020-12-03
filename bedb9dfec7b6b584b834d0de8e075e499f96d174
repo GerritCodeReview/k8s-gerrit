@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98dba0ff_8f05f4da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:40:53Z",
+      "side": 1,
+      "message": "Thanks for the change. This should work. However, the integration tests will fail, since there are some version specific pieces. While this should be improved, we shouldn\u0027t break the tests until then.\n\nAlso, the values.yaml files should be adapted to have the correct Java path set in the gerrit.config by default.",
+      "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70f4fc6c_c26b9ea6",
@@ -50,6 +67,41 @@
       "side": 1,
       "message": "@Thomas?",
       "parentUuid": "a146e9c2_953d9d2d",
+      "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eefefbe_bdae42ea",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:40:53Z",
+      "side": 1,
+      "message": "I would agree, that aligning docker and kubernetes would be nice. However, the current official docker images are larger than the ones provided here (ubuntu20: 928MB, centos8: 680MB, k8s-gerrit/gerrit (local build with Gerrit 3.3.0): 439MB). In a Kubernetes environment, where pod restarts should be as fast as possible, that matters.\nAlso I would anyway have to overwrite the entrypoint script, leaving little other significant content that I would use than other than the gerrit.war-file. Not sure, if that would be worth it.",
+      "parentUuid": "db13ee68_d3937648",
+      "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44dbc708_8eaeb4f9",
+        "filename": "container-images/gerrit-init/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:40:53Z",
+      "side": 1,
+      "message": "Unrelated change. Please move this to a separate change.",
       "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
