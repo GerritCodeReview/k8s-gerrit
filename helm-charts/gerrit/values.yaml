@@ -97,6 +97,10 @@ gerrit:
     initialDelaySeconds: 5
     periodSeconds: 1
 
+  sshd:
+    enabled: false
+    port: 29418
+
   service:
     type: NodePort
     http:

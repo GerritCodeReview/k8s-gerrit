@@ -8,12 +8,17 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
-  {{ with .Values.gerrit.service }}
+  {{ with .Values.gerrit }}
   ports:
   - name: http
-    port: {{ .http.port }}
+    port: {{ .service.http.port }}
     targetPort: 8080
+  {{- if .sshd.enabled }}
+  - name: ssh
+    port: {{ .sshd.port }}
+    targetPort: 29418
+  {{- end }}
   selector:
     app: gerrit
-  type: {{ .type }}
+  type: {{ .service.type }}
   {{- end }}
