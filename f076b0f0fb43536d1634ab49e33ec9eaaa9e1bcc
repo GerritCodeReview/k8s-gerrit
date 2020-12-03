@@ -39,6 +39,30 @@
       },
       "revId": "f076b0f0fb43536d1634ab49e33ec9eaaa9e1bcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63a58278_07e539d6",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T13:55:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a82e205_0f506add",
+      "range": {
+        "startLine": 107,
+        "startChar": 69,
+        "endLine": 107,
+        "endChar": 71
+      },
+      "revId": "f076b0f0fb43536d1634ab49e33ec9eaaa9e1bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
