@@ -66,6 +66,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d979dc0_0c0c3e76",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-03T12:31:18Z",
+      "side": 1,
+      "message": "Gerrit by default also creates its own SSH-keys. This does not work well with multiple Gerrit-replicas, since every pod would get its own key and the SSH client wouldn\u0027t trust every pod. Even though scaling is not yet supported, I would suggest to directly give the key through the chart configuration to avoid the generated keys. I already did that in the gerrit-replica chart.",
+      "revId": "78c9747e796ebaba90bcfaa610e2b663bc54287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5d37a51_76bdfcb9",
         "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
         "patchSetId": 2
