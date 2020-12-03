@@ -125,6 +125,13 @@ gerrit:
     type: NodePort
     http:
       port: 80
+    ssh:
+      enabled: false
+      port: 29418
+      rsaKey: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
 
   ingress:
     host:
