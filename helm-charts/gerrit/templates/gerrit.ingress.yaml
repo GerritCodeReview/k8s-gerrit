@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-gerrit-ingress
@@ -27,6 +27,9 @@ spec:
   - host: {{required "A host URL is required for the Gerrit Ingress. Please set 'gerrit.ingress.host'" .Values.gerrit.ingress.host }}
     http:
       paths:
-      - backend:
-          serviceName: {{ .Release.Name }}-gerrit-service
-          servicePort: {{ .Values.gerrit.service.http.port }}
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Release.Name }}-gerrit-service
+            port:
+              number: {{ .Values.gerrit.service.http.port }}
