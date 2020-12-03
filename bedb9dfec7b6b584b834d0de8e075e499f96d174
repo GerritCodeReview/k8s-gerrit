@@ -16,6 +16,24 @@
       "message": "Why don\u0027t we switch to the official Docker image?\n(gerritcodereview/gerrit:3.3.0)\n\nThe whole Dockerfile will just become yet another layer on top of it.",
       "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a146e9c2_953d9d2d",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1121961
+      },
+      "writtenOn": "2020-12-03T11:40:52Z",
+      "side": 1,
+      "message": "I do not know - these are the changes that I\u0027ve done to helm repository on Github for my personal use; thought I\u0027d share. I think the main person to ask here would be Thomas Dräbing https://gerrit-review.googlesource.com/dashboard/1065256",
+      "parentUuid": "70f4fc6c_c26b9ea6",
+      "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
