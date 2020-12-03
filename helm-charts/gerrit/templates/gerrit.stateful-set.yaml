@@ -108,6 +108,10 @@ spec:
         ports:
         - name: gerrit-port
           containerPort: 8080
+        {{- if .Values.gerrit.sshd.enabled }}
+        - name: gerrit-ssh
+          containerPort: 29418
+        {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"

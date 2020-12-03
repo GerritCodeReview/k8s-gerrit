@@ -100,6 +100,10 @@ gerrit:
   startupProbe:
     initialDelaySeconds: 10
 
+  sshd:
+    enabled: false
+    port: 29418
+
   service:
     type: NodePort
     http:
