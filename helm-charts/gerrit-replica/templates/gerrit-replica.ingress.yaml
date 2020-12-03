@@ -1,5 +1,5 @@
 {{ if and .Values.gerritReplica.ingress.enabled (not .Values.istio.enabled) -}}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-gerrit-replica-ingress
@@ -27,7 +27,10 @@ spec:
   - host: {{required "A host URL is required for the Gerrit replica Ingress. Please set 'gerritReplica.ingress.host'" .Values.gerritReplica.ingress.host }}
     http:
       paths:
-      - backend:
-          serviceName: {{ .Release.Name }}-gerrit-replica-service
-          servicePort: {{ .Values.gerritReplica.service.http.port }}
+      - pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Release.Name }}-gerrit-replica-service
+            port:
+              number: {{ .Values.gerritReplica.service.http.port }}
 {{- end }}
