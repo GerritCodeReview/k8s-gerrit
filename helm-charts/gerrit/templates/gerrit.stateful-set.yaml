@@ -79,6 +79,10 @@ spec:
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit
 
+          {{ if .Values.gerrit.service.ssh.enabled -}}
+          rm -f /var/gerrit/etc/ssh_host*key*
+          {{- end }}
+
           symlink_config_to_site
 
           {{ if not .Values.gerrit.persistence.enabled -}}
@@ -122,6 +126,10 @@ spec:
         ports:
         - name: gerrit-port
           containerPort: 8080
+        {{- if .Values.gerrit.service.ssh.enabled }}
+        - name: gerrit-ssh
+          containerPort: 29418
+        {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"

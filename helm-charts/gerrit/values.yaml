@@ -154,6 +154,13 @@ gerrit:
     type: NodePort
     http:
       port: 80
+    ssh:
+      enabled: false
+      port: 29418
+      rsaKey: |-
+        -----BEGIN RSA PRIVATE KEY-----
+
+        -----END RSA PRIVATE KEY-----
 
   # `gerrit.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and
