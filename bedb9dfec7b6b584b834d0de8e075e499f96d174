@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70f4fc6c_c26b9ea6",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-03T11:18:41Z",
+      "side": 1,
+      "message": "Why don\u0027t we switch to the official Docker image?\n(gerritcodereview/gerrit:3.3.0)\n\nThe whole Dockerfile will just become yet another layer on top of it.",
+      "revId": "bedb9dfec7b6b584b834d0de8e075e499f96d174",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
