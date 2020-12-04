@@ -16,6 +16,24 @@
       "message": "might be necessary to adapt to the other change introducing configuration of TLS CA",
       "revId": "6c864870e55e47da820a969b562ea4301dc61b00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcce72f2_e9778f0f",
+        "filename": "container-images/gerrit-init/tools/gerrit_reindex.py",
+        "patchSetId": 41
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T09:27:51Z",
+      "side": 1,
+      "message": "The code is up-to-date in that regard.",
+      "parentUuid": "8793800d_262a40a8",
+      "revId": "6c864870e55e47da820a969b562ea4301dc61b00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
