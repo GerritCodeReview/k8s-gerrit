@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ddcf219_28d1e60e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:30:34Z",
+      "side": 1,
+      "message": "nit: probes",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f459e4_659e7c63",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:30:34Z",
+      "side": 1,
+      "message": "Please add these new config items to the chart\u0027s README.md",
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "444e3c25_27b5480b",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:30:34Z",
+      "side": 1,
+      "message": "Why use that here as a default, but not for the gerrit-chart?",
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f1f4056_dd9673ea",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:30:34Z",
+      "side": 1,
+      "message": "Please add these new config items to the chart\u0027s README.md",
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
