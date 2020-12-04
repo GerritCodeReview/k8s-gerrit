@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ded1e5_c5d8dc19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ddcf219_28d1e60e",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28f459e4_659e7c63",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-12-04T10:30:34Z",
       "side": 1,
       "message": "Please add these new config items to the chart\u0027s README.md",
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da2d1db0_9cde5063",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28f459e4_659e7c63",
       "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db195af7_74e4e214",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "444e3c25_27b5480b",
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f1f4056_dd9673ea",
@@ -71,6 +131,24 @@
       "writtenOn": "2020-12-04T10:30:34Z",
       "side": 1,
       "message": "Please add these new config items to the chart\u0027s README.md",
+      "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18debe35_7710926d",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-04T10:39:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f1f4056_dd9673ea",
       "revId": "897f22eb53c3f9f9ecd927fc43849886daa698ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
