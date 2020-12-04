@@ -297,11 +297,6 @@ spec:
         secret:
           secretName: {{ .Release.Name }}-tls-ca
       {{- end }}
-      {{ if .Values.gerritReplica.service.ssh.enabled -}}
-      - name: gerrit-replica-ssh
-        secret:
-          secretName: {{ .Release.Name }}-gerrit-replica-ssh-secret
-      {{- end }}
       {{ if .Values.promtailSidecar.enabled -}}
       - name: promtail-config
         configMap:
