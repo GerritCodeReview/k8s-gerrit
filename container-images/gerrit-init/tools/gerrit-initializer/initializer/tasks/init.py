@@ -59,7 +59,7 @@ class GerritInit:
     def _gerrit_war_updated(self):
         installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
         installed_version = self._get_gerrit_version(installed_war_path)
-        provided_version = self._get_gerrit_version("/var/war/gerrit.war")
+        provided_version = self._get_gerrit_version("/var/resources/war/gerrit.war")
         LOG.info(
             "Installed Gerrit version: %s; Provided Gerrit version: %s). ",
             installed_version,
@@ -112,7 +112,7 @@ class GerritInit:
 
         flags = "--no-auto-start --batch"
 
-        command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
+        command = "java -jar /var/resources/war/gerrit.war init %s %s -d %s" % (
             flags,
             plugin_options,
             self.site,

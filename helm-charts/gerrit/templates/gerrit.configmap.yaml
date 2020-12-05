@@ -21,6 +21,11 @@ data:
       # On new instances there won't be any changes to query
       enabled = false
   {{- end }}
+  {{- if not (hasKey .Values.gerrit.etc.config "zookeeper-refdb.config") }}
+  zookeeper-refdb.config: |-
+    [ref-database "zookeeper"]
+      connectString = "{{ .Release.Name }}-zookeeper.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.zookeeper.service.port }}"
+  {{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap

@@ -35,9 +35,10 @@ class InvalidPluginException(Exception):
 
 
 class AbstractPluginInstaller(ABC):
-    def __init__(self, site, config):
+    def __init__(self, site, config, replica=False):
         self.site = site
         self.config = config
+        self.replica = replica
 
         self.required_plugins = self._get_required_plugins()
 
@@ -55,12 +56,20 @@ class AbstractPluginInstaller(ABC):
 
         return list()
 
-    def _get_required_plugins(self):
-        required = [
-            os.path.splitext(f)[0]
-            for f in os.listdir("/var/plugins")
+    @staticmethod
+    def _list_plugins_in_dir(plugin_dir):
+        return [
+            (plugin_dir, os.path.splitext(f)[0])
+            for f in os.listdir(plugin_dir)
             if f.endswith(".jar")
         ]
+
+    def _get_required_plugins(self):
+        required = self._list_plugins_in_dir("/var/resources/plugins")
+
+        if not self.replica:
+            required += self._list_plugins_in_dir("/var/resources/multisite")
+
         return list(
             filter(
                 lambda x: x not in self.config.get_all_configured_plugins(), required
@@ -68,9 +77,9 @@ class AbstractPluginInstaller(ABC):
         )
 
     def _install_plugins_from_container(self):
-        source_dir = "/var/plugins"
-        for plugin in self.required_plugins:
-            source_file = os.path.join(source_dir, plugin + ".jar")
+        for plugin_dir, plugin in self.required_plugins:
+            LOG.info("Installing required plugin: %s", plugin)
+            source_file = os.path.join(plugin_dir, plugin + ".jar")
             target_file = os.path.join(self.plugin_dir, plugin + ".jar")
             if os.path.exists(target_file) and self._get_file_sha(
                 source_file
@@ -232,8 +241,8 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         LOG.debug("Removed download lock %s", lock_path)
 
 
-def get_installer(site, config):
+def get_installer(site, config, replica=False):
     plugin_installer = (
         CachedPluginInstaller if config.plugin_cache_enabled else PluginInstaller
     )
-    return plugin_installer(site, config)
+    return plugin_installer(site, config, replica)

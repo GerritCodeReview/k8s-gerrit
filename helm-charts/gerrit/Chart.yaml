@@ -25,3 +25,8 @@ sources:
 keywords:
 - gerrit
 - git
+dependencies:
+- name: zookeeper
+  version: "6.0.0"
+  repository: "https://charts.bitnami.com/bitnami"
+  condition: zookeeper.enabled
