@@ -258,3 +258,30 @@ gerrit:
         # [remote "replica"]
         # username = git
         # password = secret
+
+
+zookeeper:
+  # https://github.com/bitnami/charts/blob/master/bitnami/zookeeper/values.yaml
+  service:
+    type: ClusterIP
+    port: 2181
+
+  persistence:
+    ## A manually managed Persistent Volume and Claim
+    ## If defined, PVC must be created manually before volume will be bound
+    ## The value is evaluated as a template
+    ##
+    # existingClaim:
+
+    enabled: true
+    # storageClass: "-"
+    accessModes:
+      - ReadWriteOnce
+    size: 8Gi
+    dataLogDir:
+      size: 8Gi
+
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m

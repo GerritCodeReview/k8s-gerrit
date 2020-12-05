@@ -35,13 +35,15 @@ class InvalidPluginException(Exception):
 
 
 class AbstractPluginInstaller(ABC):
-    def __init__(self, site, config):
+    def __init__(self, site, config, replica=False):
         self.site = site
         self.config = config
+        self.replica = replica
 
         self.required_plugins = self._get_required_plugins()
 
         self.plugin_dir = os.path.join(site, "plugins")
+        self.lib_dir = os.path.join(site, "lib")
         self.plugins_changed = False
 
     def _create_plugins_dir(self):
@@ -55,22 +57,53 @@ class AbstractPluginInstaller(ABC):
 
         return list()
 
-    def _get_required_plugins(self):
-        required = [
-            os.path.splitext(f)[0]
-            for f in os.listdir("/var/plugins")
+    @staticmethod
+    def _list_plugins_in_dir(plugin_dir):
+        return [
+            (plugin_dir, os.path.splitext(f)[0])
+            for f in os.listdir(plugin_dir)
             if f.endswith(".jar")
         ]
+
+    def _get_required_plugins(self):
+        required = self._list_plugins_in_dir("/var/resources/plugins")
+
+        if not self.replica:
+            required += self._list_plugins_in_dir("/var/resources/multisite/plugins")
+
         return list(
             filter(
                 lambda x: x not in self.config.get_all_configured_plugins(), required
             )
         )
 
+    def _install_libs_from_container(self):
+        if not self.replica:
+            libs = [
+                os.path.splitext(f)[0]
+                for f in os.listdir("/var/resources/multisite/lib")
+                if f.endswith(".jar")
+            ]
+
+            if not os.path.exists(self.lib_dir):
+                os.makedirs(self.lib_dir)
+
+            for lib in libs:
+                LOG.info("Installing required libs: %s", lib)
+                source_file = os.path.join("/var/resources/multisite/lib", lib + ".jar")
+                target_file = os.path.join(self.lib_dir, lib + ".jar")
+                if os.path.exists(target_file) and self._get_file_sha(
+                    source_file
+                ) == self._get_file_sha(target_file):
+                    continue
+
+                shutil.copyfile(source_file, target_file)
+                self.plugins_changed = True
+
     def _install_plugins_from_container(self):
-        source_dir = "/var/plugins"
-        for plugin in self.required_plugins:
-            source_file = os.path.join(source_dir, plugin + ".jar")
+        for plugin_dir, plugin in self.required_plugins:
+            LOG.info("Installing required plugin: %s", plugin)
+            source_file = os.path.join(plugin_dir, plugin + ".jar")
             target_file = os.path.join(self.plugin_dir, plugin + ".jar")
             if os.path.exists(target_file) and self._get_file_sha(
                 source_file
@@ -106,6 +139,7 @@ class AbstractPluginInstaller(ABC):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()
         self._install_plugins_from_container()
+        self._install_libs_from_container()
 
         for plugin in self.config.downloaded_plugins:
             self._install_plugin(plugin)
@@ -232,8 +266,8 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         LOG.debug("Removed download lock %s", lock_path)
 
 
-def get_installer(site, config):
+def get_installer(site, config, replica=False):
     plugin_installer = (
         CachedPluginInstaller if config.plugin_cache_enabled else PluginInstaller
     )
-    return plugin_installer(site, config)
+    return plugin_installer(site, config, replica)
