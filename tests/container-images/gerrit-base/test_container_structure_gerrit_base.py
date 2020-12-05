@@ -57,7 +57,7 @@ def test_gerrit_base_java_path(container_run):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_base_contains_gerrit_war(container_run):
-    exit_code, _ = container_run.exec_run("test -f /var/war/gerrit.war")
+    exit_code, _ = container_run.exec_run("test -f /var/resources/war/gerrit.war")
     assert exit_code == 0
 
     exit_code, _ = container_run.exec_run("test -f /var/gerrit/bin/gerrit.war")
@@ -67,7 +67,9 @@ def test_gerrit_base_contains_gerrit_war(container_run):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_base_war_contains_gerrit(container_run):
-    exit_code, output = container_run.exec_run("java -jar /var/war/gerrit.war version")
+    exit_code, output = container_run.exec_run(
+        "java -jar /var/resources/war/gerrit.war version"
+    )
     assert exit_code == 0
     output = output.strip().decode("utf-8")
     assert re.search(re.compile("gerrit version.*"), output)
@@ -84,7 +86,9 @@ def test_gerrit_base_war_contains_gerrit(container_run):
 @pytest.mark.structure
 def test_gerrit_base_contains_required_plugins(container_run, required_plugins):
     for plugin in required_plugins:
-        exit_code, _ = container_run.exec_run("test -f /var/plugins/%s.jar" % plugin)
+        exit_code, _ = container_run.exec_run(
+            "test -f /var/resources/plugins/%s.jar" % plugin
+        )
         assert exit_code == 0
 
 
@@ -98,7 +102,7 @@ def test_gerrit_base_site_permissions(container_run):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_base_war_dir_permissions(container_run):
-    exit_code, _ = container_run.exec_run("test -O /var/war")
+    exit_code, _ = container_run.exec_run("test -O /var/resources/war")
     assert exit_code == 0
 
 

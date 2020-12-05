@@ -80,7 +80,10 @@ class GerritAbstractReindexer(abc.ABC):
 
     def reindex(self, indices=None):
         LOG.info("Starting to reindex.")
-        command = "java -jar /var/war/gerrit.war reindex -d %s" % self.gerrit_site_path
+        command = (
+            "java -jar /var/resources/war/gerrit.war reindex -d %s"
+            % self.gerrit_site_path
+        )
 
         if indices:
             command += " ".join([" --index %s" % i for i in indices])
