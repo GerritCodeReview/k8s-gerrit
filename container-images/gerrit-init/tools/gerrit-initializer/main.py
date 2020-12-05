@@ -16,14 +16,22 @@
 
 
 import argparse
+import os.path
 
+from initializer.helpers import git
 from initializer.tasks import download_plugins, init, reindex, validate_notedb
 from initializer.config.init_config import InitConfig
 
 
 def _run_download_plugins(args):
     config = InitConfig().parse(args.config)
-    download_plugins.get_installer(args.site, config).execute()
+    is_replica = False
+    gerrit_config_path = os.path.join(args.site, "etc/gerrit.config")
+    if os.path.exists(gerrit_config_path):
+        is_replica = git.GitConfigParser(gerrit_config_path).get_boolean(
+            "container.replica", False
+        )
+    download_plugins.get_installer(args.site, config, is_replica).execute()
 
 
 def _run_init(args):
