@@ -366,6 +366,7 @@ def required_plugins(request):
             "healthcheck",
             "kafka-events",
             "pull-replication",
+            "websession-broker",
             "zookeeper-refdb",
         ],
         "war": ["replication"],

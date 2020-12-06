@@ -69,7 +69,7 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
-          for dir in git {{ if eq .Values.gerrit.index.type "elasticsearch" }}index{{ end }}; do
+          for dir in git websessions {{ if eq .Values.gerrit.index.type "elasticsearch" }}index{{ end }}; do
             if [ ! -d /var/gerrit/$dir ]; then
               ln -sf /var/mnt/$dir /var/gerrit/
             fi
@@ -103,6 +103,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-repositories
           mountPath: "/var/mnt/git"
+        - name: websessions
+          mountPath: "/var/mnt/websessions"
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
@@ -139,6 +141,8 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-repositories
           mountPath: "/var/mnt/git"
+        - name: websessions
+          mountPath: "/var/mnt/websessions"
         {{ if eq .Values.gerrit.index.type "elasticsearch" -}}
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
@@ -181,6 +185,9 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-repositories-pvc
           {{- end }}
+      - name: websessions
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-websession-pvc
       - name: gerrit-init-config
         configMap:
           name: {{ .Release.Name }}-gerrit-init-configmap

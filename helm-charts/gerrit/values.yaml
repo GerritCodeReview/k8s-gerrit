@@ -239,6 +239,8 @@ gerrit:
         [plugin "kafka-events"]
           # This URL has to be set and has to point to the Kafka service.
           bootstrapServers = "gerrit-kafka.default.svc.cluster.local:9092"
+        [plugin "websession-flatfile"]
+          directory = /var/gerrit/websessions # FIXED
 
       replication.config: |-
         [gerrit]
