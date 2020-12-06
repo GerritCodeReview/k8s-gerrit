@@ -208,6 +208,8 @@ gerrit:
           # cluster.
           canonicalWebUrl = http://example.com/
           disableReverseDnsLookup = true
+          installDbModule = com.googlesource.gerrit.plugins.multisite.GitModule # FIXED
+          installModule = com.googlesource.gerrit.plugins.multisite.Module # FIXED
         [index]
           type = LUCENE
           onlineUpgrade = false # FIXED
