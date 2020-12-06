@@ -90,6 +90,8 @@ spec:
             FLAGS="$FLAGS --force"
           {{- end }}
 
+          ln -sf /var/gerrit/lib/multi-site.jar /var/gerrit/plugins/multi-site.jar
+
           # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
           # is configured.
           python3 /var/tools/gerrit-initializer \

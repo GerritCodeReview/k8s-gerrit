@@ -32,6 +32,7 @@ ADD https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.3/job/plugin-metrics
 
 ADD https://repo1.maven.org/maven2/com/gerritforge/global-refdb/3.3.0/global-refdb-3.3.0.jar /var/resources/multisite/lib/global-refdb.jar
 ADD https://repo1.maven.org/maven2/com/gerritforge/events-broker/3.3.0/events-broker-3.3.0.jar /var/resources/multisite/lib/events-broker.jar
+ADD https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.3/job/plugin-multi-site-bazel-stable-3.3/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar /var/resources/multisite/lib/multi-site.jar
 
 # Allow incoming traffic
 EXPOSE 29418 8080
