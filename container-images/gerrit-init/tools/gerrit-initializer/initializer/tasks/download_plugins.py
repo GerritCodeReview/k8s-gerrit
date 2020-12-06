@@ -28,6 +28,7 @@ from ..helpers import log
 LOG = log.get_logger("init")
 MAX_LOCK_LIFETIME = 60
 MAX_CACHED_VERSIONS = 5
+REQUIRED_PACKAGED_PLUGINS = ["replication"]
 
 
 class InvalidPluginException(Exception):
@@ -129,6 +130,7 @@ class AbstractPluginInstaller(ABC):
 
     def _remove_unwanted_plugins(self):
         wanted_plugins = list(self.config.get_all_configured_plugins())
+        wanted_plugins.extend(REQUIRED_PACKAGED_PLUGINS)
         wanted_plugins.extend(self.required_plugins)
         for plugin in self._get_installed_plugins():
             if os.path.splitext(plugin)[0] not in wanted_plugins:

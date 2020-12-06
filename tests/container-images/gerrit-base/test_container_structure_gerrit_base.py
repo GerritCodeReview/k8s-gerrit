@@ -85,7 +85,7 @@ def test_gerrit_base_war_contains_gerrit(container_run):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_base_contains_required_plugins(container_run, required_plugins):
-    for plugin in required_plugins:
+    for plugin in required_plugins["container"]:
         exit_code, output = container_run.exec_run(
             "find /var/resources -name %s.jar" % plugin
         )
