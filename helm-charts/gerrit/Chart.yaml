@@ -30,3 +30,7 @@ dependencies:
   version: "6.0.0"
   repository: "https://charts.bitnami.com/bitnami"
   condition: zookeeper.enabled
+- name: kafka
+  version: "12.2.4"
+  repository: "https://charts.bitnami.com/bitnami"
+  condition: kafka.enabled
