@@ -27,6 +27,8 @@ RUN curl -k -o /var/resources/plugins/healthcheck.jar \
 # Download components required for multisite setup
 ADD https://gerrit-ci.gerritforge.com/job/plugin-zookeeper-refdb-bazel-stable-3.3/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar /var/resources/multisite/plugins/zookeeper-refdb.jar
 ADD https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.3/job/plugin-kafka-events-bazel-stable-3.3/lastSuccessfulBuild/artifact/bazel-bin/plugins/kafka-events/kafka-events.jar /var/resources/multisite/plugins/kafka-events.jar
+ADD https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.3/job/plugin-websession-broker-bazel-stable-3.3/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar /var/resources/multisite/plugins/websession-broker.jar
+
 ADD https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.3/job/plugin-multi-site-bazel-stable-3.3/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar /var/resources/multisite/lib/multi-site.jar
 ADD https://repo1.maven.org/maven2/com/gerritforge/events-broker/3.3.0/events-broker-3.3.0.jar /var/resources/multisite/lib/events-broker.jar
 

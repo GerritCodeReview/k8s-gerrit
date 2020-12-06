@@ -365,6 +365,7 @@ def required_plugins(request):
         "container": [
             "healthcheck",
             "kafka-events",
+            "websession-broker",
             "zookeeper-refdb",
         ],
         "war": ["replication"],
