@@ -17,7 +17,7 @@ import subprocess
 import sys
 
 from ..helpers import git, log
-from .download_plugins import get_installer
+from .download_plugins import get_installer, REQUIRED_PACKAGED_PLUGINS
 
 LOG = log.get_logger("init")
 
@@ -99,16 +99,14 @@ class GerritInit:
         else:
             LOG.info("No gerrit.config found. Initializing default site.")
 
+        packaged_plugins = REQUIRED_PACKAGED_PLUGINS.copy()
+
         if self.config.packaged_plugins:
-            plugin_options = " ".join(
-                [
-                    "--install-plugin %s" % plugin
-                    for plugin in self.config.packaged_plugins
-                    if plugin
-                ]
-            )
-        else:
-            plugin_options = ""
+            packaged_plugins += self.config.packaged_plugins
+
+        plugin_options = " ".join(
+            ["--install-plugin %s" % plugin for plugin in packaged_plugins if plugin]
+        )
 
         flags = "--no-auto-start --batch"
 
