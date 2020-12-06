@@ -209,6 +209,8 @@ gerrit:
           canonicalWebUrl = http://example.com/
           disableReverseDnsLookup = true
           installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule # FIXED
+          installDbModule = com.googlesource.gerrit.plugins.multisite.GitModule # FIXED
+          installModule = com.googlesource.gerrit.plugins.multisite.Module # FIXED
         [index]
           type = LUCENE
           onlineUpgrade = false # FIXED
