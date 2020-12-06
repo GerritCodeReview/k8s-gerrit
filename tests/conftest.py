@@ -361,4 +361,4 @@ def gerrit_init_image(
 
 @pytest.fixture(scope="session")
 def required_plugins(request):
-    return ["healthcheck", "zookeeper-refdb"]
+    return ["healthcheck", "zookeeper-refdb", "kafka-events"]
