@@ -43,6 +43,7 @@ class AbstractPluginInstaller(ABC):
         self.required_plugins = self._get_required_plugins()
 
         self.plugin_dir = os.path.join(site, "plugins")
+        self.lib_dir = os.path.join(site, "lib")
         self.plugins_changed = False
 
     def _create_plugins_dir(self):
@@ -68,13 +69,37 @@ class AbstractPluginInstaller(ABC):
         required = self._list_plugins_in_dir("/var/resources/plugins")
 
         if not self.replica:
-            required += self._list_plugins_in_dir("/var/resources/multisite")
+            required += self._list_plugins_in_dir("/var/resources/multisite/plugins")
 
         return list(
             filter(
                 lambda x: x not in self.config.get_all_configured_plugins(), required
             )
         )
+
+    def _install_libs_from_container(self):
+        if not self.replica:
+            libs = [
+                os.path.splitext(f)[0]
+                for f in os.listdir("/var/resources/multisite/lib")
+                if f.endswith(".jar")
+            ]
+
+            if not os.path.exists(self.lib_dir):
+                os.makedirs(self.lib_dir)
+
+            for lib in libs:
+                LOG.info("Installing required libs: %s", lib)
+                source_file = os.path.join("/var/resources/multisite/lib", lib + ".jar")
+                target_file = os.path.join(self.lib_dir, lib + ".jar")
+                if os.path.exists(target_file) and self._get_file_sha(
+                    source_file
+                ) == self._get_file_sha(target_file):
+                    continue
+
+                shutil.copyfile(source_file, target_file)
+                self.plugins_changed = True
+
 
     def _install_plugins_from_container(self):
         for plugin_dir, plugin in self.required_plugins:
@@ -115,6 +140,7 @@ class AbstractPluginInstaller(ABC):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()
         self._install_plugins_from_container()
+        self._install_libs_from_container()
 
         for plugin in self.config.downloaded_plugins:
             self._install_plugin(plugin)
