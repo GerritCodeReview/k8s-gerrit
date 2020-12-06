@@ -29,3 +29,6 @@ dependencies:
 - name: zookeeper
   version: "6.0.0"
   repository: "https://charts.bitnami.com/bitnami"
+- name: kafka
+  version: "12.2.4"
+  repository: "https://charts.bitnami.com/bitnami"

@@ -208,6 +208,7 @@ gerrit:
           # cluster.
           canonicalWebUrl = http://example.com/
           disableReverseDnsLookup = true
+          installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule # FIXED
         [index]
           type = LUCENE
           onlineUpgrade = false # FIXED
@@ -235,6 +236,9 @@ gerrit:
           # Has to be lower than 'gerrit.resources.limits.memory'. Also
           # consider memories used by other applications in the container.
           javaOptions = -Xmx4g
+        [plugin "kafka-events"]
+          # This URL has to be set and has to point to the Kafka service.
+          bootstrapServers = "gerrit-kafka.default.svc.cluster.local:9092"
 
       replication.config: |-
         [gerrit]
@@ -285,3 +289,17 @@ zookeeper:
     requests:
       memory: 256Mi
       cpu: 250m
+
+
+kafka:
+  # https://github.com/bitnami/charts/blob/master/bitnami/kafka/values.yaml
+  service:
+    type: ClusterIP
+    port: 9092
+
+  zookeeper:
+    enabled: false
+
+  externalZookeeper:
+    servers:
+    - gerrit-zookeeper
