@@ -138,7 +138,9 @@ class TestGerritInitPluginInstallation:
             assert os.path.exists(os.path.join(plugins_path, "%s.jar" % plugin))
 
         installed_plugins = os.listdir(plugins_path)
-        expected_plugins = plugins_to_install + required_plugins
+        expected_plugins = (
+            plugins_to_install + required_plugins["container"] + required_plugins["war"]
+        )
         for plugin in installed_plugins:
             assert os.path.splitext(plugin)[0] in expected_plugins
 
@@ -154,7 +156,7 @@ class TestGerritInitPluginInstallation:
         )
         assert exit_code == 0
 
-        for plugin in required_plugins:
+        for plugin in required_plugins["container"] + required_plugins["war"]:
             assert os.path.exists(
                 os.path.join(tmp_site_dir, "plugins", "%s.jar" % plugin)
             )

@@ -91,6 +91,7 @@ spec:
           {{- end }}
 
           ln -sf /var/gerrit/lib/multi-site.jar /var/gerrit/plugins/multi-site.jar
+          ln -sf /var/gerrit/plugins/replication.jar /var/gerrit/lib/replication.jar
 
           # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
           # is configured.
