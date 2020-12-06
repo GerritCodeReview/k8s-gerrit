@@ -243,8 +243,8 @@ gerrit:
 
       replication.config: |-
         [gerrit]
+          replicateOnStartup = false # FIXED
           autoReload = false
-          replicateOnStartup = true
           defaultForceUpdate = true
 
         # [remote "replica"]
