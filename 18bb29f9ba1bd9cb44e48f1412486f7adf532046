@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fe37b6_5a21aee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-09T12:17:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "148e2f26_53a33ae6",
+      "revId": "18bb29f9ba1bd9cb44e48f1412486f7adf532046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "299984c9_26d5dd49",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-12-04T11:03:59Z",
       "side": 1,
       "message": "A switch from serviceuser to account? Is this related to an gerrit update from 3.1.7 to 3.3",
+      "revId": "18bb29f9ba1bd9cb44e48f1412486f7adf532046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48bd970e_fd370890",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-09T12:17:21Z",
+      "side": 1,
+      "message": "There is no build for the serviceuser plugin in 3.3.0 yet, so the test would fail.",
+      "parentUuid": "299984c9_26d5dd49",
       "revId": "18bb29f9ba1bd9cb44e48f1412486f7adf532046",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
