@@ -364,6 +364,7 @@ def required_plugins(request):
     return [
         "healthcheck",
         "kafka-events",
+        "metrics-reporter-prometheus",
         "pull-replication",
         "replication",
         "websession-broker",
