@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f417d9_e91d341e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-12-09T15:24:37Z",
+      "side": 1,
+      "message": "Reapplying Matthias\u0027 CR+2, because rebase only conflicted in a table in README.",
+      "revId": "5f0bcc8e7dff245f8c5cde725c1c5da331eaeb6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
