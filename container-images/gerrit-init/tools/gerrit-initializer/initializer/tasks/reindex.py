@@ -74,7 +74,7 @@ class GerritAbstractReindexer(abc.ABC):
             return False
 
         for index, index_attrs in self.configured_indices.items():
-            if index_attrs["version"] is not indices[index]:
+            if index not in indices or index_attrs["version"] is not indices[index]:
                 return False
         return True
 
