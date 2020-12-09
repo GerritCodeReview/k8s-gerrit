@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee7dd92_45d31b9f",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-12-09T13:18:11Z",
+      "side": 1,
+      "message": "configure multiple",
+      "range": {
+        "startLine": 229,
+        "startChar": 26,
+        "endLine": 229,
+        "endChar": 43
+      },
+      "revId": "91587128e7ac9c212bfed52b60336714cbee7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
