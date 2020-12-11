@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
 import hashlib
 import os
 import shutil
@@ -24,10 +23,9 @@ from abc import ABC, abstractmethod
 
 import requests
 
-from init_config import InitConfig
-from log import get_logger
+from ..helpers import log
 
-LOG = get_logger("init")
+LOG = log.get_logger("init")
 MAX_LOCK_LIFETIME = 60
 MAX_CACHED_VERSIONS = 5
 
@@ -239,29 +237,3 @@ def get_installer(site, config):
         CachedPluginInstaller if config.plugin_cache_enabled else PluginInstaller
     )
     return plugin_installer(site, config)
-
-
-# pylint: disable=C0103
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s",
-        "--site",
-        help="Path to Gerrit site",
-        dest="site",
-        action="store",
-        default="/var/gerrit",
-        required=True,
-    )
-    parser.add_argument(
-        "-c",
-        "--config",
-        help="Path to configuration file for init process.",
-        dest="config",
-        action="store",
-        required=True,
-    )
-    args = parser.parse_args()
-
-    config = InitConfig().parse(args.config)
-    get_installer(args.site, config).execute()

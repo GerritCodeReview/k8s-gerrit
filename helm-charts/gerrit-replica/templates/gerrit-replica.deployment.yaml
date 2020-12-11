@@ -84,9 +84,10 @@ spec:
         - -ce
         args:
         - |
-          /var/tools/gerrit_init.py \
+          python3 /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
-            -s /var/gerrit
+            -s /var/gerrit \
+            init
 
           # The git repositories and logs will be mounted from a volume
           [ -L /var/gerrit/git ] || rm -rf /var/gerrit/git
@@ -132,7 +133,10 @@ spec:
             ln -sf /var/mnt/logs /var/gerrit/
           fi
 
-          /var/tools/validate_notedb.py -s /var/gerrit
+          python3 /var/tools/gerrit-initializer \
+            -c /var/config/gerrit-init.yaml \
+            -s /var/gerrit \
+            validate-notedb
         env:
         - name: POD_NAME
           valueFrom:

@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 # Copyright (C) 2018 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import argparse
 import os
 import subprocess
 import time
 
-from log import get_logger
+from ..helpers import log
 
-LOG = get_logger("init")
+LOG = log.get_logger("init")
 
 
 class NoteDbValidator:
@@ -61,21 +59,3 @@ class NoteDbValidator:
                 while not self._test_ref_exists(repo, ref):
                     time.sleep(1)
                 LOG.info("Found ref %s in repo %s.", ref, repo)
-
-
-# pylint: disable=C0103
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s",
-        "--site",
-        help="Path to Gerrit site",
-        dest="site",
-        action="store",
-        default="/var/gerrit",
-        required=True,
-    )
-    args = parser.parse_args()
-
-    init = NoteDbValidator(args.site)
-    init.execute()
