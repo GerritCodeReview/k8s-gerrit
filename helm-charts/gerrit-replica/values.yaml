@@ -66,6 +66,17 @@ logStorage:
     use: false
     name: gerrit-logs-pvc
   size: 5Gi
+  cleanup:
+    enabled: false
+    schedule: "0 0 * * *"
+    retentionDays: 14
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
 
 
 istio:
