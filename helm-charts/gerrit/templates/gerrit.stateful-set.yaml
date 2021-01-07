@@ -66,9 +66,6 @@ spec:
             done
           }
 
-          mkdir -p /var/gerrit/etc
-          symlink_config_to_site
-
           for dir in git websessions {{ if eq .Values.gerrit.index.type "elasticsearch" }}index{{ end }}; do
             if [ ! -d /var/gerrit/$dir ]; then
               ln -sf /var/mnt/$dir /var/gerrit/
@@ -84,14 +81,9 @@ spec:
           rm -f /var/gerrit/etc/ssh_host*key*
           {{- end }}
 
-          symlink_config_to_site
-
           {{ if not .Values.gerrit.persistence.enabled -}}
             FLAGS="$FLAGS --force"
           {{- end }}
-
-          ln -sf /var/gerrit/lib/multi-site.jar /var/gerrit/plugins/multi-site.jar
-          ln -sf /var/gerrit/plugins/replication.jar /var/gerrit/lib/replication.jar
 
           # TODO (Thomas): Do not enforce offline-reindexing, when online-reindexing
           # is configured.
@@ -101,6 +93,10 @@ spec:
             reindex \
             $FLAGS
 
+          ln -sf /var/gerrit/plugins/replication.jar /var/gerrit/lib/replication.jar
+          ln -sf /var/gerrit/lib/multi-site.jar /var/gerrit/plugins/multi-site.jar
+
+          symlink_config_to_site
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
