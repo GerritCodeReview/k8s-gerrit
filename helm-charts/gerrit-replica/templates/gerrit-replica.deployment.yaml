@@ -197,6 +197,13 @@ spec:
       - name: gerrit-replica
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritReplica }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - "/bin/ash"
+                - "-c"
+                - "kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null"
         env:
         - name: POD_NAME
           valueFrom:
