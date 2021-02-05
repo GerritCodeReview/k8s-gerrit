@@ -15,6 +15,5 @@ symlink_config_to_site
 JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
 java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war daemon \
   -d /var/gerrit \
-  --enable-httpd &
-
-tail -F -n +1 /var/gerrit/logs/error_log
+  --console-log \
+  --enable-httpd
