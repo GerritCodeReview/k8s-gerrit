@@ -163,6 +163,13 @@ spec:
       - name: gerrit
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerrit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+                - "/bin/ash"
+                - "-c"
+                - "kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null"
         ports:
         - name: gerrit-port
           containerPort: 8080
