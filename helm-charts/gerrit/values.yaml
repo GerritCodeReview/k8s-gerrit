@@ -1,4 +1,5 @@
 images:
+  # Registry used for container images created by this project
   registry:
     # The registry name must NOT contain a trailing slash
     name:
@@ -13,6 +14,9 @@ images:
       password:
   version: latest
   imagePullPolicy: Always
+  # Additional ImagePullSecrets that already exist and should be used by the
+  # pods of this chart. E.g. to pull busybox from dockerhub.
+  additionalImagePullSecrets: []
 
 
 storageClasses:
