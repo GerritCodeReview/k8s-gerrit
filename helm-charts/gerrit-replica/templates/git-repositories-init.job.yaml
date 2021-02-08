@@ -25,6 +25,9 @@ spec:
       {{ if .Values.images.registry.ImagePullSecret.name -}}
       imagePullSecrets:
       - name: {{ .Values.images.registry.ImagePullSecret.name }}
+      {{- range .Values.images.additionalImagePullSecrets }}
+      - name: {{ . }}
+      {{- end }}
       {{- end }}
       {{- if .Values.nfsWorkaround.enabled }}
       initContainers:
