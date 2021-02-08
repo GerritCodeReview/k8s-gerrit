@@ -106,6 +106,7 @@ helm install \
 | `images.registry.ImagePullSecret.password` | The image registry password | `nil` |
 | `images.version` | The image version (image tag) to use | `latest` |
 | `images.imagePullPolicy` | Image pull policy | `Always` |
+| `images.additionalImagePullSecrets` | Additional image pull policies that pods should use | `[]` |
 
 ### Storage classes
 
