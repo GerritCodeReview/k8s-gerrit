@@ -8,40 +8,27 @@ a huge repertoire of load balancing and routing mechanisms.
 Currently, only the Gerrit replica chart allows using istio out of the box.
 ***
 
-## Dependencies
-
-- istioctl \
-  To install follow these
-  [instructions](https://istio.io/docs/ops/diagnostic-tools/istioctl/#install-hahahugoshortcode-s2-hbhb)
-
 ## Install istio
 
 An example configuration based on the default profile provided by istio can be
-found under `./istio/gerrit.profile.yaml`. To install istio with this profile,
-run:
+found under `./istio/src/`. Some values will have to be adapted to the respective
+system. These are marked by comments tagged with `TO_BE_CHANGED`.
+To install istio with this configuration, run:
 
 ```sh
-istioctl manifest apply -f istio/gerrit.profile.yaml
+kubectl apply -f istio/istio-system-namespace.yaml
+kubectl apply -f istio/src
 ```
 
 To install Gerrit using istio for networking, the namespace running Gerrit has to
 be configured to enable sidecar injection, by setting the `istio-injection: enabled`
 label. An example for such a namespace can be found at `./istio/namespace.yaml`.
-
-To be able to use Kiali, credentials have to be provided. A secret for doing so,
-can be found at `./istio/kiali.secret.yaml`. Adapt the credentials and apply them:
-
-```sh
-kubectl apply -f ./istio/kiali.secret.yaml
-```
-
 ## Uninstall istio
 
 To uninstall istio, run:
 
 ```sh
-istioctl manifest generate -f istio/gerrit.profile.yaml > istio/gerrit.manifest.yaml
-kubectl delete -f istio/gerrit.manifest.yaml
+kubectl delete -f istio/src
 ```
 
 ## Restricting access to a list of allowed IPs

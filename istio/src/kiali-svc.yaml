@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kiali
+  namespace: istio-system
+  annotations:
+  labels:
+    app: kiali
+    release: istio
+spec:
+  type: ClusterIP
+  ports:
+    - name: http-kiali
+      protocol: TCP
+      port: 20001
+  selector:
+    app: kiali
