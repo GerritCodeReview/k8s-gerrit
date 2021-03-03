@@ -283,7 +283,7 @@ gerritReplica:
     # - name: delete-project
     #   url: https://example.com/gerrit-plugins/delete-project.jar
     #   sha1:
-
+    installAsLibrary: []
     # Only downloaded plugins will be cached. This will be ignored, if no plugins
     # are downloaded.
     cache:

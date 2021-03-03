@@ -42,6 +42,7 @@ class AbstractPluginInstaller(ABC):
         self.required_plugins = self._get_required_plugins()
 
         self.plugin_dir = os.path.join(site, "plugins")
+        self.lib_dir = os.path.join(site, "lib")
         self.plugins_changed = False
 
     def _create_plugins_dir(self):
@@ -102,6 +103,18 @@ class AbstractPluginInstaller(ABC):
                 os.remove(os.path.join(self.plugin_dir, plugin))
                 LOG.info("Removed plugin %s", plugin)
 
+    def _symlink_plugins_to_lib(self):
+        if not os.path.exists(self.lib_dir):
+            os.makedirs(self.lib_dir)
+        for lib in self.config.install_as_library:
+            plugin_path = os.path.join(self.plugin_dir, "%s.jar" % lib)
+            if os.path.exists(plugin_path):
+                os.symlink(plugin_path, os.path.join(self.lib_dir, "%s.jar" % lib))
+            else:
+                raise FileNotFoundError(
+                    "Could not find plugin %s to symlink to lib-directory." % lib
+                )
+
     def execute(self):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()
@@ -109,6 +122,8 @@ class AbstractPluginInstaller(ABC):
 
         for plugin in self.config.downloaded_plugins:
             self._install_plugin(plugin)
+
+        self._symlink_plugins_to_lib()
 
     def _download_plugin(self, plugin, target):
         LOG.info("Downloading %s plugin to %s", plugin["name"], target)
