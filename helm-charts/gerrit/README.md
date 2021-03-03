@@ -261,6 +261,7 @@ future.
 | `gerrit.plugins.downloaded[0].name` | Name of plugin | `nil` |
 | `gerrit.plugins.downloaded[0].url` | Download url of plugin | `nil` |
 | `gerrit.plugins.downloaded[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version (optional) | `nil` |
+| `gerrit.plugins.installAsLibrary` | List of plugins, which should be symlinked to the lib-dir in the Gerrit site (have to be in either `..downloaded` or `..packaged`) | `[]` |
 | `gerrit.plugins.cache.enabled` | Whether to cache downloaded plugins | `false` |
 | `gerrit.plugins.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
 | `gerrit.etc.config` | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
