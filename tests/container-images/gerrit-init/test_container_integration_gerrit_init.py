@@ -158,3 +158,49 @@ class TestGerritInitPluginInstallation:
             assert os.path.exists(
                 os.path.join(tmp_site_dir, "plugins", "%s.jar" % plugin)
             )
+
+    def test_libraries_are_symlinked(
+        self, container_run_endless, init_config_dir, tmp_site_dir
+    ):
+        with open(os.path.join(init_config_dir, "init.yaml"), "w") as f:
+            yaml.dump(
+                {"packagedPlugins": ["hooks"], "installAsLibrary": ["hooks"]},
+                f,
+                default_flow_style=False,
+            )
+
+        exit_code, _ = container_run_endless.exec_run(
+            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/init.yaml init"
+        )
+        assert exit_code == 0
+
+        assert os.path.exists(os.path.join(tmp_site_dir, "plugins", "%s.jar" % "hooks"))
+        assert os.path.islink(os.path.join(tmp_site_dir, "lib", "%s.jar" % "hooks"))
+
+        exit_code, output = container_run_endless.exec_run(
+            "readlink -f /var/gerrit/lib/hooks.jar"
+        )
+        assert exit_code == 0
+        assert output.decode("utf-8").strip() == "/var/gerrit/plugins/hooks.jar"
+
+    def test_library_symlink_fails_without_plugin(
+        self, container_run_endless, init_config_dir
+    ):
+        with open(os.path.join(init_config_dir, "init.yaml"), "w") as f:
+            yaml.dump(
+                {"packagedPlugins": ["hooks"], "installAsLibrary": ["saml"]},
+                f,
+                default_flow_style=False,
+            )
+
+        exit_code, output = container_run_endless.exec_run(
+            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/init.yaml init"
+        )
+        assert exit_code == 1
+        assert (
+            output.decode("utf-8")
+            .strip()
+            .endswith(
+                "FileNotFoundError: Could not find plugin saml to symlink to lib-directory."
+            )
+        )

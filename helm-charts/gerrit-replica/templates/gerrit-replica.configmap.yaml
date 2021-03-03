@@ -46,3 +46,7 @@ data:
     downloadedPlugins:
 {{ toYaml .Values.gerritReplica.plugins.downloaded | indent 6 }}
     {{- end }}
+    {{- if .Values.gerritReplica.plugins.installAsLibrary }}
+    installAsLibrary:
+{{ toYaml .Values.gerritReplica.plugins.installAsLibrary | indent 6 }}
+    {{- end }}

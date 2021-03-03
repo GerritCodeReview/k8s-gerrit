@@ -22,6 +22,7 @@ class InitConfig:
         self.downloaded_plugins = list()
         self.plugin_cache_enabled = False
         self.packaged_plugins = set()
+        self.install_as_library = set()
         self.plugin_cache_dir = None
 
         self.ca_cert_path = True
@@ -40,6 +41,8 @@ class InitConfig:
             self.downloaded_plugins = config["downloadedPlugins"]
         if "packagedPlugins" in config:
             self.packaged_plugins = set(config["packagedPlugins"])
+        if "installAsLibrary" in config:
+            self.install_as_library = set(config["installAsLibrary"])
         if "pluginCache" in config:
             self.plugin_cache_enabled = config["pluginCache"]
         if "pluginCacheDir" in config and config["pluginCacheDir"]:
