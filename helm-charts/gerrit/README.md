@@ -76,39 +76,39 @@ helm install \
 
 ### Container images
 
-| Parameter                                  | Description                                          | Default                                                              |
-|--------------------------------------------|------------------------------------------------------|----------------------------------------------------------------------|
-| `images.registry.name`                     | The image registry to pull the container images from | ``                                                                   |
-| `images.registry.ImagePullSecret.name`     | Name of the ImagePullSecret                          | `image-pull-secret` (if empty no image pull secret will be deployed) |
-| `images.registry.ImagePullSecret.create`   | Whether to create an ImagePullSecret                 | `false`                                                              |
-| `images.registry.ImagePullSecret.username` | The image registry username                          | `nil`                                                                |
-| `images.registry.ImagePullSecret.password` | The image registry password                          | `nil`                                                                |
-| `images.version`                           | The image version (image tag) to use                 | `latest`                                                             |
-| `images.imagePullPolicy`                   | Image pull policy                                    | `Always`                                                             |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `images.registry.name` | The image registry to pull the container images from | `` |
+| `images.registry.ImagePullSecret.name` | Name of the ImagePullSecret | `image-pull-secret` (if empty no image pull secret will be deployed) |
+| `images.registry.ImagePullSecret.create` | Whether to create an ImagePullSecret | `false` |
+| `images.registry.ImagePullSecret.username` | The image registry username | `nil` |
+| `images.registry.ImagePullSecret.password` | The image registry password | `nil` |
+| `images.version` | The image version (image tag) to use | `latest` |
+| `images.imagePullPolicy` | Image pull policy | `Always` |
 
 ### Storage classes
 
 For information of how a `StorageClass` is configured in Kubernetes, read the
 [official Documentation](https://kubernetes.io/docs/concepts/storage/storage-classes/#introduction).
 
-| Parameter                              | Description                                                       | Default                                           |
-|----------------------------------------|-------------------------------------------------------------------|---------------------------------------------------|
-| `storageClasses.default.name`          | The name of the default StorageClass (RWO)                        | `default`                                         |
-| `storageClasses.default.create`        | Whether to create the StorageClass                                | `false`                                           |
-| `storageClasses.default.provisioner`   | Provisioner of the StorageClass                                   | `kubernetes.io/aws-ebs`                           |
-| `storageClasses.default.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
-| `storageClasses.default.parameters`    | Parameters for the provisioner                                    | `parameters.type: gp2`, `parameters.fsType: ext4` |
-| `storageClasses.shared.name`           | The name of the shared StorageClass (RWM)                         | `shared-storage`                                  |
-| `storageClasses.shared.create`         | Whether to create the StorageClass                                | `false`                                           |
-| `storageClasses.shared.provisioner`    | Provisioner of the StorageClass                                   | `nfs`                                             |
-| `storageClasses.shared.reclaimPolicy`  | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete`                                          |
-| `storageClasses.shared.parameters`     | Parameters for the provisioner                                    | `parameters.mountOptions: vers=4.1`               |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `storageClasses.default.name` | The name of the default StorageClass (RWO) | `default` |
+| `storageClasses.default.create` | Whether to create the StorageClass | `false` |
+| `storageClasses.default.provisioner` | Provisioner of the StorageClass | `kubernetes.io/aws-ebs` |
+| `storageClasses.default.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete` |
+| `storageClasses.default.parameters` | Parameters for the provisioner | `parameters.type: gp2`, `parameters.fsType: ext4` |
+| `storageClasses.shared.name` | The name of the shared StorageClass (RWM) | `shared-storage` |
+| `storageClasses.shared.create` | Whether to create the StorageClass | `false` |
+| `storageClasses.shared.provisioner` | Provisioner of the StorageClass | `nfs` |
+| `storageClasses.shared.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete` |
+| `storageClasses.shared.parameters` | Parameters for the provisioner | `parameters.mountOptions: vers=4.1` |
 
 ### Network policies
 
-| Parameter                  | Description                                      | Default      |
-|----------------------------|--------------------------------------------------|--------------|
-| `networkPolicies.enabled`  | Whether to enable preconfigured NetworkPolicies  | `false`      |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `networkPolicies.enabled` | Whether to enable preconfigured NetworkPolicies | `false` |
 | `networkPolicies.dnsPorts` | List of ports used by DNS-service (e.g. KubeDNS) | `[53, 8053]` |
 
 The NetworkPolicies provided here are quite strict and do not account for all
@@ -162,11 +162,11 @@ For more information about the NetworkPolicy resource refer to the
 
 ### Storage for Git repositories
 
-| Parameter                               | Description                                     | Default                |
-|-----------------------------------------|-------------------------------------------------|------------------------|
-| `gitRepositoryStorage.externalPVC.use`  | Whether to use a PVC deployed outside the chart | `false`                |
-| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC                        | `git-repositories-pvc` |
-| `gitRepositoryStorage.size`             | Size of the volume storing the Git repositories | `5Gi`                  |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `gitRepositoryStorage.externalPVC.use` | Whether to use a PVC deployed outside the chart | `false` |
+| `gitRepositoryStorage.externalPVC.name` | Name of the external PVC | `git-repositories-pvc` |
+| `gitRepositoryStorage.size` | Size of the volume storing the Git repositories | `5Gi` |
 
 If the git repositories should be persisted even if the chart is deleted and in
 a way that the volume containing them can be mounted by the reinstalled chart,
@@ -180,35 +180,35 @@ Some application may require TLS verification. If the default CA built into the
 containers is not enough a custom CA certificate can be given to the deployment.
 Note, that Gerrit will require its CA in a JKS keytore, which is described below.
 
-| Parameter | Description                                                                | Default |
-|-----------|----------------------------------------------------------------------------|---------|
-| `caCert`  | CA certificate for TLS verification (if not set, the default will be used) | `None`  |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `caCert` | CA certificate for TLS verification (if not set, the default will be used) | `None` |
 
 ### Ingress
 
-| Parameter                       | Description                                                       | Default                           |
-|---------------------------------|-------------------------------------------------------------------|-----------------------------------|
-| `ingress.enabled`               | Whether to enable the Ingress                                     | `false`                           |
-| `ingress.host`                  | REQUIRED: Host name to use for the Ingress (required for Ingress) | `nil`                             |
-| `ingress.additionalAnnotations` | Additional annotations for the Ingress                            | `nil`                             |
-| `ingress.tls.enabled`           | Whether to enable TLS termination in the Ingress                  | `false`                           |
-| `ingress.tls.secret.create`     | Whether to create a TLS-secret                                    | `true`                            |
-| `ingress.tls.secret.name`       | Name of an external secret that will be used as a TLS-secret      | `nil`                             |
-| `ingress.tls.cert`              | Public SSL server certificate                                     | `-----BEGIN CERTIFICATE-----`     |
-| `ingress.tls.key`               | Private SSL server certificate                                    | `-----BEGIN RSA PRIVATE KEY-----` |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `ingress.enabled` | Whether to enable the Ingress | `false` |
+| `ingress.host` | REQUIRED: Host name to use for the Ingress (required for Ingress) | `nil` |
+| `ingress.additionalAnnotations` | Additional annotations for the Ingress | `nil` |
+| `ingress.tls.enabled` | Whether to enable TLS termination in the Ingress | `false` |
+| `ingress.tls.secret.create` | Whether to create a TLS-secret | `true` |
+| `ingress.tls.secret.name` | Name of an external secret that will be used as a TLS-secret | `nil` |
+| `ingress.tls.cert` | Public SSL server certificate | `-----BEGIN CERTIFICATE-----` |
+| `ingress.tls.key` | Private SSL server certificate | `-----BEGIN RSA PRIVATE KEY-----` |
 
 ### Git garbage collection
 
-| Parameter                           | Description                                                      | Default                  |
-|-------------------------------------|------------------------------------------------------------------|--------------------------|
-| `gitGC.image`                       | Image name of the Git-GC container image                         | `k8s-gerrit/git-gc`      |
-| `gitGC.schedule`                    | Cron-formatted schedule with which to run Git garbage collection | `0 6,18 * * *`           |
-| `gitGC.resources`                   | Configure the amount of resources the pod requests/is allowed    | `requests.cpu: 100m`     |
-|                                     |                                                                  | `requests.memory: 256Mi` |
-|                                     |                                                                  | `limits.cpu: 100m`       |
-|                                     |                                                                  | `limits.memory: 256Mi`   |
-| `gitGC.logging.persistence.enabled` | Whether to persist logs                                          | `true`                   |
-| `gitGC.logging.persistence.size`    | Storage size for persisted logs                                  | `1Gi`                    |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `gitGC.image` | Image name of the Git-GC container image | `k8s-gerrit/git-gc` |
+| `gitGC.schedule` | Cron-formatted schedule with which to run Git garbage collection | `0 6,18 * * *` |
+| `gitGC.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 100m` |
+|                   |                                                               | `requests.memory: 256Mi` |
+|                   |                                                               | `limits.cpu: 100m` |
+|                   |                                                               | `limits.memory: 256Mi` |
+| `gitGC.logging.persistence.enabled` | Whether to persist logs | `true` |
+| `gitGC.logging.persistence.size` | Storage size for persisted logs | `1Gi` |
 
 ### Gerrit
 
@@ -232,43 +232,43 @@ consistent state is currently in place. This is planned to be implemented in the
 future.
 ***
 
-| Parameter                               | Description                                                                                         | Default                                                                                  |
-|-----------------------------------------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| `gerrit.images.gerritInit`              | Image name of the Gerrit init container image                                                       | `k8s-gerrit/gerrit-init`                                                                 |
-| `gerrit.images.gerrit`                  | Image name of the Gerrit container image                                                            | `k8s-gerrit/gerrit`                                                                      |
-| `gerrit.replicas`                       | Number of replica pods to deploy                                                                    | `1`                                                                                      |
-| `gerrit.updatePartition`                | Number of pods to update simultaneously                                                             | `1`                                                                                      |
-| `gerrit.resources`                      | Configure the amount of resources the pod requests/is allowed                                       | `requests.cpu: 1`                                                                        |
-|                                         |                                                                                                     | `requests.memory: 5Gi`                                                                   |
-|                                         |                                                                                                     | `limits.cpu: 1`                                                                          |
-|                                         |                                                                                                     | `limits.memory: 6Gi`                                                                     |
-| `gerrit.persistence.enabled`            | Whether to persist the Gerrit site                                                                  | `true`                                                                                   |
-| `gerrit.persistence.size`               | Storage size for persisted Gerrit site                                                              | `10Gi`                                                                                   |
-| `gerrit.livenessProbe`                  | Configuration of the liveness probe timings                                                         | `{initialDelaySeconds: 30, periodSeconds: 5}`                                            |
-| `gerrit.readinessProbe`                 | Configuration of the readiness probe timings                                                        | `{initialDelaySeconds: 5, periodSeconds: 1}`                                             |
-| `gerrit.startupProbe`                   | Configuration of the startup probe timings                                                          | `{initialDelaySeconds: 10, periodSeconds: 5}`                                            |
-| `gerrit.networkPolicy.ingress`          | Custom ingress-network policy for gerrit pods                                                       | `nil`                                                                                    |
-| `gerrit.networkPolicy.egress`           | Custom egress-network policy for gerrit pods                                                        | `nil`                                                                                    |
-| `gerrit.service.type`                   | Which kind of Service to deploy                                                                     | `NodePort`                                                                               |
-| `gerrit.service.http.port`              | Port over which to expose HTTP                                                                      | `80`                                                                                     |
-| `gerrit.service.ssh.enabled`            | Whether to enable SSH                                                                               | `false`                                                                                  |
-| `gerrit.service.ssh.port`               | Port over which to expose SSH                                                                       | `29418`                                                                                  |
-| `gerrit.service.ssh.rsaKey`             | Private SSH key in RSA format                                                                       | `-----BEGIN RSA PRIVATE KEY-----`                                                        |
-| `gerrit.keystore`                       | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL     | `nil`                                                                                    |
-| `gerrit.index.type`                     | Index type used by Gerrit (either `lucene` or `elasticsearch`)                                      | `lucene`                                                                                 |
-| `gerrit.plugins.packaged`               | List of Gerrit plugins that are packaged into the Gerrit-war-file to install                        | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
-| `gerrit.plugins.downloaded`             | List of Gerrit plugins that will be downloaded                                                      | `nil`                                                                                    |
-| `gerrit.plugins.downloaded[0].name`     | Name of plugin                                                                                      | `nil`                                                                                    |
-| `gerrit.plugins.downloaded[0].url`      | Download url of plugin                                                                              | `nil`                                                                                    |
-| `gerrit.plugins.downloaded[0].sha1`     | SHA1 sum of plugin jar used to ensure file integrity and version (optional)                         | `nil`                                                                                    |
-| `gerrit.plugins.cache.enabled`          | Whether to cache downloaded plugins                                                                 | `false`                                                                                  |
-| `gerrit.plugins.cache.size`             | Size of the volume used to store cached plugins                                                     | `1Gi`                                                                                    |
-| `gerrit.etc.config`                     | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files)          |
-| `gerrit.etc.secret`                     | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret    | `{secure.config: ...}` [see here](#Gerrit-config-files)                                  |
-| `gerrit.additionalConfigMaps`           | Allows to mount additional ConfigMaps into a subdirectory of `$SITE/data`                           | `[]`                                                                                     |
-| `gerrit.additionalConfigMaps[*].name`   | Name of the ConfigMap                                                                               | `nil`                                                                                    |
-| `gerrit.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked                            | `nil`                                                                                    |
-| `gerrit.additionalConfigMaps[*].data`   | Data of the ConfigMap. If not set, secret has to be created manually                                | `nil`                                                                                    |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `gerrit.images.gerritInit` | Image name of the Gerrit init container image | `k8s-gerrit/gerrit-init` |
+| `gerrit.images.gerrit` | Image name of the Gerrit container image | `k8s-gerrit/gerrit` |
+| `gerrit.replicas` | Number of replica pods to deploy | `1` |
+| `gerrit.updatePartition` | Number of pods to update simultaneously | `1` |
+| `gerrit.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 1` |
+|                    |                                                               | `requests.memory: 5Gi` |
+|                    |                                                               | `limits.cpu: 1` |
+|                    |                                                               | `limits.memory: 6Gi` |
+| `gerrit.persistence.enabled` | Whether to persist the Gerrit site | `true` |
+| `gerrit.persistence.size` | Storage size for persisted Gerrit site | `10Gi` |
+| `gerrit.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 30, periodSeconds: 5}` |
+| `gerrit.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 5, periodSeconds: 1}` |
+| `gerrit.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
+| `gerrit.networkPolicy.ingress` | Custom ingress-network policy for gerrit pods | `nil` |
+| `gerrit.networkPolicy.egress` | Custom egress-network policy for gerrit pods | `nil` |
+| `gerrit.service.type` | Which kind of Service to deploy | `NodePort` |
+| `gerrit.service.http.port` | Port over which to expose HTTP | `80` |
+| `gerrit.service.ssh.enabled` | Whether to enable SSH | `false` |
+| `gerrit.service.ssh.port` | Port over which to expose SSH | `29418` |
+| `gerrit.service.ssh.rsaKey` | Private SSH key in RSA format | `-----BEGIN RSA PRIVATE KEY-----` |
+| `gerrit.keystore` | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil` |
+| `gerrit.index.type` | Index type used by Gerrit (either `lucene` or `elasticsearch`) | `lucene` |
+| `gerrit.plugins.packaged` | List of Gerrit plugins that are packaged into the Gerrit-war-file to install | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
+| `gerrit.plugins.downloaded` | List of Gerrit plugins that will be downloaded | `nil` |
+| `gerrit.plugins.downloaded[0].name` | Name of plugin | `nil` |
+| `gerrit.plugins.downloaded[0].url` | Download url of plugin | `nil` |
+| `gerrit.plugins.downloaded[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version (optional) | `nil` |
+| `gerrit.plugins.cache.enabled` | Whether to cache downloaded plugins | `false` |
+| `gerrit.plugins.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
+| `gerrit.etc.config` | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
+| `gerrit.etc.secret` | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret | `{secure.config: ...}` [see here](#Gerrit-config-files) |
+| `gerrit.additionalConfigMaps` | Allows to mount additional ConfigMaps into a subdirectory of `$SITE/data` | `[]` |
+| `gerrit.additionalConfigMaps[*].name` | Name of the ConfigMap | `nil` |
+| `gerrit.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked | `nil` |
+| `gerrit.additionalConfigMaps[*].data` | Data of the ConfigMap. If not set, secret has to be created manually | `nil` |
 
 ### Gerrit config files
 
