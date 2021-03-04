@@ -34,7 +34,7 @@ metadata:
 data:
   gerrit-init.yaml: |-
     {{ if .Values.caCert -}}
-    caCertPath: /var/mnt/etc/ca.crt
+    caCertPath: /var/config/ca.crt
     {{- end }}
     pluginCache: {{ .Values.gerritReplica.plugins.cache.enabled }}
     pluginCacheDir: /var/mnt/plugins

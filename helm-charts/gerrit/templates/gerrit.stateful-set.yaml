@@ -121,7 +121,7 @@ spec:
         {{ if .Values.caCert -}}
         - name: tls-ca
           subPath: ca.crt
-          mountPath: "/var/mnt/etc/ca.crt"
+          mountPath: "/var/config/ca.crt"
         {{- end }}
       containers:
       - name: gerrit
