@@ -119,10 +119,22 @@ class AbstractPluginInstaller(ABC):
     def _symlink_plugins_to_lib(self):
         if not os.path.exists(self.lib_dir):
             os.makedirs(self.lib_dir)
+        else:
+            for f in os.listdir(self.lib_dir):
+                path = os.path.join(self.lib_dir, f)
+                if (
+                    os.path.islink(path)
+                    and os.path.splitext(f)[0] not in self.config.install_as_library
+                ):
+                    os.unlink(path)
+                    LOG.info("Removed symlink %s", f)
         for lib in self.config.install_as_library:
             plugin_path = os.path.join(self.plugin_dir, "%s.jar" % lib)
             if os.path.exists(plugin_path):
-                os.symlink(plugin_path, os.path.join(self.lib_dir, "%s.jar" % lib))
+                try:
+                    os.symlink(plugin_path, os.path.join(self.lib_dir, "%s.jar" % lib))
+                except FileExistsError:
+                    continue
             else:
                 raise FileNotFoundError(
                     "Could not find plugin %s to symlink to lib-directory." % lib
