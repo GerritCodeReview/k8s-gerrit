@@ -20,6 +20,7 @@ import shutil
 import time
 
 from abc import ABC, abstractmethod
+from zipfile import ZipFile
 
 import requests
 
@@ -81,6 +82,18 @@ class AbstractPluginInstaller(ABC):
             shutil.copyfile(source_file, target_file)
             self.plugins_changed = True
 
+    def _install_plugins_from_war(self):
+        for plugin in self.config.packaged_plugins:
+            LOG.info("Installing packaged plugin %s.", plugin)
+            with ZipFile("/var/war/gerrit.war", "r") as war:
+                war.extract("WEB-INF/plugins/%s.jar" % plugin, self.plugin_dir)
+
+            os.rename(
+                "%s/WEB-INF/plugins/%s.jar" % (self.plugin_dir, plugin),
+                os.path.join(self.plugin_dir, "%s.jar" % plugin),
+            )
+        shutil.rmtree(os.path.join(self.plugin_dir, "WEB-INF"), ignore_errors=True)
+
     @staticmethod
     def _get_file_sha(file):
         file_hash = hashlib.sha1()
@@ -119,6 +132,7 @@ class AbstractPluginInstaller(ABC):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()
         self._install_plugins_from_container()
+        self._install_plugins_from_war()
 
         for plugin in self.config.downloaded_plugins:
             self._install_plugin(plugin)
