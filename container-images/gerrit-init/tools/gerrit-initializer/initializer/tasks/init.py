@@ -99,24 +99,9 @@ class GerritInit:
         else:
             LOG.info("No gerrit.config found. Initializing default site.")
 
-        if self.config.packaged_plugins:
-            plugin_options = " ".join(
-                [
-                    "--install-plugin %s" % plugin
-                    for plugin in self.config.packaged_plugins
-                    if plugin
-                ]
-            )
-        else:
-            plugin_options = ""
-
         flags = "--no-auto-start --batch"
 
-        command = "java -jar /var/war/gerrit.war init %s %s -d %s" % (
-            flags,
-            plugin_options,
-            self.site,
-        )
+        command = "java -jar /var/war/gerrit.war init %s -d %s" % (flags, self.site)
 
         init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
 
