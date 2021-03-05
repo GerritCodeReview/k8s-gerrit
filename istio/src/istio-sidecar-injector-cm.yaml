@@ -319,6 +319,13 @@ data:
         lifecycle:
           {{ toYaml .Values.global.proxy.lifecycle | indent 4 }}
         {{- end }}
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - "/bin/sh"
+              - "-c"
+              - "while [ $(netstat -plunt | grep tcp | grep -v envoy | wc -l | xargs) -ne 0 ]; do sleep 1; done"
         env:
         - name: JWT_POLICY
           value: {{ .Values.global.jwtPolicy }}
