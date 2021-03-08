@@ -89,6 +89,11 @@ spec:
             {{- end }}
           fi
 
+          {{ range .Values.gerrit.additionalSecrets }}
+          mkdir -p {{ .mountDir }}
+          ln -sf /var/mnt/etc/additionalSecrets/{{ .name }} {{ .mountDir }}
+          {{ end }}
+
           for dir in git {{ if eq .Values.gerrit.index.type "elasticsearch" }}index{{ end }}; do
             if [ ! -d /var/gerrit/$dir ]; then
               ln -sf /var/mnt/$dir /var/gerrit/
@@ -147,6 +152,10 @@ spec:
         - name: {{ .name }}
           mountPath: "/var/mnt/data/{{ .subDir }}"
         {{- end }}
+        {{- range .Values.gerrit.additionalSecrets }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
+        {{- end }}
       containers:
       - name: gerrit
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerrit }}:{{ .Values.images.version }}
@@ -174,6 +183,10 @@ spec:
         {{- range .Values.gerrit.additionalConfigMaps }}
         - name: {{ .name }}
           mountPath: "/var/mnt/data/{{ .subDir }}"
+        {{- end }}
+        {{- range .Values.gerrit.additionalSecrets }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
         {{- end }}
         resources:
 {{ toYaml .Values.gerrit.resources | indent 10 }}
@@ -232,6 +245,11 @@ spec:
       - name: {{ .name }}
         configMap:
           name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
+      {{- end }}
+      {{- range .Values.gerrit.additionalSecrets }}
+      - name: {{ .name }}
+        secret:
+          secretName: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
       {{- end }}
   volumeClaimTemplates:
   {{ if .Values.gerrit.persistence.enabled -}}

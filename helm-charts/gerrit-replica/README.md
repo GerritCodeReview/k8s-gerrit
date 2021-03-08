@@ -375,6 +375,10 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.additionalConfigMaps[*].name`   | Name of the ConfigMap                                                                               | `nil`                                                                           |
 | `gerritReplica.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked                            | `nil`                                                                           |
 | `gerritReplica.additionalConfigMaps[*].data`   | Data of the ConfigMap. If not set, secret has to be created manually                                | `nil`                                                                           |
+| `gerritReplica.additionalSecrets`              | Allows to mount additional secrets                                                                  | `[]`                                                                            |
+| `gerritReplica.additionalSecrets[*].name`      | Name of the secret                                                                                  | `nil`                                                                           |
+| `gerritReplica.additionalSecrets[*].mountDir`  | Directory into which the files should be symlinked                                                  | `nil`                                                                           |
+| `gerritReplica.additionalSecrets[*].data`      | Data of the secret. If not set, secret has to be created manually                                   | `nil`                                                                           |
 
 ### Gerrit config files
 

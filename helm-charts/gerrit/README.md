@@ -269,6 +269,10 @@ future.
 | `gerrit.additionalConfigMaps[*].name`   | Name of the ConfigMap                                                                               | `nil`                                                                                    |
 | `gerrit.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked                            | `nil`                                                                                    |
 | `gerrit.additionalConfigMaps[*].data`   | Data of the ConfigMap. If not set, secret has to be created manually                                | `nil`                                                                                    |
+| `gerrit.additionalSecrets`              | Allows to mount additional secrets                                                                  | `[]`                                                                                     |
+| `gerrit.additionalSecrets[*].name`      | Name of the secret                                                                                  | `nil`                                                                                    |
+| `gerrit.additionalSecrets[*].mountDir`  | Directory into which the files should be symlinked                                                  | `nil`                                                                                    |
+| `gerrit.additionalSecrets[*].data`      | Data of the secret. If not set, secret has to be created manually                                   | `nil`                                                                                    |
 
 ### Gerrit config files
 

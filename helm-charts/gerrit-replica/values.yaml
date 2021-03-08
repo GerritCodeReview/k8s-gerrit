@@ -348,3 +348,9 @@ gerritReplica:
     #   subDir:
     #   data:
     #     file.txt: test
+
+  additionalSecrets:
+    # - name:
+    #   mountDir:
+    #   data:
+    #     file.txt: c2VjcmV0
