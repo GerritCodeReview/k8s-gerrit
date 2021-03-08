@@ -342,3 +342,9 @@ gerritReplica:
         # Only needed, if SSL is enabled.
         #[httpd]
         #  sslKeyPassword = gerrit
+
+  additionalConfigMaps:
+    # - name:
+    #   subDir:
+    #   data:
+    #     file.txt: test
