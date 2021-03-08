@@ -343,6 +343,12 @@ gerritReplica:
         #[httpd]
         #  sslKeyPassword = gerrit
 
+  additionalConfigMaps:
+    # - name:
+    #   mountDir:
+    #   data:
+    #     file.txt: test
+
   additionalSecrets:
     # - name:
     #   mountDir:

@@ -127,6 +127,11 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
+          {{ range .Values.gerritReplica.additionalConfigMaps }}
+          mkdir -p {{ .mountDir }}
+          ln -sf /var/mnt/etc/additionalConfigMaps/{{ .name }} {{ .mountDir }}
+          {{ end }}
+
           {{ range .Values.gerritReplica.additionalSecrets }}
           mkdir -p {{ .mountDir }}
           ln -sf /var/mnt/etc/additionalSecrets/{{ .name }} {{ .mountDir }}
@@ -173,6 +178,10 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{- range .Values.gerritReplica.additionalConfigMaps }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalConfigMaps/{{ .name }}"
+        {{- end }}
         {{- range .Values.gerritReplica.additionalSecrets }}
         - name: {{ .name }}
           mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
@@ -214,6 +223,10 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{- range .Values.gerritReplica.additionalConfigMaps }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalConfigMaps/{{ .name }}"
+        {{- end }}
         {{- range .Values.gerritReplica.additionalSecrets }}
         - name: {{ .name }}
           mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
@@ -328,6 +341,11 @@ spec:
       - name: promtail-secret
         secret:
           secretName: {{ .Release.Name }}-promtail-secret
+      {{- end }}
+      {{- range .Values.gerritReplica.additionalConfigMaps }}
+      - name: {{ .name }}
+        configMap:
+          name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
       {{- end }}
       {{- range .Values.gerritReplica.additionalSecrets }}
       - name: {{ .name }}
