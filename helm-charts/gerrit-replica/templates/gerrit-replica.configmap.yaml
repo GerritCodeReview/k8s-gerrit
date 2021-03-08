@@ -1,3 +1,5 @@
+{{- $root := . -}}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -50,3 +52,19 @@ data:
     installAsLibrary:
 {{ toYaml .Values.gerritReplica.plugins.installAsLibrary | indent 6 }}
     {{- end }}
+{{- range .Values.gerritReplica.additionalConfigMaps -}}
+{{- if .data }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  {{ $root.Release.Name }}-{{ .name }}
+  labels:
+    app: gerrit-replica
+    chart: {{ template "gerrit-replica.chart" $root }}
+    heritage: {{ $root.Release.Service }}
+    release: {{ $root.Release.Name }}
+data:
+{{ toYaml .data | indent 2 }}
+{{- end }}
+{{- end }}

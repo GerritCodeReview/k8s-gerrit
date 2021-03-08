@@ -258,3 +258,9 @@ gerrit:
         # [remote "replica"]
         # username = git
         # password = secret
+
+  additionalConfigMaps:
+    # - name:
+    #   subDir:
+    #   data:
+    #     file.txt: test
