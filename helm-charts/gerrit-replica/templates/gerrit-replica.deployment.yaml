@@ -1,3 +1,5 @@
+{{- $root := . -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -125,6 +127,11 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
+          {{ range .Values.gerritReplica.additionalSecrets }}
+          mkdir -p {{ .mountDir }}
+          ln -sf /var/mnt/etc/additionalSecrets/{{ .name }} {{ .mountDir }}
+          {{ end }}
+
           if [ ! -d /var/gerrit/git ]; then
             ln -sf /var/mnt/git /var/gerrit/
           fi
@@ -166,6 +173,10 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{- range .Values.gerritReplica.additionalSecrets }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
+        {{- end }}
       containers:
       - name: gerrit-replica
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritReplica }}:{{ .Values.images.version }}
@@ -203,6 +214,10 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{- range .Values.gerritReplica.additionalSecrets }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
+        {{- end }}
         livenessProbe:
           httpGet:
             path: /config/server/healthcheck~status
@@ -313,4 +328,9 @@ spec:
       - name: promtail-secret
         secret:
           secretName: {{ .Release.Name }}-promtail-secret
+      {{- end }}
+      {{- range .Values.gerritReplica.additionalSecrets }}
+      - name: {{ .name }}
+        secret:
+          secretName: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
       {{- end }}

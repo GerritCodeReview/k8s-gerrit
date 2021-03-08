@@ -1,3 +1,5 @@
+{{- $root := . -}}
+
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -69,6 +71,11 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
+          {{ range .Values.gerrit.additionalSecrets }}
+          mkdir -p {{ .mountDir }}
+          ln -sf /var/mnt/etc/additionalSecrets/{{ .name }} {{ .mountDir }}
+          {{ end }}
+
           for dir in git {{ if eq .Values.gerrit.index.type "elasticsearch" }}index{{ end }}; do
             if [ ! -d /var/gerrit/$dir ]; then
               ln -sf /var/mnt/$dir /var/gerrit/
@@ -123,6 +130,10 @@ spec:
           subPath: ca.crt
           mountPath: "/var/config/ca.crt"
         {{- end }}
+        {{- range .Values.gerrit.additionalSecrets }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
+        {{- end }}
       containers:
       - name: gerrit
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerrit }}:{{ .Values.images.version }}
@@ -147,6 +158,10 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{- range .Values.gerrit.additionalSecrets }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
+        {{- end }}
         resources:
 {{ toYaml .Values.gerrit.resources | indent 10 }}
         livenessProbe:
@@ -199,6 +214,11 @@ spec:
       - name: tls-ca
         secret:
           secretName: {{ .Release.Name }}-tls-ca
+      {{- end }}
+      {{- range .Values.gerrit.additionalSecrets }}
+      - name: {{ .name }}
+        secret:
+          secretName: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
       {{- end }}
   volumeClaimTemplates:
   {{ if .Values.gerrit.persistence.enabled -}}

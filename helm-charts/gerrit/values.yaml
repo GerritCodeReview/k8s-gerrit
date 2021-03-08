@@ -258,3 +258,9 @@ gerrit:
         # [remote "replica"]
         # username = git
         # password = secret
+
+  additionalSecrets:
+    # - name:
+    #   mountDir:
+    #   data:
+    #     file.txt: c2VjcmV0

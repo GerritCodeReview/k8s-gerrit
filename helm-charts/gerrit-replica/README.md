@@ -371,6 +371,10 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.keystore`                      | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL     | `nil`                                                                           |
 | `gerritReplica.etc.config`                    | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
 | `gerritReplica.etc.secret`                    | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret    | `{secure.config: ...}` [see here](#Gerrit-config-files)                         |
+| `gerritReplica.additionalSecrets`             | Allows to mount additional secrets                                                                  | `[]`                                                                            |
+| `gerritReplica.additionalSecrets[*].name`     | Name of the secret                                                                                  | `nil`                                                                           |
+| `gerritReplica.additionalSecrets[*].mountDir` | Directory into which the files should be symlinked                                                  | `nil`                                                                           |
+| `gerritReplica.additionalSecrets[*].data`     | Data of the secret. If not set, secret has to be created manually                                   | `nil`                                                                           |
 
 ### Gerrit config files
 
