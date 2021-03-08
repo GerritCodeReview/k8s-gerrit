@@ -71,6 +71,11 @@ spec:
           mkdir -p /var/gerrit/etc
           symlink_config_to_site
 
+          {{ range .Values.gerrit.additionalConfigMaps }}
+          mkdir -p {{ .mountDir }}
+          ln -sf /var/mnt/etc/additionalConfigMaps/{{ .name }} {{ .mountDir }}
+          {{ end }}
+
           {{ range .Values.gerrit.additionalSecrets }}
           mkdir -p {{ .mountDir }}
           ln -sf /var/mnt/etc/additionalSecrets/{{ .name }} {{ .mountDir }}
@@ -130,6 +135,10 @@ spec:
           subPath: ca.crt
           mountPath: "/var/config/ca.crt"
         {{- end }}
+        {{- range .Values.gerrit.additionalConfigMaps }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalConfigMaps/{{ .name }}"
+        {{- end }}
         {{- range .Values.gerrit.additionalSecrets }}
         - name: {{ .name }}
           mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
@@ -158,6 +167,10 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{- range .Values.gerrit.additionalConfigMaps }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/additionalConfigMaps/{{ .name }}"
+        {{- end }}
         {{- range .Values.gerrit.additionalSecrets }}
         - name: {{ .name }}
           mountPath: "/var/mnt/etc/additionalSecrets/{{ .name }}"
@@ -214,6 +227,11 @@ spec:
       - name: tls-ca
         secret:
           secretName: {{ .Release.Name }}-tls-ca
+      {{- end }}
+      {{- range .Values.gerrit.additionalConfigMaps }}
+      - name: {{ .name }}
+        configMap:
+          name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
       {{- end }}
       {{- range .Values.gerrit.additionalSecrets }}
       - name: {{ .name }}

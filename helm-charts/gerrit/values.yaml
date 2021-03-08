@@ -259,6 +259,12 @@ gerrit:
         # username = git
         # password = secret
 
+  additionalConfigMaps:
+    # - name:
+    #   mountDir:
+    #   data:
+    #     file.txt: test
+
   additionalSecrets:
     # - name:
     #   mountDir:
