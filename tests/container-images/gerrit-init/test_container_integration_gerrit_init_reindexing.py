@@ -62,7 +62,10 @@ class TestGerritReindex:
             os.path.join(temp_site, "index", "gerrit_index.config")
         )
         exit_code, _ = container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml init"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml init"
+            )
         )
         assert exit_code == 0
         expected_files = ["gerrit_index.config"] + self._get_indices(
@@ -74,7 +77,10 @@ class TestGerritReindex:
         timestamp_index_dir = os.path.getctime(os.path.join(temp_site, "index"))
 
         exit_code, _ = container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml reindex"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml reindex"
+            )
         )
         assert exit_code == 0
         assert timestamp_index_dir == os.path.getctime(os.path.join(temp_site, "index"))
@@ -83,12 +89,18 @@ class TestGerritReindex:
         self, container_run_endless, temp_site
     ):
         container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml init"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml init"
+            )
         )
         os.remove(os.path.join(temp_site, "index", "gerrit_index.config"))
 
         exit_code, _ = container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml reindex"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml reindex"
+            )
         )
         assert exit_code == 0
 
@@ -97,7 +109,10 @@ class TestGerritReindex:
 
     def test_gerrit_init_fixes_unready_indices(self, container_run_endless):
         container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml init"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml init"
+            )
         )
 
         indices = self._get_indices(container_run_endless)
@@ -107,7 +122,10 @@ class TestGerritReindex:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml reindex"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml reindex"
+            )
         )
         assert exit_code == 0
 
@@ -116,7 +134,10 @@ class TestGerritReindex:
 
     def test_gerrit_init_fixes_outdated_indices(self, container_run_endless, temp_site):
         container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml init"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml init"
+            )
         )
 
         index = self._get_indices(container_run_endless)[0]
@@ -129,7 +150,10 @@ class TestGerritReindex:
         )
 
         exit_code, _ = container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/default.config.yaml reindex"
+            (
+                "python3 /var/tools/gerrit-initializer "
+                "-s /var/gerrit -c /var/config/default.config.yaml reindex"
+            )
         )
         assert exit_code == 0
 
