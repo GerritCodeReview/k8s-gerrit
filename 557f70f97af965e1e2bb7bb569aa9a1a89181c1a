@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b083d60f_825894a2",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-03-11T20:59:13Z",
+      "side": 1,
+      "message": "there is a PR for python 3.10 which would make this simpler and avoid races\nhttps://github.com/python/cpython/pull/14464\nmaybe we can use this in the future",
+      "revId": "557f70f97af965e1e2bb7bb569aa9a1a89181c1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
