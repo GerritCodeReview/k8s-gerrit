@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cd83725_591d851d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-03-11T06:48:02Z",
+      "side": 1,
+      "message": "There are several cases where this approach will fail, e.g. what happens if the configmap is removed. I am currently working on a better implementation",
+      "revId": "03d3235c890a627410c2273837dd55b6a69f4118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
