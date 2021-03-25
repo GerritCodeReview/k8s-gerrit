@@ -273,6 +273,11 @@ ingress traffic.
 | `ingress.tls.cert`              | Public SSL server certificate                                                   | `-----BEGIN CERTIFICATE-----`     |
 | `ingress.tls.key`               | Private SSL server certificate                                                  | `-----BEGIN RSA PRIVATE KEY-----` |
 
+***note
+For graceful shutdown to work with an ingress, the ingress controller has to be
+configured to gracefully close the connections as well.
+***
+
 ### Promtail Sidecar
 
 To collect Gerrit logs, a Promtail sidecar can be deployed into the Gerrit replica
