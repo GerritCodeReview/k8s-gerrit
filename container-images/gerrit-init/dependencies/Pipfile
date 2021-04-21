@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-pyyaml = "~=5.1.1"
+pyyaml = "~=5.4"
 requests = "~=2.21.0"
 
 [requires]
