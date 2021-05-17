@@ -16,6 +16,24 @@
       "message": "This works in combination with istio, but not with Ingress controllers. Gerrit quits shortly before the request is finished. Likely because Gerrit finished working on the request, but the request is still inflight. Kubernetes will however kill the service as soon as the pod quits. Thus, the connection is closed prematurely and fails.",
       "revId": "01b227b84d1b15ef1aef92e6b297fa9aaadb4572",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16e769ba_2422db2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-05-17T06:41:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ee7a61d8_8d1fc083",
+      "revId": "01b227b84d1b15ef1aef92e6b297fa9aaadb4572",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
