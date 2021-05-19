@@ -139,14 +139,14 @@ spec:
           symlink_config_to_site
 
           mkdir -p /var/gerrit/data
+          {{- range .Values.gerritReplica.additionalConfigMaps }}
           if [ -d /var/mnt/data ]; then
-            {{- range .Values.gerritReplica.additionalConfigMaps }}
             for file in $(find /var/mnt/data/{{ .subDir }} -type f); do
               mkdir -p /var/gerrit/data/{{ .subDir }}
               ln -sf $file /var/gerrit/data/{{ .subDir }}/$(basename $file)
             done
-            {{- end }}
           fi
+          {{- end }}
 
           if [ ! -d /var/gerrit/git ]; then
             ln -sf /var/mnt/git /var/gerrit/
