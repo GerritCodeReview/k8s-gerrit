@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83ab0e4a_81393f6a",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-23T09:07:24Z",
+      "side": 1,
+      "message": "nit: remove extra whitespace ?",
+      "range": {
+        "startLine": 361,
+        "startChar": 48,
+        "endLine": 361,
+        "endChar": 49
+      },
+      "revId": "6191de3b5f0ec282437410dfce74ccbba78ddf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c70841d_da2f3618",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-23T09:07:24Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 251,
+        "startChar": 41,
+        "endLine": 251,
+        "endChar": 42
+      },
+      "revId": "6191de3b5f0ec282437410dfce74ccbba78ddf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
