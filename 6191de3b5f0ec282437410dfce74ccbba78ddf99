@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66638790_182d2009",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-06-23T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83ab0e4a_81393f6a",
+      "range": {
+        "startLine": 361,
+        "startChar": 48,
+        "endLine": 361,
+        "endChar": 49
+      },
+      "revId": "6191de3b5f0ec282437410dfce74ccbba78ddf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c70841d_da2f3618",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-06-23T09:07:24Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 251,
+        "startChar": 41,
+        "endLine": 251,
+        "endChar": 42
+      },
+      "revId": "6191de3b5f0ec282437410dfce74ccbba78ddf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64accab4_8fe85331",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2021-06-23T11:48:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c70841d_da2f3618",
       "range": {
         "startLine": 251,
         "startChar": 41,
