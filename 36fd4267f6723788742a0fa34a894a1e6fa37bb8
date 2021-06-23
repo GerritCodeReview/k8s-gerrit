@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ed45966_c9ccefc4",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2021-06-23T09:05:58Z",
+      "side": 0,
+      "message": "what about sshd.gracefulStopTimeout ?",
+      "revId": "36fd4267f6723788742a0fa34a894a1e6fa37bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
