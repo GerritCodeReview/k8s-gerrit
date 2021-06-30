@@ -26,9 +26,8 @@ description how to set up the Minikube cluster and install the charts.
 
 # Docker images
 
-This project provides the sources for docker images based on the 3.1.7 Gerrit
-release used by the helm-charts. The images are also provided on
-[Dockerhub](https://hub.docker.com/u/k8sgerrit).
+This project provides the sources for docker images used by the helm-charts.
+The images are also provided on [Dockerhub](https://hub.docker.com/u/k8sgerrit).
 
 The project also provides script to build and publish the images, so that custom
 versions can be used by the helm-charts. This requires however a docker registry

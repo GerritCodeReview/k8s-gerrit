@@ -122,9 +122,11 @@ spec:
       - name: gerrit-config
         configMap:
           name: {{ .Release.Name }}-gerrit-replica-configmap
+      {{ if .Values.caCert -}}
       - name: tls-ca
         secret:
           secretName: {{ .Release.Name }}-tls-ca
+      {{- end }}
       {{- if .Values.nfsWorkaround.enabled }}
       - name: nfs-config
         configMap:
