@@ -9,14 +9,14 @@ metadata:
   name: istiod
   namespace: istio-system
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       istio: pilot
   strategy:
     rollingUpdate:
       maxSurge: 100%
-      maxUnavailable: 25%
+      maxUnavailable: 50%
   template:
     metadata:
       annotations:
