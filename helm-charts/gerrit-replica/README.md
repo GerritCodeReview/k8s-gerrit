@@ -273,6 +273,11 @@ ingress traffic.
 | `ingress.tls.cert` | Public SSL server certificate | `-----BEGIN CERTIFICATE-----` |
 | `ingress.tls.key` | Private SSL server certificate | `-----BEGIN RSA PRIVATE KEY-----` |
 
+***note
+For graceful shutdown to work with an ingress, the ingress controller has to be
+configured to gracefully close the connections as well.
+***
+
 ### Promtail Sidecar
 
 To collect Gerrit logs, a Promtail sidecar can be deployed into the Gerrit replica
@@ -358,6 +363,7 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 60, periodSeconds: 5}` |
 | `gerritReplica.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 10, periodSeconds: 10}` |
 | `gerritReplica.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
+| `gerritReplica.gracefulStopTimeout` | Time in seconds Kubernetes will wait until killing the pod during termination (has to be longer then Gerrit's httpd.gracefulStopTimeout to allow graceful shutdown of Gerrit) | `90` |
 | `gerritReplica.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 1` |
 |                           |                                                               | `requests.memory: 5Gi` |
 |                           |                                                               | `limits.cpu: 1` |
@@ -422,6 +428,12 @@ intended with the chart:
     This has to be set to `proxy-http://*:8080/` or `proxy-https://*:8080`,
     depending of TLS is enabled in the Ingress or not, otherwise the Jetty
     servlet will run into an endless redirect loop.
+
+- `httpd.gracefulStopTimeout` / `sshd.gracefulStopTimeout`
+
+    To enable graceful shutdown of the embedded jetty server and SSHD, a timeout
+    has to be set with this option. This will be the maximum time, Gerrit will wait
+    for HTTP requests to finish before shutdown.
 
 - `container.user`
 

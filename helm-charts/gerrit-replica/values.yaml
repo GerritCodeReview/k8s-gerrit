@@ -247,6 +247,8 @@ gerritReplica:
     initialDelaySeconds: 10
     periodSeconds: 30
 
+  gracefulStopTimeout: 90
+
   # The memory limit has to be higher than the configures heap-size for Java!
   resources:
     requests:
@@ -320,8 +322,10 @@ gerritReplica:
           # If using an ingress use proxy-http or proxy-https
           listenUrl = proxy-http://*:8080/
           requestLog = true
+          gracefulStopTimeout = 1m
         [sshd]
           listenAddress = *:29418
+          gracefulStopTimeout = 1m
         [transfer]
           timeout = 120 s
         [user]

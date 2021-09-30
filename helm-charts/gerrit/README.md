@@ -198,6 +198,11 @@ Note, that Gerrit will require its CA in a JKS keytore, which is described below
 | `ingress.tls.cert` | Public SSL server certificate | `-----BEGIN CERTIFICATE-----` |
 | `ingress.tls.key` | Private SSL server certificate | `-----BEGIN RSA PRIVATE KEY-----` |
 
+***note
+For graceful shutdown to work with an ingress, the ingress controller has to be
+configured to gracefully close the connections as well.
+***
+
 ### Git garbage collection
 
 | Parameter | Description | Default |
@@ -248,6 +253,7 @@ future.
 | `gerrit.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 30, periodSeconds: 5}` |
 | `gerrit.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 5, periodSeconds: 1}` |
 | `gerrit.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
+| `gerrit.gracefulStopTimeout` | Time in seconds Kubernetes will wait until killing the pod during termination (has to be longer then Gerrit's httpd.gracefulStopTimeout to allow graceful shutdown of Gerrit) | `90` |
 | `gerrit.networkPolicy.ingress` | Custom ingress-network policy for gerrit pods | `nil` |
 | `gerrit.networkPolicy.egress` | Custom egress-network policy for gerrit pods | `nil` |
 | `gerrit.service.type` | Which kind of Service to deploy | `NodePort` |
@@ -316,6 +322,12 @@ intended with the chart:
     This has to be set to `proxy-http://*:8080/` or `proxy-https://*:8080`,
     depending of TLS is enabled in the Ingress or not, otherwise the Jetty
     servlet will run into an endless redirect loop.
+
+- `httpd.gracefulStopTimeout` / `sshd.gracefulStopTimeout`
+
+    To enable graceful shutdown of the embedded jetty server and SSHD, a timeout
+    has to be set with this option. This will be the maximum time, Gerrit will wait
+    for HTTP requests to finish before shutdown.
 
 - `container.user`
 

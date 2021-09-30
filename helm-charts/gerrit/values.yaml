@@ -142,6 +142,8 @@ gerrit:
     initialDelaySeconds: 10
     periodSeconds: 30
 
+  gracefulStopTimeout: 90
+
   # The general NetworkPolicy rules implemented by this chart may be too restrictive
   # for some setups, e.g. when trying to replicate to a Gerrit replica. Here
   # custom rules may be added to whitelist some additional connections.
@@ -221,6 +223,7 @@ gerrit:
           # If using an ingress use proxy-http or proxy-https
           listenUrl = proxy-http://*:8080/
           requestLog = true
+          gracefulStopTimeout = 1m
         [sshd]
           listenAddress = off
         [transfer]
