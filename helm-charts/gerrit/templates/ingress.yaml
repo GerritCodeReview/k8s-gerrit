@@ -14,10 +14,11 @@ metadata:
 {{ toYaml .Values.ingress.additionalAnnotations  | indent 4 }}
     {{- end }}
 spec:
+  ingressClassName: {{ .Values.ingress.class }}
   {{ if .Values.ingress.tls.enabled -}}
   tls:
   - hosts:
-    - {{ .Values.ingress.host }}
+    - {{ .Values.ingress.host -}}
     {{ if .Values.ingress.tls.secret.create -}}
     secretName: {{ .Release.Name }}-gerrit-tls-secret
     {{- else }}
