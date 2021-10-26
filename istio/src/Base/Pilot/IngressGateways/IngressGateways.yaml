@@ -47,6 +47,9 @@ spec:
   template:
     metadata:
       annotations:
+        prometheus.io/path: /stats/prometheus
+        prometheus.io/port: "15090"
+        prometheus.io/scrape: "true"
         sidecar.istio.io/inject: "false"
       labels:
         app: istio-ingressgateway
@@ -62,21 +65,21 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
           - preference:
               matchExpressions:
-              - key: beta.kubernetes.io/arch
+              - key: kubernetes.io/arch
                 operator: In
                 values:
                 - amd64
             weight: 2
           - preference:
               matchExpressions:
-              - key: beta.kubernetes.io/arch
+              - key: kubernetes.io/arch
                 operator: In
                 values:
                 - ppc64le
             weight: 2
           - preference:
               matchExpressions:
-              - key: beta.kubernetes.io/arch
+              - key: kubernetes.io/arch
                 operator: In
                 values:
                 - s390x
@@ -84,7 +87,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: beta.kubernetes.io/arch
+              - key: kubernetes.io/arch
                 operator: In
                 values:
                 - amd64
@@ -156,7 +159,7 @@ spec:
           value: sni-dnat
         - name: ISTIO_META_CLUSTER_ID
           value: Kubernetes
-        image: docker.io/istio/proxyv2:1.6.3
+        image: docker.io/istio/proxyv2:1.7.8
         name: istio-proxy
         ports:
         - containerPort: 15021
@@ -164,10 +167,6 @@ spec:
         - containerPort: 8443
         # MODIFIED: Added Gerrit SSH port
         - containerPort: 29418
-        - containerPort: 15011
-        - containerPort: 15012
-        - containerPort: 8060
-        - containerPort: 853
         - containerPort: 15090
           name: http-envoy-prom
           protocol: TCP
@@ -188,6 +187,13 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /etc/istio/proxy
           name: istio-envoy
@@ -196,7 +202,9 @@ spec:
         - mountPath: /var/run/secrets/istio
           name: istiod-ca-cert
         - mountPath: /var/run/ingress_gateway
-          name: ingressgatewaysdsudspath
+          name: gatewaysdsudspath
+        - mountPath: /var/lib/istio/data
+          name: istio-data
         - mountPath: /etc/istio/pod
           name: podinfo
         - mountPath: /etc/istio/ingressgateway-certs
@@ -205,6 +213,11 @@ spec:
         - mountPath: /etc/istio/ingressgateway-ca-certs
           name: ingressgateway-ca-certs
           readOnly: true
+      securityContext:
+        fsGroup: 1337
+        runAsGroup: 1337
+        runAsNonRoot: true
+        runAsUser: 1337
       serviceAccountName: istio-ingressgateway-service-account
       volumes:
       - configMap:
@@ -222,7 +235,9 @@ spec:
       - emptyDir: {}
         name: istio-envoy
       - emptyDir: {}
-        name: ingressgatewaysdsudspath
+        name: gatewaysdsudspath
+      - emptyDir: {}
+        name: istio-data
       - configMap:
           name: istio
           optional: true
@@ -254,7 +269,6 @@ spec:
     matchLabels:
       app: istio-ingressgateway
       istio: ingressgateway
-      release: istio
 ---
 
 
