@@ -108,6 +108,13 @@ spec:
           rollingUpdate:
             maxSurge: 100%
             maxUnavailable: 25%
+        overlays:
+          - kind: Service
+            name: istio-ingressgateway
+            patches:
+              - path: spec.loadBalancerIP
+                # TO_BE_CHANGED: Change IP
+                value: xxx.xxx.xxx.xxx
       name: istio-ingressgateway
     istiodRemote:
       enabled: false
@@ -125,6 +132,8 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
+        hpaSpec:
+          minReplicas: 2
         readinessProbe:
           httpGet:
             path: /ready
@@ -135,9 +144,10 @@ spec:
         strategy:
           rollingUpdate:
             maxSurge: 100%
-            maxUnavailable: 25%
+            maxUnavailable: 50%
   hub: docker.io/istio
   meshConfig:
+    accessLogFile: /dev/stdout
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true

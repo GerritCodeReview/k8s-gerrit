@@ -18,7 +18,6 @@ spec:
       name: cpu
       targetAverageUtilization: 80
     type: Resource
-  # MODIFIED: Always have 2 replicas to allow rolling updates
   minReplicas: 2
   scaleTargetRef:
     apiVersion: apps/v1
@@ -45,7 +44,6 @@ data:
     networks: {}
 
   mesh: |-
-    # MODIFIED: For easier inspection of the access logs
     accessLogFile: /dev/stdout
     defaultConfig:
       discoveryAddress: istiod.istio-system.svc:15012
@@ -73,15 +71,13 @@ metadata:
   name: istiod
   namespace: istio-system
 spec:
-  # MODIFIED: Always have 2 replicas to allow rolling updates
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       istio: pilot
   strategy:
     rollingUpdate:
       maxSurge: 100%
-      # MODIFIED: Allow one pod to be unavailable during rolling updates
       maxUnavailable: 50%
   template:
     metadata:

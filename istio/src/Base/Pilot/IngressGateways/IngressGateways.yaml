@@ -1,5 +1,3 @@
-# Resources for IngressGateways component
-
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -19,16 +17,12 @@ spec:
       name: cpu
       targetAverageUtilization: 80
     type: Resource
-  # MODIFIED: Downscaling prematurely kills requests
   minReplicas: 5
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: istio-ingressgateway
-
 ---
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -178,7 +172,6 @@ spec:
           protocol: TCP
         - containerPort: 15012
           protocol: TCP
-        # MODIFIED: Added Gerrit SSH port
         - containerPort: 29418
           protocol: TCP
         - containerPort: 15090
@@ -264,10 +257,7 @@ spec:
         secret:
           optional: true
           secretName: istio-ingressgateway-ca-certs
-
 ---
-
-
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
@@ -287,8 +277,6 @@ spec:
       app: istio-ingressgateway
       istio: ingressgateway
 ---
-
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -304,8 +292,6 @@ rules:
   resources: ["secrets"]
   verbs: ["get", "watch", "list"]
 ---
-
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -324,8 +310,6 @@ subjects:
 - kind: ServiceAccount
   name: istio-ingressgateway-service-account
 ---
-
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -340,6 +324,8 @@ metadata:
   name: istio-ingressgateway
   namespace: istio-system
 spec:
+  # TO_BE_CHANGED: Change IP
+  loadBalancerIP: xxx.xxx.xxx.xxx
   ports:
   - name: status-port
     port: 15021
@@ -365,13 +351,8 @@ spec:
     app: istio-ingressgateway
     istio: ingressgateway
   type: LoadBalancer
-  # MODIFIED: loadBalancerIP should be set to ensure a stable IP address
-  # TO_BE_CHANGED: Change IP
-  loadBalancerIP: xxx.xxx.xxx.xxx
 
 ---
-
-
 apiVersion: v1
 kind: ServiceAccount
 metadata:
