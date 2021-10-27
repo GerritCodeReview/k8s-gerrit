@@ -62,6 +62,7 @@ spec:
         release: istio
         service.istio.io/canonical-name: istio-ingressgateway
         service.istio.io/canonical-revision: latest
+        sidecar.istio.io/inject: "false"
     spec:
       affinity:
         nodeAffinity:
@@ -161,7 +162,7 @@ spec:
           value: standard
         - name: ISTIO_META_CLUSTER_ID
           value: Kubernetes
-        image: docker.io/istio/proxyv2:1.8.6
+        image: docker.io/istio/proxyv2:1.9.9
         name: istio-proxy
         ports:
         - containerPort: 15021
@@ -208,8 +209,6 @@ spec:
           name: config-volume
         - mountPath: /var/run/secrets/istio
           name: istiod-ca-cert
-        - mountPath: /var/run/ingress_gateway
-          name: gatewaysdsudspath
         - mountPath: /var/lib/istio/data
           name: istio-data
         - mountPath: /etc/istio/pod
@@ -238,11 +237,19 @@ spec:
           - fieldRef:
               fieldPath: metadata.annotations
             path: annotations
+          - path: cpu-limit
+            resourceFieldRef:
+              containerName: istio-proxy
+              divisor: 1m
+              resource: limits.cpu
+          - path: cpu-request
+            resourceFieldRef:
+              containerName: istio-proxy
+              divisor: 1m
+              resource: requests.cpu
         name: podinfo
       - emptyDir: {}
         name: istio-envoy
-      - emptyDir: {}
-        name: gatewaysdsudspath
       - emptyDir: {}
         name: istio-data
       - configMap:

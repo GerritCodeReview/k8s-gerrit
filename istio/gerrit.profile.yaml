@@ -1,9 +1,6 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
-  addonComponents:
-    istiocoredns:
-      enabled: false
   components:
     base:
       enabled: true
@@ -151,12 +148,11 @@ spec:
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.8.6
+  tag: 1.9.9
   values:
     base:
       enableCRDTemplates: false
       validationURL: ""
-    clusterResources: true
     gateways:
       istio-egressgateway:
         autoscaleEnabled: true
@@ -206,9 +202,6 @@ spec:
       logAsJson: false
       logging:
         level: default:info
-      meshExpansion:
-        enabled: false
-        useILB: false
       meshNetworks: {}
       mountMtlsCerts: false
       multiCluster:
@@ -266,10 +259,6 @@ spec:
         stackdriver: {}
         zipkin: {}
       useMCP: false
-    istiocoredns:
-      coreDNSImage: coredns/coredns
-      coreDNSPluginImage: istio/coredns-plugin:0.2-istio-1.1
-      coreDNSTag: 1.6.2
     istiodRemote:
       injectionURL: ""
     pilot:
