@@ -148,7 +148,7 @@ spec:
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.10.5
+  tag: 1.11.4
   values:
     base:
       enableCRDTemplates: false
