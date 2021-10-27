@@ -148,7 +148,7 @@ spec:
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.9.9
+  tag: 1.10.5
   values:
     base:
       enableCRDTemplates: false
@@ -181,10 +181,6 @@ spec:
         type: LoadBalancer
         zvpn: {}
     global:
-      arch:
-        amd64: 2
-        ppc64le: 2
-        s390x: 2
       configValidation: true
       defaultNodeSelector: {}
       defaultPodDisruptionBudget:
@@ -197,8 +193,7 @@ spec:
       istioNamespace: istio-system
       istiod:
         enableAnalysis: false
-      # Gardener does not support the third-party-jwt policy.
-      jwtPolicy: first-party-jwt
+      jwtPolicy: third-party-jwt
       logAsJson: false
       logging:
         level: default:info
