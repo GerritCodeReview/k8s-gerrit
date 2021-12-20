@@ -186,16 +186,25 @@ spec:
           httpGet:
             path: /config/server/healthcheck~status
             port: gerrit-port
+{{- if .Values.gerrit.livenessScheme }}
+            scheme: {{ .Values.gerrit.livenessScheme }}
+{{- end }}
 {{ toYaml .Values.gerrit.livenessProbe | indent 10 }}
         readinessProbe:
           httpGet:
             path: /config/server/healthcheck~status
             port: gerrit-port
+{{- if .Values.gerrit.readinessScheme }}
+            scheme: {{ .Values.gerrit.readinessScheme }}
+{{- end }}
 {{ toYaml .Values.gerrit.readinessProbe | indent 10 }}
         startupProbe:
           httpGet:
             path: /config/server/healthcheck~status
             port: gerrit-port
+{{- if .Values.gerrit.startupScheme }}
+            scheme: {{ .Values.gerrit.startupScheme }}
+{{- end }}
 {{ toYaml .Values.gerrit.startupProbe | indent 10 }}
       volumes:
       {{ if not .Values.gerrit.persistence.enabled -}}

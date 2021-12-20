@@ -28,9 +28,15 @@ spec:
   - name: ssh
     port: {{ .ssh.port }}
     targetPort: 29418
+  {{- if .extraPorts }}
+  {{- toYaml .extraPorts | nindent 2 }}
+  {{- end }}
   {{- end }}
   type: {{ .type }}
   externalTrafficPolicy: {{ .externalTrafficPolicy }}
+  {{- end }}
+  {{- if .Values.gerrit.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.gerrit.service.loadBalancerIP }}
   {{- end }}
   selector:
     app.kubernetes.io/component: gerrit
