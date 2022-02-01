@@ -25,8 +25,8 @@ from kubernetes import client
 
 import utils
 
-PLUGINS = ["uploadvalidator", "account"]
-GERRIT_VERSION = "3.3"
+PLUGINS = ["reviewers", "account"]
+GERRIT_VERSION = "3.5"
 
 
 @pytest.fixture(scope="module")
