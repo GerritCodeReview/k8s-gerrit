@@ -31,13 +31,13 @@ GERRIT_VERSION = "3.5"
 
 @pytest.fixture(scope="module")
 def plugin_list():
-    plugin_list = list()
+    plugin_list = []
     for plugin in PLUGINS:
         url = (
-            "https://gerrit-ci.gerritforge.com/view/Plugins-stable-{gerrit_version}/"
-            "job/plugin-{plugin}-bazel-stable-{gerrit_version}/lastSuccessfulBuild/"
-            "artifact/bazel-bin/plugins/{plugin}/{plugin}.jar"
-        ).format(plugin=plugin, gerrit_version=GERRIT_VERSION)
+            f"https://gerrit-ci.gerritforge.com/view/Plugins-stable-{GERRIT_VERSION}/"
+            f"job/plugin-{plugin}-bazel-stable-{GERRIT_VERSION}/lastSuccessfulBuild/"
+            f"artifact/bazel-bin/plugins/{plugin}/{plugin}.jar"
+        )
         jar = requests.get(url, verify=False).content
         plugin_list.append(
             {"name": plugin, "url": url, "sha1": hashlib.sha1(jar).hexdigest()}
@@ -49,7 +49,7 @@ def plugin_list():
 def gerrit_deployment_with_plugins_factory(request, gerrit_deployment_factory):
     def install_chart(chart_opts):
         chart = gerrit_deployment_factory(chart_opts)
-        pod_labels = "app=gerrit,release=%s" % chart["name"]
+        pod_labels = f"app=gerrit,release={chart['name']}"
         finished_in_time = utils.wait_for_pod_readiness(pod_labels, timeout=300)
         if not finished_in_time:
             raise utils.TimeOutException("Gerrit pod was not ready in time.")
@@ -67,14 +67,14 @@ def gerrit_deployment_with_plugins_factory(request, gerrit_deployment_factory):
 def gerrit_deployment_with_packaged_plugins(
     request, docker_tag, test_cluster, gerrit_deployment_with_plugins_factory
 ):
-
-    plugins_opts_string = "{%s}" % (",".join(request.param))
+    plugins_opts_string = ",".join(request.param)
+    plugins_opts_string = f"{{{plugins_opts_string}}}"
     chart_opts = {
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
         "ingress.enabled": True,
-        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
         "gerrit.plugins.packaged": plugins_opts_string,
     }
     chart = gerrit_deployment_with_plugins_factory(chart_opts)
@@ -101,13 +101,13 @@ def gerrit_deployment_with_other_plugins(
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
         "ingress.enabled": True,
-        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
     }
     selected_plugins = plugin_list[: request.param]
     for counter, plugin in enumerate(selected_plugins):
-        chart_opts["gerrit.plugins.downloaded[%d].name" % counter] = plugin["name"]
-        chart_opts["gerrit.plugins.downloaded[%d].url" % counter] = plugin["url"]
-        chart_opts["gerrit.plugins.downloaded[%d].sha1" % counter] = plugin["sha1"]
+        chart_opts[f"gerrit.plugins.downloaded[{counter}].name"] = plugin["name"]
+        chart_opts[f"gerrit.plugins.downloaded[{counter}].url"] = plugin["url"]
+        chart_opts[f"gerrit.plugins.downloaded[{counter}].sha1"] = plugin["sha1"]
     chart = gerrit_deployment_with_plugins_factory(chart_opts)
     chart["installed_plugins"] = selected_plugins
 
@@ -125,7 +125,7 @@ def gerrit_deployment_with_other_plugin_wrong_sha(
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
         "ingress.enabled": True,
-        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
     }
     plugin = plugin_list[0]
     chart_opts["gerrit.plugins.downloaded[0].name"] = plugin["name"]
@@ -151,7 +151,7 @@ def update_chart(helm, chart, opts):
 
 
 def get_gerrit_plugin_list(gerrit_url, user="admin", password="secret"):
-    list_plugins_url = "%s/a/plugins/?all" % gerrit_url
+    list_plugins_url = f"{gerrit_url}/a/plugins/?all"
     response = requests.get(list_plugins_url, auth=(user, password))
     if not response.status_code == 200:
         return None
@@ -167,7 +167,7 @@ class TestgerritChartPackagedPluginInstall:
     def _assert_installed_plugins(self, expected_plugins, installed_plugins):
         for plugin in expected_plugins:
             assert plugin in installed_plugins
-            assert installed_plugins[plugin]["filename"] == "%s.jar" % plugin
+            assert installed_plugins[plugin]["filename"] == f"{plugin}.jar"
 
     @pytest.mark.timeout(300)
     def test_install_packaged_plugins(
@@ -177,7 +177,7 @@ class TestgerritChartPackagedPluginInstall:
         while not response:
             try:
                 response = get_gerrit_plugin_list(
-                    "http://primary.%s" % (request.config.getoption("--ingress-url"))
+                    f"http://primary.{request.config.getoption('--ingress-url')}"
                 )
             except requests.exceptions.ConnectionError:
                 time.sleep(1)
@@ -192,8 +192,12 @@ class TestgerritChartPackagedPluginInstall:
     ):
         chart = gerrit_deployment_with_packaged_plugins
         chart["removed_plugin"] = chart["installed_plugins"].pop()
-        plugins_opts_string = "{%s}" % (",".join(chart["installed_plugins"]))
-        plugins_opts_string = plugins_opts_string if plugins_opts_string else "false"
+        plugins_opts_string = ",".join(chart["installed_plugins"])
+        if plugins_opts_string:
+            plugins_opts_string = f"{{{plugins_opts_string}}}"
+        else:
+            plugins_opts_string = "false"
+
         update_chart(
             test_cluster.helm, chart, {"gerrit.plugins.packaged": plugins_opts_string}
         )
@@ -202,7 +206,7 @@ class TestgerritChartPackagedPluginInstall:
         while True:
             try:
                 response = get_gerrit_plugin_list(
-                    "http://primary.%s" % (request.config.getoption("--ingress-url"))
+                    f"http://primary.{request.config.getoption('--ingress-url')}"
                 )
                 if response is not None and chart["removed_plugin"] not in response:
                     break
@@ -220,17 +224,17 @@ class TestgerritChartPackagedPluginInstall:
 class TestgerritChartOtherPluginInstall:
     def _remove_plugin_from_install_list(self, installed_plugins):
         removed_plugin = installed_plugins.pop()
-        plugin_install_list = dict()
+        plugin_install_list = {}
         if installed_plugins:
             for counter, plugin in enumerate(installed_plugins):
                 plugin_install_list[
-                    "gerrit.plugins.downloaded[%d].name" % counter
+                    f"gerrit.plugins.downloaded[{counter}].name"
                 ] = plugin["name"]
                 plugin_install_list[
-                    "gerrit.plugins.downloaded[%d].url" % counter
+                    f"gerrit.plugins.downloaded[{counter}].url"
                 ] = plugin["url"]
                 plugin_install_list[
-                    "gerrit.plugins.downloaded[%d].sha1" % counter
+                    f"gerrit.plugins.downloaded[{counter}].sha1"
                 ] = plugin["sha1"]
         else:
             plugin_install_list["gerrit.plugins.downloaded"] = "false"
@@ -240,8 +244,7 @@ class TestgerritChartOtherPluginInstall:
         for plugin in expected_plugins:
             assert plugin["name"] in installed_plugins
             assert (
-                installed_plugins[plugin["name"]]["filename"]
-                == "%s.jar" % plugin["name"]
+                installed_plugins[plugin["name"]]["filename"] == f"{plugin['name']}.jar"
             )
 
     @pytest.mark.timeout(300)
@@ -252,7 +255,7 @@ class TestgerritChartOtherPluginInstall:
         while not response:
             try:
                 response = get_gerrit_plugin_list(
-                    "http://primary.%s" % (request.config.getoption("--ingress-url"))
+                    f"http://primary.{request.config.getoption('--ingress-url')}"
                 )
             except requests.exceptions.ConnectionError:
                 continue
@@ -265,16 +268,18 @@ class TestgerritChartOtherPluginInstall:
         self, request, test_cluster, gerrit_deployment_with_other_plugins
     ):
         chart = gerrit_deployment_with_other_plugins
-        chart_opts, chart["removed_plugin"], chart[
-            "installed_plugin"
-        ] = self._remove_plugin_from_install_list(chart["installed_plugins"])
+        (
+            chart_opts,
+            chart["removed_plugin"],
+            chart["installed_plugin"],
+        ) = self._remove_plugin_from_install_list(chart["installed_plugins"])
         update_chart(test_cluster.helm, chart, chart_opts)
 
         response = None
         while True:
             try:
                 response = get_gerrit_plugin_list(
-                    "http://primary.%s" % (request.config.getoption("--ingress-url"))
+                    f"http://primary.{request.config.getoption('--ingress-url')}"
                 )
                 if (
                     response is not None
@@ -294,8 +299,8 @@ class TestgerritChartOtherPluginInstall:
 def test_install_other_plugins_fails_wrong_sha(
     request, test_cluster, gerrit_deployment_with_other_plugin_wrong_sha
 ):
-    pod_labels = "app=gerrit,release=%s" % (
-        gerrit_deployment_with_other_plugin_wrong_sha["name"]
+    pod_labels = (
+        f"app=gerrit,release={gerrit_deployment_with_other_plugin_wrong_sha['name']}"
     )
     core_v1 = client.CoreV1Api()
     pod_name = ""

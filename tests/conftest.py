@@ -42,7 +42,7 @@ class PasswordPromptAction(argparse.Action):
         help=None,
     ):
 
-        super(PasswordPromptAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -173,7 +173,7 @@ def pytest_runtest_setup(item):
     if "incremental" in item.keywords:
         previousfailed = getattr(item.parent, "_previousfailed", None)
         if previousfailed is not None:
-            pytest.xfail("previous test failed (%s)" % previousfailed.name)
+            pytest.xfail(f"previous test failed ({previousfailed.name})")
 
 
 @pytest.fixture(scope="session")
@@ -194,7 +194,7 @@ def repository_root():
 
 @pytest.fixture(scope="session")
 def container_images(repository_root):
-    image_paths = dict()
+    image_paths = {}
     for directory in os.listdir(os.path.join(repository_root, "container-images")):
         image_paths[directory] = os.path.join(
             repository_root, "container-images", directory
@@ -237,17 +237,15 @@ def docker_build(
     def docker_build(image, name):
 
         if name in BASE_IMGS:
-            image_name = "{image}:latest".format(image=name)
+            image_name = f"{name}:latest"
         else:
-            image_name = "{registry}{org}{image}:{tag}".format(
-                registry=docker_registry, org=docker_org, image=name, tag=docker_tag
-            )
+            image_name = f"{docker_registry}{docker_org}{name}:{docker_tag}"
 
         if tag_of_cached_container:
             try:
                 return docker_client.images.get(image_name)
             except docker.errors.ImageNotFound:
-                print("Image %s could not be loaded. Building it now." % image_name)
+                print(f"Image {image_name} could not be loaded. Building it now.")
 
         no_cache = not request.config.getoption("--build-cache")
 
@@ -275,9 +273,7 @@ def docker_push(
     request, docker_client, docker_registry, docker_login, docker_org, docker_tag
 ):
     def docker_push(image):
-        docker_repository = "{registry}{org}{image}".format(
-            registry=docker_registry, org=docker_org, image=image
-        )
+        docker_repository = f"{docker_registry}{docker_org}{image}"
         docker_client.images.push(docker_repository, tag=docker_tag)
 
     return docker_push

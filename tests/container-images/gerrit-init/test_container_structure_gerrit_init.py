@@ -56,14 +56,14 @@ def test_gerrit_init_inherits_from_gerrit_base(gerrit_init_image):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_init_contains_expected_scripts(container_run, expected_script):
-    exit_code, _ = container_run.exec_run("test -f %s" % expected_script)
+    exit_code, _ = container_run.exec_run(f"test -f {expected_script}")
     assert exit_code == 0
 
 
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_init_contains_expected_tools(container_run, expected_tool):
-    exit_code, _ = container_run.exec_run("which %s" % expected_tool)
+    exit_code, _ = container_run.exec_run(f"which {expected_tool}")
     assert exit_code == 0
 
 

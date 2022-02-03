@@ -41,8 +41,10 @@ class GerritInit:
         return None
 
     def _get_gerrit_version(self, gerrit_war_path):
-        command = "java -jar %s version" % gerrit_war_path
-        version_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
+        command = f"java -jar {gerrit_war_path} version"
+        version_process = subprocess.run(
+            command.split(), stdout=subprocess.PIPE, check=True
+        )
         return version_process.stdout.decode().strip()
 
     def _get_installed_plugins(self):
@@ -101,9 +103,11 @@ class GerritInit:
 
         flags = "--no-auto-start --batch"
 
-        command = "java -jar /var/war/gerrit.war init %s -d %s" % (flags, self.site)
+        command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
 
-        init_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
+        init_process = subprocess.run(
+            command.split(), stdout=subprocess.PIPE, check=True
+        )
 
         if init_process.returncode > 0:
             LOG.error(

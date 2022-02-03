@@ -20,26 +20,26 @@ from kubernetes import client
 
 
 class TimeOutException(Exception):
-    """ Exception to be raised, if some action does not finish in time. """
+    """Exception to be raised, if some action does not finish in time."""
 
 
 def exec_fn_with_timeout(func, limit=60):
     """Helper function that executes a given function until it returns True or a
-     given time limit is reached.
+       given time limit is reached.
 
-  Arguments:
-    func {function} -- Function to execute. The function can return some output
-                    (or None) and as a second return value a boolean indicating,
-                    whether the event the function was waiting for has happened.
+    Arguments:
+      func {function} -- Function to execute. The function can return some output
+                      (or None) and as a second return value a boolean indicating,
+                      whether the event the function was waiting for has happened.
 
-  Keyword Arguments:
-    limit {int} -- Maximum time in seconds to wait for a positive response of
-                   the function (default: {60})
+    Keyword Arguments:
+      limit {int} -- Maximum time in seconds to wait for a positive response of
+                     the function (default: {60})
 
-  Returns:
-    boolean -- False, if the timeout was reached
-    any -- Last output of fn
-  """
+    Returns:
+      boolean -- False, if the timeout was reached
+      any -- Last output of fn
+    """
 
     timeout = time.time() + limit
     while time.time() < timeout:
@@ -51,19 +51,19 @@ def exec_fn_with_timeout(func, limit=60):
 
 def wait_for_pod_readiness(pod_labels, timeout=180):
     """Helper function that can be used to wait for all pods with a given set of
-     labels to be ready.
+       labels to be ready.
 
-  Arguments:
-    pod_labels {str} -- Label selector string to be used to select pods.
-      (https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
+    Arguments:
+      pod_labels {str} -- Label selector string to be used to select pods.
+        (https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
 
-  Keyword Arguments:
-    timeout {int} -- Time in seconds to wait for the pod status to become ready.
-      (default: {180})
+    Keyword Arguments:
+      timeout {int} -- Time in seconds to wait for the pod status to become ready.
+        (default: {180})
 
-  Returns:
-    boolean -- Whether pods were ready in time.
-  """
+    Returns:
+      boolean -- Whether pods were ready in time.
+    """
 
     def check_pod_readiness():
         core_v1 = client.CoreV1Api()
@@ -81,16 +81,16 @@ def wait_for_pod_readiness(pod_labels, timeout=180):
 
 def check_if_ancestor_image_is_inherited(image, ancestor):
     """Helper function that looks for a given ancestor image in the layers of a
-    provided image. It can be used to check, whether an image uses the expected
-    FROM-statement
+      provided image. It can be used to check, whether an image uses the expected
+      FROM-statement
 
-  Arguments:
-    image {docker.images.Image} -- Docker image object to be checked
-    ancestor {str} -- Complete name of the expected ancestor image
+    Arguments:
+      image {docker.images.Image} -- Docker image object to be checked
+      ancestor {str} -- Complete name of the expected ancestor image
 
-  Returns:
-    boolean -- True, if ancestor is inherited by image
-  """
+    Returns:
+      boolean -- True, if ancestor is inherited by image
+    """
 
     contains_tag = False
     for layer in image.history():

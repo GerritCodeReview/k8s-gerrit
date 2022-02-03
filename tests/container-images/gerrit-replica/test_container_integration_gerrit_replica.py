@@ -95,8 +95,7 @@ class TestGerritReplica:
         self, container_run, config_file_to_test
     ):
         exit_code, output = container_run.exec_run(
-            "git config --file=/var/gerrit/etc/%s --get test.success"
-            % config_file_to_test
+            f"git config --file=/var/gerrit/etc/{config_file_to_test} --get test.success"
         )
         output = output.decode("utf-8").strip()
         assert exit_code == 0
@@ -104,7 +103,7 @@ class TestGerritReplica:
 
     def test_gerrit_replica_repository_exists(self, container_run, expected_repository):
         exit_code, _ = container_run.exec_run(
-            "test -d /var/gerrit/git/%s" % expected_repository
+            f"test -d /var/gerrit/git/{expected_repository}"
         )
         assert exit_code == 0
 

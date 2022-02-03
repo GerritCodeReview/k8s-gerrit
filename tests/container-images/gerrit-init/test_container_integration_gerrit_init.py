@@ -112,7 +112,7 @@ def plugins_to_install(request):
 @pytest.mark.integration
 class TestGerritInitPluginInstallation:
     def _configure_packaged_plugins(self, file_path, plugins):
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             yaml.dump({"packagedPlugins": plugins}, f, default_flow_style=False)
 
     def test_gerrit_init_plugins_are_installed(
@@ -135,7 +135,7 @@ class TestGerritInitPluginInstallation:
         plugins_path = os.path.join(tmp_site_dir, "plugins")
 
         for plugin in plugins_to_install:
-            assert os.path.exists(os.path.join(plugins_path, "%s.jar" % plugin))
+            assert os.path.exists(os.path.join(plugins_path, f"{plugin}.jar"))
 
         installed_plugins = os.listdir(plugins_path)
         expected_plugins = plugins_to_install + required_plugins
@@ -156,13 +156,15 @@ class TestGerritInitPluginInstallation:
 
         for plugin in required_plugins:
             assert os.path.exists(
-                os.path.join(tmp_site_dir, "plugins", "%s.jar" % plugin)
+                os.path.join(tmp_site_dir, "plugins", f"{plugin}.jar")
             )
 
     def test_libraries_are_symlinked(
         self, container_run_endless, init_config_dir, tmp_site_dir
     ):
-        with open(os.path.join(init_config_dir, "init.yaml"), "w") as f:
+        with open(
+            os.path.join(init_config_dir, "init.yaml"), "w", encoding="utf-8"
+        ) as f:
             yaml.dump(
                 {"packagedPlugins": ["hooks"], "installAsLibrary": ["hooks"]},
                 f,
@@ -174,8 +176,8 @@ class TestGerritInitPluginInstallation:
         )
         assert exit_code == 0
 
-        assert os.path.exists(os.path.join(tmp_site_dir, "plugins", "%s.jar" % "hooks"))
-        assert os.path.islink(os.path.join(tmp_site_dir, "lib", "%s.jar" % "hooks"))
+        assert os.path.exists(os.path.join(tmp_site_dir, "plugins", "hooks.jar"))
+        assert os.path.islink(os.path.join(tmp_site_dir, "lib", "hooks.jar"))
 
         exit_code, output = container_run_endless.exec_run(
             "readlink -f /var/gerrit/lib/hooks.jar"
@@ -186,7 +188,9 @@ class TestGerritInitPluginInstallation:
     def test_library_symlink_fails_without_plugin(
         self, container_run_endless, init_config_dir
     ):
-        with open(os.path.join(init_config_dir, "init.yaml"), "w") as f:
+        with open(
+            os.path.join(init_config_dir, "init.yaml"), "w", encoding="utf-8"
+        ) as f:
             yaml.dump(
                 {"packagedPlugins": ["hooks"], "installAsLibrary": ["saml"]},
                 f,

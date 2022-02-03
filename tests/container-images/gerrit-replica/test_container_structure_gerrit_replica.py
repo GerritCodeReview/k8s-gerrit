@@ -40,7 +40,7 @@ def test_gerrit_replica_inherits_from_gerrit_base(gerrit_replica_image):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_replica_contains_expected_scripts(container_run, expected_script):
-    exit_code, _ = container_run.exec_run("test -f %s" % expected_script)
+    exit_code, _ = container_run.exec_run(f"test -f {expected_script}")
     assert exit_code == 0
 
 

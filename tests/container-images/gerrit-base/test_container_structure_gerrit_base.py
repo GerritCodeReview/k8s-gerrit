@@ -84,7 +84,7 @@ def test_gerrit_base_war_contains_gerrit(container_run):
 @pytest.mark.structure
 def test_gerrit_base_contains_required_plugins(container_run, required_plugins):
     for plugin in required_plugins:
-        exit_code, _ = container_run.exec_run("test -f /var/plugins/%s.jar" % plugin)
+        exit_code, _ = container_run.exec_run(f"test -f /var/plugins/{plugin}.jar")
         assert exit_code == 0
 
 

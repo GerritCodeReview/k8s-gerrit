@@ -93,4 +93,4 @@ def random_repo_name():
 
 @pytest.fixture(scope="function")
 def repo_creation_url(base_url, random_repo_name):
-    return "%s/new/%s" % (base_url, random_repo_name)
+    return f"{base_url}/new/{random_repo_name}"

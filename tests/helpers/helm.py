@@ -81,12 +81,13 @@ class Helm:
         if values_file:
             helm_cmd.extend(("-f", values_file))
         if set_values:
-            opt_list = ["%s=%s" % (k, v) for k, v in set_values.items()]
+            opt_list = [f"{k}={v}" for k, v in set_values.items()]
             helm_cmd.extend(("--set", ",".join(opt_list)))
         if namespace:
             helm_cmd.extend(("--namespace", namespace))
         if wait:
             helm_cmd.append("--wait")
+        print(helm_cmd)
         return self._exec_command(helm_cmd, fail_on_err)
 
     def list(self, namespace=None):
@@ -143,7 +144,7 @@ class Helm:
         if reuse_values:
             helm_cmd.append("--reuse-values")
         if set_values:
-            opt_list = ["%s=%s" % (k, v) for k, v in set_values.items()]
+            opt_list = [f"{k}={v}" for k, v in set_values.items()]
             helm_cmd.extend(("--set", ",".join(opt_list)))
         return self._exec_command(helm_cmd, fail_on_err)
 

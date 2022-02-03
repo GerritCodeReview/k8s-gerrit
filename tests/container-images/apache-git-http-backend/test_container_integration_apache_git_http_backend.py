@@ -90,11 +90,11 @@ def test_apache_git_http_backend_repo_creation_push_repo(
     container_run, base_url, basic_auth_creds, mock_repo, random_repo_name
 ):
     container_run.exec_run(
-        "su -c 'git init --bare /var/gerrit/git/%s.git' gerrit" % random_repo_name
+        f"su -c 'git init --bare /var/gerrit/git/{random_repo_name}.git' gerrit"
     )
-    url = "%s/git/%s.git" % (base_url, random_repo_name)
+    url = f"{base_url}/git/{random_repo_name}.git"
     url = url.replace(
-        "//", "//%s:%s@" % (basic_auth_creds["user"], basic_auth_creds["password"])
+        "//", f"//{basic_auth_creds['user']}:{basic_auth_creds['password']}@"
     )
     origin = mock_repo.create_remote("origin", url)
     assert origin.exists()

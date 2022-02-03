@@ -11,7 +11,7 @@ RUN apk update && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --no-cache --upgrade pip setuptools wheel pipenv && \
-    pipenv install --python 3.7.3 --system
+    pipenv install --python 3.9 --system
 
 COPY tools /var/tools/
 COPY config/* /var/config/

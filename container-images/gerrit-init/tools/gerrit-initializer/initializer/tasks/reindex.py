@@ -35,7 +35,7 @@ class IndexType(enum.Enum):
 class GerritAbstractReindexer(abc.ABC):
     def __init__(self, gerrit_site_path, config):
         self.gerrit_site_path = gerrit_site_path
-        self.index_config_path = "%s/index/gerrit_index.config" % self.gerrit_site_path
+        self.index_config_path = f"{self.gerrit_site_path}/index/gerrit_index.config"
         self.init_config = config
 
         self.configured_indices = self._parse_gerrit_index_config()
@@ -45,7 +45,7 @@ class GerritAbstractReindexer(abc.ABC):
         pass
 
     def _parse_gerrit_index_config(self):
-        indices = dict()
+        indices = {}
         if os.path.exists(self.index_config_path):
             config = git.GitConfigParser(self.index_config_path)
             options = config.list()
@@ -80,12 +80,14 @@ class GerritAbstractReindexer(abc.ABC):
 
     def reindex(self, indices=None):
         LOG.info("Starting to reindex.")
-        command = "java -jar /var/war/gerrit.war reindex -d %s" % self.gerrit_site_path
+        command = f"java -jar /var/war/gerrit.war reindex -d {self.gerrit_site_path}"
 
         if indices:
-            command += " ".join([" --index %s" % i for i in indices])
+            command += " ".join([f" --index {i}" for i in indices])
 
-        reindex_process = subprocess.run(command.split(), stdout=subprocess.PIPE)
+        reindex_process = subprocess.run(
+            command.split(), stdout=subprocess.PIPE, check=True
+        )
 
         if reindex_process.returncode > 0:
             LOG.error(
@@ -122,7 +124,7 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
     def _get_indices(self):
         file_list = os.listdir(os.path.join(self.gerrit_site_path, "index"))
         file_list.remove("gerrit_index.config")
-        lucene_indices = dict()
+        lucene_indices = {}
         for index in file_list:
             try:
                 (name, version) = index.split("_")
@@ -134,7 +136,7 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
 
 class GerritElasticSearchReindexer(GerritAbstractReindexer):
     def _get_elasticsearch_config(self):
-        es_config = dict()
+        es_config = {}
         gerrit_config = git.GitConfigParser(
             os.path.join(self.gerrit_site_path, "etc", "gerrit.config")
         )
@@ -148,15 +150,13 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
 
     def _get_indices(self):
         es_config = self._get_elasticsearch_config()
-        url = "{url}/{prefix}*".format(
-            url=es_config["server"], prefix=es_config["prefix"]
-        )
+        url = f"{es_config['server']}/{es_config['prefix']}*"
         try:
             response = requests.get(url)
         except requests.exceptions.SSLError:
             response = requests.get(url, verify=self.init_config.ca_cert_path)
 
-        es_indices = dict()
+        es_indices = {}
         for index, _ in response.json().items():
             try:
                 index = index.replace(es_config["prefix"], "", 1)
@@ -180,4 +180,4 @@ def get_reindexer(gerrit_site_path, config):
     if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
         return GerritElasticSearchReindexer(gerrit_site_path, config)
 
-    raise RuntimeError("Unknown index type %s." % index_type)
+    raise RuntimeError(f"Unknown index type {index_type}.")
