@@ -82,7 +82,7 @@ def gerrit_deployment(request, docker_tag, test_cluster, gerrit_deployment_facto
         "images.registry.name": request.config.getoption("--registry"),
         "images.version": docker_tag,
         "ingress.enabled": True,
-        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
     }
     chart = gerrit_deployment_factory(chart_opts)
 
@@ -95,14 +95,14 @@ def gerrit_deployment(request, docker_tag, test_cluster, gerrit_deployment_facto
 @pytest.fixture(scope="module")
 def gerrit_ready_deployment(gerrit_deployment):
 
-    pod_labels = "app=gerrit,release=%s" % gerrit_deployment["name"]
+    pod_labels = f"app=gerrit,release={gerrit_deployment['name']}"
     finished_in_time = utils.wait_for_pod_readiness(
         pod_labels, timeout=GERRIT_STARTUP_TIMEOUT
     )
 
     if not finished_in_time:
         raise utils.TimeOutException(
-            "Gerrit pod was not ready in time (%d s)." % GERRIT_STARTUP_TIMEOUT
+            f"Gerrit pod was not ready in time ({GERRIT_STARTUP_TIMEOUT} s)."
         )
 
     yield finished_in_time

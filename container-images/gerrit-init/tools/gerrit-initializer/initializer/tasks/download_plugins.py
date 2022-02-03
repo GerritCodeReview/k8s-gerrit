@@ -32,7 +32,7 @@ MAX_CACHED_VERSIONS = 5
 
 
 class InvalidPluginException(Exception):
-    """ Exception to be raised, if the downloaded plugin is not valid. """
+    """Exception to be raised, if the downloaded plugin is not valid."""
 
 
 class AbstractPluginInstaller(ABC):
@@ -55,7 +55,7 @@ class AbstractPluginInstaller(ABC):
         if os.path.exists(self.plugin_dir):
             return [f for f in os.listdir(self.plugin_dir) if f.endswith(".jar")]
 
-        return list()
+        return []
 
     def _get_required_plugins(self):
         required = [
@@ -86,11 +86,11 @@ class AbstractPluginInstaller(ABC):
         for plugin in self.config.packaged_plugins:
             LOG.info("Installing packaged plugin %s.", plugin)
             with ZipFile("/var/war/gerrit.war", "r") as war:
-                war.extract("WEB-INF/plugins/%s.jar" % plugin, self.plugin_dir)
+                war.extract(f"WEB-INF/plugins/{plugin}.jar", self.plugin_dir)
 
             os.rename(
-                "%s/WEB-INF/plugins/%s.jar" % (self.plugin_dir, plugin),
-                os.path.join(self.plugin_dir, "%s.jar" % plugin),
+                f"{self.plugin_dir}/WEB-INF/plugins/{plugin}.jar",
+                os.path.join(self.plugin_dir, f"{plugin}.jar"),
             )
         shutil.rmtree(os.path.join(self.plugin_dir, "WEB-INF"), ignore_errors=True)
 
@@ -129,15 +129,15 @@ class AbstractPluginInstaller(ABC):
                     os.unlink(path)
                     LOG.info("Removed symlink %s", f)
         for lib in self.config.install_as_library:
-            plugin_path = os.path.join(self.plugin_dir, "%s.jar" % lib)
+            plugin_path = os.path.join(self.plugin_dir, f"{lib}.jar")
             if os.path.exists(plugin_path):
                 try:
-                    os.symlink(plugin_path, os.path.join(self.lib_dir, "%s.jar" % lib))
+                    os.symlink(plugin_path, os.path.join(self.lib_dir, f"{lib}.jar"))
                 except FileExistsError:
                     continue
             else:
                 raise FileNotFoundError(
-                    "Could not find plugin %s to symlink to lib-directory." % lib
+                    f"Could not find plugin {lib} to symlink to lib-directory."
                 )
 
     def execute(self):
@@ -167,10 +167,10 @@ class AbstractPluginInstaller(ABC):
             os.remove(target)
             raise InvalidPluginException(
                 (
-                    "SHA1 of downloaded file (%s) did not match expected SHA1 (%s). "
-                    "Removed downloaded file (%s)"
+                    f"SHA1 of downloaded file ({file_sha}) did not match "
+                    f"expected SHA1 ({plugin['sha1']}). "
+                    f"Removed downloaded file ({target})"
                 )
-                % (file_sha, plugin["sha1"], target)
             )
 
     @abstractmethod
@@ -180,7 +180,7 @@ class AbstractPluginInstaller(ABC):
 
 class PluginInstaller(AbstractPluginInstaller):
     def _install_plugin(self, plugin):
-        target = os.path.join(self.plugin_dir, "%s.jar" % plugin["name"])
+        target = os.path.join(self.plugin_dir, f"{plugin['name']}.jar")
         if os.path.exists(target) and self._get_file_sha(target) == plugin["sha1"]:
             return
 
@@ -207,7 +207,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
 
     @staticmethod
     def _create_download_lock(lock_path):
-        with open(lock_path, "w") as f:
+        with open(lock_path, "w", encoding="utf-8") as f:
             f.write(os.environ["HOSTNAME"])
             LOG.debug("Created download lock %s", lock_path)
 
@@ -221,7 +221,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         return os.path.join(
             self.config.plugin_cache_dir,
             plugin["name"],
-            "%s-%s.jar" % (plugin["name"], plugin["sha1"]),
+            f"{plugin['name']}-{plugin['sha1']}.jar",
         )
 
     def _install_from_cache_or_download(self, plugin, target):
@@ -234,7 +234,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
             download_target = self._get_cached_plugin_path(plugin)
             self._create_plugin_cache_dir(os.path.dirname(target))
 
-            lock_path = "%s.lock" % download_target
+            lock_path = f"{download_target}.lock"
             while os.path.exists(lock_path):
                 LOG.info(
                     "Download lock found (%s). Waiting %d seconds for it to be released.",
@@ -257,7 +257,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         self._cleanup_cache(os.path.dirname(target))
 
     def _install_plugin(self, plugin):
-        install_path = os.path.join(self.plugin_dir, "%s.jar" % plugin["name"])
+        install_path = os.path.join(self.plugin_dir, f"{plugin['name']}.jar")
         if (
             os.path.exists(install_path)
             and self._get_file_sha(install_path) == plugin["sha1"]

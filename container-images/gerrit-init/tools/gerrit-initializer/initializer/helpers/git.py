@@ -26,15 +26,15 @@ class GitConfigParser:
         return [line.strip() for line in sub_process_run.stdout.splitlines()]
 
     def _get_value(self, key):
-        command = "git config -f %s --get %s" % (self.path, key)
+        command = f"git config -f {self.path} --get {key}"
         return self._execute_shell_command_and_get_output_lines(command)
 
     def list(self):
-        command = "git config -f %s --list" % (self.path)
+        command = f"git config -f {self.path} --list"
         options = self._execute_shell_command_and_get_output_lines(command)
-        option_list = list()
+        option_list = []
         for opt in options:
-            parsed_opt = dict()
+            parsed_opt = {}
             full_key, value = opt.split("=", 1)
             parsed_opt["value"] = value
             full_key = full_key.split(".")
@@ -61,9 +61,9 @@ class GitConfigParser:
 
     def get_boolean(self, key, default=False):
         """
-    Returns boolean value of given key in the configuration file. If the key
-    appears multiple times, the last value is returned.
-    """
+        Returns boolean value of given key in the configuration file. If the key
+        appears multiple times, the last value is returned.
+        """
         if not isinstance(default, bool):
             raise TypeError("Default has to be a boolean.")
 

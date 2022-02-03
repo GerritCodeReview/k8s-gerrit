@@ -6,8 +6,8 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-pyyaml = "~=5.4"
-requests = "~=2.21.0"
+pyyaml = "~=6.0"
+requests = "~=2.27.1"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"

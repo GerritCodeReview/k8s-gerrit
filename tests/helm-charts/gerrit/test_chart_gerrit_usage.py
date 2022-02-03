@@ -28,9 +28,8 @@ import requests
 class TestGerritChartSetup:
     @pytest.mark.timeout(240)
     def test_create_project_rest(self, request, test_cluster, gerrit_ready_deployment):
-        create_project_url = "http://primary.%s/a/projects/test" % (
-            request.config.getoption("--ingress-url")
-        )
+        ingress_url = request.config.getoption("--ingress-url")
+        create_project_url = f"http://primary.{ingress_url}/a/projects/test"
         response = None
 
         while not response:
@@ -45,8 +44,8 @@ class TestGerritChartSetup:
         self, request, tmp_path_factory, test_cluster, gerrit_ready_deployment
     ):
         clone_dest = tmp_path_factory.mktemp("gerrit_chart_clone_test")
-        repo_url = "http://primary.%s/test.git" % (
-            request.config.getoption("--ingress-url")
+        repo_url = (
+            f"http://primary.{request.config.getoption('--ingress-url')}/test.git"
         )
         repo = git.Repo.clone_from(repo_url, clone_dest)
         assert repo.git_dir == os.path.join(clone_dest, ".git")

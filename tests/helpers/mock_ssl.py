@@ -31,7 +31,7 @@ class MockSSLKeyPair:
         self.cert = crypto.X509()
         self.cert.get_subject().O = "Gerrit"
         self.cert.get_subject().CN = self.common_name
-        san = "DNS:%s" % self.subject_alt_name
+        san = f"DNS:{self.subject_alt_name}"
         self.cert.add_extensions(
             [crypto.X509Extension(b"subjectAltName", False, san.encode())]
         )

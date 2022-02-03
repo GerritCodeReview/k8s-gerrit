@@ -57,26 +57,21 @@ def test_ui_connection(request):
 @pytest.mark.incremental
 class TestGerritRestGitCalls:
     def _is_delete_project_plugin_enabled(self, gerrit_url, user, pwd):
-        url = "%s/a/plugins/delete-project/gerrit~status" % gerrit_url
+        url = f"{gerrit_url}/a/plugins/delete-project/gerrit~status"
         response = requests.get(url, auth=(user, pwd))
         return response.status_code == requests.codes["OK"]
 
     def test_create_project_rest(self, request, random_repo_name, admin_creds):
-        create_project_url = "%s/a/projects/%s" % (
-            request.config.getoption("--ingress-url"),
-            random_repo_name,
-        )
+        ingress_url = request.config.getoption("--ingress-url")
+        create_project_url = f"{ingress_url}/a/projects/{random_repo_name}"
         response = requests.put(create_project_url, auth=admin_creds)
         assert response.status_code == requests.codes["CREATED"]
 
     def test_cloning_project(
         self, request, tmp_test_repo, random_repo_name, admin_creds
     ):
-        repo_url = "%s/%s.git" % (
-            request.config.getoption("--ingress-url"),
-            random_repo_name,
-        )
-        repo_url = repo_url.replace("//", "//%s:%s@" % admin_creds)
+        repo_url = f"{request.config.getoption('--ingress-url')}/{random_repo_name}.git"
+        repo_url = repo_url.replace("//", f"//{admin_creds[0]}:{admin_creds[1]}@")
         repo = git.Repo.clone_from(repo_url, tmp_test_repo)
         assert repo.git_dir == os.path.join(tmp_test_repo, ".git")
 
@@ -93,10 +88,7 @@ class TestGerritRestGitCalls:
             assert result
 
         git_cmd = git.cmd.Git()
-        url = "%s/%s.git" % (
-            request.config.getoption("--ingress-url"),
-            random_repo_name,
-        )
+        url = f"{request.config.getoption('--ingress-url')}/{random_repo_name}.git"
         with git_cmd.custom_environment(GIT_SSL_NO_VERIFY="true"):
             for ref in git_cmd.ls_remote(url).split("\n"):
                 hash_ref_list = ref.split("\t")
@@ -106,16 +98,16 @@ class TestGerritRestGitCalls:
         pytest.fail(msg="SHA of remote HEAD was not equal to SHA of local HEAD.")
 
     def test_delete_project_rest(self, request, random_repo_name, admin_creds):
+        ingress_url = request.config.getoption("--ingress-url")
         if not self._is_delete_project_plugin_enabled(
-            request.config.getoption("--ingress-url"), admin_creds[0], admin_creds[1]
+            ingress_url, admin_creds[0], admin_creds[1]
         ):
             pytest.skip(
                 "Delete-project plugin not installed."
-                + "The test project (%s) has to be deleted manually." % random_repo_name
+                + f"The test project ({random_repo_name}) has to be deleted manually."
             )
-        project_url = "%s/a/projects/%s/delete-project~delete" % (
-            request.config.getoption("--ingress-url"),
-            random_repo_name,
+        project_url = (
+            f"{ingress_url}/a/projects/{random_repo_name}/delete-project~delete"
         )
         response = requests.post(project_url, auth=admin_creds)
         assert response.status_code == requests.codes["NO_CONTENT"]

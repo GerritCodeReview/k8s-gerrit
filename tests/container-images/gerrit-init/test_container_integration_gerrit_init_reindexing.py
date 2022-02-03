@@ -118,7 +118,7 @@ class TestGerritReindex:
         indices = self._get_indices(container_run_endless)
         assert indices
         container_run_endless.exec_run(
-            "git config -f /var/gerrit/index/gerrit_index.config %s false" % indices[0]
+            f"git config -f /var/gerrit/index/gerrit_index.config {indices[0]} false"
         )
 
         exit_code, _ = container_run_endless.exec_run(
@@ -144,9 +144,7 @@ class TestGerritReindex:
         (name, version) = index.split("_")
         os.rename(
             os.path.join(temp_site, "index", index),
-            os.path.join(
-                temp_site, "index", "{name}_{0:04d}".format(int(version) - 1, name=name)
-            ),
+            os.path.join(temp_site, "index", f"{name}_{int(version) - 1:04d}"),
         )
 
         exit_code, _ = container_run_endless.exec_run(

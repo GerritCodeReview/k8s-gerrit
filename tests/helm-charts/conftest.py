@@ -40,14 +40,14 @@ class AbstractStorageProvisioner(ABC):
     @abstractmethod
     def deploy(self):
         """
-    Deploy provisioner on cluster
-    """
+        Deploy provisioner on cluster
+        """
 
     @abstractmethod
     def delete(self):
         """
-    Delete provisioner from cluster
-    """
+        Delete provisioner from cluster
+        """
 
 
 class EFSProvisioner(AbstractStorageProvisioner):
@@ -104,7 +104,7 @@ class TestCluster:
 
         self.current_context = None
         self.helm = None
-        self.namespaces = list()
+        self.namespaces = []
 
     def _load_kube_config(self):
         config.load_kube_config(config_file=self.kube_config)
@@ -113,9 +113,7 @@ class TestCluster:
 
     def create_image_pull_secret(self, namespace="default"):
         secret_metadata = client.V1ObjectMeta(name="image-pull-secret")
-        auth_string = str.encode(
-            "%s:%s" % (self.registry["user"], self.registry["pwd"])
-        )
+        auth_string = str.encode(f"{self.registry['user']}:{self.registry['pwd']}")
         secret_data = {
             "auths": {
                 self.registry["url"]: {

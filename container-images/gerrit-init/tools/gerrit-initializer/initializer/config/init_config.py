@@ -19,7 +19,7 @@ import yaml
 
 class InitConfig:
     def __init__(self):
-        self.downloaded_plugins = list()
+        self.downloaded_plugins = []
         self.plugin_cache_enabled = False
         self.packaged_plugins = set()
         self.install_as_library = set()
@@ -29,13 +29,13 @@ class InitConfig:
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
-            raise FileNotFoundError("Could not find config file: %s" % config_file)
+            raise FileNotFoundError(f"Could not find config file: {config_file}")
 
-        with open(config_file, "r") as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             config = yaml.load(f, Loader=yaml.SafeLoader)
 
         if config is None:
-            raise ValueError("Invalid config-file: %s" % config_file)
+            raise ValueError(f"Invalid config-file: {config_file}")
 
         if "downloadedPlugins" in config:
             self.downloaded_plugins = config["downloadedPlugins"]

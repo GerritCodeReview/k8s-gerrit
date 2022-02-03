@@ -29,10 +29,12 @@ def cert_dir(tmp_path_factory):
 
 @pytest.fixture(scope="class")
 def ssl_certificate(request, cert_dir):
-    url = "primary.%s" % request.config.getoption("--ingress-url")
+    url = f"primary.{request.config.getoption('--ingress-url')}"
     keypair = mock_ssl.MockSSLKeyPair("primary.k8sgerrit.test", url)
-    open(os.path.join(cert_dir, "server.crt"), "wb").write(keypair.get_cert())
-    open(os.path.join(cert_dir, "server.key"), "wb").write(keypair.get_key())
+    with open(os.path.join(cert_dir, "server.crt"), "wb") as f:
+        f.write(keypair.get_cert())
+    with open(os.path.join(cert_dir, "server.key"), "wb") as f:
+        f.write(keypair.get_key())
     return keypair
 
 
@@ -45,13 +47,13 @@ def gerrit_deployment_with_ssl(
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
         "ingress.enabled": True,
-        "ingress.host": "primary.%s" % request.config.getoption("--ingress-url"),
+        "ingress.host": "primary.{request.config.getoption('--ingress-url')}",
         "ingress.tls.enabled": "true",
         "ingress.tls.cert": ssl_certificate.get_cert().decode(),
         "ingress.tls.key": ssl_certificate.get_key().decode(),
     }
     chart = gerrit_deployment_factory(chart_opts)
-    pod_labels = "app=gerrit,release=%s" % chart["name"]
+    pod_labels = f"app=gerrit,release={chart['name']}"
     finished_in_time = utils.wait_for_pod_readiness(pod_labels, timeout=300)
     if not finished_in_time:
         raise utils.TimeOutException("Gerrit pod was not ready in time.")
@@ -68,9 +70,8 @@ def gerrit_deployment_with_ssl(
 class TestgerritChartSetup:
     # pylint: disable=W0613
     def test_create_project_rest(self, request, cert_dir, gerrit_deployment_with_ssl):
-        create_project_url = "https://primary.%s/a/projects/test" % (
-            request.config.getoption("--ingress-url")
-        )
+        ingress_url = request.config.getoption("--ingress-url")
+        create_project_url = f"https://primary.{ingress_url}/a/projects/test"
         response = requests.put(
             create_project_url,
             auth=("admin", "secret"),
@@ -82,8 +83,8 @@ class TestgerritChartSetup:
         self, request, tmp_path_factory, test_cluster, gerrit_deployment_with_ssl
     ):
         clone_dest = tmp_path_factory.mktemp("gerrit_chart_clone_test")
-        repo_url = "https://primary.%s/test.git" % (
-            request.config.getoption("--ingress-url")
+        repo_url = (
+            f"https://primary.{request.config.getoption('--ingress-url')}/test.git"
         )
         repo = git.Repo.clone_from(
             repo_url, clone_dest, env={"GIT_SSL_NO_VERIFY": "true"}
