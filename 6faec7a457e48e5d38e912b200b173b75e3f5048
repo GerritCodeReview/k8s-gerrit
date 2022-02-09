@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4711667_a7624480",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-09T16:35:52Z",
+      "side": 1,
+      "message": "LGTM, though it has some more (good) changes than updating python and reformatting",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e4544fc_109b0e02",
+        "filename": "container-images/gerrit-init/dependencies/Pipfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-09T16:35:52Z",
+      "side": 1,
+      "message": "why not 3.10 ?",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3650d19_8c67f66b",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-09T16:35:52Z",
+      "side": 1,
+      "message": "why 3 braces ?",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 31
+      },
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "406b05ad_cf3d4b0e",
+        "filename": "tests/helpers/helm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-09T16:35:52Z",
+      "side": 1,
+      "message": "why is this now printed ?",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
