@@ -10,11 +10,7 @@ push the repositories to:
 {{ else if .Values.ingress.enabled -}}
   http {{- if .Values.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.ingress.host -}} /git/${name}.git
 {{- else }}
-  {{ if .Values.gitBackend.service.https.enabled -}}
-  https://<EXTERNAL-IP>: {{- .Values.gitBackend.service.https.port -}} /git/${name}.git
-  {{ else }}
   http://<EXTERNAL-IP>: {{- .Values.gitBackend.service.http.port -}} /git/${name}.git
-  {{ end }}
   The external IP of the service can be found by running:
   kubectl get svc git-backend-service
 {{- end }}
