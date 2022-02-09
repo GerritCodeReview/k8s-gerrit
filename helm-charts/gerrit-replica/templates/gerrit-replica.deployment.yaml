@@ -106,9 +106,6 @@ spec:
           # The git repositories and logs will be mounted from a volume
           [ -L /var/gerrit/git ] || rm -rf /var/gerrit/git
           [ -L /var/gerrit/logs ] || rm -rf /var/gerrit/logs
-          {{ if .Values.gerritReplica.service.ssh.enabled -}}
-          rm -f /var/gerrit/etc/ssh_host*key*
-          {{- end }}
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"

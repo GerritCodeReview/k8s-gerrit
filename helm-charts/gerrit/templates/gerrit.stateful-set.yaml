@@ -104,10 +104,6 @@ spec:
             -s /var/gerrit \
             init
 
-          {{ if .Values.gerrit.service.ssh.enabled -}}
-          rm -f /var/gerrit/etc/ssh_host*key*
-          {{- end }}
-
           symlink_config_to_site
 
           {{ if not .Values.gerrit.persistence.enabled -}}

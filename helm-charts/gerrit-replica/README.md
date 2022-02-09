@@ -374,7 +374,6 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerritReplica.service.ssh.enabled` | Whether to enable SSH for the Gerrit replica | `false` |
 | `gerritReplica.service.ssh.port` | Port for SSH | `29418` |
-| `gerritReplica.service.ssh.rsaKey` | Private SSH key in RSA format | `-----BEGIN RSA PRIVATE KEY-----` |
 | `gerritReplica.keystore` | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil` |
 | `gerritReplica.plugins.packaged` | List of Gerrit plugins that are packaged into the Gerrit-war-file to install | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
 | `gerritReplica.plugins.downloaded` | List of Gerrit plugins that will be downloaded | `nil` |
@@ -465,6 +464,12 @@ Gerrit server will not yet necessarily have an user to validate authentication.
 
 The default configuration can be overwritten by adding the `healthcheck.config`
 file as a key-value pair to `gerritReplica.etc.config` as for every other configuration.
+
+SSH keys should be configured via the helm-chart using the `gerritReplica.etc.secret`
+map. Gerrit will create its own keys, if none are present in the site, but if
+multiple Gerrit pods are running, each Gerrit instance would have its own keys.
+Users accessing Gerrit via a load balancer would get issues due to changing
+host keys.
 
 ## Upgrading the Chart
 

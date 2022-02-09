@@ -260,7 +260,6 @@ future.
 | `gerrit.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerrit.service.ssh.enabled` | Whether to enable SSH | `false` |
 | `gerrit.service.ssh.port` | Port over which to expose SSH | `29418` |
-| `gerrit.service.ssh.rsaKey` | Private SSH key in RSA format | `-----BEGIN RSA PRIVATE KEY-----` |
 | `gerrit.keystore` | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil` |
 | `gerrit.index.type` | Index type used by Gerrit (either `lucene` or `elasticsearch`) | `lucene` |
 | `gerrit.plugins.packaged` | List of Gerrit plugins that are packaged into the Gerrit-war-file to install | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
@@ -352,6 +351,12 @@ version. The plugin is by default configured to disable the `querychanges` and
 `auth` healthchecks, since these would not work on a new and empty Gerrit server.
 The default configuration can be overwritten by adding the `healthcheck.config`
 file as a key-value pair to `gerrit.etc.config` as for every other configuration.
+
+SSH keys should be configured via the helm-chart using the `gerrit.etc.secret`
+map. Gerrit will create its own keys, if none are present in the site, but if
+multiple Gerrit pods are running, each Gerrit instance would have its own keys.
+Users accessing Gerrit via a load balancer would get issues due to changing
+host keys.
 
 ### Installing Gerrit plugins
 
