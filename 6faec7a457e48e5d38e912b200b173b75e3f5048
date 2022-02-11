@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbeb3732_76b70004",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-11T07:21:26Z",
+      "side": 1,
+      "message": "Actually pylint enforces f-Strings and some other things now. I meant this as part of the reformatting",
+      "parentUuid": "a4711667_a7624480",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e4544fc_109b0e02",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-09T16:35:52Z",
       "side": 1,
       "message": "why not 3.10 ?",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7abcbd48_a65e7018",
+        "filename": "container-images/gerrit-init/dependencies/Pipfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-11T07:21:26Z",
+      "side": 1,
+      "message": "I faced some issues with pipenv and python 3.10. I decided to first use Python 3.9. I will try with 3.10 in a followup.",
+      "parentUuid": "5e4544fc_109b0e02",
       "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd9f2319_6224f391",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-11T07:21:26Z",
+      "side": 1,
+      "message": "The result is supposed to be something like \"{test}\". Double curly braces is the way to escape them. The third pair is used for the f-String variable.",
+      "parentUuid": "c3650d19_8c67f66b",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 31
+      },
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "406b05ad_cf3d4b0e",
         "filename": "tests/helpers/helm.py",
         "patchSetId": 1
@@ -71,6 +131,24 @@
       "writtenOn": "2022-02-09T16:35:52Z",
       "side": 1,
       "message": "why is this now printed ?",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8255a3aa_2cc4a6bf",
+        "filename": "tests/helpers/helm.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-11T07:21:26Z",
+      "side": 1,
+      "message": "Missed debug print statement. Deleted it.",
+      "parentUuid": "406b05ad_cf3d4b0e",
       "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
