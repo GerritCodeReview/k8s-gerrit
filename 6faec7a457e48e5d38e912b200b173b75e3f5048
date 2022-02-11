@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62def45a_e1d925cb",
+        "filename": "container-images/gerrit-init/dependencies/Pipfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-11T08:33:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7abcbd48_a65e7018",
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3650d19_8c67f66b",
@@ -108,6 +126,30 @@
       "side": 1,
       "message": "The result is supposed to be something like \"{test}\". Double curly braces is the way to escape them. The third pair is used for the f-String variable.",
       "parentUuid": "c3650d19_8c67f66b",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 31
+      },
+      "revId": "6faec7a457e48e5d38e912b200b173b75e3f5048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64d33cb3_a5225bff",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-02-11T08:33:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cd9f2319_6224f391",
       "range": {
         "startLine": 71,
         "startChar": 28,
