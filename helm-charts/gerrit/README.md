@@ -335,7 +335,7 @@ intended with the chart:
 
 - `container.javaHome`
 
-    This has to be set to `/usr/lib/jvm/java-8-openjdk-amd64`, since this is
+    This has to be set to `/usr/lib/jvm/java-11-openjdk-amd64`, since this is
     the path of the Java installation in the container.
 
 - `container.javaOptions`
