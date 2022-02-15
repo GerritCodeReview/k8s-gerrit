@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b98c1dcf_99a4046d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-02-15T13:56:59Z",
+      "side": 1,
+      "message": "nit: This is a bit misleading. Maybe:\n\nProperly document usage of OpenJDK 11",
+      "revId": "e8d0e36b33052b074ebd43be89528072feed78f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
