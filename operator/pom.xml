@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.google.gerrit.operator</groupId>
+	<artifactId>operator</artifactId>
+	<version>0.1</version>
+
+	<name>Gerrit Kubernetes Operator</name>
+	<description>Provisions and operates Gerrit instances in Kubernetes</description>
+	<packaging>jar</packaging>
+
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<jib-maven-plugin.version>3.2.0</jib-maven-plugin.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.javaoperatorsdk</groupId>
+			<artifactId>operator-framework</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.javaoperatorsdk</groupId>
+			<artifactId>micrometer-support</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.takes</groupId>
+			<artifactId>takes</artifactId>
+			<version>1.19</version>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>kubernetes-client</artifactId>
+			<version>5.12.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>crd-generator-apt</artifactId>
+			<version>5.12.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.javaoperatorsdk</groupId>
+			<artifactId>operator-framework-junit-5</artifactId>
+			<version>3.0.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.coveo</groupId>
+				<artifactId>fmt-maven-plugin</artifactId>
+				<version>2.13</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<container>
+						<mainClass>com.google.gerrit.k8s.operator.GerritOperator</mainClass>
+					</container>
+					<from>
+						<image>gcr.io/distroless/java:11</image>
+					</from>
+					<to>
+						<image>gerrit-operator</image>
+					</to>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<includes>
+						<include>**/*E2E.java</include>
+					</includes>
+					<rerunFailingTestsCount>0</rerunFailingTestsCount>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
