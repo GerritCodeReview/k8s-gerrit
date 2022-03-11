@@ -1,0 +1,17 @@
+
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GitGc
+metadata:
+  name: test-gitgc
+spec:
+  image: k8sgerrit/git-gc
+  schedule: "*/5 * * * *"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
+  logPVC: gerrit-logs-pvc
+  repositoryPVC: git-filesystem-pvc
