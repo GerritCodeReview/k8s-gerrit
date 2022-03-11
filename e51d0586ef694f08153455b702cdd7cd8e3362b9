@@ -16,6 +16,24 @@
       "message": "We just got our k8s-based repacking implementation deployed internally which uses [1] to safely scale repacking to multiple pods. It\u0027s still tied to our internal repack script, but we have plans to split Qualcomm-specific bits out (just a lower priority than our 3.X upgrade related work).\n\nI\u0027m excited to check out what you\u0027re doing here (and learn about k8s operators more)!\n\nAssuming this scales to multiple pods, would you want something like [1] to safely lock against multiple GCs running at the same time for the same repo or are you solving that another way? (apologies that I haven\u0027t read through this change yet, so maybe it\u0027s answered already)\n\n[1] https://github.com/quic/lockers",
       "revId": "e51d0586ef694f08153455b702cdd7cd8e3362b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185a54fe_ec8f7ef0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-11T15:52:35Z",
+      "side": 1,
+      "message": "Nice to hear that you are also looking into Kubernetes. We now also have more concrete plans to move our Gerrit instances to Kubernetes and we will spent some efforts to bring the k8s-gerrit project to a production-ready state. Using an operator will be a part of this.\nI did this change as a POC of writing an operator in Java. I definitely like it more than using Go and will likely go ahead with building on top of this POC.\n\nYou are right, one could deploy multiple GitGC CronJobs which could run concurrently. So locking should definitely be done. CronJobs just care about jobs spawned by itself. I will have a look at your work. My current idea would be that the operator would not allow multiple GitGc CronJobs for one Project. E.g. if there is one CronJob for all repositories and another one is created for a specific project, this project would be excluded in the first CronJob. The operator would do that automatically and we wouldn\u0027t need any locking. CronJobs also do not support autoscaling, so there is no danger in that.",
+      "parentUuid": "bed58a32_f06038fd",
+      "revId": "e51d0586ef694f08153455b702cdd7cd8e3362b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
