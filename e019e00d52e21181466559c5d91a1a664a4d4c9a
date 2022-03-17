@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b478e1b_8d56e55d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-17T08:24:02Z",
+      "side": 1,
+      "message": "Please properly format your commit message. Use a oneliner headline with max. 72 chars. Also wrap the lines of the body\u0027s paragraphs as well.",
+      "revId": "e019e00d52e21181466559c5d91a1a664a4d4c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be7f2dda_0d9da415",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-17T08:24:02Z",
+      "side": 1,
+      "message": "Thanks for the change. Could you adapt the commit message to have a proper format? Thanks!",
+      "revId": "e019e00d52e21181466559c5d91a1a664a4d4c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
