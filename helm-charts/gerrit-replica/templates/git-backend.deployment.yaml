@@ -38,7 +38,7 @@ spec:
       initContainers:
       {{- if .Values.nfsWorkaround.enabled }}
       - name: nfs-init
-        image: busybox
+        image: {{ template "busyboxRegistry" . }}busybox
         command:
         - sh
         - -c

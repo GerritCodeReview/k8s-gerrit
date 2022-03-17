@@ -18,3 +18,10 @@ Add '/' to registry if needed.
 {{- define "registry" -}}
 {{ if .Values.images.registry.name }}{{- printf "%s/" .Values.images.registry.name -}}{{end}}
 {{- end -}}
+
+{{/*
+Add '/' to busybox registry if needed.
+*/}}
+{{- define "busyboxRegistry" -}}
+{{ if .Values.images.busybox.registry.name }}{{- printf "%s/" .Values.images.busybox.registry.name -}}{{end}}
+{{- end -}}
