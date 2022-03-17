@@ -24,7 +24,7 @@ spec:
           containers:
           - name: log-cleaner
             imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-            image: busybox
+            image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
             command:
             - sh
             - -c

@@ -40,7 +40,7 @@ spec:
       {{- end }}
       initContainers:
       - name: site-cleanup
-        image: busybox
+        image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
         securityContext:
           runAsUser: 1000
           runAsGroup: 100
