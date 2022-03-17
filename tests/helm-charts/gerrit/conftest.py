@@ -36,6 +36,7 @@ def gerrit_deployment_factory(
     gerrit_init_image,
 ):
     def install_chart(chart_opts, wait=True):
+        rwm_storageclass = request.config.getoption("--rwm-storageclass").lower()
         chart_path = os.path.join(repository_root, "helm-charts", "gerrit")
         chart_name = "gerrit-" + utils.create_random_string()
         namespace_name = utils.create_random_string()
@@ -50,7 +51,7 @@ def gerrit_deployment_factory(
                 metadata=client.V1ObjectMeta(name="repo-storage"),
                 spec=client.V1PersistentVolumeClaimSpec(
                     access_modes=["ReadWriteMany"],
-                    storage_class_name="shared-storage",
+                    storage_class_name=rwm_storageclass,
                     resources=client.V1ResourceRequirements(
                         requests={"storage": "1Gi"}
                     ),
@@ -58,7 +59,7 @@ def gerrit_deployment_factory(
             ),
         )
 
-        chart_opts["gitRepositoryStorage.externalPVC.use"] = "false"
+        chart_opts["gitRepositoryStorage.externalPVC.use"] = "true"
         chart_opts["gitRepositoryStorage.externalPVC.name"] = "repo-storage"
         chart_opts["gitGC.logging.persistence.enabled"] = "false"
 

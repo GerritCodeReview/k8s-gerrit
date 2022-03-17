@@ -14,13 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from abc import ABC, abstractmethod
-from argparse import ArgumentTypeError
-
 import base64
 import json
-import re
-import subprocess
 import warnings
 
 from kubernetes import client, config
@@ -33,74 +28,10 @@ HELM_SERVICE_ACCOUNT_NAME = "helm"
 HELM_SERVICE_ACCOUNT_NAMESPACE = "kube-system"
 
 
-class AbstractStorageProvisioner(ABC):
-    def __init__(self, name):
-        self.name = name
-
-    @abstractmethod
-    def deploy(self):
-        """
-        Deploy provisioner on cluster
-        """
-
-    @abstractmethod
-    def delete(self):
-        """
-        Delete provisioner from cluster
-        """
-
-
-class EFSProvisioner(AbstractStorageProvisioner):
-    def __init__(self, efs_id, efs_region, chart_name="efs"):
-        super().__init__(chart_name)
-
-        self.efs_id = efs_id
-        self.efs_region = efs_region
-
-        self.helm = None
-
-    def set_helm_connector(self, helm):
-        self.helm = helm
-
-    def deploy(self):
-        chart_opts = {
-            "efsProvisioner.efsFileSystemId": self.efs_id,
-            "efsProvisioner.awsRegion": self.efs_region,
-            "efsProvisioner.storageClass.name": "shared-storage",
-        }
-
-        res = self.helm.install(
-            "stable/efs-provisioner",
-            self.name,
-            set_values=chart_opts,
-            fail_on_err=False,
-        )
-
-        if res.returncode == 0:
-            return
-
-        if re.match(r"Error: cannot re-use a name that is still in use", res.stderr):
-            warnings.warn(
-                "Kubernetes Cluster not empty. EFS provisioner already exists."
-            )
-        else:
-            print(res.stderr)
-            raise subprocess.CalledProcessError(
-                res.returncode, res.args, output=res.stdout, stderr=res.stderr
-            )
-
-    def delete(self):
-        try:
-            self.helm.delete(self.name)
-        except subprocess.CalledProcessError as exc:
-            print("deletion of EFS-provisioner failed: ", exc)
-
-
 class TestCluster:
-    def __init__(self, kube_config, storage_provisioner, registry):
+    def __init__(self, kube_config, registry):
         self.kube_config = kube_config
         self.registry = registry
-        self.storage_provisioner = storage_provisioner
 
         self.current_context = None
         self.helm = None
@@ -155,23 +86,17 @@ class TestCluster:
         core_v1.delete_namespace(name, body=client.V1DeleteOptions())
         self.namespaces.remove(name)
 
-    def install_storage_provisioner(self):
-        self.storage_provisioner.set_helm_connector(self.helm)
-        self.storage_provisioner.deploy()
-
     def setup(self):
         self._load_kube_config()
         self.create_image_pull_secret()
         self.helm = Helm(self.kube_config, self.current_context)
-        self.install_storage_provisioner()
 
     def cleanup(self):
         while self.namespaces:
             self.helm.delete_all(
-                namespace=self.namespaces[0], exceptions=[self.storage_provisioner.name]
+                namespace=self.namespaces[0],
             )
             self.delete_namespace(self.namespaces[0])
-        self.storage_provisioner.delete()
         core_v1 = client.CoreV1Api()
         core_v1.delete_namespaced_secret(
             "image-pull-secret", "default", body=client.V1DeleteOptions()
@@ -181,23 +106,13 @@ class TestCluster:
 @pytest.fixture(scope="session")
 def test_cluster(request):
     kube_config = request.config.getoption("--kubeconfig")
-    infra_provider = request.config.getoption("--infra-provider").lower()
-
-    if infra_provider == "aws":
-        efs_id = request.config.getoption("--efs-id")
-        if not efs_id:
-            raise ArgumentTypeError("No EFS-ID was provided.")
-        efs_region = request.config.getoption("--efs-region")
-        if not efs_region:
-            raise ArgumentTypeError("No EFS-region was provided.")
-        storage_provisioner = EFSProvisioner(efs_id, efs_region)
 
     registry = {
         "url": request.config.getoption("--registry"),
         "user": request.config.getoption("--registry-user"),
         "pwd": request.config.getoption("--registry-pwd"),
     }
-    test_cluster = TestCluster(kube_config, storage_provisioner, registry)
+    test_cluster = TestCluster(kube_config, registry)
     test_cluster.setup()
 
     yield test_cluster
