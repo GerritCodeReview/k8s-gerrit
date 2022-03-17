@@ -226,7 +226,9 @@ functionality of the helm charts in this project and the interaction of the
 components installed by them. The cluster should not be used for other purposes
 to minimize unforeseen interactions.
 
-Currently these tests also require access to an EFS volume.
+These tests require a storage class with ReadWriteMany access mode within the
+cluster. The name of the storage class has to be provided with the
+`--rwm-storageclass`-option (default: `shared-storage`).
 
 ### slow
 
