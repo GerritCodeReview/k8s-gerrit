@@ -30,7 +30,7 @@ def cert_dir(tmp_path_factory):
 @pytest.fixture(scope="class")
 def ssl_certificate(request, cert_dir):
     url = f"primary.{request.config.getoption('--ingress-url')}"
-    keypair = mock_ssl.MockSSLKeyPair("primary.k8sgerrit.test", url)
+    keypair = mock_ssl.MockSSLKeyPair(f"*.{request.config.getoption('--ingress-url')}", url)
     with open(os.path.join(cert_dir, "server.crt"), "wb") as f:
         f.write(keypair.get_cert())
     with open(os.path.join(cert_dir, "server.key"), "wb") as f:
@@ -47,7 +47,7 @@ def gerrit_deployment_with_ssl(
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
         "ingress.enabled": True,
-        "ingress.host": "primary.{request.config.getoption('--ingress-url')}",
+        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
         "ingress.tls.enabled": "true",
         "ingress.tls.cert": ssl_certificate.get_cert().decode(),
         "ingress.tls.key": ssl_certificate.get_key().decode(),
