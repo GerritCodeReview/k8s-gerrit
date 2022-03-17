@@ -39,7 +39,7 @@ class MockSSLKeyPair:
         self.cert.gmtime_adj_notAfter(10 * 365 * 24 * 60 * 60)
         self.cert.set_issuer(self.cert.get_subject())
         self.cert.set_pubkey(self.key)
-        self.cert.sign(self.key, "sha1")
+        self.cert.sign(self.key, "sha256")
 
     def get_key(self):
         return crypto.dump_privatekey(crypto.FILETYPE_PEM, self.key)
