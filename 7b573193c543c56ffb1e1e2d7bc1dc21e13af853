@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa8ca132_d4bdb810",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-17T08:31:24Z",
+      "side": 1,
+      "message": "Please properly format the commit message.",
+      "revId": "7b573193c543c56ffb1e1e2d7bc1dc21e13af853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9650ebe9_e2ba90de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-17T08:31:24Z",
+      "side": 1,
+      "message": "FYI, the `.Values.images.additionalImagePullSecrets` option was introduced for that purpose, so that an ImagePullSecret for dockerhub could be used. Since the pull would than not be anonymous, running into the rate limit would not be very likely. Nevertheless, allowing to configure a private registry makes a lot of sense.",
+      "revId": "7b573193c543c56ffb1e1e2d7bc1dc21e13af853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4123839_5b11c176",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-17T08:31:24Z",
+      "side": 1,
+      "message": "This now enforces that the busybox-image uses the same registry as the images created by this project. This might not be the case. Can we make this optional. E.g. we could add an option in the values.yaml to set the busybox image to use, which then could include the registry. WDYT?",
+      "revId": "7b573193c543c56ffb1e1e2d7bc1dc21e13af853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
