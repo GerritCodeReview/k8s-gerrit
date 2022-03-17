@@ -15,7 +15,6 @@
 # limitations under the License.
 
 from abc import ABC, abstractmethod
-from argparse import ArgumentTypeError
 
 import base64
 import json
@@ -97,10 +96,9 @@ class EFSProvisioner(AbstractStorageProvisioner):
 
 
 class TestCluster:
-    def __init__(self, kube_config, storage_provisioner, registry):
+    def __init__(self, kube_config, registry):
         self.kube_config = kube_config
         self.registry = registry
-        self.storage_provisioner = storage_provisioner
 
         self.current_context = None
         self.helm = None
@@ -155,23 +153,17 @@ class TestCluster:
         core_v1.delete_namespace(name, body=client.V1DeleteOptions())
         self.namespaces.remove(name)
 
-    def install_storage_provisioner(self):
-        self.storage_provisioner.set_helm_connector(self.helm)
-        self.storage_provisioner.deploy()
-
     def setup(self):
         self._load_kube_config()
         self.create_image_pull_secret()
         self.helm = Helm(self.kube_config, self.current_context)
-        self.install_storage_provisioner()
 
     def cleanup(self):
         while self.namespaces:
             self.helm.delete_all(
-                namespace=self.namespaces[0], exceptions=[self.storage_provisioner.name]
+                namespace=self.namespaces[0],
             )
             self.delete_namespace(self.namespaces[0])
-        self.storage_provisioner.delete()
         core_v1 = client.CoreV1Api()
         core_v1.delete_namespaced_secret(
             "image-pull-secret", "default", body=client.V1DeleteOptions()
@@ -181,23 +173,13 @@ class TestCluster:
 @pytest.fixture(scope="session")
 def test_cluster(request):
     kube_config = request.config.getoption("--kubeconfig")
-    infra_provider = request.config.getoption("--infra-provider").lower()
-
-    if infra_provider == "aws":
-        efs_id = request.config.getoption("--efs-id")
-        if not efs_id:
-            raise ArgumentTypeError("No EFS-ID was provided.")
-        efs_region = request.config.getoption("--efs-region")
-        if not efs_region:
-            raise ArgumentTypeError("No EFS-region was provided.")
-        storage_provisioner = EFSProvisioner(efs_id, efs_region)
 
     registry = {
         "url": request.config.getoption("--registry"),
         "user": request.config.getoption("--registry-user"),
         "pwd": request.config.getoption("--registry-pwd"),
     }
-    test_cluster = TestCluster(kube_config, storage_provisioner, registry)
+    test_cluster = TestCluster(kube_config, registry)
     test_cluster.setup()
 
     yield test_cluster
