@@ -99,6 +99,8 @@ helm install \
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| `images.busybox.registry` | The registry to pull the busybox container images from | `docker.io` |
+| `images.busybox.tag` | The busybox image tag to use | `latest` |
 | `images.registry.name` | The image registry to pull the container images from | `` |
 | `images.registry.ImagePullSecret.name` | Name of the ImagePullSecret | `image-pull-secret` (if empty no image pull secret will be deployed) |
 | `images.registry.ImagePullSecret.create` | Whether to create an ImagePullSecret | `false` |

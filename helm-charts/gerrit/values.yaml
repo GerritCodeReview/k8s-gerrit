@@ -1,4 +1,7 @@
 images:
+  busybox:
+    registry: docker.io
+    tag: latest
   # Registry used for container images created by this project
   registry:
     # The registry name must NOT contain a trailing slash

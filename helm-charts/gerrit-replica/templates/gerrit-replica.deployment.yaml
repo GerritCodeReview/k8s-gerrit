@@ -41,7 +41,7 @@ spec:
       initContainers:
       {{- if .Values.nfsWorkaround.enabled }}
       - name: nfs-init
-        image: busybox
+        image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
         command:
         - sh
         - -c
@@ -62,7 +62,7 @@ spec:
           subPath: idmapd.conf
       {{- end }}
       - name: site-cleanup
-        image: busybox
+        image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
         securityContext:
           runAsUser: 1000
           runAsGroup: 100
