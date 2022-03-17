@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.gerritReplica.replicas | default 1 }}
+  replicas: {{ .Values.gerritReplica.replicas }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.gerritReplica.maxSurge }}
