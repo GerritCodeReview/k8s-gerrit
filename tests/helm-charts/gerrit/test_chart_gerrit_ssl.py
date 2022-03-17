@@ -30,7 +30,9 @@ def cert_dir(tmp_path_factory):
 @pytest.fixture(scope="class")
 def ssl_certificate(request, cert_dir):
     url = f"primary.{request.config.getoption('--ingress-url')}"
-    keypair = mock_ssl.MockSSLKeyPair("primary.k8sgerrit.test", url)
+    keypair = mock_ssl.MockSSLKeyPair(
+        f"*.{request.config.getoption('--ingress-url')}", url
+    )
     with open(os.path.join(cert_dir, "server.crt"), "wb") as f:
         f.write(keypair.get_cert())
     with open(os.path.join(cert_dir, "server.key"), "wb") as f:
@@ -81,7 +83,12 @@ class TestgerritChartSetup:
         assert response.status_code == 201
 
     def test_cloning_project(
-        self, request, tmp_path_factory, test_cluster, gerrit_deployment_with_ssl
+        self,
+        request,
+        cert_dir,
+        tmp_path_factory,
+        test_cluster,
+        gerrit_deployment_with_ssl,
     ):
         clone_dest = tmp_path_factory.mktemp("gerrit_chart_clone_test")
         repo_url = (
