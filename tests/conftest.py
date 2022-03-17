@@ -110,26 +110,11 @@ def pytest_addoption(parser):
         + "configured context is used.",
     )
     parser.addoption(
-        "--infra-provider",
+        "--rwm-storageclass",
         action="store",
-        default="aws",
-        choices=["aws"],
-        help="Infrastructure provider used for Kubernetes cluster deployments."
-        + "(default: aws; options: [aws])",
-    )
-    parser.addoption(
-        "--efs-id",
-        action="store",
-        default=None,
-        help="ID of EFS-volume. Required to set up shared volume, if using AWS as "
-        + "infrastructure provider.",
-    )
-    parser.addoption(
-        "--efs-region",
-        action="store",
-        default=None,
-        help="AWS region of EFS-volume. Required to set up shared volume, if using AWS"
-        + "as infrastructure provider.",
+        default="shared-storage",
+        help="Name of the storageclass used for ReadWriteMany access."
+        + "(default: shared-storage)",
     )
     parser.addoption(
         "--ingress-url",
