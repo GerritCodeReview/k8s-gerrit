@@ -91,7 +91,7 @@ class GerritAbstractReindexer(abc.ABC):
 
         if reindex_process.returncode > 0:
             LOG.error(
-                "An error occured, when reindexing Gerrit indices. Exit code: %d",
+                "An error occurred, when reindexing Gerrit indices. Exit code: %d",
                 reindex_process.returncode,
             )
             sys.exit(1)

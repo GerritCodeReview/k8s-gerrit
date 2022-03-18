@@ -111,7 +111,7 @@ class GerritInit:
 
         if init_process.returncode > 0:
             LOG.error(
-                "An error occured, when initializing Gerrit. Exit code: %d",
+                "An error occurred, when initializing Gerrit. Exit code: %d",
                 init_process.returncode,
             )
             sys.exit(1)
