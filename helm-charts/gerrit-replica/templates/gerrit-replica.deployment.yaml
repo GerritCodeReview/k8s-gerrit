@@ -264,6 +264,17 @@ spec:
 {{ toYaml .Values.gerritReplica.startupProbe | indent 10 }}
         resources:
 {{ toYaml .Values.gerritReplica.resources | indent 10 }}
+      {{ if .Values.istio.enabled -}}
+      - name: istio-proxy
+        image: auto
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - "/bin/sh"
+              - "-c"
+              - "while [ $(netstat -plunt | grep tcp | grep -v envoy | wc -l | xargs) -ne 0 ]; do sleep 1; done"
+      {{- end }}
       {{ if .Values.promtailSidecar.enabled -}}
       - name: promtail
         image: {{ .Values.promtailSidecar.image }}:v{{ .Values.promtailSidecar.version }}

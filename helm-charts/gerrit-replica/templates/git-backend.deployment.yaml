@@ -105,6 +105,17 @@ spec:
           readOnly: true
           subPath: .htpasswd
           mountPath: "/var/apache/credentials/.htpasswd"
+      {{ if .Values.istio.enabled -}}
+      - name: istio-proxy
+        image: auto
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - "/bin/sh"
+              - "-c"
+              - "while [ $(netstat -plunt | grep tcp | grep -v envoy | wc -l | xargs) -ne 0 ]; do sleep 1; done"
+      {{- end }}
       volumes:
       - name: git-repositories
         persistentVolumeClaim:
