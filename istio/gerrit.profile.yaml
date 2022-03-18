@@ -111,7 +111,7 @@ spec:
             patches:
               - path: spec.loadBalancerIP
                 # TO_BE_CHANGED: Change IP
-                value: xxx.xxx.xxx.xxx
+                #value: xxx.xxx.xxx.xxx
       name: istio-ingressgateway
     istiodRemote:
       enabled: false
