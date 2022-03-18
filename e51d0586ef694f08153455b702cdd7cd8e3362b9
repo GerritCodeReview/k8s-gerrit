@@ -51,6 +51,24 @@
       "message": "This if-then-else is quite big. Extract the then/else blocks into own methods?",
       "revId": "e51d0586ef694f08153455b702cdd7cd8e3362b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2bfd3fd_0f6852b8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGcReconciler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-18T14:11:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79c7c71c_615e66b7",
+      "revId": "e51d0586ef694f08153455b702cdd7cd8e3362b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
