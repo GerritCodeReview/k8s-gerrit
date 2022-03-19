@@ -16,6 +16,24 @@
       "message": "nit: This is a bit misleading. Maybe:\n\nProperly document usage of OpenJDK 11",
       "revId": "e8d0e36b33052b074ebd43be89528072feed78f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1217d5_73395c86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-03-19T05:29:52Z",
+      "side": 1,
+      "message": "Agree. Your commit message is better.",
+      "parentUuid": "b98c1dcf_99a4046d",
+      "revId": "e8d0e36b33052b074ebd43be89528072feed78f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
