@@ -40,7 +40,7 @@ def test_gitgc_log_dir_writable_by_gerrit(container_run):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gitgc_contains_gc_script(container_run):
-    exit_code, _ = container_run.exec_run("test -f /var/tools/gc-all.sh")
+    exit_code, _ = container_run.exec_run("test -f /var/tools/gc.sh")
     assert exit_code == 0
 
 
@@ -48,4 +48,4 @@ def test_gitgc_contains_gc_script(container_run):
 def test_gitgc_has_entrypoint(gitgc_image):
     entrypoint = gitgc_image.attrs["ContainerConfig"]["Entrypoint"]
     assert len(entrypoint) == 1
-    assert entrypoint[0] == "/var/tools/gc-all.sh"
+    assert entrypoint[0] == "/var/tools/gc.sh"
