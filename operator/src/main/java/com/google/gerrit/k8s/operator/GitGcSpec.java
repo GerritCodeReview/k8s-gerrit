@@ -15,10 +15,12 @@
 package com.google.gerrit.k8s.operator;
 
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import java.util.Set;
 
 public class GitGcSpec {
   private String image;
   private String schedule;
+  private Set<String> projects;
   private ResourceRequirements resources;
   private String repositoryPVC;
   private String logPVC;
