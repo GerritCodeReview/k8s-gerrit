@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator;
 
 import io.fabric8.kubernetes.api.model.Namespaced;
-import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Plural;
@@ -28,11 +27,17 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Version("v1alpha1")
 @ShortNames("gitgc")
 @Plural("gitgcs")
-public class GitGarbageCollection extends CustomResource<GitGarbageCollectionSpec, Status>
+public class GitGarbageCollection
+    extends CustomResource<GitGarbageCollectionSpec, GitGarbageCollectionStatus>
     implements Namespaced {
   private static final long serialVersionUID = 1L;
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
+
+  @Override
+  protected GitGarbageCollectionStatus initStatus() {
+    return new GitGarbageCollectionStatus();
   }
 }
