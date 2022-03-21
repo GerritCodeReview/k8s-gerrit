@@ -10,4 +10,4 @@ USER gerrit
 
 VOLUME ["/var/gerrit/git"]
 
-ENTRYPOINT ["/var/tools/gc-all.sh"]
+ENTRYPOINT ["/var/tools/gc.sh"]
