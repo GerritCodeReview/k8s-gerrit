@@ -7,7 +7,7 @@ a Kubernetes Job.
 ## Content
 
 * base image
-* `gc-all.sh`: gc-script
+* `gc.sh`: gc-script
 
 ## Setup and configuration
 
@@ -16,4 +16,4 @@ a Kubernetes Job.
 
 ## Start
 
-*  execution of the provided `gc-all.sh`
+*  execution of the provided `gc.sh`
