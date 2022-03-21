@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator;
 
 import io.fabric8.kubernetes.api.model.Namespaced;
-import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
@@ -26,10 +25,28 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Group("gerritoperator.google.com")
 @Version("v1alpha1")
 @ShortNames("gcr")
-public class GitGc extends CustomResource<GitGcSpec, Status> implements Namespaced {
+public class GitGc extends CustomResource<GitGcSpec, GitGcStatus> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
+
+  @Override
+  protected GitGcStatus initStatus() {
+    return new GitGcStatus();
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
+    return true;
   }
 }

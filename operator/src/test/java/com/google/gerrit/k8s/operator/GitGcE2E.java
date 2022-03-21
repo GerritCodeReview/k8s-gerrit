@@ -21,6 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.google.gerrit.k8s.operator.GitGcStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.api.model.batch.v1beta1.CronJob;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.slf4j.Logger;
@@ -46,7 +48,7 @@ public class GitGcE2E {
   @RegisterExtension
   LocalOperatorExtension operator =
       LocalOperatorExtension.builder()
-          .waitForNamespaceDeletion(false)
+          .waitForNamespaceDeletion(true)
           .withReconciler(new GitGcReconciler(client))
           .build();
 
@@ -66,30 +68,120 @@ public class GitGcE2E {
 
     log.info("Deleting test GitGc object: {}", gitGc);
     client.resources(GitGc.class).delete(gitGc);
+    awaitGitGcDeletionAssertion(gitGc.getMetadata().getName());
+  }
 
-    log.info("Waiting max 2 minutes for GitGc to be deleted.");
+  @Test
+  void testGitGcSelectedProjects() {
+    GitGc gitGc = createSelectiveGc("selective-gc", Set.of("All-Projects", "test"));
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
-              GitGc updatedGitGc =
+              assertGitGcCreation(gitGc.getMetadata().getName());
+              assertGitGcCronJobCreation(gitGc.getMetadata().getName());
+              assertGitGcJobCreation(gitGc.getMetadata().getName());
+            });
+
+    client.resources(GitGc.class).delete(gitGc);
+  }
+
+  @Test
+  void testSelectiveGcIsExcludedFromCompleteGc() {
+    GitGc completeGitGc = createCompleteGc();
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation(completeGitGc.getMetadata().getName());
+              assertGitGcCronJobCreation(completeGitGc.getMetadata().getName());
+            });
+
+    Set<String> selectedProjects = Set.of("All-Projects", "test");
+    GitGc selectiveGitGc = createSelectiveGc("selective-gc", selectedProjects);
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation(selectiveGitGc.getMetadata().getName());
+              assertGitGcCronJobCreation(selectiveGitGc.getMetadata().getName());
+            });
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              GitGc updatedCompleteGitGc =
                   client
                       .resources(GitGc.class)
                       .inNamespace(operator.getNamespace())
-                      .withName(gitGc.getMetadata().getName())
+                      .withName(completeGitGc.getMetadata().getName())
                       .get();
-              assertNull(updatedGitGc);
-
-              CronJob cronJob =
-                  client
-                      .batch()
-                      .v1beta1()
-                      .cronjobs()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gitGc.getMetadata().getName())
-                      .get();
-              assertNull(cronJob);
+              assert updatedCompleteGitGc
+                  .getStatus()
+                  .getExcludedProjects()
+                  .containsAll(selectedProjects);
             });
+
+    client.resources(GitGc.class).delete(selectiveGitGc);
+    awaitGitGcDeletionAssertion(selectiveGitGc.getMetadata().getName());
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              GitGc updatedCompleteGitGc =
+                  client
+                      .resources(GitGc.class)
+                      .inNamespace(operator.getNamespace())
+                      .withName(completeGitGc.getMetadata().getName())
+                      .get();
+              assert updatedCompleteGitGc.getStatus().getExcludedProjects().isEmpty();
+            });
+  }
+
+  @Test
+  void testConflictingSelectiveGcFailsBeforeCronJobCreation() throws InterruptedException {
+    Set<String> selectedProjects = Set.of("All-Projects", "test");
+    GitGc selectiveGitGc1 = createSelectiveGc("selective-gc-1", selectedProjects);
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation(selectiveGitGc1.getMetadata().getName());
+              assertGitGcCronJobCreation(selectiveGitGc1.getMetadata().getName());
+            });
+
+    GitGc selectiveGitGc2 = createSelectiveGc("selective-gc-2", selectedProjects);
+    await()
+        .atMost(10, MINUTES)
+        .untilAsserted(
+            () -> {
+              GitGc updatedSelectiveGitGc =
+                  client
+                      .resources(GitGc.class)
+                      .inNamespace(operator.getNamespace())
+                      .withName(selectiveGitGc2.getMetadata().getName())
+                      .get();
+              assert updatedSelectiveGitGc.getStatus().getState().equals(GitGcState.CONFLICT);
+            });
+    CronJob cronJob =
+        client
+            .batch()
+            .v1beta1()
+            .cronjobs()
+            .inNamespace(operator.getNamespace())
+            .withName("selective-gc-2")
+            .get();
+    assertNull(cronJob);
   }
 
   private GitGc createCompleteGc() {
@@ -107,6 +199,24 @@ public class GitGcE2E {
 
     log.info("Creating test GitGc object: {}", gitGc);
     client.resources(GitGc.class).create(gitGc);
+
+    return gitGc;
+  }
+
+  private GitGc createSelectiveGc(String name, Set<String> projects) {
+    GitGc gitGc = new GitGc();
+    gitGc.setMetadata(
+        new ObjectMetaBuilder().withName(name).withNamespace(operator.getNamespace()).build());
+    GitGcSpec spec = new GitGcSpec();
+    spec.setSchedule(GITGC_SCHEDULE);
+    spec.setLogPVC("log-pvc");
+    spec.setRepositoryPVC("repo-pvc");
+    spec.setProjects(projects);
+    gitGc.setSpec(spec);
+
+    log.info("Creating test GitGc object: {}", gitGc);
+    client.resources(GitGc.class).create(gitGc);
+
     return gitGc;
   }
 
@@ -130,6 +240,32 @@ public class GitGcE2E {
             .withName(gitGcName)
             .get();
     assertThat(cronJob, is(notNullValue()));
+  }
+
+  private void awaitGitGcDeletionAssertion(String gitGcName) {
+    log.info("Waiting max 2 minutes for GitGc to be deleted.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              GitGc updatedGitGc =
+                  client
+                      .resources(GitGc.class)
+                      .inNamespace(operator.getNamespace())
+                      .withName(gitGcName)
+                      .get();
+              assertNull(updatedGitGc);
+
+              CronJob cronJob =
+                  client
+                      .batch()
+                      .v1beta1()
+                      .cronjobs()
+                      .inNamespace(operator.getNamespace())
+                      .withName(gitGcName)
+                      .get();
+              assertNull(cronJob);
+            });
   }
 
   private void assertGitGcJobCreation(String gitGcName) {

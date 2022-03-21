@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.gerrit.k8s.operator.GitGcStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -28,22 +29,43 @@ import io.fabric8.kubernetes.api.model.batch.v1beta1.CronJobBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1beta1.JobTemplateSpec;
 import io.fabric8.kubernetes.api.model.batch.v1beta1.JobTemplateSpecBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Cleaner;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.DeleteControl;
+import io.javaoperatorsdk.operator.api.reconciler.ErrorStatusHandler;
+import io.javaoperatorsdk.operator.api.reconciler.ErrorStatusUpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
+import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
+import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ControllerConfiguration
-public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
+public class GitGcReconciler
+    implements Reconciler<GitGc>,
+        EventSourceInitializer<GitGc>,
+        ErrorStatusHandler<GitGc>,
+        Cleaner<GitGc> {
   private final Logger log = LoggerFactory.getLogger(getClass());
+
+  private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
+  private static final String LOGS_VOLUME_NAME = "logs";
 
   private final KubernetesClient kubernetesClient;
 
@@ -52,10 +74,35 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
   }
 
   @Override
-  public UpdateControl<GitGc> reconcile(GitGc gitGc, Context context) {
-    log.info("Reconciling GitGc with name: {}", gitGc.getMetadata().getName());
+  public Map<String, EventSource> prepareEventSources(EventSourceContext<GitGc> context) {
+    final SecondaryToPrimaryMapper<GitGc> specificProjectGitGcMapper =
+        (GitGc gc) ->
+            context
+                .getPrimaryCache()
+                .list(gitGc -> gitGc.getSpec().getProjects().isEmpty())
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+
+    InformerEventSource<GitGc, GitGc> eventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(GitGc.class, context)
+                .withSecondaryToPrimaryMapper(specificProjectGitGcMapper)
+                .build(),
+            context);
+    return EventSourceInitializer.nameEventSources(eventSource);
+  }
+
+  @Override
+  public UpdateControl<GitGc> reconcile(GitGc gitGc, Context<GitGc> context) {
     String ns = gitGc.getMetadata().getNamespace();
     String name = gitGc.getMetadata().getName();
+    log.info("Reconciling GitGc with name: {}/{}", ns, name);
+
+    validateGitGCProjectList(gitGc);
+    if (gitGc.getSpec().getProjects().isEmpty()) {
+      gitGc = excludeProjectsInExistingGCs(gitGc);
+    }
+
     CronJob existingGitGcCronJob =
         kubernetesClient.batch().v1beta1().cronjobs().inNamespace(ns).withName(name).get();
     if (existingGitGcCronJob == null) {
@@ -65,7 +112,18 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
       log.info("Found existing GitGc with name {} in namespace {}. Updating.", name, ns);
       updateCronJob(gitGc, existingGitGcCronJob);
     }
-    return UpdateControl.updateStatus(gitGc);
+    return UpdateControl.updateStatus(updateGitGcStatus(gitGc));
+  }
+
+  private GitGc updateGitGcStatus(GitGc gitGc) {
+    GitGcStatus status = gitGc.getStatus();
+    if (status == null) {
+      status = new GitGcStatus();
+    }
+    status.setReplicateAll(gitGc.getSpec().getProjects().isEmpty());
+    status.setState(GitGcState.ACTIVE);
+    gitGc.setStatus(status);
+    return gitGc;
   }
 
   private void createCronJob(GitGc gitGc) {
@@ -76,54 +134,20 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
     EnvVarSource metaDataEnvSource = new EnvVarSource();
     metaDataEnvSource.setFieldRef(null);
 
-    EnvVar podNameEnvVar =
-        new EnvVarBuilder()
-            .withName("POD_NAME")
-            .withNewValueFrom()
-            .withNewFieldRef()
-            .withFieldPath("metadata.name")
-            .endFieldRef()
-            .endValueFrom()
-            .build();
-
-    String gitRepositoriesVolumeName = "git-repositories";
     Volume gitRepositoriesVolume =
         new VolumeBuilder()
-            .withName(gitRepositoriesVolumeName)
+            .withName(GIT_REPOSITORIES_VOLUME_NAME)
             .withNewPersistentVolumeClaim()
             .withClaimName(gitGc.getSpec().getRepositoryPVC())
             .endPersistentVolumeClaim()
             .build();
 
-    VolumeMount gitRepositoriesVolumeMount =
-        new VolumeMountBuilder()
-            .withName(gitRepositoriesVolumeName)
-            .withMountPath("/var/gerrit/git")
-            .build();
-
-    String logsVolumeName = "logs";
     Volume logsVolume =
         new VolumeBuilder()
-            .withName(logsVolumeName)
+            .withName(LOGS_VOLUME_NAME)
             .withNewPersistentVolumeClaim()
             .withClaimName(gitGc.getSpec().getLogPVC())
             .endPersistentVolumeClaim()
-            .build();
-
-    VolumeMount logsVolumeMount =
-        new VolumeMountBuilder()
-            .withName(logsVolumeName)
-            .withSubPathExpr("git-gc/$(POD_NAME)")
-            .withMountPath("/var/log/git")
-            .build();
-
-    Container gitGcContainer =
-        new ContainerBuilder()
-            .withName("git-gc")
-            .withImage(gitGc.getSpec().getImage())
-            .withResources(gitGc.getSpec().getResources())
-            .withEnv(podNameEnvVar)
-            .withVolumeMounts(List.of(gitRepositoriesVolumeMount, logsVolumeMount))
             .build();
 
     JobTemplateSpec gitGcJobTemplate =
@@ -139,7 +163,7 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
             .withNewSecurityContext()
             .withFsGroup(100L)
             .endSecurityContext()
-            .addToContainers(gitGcContainer)
+            .addToContainers(buildGitGcContainer(gitGc))
             .withVolumes(List.of(gitRepositoriesVolume, logsVolume))
             .endSpec()
             .endTemplate()
@@ -191,7 +215,20 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
             .getSpec()
             .getContainers()
             .get(0);
+
     gitGcContainer.setImage(gitGc.getSpec().getImage());
+
+    ArrayList<String> args = new ArrayList<>();
+    for (String project : gitGc.getSpec().getProjects()) {
+      args.add("-p");
+      args.add(project);
+    }
+    for (String project : gitGc.getStatus().getExcludedProjects()) {
+      args.add("-s");
+      args.add(project);
+    }
+    gitGcContainer.setArgs(args);
+
     gitGcContainer.setResources(gitGc.getSpec().getResources());
     kubernetesClient
         .batch()
@@ -199,6 +236,116 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
         .cronjobs()
         .inNamespace(gitGc.getMetadata().getNamespace())
         .createOrReplace(existingGitGcCronJob);
+  }
+
+  private Container buildGitGcContainer(GitGc gitGc) {
+    VolumeMount gitRepositoriesVolumeMount =
+        new VolumeMountBuilder()
+            .withName(GIT_REPOSITORIES_VOLUME_NAME)
+            .withMountPath("/var/gerrit/git")
+            .build();
+
+    VolumeMount logsVolumeMount =
+        new VolumeMountBuilder()
+            .withName(LOGS_VOLUME_NAME)
+            .withSubPathExpr("git-gc/$(POD_NAME)")
+            .withMountPath("/var/log/git")
+            .build();
+
+    EnvVar podNameEnvVar =
+        new EnvVarBuilder()
+            .withName("POD_NAME")
+            .withNewValueFrom()
+            .withNewFieldRef()
+            .withFieldPath("metadata.name")
+            .endFieldRef()
+            .endValueFrom()
+            .build();
+
+    ContainerBuilder gitGcContainerBuilder =
+        new ContainerBuilder()
+            .withName("git-gc")
+            .withImage(gitGc.getSpec().getImage())
+            .withResources(gitGc.getSpec().getResources())
+            .withEnv(podNameEnvVar)
+            .withVolumeMounts(List.of(gitRepositoriesVolumeMount, logsVolumeMount));
+
+    ArrayList<String> args = new ArrayList<>();
+    for (String project : gitGc.getSpec().getProjects()) {
+      args.add("-p");
+      args.add(project);
+    }
+    for (String project : gitGc.getStatus().getExcludedProjects()) {
+      args.add("-s");
+      args.add(project);
+    }
+    gitGcContainerBuilder.addAllToArgs(args);
+
+    return gitGcContainerBuilder.build();
+  }
+
+  private GitGc excludeProjectsInExistingGCs(GitGc currentGitGc) {
+    List<GitGc> gitGcs =
+        kubernetesClient
+            .resources(GitGc.class)
+            .inNamespace(currentGitGc.getMetadata().getNamespace())
+            .list()
+            .getItems();
+    gitGcs.remove(currentGitGc);
+    GitGcStatus currentGitGcStatus = currentGitGc.getStatus();
+    currentGitGcStatus.resetExcludedProjects();
+    for (GitGc gc : gitGcs) {
+      currentGitGcStatus.excludeProjects(gc.getSpec().getProjects());
+    }
+    currentGitGc.setStatus(currentGitGcStatus);
+
+    return currentGitGc;
+  }
+
+  private void validateGitGCProjectList(GitGc gitGc) {
+    List<GitGc> gitGcs =
+        kubernetesClient
+            .resources(GitGc.class)
+            .inNamespace(gitGc.getMetadata().getNamespace())
+            .list()
+            .getItems();
+    Set<String> projects = gitGc.getSpec().getProjects();
+
+    gitGcs.remove(gitGc);
+    log.debug("Detected GitGcs: {}", gitGcs);
+    List<GitGc> allProjectGcs =
+        gitGcs.stream().filter(gc -> gc.getStatus().isReplicateAll()).collect(Collectors.toList());
+    if (!allProjectGcs.isEmpty() && projects.isEmpty()) {
+      throw new GitGcConflictException(
+          "Multiple Git GC jobs working on all projects are not allowed.");
+    }
+
+    Set<String> projectsWithExistingGC =
+        gitGcs.stream()
+            .map(gc -> gc.getSpec().getProjects())
+            .flatMap(Collection::stream)
+            .collect(Collectors.toSet());
+    Set<String> projectsIntercept = getIntercept(projects, projectsWithExistingGC);
+    if (projectsIntercept.isEmpty()) {
+      return;
+    }
+    log.debug("Found conflicting projects: {}", projectsIntercept);
+
+    if (gitGcs.stream()
+        .filter(gc -> !getIntercept(projects, gc.getSpec().getProjects()).isEmpty())
+        .allMatch(gc -> gc.getStatus().getState().equals(GitGcState.CONFLICT))) {
+      log.debug("All other GitGcs are marked as conflicting. Activating {}", gitGc);
+      return;
+    }
+    log.debug("{} will be marked as conflicting");
+    throw new GitGcConflictException(projectsIntercept);
+  }
+
+  private Set<String> getIntercept(Set<String> set1, Set<String> set2) {
+    Set<String> intercept = new HashSet<>();
+    intercept.addAll(set1);
+    intercept.retainAll(set2);
+    return intercept;
   }
 
   @Override
@@ -211,5 +358,19 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
         .withName(gitGc.getMetadata().getName())
         .delete();
     return DeleteControl.defaultDelete();
+  }
+
+  @Override
+  public ErrorStatusUpdateControl<GitGc> updateErrorStatus(
+      GitGc gitGc, Context<GitGc> context, Exception e) {
+    GitGcStatus status = new GitGcStatus();
+    if (e instanceof GitGcConflictException) {
+      status.setState(GitGcState.CONFLICT);
+    } else {
+      status.setState(GitGcState.ERROR);
+    }
+    gitGc.setStatus(status);
+
+    return ErrorStatusUpdateControl.updateStatus(gitGc);
   }
 }
