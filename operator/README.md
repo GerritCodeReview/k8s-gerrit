@@ -51,14 +51,22 @@ kind: GitGarbageCollection
 metadata:
   name: gitgc
 spec:
-  # Container image containing the git gc script. Expected to be the one maintained
-  # by the k8sgerrit project (default: k8sgerrit/git-gc)
+  ## Container image containing the git gc script. Expected to be the one maintained
+  ## by the k8sgerrit project (default: k8sgerrit/git-gc)
   image: k8sgerrit/git-gc
-  # Cron schedule defining when to run git gc (mandatory)
+
+  ## Cron schedule defining when to run git gc (mandatory)
   schedule: "*/5 * * * *"
-  # Resource requests/limits of the git gc container
-  # (https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
-  # (optional)
+
+  ## List of projects to gc. If omitted, all projects not handled by other Git GC
+  ## jobs will be gc'ed. Only one job gc'ing all projects can exist. (default: [])
+  projects: []
+  # - All-Projects
+  # - All-Users
+
+  ## Resource requests/limits of the git gc container
+  ## (https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+  ## (optional)
   resources:
     requests:
       cpu: 100m
@@ -66,9 +74,11 @@ spec:
     limits:
       cpu: 100m
       memory: 256Mi
-  # Name of an existing PVC that will be used to store the logs (mandatory)
+
+  ## Name of an existing PVC that will be used to store the logs (mandatory)
   logPVC: logs-pvc
-  # Name of an existing PVC that claims the volume containing the git repositories
-  # to be gc'ed (mandatory)
+
+  ## Name of an existing PVC that claims the volume containing the git repositories
+  ## to be gc'ed (mandatory)
   repositoryPVC: git-repositories-pvc
 ```
