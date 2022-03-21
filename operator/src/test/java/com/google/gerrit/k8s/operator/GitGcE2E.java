@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.slf4j.Logger;
@@ -92,6 +93,65 @@ public class GitGcE2E {
             });
   }
 
+  @Test
+  void testGitGcSelectedProjects() {
+    GitGc gitGc = createSelectiveGc("selective-gc", Set.of("All-Projects", "test"));
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation(gitGc.getMetadata().getName());
+              assertGitGcCronJobCreation(gitGc.getMetadata().getName());
+              assertGitGcJobCreation(gitGc.getMetadata().getName());
+            });
+
+    client.resources(GitGc.class).delete(gitGc);
+  }
+
+  @Test
+  void testSelectiveGcIsExcludedFromCompleteGc() {
+    GitGc completeGitGc = createCompleteGc();
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation(completeGitGc.getMetadata().getName());
+              assertGitGcCronJobCreation(completeGitGc.getMetadata().getName());
+            });
+
+    Set<String> selectedProjects = Set.of("All-Projects", "test");
+    GitGc selectiveGitGc = createSelectiveGc("selective-gc", selectedProjects);
+
+    log.info("Waiting max 2 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation(selectiveGitGc.getMetadata().getName());
+              assertGitGcCronJobCreation(selectiveGitGc.getMetadata().getName());
+            });
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              GitGc updatedCompleteGitGc =
+                  client
+                      .resources(GitGc.class)
+                      .inNamespace(operator.getNamespace())
+                      .withName(completeGitGc.getMetadata().getName())
+                      .get();
+              assert updatedCompleteGitGc
+                  .getStatus()
+                  .getExcludedProjects()
+                  .containsAll(selectedProjects);
+            });
+  }
+
   private GitGc createCompleteGc() {
     GitGc gitGc = new GitGc();
     gitGc.setMetadata(
@@ -107,6 +167,24 @@ public class GitGcE2E {
 
     log.info("Creating test GitGc object: {}", gitGc);
     client.resources(GitGc.class).create(gitGc);
+
+    return gitGc;
+  }
+
+  private GitGc createSelectiveGc(String name, Set<String> projects) {
+    GitGc gitGc = new GitGc();
+    gitGc.setMetadata(
+        new ObjectMetaBuilder().withName(name).withNamespace(operator.getNamespace()).build());
+    GitGcSpec spec = new GitGcSpec();
+    spec.setSchedule(GITGC_SCHEDULE);
+    spec.setLogPVC("log-pvc");
+    spec.setRepositoryPVC("repo-pvc");
+    spec.setProjects(projects);
+    gitGc.setSpec(spec);
+
+    log.info("Creating test GitGc object: {}", gitGc);
+    client.resources(GitGc.class).create(gitGc);
+
     return gitGc;
   }
 
