@@ -15,10 +15,14 @@
 package com.google.gerrit.k8s.operator;
 
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class GitGcSpec {
   private String image;
   private String schedule;
+  private Set<String> projects;
   private ResourceRequirements resources;
   private String repositoryPVC;
   private String logPVC;
@@ -26,6 +30,7 @@ public class GitGcSpec {
   public GitGcSpec() {
     image = "k8s-gerrit/git-gc";
     resources = new ResourceRequirements();
+    projects = new HashSet<>();
   }
 
   public void setImage(String image) {
@@ -42,6 +47,14 @@ public class GitGcSpec {
 
   public String getSchedule() {
     return schedule;
+  }
+
+  public Set<String> getProjects() {
+    return projects;
+  }
+
+  public void setProjects(Set<String> projects) {
+    this.projects = projects;
   }
 
   public void setResources(ResourceRequirements resources) {
@@ -66,5 +79,24 @@ public class GitGcSpec {
 
   public String getLogPVC() {
     return logPVC;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(image, logPVC, projects, repositoryPVC, resources, schedule);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GitGcSpec other = (GitGcSpec) obj;
+    return Objects.equals(image, other.image)
+        && Objects.equals(logPVC, other.logPVC)
+        && Objects.equals(projects, other.projects)
+        && Objects.equals(repositoryPVC, other.repositoryPVC)
+        && Objects.equals(resources, other.resources)
+        && Objects.equals(schedule, other.schedule);
   }
 }
