@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.slf4j.Logger;
@@ -73,31 +74,9 @@ public class GitGcE2E {
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
-              GitGc updatedGitGc =
-                  gitGcClient
-                      .inNamespace(operator.getNamespace())
-                      .withName(gitGc.getMetadata().getName())
-                      .get();
-              assertThat(updatedGitGc, is(notNullValue()));
-
-              CronJob cronJob =
-                  client
-                      .batch()
-                      .v1beta1()
-                      .cronjobs()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gitGc.getMetadata().getName())
-                      .get();
-              assertThat(cronJob, is(notNullValue()));
-
-              List<Job> jobRuns =
-                  client.batch().v1().jobs().inNamespace(operator.getNamespace()).list().getItems();
-              assert (jobRuns.size() > 0);
-              assert (jobRuns
-                  .get(0)
-                  .getMetadata()
-                  .getName()
-                  .startsWith(gitGc.getMetadata().getName()));
+              assertGitGcCreation();
+              assertGitGcCronJobCreation();
+              assertGitGcJobCreation();
             });
 
     log.info("Deleting test GitGc object: {}", gitGc);
@@ -126,6 +105,66 @@ public class GitGcE2E {
                       .get();
               assertNull(cronJob);
             });
+  }
+
+  @Test
+  void testGitGcSelectedProjects() {
+    GitGc gitGc = new GitGc();
+    gitGc.setMetadata(
+        new ObjectMetaBuilder()
+            .withName(GITGC_NAME)
+            .withNamespace(operator.getNamespace())
+            .build());
+    GitGcSpec spec = new GitGcSpec();
+    spec.setSchedule(GITGC_SCHEDULE);
+    spec.setLogPVC("log-pvc");
+    spec.setRepositoryPVC("repo-pvc");
+    spec.setProjects(Set.of("All-Projects", "test"));
+    gitGc.setSpec(spec);
+
+    log.info("Creating test GitGc object: {}", gitGc);
+    client.resources(GitGc.class).create(gitGc);
+
+    log.info("Waiting max 5 minutes for GitGc to be created.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertGitGcCreation();
+              assertGitGcCronJobCreation();
+              assertGitGcJobCreation();
+            });
+
+    client.resources(GitGc.class).delete(gitGc);
+  }
+
+  private void assertGitGcCreation() {
+    GitGc updatedGitGc =
+        client
+            .resources(GitGc.class)
+            .inNamespace(operator.getNamespace())
+            .withName(GITGC_NAME)
+            .get();
+    assertThat(updatedGitGc, is(notNullValue()));
+  }
+
+  private void assertGitGcCronJobCreation() {
+    CronJob cronJob =
+        client
+            .batch()
+            .v1beta1()
+            .cronjobs()
+            .inNamespace(operator.getNamespace())
+            .withName(GITGC_NAME)
+            .get();
+    assertThat(cronJob, is(notNullValue()));
+  }
+
+  private void assertGitGcJobCreation() {
+    List<Job> jobRuns =
+        client.batch().v1().jobs().inNamespace(operator.getNamespace()).list().getItems();
+    assert (jobRuns.size() > 0);
+    assert (jobRuns.get(0).getMetadata().getName().startsWith(GITGC_NAME));
   }
 
   private static KubernetesClient getKubernetesClient() {

@@ -34,16 +34,21 @@ import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.DeleteControl;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ControllerConfiguration
 public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
   private final Logger log = LoggerFactory.getLogger(getClass());
+
+  private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
+  private static final String LOGS_VOLUME_NAME = "logs";
 
   private final KubernetesClient kubernetesClient;
 
@@ -65,7 +70,17 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
       log.info("Found existing GitGc with name {} in namespace {}. Updating.", name, ns);
       updateCronJob(gitGc, existingGitGcCronJob);
     }
-    return UpdateControl.updateStatus(gitGc);
+    return UpdateControl.updateStatus(updateGitGcStatus(gitGc));
+  }
+
+  private GitGc updateGitGcStatus(GitGc gitGc) {
+    GitGcStatus status = gitGc.getStatus();
+    if (status == null) {
+      status = new GitGcStatus();
+    }
+    status.setSpecifiedProjects(gitGc.getSpec().getProjects());
+    gitGc.setStatus(status);
+    return gitGc;
   }
 
   private void createCronJob(GitGc gitGc) {
@@ -76,54 +91,20 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
     EnvVarSource metaDataEnvSource = new EnvVarSource();
     metaDataEnvSource.setFieldRef(null);
 
-    EnvVar podNameEnvVar =
-        new EnvVarBuilder()
-            .withName("POD_NAME")
-            .withNewValueFrom()
-            .withNewFieldRef()
-            .withFieldPath("metadata.name")
-            .endFieldRef()
-            .endValueFrom()
-            .build();
-
-    String gitRepositoriesVolumeName = "git-repositories";
     Volume gitRepositoriesVolume =
         new VolumeBuilder()
-            .withName(gitRepositoriesVolumeName)
+            .withName(GIT_REPOSITORIES_VOLUME_NAME)
             .withNewPersistentVolumeClaim()
             .withClaimName(gitGc.getSpec().getRepositoryPVC())
             .endPersistentVolumeClaim()
             .build();
 
-    VolumeMount gitRepositoriesVolumeMount =
-        new VolumeMountBuilder()
-            .withName(gitRepositoriesVolumeName)
-            .withMountPath("/var/gerrit/git")
-            .build();
-
-    String logsVolumeName = "logs";
     Volume logsVolume =
         new VolumeBuilder()
-            .withName(logsVolumeName)
+            .withName(LOGS_VOLUME_NAME)
             .withNewPersistentVolumeClaim()
             .withClaimName(gitGc.getSpec().getLogPVC())
             .endPersistentVolumeClaim()
-            .build();
-
-    VolumeMount logsVolumeMount =
-        new VolumeMountBuilder()
-            .withName(logsVolumeName)
-            .withSubPathExpr("git-gc/$(POD_NAME)")
-            .withMountPath("/var/log/git")
-            .build();
-
-    Container gitGcContainer =
-        new ContainerBuilder()
-            .withName("git-gc")
-            .withImage(gitGc.getSpec().getImage())
-            .withResources(gitGc.getSpec().getResources())
-            .withEnv(podNameEnvVar)
-            .withVolumeMounts(List.of(gitRepositoriesVolumeMount, logsVolumeMount))
             .build();
 
     JobTemplateSpec gitGcJobTemplate =
@@ -139,7 +120,7 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
             .withNewSecurityContext()
             .withFsGroup(100L)
             .endSecurityContext()
-            .addToContainers(gitGcContainer)
+            .addToContainers(buildGitGcContainer(gitGc))
             .withVolumes(List.of(gitRepositoriesVolume, logsVolume))
             .endSpec()
             .endTemplate()
@@ -191,7 +172,19 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
             .getSpec()
             .getContainers()
             .get(0);
+
     gitGcContainer.setImage(gitGc.getSpec().getImage());
+
+    Set<String> projects = gitGc.getSpec().getProjects();
+    ArrayList<String> args = new ArrayList<>();
+    if (!projects.isEmpty()) {
+      for (String project : gitGc.getSpec().getProjects()) {
+        args.add("-p");
+        args.add(project);
+      }
+    }
+    gitGcContainer.setArgs(args);
+
     gitGcContainer.setResources(gitGc.getSpec().getResources());
     kubernetesClient
         .batch()
@@ -199,6 +192,48 @@ public class GitGcReconciler implements Reconciler<GitGc>, Cleaner<GitGc> {
         .cronjobs()
         .inNamespace(gitGc.getMetadata().getNamespace())
         .createOrReplace(existingGitGcCronJob);
+  }
+
+  private Container buildGitGcContainer(GitGc gitGc) {
+    VolumeMount gitRepositoriesVolumeMount =
+        new VolumeMountBuilder()
+            .withName(GIT_REPOSITORIES_VOLUME_NAME)
+            .withMountPath("/var/gerrit/git")
+            .build();
+
+    VolumeMount logsVolumeMount =
+        new VolumeMountBuilder()
+            .withName(LOGS_VOLUME_NAME)
+            .withSubPathExpr("git-gc/$(POD_NAME)")
+            .withMountPath("/var/log/git")
+            .build();
+
+    EnvVar podNameEnvVar =
+        new EnvVarBuilder()
+            .withName("POD_NAME")
+            .withNewValueFrom()
+            .withNewFieldRef()
+            .withFieldPath("metadata.name")
+            .endFieldRef()
+            .endValueFrom()
+            .build();
+
+    ContainerBuilder gitGcContainerBuilder =
+        new ContainerBuilder()
+            .withName("git-gc")
+            .withImage(gitGc.getSpec().getImage())
+            .withResources(gitGc.getSpec().getResources())
+            .withEnv(podNameEnvVar)
+            .withVolumeMounts(List.of(gitRepositoriesVolumeMount, logsVolumeMount));
+
+    Set<String> projects = gitGc.getSpec().getProjects();
+    if (!projects.isEmpty()) {
+      for (String project : gitGc.getSpec().getProjects()) {
+        gitGcContainerBuilder.addAllToArgs(List.of("-p", project));
+      }
+    }
+
+    return gitGcContainerBuilder.build();
   }
 
   @Override

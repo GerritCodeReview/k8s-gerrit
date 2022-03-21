@@ -15,10 +15,13 @@
 package com.google.gerrit.k8s.operator;
 
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GitGcSpec {
   private String image;
   private String schedule;
+  private Set<String> projects;
   private ResourceRequirements resources;
   private String repositoryPVC;
   private String logPVC;
@@ -26,6 +29,7 @@ public class GitGcSpec {
   public GitGcSpec() {
     image = "k8s-gerrit/git-gc";
     resources = new ResourceRequirements();
+    projects = new HashSet<>();
   }
 
   public void setImage(String image) {
@@ -42,6 +46,14 @@ public class GitGcSpec {
 
   public String getSchedule() {
     return schedule;
+  }
+
+  public Set<String> getProjects() {
+    return projects;
+  }
+
+  public void setProjects(Set<String> projects) {
+    this.projects = projects;
   }
 
   public void setResources(ResourceRequirements resources) {
