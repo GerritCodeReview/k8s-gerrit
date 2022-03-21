@@ -82,7 +82,7 @@ gerritReplica:
       [container]
         user = gerrit
         replica = true
-        javaHome = /usr/lib/jvm/java-8-openjdk-amd64
+        javaHome = /usr/lib/jvm/java-11-openjdk-amd64
         javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
         javaOptions = -Xms300m
         javaOptions = -Xmx300m
