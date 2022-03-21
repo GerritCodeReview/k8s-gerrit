@@ -14,38 +14,24 @@
 
 package com.google.gerrit.k8s.operator;
 
-import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import java.util.Set;
 
-public class GitGcSpec {
-  private String image;
-  private String schedule;
-  private Set<String> projects;
-  private ResourceRequirements resources;
-  private String repositoryPVC;
-  private String logPVC;
+public class GitGcStatus {
+  private boolean replicateAll = false;
+  private Set<String> specifiedProjects;
 
-  public String getLogPVC() {
-    return logPVC;
+  public boolean isReplicateAll() {
+    return replicateAll;
   }
 
-  public String getRepositoryPVC() {
-    return repositoryPVC;
+  public Set<String> getSpecifiedProjects() {
+    return specifiedProjects;
   }
 
-  public String getImage() {
-    return image;
-  }
-
-  public String getSchedule() {
-    return schedule;
-  }
-
-  public Set<String> getProjects() {
-    return projects;
-  }
-
-  public ResourceRequirements getResources() {
-    return resources;
+  public void setSpecifiedProjects(Set<String> specifiedProjects) {
+    if (specifiedProjects.isEmpty()) {
+      replicateAll = true;
+    }
+    this.specifiedProjects = specifiedProjects;
   }
 }
