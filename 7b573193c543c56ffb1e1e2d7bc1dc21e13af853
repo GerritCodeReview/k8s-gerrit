@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0c466ee3_645c7668",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-24T04:02:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa8ca132_d4bdb810",
+      "revId": "7b573193c543c56ffb1e1e2d7bc1dc21e13af853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9650ebe9_e2ba90de",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2022-03-17T08:31:24Z",
       "side": 1,
       "message": "This now enforces that the busybox-image uses the same registry as the images created by this project. This might not be the case. Can we make this optional. E.g. we could add an option in the values.yaml to set the busybox image to use, which then could include the registry. WDYT?",
+      "revId": "7b573193c543c56ffb1e1e2d7bc1dc21e13af853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c1beb05_716819a5",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-24T04:02:30Z",
+      "side": 1,
+      "message": "Added option to change only the busybox registry\nHow about this?",
+      "parentUuid": "e4123839_5b11c176",
       "revId": "7b573193c543c56ffb1e1e2d7bc1dc21e13af853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
