@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d570a81f_96f930b8",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-24T13:15:44Z",
+      "side": 1,
+      "message": "Why not do something like this:\n\n    busybox:\n      registry: docker.io\n      tag: 1.35",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 11
+      },
+      "revId": "a6b515ecc75ef818f584a10558a903b024ad4365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "746e22ad_840b5555",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-24T13:15:44Z",
+      "side": 1,
+      "message": "Please also document the newly added options in the chart\u0027s README",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 11
+      },
+      "revId": "a6b515ecc75ef818f584a10558a903b024ad4365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbe11444_0b2426ed",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-24T13:15:44Z",
+      "side": 1,
+      "message": "see my previous comments",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 11
+      },
+      "revId": "a6b515ecc75ef818f584a10558a903b024ad4365",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
