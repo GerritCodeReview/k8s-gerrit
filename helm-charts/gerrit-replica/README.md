@@ -150,7 +150,6 @@ ID-mapping.
 | `nfsWorkaround.enabled` | Whether the volume used is an NFS-volume | `false` |
 | `nfsWorkaround.idDomain` | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com` |
 
-
 ### Network policies
 
 | Parameter | Description | Default |
@@ -307,6 +306,11 @@ project.
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `gitBackend.image` | Image name of the Apache-git-http-backend container image | `k8s-gerrit/apache-git-http-backend` |
+| `gitBackend.affinity` | Assigns a Pod to the specified Nodes | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
+|                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
+|                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
+|                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator: In |
+|                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0]: git-backend |
 | `gitBackend.replicas` | Number of pod replicas to deploy | `1` |
 | `gitBackend.maxSurge` | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%` |
 | `gitBackend.maxUnavailable` | Max. percentage or number of pods allowed to be unavailable at a time | `100%` |
@@ -359,6 +363,11 @@ is mandatory, if access to the Gerrit replica is required!
 |-----------|-------------|---------|
 | `gerritReplica.images.gerritInit` | Image name of the Gerrit init container image | `k8s-gerrit/gerrit-init` |
 | `gerritReplica.images.gerritReplica` | Image name of the Gerrit replica container image | `k8s-gerrit/gerrit-replica` |
+| `gerritReplica.affinity` | Assigns a Pod to the specified Nodes | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
+|                          |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
+|                          |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
+|                          |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator: In |
+|                          |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0]: gerrit-replica |
 | `gerritReplica.replicas` | Number of pod replicas to deploy | `1` |
 | `gerritReplica.maxSurge` | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%` |
 | `gerritReplica.maxUnavailable` | Max. percentage or number of pods allowed to be unavailable at a time | `100%` |
