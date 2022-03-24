@@ -117,6 +117,8 @@ gerrit:
     gerritInit: k8sgerrit/gerrit-init
     gerrit: k8sgerrit/gerrit
 
+  affinity: {}
+
   replicas: 1
   updatePartition: 0
 

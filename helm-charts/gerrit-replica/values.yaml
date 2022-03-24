@@ -226,11 +226,23 @@ gitGC:
       cpu: 100m
       memory: 256Mi
 
-
 gerritReplica:
   images:
     gerritInit: k8sgerrit/gerrit-init
     gerritReplica: k8sgerrit/gerrit-replica
+
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - gerrit-replica
+          topologyKey: "topology.kubernetes.io/zone"
 
   replicas: 1
   maxSurge: 25%
