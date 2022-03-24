@@ -107,6 +107,21 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete` |
 | `storageClasses.shared.parameters` | Parameters for the provisioner | `parameters.mountOptions: vers=4.1` |
 
+### Affinity
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `gerrit.affinity` | Assigns a Pod to the specified Nodes | {} |
+
+The affinity feature consists of two types of affinity.
+
+Node affinity functions like the nodeSelector field but is more expressive and allows you to specify soft rules.
+Inter-pod affinity/anti-affinity allows you to constrain Pods against labels on other Pods.
+
+For more information, please refer to the following documents.
+[Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+[Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
+
 ### Network policies
 
 | Parameter | Description | Default |

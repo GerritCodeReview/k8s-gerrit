@@ -151,6 +151,27 @@ ID-mapping.
 | `nfsWorkaround.idDomain` | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com` |
 
 
+### Affinity
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `gerritReplica.affinity` | Assigns a Pod to the specified Nodes | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator: In |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0]: gerrit-replica |
+| `gitBackend.affinity` | Assigns a Pod to the specified Nodes | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator: In |
+|  |  | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0]: git-backend |
+
+By default, gerrit-replica is evenly distributed on `topology.kubernetes.io/zone`
+
+For more information, please refer to the following documents.
+[Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+[Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
+
 ### Network policies
 
 | Parameter | Description | Default |
