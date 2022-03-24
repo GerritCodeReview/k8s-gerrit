@@ -16,6 +16,24 @@
       "message": "Better would be: Allow 0 replicas in ReplicaSets",
       "revId": "a979faf6a1c83aa4bf9d3a17b0dbb8a139a35ffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a35b63ee_ed8787c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-24T04:02:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70cae6d6_1e90e969",
+      "revId": "a979faf6a1c83aa4bf9d3a17b0dbb8a139a35ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
