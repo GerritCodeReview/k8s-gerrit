@@ -107,6 +107,12 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.shared.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete` |
 | `storageClasses.shared.parameters` | Parameters for the provisioner | `parameters.mountOptions: vers=4.1` |
 
+### Affinity
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `gerrit.affinity` | Assigns a Pod to the specified Nodes | {} |
+
 ### Network policies
 
 | Parameter | Description | Default |

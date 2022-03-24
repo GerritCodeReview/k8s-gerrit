@@ -28,6 +28,10 @@ spec:
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
+      {{- with .Values.gerrit.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       terminationGracePeriodSeconds: {{ .Values.gerrit.gracefulStopTimeout }}
       securityContext:
         fsGroup: 100
