@@ -244,6 +244,7 @@ future.
 |-----------|-------------|---------|
 | `gerrit.images.gerritInit` | Image name of the Gerrit init container image | `k8s-gerrit/gerrit-init` |
 | `gerrit.images.gerrit` | Image name of the Gerrit container image | `k8s-gerrit/gerrit` |
+| `gerrit.affinity` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
 | `gerrit.replicas` | Number of replica pods to deploy | `1` |
 | `gerrit.updatePartition` | Number of pods to update simultaneously | `1` |
 | `gerrit.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 1` |
