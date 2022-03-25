@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15748095_5f0daae5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-25T09:43:25Z",
+      "side": 1,
+      "message": "Thanks, this is great!\n\nPlease document the added options in the README of each chart.",
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e0adb18_0d92c32f",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-25T09:43:25Z",
+      "side": 1,
+      "message": "An affinity section should also be added to the gitBackend deployment.",
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "025f0387_c58d6186",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-25T09:43:25Z",
+      "side": 1,
+      "message": "We should consider changing the labels of the init-job to not fit this selector. This is not so important, since it will run anyway.",
+      "range": {
+        "startLine": 241,
+        "startChar": 12,
+        "endLine": 244,
+        "endChar": 30
+      },
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
