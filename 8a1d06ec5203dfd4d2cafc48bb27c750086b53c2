@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a077a6_37c3fea3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-25T09:46:38Z",
+      "side": 1,
+      "message": "Only one nitpick left",
+      "revId": "8a1d06ec5203dfd4d2cafc48bb27c750086b53c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d7a5afd_a268dcd4",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-25T09:46:38Z",
+      "side": 1,
+      "message": "nit: More accurate would be: `The registry to pull the busybox container images from`",
+      "range": {
+        "startLine": 102,
+        "startChar": 30,
+        "endLine": 102,
+        "endChar": 90
+      },
+      "revId": "8a1d06ec5203dfd4d2cafc48bb27c750086b53c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cf1f5a8_88948e62",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-25T09:46:38Z",
+      "side": 1,
+      "message": "See my previous comment",
+      "revId": "8a1d06ec5203dfd4d2cafc48bb27c750086b53c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
