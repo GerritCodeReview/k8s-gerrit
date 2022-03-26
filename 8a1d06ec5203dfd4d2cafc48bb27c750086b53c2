@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7e6621_2bd35ddc",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-26T02:16:57Z",
+      "side": 1,
+      "message": "Thx! Done!",
+      "parentUuid": "5d7a5afd_a268dcd4",
+      "range": {
+        "startLine": 102,
+        "startChar": 30,
+        "endLine": 102,
+        "endChar": 90
+      },
+      "revId": "8a1d06ec5203dfd4d2cafc48bb27c750086b53c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cf1f5a8_88948e62",
