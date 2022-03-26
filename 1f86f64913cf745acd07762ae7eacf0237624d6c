@@ -18,6 +18,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8baf3e78_1afffb00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-26T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15748095_5f0daae5",
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e25b6cc5_16b6d86c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-26T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15748095_5f0daae5",
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e0adb18_0d92c32f",
@@ -31,6 +67,42 @@
       "writtenOn": "2022-03-25T09:43:25Z",
       "side": 1,
       "message": "An affinity section should also be added to the gitBackend deployment.",
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca3423b_71f770c9",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-26T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0adb18_0d92c32f",
+      "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68fd7bf7_2b6a7601",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-26T08:29:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e0adb18_0d92c32f",
       "revId": "1f86f64913cf745acd07762ae7eacf0237624d6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
