@@ -80,6 +80,24 @@
       "message": "See my previous comment",
       "revId": "8a1d06ec5203dfd4d2cafc48bb27c750086b53c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c963b9ac_dcde5d6f",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-26T02:17:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cf1f5a8_88948e62",
+      "revId": "8a1d06ec5203dfd4d2cafc48bb27c750086b53c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
