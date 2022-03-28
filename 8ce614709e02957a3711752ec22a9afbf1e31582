@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80dffc9e_527f35a6",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-28T06:49:11Z",
+      "side": 1,
+      "message": "This section is very detailed. However, the gerritReplica.affinity and gitBackend.affinity options allow to use all possible affinity configurations for Kubernetes pods. I would suggest to just document them as you did for the gerrit-chart and in one sentence describe the default behavior.",
+      "revId": "8ce614709e02957a3711752ec22a9afbf1e31582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f2b9a0d_1491e7ae",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-28T06:49:11Z",
+      "side": 1,
+      "message": "Link the Kubernetes documentation about affinity here and state that it can be freely configured with all affinity-options Kubernetes supports.",
+      "revId": "8ce614709e02957a3711752ec22a9afbf1e31582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
