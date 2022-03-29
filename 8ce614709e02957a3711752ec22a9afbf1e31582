@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72f31981_39b4e397",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-29T06:02:27Z",
+      "side": 1,
+      "message": "Rather than adding a new section, I would add this to the `###Gerrit Replica`and `### Apache-Git-HTTP-Backend (Git-Backend)` sections and include the added option into the existing table. That makes it easier to look it up, when following the values.yaml. The order should be the same. Also the first line of your table should be enough together with your description.",
+      "parentUuid": "4cc4c86c_e11d22e2",
+      "revId": "8ce614709e02957a3711752ec22a9afbf1e31582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f2b9a0d_1491e7ae",
         "filename": "helm-charts/gerrit/README.md",
         "patchSetId": 5
