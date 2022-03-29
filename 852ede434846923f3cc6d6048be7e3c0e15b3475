@@ -16,6 +16,24 @@
       "message": "Rather than adding a new section, I would add this to the ###Gerrit section and include the added option into the existing table. That makes it easier to look it up, when following the values.yaml. The order should be the same.",
       "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46eb8f3c_709405ae",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2022-03-29T13:25:39Z",
+      "side": 1,
+      "message": "I tried to fix it.\nIs this what you mean?",
+      "parentUuid": "d135c141_4c57d2d3",
+      "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
