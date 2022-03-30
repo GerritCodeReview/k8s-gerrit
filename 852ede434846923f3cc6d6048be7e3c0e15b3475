@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da67e46b_8d0481cc",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-30T07:18:32Z",
+      "side": 1,
+      "message": "Please leave the paragraphs you had written in the README as a n explanation. Just move it to the respective section where you added the table row.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 99
+      },
+      "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d135c141_4c57d2d3",
         "filename": "helm-charts/gerrit/README.md",
         "patchSetId": 6
@@ -32,6 +55,29 @@
       "side": 1,
       "message": "I tried to fix it.\nIs this what you mean?",
       "parentUuid": "d135c141_4c57d2d3",
+      "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c04c443_7775bffe",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-30T07:18:32Z",
+      "side": 1,
+      "message": "Please leave the paragraphs you had written in the README as a n explanation. Just move it to the respective section where you added the table row.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 99
+      },
       "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
