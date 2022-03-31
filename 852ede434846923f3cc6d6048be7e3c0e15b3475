@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "458cd65f_c102cb41",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-31T06:33:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e342358_289adb22",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 99
+      },
+      "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d135c141_4c57d2d3",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "I tried to fix it.\nIs this what you mean?",
       "parentUuid": "d135c141_4c57d2d3",
+      "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e855ae0_c5cf2445",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-31T06:33:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46eb8f3c_709405ae",
       "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +162,30 @@
       "side": 1,
       "message": "Is it like this?",
       "parentUuid": "8c04c443_7775bffe",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 99
+      },
+      "revId": "852ede434846923f3cc6d6048be7e3c0e15b3475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "557efe32_24f38552",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-03-31T06:33:33Z",
+      "side": 1,
+      "message": "Yes, that works. Thanks!",
+      "parentUuid": "534ddd60_5c5d7462",
       "range": {
         "startLine": 116,
         "startChar": 0,
