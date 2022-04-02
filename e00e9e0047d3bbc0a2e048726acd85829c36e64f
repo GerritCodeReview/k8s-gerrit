@@ -39,6 +39,30 @@
       },
       "revId": "e00e9e0047d3bbc0a2e048726acd85829c36e64f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b796715d_b62aab25",
+        "filename": "container-images/gerrit-replica/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-04-02T00:46:21Z",
+      "side": 1,
+      "message": "\u003e Since both gerrit containers require this, please install it in the gerrit-base container.\n\ngerrit-base container is not only used by `gerrit` and `gerrit-replica` but also `gerrit-init` and `git-gc`.\nThey `gerrit-init` and `git-gc` don\u0027t require GNU coreutils.\n\nThis is a reason why I didn\u0027t patch to gerrit-base.",
+      "parentUuid": "89ba0a42_93f71f5b",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 32
+      },
+      "revId": "e00e9e0047d3bbc0a2e048726acd85829c36e64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
