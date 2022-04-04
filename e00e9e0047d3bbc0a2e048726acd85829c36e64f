@@ -63,6 +63,64 @@
       },
       "revId": "e00e9e0047d3bbc0a2e048726acd85829c36e64f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a0f7974_c1e46269",
+        "filename": "container-images/gerrit-replica/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-04T06:39:16Z",
+      "side": 1,
+      "message": "Build fails, because the gerrit user does not have permissions to install packages, please switch to the root user for this command.",
+      "revId": "e00e9e0047d3bbc0a2e048726acd85829c36e64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ba904df_d1924e6a",
+        "filename": "container-images/gerrit-replica/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-04T06:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b796715d_b62aab25",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 32
+      },
+      "revId": "e00e9e0047d3bbc0a2e048726acd85829c36e64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d5c2ac6_31ec7a8d",
+        "filename": "container-images/gerrit/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-04-04T06:39:16Z",
+      "side": 1,
+      "message": "Build fails, because the gerrit user does not have permissions to install packages, please switch to the root user for this command.",
+      "revId": "e00e9e0047d3bbc0a2e048726acd85829c36e64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
