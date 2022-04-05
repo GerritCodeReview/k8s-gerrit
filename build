@@ -37,22 +37,16 @@ if test -n "$GERRIT_WAR_URL"; then
     BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
 fi
 
-test -z "$TAG" && TAG=latest
-
-export GIT_REV_TAG="$(git describe --always --dirty)-unknown"
-
 docker_build(){
     IMAGE=$1
 
-    docker build -t k8sgerrit/$IMAGE:$TAG \
-        -t k8sgerrit/$IMAGE:$GIT_REV_TAG \
-        ./container-images/$IMAGE
+    docker build -t k8sgerrit/$IMAGE:$TAG ./container-images/$IMAGE
 
     if test $? -ne 0; then
         REPORT="$REPORT Failed: k8sgerrit/$IMAGE.\n"
         RETURN_CODE=1
     else
-        REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n Success: k8sgerrit/$IMAGE:$GIT_REV_TAG\n"
+        REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n"
     fi
 }
 
@@ -62,13 +56,17 @@ docker_build_gerrit_base(){
         echo -e "\n\nFailed to build gerrit-base image."
         exit 1
     fi
+
+    if test -z "$TAG"; then
+        export TAG="$(create_image_tag)"
+    fi
 }
 
 create_image_tag(){
     GERRIT_VERSION=$(docker run --entrypoint "/bin/sh" gerrit-base \
         -c "java -jar /var/gerrit/bin/gerrit.war version")
     GERRIT_VERSION=$(echo "${GERRIT_VERSION##*$'\n'}" | cut -d' ' -f3 | tr -d '[:space:]')
-    GIT_REV_TAG="$(git describe --dirty)-$GERRIT_VERSION"
+    echo "$(git describe --dirty)-$GERRIT_VERSION"
 }
 
 REPORT="Build results: \n"
@@ -82,7 +80,6 @@ fi
 
 if test $# -eq 0 ; then
     docker_build_gerrit_base
-    create_image_tag
     for IMAGE in $IMAGES; do
         docker_build $IMAGE
     done
@@ -90,11 +87,13 @@ else
     while test $# -gt 0 ; do
         if [[ $1 = gerrit-* ]]; then
             docker_build_gerrit_base
-            create_image_tag
         else
+            if test -z "$TAG"; then
+                TAG="$(git describe --always --dirty)-unknown"
+            fi
             echo -e "\nNo Image containing Gerrit will be built." \
                     "The Gerrit-version can thus not be determinded." \
-                    "Using tag $GIT_REV_TAG\n"
+                    "Using tag $TAG\n"
         fi
         docker_build $1
         shift
