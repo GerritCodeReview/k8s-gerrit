@@ -1,4 +1,5 @@
-FROM base:latest
+ARG TAG=latest
+FROM base:${TAG}
 
 RUN apk update && \
     apk add --no-cache \
