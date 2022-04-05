@@ -37,10 +37,15 @@ if test -n "$GERRIT_WAR_URL"; then
     BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
 fi
 
+export REV="$(git describe --always --dirty)"
+
 docker_build(){
     IMAGE=$1
 
-    docker build -t k8sgerrit/$IMAGE:$TAG ./container-images/$IMAGE
+    docker build \
+        --build-arg TAG=$REV \
+        -t k8sgerrit/$IMAGE:$TAG \
+        ./container-images/$IMAGE
 
     if test $? -ne 0; then
         REPORT="$REPORT Failed: k8sgerrit/$IMAGE.\n"
@@ -51,7 +56,11 @@ docker_build(){
 }
 
 docker_build_gerrit_base(){
-    docker build $BUILD_ARGS -t gerrit-base ./container-images/gerrit-base
+    BUILD_ARGS="$BUILD_ARGS --build-arg TAG=$REV"
+    docker build \
+        $BUILD_ARGS \
+        -t gerrit-base:$REV \
+        ./container-images/gerrit-base
     if test $? -ne 0; then
         echo -e "\n\nFailed to build gerrit-base image."
         exit 1
@@ -63,16 +72,16 @@ docker_build_gerrit_base(){
 }
 
 create_image_tag(){
-    GERRIT_VERSION=$(docker run --entrypoint "/bin/sh" gerrit-base \
+    GERRIT_VERSION=$(docker run --entrypoint "/bin/sh" gerrit-base:$REV \
         -c "java -jar /var/gerrit/bin/gerrit.war version")
     GERRIT_VERSION=$(echo "${GERRIT_VERSION##*$'\n'}" | cut -d' ' -f3 | tr -d '[:space:]')
-    echo "$(git describe --dirty)-$GERRIT_VERSION"
+    echo "$REV-$GERRIT_VERSION"
 }
 
 REPORT="Build results: \n"
 RETURN_CODE=0
 
-docker build -t base ./container-images/base
+docker build -t base:$REV ./container-images/base
 if test $? -ne 0; then
     echo -e "\n\nFailed to build base image."
     exit 1
