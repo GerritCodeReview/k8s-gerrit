@@ -1,4 +1,5 @@
-FROM base:latest
+ARG TAG=latest
+FROM base:${TAG}
 
 # Install apache2
 RUN apk update && \
