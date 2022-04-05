@@ -10,17 +10,14 @@ node("master") {
                 credentialsId: 'artifactory',
                 url: 'https://gerrit.docker.repositories.sap.ondemand.com') {
             sh(script: '''
-                ./publish --tag $(./get_version.sh) --update-latest --registry gerrit.docker.repositories.sap.ondemand.com
+                ./publish --tag $(./get_version.sh) --registry gerrit.docker.repositories.sap.ondemand.com
             ''')
         }
     }
     stage("Clean up") {
         sh(script: '''
-            for PREFIX in k8sgerrit gerrit-base base; do
-                echo "$(docker images --format '{{.Repository}}:{{.Tag}}' | grep $PREFIX)"
-                docker rmi -f $(docker images --format '{{.Repository}}:{{.Tag}}'| grep $PREFIX)
-                docker rmi -f $(docker images --filter 'dangling=true' -q --no-trunc) 2>/dev/null || continue
-            done
+            docker rmi -f $(docker images --format '{{.Repository}}:{{.Tag}}'| grep $(git describe --always --dirty))
+            docker rmi -f $(docker images --filter 'dangling=true' -q --no-trunc) 2>/dev/null || continue
         ''')
     }
 }
