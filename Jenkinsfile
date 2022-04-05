@@ -10,6 +10,8 @@ node("master") {
                 credentialsId: 'dockerhub',
                 url: 'https://docker.io') {
             sh(script: '''
+                ORG=k8sgerrit
+                test -n $GERRIT_CHANGE_NUMBER && ORG=k8sgerrit-test
                 ./publish --tag $(./get_version.sh)
             ''')
         }
