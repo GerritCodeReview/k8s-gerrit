@@ -10,8 +10,7 @@ node("master") {
                 credentialsId: 'artifactory',
                 url: 'https://gerrit.docker.repositories.sap.ondemand.com') {
             sh(script: '''
-                . ./get_version.sh
-                ./publish --tag $GIT_REV_TAG --update-latest --registry gerrit.docker.repositories.sap.ondemand.com
+                ./publish --tag $(./get_version.sh) --update-latest --registry gerrit.docker.repositories.sap.ondemand.com
             ''')
         }
     }
