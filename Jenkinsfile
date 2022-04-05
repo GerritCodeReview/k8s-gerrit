@@ -10,8 +10,7 @@ node("master") {
                 credentialsId: 'dockerhub',
                 url: 'https://docker.io') {
             sh(script: '''
-                . ./get_version.sh
-                ./publish --tag $GIT_REV_TAG --update-latest
+                ./publish --tag $(./get_version.sh) --update-latest
             ''')
         }
     }
