@@ -10,6 +10,8 @@ node("master") {
                 credentialsId: 'artifactory',
                 url: 'https://gerrit.docker.repositories.sap.ondemand.com') {
             sh(script: '''
+                ORG=k8sgerrit
+                test -n $GERRIT_CHANGE_NUMBER && ORG=k8sgerrit-test
                 ./publish --tag $(./get_version.sh) --registry gerrit.docker.repositories.sap.ondemand.com
             ''')
         }
