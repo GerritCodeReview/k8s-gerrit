@@ -24,16 +24,21 @@ from passlib.apache import HtpasswdFile
 import pytest
 
 
-@pytest.fixture(scope="module")
-def container_run_factory(
-    docker_client, apache_git_http_backend_image, apache_credentials_dir
-):
-    def run_container():
-        return docker_client.containers.run(
-            image=apache_git_http_backend_image.id,
-            ports={"80": "8080"},
+class GitBackendContainer:
+    def __init__(self, docker_client, image, port, apache_credentials_dir):
+        self.docker_client = docker_client
+        self.image = image
+        self.port = port
+        self.apache_credentials_dir = apache_credentials_dir
+
+        self.container = None
+
+    def start(self):
+        self.container = self.docker_client.containers.run(
+            image=self.image.id,
+            ports={"80": self.port},
             volumes={
-                str(apache_credentials_dir): {
+                self.apache_credentials_dir: {
                     "bind": "/var/apache/credentials",
                     "mode": "ro",
                 }
@@ -42,19 +47,34 @@ def container_run_factory(
             auto_remove=True,
         )
 
+    def stop(self):
+        self.container.stop(timeout=1)
+
+
+@pytest.fixture(scope="module")
+def container_run_factory(
+    docker_client, apache_git_http_backend_image, apache_credentials_dir
+):
+    def run_container(port):
+        return GitBackendContainer(
+            docker_client,
+            apache_git_http_backend_image,
+            port,
+            str(apache_credentials_dir),
+        )
+
     return run_container
 
 
 @pytest.fixture(scope="module")
-def container_run(request, container_run_factory):
-    container_run = container_run_factory()
+def container_run(container_run_factory, free_port):
+    test_setup = container_run_factory(free_port)
+    test_setup.start()
     time.sleep(3)
 
-    def stop_container():
-        container_run.stop(timeout=1)
+    yield test_setup
 
-    request.addfinalizer(stop_container)
-    return container_run
+    test_setup.stop()
 
 
 @pytest.fixture(scope="module")
@@ -80,8 +100,8 @@ def apache_credentials_dir(credentials_dir, mock_htpasswd):
 
 
 @pytest.fixture(scope="module")
-def base_url():
-    return "http://localhost:8080"
+def base_url(container_run):
+    return f"http://localhost:{container_run.port}"
 
 
 @pytest.fixture(scope="function")

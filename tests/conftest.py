@@ -270,12 +270,9 @@ def docker_network(request, docker_client):
         name="k8sgerrit-test-network", scope="local"
     )
 
-    def remove_network():
-        network.remove()
+    yield network
 
-    request.addfinalizer(remove_network)
-
-    return network
+    network.remove()
 
 
 @pytest.fixture(scope="session")
