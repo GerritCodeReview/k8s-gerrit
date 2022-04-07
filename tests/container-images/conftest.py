@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import os.path
+import socket
 
 import pytest
 
@@ -26,7 +27,7 @@ class GerritContainer:
         self.configs = configs
         self.port = port
 
-        self.gerrit_container = None
+        self.container = None
 
     def _create_config_files(self):
         tmp_config_dir = os.path.join(self.tmp_dir, "configs")
@@ -52,18 +53,18 @@ class GerritContainer:
         return volumes
 
     def start(self):
-        self.gerrit_container = self.docker_client.containers.run(
+        self.container = self.docker_client.containers.run(
             image=self.image.id,
             user="gerrit",
             volumes=self._define_volume_mounts(),
-            ports={str(self.port): str(self.port)},
+            ports={8080: str(self.port)},
             network=self.docker_network.name,
             detach=True,
             auto_remove=True,
         )
 
     def stop(self):
-        self.gerrit_container.stop(timeout=1)
+        self.container.stop(timeout=1)
 
 
 @pytest.fixture(scope="session")
@@ -91,3 +92,12 @@ def container_endless_run_factory():
         )
 
     return get_container
+
+
+@pytest.fixture(scope="session")
+def free_port():
+    skt = socket.socket()
+    skt.bind(("", 0))
+    port = skt.getsockname()[1]
+    skt.close()
+    return port

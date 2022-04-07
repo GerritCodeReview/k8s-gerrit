@@ -28,7 +28,12 @@ def tmp_dir(tmp_path_factory):
 
 @pytest.fixture(scope="class")
 def container_run(
-    docker_client, docker_network, tmp_dir, gerrit_image, gerrit_container_factory
+    docker_client,
+    docker_network,
+    tmp_dir,
+    gerrit_image,
+    gerrit_container_factory,
+    free_port,
 ):
     configs = {
         "gerrit.config": """
@@ -36,7 +41,7 @@ def container_run(
         basePath = git
 
       [httpd]
-        listenUrl = http://*:8081
+        listenUrl = http://*:8080
 
       [test]
         success = True
@@ -51,11 +56,11 @@ def container_run(
       """,
     }
     test_setup = gerrit_container_factory(
-        docker_client, docker_network, tmp_dir, gerrit_image, configs, 8081
+        docker_client, docker_network, tmp_dir, gerrit_image, configs, free_port
     )
     test_setup.start()
 
-    yield test_setup.gerrit_container
+    yield test_setup
 
     test_setup.stop()
 
@@ -73,7 +78,7 @@ class TestGerritStartScript:
     @pytest.mark.timeout(60)
     def test_gerrit_gerrit_starts_up(self, container_run):
         def wait_for_gerrit_start():
-            log = container_run.logs().decode("utf-8")
+            log = container_run.container.logs().decode("utf-8")
             return re.search(r"Gerrit Code Review .+ ready", log)
 
         while not wait_for_gerrit_start:
@@ -82,7 +87,7 @@ class TestGerritStartScript:
     def test_gerrit_custom_gerrit_config_available(
         self, container_run, config_file_to_test
     ):
-        exit_code, output = container_run.exec_run(
+        exit_code, output = container_run.container.exec_run(
             f"git config --file=/var/gerrit/etc/{config_file_to_test} --get test.success"
         )
         output = output.decode("utf-8").strip()
@@ -94,7 +99,7 @@ class TestGerritStartScript:
         status = None
         while not status == 200:
             try:
-                response = requests.get("http://localhost:8081")
+                response = requests.get(f"http://localhost:{container_run.port}")
                 status = response.status_code
             except requests.exceptions.ConnectionError:
                 time.sleep(1)

@@ -38,6 +38,7 @@ def container_run(
     tmp_dir,
     gerrit_replica_image,
     gerrit_container_factory,
+    free_port,
 ):
     configs = {
         "gerrit.config": """
@@ -45,7 +46,7 @@ def container_run(
         basePath = git
 
       [httpd]
-        listenUrl = http://*:8081
+        listenUrl = http://*:8080
 
       [container]
         replica = true
@@ -60,13 +61,13 @@ def container_run(
     }
 
     test_setup = gerrit_container_factory(
-        docker_client, docker_network, tmp_dir, gerrit_replica_image, configs, 8081
+        docker_client, docker_network, tmp_dir, gerrit_replica_image, configs, free_port
     )
     test_setup.start()
 
     request.addfinalizer(test_setup.stop)
 
-    return test_setup.gerrit_container
+    return test_setup
 
 
 @pytest.mark.docker
@@ -85,7 +86,7 @@ class TestGerritReplica:
     @pytest.mark.timeout(60)
     def test_gerrit_replica_gerrit_starts_up(self, container_run):
         def wait_for_gerrit_start():
-            log = container_run.logs().decode("utf-8")
+            log = container_run.container.logs().decode("utf-8")
             return re.search(r"Gerrit Code Review .+ ready", log)
 
         while not wait_for_gerrit_start():
@@ -94,7 +95,7 @@ class TestGerritReplica:
     def test_gerrit_replica_custom_gerrit_config_available(
         self, container_run, config_file_to_test
     ):
-        exit_code, output = container_run.exec_run(
+        exit_code, output = container_run.container.exec_run(
             f"git config --file=/var/gerrit/etc/{config_file_to_test} --get test.success"
         )
         output = output.decode("utf-8").strip()
@@ -102,18 +103,20 @@ class TestGerritReplica:
         assert output == "True"
 
     def test_gerrit_replica_repository_exists(self, container_run, expected_repository):
-        exit_code, _ = container_run.exec_run(
+        exit_code, _ = container_run.container.exec_run(
             f"test -d /var/gerrit/git/{expected_repository}"
         )
         assert exit_code == 0
 
     def test_gerrit_replica_clone_repo_works(self, container_run, tmp_path_factory):
-        container_run.exec_run("git init --bare /var/gerrit/git/test.git")
+        container_run.container.exec_run("git init --bare /var/gerrit/git/test.git")
         clone_dest = tmp_path_factory.mktemp("gerrit_replica_clone_test")
-        repo = git.Repo.clone_from("http://localhost:8081/test.git", clone_dest)
+        repo = git.Repo.clone_from(
+            f"http://localhost:{container_run.port}/test.git", clone_dest
+        )
         assert repo.git_dir == os.path.join(clone_dest, ".git")
 
     def test_gerrit_replica_webui_not_accessible(self, container_run):
-        response = requests.get("http://localhost:8081")
+        response = requests.get(f"http://localhost:{container_run.port}")
         assert response.status_code == 404
         assert response.text == "Not Found"
