@@ -177,6 +177,6 @@ class Helm:
 
         charts = self.list(namespace)
         for chart in charts:
-            if chart["name"] in exceptions:
+            if exceptions and chart["name"] in exceptions:
                 continue
             self.delete(chart["name"], namespace)
