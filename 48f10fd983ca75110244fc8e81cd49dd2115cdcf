@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb029370_6df6739f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-04-18T23:37:06Z",
+      "side": 1,
+      "message": "Review points are resolved in Pacthset2.",
+      "revId": "48f10fd983ca75110244fc8e81cd49dd2115cdcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
