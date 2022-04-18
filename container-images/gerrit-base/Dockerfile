@@ -2,6 +2,7 @@ FROM base:latest
 
 RUN apk update && \
     apk add --no-cache \
+      coreutils \
       curl \
       openssh-keygen \
       openjdk11
