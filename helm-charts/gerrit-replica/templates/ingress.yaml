@@ -34,21 +34,21 @@ spec:
           service:
             name: {{ .Release.Name }}-git-backend-service
             port:
-              number: {{ .Values.gerritReplica.service.http.port }}
+              number: {{ .Values.gitBackend.service.http.port }}
       - pathType: Prefix
         path: /git
         backend:
           service:
             name: {{ .Release.Name }}-git-backend-service
             port:
-              number: {{ .Values.gerritReplica.service.http.port }}
+              number: {{ .Values.gitBackend.service.http.port }}
       - pathType: Prefix
         path: /
         backend:
           service:
             name: {{ .Release.Name }}-gerrit-replica-service
             port:
-              number: {{ .Values.gitBackend.service.http.port }}
+              number: {{ .Values.gerritReplica.service.http.port }}
 {{- end }}
 ---
 {{ if and (and .Values.ingress.tls.enabled .Values.ingress.tls.secret.create) (not .Values.istio.enabled) -}}
