@@ -305,7 +305,7 @@ project.
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `gitBackend.image` | Image name of the Apache-git-http-backend container image | `k8s-gerrit/apache-git-http-backend` |
+| `gitBackend.image` | Image name of the Apache-git-http-backend container image | `k8sgerrit/apache-git-http-backend` |
 | `gitBackend.affinity` | Assigns a Pod to the specified Nodes | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
 |                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
 |                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
@@ -337,7 +337,7 @@ At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `gitGC.image` | Image name of the Git-GC container image | `k8s-gerrit/git-gc` |
+| `gitGC.image` | Image name of the Git-GC container image | `k8sgerrit/git-gc` |
 | `gitGC.schedule` | Cron-formatted schedule with which to run Git garbage collection | `0 6,18 * * *` |
 | `gitGC.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 100m` |
 |                   |                                                               | `requests.memory: 256Mi` |
@@ -361,8 +361,8 @@ is mandatory, if access to the Gerrit replica is required!
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `gerritReplica.images.gerritInit` | Image name of the Gerrit init container image | `k8s-gerrit/gerrit-init` |
-| `gerritReplica.images.gerritReplica` | Image name of the Gerrit replica container image | `k8s-gerrit/gerrit-replica` |
+| `gerritReplica.images.gerritInit` | Image name of the Gerrit init container image | `k8sgerrit/gerrit-init` |
+| `gerritReplica.images.gerritReplica` | Image name of the Gerrit replica container image | `k8sgerrit/gerrit-replica` |
 | `gerritReplica.affinity` | Assigns a Pod to the specified Nodes. By default, gerrit-replica is evenly distributed on `topology.kubernetes.io/zone`. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
