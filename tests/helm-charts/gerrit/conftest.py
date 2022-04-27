@@ -62,6 +62,13 @@ def gerrit_deployment_factory(
         chart_opts["gitRepositoryStorage.externalPVC.use"] = "true"
         chart_opts["gitRepositoryStorage.externalPVC.name"] = "repo-storage"
         chart_opts["gitGC.logging.persistence.enabled"] = "false"
+        chart_opts["gitGC.image"] = f"{request.config.getoption('--org')}/git-gc"
+        chart_opts[
+            "gerrit.images.gerritInit"
+        ] = f"{request.config.getoption('--org')}/gerrit-init"
+        chart_opts[
+            "gerrit.images.gerrit"
+        ] = f"{request.config.getoption('--org')}/gerrit"
 
         test_cluster.helm.install(
             chart_path,
