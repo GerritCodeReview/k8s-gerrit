@@ -61,6 +61,7 @@ def gerrit_deployment_with_ssl(
     yield chart
 
     test_cluster.helm.delete(chart["name"], namespace=chart["namespace"])
+    test_cluster.delete_namespace(chart["namespace"])
 
 
 @pytest.mark.incremental
