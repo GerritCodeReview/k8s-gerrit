@@ -114,6 +114,7 @@ def gerrit_deployment_with_other_plugins(
     yield chart
 
     test_cluster.helm.delete(chart["name"], namespace=chart["namespace"])
+    test_cluster.delete_namespace(chart["namespace"])
 
 
 @pytest.fixture()
@@ -137,6 +138,7 @@ def gerrit_deployment_with_other_plugin_wrong_sha(
     yield chart
 
     test_cluster.helm.delete(chart["name"], namespace=chart["namespace"])
+    test_cluster.delete_namespace(chart["namespace"])
 
 
 def update_chart(helm, chart, opts):
