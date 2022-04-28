@@ -120,7 +120,8 @@ ingress:
   # The maximum body size to allow for requests. Use "0" to allow unlimited
   # reuqest body sizes.
   maxBodySize: 50m
-  additionalAnnotations: {}
+  additionalAnnotations:
+    kubernetes.io/ingress.class: nginx
   #  nginx.ingress.kubernetes.io/server-alias: example.com
   #  nginx.ingress.kubernetes.io/whitelist-source-range: xxx.xxx.xxx.xxx
   tls:
