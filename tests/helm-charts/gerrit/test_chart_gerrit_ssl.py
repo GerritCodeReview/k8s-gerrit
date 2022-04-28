@@ -47,7 +47,7 @@ def gerrit_deployment_with_ssl(
         "images.version": docker_tag,
         "images.ImagePullPolicy": "IfNotPresent",
         "ingress.enabled": True,
-        "ingress.host": "primary.{request.config.getoption('--ingress-url')}",
+        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
         "ingress.tls.enabled": "true",
         "ingress.tls.cert": ssl_certificate.get_cert().decode(),
         "ingress.tls.key": ssl_certificate.get_key().decode(),
