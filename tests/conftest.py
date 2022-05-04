@@ -19,8 +19,10 @@ import getpass
 import os
 import sys
 
+from pathlib import Path
+
 import docker
-import git
+import pygit2 as git
 import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "helpers"))
@@ -173,8 +175,7 @@ def docker_client():
 
 @pytest.fixture(scope="session")
 def repository_root():
-    git_repo = git.Repo(".", search_parent_directories=True)
-    return git_repo.git.rev_parse("--show-toplevel")
+    return Path(git.discover_repository(os.path.realpath(__file__))).parent.absolute()
 
 
 @pytest.fixture(scope="session")
@@ -204,10 +205,10 @@ def docker_org(request):
 
 
 @pytest.fixture(scope="session")
-def docker_tag(tag_of_cached_container):
+def docker_tag(tag_of_cached_container, repository_root):
     if tag_of_cached_container:
         return tag_of_cached_container
-    return git.Repo(".", search_parent_directories=True).git.describe(dirty=True)
+    return git.Repository(repository_root).describe(dirty_suffix="-dirty")
 
 
 @pytest.fixture(scope="session")

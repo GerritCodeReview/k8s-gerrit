@@ -20,7 +20,7 @@ import shutil
 
 from pathlib import Path
 
-import git
+import pygit2 as git
 import pytest
 import requests
 
@@ -72,30 +72,27 @@ class TestGerritRestGitCalls:
     ):
         repo_url = f"{request.config.getoption('--ingress-url')}/{random_repo_name}.git"
         repo_url = repo_url.replace("//", f"//{admin_creds[0]}:{admin_creds[1]}@")
-        repo = git.Repo.clone_from(repo_url, tmp_test_repo)
-        assert repo.git_dir == os.path.join(tmp_test_repo, ".git")
+        repo = git.clone_repository(repo_url, tmp_test_repo)
+        assert repo.path == os.path.join(tmp_test_repo, ".git/")
 
-    def test_push_commit(self, request, tmp_test_repo, random_repo_name):
-        repo = git.Repo.init(tmp_test_repo)
+    def test_push_commit(self, tmp_test_repo):
+        repo = git.Repository(tmp_test_repo)
         file_name = os.path.join(tmp_test_repo, "test.txt")
         Path(file_name).touch()
-        repo.index.add([file_name])
-        repo.index.commit("initial commit")
+        repo.index.add("test.txt")
+        repo.index.write()
+        # pylint: disable=E1101
+        author = git.Signature("Gerrit Review", "gerrit@review.com")
+        committer = git.Signature("Gerrit Review", "gerrit@review.com")
+        message = "Initial commit"
+        tree = repo.index.write_tree()
+        repo.create_commit("HEAD", author, committer, message, tree, [])
 
-        origin = repo.remote(name="origin")
-        with repo.git.custom_environment(GIT_SSL_NO_VERIFY="true"):
-            result = origin.push(refspec="master:master")
-            assert result
+        origin = repo.remotes["origin"]
+        origin.push(["refs/heads/master:refs/heads/master"])
 
-        git_cmd = git.cmd.Git()
-        url = f"{request.config.getoption('--ingress-url')}/{random_repo_name}.git"
-        with git_cmd.custom_environment(GIT_SSL_NO_VERIFY="true"):
-            for ref in git_cmd.ls_remote(url).split("\n"):
-                hash_ref_list = ref.split("\t")
-                if hash_ref_list[1] == "HEAD":
-                    assert repo.head.object.hexsha == hash_ref_list[0]
-                    return
-        pytest.fail(msg="SHA of remote HEAD was not equal to SHA of local HEAD.")
+        remote_refs = origin.ls_remotes()
+        assert remote_refs[0]["name"] == repo.revparse_single("HEAD").hex
 
     def test_delete_project_rest(self, request, random_repo_name, admin_creds):
         ingress_url = request.config.getoption("--ingress-url")

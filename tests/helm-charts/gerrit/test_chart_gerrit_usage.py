@@ -16,7 +16,7 @@
 
 import os.path
 
-import git
+import pygit2 as git
 import pytest
 import requests
 
@@ -47,5 +47,5 @@ class TestGerritChartSetup:
         repo_url = (
             f"http://primary.{request.config.getoption('--ingress-url')}/test.git"
         )
-        repo = git.Repo.clone_from(repo_url, clone_dest)
-        assert repo.git_dir == os.path.join(clone_dest, ".git")
+        repo = git.clone_repository(repo_url, clone_dest)
+        assert repo.path == os.path.join(clone_dest, ".git/")

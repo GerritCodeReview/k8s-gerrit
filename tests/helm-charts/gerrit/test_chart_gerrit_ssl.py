@@ -14,10 +14,11 @@
 
 import os.path
 
-import git
+import pygit2 as git
 import pytest
 import requests
 
+import git_callbacks
 import mock_ssl
 import utils
 
@@ -87,7 +88,7 @@ class TestgerritChartSetup:
         repo_url = (
             f"https://primary.{request.config.getoption('--ingress-url')}/test.git"
         )
-        repo = git.Repo.clone_from(
-            repo_url, clone_dest, env={"GIT_SSL_NO_VERIFY": "true"}
+        repo = git.clone_repository(
+            repo_url, clone_dest, callbacks=git_callbacks.TestRemoteCallbacks()
         )
-        assert repo.git_dir == os.path.join(clone_dest, ".git")
+        assert repo.path == os.path.join(clone_dest, ".git/")

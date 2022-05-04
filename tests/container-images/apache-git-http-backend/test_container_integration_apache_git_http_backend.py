@@ -18,7 +18,7 @@ from pathlib import Path
 
 import os.path
 
-import git
+import pygit2 as git
 import pytest
 import requests
 
@@ -30,11 +30,17 @@ def repo_dir(tmp_path_factory, random_repo_name):
 
 @pytest.fixture(scope="function")
 def mock_repo(repo_dir):
-    repo = git.Repo.init(repo_dir)
+    repo = git.init_repository(repo_dir, False)
     file_name = os.path.join(repo_dir, "test.txt")
     Path(file_name).touch()
-    repo.index.add([file_name])
-    repo.index.commit("initial commit")
+    repo.index.add("test.txt")
+    repo.index.write()
+    # pylint: disable=E1101
+    author = git.Signature("Gerrit Review", "gerrit@review.com")
+    committer = git.Signature("Gerrit Review", "gerrit@review.com")
+    message = "Initial commit"
+    tree = repo.index.write_tree()
+    repo.create_commit("HEAD", author, committer, message, tree, [])
     return repo
 
 
@@ -96,16 +102,8 @@ def test_apache_git_http_backend_repo_creation_push_repo(
     url = url.replace(
         "//", f"//{basic_auth_creds['user']}:{basic_auth_creds['password']}@"
     )
-    origin = mock_repo.create_remote("origin", url)
-    assert origin.exists()
+    origin = mock_repo.remotes.create("origin", url)
+    origin.push(["refs/heads/master:refs/heads/master"])
 
-    origin.fetch()
-    result = origin.push(refspec="master:master")
-    assert result
-
-    remote_refs = {}
-    git_cmd = git.cmd.Git()
-    for ref in git_cmd.ls_remote(url).split("\n"):
-        hash_ref_list = ref.split("\t")
-        remote_refs[hash_ref_list[1]] = hash_ref_list[0]
-    assert remote_refs["HEAD"] == mock_repo.head.object.hexsha
+    remote_refs = origin.ls_remotes()
+    assert str(remote_refs[0]["oid"]) == mock_repo.revparse_single("HEAD").hex
