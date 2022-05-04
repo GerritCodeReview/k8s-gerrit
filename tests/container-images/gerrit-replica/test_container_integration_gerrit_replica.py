@@ -18,7 +18,7 @@ import os
 import os.path
 import re
 
-import git
+import pygit2 as git
 import pytest
 import requests
 
@@ -111,7 +111,7 @@ class TestGerritReplica:
     def test_gerrit_replica_clone_repo_works(self, container_run, tmp_path_factory):
         container_run.container.exec_run("git init --bare /var/gerrit/git/test.git")
         clone_dest = tmp_path_factory.mktemp("gerrit_replica_clone_test")
-        repo = git.Repo.clone_from(
+        repo = git.clone_repository(
             f"http://localhost:{container_run.port}/test.git", clone_dest
         )
         assert repo.git_dir == os.path.join(clone_dest, ".git")
