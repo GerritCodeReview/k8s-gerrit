@@ -306,6 +306,7 @@ project.
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `gitBackend.image` | Image name of the Apache-git-http-backend container image | `k8sgerrit/apache-git-http-backend` |
+| `gitBackend.topologySpreadConstraints` | Control how Pods are spread across your cluster among failure-domains. For more information, please refer to the following documents. [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints) | {} |
 | `gitBackend.affinity` | Assigns a Pod to the specified Nodes | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
 |                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
 |                       |                                      | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
@@ -363,6 +364,7 @@ is mandatory, if access to the Gerrit replica is required!
 |-----------|-------------|---------|
 | `gerritReplica.images.gerritInit` | Image name of the Gerrit init container image | `k8sgerrit/gerrit-init` |
 | `gerritReplica.images.gerritReplica` | Image name of the Gerrit replica container image | `k8sgerrit/gerrit-replica` |
+| `gerritReplica.topologySpreadConstraints` | Control how Pods are spread across your cluster among failure-domains. For more information, please refer to the following documents. [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints) | {} |
 | `gerritReplica.affinity` | Assigns a Pod to the specified Nodes. By default, gerrit-replica is evenly distributed on `topology.kubernetes.io/zone`. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight: 100 |
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey: "topology.kubernetes.io/zone" |
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].key: app |
