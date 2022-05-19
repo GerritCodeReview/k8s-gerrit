@@ -5,7 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "~=2.12.2"
-black = "~=22.1.0"
+black = "~=22.3.0"
 
 [packages]
 docker = "~=5.0.3"
