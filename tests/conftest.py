@@ -27,6 +27,9 @@ import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "helpers"))
 
+# pylint: disable=C0103
+pytest_plugins = ["fixtures.credentials"]
+
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
 

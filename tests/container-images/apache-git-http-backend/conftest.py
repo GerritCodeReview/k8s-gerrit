@@ -14,22 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os.path
 import random
 import string
 import time
-
-from passlib.apache import HtpasswdFile
 
 import pytest
 
 
 class GitBackendContainer:
-    def __init__(self, docker_client, image, port, apache_credentials_dir):
+    def __init__(self, docker_client, image, port, credentials_dir):
         self.docker_client = docker_client
         self.image = image
         self.port = port
-        self.apache_credentials_dir = apache_credentials_dir
+        self.apache_credentials_dir = credentials_dir
 
         self.container = None
 
@@ -53,14 +50,14 @@ class GitBackendContainer:
 
 @pytest.fixture(scope="module")
 def container_run_factory(
-    docker_client, apache_git_http_backend_image, apache_credentials_dir
+    docker_client, apache_git_http_backend_image, htpasswd, credentials_dir
 ):
     def run_container(port):
         return GitBackendContainer(
             docker_client,
             apache_git_http_backend_image,
             port,
-            str(apache_credentials_dir),
+            str(credentials_dir),
         )
 
     return run_container
@@ -75,28 +72,6 @@ def container_run(container_run_factory, free_port):
     yield test_setup
 
     test_setup.stop()
-
-
-@pytest.fixture(scope="module")
-def basic_auth_creds():
-    return {"user": "git", "password": "secret"}
-
-
-@pytest.fixture(scope="module")
-def credentials_dir(tmp_path_factory):
-    return tmp_path_factory.mktemp("apache_creds")
-
-
-@pytest.fixture(scope="module")
-def mock_htpasswd(credentials_dir, basic_auth_creds):
-    htpasswd_file = HtpasswdFile(os.path.join(credentials_dir, ".htpasswd"), new=True)
-    htpasswd_file.set_password(basic_auth_creds["user"], basic_auth_creds["password"])
-    htpasswd_file.save()
-
-
-@pytest.fixture(scope="module")
-def apache_credentials_dir(credentials_dir, mock_htpasswd):
-    return credentials_dir
 
 
 @pytest.fixture(scope="module")

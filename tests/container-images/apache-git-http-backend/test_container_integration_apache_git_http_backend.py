@@ -54,13 +54,11 @@ def test_apache_git_http_backend_apache_running(container_run, base_url):
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation(
-    container_run, basic_auth_creds, repo_creation_url
+    container_run, htpasswd, repo_creation_url
 ):
     request = requests.get(
         repo_creation_url,
-        auth=requests.auth.HTTPBasicAuth(
-            basic_auth_creds["user"], basic_auth_creds["password"]
-        ),
+        auth=requests.auth.HTTPBasicAuth(htpasswd["user"], htpasswd["password"]),
     )
     assert request.status_code == 201
 
@@ -77,14 +75,12 @@ def test_apache_git_http_backend_repo_creation_fails_without_credentials(
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
-    container_run, basic_auth_creds, repo_creation_url
+    container_run, htpasswd, repo_creation_url
 ):
     container_run.container.exec_run("chown -R root:root /var/gerrit/git")
     request = requests.get(
         repo_creation_url,
-        auth=requests.auth.HTTPBasicAuth(
-            basic_auth_creds["user"], basic_auth_creds["password"]
-        ),
+        auth=requests.auth.HTTPBasicAuth(htpasswd["user"], htpasswd["password"]),
     )
     container_run.container.exec_run("chown -R gerrit:users /var/gerrit/git")
     assert request.status_code == 500
@@ -93,15 +89,13 @@ def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
 @pytest.mark.docker
 @pytest.mark.integration
 def test_apache_git_http_backend_repo_creation_push_repo(
-    container_run, base_url, basic_auth_creds, mock_repo, random_repo_name
+    container_run, base_url, htpasswd, mock_repo, random_repo_name
 ):
     container_run.container.exec_run(
         f"su -c 'git init --bare /var/gerrit/git/{random_repo_name}.git' gerrit"
     )
     url = f"{base_url}/git/{random_repo_name}.git"
-    url = url.replace(
-        "//", f"//{basic_auth_creds['user']}:{basic_auth_creds['password']}@"
-    )
+    url = url.replace("//", f"//{htpasswd['user']}:{htpasswd['password']}@")
     origin = mock_repo.remotes.create("origin", url)
     origin.push(["refs/heads/master:refs/heads/master"])
 
