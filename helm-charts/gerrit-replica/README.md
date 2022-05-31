@@ -396,6 +396,7 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.plugins.installAsLibrary` | List of plugins, which should be symlinked to the lib-dir in the Gerrit site (have to be in either `..downloaded` or `..packaged`) | `[]` |
 | `gerritReplica.plugins.cache.enabled` | Whether to cache downloaded plugins | `false` |
 | `gerritReplica.plugins.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
+| `gerritReplica.priorityClassName` | Name of the PriorityClass to apply to the master pod | `nil` |
 | `gerritReplica.etc.config` | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
 | `gerritReplica.etc.secret` | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret | `{secure.config: ...}` [see here](#Gerrit-config-files) |
 | `gerritReplica.additionalConfigMaps` | Allows to mount additional ConfigMaps into a subdirectory of `$SITE/data` | `[]` |
