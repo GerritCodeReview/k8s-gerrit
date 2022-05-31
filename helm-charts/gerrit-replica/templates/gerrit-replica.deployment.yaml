@@ -316,6 +316,9 @@ spec:
           subPath: idmapd.conf
         {{- end }}
       {{- end }}
+      {{- with .Values.gerritReplica.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       volumes:
       - name: gerrit-site
         emptyDir: {}
