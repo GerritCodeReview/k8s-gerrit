@@ -207,6 +207,9 @@ spec:
             path: /config/server/healthcheck~status
             port: gerrit-port
 {{ toYaml .Values.gerrit.startupProbe | indent 10 }}
+      {{ with .Values.gerrit.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       volumes:
       {{ if not .Values.gerrit.persistence.enabled -}}
       - name: gerrit-site

@@ -200,6 +200,8 @@ gerrit:
       enabled: false
       size: 1Gi
 
+  priorityClassName:
+
   etc:
     # Some values are expected to have a specific value for the deployment installed
     # by this chart to work. These are marked with `# FIXED`.
