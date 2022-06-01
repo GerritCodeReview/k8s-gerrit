@@ -16,7 +16,7 @@ import json
 import subprocess
 
 
-class Helm:
+class HelmClient:
     def __init__(self, kubeconfig, kubecontext):
         """Wrapper for Helm CLI.
 
@@ -162,6 +162,9 @@ class Helm:
                                 the executed command.
         """
 
+        if name not in self.list(namespace):
+            return None
+
         helm_cmd = ["delete", name]
         if namespace:
             helm_cmd.extend(("--namespace", namespace))
@@ -180,3 +183,20 @@ class Helm:
             if exceptions and chart["name"] in exceptions:
                 continue
             self.delete(chart["name"], namespace)
+
+    def is_installed(self, namespace, chart):
+        """Checks if a chart is installed in the cluster
+
+        Keyword Arguments:
+            namespace {str} -- Kubernetes namespace
+            chart {str} -- Name of the chart
+
+        Returns:
+            bool -- Whether the chart is installed
+        """
+
+        for installed_chart in self.list(namespace):
+            if installed_chart["name"] == chart:
+                return True
+
+        return False

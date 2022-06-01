@@ -23,12 +23,12 @@ from passlib.apache import HtpasswdFile
 import utils
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def credentials_dir(tmp_path_factory):
     return tmp_path_factory.mktemp("creds")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def htpasswd(credentials_dir):
     basic_auth_creds = {"user": "admin", "password": utils.create_random_string(16)}
     htpasswd_file = HtpasswdFile(os.path.join(credentials_dir, ".htpasswd"), new=True)

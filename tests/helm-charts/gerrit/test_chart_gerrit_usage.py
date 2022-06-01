@@ -27,25 +27,22 @@ import requests
 @pytest.mark.kubernetes
 class TestGerritChartSetup:
     @pytest.mark.timeout(240)
-    def test_create_project_rest(self, request, test_cluster, gerrit_ready_deployment):
-        ingress_url = request.config.getoption("--ingress-url")
-        create_project_url = f"http://primary.{ingress_url}/a/projects/test"
+    def test_create_project_rest(self, default_gerrit_deployment):
+        create_project_url = (
+            f"http://{default_gerrit_deployment.hostname}/a/projects/test"
+        )
         response = None
 
         while not response:
             try:
                 response = requests.put(create_project_url, auth=("admin", "secret"))
             except requests.exceptions.ConnectionError:
-                continue
+                break
 
         assert response.status_code == 201
 
-    def test_cloning_project(
-        self, request, tmp_path_factory, test_cluster, gerrit_ready_deployment
-    ):
+    def test_cloning_project(self, tmp_path_factory, default_gerrit_deployment):
         clone_dest = tmp_path_factory.mktemp("gerrit_chart_clone_test")
-        repo_url = (
-            f"http://primary.{request.config.getoption('--ingress-url')}/test.git"
-        )
+        repo_url = f"http://{default_gerrit_deployment.hostname}/test.git"
         repo = git.clone_repository(repo_url, clone_dest)
         assert repo.path == os.path.join(clone_dest, ".git/")

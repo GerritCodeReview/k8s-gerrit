@@ -22,7 +22,7 @@ from kubernetes import client, config
 
 import pytest
 
-from .helm import Helm
+from .helm.client import HelmClient
 
 
 class Cluster:
@@ -33,7 +33,7 @@ class Cluster:
         self.namespaces = []
 
         context = self._load_kube_config()
-        self.helm = Helm(self.kube_config, context)
+        self.helm = HelmClient(self.kube_config, context)
 
     def _load_kube_config(self):
         config.load_kube_config(config_file=self.kube_config)
@@ -87,6 +87,9 @@ class Cluster:
         self._apply_image_pull_secrets(name)
 
     def delete_namespace(self, name):
+        if name not in self.namespaces:
+            return
+
         client.CoreV1Api().delete_namespace(name, body=client.V1DeleteOptions())
         self.namespaces.remove(name)
 

@@ -20,7 +20,6 @@ import requests
 
 import git_callbacks
 import mock_ssl
-import utils
 
 
 @pytest.fixture(scope="module")
@@ -28,10 +27,8 @@ def cert_dir(tmp_path_factory):
     return tmp_path_factory.mktemp("gerrit-cert")
 
 
-@pytest.fixture(scope="class")
-def ssl_certificate(request, cert_dir):
-    url = f"primary.{request.config.getoption('--ingress-url')}"
-    keypair = mock_ssl.MockSSLKeyPair(f"*.{request.config.getoption('--ingress-url')}", url)
+def _create_ssl_certificate(url, cert_dir):
+    keypair = mock_ssl.MockSSLKeyPair("*." + url.split(".", 1)[1], url)
     with open(os.path.join(cert_dir, "server.crt"), "wb") as f:
         f.write(keypair.get_cert())
     with open(os.path.join(cert_dir, "server.key"), "wb") as f:
@@ -40,29 +37,27 @@ def ssl_certificate(request, cert_dir):
 
 
 @pytest.fixture(scope="class")
-def gerrit_deployment_with_ssl(
-    request, docker_tag, test_cluster, ssl_certificate, gerrit_deployment_factory
-):
-    chart_opts = {
-        "images.registry.name": request.config.getoption("--registry"),
-        "images.version": docker_tag,
-        "images.ImagePullPolicy": "IfNotPresent",
-        "ingress.enabled": True,
-        "ingress.host": f"primary.{request.config.getoption('--ingress-url')}",
-        "ingress.tls.enabled": "true",
-        "ingress.tls.cert": ssl_certificate.get_cert().decode(),
-        "ingress.tls.key": ssl_certificate.get_key().decode(),
-    }
-    chart = gerrit_deployment_factory(chart_opts)
-    pod_labels = f"app=gerrit,release={chart['name']}"
-    finished_in_time = utils.wait_for_pod_readiness(pod_labels, timeout=300)
-    if not finished_in_time:
-        raise utils.TimeOutException("Gerrit pod was not ready in time.")
+def gerrit_deployment_with_ssl(cert_dir, gerrit_deployment):
+    ssl_certificate = _create_ssl_certificate(gerrit_deployment.hostname, cert_dir)
+    gerrit_deployment.set_helm_value("ingress.tls.enabled", True)
+    gerrit_deployment.set_helm_value(
+        "ingress.tls.cert", ssl_certificate.get_cert().decode()
+    )
+    gerrit_deployment.set_helm_value(
+        "ingress.tls.key", ssl_certificate.get_key().decode()
+    )
+    gerrit_deployment.set_gerrit_config_value(
+        "httpd", "listenUrl", "proxy-https://*:8080/"
+    )
+    gerrit_deployment.set_gerrit_config_value(
+        "gerrit",
+        "canonicalWebUrl",
+        f"https://{gerrit_deployment.hostname}",
+    )
 
-    yield chart
+    gerrit_deployment.install()
 
-    test_cluster.helm.delete(chart["name"], namespace=chart["namespace"])
-    test_cluster.delete_namespace(chart["namespace"])
+    yield gerrit_deployment
 
 
 @pytest.mark.incremental
@@ -72,8 +67,9 @@ def gerrit_deployment_with_ssl(
 class TestgerritChartSetup:
     # pylint: disable=W0613
     def test_create_project_rest(self, request, cert_dir, gerrit_deployment_with_ssl):
-        ingress_url = request.config.getoption("--ingress-url")
-        create_project_url = f"https://primary.{ingress_url}/a/projects/test"
+        create_project_url = (
+            f"https://{gerrit_deployment_with_ssl.hostname}/a/projects/test"
+        )
         response = requests.put(
             create_project_url,
             auth=("admin", "secret"),
@@ -82,12 +78,12 @@ class TestgerritChartSetup:
         assert response.status_code == 201
 
     def test_cloning_project(
-        self, request, tmp_path_factory, test_cluster, gerrit_deployment_with_ssl
+        self,
+        tmp_path_factory,
+        gerrit_deployment_with_ssl,
     ):
         clone_dest = tmp_path_factory.mktemp("gerrit_chart_clone_test")
-        repo_url = (
-            f"https://primary.{request.config.getoption('--ingress-url')}/test.git"
-        )
+        repo_url = f"https://{gerrit_deployment_with_ssl.hostname}/test.git"
         repo = git.clone_repository(
             repo_url, clone_dest, callbacks=git_callbacks.TestRemoteCallbacks()
         )

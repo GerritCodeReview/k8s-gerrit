@@ -19,8 +19,8 @@ import pytest
 
 @pytest.mark.integration
 @pytest.mark.kubernetes
-def test_deployment(test_cluster, gerrit_deployment):
-    installed_charts = test_cluster.helm.list(gerrit_deployment["namespace"])
+def test_deployment(test_cluster, default_gerrit_deployment):
+    installed_charts = test_cluster.helm.list(default_gerrit_deployment.namespace)
     gerrit_chart = None
     for chart in installed_charts:
         if chart["name"].startswith("gerrit"):
