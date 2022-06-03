@@ -51,6 +51,7 @@ def plugin_list():
 def gerrit_deployment_with_packaged_plugins(request, gerrit_deployment):
     gerrit_deployment.set_helm_value("gerrit.plugins.packaged", request.param)
     gerrit_deployment.install()
+    gerrit_deployment.create_admin_account()
 
     yield gerrit_deployment, request.param
 
@@ -69,6 +70,7 @@ def gerrit_deployment_with_other_plugins(
     gerrit_deployment.set_helm_value("gerrit.plugins.packaged", ["healthcheck"])
 
     gerrit_deployment.install()
+    gerrit_deployment.create_admin_account()
 
     yield gerrit_deployment, selected_plugins
 
@@ -106,14 +108,16 @@ class TestgerritChartPackagedPluginInstall:
 
     @pytest.mark.timeout(300)
     def test_install_packaged_plugins(
-        self, request, gerrit_deployment_with_packaged_plugins
+        self, request, gerrit_deployment_with_packaged_plugins, ldap_credentials
     ):
         gerrit_deployment, expected_plugins = gerrit_deployment_with_packaged_plugins
         response = None
         while not response:
             try:
                 response = get_gerrit_plugin_list(
-                    f"http://{gerrit_deployment.hostname}"
+                    f"http://{gerrit_deployment.hostname}",
+                    "gerrit-admin",
+                    ldap_credentials["gerrit-admin"],
                 )
             except requests.exceptions.ConnectionError:
                 time.sleep(1)
@@ -122,7 +126,11 @@ class TestgerritChartPackagedPluginInstall:
 
     @pytest.mark.timeout(300)
     def test_install_packaged_plugins_are_removed_with_update(
-        self, request, test_cluster, gerrit_deployment_with_packaged_plugins
+        self,
+        request,
+        test_cluster,
+        gerrit_deployment_with_packaged_plugins,
+        ldap_credentials,
     ):
         gerrit_deployment, expected_plugins = gerrit_deployment_with_packaged_plugins
         removed_plugin = expected_plugins.pop()
@@ -134,7 +142,9 @@ class TestgerritChartPackagedPluginInstall:
         while True:
             try:
                 response = get_gerrit_plugin_list(
-                    f"http://{gerrit_deployment.hostname}"
+                    f"http://{gerrit_deployment.hostname}",
+                    "gerrit-admin",
+                    ldap_credentials["gerrit-admin"],
                 )
                 if response is not None and removed_plugin not in response:
                     break
@@ -158,13 +168,17 @@ class TestGerritChartOtherPluginInstall:
             )
 
     @pytest.mark.timeout(300)
-    def test_install_other_plugins(self, request, gerrit_deployment_with_other_plugins):
+    def test_install_other_plugins(
+        self, gerrit_deployment_with_other_plugins, ldap_credentials
+    ):
         gerrit_deployment, expected_plugins = gerrit_deployment_with_other_plugins
         response = None
         while not response:
             try:
                 response = get_gerrit_plugin_list(
-                    f"http://{gerrit_deployment.hostname}"
+                    f"http://{gerrit_deployment.hostname}",
+                    "gerrit-admin",
+                    ldap_credentials["gerrit-admin"],
                 )
             except requests.exceptions.ConnectionError:
                 continue
@@ -172,7 +186,7 @@ class TestGerritChartOtherPluginInstall:
 
     @pytest.mark.timeout(300)
     def test_install_other_plugins_are_removed_with_update(
-        self, request, gerrit_deployment_with_other_plugins
+        self, gerrit_deployment_with_other_plugins, ldap_credentials
     ):
         gerrit_deployment, installed_plugins = gerrit_deployment_with_other_plugins
         removed_plugin = installed_plugins.pop()
@@ -183,7 +197,9 @@ class TestGerritChartOtherPluginInstall:
         while True:
             try:
                 response = get_gerrit_plugin_list(
-                    f"http://{gerrit_deployment.hostname}"
+                    f"http://{gerrit_deployment.hostname}",
+                    "gerrit-admin",
+                    ldap_credentials["gerrit-admin"],
                 )
                 if response is not None and removed_plugin["name"] not in response:
                     break

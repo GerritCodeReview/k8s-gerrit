@@ -56,6 +56,7 @@ def gerrit_deployment_with_ssl(cert_dir, gerrit_deployment):
     )
 
     gerrit_deployment.install()
+    gerrit_deployment.create_admin_account()
 
     yield gerrit_deployment
 
@@ -66,22 +67,20 @@ def gerrit_deployment_with_ssl(cert_dir, gerrit_deployment):
 @pytest.mark.slow
 class TestgerritChartSetup:
     # pylint: disable=W0613
-    def test_create_project_rest(self, request, cert_dir, gerrit_deployment_with_ssl):
+    def test_create_project_rest(
+        self, cert_dir, gerrit_deployment_with_ssl, ldap_credentials
+    ):
         create_project_url = (
             f"https://{gerrit_deployment_with_ssl.hostname}/a/projects/test"
         )
         response = requests.put(
             create_project_url,
-            auth=("admin", "secret"),
+            auth=("gerrit-admin", ldap_credentials["gerrit-admin"]),
             verify=os.path.join(cert_dir, "server.crt"),
         )
         assert response.status_code == 201
 
-    def test_cloning_project(
-        self,
-        tmp_path_factory,
-        gerrit_deployment_with_ssl,
-    ):
+    def test_cloning_project(self, tmp_path_factory, gerrit_deployment_with_ssl):
         clone_dest = tmp_path_factory.mktemp("gerrit_chart_clone_test")
         repo_url = f"https://{gerrit_deployment_with_ssl.hostname}/test.git"
         repo = git.clone_repository(

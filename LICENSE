@@ -240,10 +240,20 @@ https://github.com/pytest-dev/pytest \
 Copyright (c) 2004-2017 Holger Krekel and others \
 MIT License (https://github.com/pytest-dev/pytest/blob/master/LICENSE)
 
+python-chromedriver-autoinstaller \
+https://github.com/yeongbin-jo/python-chromedriver-autoinstaller \
+Copyright (c) 2022 Yeongbin Jo \
+MIT License (https://github.com/yeongbin-jo/python-chromedriver-autoinstaller/blob/master/LICENSE)
+
 Requests \
 https://github.com/requests/requests \
 Copyright 2018 Kenneth Reitz \
 Apache 2 license (https://github.com/requests/requests/blob/master/LICENSE)
+
+Selenium \
+https://github.com/SeleniumHQ/selenium \
+Copyright 2022 Software Freedom Conservancy (SFC) \
+Apache 2 license (https://github.com/SeleniumHQ/selenium/blob/trunk/LICENSE)
 
 ---
 ## The MIT License (MIT)

@@ -116,3 +116,29 @@ def test_cluster(request):
     yield test_cluster
 
     test_cluster.cleanup()
+
+
+@pytest.fixture(scope="session")
+def ldap_credentials(test_cluster):
+    ldap_secret = client.CoreV1Api().read_namespaced_secret(
+        "openldap-users", namespace="openldap"
+    )
+    users = base64.b64decode(ldap_secret.data["users"]).decode("utf-8").split(",")
+    passwords = (
+        base64.b64decode(ldap_secret.data["passwords"]).decode("utf-8").split(",")
+    )
+    credentials = {}
+    for i, user in enumerate(users):
+        credentials[user] = passwords[i]
+
+    yield credentials
+
+
+@pytest.fixture(scope="session")
+def ldap_admin_credentials(test_cluster):
+    ldap_secret = client.CoreV1Api().read_namespaced_secret(
+        "openldap-admin", namespace="openldap"
+    )
+    password = base64.b64decode(ldap_secret.data["adminpassword"]).decode("utf-8")
+
+    yield ("admin", password)

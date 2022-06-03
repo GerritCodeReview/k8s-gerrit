@@ -21,7 +21,10 @@ import pytest
 import yaml
 
 import pygit2 as git
+import chromedriver_autoinstaller
 from kubernetes import client
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 from .abstract_deployment import AbstractDeployment
 
@@ -48,7 +51,9 @@ def dict_to_git_config(config_dict):
 GERRIT_STARTUP_TIMEOUT = 240
 
 DEFAULT_GERRIT_CONFIG = {
-    "auth": {"type": "DEVELOPMENT_BECOME_ANY_ACCOUNT"},
+    "auth": {
+        "type": "LDAP",
+    },
     "container": {
         "user": "gerrit",
         "javaHome": "/usr/lib/jvm/java-11-openjdk",
@@ -69,6 +74,11 @@ DEFAULT_GERRIT_CONFIG = {
         "gracefulStopTimeout": "1m",
     },
     "index": {"type": "LUCENE", "onlineUpgrade": False},
+    "ldap": {
+        "server": "ldap://openldap.openldap.svc.cluster.local:1389",
+        "accountbase": "dc=example,dc=org",
+        "username": "cn=admin,dc=example,dc=org",
+    },
     "sshd": {"listenAddress": "off"},
 }
 
@@ -81,6 +91,7 @@ DEFAULT_VALUES = {
 }
 
 
+# pylint: disable=R0902
 class GerritDeployment(AbstractDeployment):
     def __init__(
         self,
@@ -91,10 +102,13 @@ class GerritDeployment(AbstractDeployment):
         container_org,
         container_version,
         ingress_url,
+        ldap_admin_credentials,
+        ldap_credentials,
     ):
         super().__init__(tmp_dir)
         self.cluster = cluster
         self.storageclass = storageclass
+        self.ldap_credentials = ldap_credentials
 
         self.chart_name = "gerrit-" + self.namespace
         self.chart_path = os.path.join(
@@ -112,6 +126,14 @@ class GerritDeployment(AbstractDeployment):
         )
         self.hostname = f"{self.namespace}.{ingress_url}"
         self._configure_ingress()
+        self.set_gerrit_config_value(
+            "gerrit", "canonicalWebUrl", f"http://{self.hostname}"
+        )
+        # pylint: disable=W1401
+        self.set_helm_value(
+            "gerrit.etc.secret.secure\.config",
+            dict_to_git_config({"ldap": {"password": ldap_admin_credentials[1]}}),
+        )
 
     def install(self, wait=True):
         if self.cluster.helm.is_installed(self.namespace, self.chart_name):
@@ -132,6 +154,33 @@ class GerritDeployment(AbstractDeployment):
             namespace=self.namespace,
             wait=wait,
         )
+
+    def create_admin_account(self):
+        self.wait_until_ready()
+        chromedriver_autoinstaller.install()
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--ignore-certificate-errors")
+        capabilities = webdriver.DesiredCapabilities.CHROME.copy()
+        capabilities["acceptInsecureCerts"] = True
+        driver = webdriver.Chrome(
+            chrome_options=options,
+            desired_capabilities=capabilities,
+        )
+        print(driver.capabilities)
+        driver.get(f"http://{self.hostname}/login")
+        print(self.ldap_credentials)
+        user_input = driver.find_element(By.ID, "f_user")
+        user_input.send_keys("gerrit-admin")
+
+        pwd_input = driver.find_element(By.ID, "f_pass")
+        pwd_input.send_keys(self.ldap_credentials["gerrit-admin"])
+
+        submit_btn = driver.find_element(By.ID, "b_signin")
+        submit_btn.click()
+
+        driver.close()
 
     def update(self):
         with open(self.values_file, "w", encoding="UTF-8") as f:
@@ -206,7 +255,9 @@ class GerritDeployment(AbstractDeployment):
 
 
 @pytest.fixture(scope="class")
-def gerrit_deployment(request, tmp_path_factory, test_cluster):
+def gerrit_deployment(
+    request, tmp_path_factory, test_cluster, ldap_admin_credentials, ldap_credentials
+):
     deployment = GerritDeployment(
         tmp_path_factory.mktemp("gerrit_deployment"),
         test_cluster,
@@ -215,6 +266,8 @@ def gerrit_deployment(request, tmp_path_factory, test_cluster):
         request.config.getoption("--org"),
         request.config.getoption("--tag"),
         request.config.getoption("--ingress-url"),
+        ldap_admin_credentials,
+        ldap_credentials,
     )
 
     yield deployment
@@ -225,5 +278,6 @@ def gerrit_deployment(request, tmp_path_factory, test_cluster):
 @pytest.fixture(scope="class")
 def default_gerrit_deployment(gerrit_deployment):
     gerrit_deployment.install()
+    gerrit_deployment.create_admin_account()
 
     yield gerrit_deployment

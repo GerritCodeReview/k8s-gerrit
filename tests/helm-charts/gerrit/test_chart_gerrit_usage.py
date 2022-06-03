@@ -27,7 +27,7 @@ import requests
 @pytest.mark.kubernetes
 class TestGerritChartSetup:
     @pytest.mark.timeout(240)
-    def test_create_project_rest(self, default_gerrit_deployment):
+    def test_create_project_rest(self, default_gerrit_deployment, ldap_credentials):
         create_project_url = (
             f"http://{default_gerrit_deployment.hostname}/a/projects/test"
         )
@@ -35,7 +35,10 @@ class TestGerritChartSetup:
 
         while not response:
             try:
-                response = requests.put(create_project_url, auth=("admin", "secret"))
+                response = requests.put(
+                    create_project_url,
+                    auth=("gerrit-admin", ldap_credentials["gerrit-admin"]),
+                )
             except requests.exceptions.ConnectionError:
                 break
 
