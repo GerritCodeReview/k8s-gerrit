@@ -29,6 +29,7 @@ class MockSSLKeyPair:
         self.key.generate_key(crypto.TYPE_RSA, 2048)
 
         self.cert = crypto.X509()
+        self.cert.set_version(2)
         self.cert.get_subject().O = "Gerrit"
         self.cert.get_subject().CN = self.common_name
         san = f"DNS:{self.subject_alt_name}"
