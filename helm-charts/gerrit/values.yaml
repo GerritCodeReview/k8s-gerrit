@@ -117,6 +117,7 @@ gerrit:
     gerritInit: k8sgerrit/gerrit-init
     gerrit: k8sgerrit/gerrit
 
+  tolerations: []
   topologySpreadConstraints: {}
   affinity: {}
 
