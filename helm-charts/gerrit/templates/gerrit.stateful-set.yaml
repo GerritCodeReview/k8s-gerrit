@@ -28,6 +28,10 @@ spec:
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
+      {{- with .Values.gerrit.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.gerrit.topologySpreadConstraints }}
       topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}

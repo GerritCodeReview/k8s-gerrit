@@ -96,6 +96,8 @@ ingress:
 gitGC:
   image: k8sgerrit/git-gc
 
+  tolerations: []
+
   schedule: 0 6,18 * * *
 
   resources:
@@ -117,6 +119,7 @@ gerrit:
     gerritInit: k8sgerrit/gerrit-init
     gerrit: k8sgerrit/gerrit
 
+  tolerations: []
   topologySpreadConstraints: {}
   affinity: {}
 
