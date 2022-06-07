@@ -166,6 +166,7 @@ promtailSidecar:
 gitBackend:
   image: k8sgerrit/apache-git-http-backend
 
+  tolerations: []
   topologySpreadConstraints: {}
   affinity:
     podAntiAffinity:
@@ -245,6 +246,7 @@ gerritReplica:
     gerritInit: k8sgerrit/gerrit-init
     gerritReplica: k8sgerrit/gerrit-replica
 
+  tolerations: []
   topologySpreadConstraints: {}
   affinity:
     podAntiAffinity:
