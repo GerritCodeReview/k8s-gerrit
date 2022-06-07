@@ -26,6 +26,10 @@ spec:
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
+      {{- with .Values.gitBackend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.gitBackend.topologySpreadConstraints }}
       topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}

@@ -24,6 +24,10 @@ spec:
             heritage: {{ .Release.Service }}
             release: {{ .Release.Name }}
         spec:
+          {{- with .Values.gitGC.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
           restartPolicy: OnFailure
           securityContext:
             fsGroup: 100
