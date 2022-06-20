@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c70f675_3553f664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-06-20T12:10:38Z",
+      "side": 1,
+      "message": "We don\u0027t use this kind of formatting of the commit message. Please just describe what you are doing within the body of the commit message.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "f588deb724c2b7190e4024aa3d5d332bd0481e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8173c348_6c87c3e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-06-20T12:10:38Z",
+      "side": 1,
+      "message": "I think a priority class would also make sense for the deployments in the gerrit-replica chart. Could you add it there as well?",
+      "revId": "f588deb724c2b7190e4024aa3d5d332bd0481e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c2cf94c_ca5ee9ba",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-06-20T12:10:38Z",
+      "side": 1,
+      "message": "apply to",
+      "range": {
+        "startLine": 277,
+        "startChar": 60,
+        "endLine": 277,
+        "endChar": 66
+      },
+      "revId": "f588deb724c2b7190e4024aa3d5d332bd0481e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d3b57a7_ed19ef17",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-06-20T12:10:38Z",
+      "side": 1,
+      "message": "Please group this with the other options dealing with scheduling the pods, e.g. affinity.",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 16
+      },
+      "revId": "f588deb724c2b7190e4024aa3d5d332bd0481e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
