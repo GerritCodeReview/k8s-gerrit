@@ -43,6 +43,7 @@ docker_build(){
     IMAGE=$1
 
     docker build \
+        --platform=linux/amd64 \
         --build-arg TAG=$REV \
         -t k8sgerrit/$IMAGE:$TAG \
         ./container-images/$IMAGE
@@ -58,6 +59,7 @@ docker_build(){
 docker_build_gerrit_base(){
     BUILD_ARGS="$BUILD_ARGS --build-arg TAG=$REV"
     docker build \
+        --platform=linux/amd64 \
         $BUILD_ARGS \
         -t gerrit-base:$REV \
         ./container-images/gerrit-base
@@ -81,7 +83,7 @@ create_image_tag(){
 REPORT="Build results: \n"
 RETURN_CODE=0
 
-docker build -t base:$REV ./container-images/base
+docker build --platform=linux/amd64 -t base:$REV ./container-images/base
 if test $? -ne 0; then
     echo -e "\n\nFailed to build base image."
     exit 1
