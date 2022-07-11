@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac11fc5_4a146a23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-11T09:03:30Z",
+      "side": 1,
+      "message": "fyi: git init itself will not overwrite anything, if the repository already exists, so it is safe to just run it on an existing repository [1].\n\nHowever, providing the caller with a proper status code and message is a very valid improvement.\n\n[1] https://git-scm.com/docs/git-init",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b64064ed_330b5cad",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-11T09:03:30Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae5a7e39_8eec7b42",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-11T09:03:30Z",
+      "side": 1,
+      "message": "What is that supposed to mean?\nJust remove this line, since MESSAGE will always be set in the following conditional block.",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
