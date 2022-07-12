@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "238515e2_8d68026d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-12T05:55:01Z",
+      "side": 1,
+      "message": "This indeed seems to be a bug or at least the documentation should be improved. Maybe you could report it to the git mailing list. I can at least see that it touches .git/config although it didn\u0027t modify it. That git init reads the config would not surprise me, but it shouldn\u0027t break it. It should also respect existing locks and properly remove its own.\nRegardless, this is not a discussion that should be part of this repository. Your change definitely improves the script, especially if it prohibits issues as you observed them.",
+      "parentUuid": "c047f578_c9afdbfb",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b64064ed_330b5cad",
