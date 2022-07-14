@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bcc9edc_92efe45a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-07-14T06:21:36Z",
+      "side": 1,
+      "message": "My first priority is to run my Gerrit master-replica with no issue.\n\nSurely I can report to the git mailing list and I\u0027ll do it.\nI found some reports that are similar to the issue I\u0027m facing.\nAnd there is no answer describing the root cause.\nI estimate it will require long terms to fix it.\n\nMy patch is a hot-fix.\n\n\u003e I can at least see that it touches .git/config although it didn\u0027t modify it.\n\nDid you verify it in your environment? It doesn\u0027t just touch but more calling systemcalls.\n\nI\u0027m not sure as I failed to reproduce. But I suppose `config` is broken by racing `git push` from the master and `/new` API.\n\n```\n/ # inotifywait -m /tmp/hoge.git/\nSetting up watches.\nWatches established.\n/tmp/hoge.git/ OPEN config\n/tmp/hoge.git/ ACCESS config\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ OPEN config\n/tmp/hoge.git/ ACCESS config\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ OPEN config\n/tmp/hoge.git/ ACCESS config\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ CREATE config.lock\n/tmp/hoge.git/ OPEN config.lock\n/tmp/hoge.git/ OPEN config\n/tmp/hoge.git/ ACCESS config\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ ATTRIB config.lock\n/tmp/hoge.git/ MODIFY config.lock\n/tmp/hoge.git/ MODIFY config.lock\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ CLOSE_WRITE,CLOSE config.lock\n/tmp/hoge.git/ MOVED_FROM config.lock\n/tmp/hoge.git/ MOVED_TO config\n/tmp/hoge.git/ ATTRIB config\n/tmp/hoge.git/ CREATE config.lock\n/tmp/hoge.git/ OPEN config.lock\n/tmp/hoge.git/ OPEN config\n/tmp/hoge.git/ ACCESS config\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ ATTRIB config.lock\n/tmp/hoge.git/ MODIFY config.lock\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ CLOSE_WRITE,CLOSE config.lock\n/tmp/hoge.git/ MOVED_FROM config.lock\n/tmp/hoge.git/ MOVED_TO config\n/tmp/hoge.git/ CREATE config.lock\n/tmp/hoge.git/ OPEN config.lock\n/tmp/hoge.git/ OPEN config\n/tmp/hoge.git/ ACCESS config\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ ATTRIB config.lock\n/tmp/hoge.git/ MODIFY config.lock\n/tmp/hoge.git/ CLOSE_NOWRITE,CLOSE config\n/tmp/hoge.git/ CLOSE_WRITE,CLOSE config.lock\n/tmp/hoge.git/ MOVED_FROM config.lock\n/tmp/hoge.git/ MOVED_TO config\n```",
+      "parentUuid": "238515e2_8d68026d",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b64064ed_330b5cad",
         "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
         "patchSetId": 2
