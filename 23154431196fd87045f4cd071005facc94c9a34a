@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68fa8b00_ee398e65",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-07-14T06:48:57Z",
+      "side": 1,
+      "message": "I see. I\u0027ll remove it and re-submit.",
+      "parentUuid": "b64064ed_330b5cad",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae5a7e39_8eec7b42",
         "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
         "patchSetId": 2
@@ -120,6 +138,24 @@
       "writtenOn": "2022-07-11T09:03:30Z",
       "side": 1,
       "message": "What is that supposed to mean?\nJust remove this line, since MESSAGE will always be set in the following conditional block.",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd5b1558_ca61023b",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-07-14T06:48:57Z",
+      "side": 1,
+      "message": "This is a prevention for future regressions.\nThe script will return an unsuitable \"Repository could not created\" message if more conditional block with bugs in the future.",
+      "parentUuid": "ae5a7e39_8eec7b42",
       "revId": "23154431196fd87045f4cd071005facc94c9a34a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
