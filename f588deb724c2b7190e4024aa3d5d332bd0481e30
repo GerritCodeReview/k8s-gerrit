@@ -199,6 +199,30 @@
       },
       "revId": "f588deb724c2b7190e4024aa3d5d332bd0481e30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e9806a2_66c39bee",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-07-14T01:46:01Z",
+      "side": 1,
+      "message": "Ah, I see what you meant.\nI agree with your suggestion.\nI\u0027ll push the new PatchSet later.",
+      "parentUuid": "9e66a715_d401a431",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 16
+      },
+      "revId": "f588deb724c2b7190e4024aa3d5d332bd0481e30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
