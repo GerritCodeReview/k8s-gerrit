@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b01f3b5_7c59813c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-14T06:31:06Z",
+      "side": 1,
+      "message": "Yes, I would also guess that the issue is because of concurrent access of the config file, which should have been prevented by the lock.\n\nI also agree that we should bring in your hotfix asap. Please fix the nits I mentioned in the other comments and we can submit this fix.\n\nThanks for analysing and hot-fixing the issue.",
+      "parentUuid": "6bcc9edc_92efe45a",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b64064ed_330b5cad",
