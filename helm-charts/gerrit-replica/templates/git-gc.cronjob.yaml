@@ -28,6 +28,10 @@ spec:
           tolerations:
             {{- toYaml . | nindent 10 }}
           {{- end }}
+          {{- with .Values.gitGC.topologySpreadConstraints }}
+          topologySpreadConstraints:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
           restartPolicy: OnFailure
           securityContext:
             fsGroup: 100

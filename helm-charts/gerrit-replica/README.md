@@ -346,6 +346,7 @@ At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
 |                   |                                                               | `limits.cpu: 100m` |
 |                   |                                                               | `limits.memory: 256Mi` |
 | `gitGC.tolerations` | Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. For more information, please refer to the following documents. [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration) | [] |
+| `gitGC.topologySpreadConstraints` | Control how Pods are spread across your cluster among failure-domains. For more information, please refer to the following documents. [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints) | {} |
 
 ### Gerrit replica
 

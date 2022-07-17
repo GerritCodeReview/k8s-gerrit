@@ -233,6 +233,7 @@ gitGC:
   image: k8sgerrit/git-gc
 
   tolerations: []
+  topologySpreadConstraints: {}
 
   schedule: 0 6,18 * * *
 
