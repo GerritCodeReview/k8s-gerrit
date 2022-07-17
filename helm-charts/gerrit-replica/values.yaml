@@ -234,6 +234,7 @@ gitGC:
 
   tolerations: []
   topologySpreadConstraints: {}
+  affinity: {}
 
   schedule: 0 6,18 * * *
 

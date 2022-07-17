@@ -28,6 +28,10 @@ spec:
           topologySpreadConstraints:
             {{- toYaml . | nindent 10 }}
           {{- end }}
+          {{- with .Values.gitGC.affinity }}
+          affinity:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
           restartPolicy: OnFailure
           securityContext:
             runAsUser: 1000
