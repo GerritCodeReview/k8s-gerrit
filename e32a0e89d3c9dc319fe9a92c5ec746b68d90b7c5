@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a50c2dc_20d29292",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-18T08:46:41Z",
+      "side": 1,
+      "message": "Does this make sense? The CronJob will only spawn a single pod, so it can\u0027t \"spread\".\nArguably, git gc should be split into a scalable number of pods each taking care of a set of projects. This is not the case yet though (I am working on it as part of implementing an operator).",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "e32a0e89d3c9dc319fe9a92c5ec746b68d90b7c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "88f00e90_83416d71",
