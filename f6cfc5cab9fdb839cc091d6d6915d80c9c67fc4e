@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71347741_905ac742",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGcStatus.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-19T07:15:35Z",
+      "side": 1,
+      "message": "Update with state field.",
+      "revId": "f6cfc5cab9fdb839cc091d6d6915d80c9c67fc4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
