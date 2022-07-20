@@ -158,6 +158,24 @@
       "parentUuid": "ae5a7e39_8eec7b42",
       "revId": "23154431196fd87045f4cd071005facc94c9a34a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08dce388_82da652a",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-07-20T08:10:14Z",
+      "side": 1,
+      "message": "Fine, but use a more descriptive message, like: \"Repository creation failed with unknown reason.\"\nNote however that one usually doesn\u0027t implement a case that is never called by the code just to prevent a possible issue in the future. That is what code review would be for. Especially in this case, the message in line 11 does not provide more relevant information than the one in line 22.",
+      "parentUuid": "fd5b1558_ca61023b",
+      "revId": "23154431196fd87045f4cd071005facc94c9a34a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
