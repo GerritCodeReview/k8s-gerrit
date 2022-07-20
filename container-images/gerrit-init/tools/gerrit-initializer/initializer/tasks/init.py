@@ -13,13 +13,17 @@
 # limitations under the License.
 
 import os
+import shutil
 import subprocess
 import sys
 
 from ..helpers import git, log
 from .download_plugins import get_installer
+from .reindex import IndexType, get_reindexer
+from .validate_notedb import NoteDbValidator
 
 LOG = log.get_logger("init")
+MNT_PATH = "/var/mnt"
 
 
 class GerritInit:
@@ -29,16 +33,13 @@ class GerritInit:
 
         self.plugin_installer = get_installer(self.site, self.config)
 
-        self.gerrit_config = self._parse_gerrit_config()
+        self.gerrit_config = git.GitConfigParser(
+            os.path.join(MNT_PATH, "etc/config/gerrit.config")
+        )
         self.installed_plugins = self._get_installed_plugins()
 
-    def _parse_gerrit_config(self):
-        gerrit_config_path = os.path.join(self.site, "etc/gerrit.config")
-
-        if os.path.exists(gerrit_config_path):
-            return git.GitConfigParser(gerrit_config_path)
-
-        return None
+        self.is_replica = self.gerrit_config.get_boolean("container.replica")
+        self.pid_file = f"{self.site}/logs/gerrit.pid"
 
     def _get_gerrit_version(self, gerrit_war_path):
         command = f"java -jar {gerrit_war_path} version"
@@ -90,7 +91,71 @@ class GerritInit:
         LOG.info("No initialization required.")
         return False
 
+    def _ensure_symlink(self, src, target):
+        if not os.path.exists(src):
+            raise FileNotFoundError(f"Unable to find mounted dir: {src}")
+
+        if os.path.islink(target) and os.path.realpath(target) == src:
+            return
+
+        if os.path.exists(target):
+            shutil.rmtree(target)
+
+        os.symlink(src, target)
+
+    def _symlink_mounted_site_components(self):
+        self._ensure_symlink(f"{MNT_PATH}/git", f"{self.site}/git")
+        # TODO(Thomas): Enable this feature for primary Gerrits as well
+        if self.is_replica:
+            self._ensure_symlink(f"{MNT_PATH}/logs", f"{self.site}/logs")
+
+        index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
+        if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
+            self._ensure_symlink(f"{MNT_PATH}/index", f"{self.site}/index")
+
+        data_dir = f"{self.site}/data"
+        if os.path.exists(data_dir):
+            for file_or_dir in os.listdir(data_dir):
+                if (
+                    os.path.isdir(file_or_dir)
+                    and os.path.islink(file_or_dir)
+                    and not os.path.exists(os.readlink(file_or_dir))
+                ):
+                    os.unlink(file_or_dir)
+        else:
+            os.makedirs(data_dir)
+
+        mounted_data_dir = f"{MNT_PATH}/data"
+        if os.path.exists(mounted_data_dir):
+            for file_or_dir in os.listdir(mounted_data_dir):
+                if os.path.isdir(file_or_dir):
+                    self._ensure_symlink(
+                        os.path.join(mounted_data_dir, file_or_dir),
+                        os.path.join(data_dir, file_or_dir),
+                    )
+
+    def _symlink_configuration(self):
+        etc_dir = f"{self.site}/etc"
+        if not os.path.exists(etc_dir):
+            os.makedirs(etc_dir)
+
+        for config_type in ["config", "secret"]:
+            if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
+                for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
+                    if os.path.isfile(file_or_dir):
+                        self._ensure_symlink(
+                            os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
+                            os.path.join(etc_dir, file_or_dir),
+                        )
+
     def execute(self):
+        if not self.is_replica:
+            self._symlink_mounted_site_components()
+        self._symlink_configuration()
+
+        if os.path.exists(self.pid_file):
+            os.remove(self.pid_file)
+
         self.plugin_installer.execute()
 
         if not self._needs_init():
@@ -115,3 +180,11 @@ class GerritInit:
                 init_process.returncode,
             )
             sys.exit(1)
+
+        self._symlink_configuration()
+
+        if self.is_replica:
+            self._symlink_mounted_site_components()
+            NoteDbValidator(self.site).execute()
+        else:
+            get_reindexer(self.site, self.config).start(False)
