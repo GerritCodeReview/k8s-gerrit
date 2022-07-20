@@ -20,4 +20,4 @@ COPY config/* /var/config/
 USER gerrit
 
 ENTRYPOINT ["python3", "/var/tools/gerrit-initializer"]
-CMD ["-s", "/var/gerrit", "-c", "/var/config/default.config.yaml", "init"]
+CMD ["-s", "/var/gerrit", "-c", "/var/config/gerrit-init.yaml", "init"]
