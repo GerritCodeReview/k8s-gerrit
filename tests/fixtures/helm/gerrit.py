@@ -168,9 +168,7 @@ class GerritDeployment(AbstractDeployment):
             chrome_options=options,
             desired_capabilities=capabilities,
         )
-        print(driver.capabilities)
         driver.get(f"http://{self.hostname}/login")
-        print(self.ldap_credentials)
         user_input = driver.find_element(By.ID, "f_user")
         user_input.send_keys("gerrit-admin")
 
