@@ -63,10 +63,6 @@ spec:
             exit 0
           fi
 
-          mkdir -p /var/gerrit/etc
-          ln -sf /var/config/gerrit.config /var/gerrit/etc/gerrit.config
-          ln -sf /var/mnt/git /var/gerrit/
-
           python3 /var/tools/gerrit-initializer \
             -c /var/config/gerrit-init.yaml \
             -s /var/gerrit \
@@ -83,13 +79,10 @@ spec:
           mountPath: "/var/mnt/git"
         - name: logs
           subPathExpr: "gerrit-replica/$(POD_NAME)"
-          mountPath: "/var/gerrit/logs"
+          mountPath: "/var/mnt/logs"
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
-        - name: gerrit-config
-          mountPath: "/var/config/gerrit.config"
-          subPath: gerrit.config
         {{ if .Values.caCert -}}
         - name: tls-ca
           subPath: ca.crt
@@ -119,9 +112,6 @@ spec:
       - name: gerrit-init-config
         configMap:
           name: {{ .Release.Name }}-gerrit-init-configmap
-      - name: gerrit-config
-        configMap:
-          name: {{ .Release.Name }}-gerrit-replica-configmap
       {{ if .Values.caCert -}}
       - name: tls-ca
         secret:
