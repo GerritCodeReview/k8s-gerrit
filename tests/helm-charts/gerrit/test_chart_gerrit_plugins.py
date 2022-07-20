@@ -23,8 +23,8 @@ import requests
 
 from kubernetes import client
 
-PLUGINS = ["reviewers", "account"]
-GERRIT_VERSION = "3.5"
+PLUGINS = ["code-owners", "account"]
+GERRIT_VERSION = "3.6"
 
 
 @pytest.fixture(scope="module")
