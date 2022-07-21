@@ -1,0 +1,89 @@
+// Copyright (C) 2022 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.k8s.operator.gerrit;
+
+import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.SSH_PORT;
+
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.api.model.ServiceBuilder;
+import io.fabric8.kubernetes.api.model.ServicePort;
+import io.fabric8.kubernetes.api.model.ServicePortBuilder;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-service")
+public class ServiceDependentResource extends CRUDKubernetesDependentResource<Service, Gerrit> {
+  public static final String GERRIT_SERVICE_NAME = "gerrit-service";
+
+  public ServiceDependentResource() {
+    super(Service.class);
+  }
+
+  @Override
+  protected Service desired(Gerrit gerrit, Context<Gerrit> context) {
+    GerritCluster gerritCluster =
+        client
+            .resources(GerritCluster.class)
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(gerrit.getSpec().getCluster())
+            .get();
+    if (gerritCluster == null) {
+      throw new IllegalStateException("The Gerrit cluster could not be found.");
+    }
+
+    return new ServiceBuilder()
+        .withApiVersion("v1")
+        .withNewMetadata()
+        .withName(GERRIT_SERVICE_NAME)
+        .withNamespace(gerrit.getMetadata().getNamespace())
+        .withLabels(getLabels(gerritCluster))
+        .endMetadata()
+        .withNewSpec()
+        .withType(gerrit.getSpec().getService().getType())
+        .withPorts(getServicePorts(gerrit))
+        .withSelector(StatefulSetDependentResource.getLabels(gerritCluster, gerrit))
+        .endSpec()
+        .build();
+  }
+
+  public static Map<String, String> getLabels(GerritCluster gerritCluster) {
+    return gerritCluster.getLabels("gerrit-service", GerritReconciler.class.getSimpleName());
+  }
+
+  private static List<ServicePort> getServicePorts(Gerrit gerrit) {
+    List<ServicePort> ports = new ArrayList<>();
+    ports.add(
+        new ServicePortBuilder()
+            .withName("http")
+            .withPort(gerrit.getSpec().getService().getHttpPort())
+            .withNewTargetPort(HTTP_PORT)
+            .build());
+    if (gerrit.getSpec().getService().getSshPort() > 0) {
+      ports.add(
+          new ServicePortBuilder()
+              .withName("ssh")
+              .withPort(gerrit.getSpec().getService().getSshPort())
+              .withNewTargetPort(SSH_PORT)
+              .build());
+    }
+    return ports;
+  }
+}
