@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import static com.google.gerrit.k8s.operator.test.Util.createCluster;
 import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
@@ -23,9 +24,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
 import io.fabric8.kubernetes.api.model.ConfigMap;
-import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
-import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import org.junit.jupiter.api.AfterEach;
@@ -45,7 +44,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGitRepositoriesPvcCreated() {
-    GerritCluster cluster = createGerritCluster(false);
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), false);
 
     logger.atInfo().log("Waiting max 1 minutes for the git repositories pvc to be created.");
     await()
@@ -67,7 +66,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGerritLogsPvcCreated() {
-    GerritCluster cluster = createGerritCluster(false);
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), false);
 
     logger.atInfo().log("Waiting max 1 minutes for the gerrit logs pvc to be created.");
     await()
@@ -89,7 +88,7 @@ public class GerritClusterE2E {
 
   @Test
   void testNfsIdmapdConfigMapCreated() {
-    GerritCluster cluster = createGerritCluster(true);
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), true);
 
     logger.atInfo().log("Waiting max 1 minutes for the nfs idmapd configmap to be created.");
     await()
@@ -111,43 +110,5 @@ public class GerritClusterE2E {
   @AfterEach
   void cleanup() {
     client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
-  }
-
-  private GerritCluster createGerritCluster(boolean isNfsEnbaled) {
-    GerritCluster cluster = new GerritCluster();
-
-    cluster.setMetadata(
-        new ObjectMetaBuilder()
-            .withName("test-cluster")
-            .withNamespace(operator.getNamespace())
-            .build());
-
-    SharedStorage repoStorage = new SharedStorage();
-    repoStorage.setSize(Quantity.parse("1Gi"));
-
-    SharedStorage logStorage = new SharedStorage();
-    logStorage.setSize(Quantity.parse("1Gi"));
-
-    StorageClassConfig storageClassConfig = new StorageClassConfig();
-    storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
-
-    NfsWorkaroundConfig nfsWorkaround = new NfsWorkaroundConfig();
-    nfsWorkaround.setEnabled(isNfsEnbaled);
-    nfsWorkaround.setIdmapdConfig("[General]\nDomain = localdomain.com");
-    storageClassConfig.setNfsWorkaround(nfsWorkaround);
-
-    GerritClusterSpec clusterSpec = new GerritClusterSpec();
-    clusterSpec.setGitRepositoryStorage(repoStorage);
-    clusterSpec.setLogsStorage(logStorage);
-    clusterSpec.setStorageClasses(storageClassConfig);
-
-    cluster.setSpec(clusterSpec);
-
-    client
-        .resources(GerritCluster.class)
-        .inNamespace(operator.getNamespace())
-        .createOrReplace(cluster);
-
-    return cluster;
   }
 }
