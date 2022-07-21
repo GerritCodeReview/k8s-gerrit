@@ -156,7 +156,9 @@ public class GitGarbageCollectionCronJob
 
   private Container buildGitGcContainer(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
     List<VolumeMount> volumeMounts =
-        List.of(gerritCluster.getGitRepositoriesVolumeMount(), gerritCluster.getLogsVolumeMount());
+        List.of(
+            gerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"),
+            gerritCluster.getLogsVolumeMount("/var/log/git"));
 
     if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
         && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()

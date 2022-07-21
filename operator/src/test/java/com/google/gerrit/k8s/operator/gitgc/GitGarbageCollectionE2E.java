@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
+import static com.google.gerrit.k8s.operator.test.Util.CLUSTER_NAME;
+import static com.google.gerrit.k8s.operator.test.Util.createCluster;
 import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
@@ -27,12 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
-import com.google.gerrit.k8s.operator.cluster.SharedStorage;
-import com.google.gerrit.k8s.operator.cluster.StorageClassConfig;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -46,7 +44,6 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 public class GitGarbageCollectionE2E {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static final String GITGC_SCHEDULE = "*/1 * * * *";
-  static final String CLUSTER_NAME = "test-cluster";
 
   static final KubernetesClient client = getKubernetesClient();
 
@@ -60,7 +57,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testGitGcAllProjectsCreationAndDeletion() {
-    createCluster();
+    createCluster(client, operator.getNamespace());
     GitGarbageCollection gitGc = createCompleteGc();
 
     logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
@@ -80,7 +77,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testGitGcSelectedProjects() {
-    createCluster();
+    createCluster(client, operator.getNamespace());
     GitGarbageCollection gitGc = createSelectiveGc("selective-gc", Set.of("All-Projects", "test"));
 
     logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
@@ -98,7 +95,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testSelectiveGcIsExcludedFromCompleteGc() {
-    createCluster();
+    createCluster(client, operator.getNamespace());
     GitGarbageCollection completeGitGc = createCompleteGc();
 
     logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
@@ -157,7 +154,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testConflictingSelectiveGcFailsBeforeCronJobCreation() throws InterruptedException {
-    createCluster();
+    createCluster(client, operator.getNamespace());
     Set<String> selectedProjects = Set.of("All-Projects", "test");
     GitGarbageCollection selectiveGitGc1 = createSelectiveGc("selective-gc-1", selectedProjects);
 
@@ -199,51 +196,6 @@ public class GitGarbageCollectionE2E {
   void cleanup() {
     client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
-  }
-
-  private void createCluster() {
-    GerritCluster cluster = new GerritCluster();
-
-    cluster.setMetadata(
-        new ObjectMetaBuilder()
-            .withName(CLUSTER_NAME)
-            .withNamespace(operator.getNamespace())
-            .build());
-
-    SharedStorage repoStorage = new SharedStorage();
-    repoStorage.setSize(Quantity.parse("1Gi"));
-
-    SharedStorage logStorage = new SharedStorage();
-    logStorage.setSize(Quantity.parse("1Gi"));
-
-    StorageClassConfig storageClassConfig = new StorageClassConfig();
-    storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
-
-    GerritClusterSpec clusterSpec = new GerritClusterSpec();
-    clusterSpec.setGitRepositoryStorage(repoStorage);
-    clusterSpec.setLogsStorage(logStorage);
-    clusterSpec.setStorageClasses(storageClassConfig);
-
-    cluster.setSpec(clusterSpec);
-    logger.atInfo().log(cluster.toString());
-
-    client
-        .resources(GerritCluster.class)
-        .inNamespace(operator.getNamespace())
-        .createOrReplace(cluster);
-
-    await()
-        .atMost(1, MINUTES)
-        .untilAsserted(
-            () -> {
-              GerritCluster updatedCluster =
-                  client
-                      .resources(GerritCluster.class)
-                      .inNamespace(operator.getNamespace())
-                      .withName(CLUSTER_NAME)
-                      .get();
-              assertThat(updatedCluster, is(notNullValue()));
-            });
   }
 
   private GitGarbageCollection createCompleteGc() {
