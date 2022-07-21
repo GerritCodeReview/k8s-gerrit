@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
+import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
@@ -39,6 +40,8 @@ public class GerritOperator {
     operator.register(new GerritClusterReconciler(client));
     logger.atFine().log("Registering GitGc Reconciler");
     operator.register(new GitGarbageCollectionReconciler(client));
+    logger.atFine().log("Registering Gerrit Reconciler");
+    operator.register(new GerritReconciler(client));
     operator.installShutdownHook();
     operator.start();
 
