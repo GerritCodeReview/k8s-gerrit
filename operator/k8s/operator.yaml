@@ -70,9 +70,17 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - "apps"
+  resources:
+  - statefulsets
+  verbs:
+  - '*'
+- apiGroups:
   - ""
   resources:
+  - configmaps
   - persistentvolumeclaims
+  - services
   verbs:
   - '*'
 - apiGroups:

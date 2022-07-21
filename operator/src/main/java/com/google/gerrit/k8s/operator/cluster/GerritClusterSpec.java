@@ -23,7 +23,8 @@ public class GerritClusterSpec {
   private StorageClassConfig storageClasses;
   private SharedStorage gitRepositoryStorage;
   private SharedStorage logsStorage;
-  private String imagePullPolicy;
+  private OptionalSharedStorage pluginCacheStorage = new OptionalSharedStorage();
+  private String imagePullPolicy = "Always";
   private Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
   private GerritRepositoryConfig gerritImages = new GerritRepositoryConfig();
   private BusyBoxImage busyBox = new BusyBoxImage();
@@ -50,6 +51,14 @@ public class GerritClusterSpec {
 
   public void setLogsStorage(SharedStorage logsStorage) {
     this.logsStorage = logsStorage;
+  }
+
+  public OptionalSharedStorage getPluginCacheStorage() {
+    return pluginCacheStorage;
+  }
+
+  public void setPluginCacheStorage(OptionalSharedStorage pluginCacheStorage) {
+    this.pluginCacheStorage = pluginCacheStorage;
   }
 
   public String getImagePullPolicy() {

@@ -1,0 +1,40 @@
+
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: Gerrit
+metadata:
+  name: gerrit
+spec:
+  cluster: gerrit
+  site:
+    size: 5Gi
+  plugins: []
+  configFiles:
+    gerrit.config: |-
+      [auth]
+        type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+      [cache]
+        directory = cache
+      [container]
+        javaOptions = -Xms200m
+        javaOptions = -Xmx4g
+      [gerrit]
+        serverId = gerrit-1
+      [transfer]
+        timeout = 120 s
+      [user]
+        name = Gerrit Code Review
+        email = gerrit@example.com
+        anonymousCoward = Unnamed User
+  secrets:
+  - gerrit-secure-config
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  gerrit-secure-config
+  labels:
+    app: gerrit
+data:
+  keystore: ""
+  secure.config: ""
+type: Opaque
