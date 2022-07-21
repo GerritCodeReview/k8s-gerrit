@@ -233,6 +233,7 @@ gitGC:
   image: k8sgerrit/git-gc
 
   tolerations: []
+  affinity: {}
 
   schedule: 0 6,18 * * *
 
