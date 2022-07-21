@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
