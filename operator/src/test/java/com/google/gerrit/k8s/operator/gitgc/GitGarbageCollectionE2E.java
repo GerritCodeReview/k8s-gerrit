@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator;
+package com.google.gerrit.k8s.operator.gitgc;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.google.gerrit.k8s.operator.GitGarbageCollectionStatus.GitGcState;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
