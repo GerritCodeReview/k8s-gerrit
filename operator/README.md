@@ -49,6 +49,17 @@ it into the cluster run:
 kubectl apply -f k8s/cluster.sample.yaml
 ```
 
+### Gerrit
+
+An example of a Gerrit-CustomResource can be found at `k8s/gerrit.sample.yaml`.
+To install it into the cluster run:
+
+```sh
+kubectl apply -f k8s/gerrit.sample.yaml
+```
+
+The operator will create all resources to run a primary Gerrit.
+
 ### GitGarbageCollection
 
 An example of a GitGc-CustomResource can be found at `k8s/gitgc.sample.yaml`.
@@ -149,14 +160,185 @@ spec:
     size: 1Gi
 
     ## Name of a specific persistent volume to claim (optional)
-    volumeName: logs
+    volumeName: ""
 
     ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
     ## to select a specific persistent volume (optional)
-    selector:
-      matchLabels:
-        volume-type: ssd
-        aws-availability-zone: us-east-1
+    selector: {}
+      # matchLabels:
+      #   volume-type: ssd
+      #   aws-availability-zone: us-east-1
+```
+
+### Gerrit
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: Gerrit
+metadata:
+  name: gerrit
+spec:
+  ## Name of the Gerrit cluster this GitGc is a part of. (mandatory)
+  cluster: gerrit
+
+  ## Pod tolerations (https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  ## (optional)
+  tolerations: []
+  # - key: "key1"
+  #   operator: "Equal"
+  #   value: "value1"
+  #   effect: "NoSchedule"
+
+  ## Pod affinity (https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  ## (optional)
+  affinity: {}
+    # nodeAffinity:
+    # requiredDuringSchedulingIgnoredDuringExecution:
+    #   nodeSelectorTerms:
+    #   - matchExpressions:
+    #     - key: disktype
+    #       operator: In
+    #       values:
+    #       - ssd
+
+  ## Pod topology spread constraints (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/#:~:text=You%20can%20use%20topology%20spread,well%20as%20efficient%20resource%20utilization.)
+  ## (optional)
+  topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: zone
+  #   whenUnsatisfiable: DoNotSchedule
+  #   labelSelector:
+  #     matchLabels:
+  #       foo: bar
+
+  ## PriorityClass to be used with the pod (https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/)
+  ## (optional)
+  priorityClassName: ""
+
+  ## Number of pods running Gerrit in the StatefulSet (default: 1)
+  replicas: 1
+
+  ## Ordinal at which to start updating pods. Pods with a lower ordinal will not be updated. (default: 0)
+  updatePartition: 0
+
+  ## Resource requests/limits of the gerrit container
+  ## (https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+  ## (optional)
+  resources: {}
+    # requests:
+    #   cpu: 1
+    #   memory: 5Gi
+    # limits:
+    #   cpu: 1
+    #   memory: 6Gi
+
+  ## Startup probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+  ## The action will be set by the operator. All other probe parameters can be set.
+  ## (optional)
+  startupProbe: {}
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
+
+  ## Readiness probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+  ## The action will be set by the operator. All other probe parameters can be set.
+  ## (optional)
+  readinessProbe: {}
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
+
+  ## Liveness probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+  ## The action will be set by the operator. All other probe parameters can be set.
+  ## (optional)
+  livenessProbe: {}
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
+
+  ## Seconds the pod is allowed to shutdown until it is forcefully killed (default: 30)
+  gracefulStopTimeout: 30
+
+  ## Configuration for the service used to manage network access to the StatefulSet
+  service:
+    ## Service type (default: NodePort)
+    type: NodePort
+
+    ## Port used for HTTP requests (default: 80)
+    httpPort: 80
+
+    ## Port used for SSH requests (optional; if unset, SSH access is disabled)
+    sshPort: null
+
+  ## Configuration concerning the Gerrit site
+  site:
+    ## Size of the volume used to persist not otherwise persisted site components
+    ## (e.g. git repositories are persisted in a dedicated volume) (mandatory)
+    size: 1Gi
+
+  ## List of Gerrit plugins to install. These plugins can either be packaged in
+  ## the Gerrit war-file or they will be downloaded. (optional)
+  plugins: []
+  ## Installs a packaged plugin
+  # - name: delete-project
+
+  ## Downloads and installs a plugin
+  # - name: javamelody
+  #   url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-javamelody-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/javamelody/javamelody.jar
+  #   sha1: 40ffcd00263171e373a24eb6a311791b2924707c
+
+  ## If the `installAsLibrary` option is set to `true` the plugin's jar-file will
+  ## be symlinked to the lib directory and thus installed as a library as well.
+  # - name: saml
+  #   url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-saml-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/saml/saml.jar
+  #   sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
+  #   installAsLibrary: true
+
+  ## Configuration files for Gerrit that will be mounted into the Gerrit site's
+  ## etc-directory (gerrit.config is mandatory)
+  configFiles:
+    gerrit.config: |-
+        [gerrit]
+          basePath = git
+          serverId = gerrit-1
+          canonicalWebUrl = http://example.com/
+          disableReverseDnsLookup = true
+        [index]
+          type = LUCENE
+          onlineUpgrade = false
+        [auth]
+          type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+        [httpd]
+          listenUrl = proxy-http://*:8080/
+          requestLog = true
+          gracefulStopTimeout = 1m
+        [sshd]
+          listenAddress = off
+        [transfer]
+          timeout = 120 s
+        [user]
+          name = Gerrit Code Review
+          email = gerrit@example.com
+          anonymousCoward = Unnamed User
+        [cache]
+          directory = cache
+        [container]
+          user = gerrit
+          javaHome = /usr/lib/jvm/java-11-openjdk
+          javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+          javaOptions = -Xms200m
+          javaOptions = -Xmx4g
+
+  ## Names of secrets containing configuration files, e.g. secure.config, that
+  ## will be mounted into the Gerrit site's etc-directory (optional)
+  secrets: []
+  # - gerrit-secure-config
 ```
 
 ### GitGarbageCollection
