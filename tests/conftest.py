@@ -239,7 +239,7 @@ def docker_build(
         no_cache = not request.config.getoption("--build-cache")
 
         build = docker_client.images.build(
-            path=image, nocache=no_cache, rm=True, tag=image_name
+            path=image, nocache=no_cache, rm=True, tag=image_name, platform="linux/amd64"
         )
         return build[0]
 

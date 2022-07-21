@@ -34,6 +34,7 @@ def container_run_endless(request, docker_client, gerrit_init_image, temp_site):
         user="gerrit",
         detach=True,
         auto_remove=True,
+        platform="linux/amd64"
     )
 
     def stop_container():

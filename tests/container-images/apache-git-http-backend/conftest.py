@@ -42,6 +42,7 @@ class GitBackendContainer:
             },
             detach=True,
             auto_remove=True,
+            platform="linux/amd64"
         )
 
     def stop(self):
