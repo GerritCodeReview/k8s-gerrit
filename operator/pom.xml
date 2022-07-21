@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.google.gerrit.operator</groupId>
@@ -22,12 +20,12 @@
 		<dependency>
 			<groupId>io.javaoperatorsdk</groupId>
 			<artifactId>operator-framework</artifactId>
-			<version>3.0.3</version>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.javaoperatorsdk</groupId>
 			<artifactId>micrometer-support</artifactId>
-			<version>3.0.3</version>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.takes</groupId>
@@ -48,7 +46,7 @@
 		<dependency>
 			<groupId>io.javaoperatorsdk</groupId>
 			<artifactId>operator-framework-junit-5</artifactId>
-			<version>3.0.3</version>
+			<version>3.1.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
