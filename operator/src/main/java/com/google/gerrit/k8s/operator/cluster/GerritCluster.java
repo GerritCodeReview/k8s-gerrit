@@ -74,9 +74,14 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, Status> imp
 
   @JsonIgnore
   public VolumeMount getGitRepositoriesVolumeMount() {
+    return getGitRepositoriesVolumeMount("/var/mnt/git");
+  }
+
+  @JsonIgnore
+  public VolumeMount getGitRepositoriesVolumeMount(String mountPath) {
     return new VolumeMountBuilder()
         .withName(GIT_REPOSITORIES_VOLUME_NAME)
-        .withMountPath("/var/gerrit/git")
+        .withMountPath(mountPath)
         .build();
   }
 
@@ -92,10 +97,12 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, Status> imp
 
   @JsonIgnore
   public VolumeMount getLogsVolumeMount() {
-    return new VolumeMountBuilder()
-        .withName(LOGS_VOLUME_NAME)
-        .withMountPath("/var/gerrit/logs")
-        .build();
+    return getLogsVolumeMount("/var/mnt/logs");
+  }
+
+  @JsonIgnore
+  public VolumeMount getLogsVolumeMount(String mountPath) {
+    return new VolumeMountBuilder().withName(LOGS_VOLUME_NAME).withMountPath(mountPath).build();
   }
 
   @JsonIgnore
