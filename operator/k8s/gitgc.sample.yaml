@@ -6,6 +6,8 @@ metadata:
 spec:
   image: k8sgerrit/git-gc
   schedule: "*/5 * * * *"
+  logPVC: logs-pvc
+  site: gerrit
   resources:
     requests:
       cpu: 100m
@@ -13,5 +15,3 @@ spec:
     limits:
       cpu: 100m
       memory: 256Mi
-  logPVC: logs-pvc
-  repositoryPVC: git-repositories-pvc

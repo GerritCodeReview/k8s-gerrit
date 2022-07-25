@@ -14,7 +14,10 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
+import static com.google.gerrit.k8s.operator.site.GerritSiteReconciler.REPOSITORY_PVC_NAME;
+
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
+import com.google.gerrit.k8s.operator.site.GerritSite;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -47,7 +50,6 @@ import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEven
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -84,29 +86,55 @@ public class GitGarbageCollectionReconciler
                 .map(ResourceID::fromResource)
                 .collect(Collectors.toSet());
 
-    InformerEventSource<GitGarbageCollection, GitGarbageCollection> eventSource =
+    InformerEventSource<GitGarbageCollection, GitGarbageCollection> gitGcEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(GitGarbageCollection.class, context)
                 .withSecondaryToPrimaryMapper(specificProjectGitGcMapper)
                 .build(),
             context);
-    return EventSourceInitializer.nameEventSources(eventSource);
+
+    final SecondaryToPrimaryMapper<GerritSite> gerritSiteMapper =
+        (GerritSite site) ->
+            context
+                .getPrimaryCache()
+                .list(gitGc -> gitGc.getSpec().getSite().equals(site.getMetadata().getName()))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+
+    InformerEventSource<GerritSite, GitGarbageCollection> gerritSiteEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(GerritSite.class, context)
+                .withSecondaryToPrimaryMapper(gerritSiteMapper)
+                .build(),
+            context);
+
+    return EventSourceInitializer.nameEventSources(gitGcEventSource, gerritSiteEventSource);
   }
 
   @Override
   public UpdateControl<GitGarbageCollection> reconcile(
       GitGarbageCollection gitGc, Context<GitGarbageCollection> context) {
-    log.info(
-        "Reconciling GitGc with name: {}/{}",
-        gitGc.getMetadata().getNamespace(),
-        gitGc.getMetadata().getName());
+    String ns = gitGc.getMetadata().getNamespace();
+    String name = gitGc.getMetadata().getName();
+
+    GerritSite gerritSite =
+        kubernetesClient
+            .resources(GerritSite.class)
+            .inNamespace(gitGc.getMetadata().getNamespace())
+            .withName(gitGc.getSpec().getSite())
+            .get();
+    if (gerritSite == null) {
+      throw new IllegalStateException("The Gerrit site could not be found.");
+    }
+
+    log.info("Reconciling GitGc with name: {}/{}", ns, name);
 
     validateGitGCProjectList(gitGc);
     if (gitGc.getSpec().getProjects().isEmpty()) {
       gitGc = excludeProjectsInExistingGCs(gitGc);
     }
 
-    createCronJob(gitGc);
+    createCronJob(gitGc, gerritSite);
     return UpdateControl.updateStatus(updateGitGcStatus(gitGc));
   }
 
@@ -121,10 +149,9 @@ public class GitGarbageCollectionReconciler
     return gitGc;
   }
 
-  private void createCronJob(GitGarbageCollection gitGc) {
-    Map<String, String> gitGcLabels = new HashMap<>();
-    gitGcLabels.put("app", "gerrit");
-    gitGcLabels.put("component", "git-gc");
+  private void createCronJob(GitGarbageCollection gitGc, GerritSite gerritSite) {
+    Map<String, String> gitGcLabels =
+        gerritSite.getLabels("GitGc", this.getClass().getSimpleName());
 
     EnvVarSource metaDataEnvSource = new EnvVarSource();
     metaDataEnvSource.setFieldRef(null);
@@ -133,7 +160,7 @@ public class GitGarbageCollectionReconciler
         new VolumeBuilder()
             .withName(GIT_REPOSITORIES_VOLUME_NAME)
             .withNewPersistentVolumeClaim()
-            .withClaimName(gitGc.getSpec().getRepositoryPVC())
+            .withClaimName(REPOSITORY_PVC_NAME)
             .endPersistentVolumeClaim()
             .build();
 
