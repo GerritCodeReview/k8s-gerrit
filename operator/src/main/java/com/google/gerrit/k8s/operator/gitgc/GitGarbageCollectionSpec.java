@@ -20,17 +20,25 @@ import java.util.Objects;
 import java.util.Set;
 
 public class GitGarbageCollectionSpec {
+  private String site;
   private String image;
   private String schedule;
   private Set<String> projects;
   private ResourceRequirements resources;
-  private String repositoryPVC;
   private String logPVC;
 
   public GitGarbageCollectionSpec() {
     image = "k8s-gerrit/git-gc";
     resources = new ResourceRequirements();
     projects = new HashSet<>();
+  }
+
+  public String getSite() {
+    return site;
+  }
+
+  public void setSite(String site) {
+    this.site = site;
   }
 
   public void setImage(String image) {
@@ -65,14 +73,6 @@ public class GitGarbageCollectionSpec {
     return resources;
   }
 
-  public void setRepositoryPVC(String repositoryPVC) {
-    this.repositoryPVC = repositoryPVC;
-  }
-
-  public String getRepositoryPVC() {
-    return repositoryPVC;
-  }
-
   public void setLogPVC(String logPVC) {
     this.logPVC = logPVC;
   }
@@ -83,7 +83,7 @@ public class GitGarbageCollectionSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hash(image, logPVC, projects, repositoryPVC, resources, schedule);
+    return Objects.hash(image, logPVC, projects, resources, schedule);
   }
 
   @Override
@@ -93,7 +93,6 @@ public class GitGarbageCollectionSpec {
       return Objects.equals(image, other.image)
           && Objects.equals(logPVC, other.logPVC)
           && Objects.equals(projects, other.projects)
-          && Objects.equals(repositoryPVC, other.repositoryPVC)
           && Objects.equals(resources, other.resources)
           && Objects.equals(schedule, other.schedule);
     }
