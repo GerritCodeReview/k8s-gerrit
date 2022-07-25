@@ -11,6 +11,12 @@ mvn clean install jib:dockerBuild
 mvn clean install -DskipTests jib:dockerBuild
 ```
 
+## Tests
+
+The tests require a Kubernetes cluster with a StorageClass that supports
+ReadWriteMany access. The tests can be configured to use a storage class by
+setting the rwmStorageClass property (default: nfs-client).
+
 ## Deploy
 
 First all CustomResourceDefinitions have to be deployed:
@@ -30,6 +36,19 @@ docker image name etc. might have to be adapted.
 
 ## Install custom resources
 
+### GerritCluster
+
+The GerritCluster custom resource configures and provisions resources shared by
+multiple components in a Gerrit cluster. A cluster is meant to be run in a single
+namespace and only one cluster per namespace is allowed.
+
+An example CustomResource is provided at `k8s/cluster.sample.yaml`. To install
+it into the cluster run:
+
+```sh
+kubectl apply -f k8s/cluster.sample.yaml
+```
+
 ### GitGarbageCollection
 
 An example of a GitGc-CustomResource can be found at `k8s/gitgc.sample.yaml`.
@@ -43,6 +62,36 @@ The operator will create a CronJob based on the provided spec.
 
 ## Configure custom resources
 
+### GerritCluster
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GerritCluster
+metadata:
+  name: gerrit
+spec:
+  storageClasses:
+    ## Name of a StorageClass allowing ReadWriteOnce access. (default: default)
+    readWriteOnce: default
+
+    ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
+    readWriteMany: nfs-client
+
+  gitRepositoryStorage:
+    ## Size of the volume (ReadWriteMany) used to store git repositories. (mandatory)
+    size: 1Gi
+
+    ## Name of a specific persistent volume to claim (optional)
+    volumeName: git-repositories
+
+    ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
+    ## to select a specific persistent volume (optional)
+    selector:
+      matchLabels:
+        volume-type: ssd
+        aws-availability-zone: us-east-1
+```
+
 ### GitGarbageCollection
 
 ```yaml
@@ -51,6 +100,9 @@ kind: GitGarbageCollection
 metadata:
   name: gitgc
 spec:
+  ## Name of the Gerrit cluster this GitGc is a part of. (mandatory)
+  cluster: gerrit
+
   ## Container image containing the git gc script. Expected to be the one maintained
   ## by the k8sgerrit project (default: k8sgerrit/git-gc)
   image: k8sgerrit/git-gc
@@ -77,8 +129,4 @@ spec:
 
   ## Name of an existing PVC that will be used to store the logs (mandatory)
   logPVC: logs-pvc
-
-  ## Name of an existing PVC that claims the volume containing the git repositories
-  ## to be gc'ed (mandatory)
-  repositoryPVC: git-repositories-pvc
 ```

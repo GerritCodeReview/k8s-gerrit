@@ -14,6 +14,9 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.REPOSITORY_PVC_NAME;
+
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
@@ -46,7 +49,6 @@ import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEven
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -83,29 +85,55 @@ public class GitGarbageCollectionReconciler
                 .map(ResourceID::fromResource)
                 .collect(Collectors.toSet());
 
-    InformerEventSource<GitGarbageCollection, GitGarbageCollection> eventSource =
+    InformerEventSource<GitGarbageCollection, GitGarbageCollection> gitGcEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(GitGarbageCollection.class, context)
                 .withSecondaryToPrimaryMapper(specificProjectGitGcMapper)
                 .build(),
             context);
-    return EventSourceInitializer.nameEventSources(eventSource);
+
+    final SecondaryToPrimaryMapper<GerritCluster> gerritClusterMapper =
+        (GerritCluster cluster) ->
+            context
+                .getPrimaryCache()
+                .list(gitGc -> gitGc.getSpec().getCluster().equals(cluster.getMetadata().getName()))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+
+    InformerEventSource<GerritCluster, GitGarbageCollection> gerritClusterEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(GerritCluster.class, context)
+                .withSecondaryToPrimaryMapper(gerritClusterMapper)
+                .build(),
+            context);
+
+    return EventSourceInitializer.nameEventSources(gitGcEventSource, gerritClusterEventSource);
   }
 
   @Override
   public UpdateControl<GitGarbageCollection> reconcile(
       GitGarbageCollection gitGc, Context<GitGarbageCollection> context) {
-    log.info(
-        "Reconciling GitGc with name: {}/{}",
-        gitGc.getMetadata().getNamespace(),
-        gitGc.getMetadata().getName());
+    String ns = gitGc.getMetadata().getNamespace();
+    String name = gitGc.getMetadata().getName();
+
+    GerritCluster gerritCluster =
+        kubernetesClient
+            .resources(GerritCluster.class)
+            .inNamespace(gitGc.getMetadata().getNamespace())
+            .withName(gitGc.getSpec().getCluster())
+            .get();
+    if (gerritCluster == null) {
+      throw new IllegalStateException("The Gerrit cluster could not be found.");
+    }
+
+    log.info("Reconciling GitGc with name: {}/{}", ns, name);
 
     validateGitGCProjectList(gitGc);
     if (gitGc.getSpec().getProjects().isEmpty()) {
       gitGc = excludeProjectsHandledSeparately(gitGc);
     }
 
-    createCronJob(gitGc);
+    createCronJob(gitGc, gerritCluster);
     return UpdateControl.updateStatus(updateGitGcStatus(gitGc));
   }
 
@@ -120,16 +148,15 @@ public class GitGarbageCollectionReconciler
     return gitGc;
   }
 
-  private void createCronJob(GitGarbageCollection gitGc) {
-    Map<String, String> gitGcLabels = new HashMap<>();
-    gitGcLabels.put("app", "gerrit");
-    gitGcLabels.put("component", "git-gc");
+  private void createCronJob(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
+    Map<String, String> gitGcLabels =
+        gerritCluster.getLabels("GitGc", this.getClass().getSimpleName());
 
     Volume gitRepositoriesVolume =
         new VolumeBuilder()
             .withName(GIT_REPOSITORIES_VOLUME_NAME)
             .withNewPersistentVolumeClaim()
-            .withClaimName(gitGc.getSpec().getRepositoryPVC())
+            .withClaimName(REPOSITORY_PVC_NAME)
             .endPersistentVolumeClaim()
             .build();
 
