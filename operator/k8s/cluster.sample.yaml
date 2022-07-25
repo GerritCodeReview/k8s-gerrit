@@ -1,0 +1,10 @@
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GerritCluster
+metadata:
+  name: gerrit
+spec:
+  storageClasses:
+    readWriteOnce: default
+    readWriteMany: nfs-client
+  gitRepositoryStorage:
+    size: 1Gi
