@@ -23,8 +23,14 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
+import com.google.gerrit.k8s.operator.cluster.GitRepositoryStorage;
+import com.google.gerrit.k8s.operator.cluster.StorageClassConfig;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.client.Config;
@@ -52,10 +58,12 @@ public class GitGarbageCollectionE2E {
       LocallyRunOperatorExtension.builder()
           .waitForNamespaceDeletion(true)
           .withReconciler(new GitGarbageCollectionReconciler(client))
+          .withReconciler(new GerritClusterReconciler(client))
           .build();
 
   @Test
   void testGitGcAllProjectsCreationAndDeletion() {
+    createCluster();
     GitGarbageCollection gitGc = createCompleteGc();
 
     log.info("Waiting max 2 minutes for GitGc to be created.");
@@ -75,6 +83,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testGitGcSelectedProjects() {
+    createCluster();
     GitGarbageCollection gitGc = createSelectiveGc("selective-gc", Set.of("All-Projects", "test"));
 
     log.info("Waiting max 2 minutes for GitGc to be created.");
@@ -92,6 +101,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testSelectiveGcIsExcludedFromCompleteGc() {
+    createCluster();
     GitGarbageCollection completeGitGc = createCompleteGc();
 
     log.info("Waiting max 2 minutes for GitGc to be created.");
@@ -150,6 +160,7 @@ public class GitGarbageCollectionE2E {
 
   @Test
   void testConflictingSelectiveGcFailsBeforeCronJobCreation() throws InterruptedException {
+    createCluster();
     Set<String> selectedProjects = Set.of("All-Projects", "test");
     GitGarbageCollection selectiveGitGc1 = createSelectiveGc("selective-gc-1", selectedProjects);
 
@@ -187,6 +198,47 @@ public class GitGarbageCollectionE2E {
     assertNull(cronJob);
   }
 
+  private void createCluster() {
+    GerritCluster cluster = new GerritCluster();
+
+    cluster.setMetadata(
+        new ObjectMetaBuilder()
+            .withName("test-cluster")
+            .withNamespace(operator.getNamespace())
+            .build());
+
+    GitRepositoryStorage repoStorage = new GitRepositoryStorage();
+    repoStorage.setSize(Quantity.parse("1Gi"));
+
+    StorageClassConfig storageClassConfig = new StorageClassConfig();
+    storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
+
+    GerritClusterSpec clusterSpec = new GerritClusterSpec();
+    clusterSpec.setGitRepositoryStorage(repoStorage);
+    clusterSpec.setStorageClasses(storageClassConfig);
+
+    cluster.setSpec(clusterSpec);
+    log.info(cluster.toString());
+
+    client
+        .resources(GerritCluster.class)
+        .inNamespace(operator.getNamespace())
+        .createOrReplace(cluster);
+
+    await()
+        .atMost(1, MINUTES)
+        .untilAsserted(
+            () -> {
+              GerritCluster updatedCluster =
+                  client
+                      .resources(GerritCluster.class)
+                      .inNamespace(operator.getNamespace())
+                      .withName("test-cluster")
+                      .get();
+              assertThat(updatedCluster, is(notNullValue()));
+            });
+  }
+
   private GitGarbageCollection createCompleteGc() {
     GitGarbageCollection gitGc = new GitGarbageCollection();
     gitGc.setMetadata(
@@ -197,7 +249,7 @@ public class GitGarbageCollectionE2E {
     GitGarbageCollectionSpec spec = new GitGarbageCollectionSpec();
     spec.setSchedule(GITGC_SCHEDULE);
     spec.setLogPVC("log-pvc");
-    spec.setRepositoryPVC("repo-pvc");
+    spec.setCluster("test-cluster");
     gitGc.setSpec(spec);
 
     log.info("Creating test GitGc object: {}", gitGc);
@@ -213,7 +265,7 @@ public class GitGarbageCollectionE2E {
     GitGarbageCollectionSpec spec = new GitGarbageCollectionSpec();
     spec.setSchedule(GITGC_SCHEDULE);
     spec.setLogPVC("log-pvc");
-    spec.setRepositoryPVC("repo-pvc");
+    spec.setCluster("test-cluster");
     spec.setProjects(projects);
     gitGc.setSpec(spec);
 
