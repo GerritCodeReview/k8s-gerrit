@@ -40,6 +40,9 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.gerrit.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       terminationGracePeriodSeconds: {{ .Values.gerrit.gracefulStopTimeout }}
       securityContext:
         fsGroup: 100
