@@ -193,12 +193,7 @@ public class GitGarbageCollectionReconciler
             .endSpec()
             .build();
 
-    kubernetesClient
-        .batch()
-        .v1()
-        .cronjobs()
-        .inNamespace(gitGc.getMetadata().getNamespace())
-        .createOrReplace(gitGcCronJob);
+    kubernetesClient.resource(gitGcCronJob).createOrReplace();
   }
 
   private Container buildGitGcContainer(GitGarbageCollection gitGc) {
