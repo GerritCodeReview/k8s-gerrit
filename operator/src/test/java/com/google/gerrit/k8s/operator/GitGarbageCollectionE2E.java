@@ -67,7 +67,7 @@ public class GitGarbageCollectionE2E {
             });
 
     log.info("Deleting test GitGc object: {}", gitGc);
-    client.resources(GitGarbageCollection.class).delete(gitGc);
+    client.resource(gitGc).delete();
     awaitGitGcDeletionAssertion(gitGc.getMetadata().getName());
   }
 
@@ -85,7 +85,7 @@ public class GitGarbageCollectionE2E {
               assertGitGcJobCreation(gitGc.getMetadata().getName());
             });
 
-    client.resources(GitGarbageCollection.class).delete(gitGc);
+    client.resource(gitGc).delete();
   }
 
   @Test
@@ -129,7 +129,7 @@ public class GitGarbageCollectionE2E {
                   .containsAll(selectedProjects);
             });
 
-    client.resources(GitGarbageCollection.class).delete(selectiveGitGc);
+    client.resource(selectiveGitGc).delete();
     awaitGitGcDeletionAssertion(selectiveGitGc.getMetadata().getName());
 
     await()
@@ -198,7 +198,7 @@ public class GitGarbageCollectionE2E {
     gitGc.setSpec(spec);
 
     log.info("Creating test GitGc object: {}", gitGc);
-    client.resources(GitGarbageCollection.class).create(gitGc);
+    client.resources(GitGarbageCollection.class).createOrReplace(gitGc);
 
     return gitGc;
   }
@@ -215,7 +215,7 @@ public class GitGarbageCollectionE2E {
     gitGc.setSpec(spec);
 
     log.info("Creating test GitGc object: {}", gitGc);
-    client.resources(GitGarbageCollection.class).create(gitGc);
+    client.resources(GitGarbageCollection.class).createOrReplace(gitGc);
 
     return gitGc;
   }
