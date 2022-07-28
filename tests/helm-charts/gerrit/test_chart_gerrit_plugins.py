@@ -67,7 +67,6 @@ def gerrit_deployment_with_other_plugins(
     selected_plugins = plugin_list[: request.param]
 
     gerrit_deployment.set_helm_value("gerrit.plugins.downloaded", selected_plugins)
-    gerrit_deployment.set_helm_value("gerrit.plugins.packaged", ["healthcheck"])
 
     gerrit_deployment.install()
     gerrit_deployment.create_admin_account()
@@ -80,7 +79,6 @@ def gerrit_deployment_with_other_plugin_wrong_sha(plugin_list, gerrit_deployment
     plugin = plugin_list[0]
     plugin["sha1"] = "notAValidSha"
     gerrit_deployment.set_helm_value("gerrit.plugins.downloaded", [plugin])
-    gerrit_deployment.set_helm_value("gerrit.plugins.packaged", ["healthcheck"])
 
     gerrit_deployment.install(wait=False)
 
