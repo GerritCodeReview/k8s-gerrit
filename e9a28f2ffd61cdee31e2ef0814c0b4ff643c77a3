@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a404991_9d283a14",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-08-02T14:26:47Z",
+      "side": 1,
+      "message": "This override is unnecessary as it changes nothing.",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c99112_6fdc6769",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-08-02T14:26:47Z",
+      "side": 1,
+      "message": "Why do we need equals/hashCode on a class which has no (additional) data fields?",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd696e7e_f3aa1f09",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-08-02T14:26:47Z",
+      "side": 1,
+      "message": "As I read from the javadoc of the CustomResource class, it doesn\u0027t override the equals method it inherits from the java.lang.Object. The java.lang.Object.equals is defined as:\n\n    public boolean equals(Object obj) {\n        return (this \u003d\u003d obj);\n    }\n\nSo this is equality of object references. This may or may not make sense... depending on how the creation of the instance of this class is controlled.",
+      "range": {
+        "startLine": 52,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfb8f508_224ff194",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-08-02T14:26:47Z",
+      "side": 1,
+      "message": "1. this is always GitGarbageCollection.class\n\n2. looks like all this code wants to achieve is:\n\n  return (obj instanceof GitGarbageCollection) \u0026\u0026 super.equals(obj);",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "003dfe70_86e5c020",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollectionSpec.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-08-02T14:26:47Z",
+      "side": 1,
+      "message": "There are too many checks at the beginning.\nSimplify as:\n\n  if (obj instanceof GitGarbageCollectionSpec) {\n    GitGarbageCollectionSpec other \u003d (GitGarbageCollectionSpec) obj;\n    return Objects.equals(image, other.image)\n        \u0026\u0026 Objects.equals(logPVC, other.logPVC)\n        \u0026\u0026 Objects.equals(projects, other.projects)\n        \u0026\u0026 Objects.equals(repositoryPVC, other.repositoryPVC)\n        \u0026\u0026 Objects.equals(resources, other.resources)\n        \u0026\u0026 Objects.equals(schedule, other.schedule);\n  }\n  return false;",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbd60819_bc0fd86f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollectionStatus.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-08-02T14:26:47Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
