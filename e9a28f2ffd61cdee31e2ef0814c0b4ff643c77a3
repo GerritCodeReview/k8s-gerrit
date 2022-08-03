@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9344fa18_02600ce4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a404991_9d283a14",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55c99112_6fdc6769",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17306c8f_d5bf6f5c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:44Z",
+      "side": 1,
+      "message": "We don\u0027t. I was overzealously using the eclipse function to generate these. It is only required for the spec and the status objects.",
+      "parentUuid": "55c99112_6fdc6769",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd696e7e_f3aa1f09",
@@ -48,6 +84,30 @@
       "writtenOn": "2022-08-02T14:26:47Z",
       "side": 1,
       "message": "As I read from the javadoc of the CustomResource class, it doesn\u0027t override the equals method it inherits from the java.lang.Object. The java.lang.Object.equals is defined as:\n\n    public boolean equals(Object obj) {\n        return (this \u003d\u003d obj);\n    }\n\nSo this is equality of object references. This may or may not make sense... depending on how the creation of the instance of this class is controlled.",
+      "range": {
+        "startLine": 52,
+        "startChar": 9,
+        "endLine": 52,
+        "endChar": 26
+      },
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ee9d6ad_4061bb80",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fd696e7e_f3aa1f09",
       "range": {
         "startLine": 52,
         "startChar": 9,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29477ff7_422575f5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dfb8f508_224ff194",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "003dfe70_86e5c020",
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1733d29_c4473a8c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollectionSpec.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "003dfe70_86e5c020",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd60819_bc0fd86f",
@@ -111,6 +213,24 @@
       "writtenOn": "2022-08-02T14:26:47Z",
       "side": 1,
       "message": "same as the previous comment",
+      "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2992b1f_090bc052",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollectionStatus.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbd60819_bc0fd86f",
       "revId": "e9a28f2ffd61cdee31e2ef0814c0b4ff643c77a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
