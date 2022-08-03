@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.gitgc;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.REPOSITORY_PVC_NAME;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.Container;
@@ -55,8 +56,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @ControllerConfiguration
 public class GitGarbageCollectionReconciler
@@ -64,7 +63,7 @@ public class GitGarbageCollectionReconciler
         EventSourceInitializer<GitGarbageCollection>,
         ErrorStatusHandler<GitGarbageCollection>,
         Cleaner<GitGarbageCollection> {
-  private final Logger log = LoggerFactory.getLogger(getClass());
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
@@ -127,7 +126,7 @@ public class GitGarbageCollectionReconciler
       throw new IllegalStateException("The Gerrit site could not be found.");
     }
 
-    log.info("Reconciling GitGc with name: {}/{}", ns, name);
+    logger.atInfo().log("Reconciling GitGc with name: %s/%s", ns, name);
 
     validateGitGCProjectList(gitGc);
     if (gitGc.getSpec().getProjects().isEmpty()) {
@@ -297,7 +296,7 @@ public class GitGarbageCollectionReconciler
     Set<String> projects = gitGc.getSpec().getProjects();
 
     gitGcs.remove(gitGc);
-    log.debug("Detected GitGcs: {}", gitGcs);
+    logger.atFine().log("Detected GitGcs: %s", gitGcs);
     List<GitGarbageCollection> allProjectGcs =
         gitGcs.stream().filter(gc -> gc.getStatus().isReplicateAll()).collect(Collectors.toList());
     if (!allProjectGcs.isEmpty() && projects.isEmpty()) {
@@ -314,15 +313,15 @@ public class GitGarbageCollectionReconciler
     if (projectsIntercept.isEmpty()) {
       return;
     }
-    log.debug("Found conflicting projects: {}", projectsIntercept);
+    logger.atFine().log("Found conflicting projects: %s", projectsIntercept);
 
     if (gitGcs.stream()
         .filter(gc -> !getIntercept(projects, gc.getSpec().getProjects()).isEmpty())
         .allMatch(gc -> gc.getStatus().getState().equals(GitGcState.CONFLICT))) {
-      log.debug("All other GitGcs are marked as conflicting. Activating {}", gitGc);
+      logger.atFine().log("All other GitGcs are marked as conflicting. Activating %s", gitGc);
       return;
     }
-    log.debug("{} will be marked as conflicting");
+    logger.atFine().log("%s will be marked as conflicting", gitGc);
     throw new GitGarbageCollectionConflictException(projectsIntercept);
   }
 

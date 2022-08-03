@@ -21,6 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
@@ -42,11 +43,9 @@ import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitGarbageCollectionE2E {
-  static final Logger log = LoggerFactory.getLogger(GitGarbageCollectionE2E.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static final String GITGC_SCHEDULE = "*/1 * * * *";
 
   static final KubernetesClient client = getKubernetesClient();
@@ -64,7 +63,7 @@ public class GitGarbageCollectionE2E {
     createSite();
     GitGarbageCollection gitGc = createCompleteGc();
 
-    log.info("Waiting max 2 minutes for GitGc to be created.");
+    logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -74,7 +73,7 @@ public class GitGarbageCollectionE2E {
               assertGitGcJobCreation(gitGc.getMetadata().getName());
             });
 
-    log.info("Deleting test GitGc object: {}", gitGc);
+    logger.atInfo().log("Deleting test GitGc object: %s", gitGc);
     client.resource(gitGc).delete();
     awaitGitGcDeletionAssertion(gitGc.getMetadata().getName());
   }
@@ -84,7 +83,7 @@ public class GitGarbageCollectionE2E {
     createSite();
     GitGarbageCollection gitGc = createSelectiveGc("selective-gc", Set.of("All-Projects", "test"));
 
-    log.info("Waiting max 2 minutes for GitGc to be created.");
+    logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -102,7 +101,7 @@ public class GitGarbageCollectionE2E {
     createSite();
     GitGarbageCollection completeGitGc = createCompleteGc();
 
-    log.info("Waiting max 2 minutes for GitGc to be created.");
+    logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -114,7 +113,7 @@ public class GitGarbageCollectionE2E {
     Set<String> selectedProjects = Set.of("All-Projects", "test");
     GitGarbageCollection selectiveGitGc = createSelectiveGc("selective-gc", selectedProjects);
 
-    log.info("Waiting max 2 minutes for GitGc to be created.");
+    logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -162,7 +161,7 @@ public class GitGarbageCollectionE2E {
     Set<String> selectedProjects = Set.of("All-Projects", "test");
     GitGarbageCollection selectiveGitGc1 = createSelectiveGc("selective-gc-1", selectedProjects);
 
-    log.info("Waiting max 2 minutes for GitGc to be created.");
+    logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -215,7 +214,7 @@ public class GitGarbageCollectionE2E {
     siteSpec.setStorageClasses(storageClassConfig);
 
     site.setSpec(siteSpec);
-    log.info(site.toString());
+    logger.atInfo().log(site.toString());
 
     client
         .resources(GerritCluster.class)
@@ -236,7 +235,7 @@ public class GitGarbageCollectionE2E {
     spec.setCluster("test-site");
     gitGc.setSpec(spec);
 
-    log.info("Creating test GitGc object: {}", gitGc);
+    logger.atInfo().log("Creating test GitGc object: %s", gitGc);
     client.resources(GitGarbageCollection.class).createOrReplace(gitGc);
 
     return gitGc;
@@ -253,7 +252,7 @@ public class GitGarbageCollectionE2E {
     spec.setProjects(projects);
     gitGc.setSpec(spec);
 
-    log.info("Creating test GitGc object: {}", gitGc);
+    logger.atInfo().log("Creating test GitGc object: %s", gitGc);
     client.resources(GitGarbageCollection.class).createOrReplace(gitGc);
 
     return gitGc;
@@ -282,7 +281,7 @@ public class GitGarbageCollectionE2E {
   }
 
   private void awaitGitGcDeletionAssertion(String gitGcName) {
-    log.info("Waiting max 2 minutes for GitGc to be deleted.");
+    logger.atInfo().log("Waiting max 2 minutes for GitGc to be deleted.");
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -322,9 +321,9 @@ public class GitGarbageCollectionE2E {
         config = Config.fromKubeconfig(Files.readString(Path.of(kubeconfig)));
         return new DefaultKubernetesClient(config);
       }
-      log.warn("KUBECONFIG variable not set. Using default config.");
+      logger.atWarning().log("KUBECONFIG variable not set. Using default config.");
     } catch (IOException e) {
-      log.error("Failed to load kubeconfig. Trying default", e);
+      logger.atSevere().log("Failed to load kubeconfig. Trying default", e);
     }
     return new DefaultKubernetesClient();
   }

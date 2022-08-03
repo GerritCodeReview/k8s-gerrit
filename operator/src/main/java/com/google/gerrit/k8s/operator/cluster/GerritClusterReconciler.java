@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.common.flogger.FluentLogger;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -26,12 +27,10 @@ import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @ControllerConfiguration
 public class GerritClusterReconciler implements Reconciler<GerritCluster>, Cleaner<GerritCluster> {
-  private final Logger log = LoggerFactory.getLogger(getClass());
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String REPOSITORY_PVC_NAME = "git-repositories-pvc";
 
@@ -46,7 +45,7 @@ public class GerritClusterReconciler implements Reconciler<GerritCluster>, Clean
       GerritCluster gerritCluster, Context<GerritCluster> context) {
     String ns = gerritCluster.getMetadata().getNamespace();
     String name = gerritCluster.getMetadata().getName();
-    log.info("Reconciling Gerrit site with name: {}/{}", ns, name);
+    logger.atInfo().log("Reconciling Gerrit site with name: %s/%s", ns, name);
 
     createOrReplaceGitRepositoryStorage(gerritCluster);
 
@@ -103,7 +102,7 @@ public class GerritClusterReconciler implements Reconciler<GerritCluster>, Clean
 
     for (String sc : storageClassNames) {
       if (!storageClasses.contains(sc)) {
-        log.warn("Storageclass {} not found.", sc);
+        logger.atWarning().log("Storageclass %s not found.", sc);
       }
     }
   }
