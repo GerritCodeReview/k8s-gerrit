@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89b8b00c_be2b128c",
+        "filename": "operator/k8s/gitgc.sample.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7860bf38_fbb2d1bf",
+      "revId": "bcf7e1235041fcc46f53e8b0ea1bed4fa1e83be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8ff675a_714cbfdf",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ded9339_f31e1d90",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GerritOperator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:54Z",
+      "side": 1,
+      "message": "Yes, I also already thought about that. with this change I went with the tooling used by the java-operator-sdk to make it easier to follow their documentation. Let me switch to flogger in a separate change.",
+      "parentUuid": "b8ff675a_714cbfdf",
+      "revId": "bcf7e1235041fcc46f53e8b0ea1bed4fa1e83be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd9e62b3_ac5e8169",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-08-02T13:47:46Z",
       "side": 1,
       "message": "Why is this split from the previous block?\nDepending on how the CronJobBuilder is implemented, each method may return the same instance or a new (immutable) instance of the builder. In the latter case, all the previous configurations would be lost here. It is better to not depend on the implementation details of the builder.",
+      "revId": "bcf7e1235041fcc46f53e8b0ea1bed4fa1e83be5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c439468_bb4ad9d5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GitGarbageCollectionReconciler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-03T08:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd9e62b3_ac5e8169",
       "revId": "bcf7e1235041fcc46f53e8b0ea1bed4fa1e83be5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
