@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import io.fabric8.kubernetes.client.Config;
@@ -22,23 +23,21 @@ import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.Operator;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.takes.facets.fork.FkRegex;
 import org.takes.facets.fork.TkFork;
 import org.takes.http.Exit;
 import org.takes.http.FtBasic;
 
 public class GerritOperator {
-  private static final Logger log = LoggerFactory.getLogger(GerritOperator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static void main(String[] args) throws IOException {
     Config config = new ConfigBuilder().withNamespace(null).build();
     KubernetesClient client = new DefaultKubernetesClient(config);
     Operator operator = new Operator(client);
-    log.debug("Registering GerritCluster Reconciler");
+    logger.atFine().log("Registering GerritCluster Reconciler");
     operator.register(new GerritClusterReconciler(client));
-    log.debug("Registering GitGc Reconciler");
+    logger.atFine().log("Registering GitGc Reconciler");
     operator.register(new GitGarbageCollectionReconciler(client));
     operator.installShutdownHook();
     operator.start();
