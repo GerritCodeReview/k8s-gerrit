@@ -12,8 +12,8 @@
 
 	<properties>
 		<fabric8.version>5.12.3</fabric8.version>
+		<flogger.version>0.7.4</flogger.version>
 		<javaoperatorsdk.version>3.1.1</javaoperatorsdk.version>
-		<log4j.version>2.17.2</log4j.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
@@ -52,19 +52,14 @@
 			<version>1.19</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>com.google.flogger</groupId>
+			<artifactId>flogger</artifactId>
+			<version>${flogger.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>com.google.flogger</groupId>
+			<artifactId>flogger-log4j2-backend</artifactId>
+			<version>${flogger.version}</version>
 		</dependency>
 	</dependencies>
 
