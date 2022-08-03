@@ -14,8 +14,9 @@ spec:
     spec:
       template:
         metadata:
-          {{ if .Values.istio.enabled -}}
           annotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: false
+          {{ if .Values.istio.enabled -}}
             sidecar.istio.io/inject: "false"
           {{- end }}
           labels:

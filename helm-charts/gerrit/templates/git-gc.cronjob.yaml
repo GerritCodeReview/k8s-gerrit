@@ -19,6 +19,8 @@ spec:
             chart: {{ template "gerrit.chart" . }}
             heritage: {{ .Release.Service }}
             release: {{ .Release.Name }}
+          annotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: false
         spec:
           {{- with .Values.gitGC.tolerations }}
           tolerations:
