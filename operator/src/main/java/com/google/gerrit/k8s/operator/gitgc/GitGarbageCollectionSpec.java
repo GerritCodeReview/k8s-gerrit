@@ -25,7 +25,6 @@ public class GitGarbageCollectionSpec {
   private String schedule;
   private Set<String> projects;
   private ResourceRequirements resources;
-  private String logPVC;
 
   public GitGarbageCollectionSpec() {
     image = "k8s-gerrit/git-gc";
@@ -73,25 +72,17 @@ public class GitGarbageCollectionSpec {
     return resources;
   }
 
-  public void setLogPVC(String logPVC) {
-    this.logPVC = logPVC;
-  }
-
-  public String getLogPVC() {
-    return logPVC;
-  }
-
   @Override
   public int hashCode() {
-    return Objects.hash(image, logPVC, projects, resources, schedule);
+    return Objects.hash(cluster, image, projects, resources, schedule);
   }
 
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof GitGarbageCollectionSpec) {
       GitGarbageCollectionSpec other = (GitGarbageCollectionSpec) obj;
-      return Objects.equals(image, other.image)
-          && Objects.equals(logPVC, other.logPVC)
+      return Objects.equals(cluster, other.cluster)
+          && Objects.equals(image, other.image)
           && Objects.equals(projects, other.projects)
           && Objects.equals(resources, other.resources)
           && Objects.equals(schedule, other.schedule);

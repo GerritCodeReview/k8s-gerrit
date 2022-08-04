@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import static com.google.gerrit.k8s.operator.cluster.GerritLogsPVC.LOGS_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
 
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -26,6 +27,7 @@ import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class),
+      @Dependent(type = GerritLogsPVC.class),
     })
 public class GerritClusterReconciler implements Reconciler<GerritCluster> {
   private final KubernetesClient kubernetesClient;
@@ -57,6 +59,17 @@ public class GerritClusterReconciler implements Reconciler<GerritCluster> {
       status.setRepositoryPvcName(REPOSITORY_PVC_NAME);
     } else {
       status.setRepositoryPvcName(null);
+    }
+
+    if (kubernetesClient
+            .persistentVolumeClaims()
+            .inNamespace(gerritCluster.getMetadata().getNamespace())
+            .withName(LOGS_PVC_NAME)
+            .get()
+        != null) {
+      status.setLogsPvcName(LOGS_PVC_NAME);
+    } else {
+      status.setLogsPvcName(null);
     }
     gerritCluster.setStatus(status);
     return gerritCluster;

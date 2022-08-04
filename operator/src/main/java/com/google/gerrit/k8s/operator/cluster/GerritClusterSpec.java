@@ -17,13 +17,14 @@ package com.google.gerrit.k8s.operator.cluster;
 public class GerritClusterSpec {
 
   private StorageClassConfig storageClasses;
-  private GitRepositoryStorage gitRepositoryStorage;
+  private SharedStorage gitRepositoryStorage;
+  private SharedStorage logsStorage;
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
   }
 
-  public GitRepositoryStorage getGitRepositoryStorage() {
+  public SharedStorage getGitRepositoryStorage() {
     return gitRepositoryStorage;
   }
 
@@ -31,7 +32,15 @@ public class GerritClusterSpec {
     this.storageClasses = storageClasses;
   }
 
-  public void setGitRepositoryStorage(GitRepositoryStorage gitRepositoryStorage) {
+  public void setGitRepositoryStorage(SharedStorage gitRepositoryStorage) {
     this.gitRepositoryStorage = gitRepositoryStorage;
+  }
+
+  public SharedStorage getLogsStorage() {
+    return logsStorage;
+  }
+
+  public void setLogsStorage(SharedStorage logsStorage) {
+    this.logsStorage = logsStorage;
   }
 }
