@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.REPOSITORY_PVC_NAME;
+import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
