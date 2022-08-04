@@ -38,7 +38,7 @@ public class GerritOperator {
     logger.atFine().log("Registering GerritCluster Reconciler");
     operator.register(new GerritClusterReconciler(client));
     logger.atFine().log("Registering GitGc Reconciler");
-    operator.register(new GitGarbageCollectionReconciler(client));
+    operator.register(new GitGarbageCollectionReconciler());
     operator.installShutdownHook();
     operator.start();
 
