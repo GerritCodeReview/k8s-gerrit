@@ -21,7 +21,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent
+@KubernetesDependent(labelSelector = "app.kubernetes.io/component=git-repositories-storage")
 public class GitRepositoriesPVC
     extends CRUDKubernetesDependentResource<PersistentVolumeClaim, GerritCluster> {
 
