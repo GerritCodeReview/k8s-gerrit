@@ -14,8 +14,14 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.api.model.Volume;
+import io.fabric8.kubernetes.api.model.VolumeBuilder;
+import io.fabric8.kubernetes.api.model.VolumeMount;
+import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
@@ -31,6 +37,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
   private static final long serialVersionUID = 1L;
+  private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
@@ -49,5 +56,23 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
     labels.put("app.kubernetes.io/created-by", createdBy);
 
     return labels;
+  }
+
+  @JsonIgnore
+  public Volume getGitRepositoriesVolume() {
+    return new VolumeBuilder()
+        .withName(GIT_REPOSITORIES_VOLUME_NAME)
+        .withNewPersistentVolumeClaim()
+        .withClaimName(REPOSITORY_PVC_NAME)
+        .endPersistentVolumeClaim()
+        .build();
+  }
+
+  @JsonIgnore
+  public VolumeMount getGitRepositoriesVolumeMount() {
+    return new VolumeMountBuilder()
+        .withName(GIT_REPOSITORIES_VOLUME_NAME)
+        .withMountPath("/var/gerrit/git")
+        .build();
   }
 }
