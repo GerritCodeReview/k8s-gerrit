@@ -28,7 +28,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
-import com.google.gerrit.k8s.operator.cluster.GitRepositoryStorage;
+import com.google.gerrit.k8s.operator.cluster.SharedStorage;
 import com.google.gerrit.k8s.operator.cluster.StorageClassConfig;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -203,14 +203,18 @@ public class GitGarbageCollectionE2E {
             .withNamespace(operator.getNamespace())
             .build());
 
-    GitRepositoryStorage repoStorage = new GitRepositoryStorage();
+    SharedStorage repoStorage = new SharedStorage();
     repoStorage.setSize(Quantity.parse("1Gi"));
+
+    SharedStorage logStorage = new SharedStorage();
+    logStorage.setSize(Quantity.parse("1Gi"));
 
     StorageClassConfig storageClassConfig = new StorageClassConfig();
     storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
 
     GerritClusterSpec clusterSpec = new GerritClusterSpec();
     clusterSpec.setGitRepositoryStorage(repoStorage);
+    clusterSpec.setLogsStorage(logStorage);
     clusterSpec.setStorageClasses(storageClassConfig);
 
     cluster.setSpec(clusterSpec);
@@ -244,7 +248,6 @@ public class GitGarbageCollectionE2E {
             .build());
     GitGarbageCollectionSpec spec = new GitGarbageCollectionSpec();
     spec.setSchedule(GITGC_SCHEDULE);
-    spec.setLogPVC("log-pvc");
     spec.setCluster(CLUSTER_NAME);
     gitGc.setSpec(spec);
 
@@ -260,7 +263,6 @@ public class GitGarbageCollectionE2E {
         new ObjectMetaBuilder().withName(name).withNamespace(operator.getNamespace()).build());
     GitGarbageCollectionSpec spec = new GitGarbageCollectionSpec();
     spec.setSchedule(GITGC_SCHEDULE);
-    spec.setLogPVC("log-pvc");
     spec.setCluster(CLUSTER_NAME);
     spec.setProjects(projects);
     gitGc.setSpec(spec);

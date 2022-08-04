@@ -17,7 +17,7 @@ package com.google.gerrit.k8s.operator.cluster;
 import io.fabric8.kubernetes.api.model.LabelSelector;
 import io.fabric8.kubernetes.api.model.Quantity;
 
-public class GitRepositoryStorage {
+public class SharedStorage {
 
   private Quantity size;
   private String volumeName;

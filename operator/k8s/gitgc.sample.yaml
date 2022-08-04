@@ -5,7 +5,6 @@ metadata:
 spec:
   image: k8sgerrit/git-gc
   schedule: "*/5 * * * *"
-  logPVC: logs-pvc
   cluster: gerrit
   resources:
     requests:

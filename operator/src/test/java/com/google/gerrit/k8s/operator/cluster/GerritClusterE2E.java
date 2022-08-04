@@ -43,30 +43,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGitRepositoriesPvcCreated() {
-    GerritCluster cluster = new GerritCluster();
-
-    cluster.setMetadata(
-        new ObjectMetaBuilder()
-            .withName("test-cluster")
-            .withNamespace(operator.getNamespace())
-            .build());
-
-    GitRepositoryStorage repoStorage = new GitRepositoryStorage();
-    repoStorage.setSize(Quantity.parse("1Gi"));
-
-    StorageClassConfig storageClassConfig = new StorageClassConfig();
-    storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
-
-    GerritClusterSpec clusterSpec = new GerritClusterSpec();
-    clusterSpec.setGitRepositoryStorage(repoStorage);
-    clusterSpec.setStorageClasses(storageClassConfig);
-
-    cluster.setSpec(clusterSpec);
-
-    client
-        .resources(GerritCluster.class)
-        .inNamespace(operator.getNamespace())
-        .createOrReplace(cluster);
+    GerritCluster cluster = createGerritCluster();
 
     logger.atInfo().log("Waiting max 1 minutes for the git repositories pvc to be created.");
     await()
@@ -84,5 +61,60 @@ public class GerritClusterE2E {
 
     logger.atInfo().log("Deleting test cluster object: %s", cluster);
     client.resource(cluster).delete();
+  }
+
+  @Test
+  void testGerritLogsPvcCreated() {
+    GerritCluster cluster = createGerritCluster();
+
+    logger.atInfo().log("Waiting max 1 minutes for the gerrit logs pvc to be created.");
+    await()
+        .atMost(1, MINUTES)
+        .untilAsserted(
+            () -> {
+              PersistentVolumeClaim pvc =
+                  client
+                      .persistentVolumeClaims()
+                      .inNamespace(operator.getNamespace())
+                      .withName(GerritLogsPVC.LOGS_PVC_NAME)
+                      .get();
+              assertThat(pvc, is(notNullValue()));
+            });
+
+    logger.atInfo().log("Deleting test cluster object: %s", cluster);
+    client.resource(cluster).delete();
+  }
+
+  private GerritCluster createGerritCluster() {
+    GerritCluster cluster = new GerritCluster();
+
+    cluster.setMetadata(
+        new ObjectMetaBuilder()
+            .withName("test-cluster")
+            .withNamespace(operator.getNamespace())
+            .build());
+
+    SharedStorage repoStorage = new SharedStorage();
+    repoStorage.setSize(Quantity.parse("1Gi"));
+
+    SharedStorage logStorage = new SharedStorage();
+    logStorage.setSize(Quantity.parse("1Gi"));
+
+    StorageClassConfig storageClassConfig = new StorageClassConfig();
+    storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
+
+    GerritClusterSpec clusterSpec = new GerritClusterSpec();
+    clusterSpec.setGitRepositoryStorage(repoStorage);
+    clusterSpec.setLogsStorage(logStorage);
+    clusterSpec.setStorageClasses(storageClassConfig);
+
+    cluster.setSpec(clusterSpec);
+
+    client
+        .resources(GerritCluster.class)
+        .inNamespace(operator.getNamespace())
+        .createOrReplace(cluster);
+
+    return cluster;
   }
 }

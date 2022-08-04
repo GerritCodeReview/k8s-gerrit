@@ -23,6 +23,7 @@ import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class),
+      @Dependent(type = GerritLogsPVC.class),
     })
 public class GerritClusterReconciler implements Reconciler<GerritCluster> {
   @Override
