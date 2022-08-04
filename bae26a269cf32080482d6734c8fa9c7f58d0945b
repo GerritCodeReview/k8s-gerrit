@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "401dddb6_b37e3b6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-04T10:18:13Z",
+      "side": 1,
+      "message": "Instead of documenting how to update istio, please do the changes to the istio/gerrit.profile.yaml.",
+      "revId": "bae26a269cf32080482d6734c8fa9c7f58d0945b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
