@@ -50,9 +50,4 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
     return labels;
   }
-
-  @Override
-  protected GerritClusterStatus initStatus() {
-    return new GerritClusterStatus();
-  }
 }

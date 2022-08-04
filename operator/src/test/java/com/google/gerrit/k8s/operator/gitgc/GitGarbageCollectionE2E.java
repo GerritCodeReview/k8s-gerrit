@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
+import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -34,13 +35,8 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -330,20 +326,5 @@ public class GitGarbageCollectionE2E {
         client.batch().v1().jobs().inNamespace(operator.getNamespace()).list().getItems();
     assert (jobRuns.size() > 0);
     assert (jobRuns.get(0).getMetadata().getName().startsWith(gitGcName));
-  }
-
-  private static KubernetesClient getKubernetesClient() {
-    Config config;
-    try {
-      String kubeconfig = System.getenv("KUBECONFIG");
-      if (kubeconfig != null) {
-        config = Config.fromKubeconfig(Files.readString(Path.of(kubeconfig)));
-        return new DefaultKubernetesClient(config);
-      }
-      logger.atWarning().log("KUBECONFIG variable not set. Using default config.");
-    } catch (IOException e) {
-      logger.atSevere().log("Failed to load kubeconfig. Trying default", e);
-    }
-    return new DefaultKubernetesClient();
   }
 }
