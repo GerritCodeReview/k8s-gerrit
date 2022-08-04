@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.cluster;
 public class GerritClusterStatus {
 
   private String repositoryPvcName;
+  private String logsPvcName;
 
   public String getRepositoryPvcName() {
     return repositoryPvcName;
@@ -24,5 +25,13 @@ public class GerritClusterStatus {
 
   public void setRepositoryPvcName(String repositoryPvcName) {
     this.repositoryPvcName = repositoryPvcName;
+  }
+
+  public String getLogsPvcName() {
+    return logsPvcName;
+  }
+
+  public void setLogsPvcName(String logsPvcName) {
+    this.logsPvcName = logsPvcName;
   }
 }
