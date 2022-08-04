@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
-import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
@@ -47,7 +45,6 @@ public class GitGarbageCollectionCronJob
     extends CRUDKubernetesDependentResource<CronJob, GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
 
   public GitGarbageCollectionCronJob() {
@@ -82,13 +79,7 @@ public class GitGarbageCollectionCronJob
     EnvVarSource metaDataEnvSource = new EnvVarSource();
     metaDataEnvSource.setFieldRef(null);
 
-    Volume gitRepositoriesVolume =
-        new VolumeBuilder()
-            .withName(GIT_REPOSITORIES_VOLUME_NAME)
-            .withNewPersistentVolumeClaim()
-            .withClaimName(REPOSITORY_PVC_NAME)
-            .endPersistentVolumeClaim()
-            .build();
+    Volume gitRepositoriesVolume = gerritCluster.getGitRepositoriesVolume();
 
     Volume logsVolume =
         new VolumeBuilder()
@@ -116,7 +107,7 @@ public class GitGarbageCollectionCronJob
             .withNewSecurityContext()
             .withFsGroup(100L)
             .endSecurityContext()
-            .addToContainers(buildGitGcContainer(gitGc))
+            .addToContainers(buildGitGcContainer(gitGc, gerritCluster))
             .withVolumes(List.of(gitRepositoriesVolume, logsVolume))
             .endSpec()
             .endTemplate()
@@ -146,13 +137,7 @@ public class GitGarbageCollectionCronJob
         .build();
   }
 
-  private Container buildGitGcContainer(GitGarbageCollection gitGc) {
-    VolumeMount gitRepositoriesVolumeMount =
-        new VolumeMountBuilder()
-            .withName(GIT_REPOSITORIES_VOLUME_NAME)
-            .withMountPath("/var/gerrit/git")
-            .build();
-
+  private Container buildGitGcContainer(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
     VolumeMount logsVolumeMount =
         new VolumeMountBuilder()
             .withName(LOGS_VOLUME_NAME)
@@ -176,7 +161,8 @@ public class GitGarbageCollectionCronJob
             .withImage(gitGc.getSpec().getImage())
             .withResources(gitGc.getSpec().getResources())
             .withEnv(podNameEnvVar)
-            .withVolumeMounts(List.of(gitRepositoriesVolumeMount, logsVolumeMount));
+            .withVolumeMounts(
+                List.of(gerritCluster.getGitRepositoriesVolumeMount(), logsVolumeMount));
 
     ArrayList<String> args = new ArrayList<>();
     for (String project : gitGc.getSpec().getProjects()) {
