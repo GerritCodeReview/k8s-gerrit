@@ -77,12 +77,28 @@ spec:
     ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
     readWriteMany: nfs-client
 
+  ## Storage for git repositories
   gitRepositoryStorage:
     ## Size of the volume (ReadWriteMany) used to store git repositories. (mandatory)
     size: 1Gi
 
     ## Name of a specific persistent volume to claim (optional)
     volumeName: git-repositories
+
+    ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
+    ## to select a specific persistent volume (optional)
+    selector:
+      matchLabels:
+        volume-type: ssd
+        aws-availability-zone: us-east-1
+
+  ## Storage for logs
+  gerritLogsStorage:
+    ## Size of the volume (ReadWriteMany) used to store logs. (mandatory)
+    size: 1Gi
+
+    ## Name of a specific persistent volume to claim (optional)
+    volumeName: logs
 
     ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
     ## to select a specific persistent volume (optional)
@@ -126,7 +142,4 @@ spec:
     limits:
       cpu: 100m
       memory: 256Mi
-
-  ## Name of an existing PVC that will be used to store the logs (mandatory)
-  logPVC: logs-pvc
 ```
