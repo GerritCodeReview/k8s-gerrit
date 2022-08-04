@@ -8,3 +8,5 @@ spec:
     readWriteMany: nfs-client
   gitRepositoryStorage:
     size: 1Gi
+  gerritLogsStorage:
+    size: 1Gi
