@@ -72,6 +72,7 @@ public class GitGarbageCollectionCronJob
             .withLabels(gitGcLabels)
             .endMetadata()
             .withNewSpec()
+            .addAllToImagePullSecrets(gerritCluster.getSpec().getImagePullSecrets())
             .withRestartPolicy("OnFailure")
             .withNewSecurityContext()
             .withFsGroup(100L)
