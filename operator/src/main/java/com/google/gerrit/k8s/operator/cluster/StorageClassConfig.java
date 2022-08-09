@@ -18,6 +18,8 @@ public class StorageClassConfig {
 
   String readWriteOnce = "default";
   String readWriteMany = "shared-storage";
+  private boolean enableNfsWorkaround;
+  private String idmapdConfig;
 
   public String getReadWriteOnce() {
     return readWriteOnce;
@@ -33,5 +35,21 @@ public class StorageClassConfig {
 
   public void setReadWriteMany(String readWriteMany) {
     this.readWriteMany = readWriteMany;
+  }
+
+  public boolean isEnableNfsWorkaround() {
+    return enableNfsWorkaround;
+  }
+
+  public void setEnableNfsWorkaround(boolean enableNfsWorkaround) {
+    this.enableNfsWorkaround = enableNfsWorkaround;
+  }
+
+  public String getIdmapdConfig() {
+    return idmapdConfig;
+  }
+
+  public void setIdmapdConfig(String idmapdConfig) {
+    this.idmapdConfig = idmapdConfig;
   }
 }

@@ -14,11 +14,15 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GerritClusterSpec {
 
   private StorageClassConfig storageClasses;
@@ -26,6 +30,7 @@ public class GerritClusterSpec {
   private SharedStorage logsStorage;
   private String imagePullPolicy;
   private Set<String> imagePullSecrets = new HashSet<>();
+  private BusyBoxImage busyBox = new BusyBoxImage();
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
@@ -67,5 +72,13 @@ public class GerritClusterSpec {
 
   public void setImagePullSecrets(Set<String> imagePullSecrets) {
     this.imagePullSecrets = imagePullSecrets;
+  }
+
+  public BusyBoxImage getBusyBox() {
+    return busyBox;
+  }
+
+  public void setBusyBox(BusyBoxImage busyBox) {
+    this.busyBox = busyBox;
   }
 }

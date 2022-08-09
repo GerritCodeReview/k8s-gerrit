@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
+import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.Quantity;
@@ -44,7 +45,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGitRepositoriesPvcCreated() {
-    GerritCluster cluster = createGerritCluster();
+    GerritCluster cluster = createGerritCluster(false);
 
     logger.atInfo().log("Waiting max 1 minutes for the git repositories pvc to be created.");
     await()
@@ -76,7 +77,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGerritLogsPvcCreated() {
-    GerritCluster cluster = createGerritCluster();
+    GerritCluster cluster = createGerritCluster(false);
 
     logger.atInfo().log("Waiting max 1 minutes for the gerrit logs pvc to be created.");
     await()
@@ -106,7 +107,28 @@ public class GerritClusterE2E {
     client.resource(cluster).delete();
   }
 
-  private GerritCluster createGerritCluster() {
+  @Test
+  void testNfsIdmapdConfigMapCreated() {
+    GerritCluster cluster = createGerritCluster(true);
+
+    logger.atInfo().log("Waiting max 1 minutes for the nfs idmapd configmap to be created.");
+    await()
+        .atMost(1, MINUTES)
+        .untilAsserted(
+            () -> {
+              ConfigMap cm =
+                  client
+                      .configMaps()
+                      .inNamespace(operator.getNamespace())
+                      .withName(NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME)
+                      .get();
+              assertThat(cm, is(notNullValue()));
+            });
+
+    logger.atInfo().log("Deleting test cluster object: %s", cluster);
+  }
+
+  private GerritCluster createGerritCluster(boolean isNfsEnbaled) {
     GerritCluster cluster = new GerritCluster();
 
     cluster.setMetadata(
@@ -123,6 +145,11 @@ public class GerritClusterE2E {
 
     StorageClassConfig storageClassConfig = new StorageClassConfig();
     storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
+
+    if (isNfsEnbaled) {
+      storageClassConfig.setEnableNfsWorkaround(isNfsEnbaled);
+      storageClassConfig.setIdmapdConfig("[General]\nDomain = localdomain.com");
+    }
 
     GerritClusterSpec clusterSpec = new GerritClusterSpec();
     clusterSpec.setGitRepositoryStorage(repoStorage);
