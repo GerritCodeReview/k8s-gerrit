@@ -70,6 +70,11 @@ kind: GerritCluster
 metadata:
   name: gerrit
 spec:
+  ## List of names representing imagePullSecrets available in the cluster. These
+  ## secrets will be added to all pods.
+  imagePullSecrets: []
+  # - docker
+
   storageClasses:
     ## Name of a StorageClass allowing ReadWriteOnce access. (default: default)
     readWriteOnce: default

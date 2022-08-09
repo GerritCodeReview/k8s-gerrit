@@ -14,11 +14,17 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import io.fabric8.kubernetes.api.model.LocalObjectReference;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class GerritClusterSpec {
 
   private StorageClassConfig storageClasses;
   private SharedStorage gitRepositoryStorage;
   private SharedStorage logsStorage;
+  private Set<String> imagePullSecrets = new HashSet<>();
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
@@ -42,5 +48,15 @@ public class GerritClusterSpec {
 
   public void setLogsStorage(SharedStorage logsStorage) {
     this.logsStorage = logsStorage;
+  }
+
+  public Set<LocalObjectReference> getImagePullSecrets() {
+    return this.imagePullSecrets.stream()
+        .map(sec -> new LocalObjectReference(sec))
+        .collect(Collectors.toSet());
+  }
+
+  public void setImagePullSecrets(Set<String> imagePullSecrets) {
+    this.imagePullSecrets = imagePullSecrets;
   }
 }
