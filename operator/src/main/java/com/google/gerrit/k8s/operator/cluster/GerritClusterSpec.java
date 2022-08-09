@@ -24,6 +24,7 @@ public class GerritClusterSpec {
   private StorageClassConfig storageClasses;
   private SharedStorage gitRepositoryStorage;
   private SharedStorage logsStorage;
+  private String imagePullPolicy;
   private Set<String> imagePullSecrets = new HashSet<>();
 
   public StorageClassConfig getStorageClasses() {
@@ -48,6 +49,14 @@ public class GerritClusterSpec {
 
   public void setLogsStorage(SharedStorage logsStorage) {
     this.logsStorage = logsStorage;
+  }
+
+  public String getImagePullPolicy() {
+    return imagePullPolicy;
+  }
+
+  public void setImagePullPolicy(String imagePullPolicy) {
+    this.imagePullPolicy = imagePullPolicy;
   }
 
   public Set<LocalObjectReference> getImagePullSecrets() {
