@@ -14,8 +14,11 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
+import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import io.fabric8.kubernetes.api.model.Toleration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,6 +28,8 @@ public class GitGarbageCollectionSpec {
   private String schedule;
   private Set<String> projects;
   private ResourceRequirements resources;
+  private List<Toleration> tolerations;
+  private Affinity affinity;
 
   public GitGarbageCollectionSpec() {
     image = "k8s-gerrit/git-gc";
@@ -70,6 +75,22 @@ public class GitGarbageCollectionSpec {
 
   public ResourceRequirements getResources() {
     return resources;
+  }
+
+  public List<Toleration> getTolerations() {
+    return tolerations;
+  }
+
+  public void setTolerations(List<Toleration> tolerations) {
+    this.tolerations = tolerations;
+  }
+
+  public Affinity getAffinity() {
+    return affinity;
+  }
+
+  public void setAffinity(Affinity affinity) {
+    this.affinity = affinity;
   }
 
   @Override
