@@ -54,7 +54,7 @@ public class GitGarbageCollectionE2E {
       LocallyRunOperatorExtension.builder()
           .waitForNamespaceDeletion(true)
           .withReconciler(new GitGarbageCollectionReconciler(client))
-          .withReconciler(new GerritClusterReconciler())
+          .withReconciler(new GerritClusterReconciler(client))
           .build();
 
   @Test
