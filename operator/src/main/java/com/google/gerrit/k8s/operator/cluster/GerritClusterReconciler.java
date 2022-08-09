@@ -14,21 +14,50 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
+import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import java.util.Map;
 
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class),
       @Dependent(type = GerritLogsPVC.class),
     })
-public class GerritClusterReconciler implements Reconciler<GerritCluster> {
+public class GerritClusterReconciler
+    implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
+  private final KubernetesClient kubernetesClient;
+
+  private NfsIdmapdConfigMap dependentNfsImapdConfigMap;
+
+  public GerritClusterReconciler(KubernetesClient client) {
+    this.kubernetesClient = client;
+
+    this.dependentNfsImapdConfigMap = new NfsIdmapdConfigMap();
+    this.dependentNfsImapdConfigMap.setKubernetesClient(kubernetesClient);
+  }
+
+  @Override
+  public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
+    return EventSourceInitializer.nameEventSources(
+        this.dependentNfsImapdConfigMap.initEventSource(context));
+  }
+
   @Override
   public UpdateControl<GerritCluster> reconcile(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
+    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+            != null) {
+      dependentNfsImapdConfigMap.reconcile(gerritCluster, context);
+    }
+
     return UpdateControl.noUpdate();
   }
 }

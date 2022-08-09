@@ -26,6 +26,7 @@ public class GerritClusterSpec {
   private SharedStorage logsStorage;
   private String imagePullPolicy;
   private Set<String> imagePullSecrets = new HashSet<>();
+  private BusyBoxImage busyBox = new BusyBoxImage();
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
@@ -67,5 +68,13 @@ public class GerritClusterSpec {
 
   public void setImagePullSecrets(Set<String> imagePullSecrets) {
     this.imagePullSecrets = imagePullSecrets;
+  }
+
+  public BusyBoxImage getBusyBox() {
+    return busyBox;
+  }
+
+  public void setBusyBox(BusyBoxImage busyBox) {
+    this.busyBox = busyBox;
   }
 }
