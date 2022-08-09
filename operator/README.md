@@ -79,12 +79,40 @@ spec:
   ## to be used in all containers
   imagePullPolicy: "Always"
 
+  ## The busybox container is used for some init containers.
+  busyBox:
+    ## The registry from which to  pull the "busybox' image
+    registry: docker.io
+
+    ## The tag/version of the 'busybox' image
+    tag: latest
+
   storageClasses:
     ## Name of a StorageClass allowing ReadWriteOnce access. (default: default)
     readWriteOnce: default
 
     ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
     readWriteMany: nfs-client
+
+    ## NFS is not well supported by Kubernetes. These options provide a workaround
+    ## to ensure correct file ownership and id mapping
+    nfsWorkaround:
+      ## If enabled, file ownership will be manually set, if a volume is mounted
+      ## for the first time.
+      enabled: false
+
+      ## The idmapd.config file can be used to e.g. configure the ID domain. This
+      ## might be necessary for some NFS servers to ensure correct mapping of
+      ## user and group IDs.
+      idmapdConfig: |-
+        [General]
+          Verbosity = 0
+          Domain = localdomain.com
+
+        [Mapping]
+          Nobody-User = nobody
+          Nobody-Group = nogroup
+
 
   ## Storage for git repositories
   gitRepositoryStorage:

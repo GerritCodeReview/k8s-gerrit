@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritLogsPVC.LOGS_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
+import static com.google.gerrit.k8s.operator.cluster.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Namespaced;
@@ -40,6 +41,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, Status> imp
   private static final long serialVersionUID = 1L;
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
+  private static final String NFS_IMAPD_CONFIG_VOLUME_NAME = "nfs-config";
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
@@ -93,6 +95,25 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, Status> imp
     return new VolumeMountBuilder()
         .withName(LOGS_VOLUME_NAME)
         .withMountPath("/var/gerrit/logs")
+        .build();
+  }
+
+  @JsonIgnore
+  public Volume getNfsImapdConfigVolume() {
+    return new VolumeBuilder()
+        .withName(NFS_IMAPD_CONFIG_VOLUME_NAME)
+        .withNewConfigMap()
+        .withName(NFS_IDMAPD_CM_NAME)
+        .endConfigMap()
+        .build();
+  }
+
+  @JsonIgnore
+  public VolumeMount getNfsImapdConfigVolumeMount() {
+    return new VolumeMountBuilder()
+        .withName(NFS_IMAPD_CONFIG_VOLUME_NAME)
+        .withMountPath("/etc/idmapd.conf")
+        .withSubPath("idmapd.conf")
         .build();
   }
 }

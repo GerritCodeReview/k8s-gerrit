@@ -18,6 +18,7 @@ public class StorageClassConfig {
 
   String readWriteOnce = "default";
   String readWriteMany = "shared-storage";
+  NfsWorkaroundConfig nfsWorkaround = new NfsWorkaroundConfig();
 
   public String getReadWriteOnce() {
     return readWriteOnce;
@@ -33,5 +34,13 @@ public class StorageClassConfig {
 
   public void setReadWriteMany(String readWriteMany) {
     this.readWriteMany = readWriteMany;
+  }
+
+  public NfsWorkaroundConfig getNfsWorkaround() {
+    return nfsWorkaround;
+  }
+
+  public void setNfsWorkaround(NfsWorkaroundConfig nfsWorkaround) {
+    this.nfsWorkaround = nfsWorkaround;
   }
 }
