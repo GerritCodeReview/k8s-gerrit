@@ -32,7 +32,7 @@ def container_run_default(request, docker_client, gerrit_init_image, tmp_path_fa
         volumes={tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"}},
         detach=True,
         auto_remove=True,
-        platform="linux/amd64"
+        platform="linux/amd64",
     )
 
     def stop_container():
@@ -71,7 +71,7 @@ def container_run_endless(
         },
         detach=True,
         auto_remove=True,
-        platform="linux/amd64"
+        platform="linux/amd64",
     )
 
     yield container_run

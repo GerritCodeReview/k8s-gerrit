@@ -61,7 +61,7 @@ class GerritContainer:
             network=self.docker_network.name,
             detach=True,
             auto_remove=True,
-            platform="linux/amd64"
+            platform="linux/amd64",
         )
 
     def stop(self):
@@ -90,7 +90,7 @@ def container_endless_run_factory():
             user="gerrit",
             detach=True,
             auto_remove=True,
-            platform="linux/amd64"
+            platform="linux/amd64",
         )
 
     return get_container
