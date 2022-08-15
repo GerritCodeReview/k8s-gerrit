@@ -24,7 +24,6 @@ import java.util.Set;
 
 public class GitGarbageCollectionSpec {
   private String cluster;
-  private String image;
   private String schedule;
   private Set<String> projects;
   private ResourceRequirements resources;
@@ -32,7 +31,6 @@ public class GitGarbageCollectionSpec {
   private Affinity affinity;
 
   public GitGarbageCollectionSpec() {
-    image = "k8s-gerrit/git-gc";
     resources = new ResourceRequirements();
     projects = new HashSet<>();
   }
@@ -43,14 +41,6 @@ public class GitGarbageCollectionSpec {
 
   public void setCluster(String cluster) {
     this.cluster = cluster;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
-  }
-
-  public String getImage() {
-    return image;
   }
 
   public void setSchedule(String schedule) {
@@ -95,7 +85,7 @@ public class GitGarbageCollectionSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cluster, image, projects, resources, schedule);
+    return Objects.hash(cluster, projects, resources, schedule);
   }
 
   @Override
@@ -103,7 +93,6 @@ public class GitGarbageCollectionSpec {
     if (obj instanceof GitGarbageCollectionSpec) {
       GitGarbageCollectionSpec other = (GitGarbageCollectionSpec) obj;
       return Objects.equals(cluster, other.cluster)
-          && Objects.equals(image, other.image)
           && Objects.equals(projects, other.projects)
           && Objects.equals(resources, other.resources)
           && Objects.equals(schedule, other.schedule);
