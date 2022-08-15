@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionListSpec;
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class GerritClusterSpec {
   private Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
   private GerritRepositoryConfig gerritImages = new GerritRepositoryConfig();
   private BusyBoxImage busyBox = new BusyBoxImage();
+  private GitGarbageCollectionListSpec gitGarbageCollections = new GitGarbageCollectionListSpec();
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
@@ -91,5 +93,13 @@ public class GerritClusterSpec {
 
   public void setBusyBox(BusyBoxImage busyBox) {
     this.busyBox = busyBox;
+  }
+
+  public GitGarbageCollectionListSpec getGitGarbageCollections() {
+    return gitGarbageCollections;
+  }
+
+  public void setGitGarbageCollections(GitGarbageCollectionListSpec gitGarbageCollections) {
+    this.gitGarbageCollections = gitGarbageCollections;
   }
 }

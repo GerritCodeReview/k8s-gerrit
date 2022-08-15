@@ -23,6 +23,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionListReconciler;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -40,6 +42,8 @@ public class GerritClusterE2E {
       LocallyRunOperatorExtension.builder()
           .waitForNamespaceDeletion(true)
           .withReconciler(new GerritClusterReconciler(client))
+          .withReconciler(new GitGarbageCollectionListReconciler(client))
+          .withReconciler(new GitGarbageCollectionReconciler(client))
           .build();
 
   @Test

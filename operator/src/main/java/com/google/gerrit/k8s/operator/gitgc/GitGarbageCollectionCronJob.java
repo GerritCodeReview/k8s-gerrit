@@ -45,12 +45,21 @@ public class GitGarbageCollectionCronJob
   protected CronJob desired(GitGarbageCollection gitGc, Context<GitGarbageCollection> context) {
     String ns = gitGc.getMetadata().getNamespace();
     String name = gitGc.getMetadata().getName();
+
+    String clusterName;
+    if (gitGc.getMetadata().getLabels().containsKey("app.kubernetes.io/part-of")) {
+      clusterName = gitGc.getMetadata().getLabels().get("app.kubernetes.io/part-of");
+    } else if (gitGc.getSpec().getCluster() != null) {
+      clusterName = gitGc.getSpec().getCluster();
+    } else {
+      throw new IllegalStateException(
+          String.format(
+              "No Gerrit cluster resource configured for GitGc %s.",
+              gitGc.getMetadata().getName()));
+    }
+
     GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(ns)
-            .withName(gitGc.getSpec().getCluster())
-            .get();
+        client.resources(GerritCluster.class).inNamespace(ns).withName(clusterName).get();
 
     if (gerritCluster == null) {
       throw new IllegalStateException("The Gerrit cluster could not be found.");

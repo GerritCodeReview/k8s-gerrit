@@ -27,8 +27,11 @@ import java.util.Map;
 
 @ControllerConfiguration(
     dependents = {
-      @Dependent(type = GitRepositoriesPVC.class),
-      @Dependent(type = GerritLogsPVC.class)
+      @Dependent(type = GitRepositoriesPVC.class, name = "git-repositories-pvc"),
+      @Dependent(type = GerritLogsPVC.class, name = "gerrit-logs-pvc"),
+      @Dependent(
+          type = DependentGitGarbageCollectionList.class,
+          dependsOn = {"git-repositories-pvc", "gerrit-logs-pvc"})
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {

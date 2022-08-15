@@ -10,3 +10,17 @@ spec:
     size: 1Gi
   logsStorage:
     size: 1Gi
+  gitGarbageCollections:
+    templates:
+      metadata:
+        name: gitgc
+      spec:
+        image: k8sgerrit/git-gc
+        schedule: "*/5 * * * *"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
