@@ -105,6 +105,7 @@
 				<configuration>
 					<includes>
 						<include>**/*E2E.java</include>
+						<include>**/*Test.java</include>
 					</includes>
 					<rerunFailingTestsCount>1</rerunFailingTestsCount>
 				</configuration>
