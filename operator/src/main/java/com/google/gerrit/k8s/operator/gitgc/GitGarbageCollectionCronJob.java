@@ -168,7 +168,7 @@ public class GitGarbageCollectionCronJob
         new ContainerBuilder()
             .withName("git-gc")
             .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
-            .withImage(gitGc.getSpec().getImage())
+            .withImage(gerritCluster.getSpec().getGerritImages().getFullImageName("git-gc"))
             .withResources(gitGc.getSpec().getResources())
             .withEnv(getPodNameEnvVar())
             .withVolumeMounts(volumeMounts);
