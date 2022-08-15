@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a799075_6b8cbbe5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritCluster.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-08-15T10:30:50Z",
+      "side": 1,
+      "message": "NFS_IDMAPD_CONFIG_VOLUME_NAME",
+      "range": {
+        "startLine": 104,
+        "startChar": 18,
+        "endLine": 104,
+        "endChar": 46
+      },
+      "revId": "909a31b75734b48c1c09f51a0ded2ad5d764d1e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08902d33_fe9d0be7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritCluster.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-08-15T10:30:50Z",
+      "side": 1,
+      "message": "NFS_IDMAPD_CONFIG_VOLUME_NAME",
+      "range": {
+        "startLine": 114,
+        "startChar": 18,
+        "endLine": 114,
+        "endChar": 46
+      },
+      "revId": "909a31b75734b48c1c09f51a0ded2ad5d764d1e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
