@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d10d4e6_6338a247",
+        "filename": "operator/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-08-15T10:24:43Z",
+      "side": 1,
+      "message": "this belongs to another change",
+      "revId": "34c32d5dd25d8fe0e95fb401e45811bf14ed5a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
