@@ -79,6 +79,20 @@ spec:
   ## to be used in all containers
   imagePullPolicy: "Always"
 
+  ## The container images in this project are tagged with the output of git describe.
+  ## All container images are published for each version, even when the image itself
+  ## was not updated. This ensures that all containers work well together.
+  ## Here, the data on how to get those images can be configured.
+  gerritImages:
+    ## The registry from which to pull the images
+    registry: "docker.io"
+
+    ## The organization in the registry containing the images
+    org: "k8sgerrit"
+
+    ## The tag/version of the images
+    tag: "latest"
+
   ## The busybox container is used for some init containers.
   busyBox:
     ## The registry from which to  pull the "busybox' image
@@ -155,10 +169,6 @@ metadata:
 spec:
   ## Name of the Gerrit cluster this GitGc is a part of. (mandatory)
   cluster: gerrit
-
-  ## Container image containing the git gc script. Expected to be the one maintained
-  ## by the k8sgerrit project (default: k8sgerrit/git-gc)
-  image: k8sgerrit/git-gc
 
   ## Cron schedule defining when to run git gc (mandatory)
   schedule: "*/5 * * * *"
