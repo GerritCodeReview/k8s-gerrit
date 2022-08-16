@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8155fd8d_95407d08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-08-16T08:59:03Z",
+      "side": 1,
+      "message": "diff between patchset 2 and 3 seems to be empty ?",
+      "revId": "eec6e8d350ac8b18f4ad6dcada4b085979d3693b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
