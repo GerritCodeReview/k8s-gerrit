@@ -16,6 +16,24 @@
       "message": "diff between patchset 2 and 3 seems to be empty ?",
       "revId": "eec6e8d350ac8b18f4ad6dcada4b085979d3693b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e47d1602_4192f7a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-16T09:45:15Z",
+      "side": 1,
+      "message": "Yes because this affected another change earlier in the series :-)",
+      "parentUuid": "8155fd8d_95407d08",
+      "revId": "eec6e8d350ac8b18f4ad6dcada4b085979d3693b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
