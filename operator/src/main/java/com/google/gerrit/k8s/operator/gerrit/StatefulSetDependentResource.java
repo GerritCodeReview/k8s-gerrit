@@ -46,8 +46,6 @@ public class StatefulSetDependentResource
 
   @Override
   protected StatefulSet desired(Gerrit gerrit, Context<Gerrit> context) {
-    // TODO(Thomas): data files,  image version, CA cert
-
     GerritCluster gerritCluster =
         client
             .resources(GerritCluster.class)
@@ -69,7 +67,7 @@ public class StatefulSetDependentResource
         .withLabels(getLabels(gerritCluster, gerrit))
         .endMetadata()
         .withNewSpec()
-        .withServiceName(String.format("%s-service", gerrit.getMetadata().getName()))
+        .withServiceName(ServiceDependentResource.getName(gerrit))
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate(gerrit.getSpec().getUpdatePartition())

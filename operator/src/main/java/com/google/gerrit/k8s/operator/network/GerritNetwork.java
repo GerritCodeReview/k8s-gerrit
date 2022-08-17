@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.network;
 
 import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
@@ -24,8 +25,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
 @Version("v1alpha1")
-@ShortNames("gcr")
-public class Gerrit extends CustomResource<GerritSpec, GerritStatus> implements Namespaced {
+@ShortNames("gnet")
+public class GerritNetwork extends CustomResource<GerritNetworkSpec, Status> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
   public String toString() {
