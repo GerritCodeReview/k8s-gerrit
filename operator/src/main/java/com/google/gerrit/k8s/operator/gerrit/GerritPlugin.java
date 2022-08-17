@@ -26,9 +26,10 @@ class GerritPlugin implements Serializable {
   private String sha1;
   private boolean installAsLibrary = false;
 
-  public GerritPlugin(String name, URL url) {
+  public GerritPlugin() {}
+
+  public GerritPlugin(String name) {
     this.name = name;
-    this.url = url;
   }
 
   public GerritPlugin(String name, URL url, String sha1) {
