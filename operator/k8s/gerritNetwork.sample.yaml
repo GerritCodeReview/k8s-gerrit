@@ -1,0 +1,11 @@
+
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GerritNetwork
+metadata:
+  name: gerrit
+spec:
+  cluster: gerrit
+  ingress:
+    host: example.com
+    tls:
+      enabled: false
