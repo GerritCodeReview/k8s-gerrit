@@ -23,6 +23,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritRepositoryConfig;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.SharedStorage;
@@ -64,11 +66,11 @@ public class Util {
   }
 
   public static GerritCluster createCluster(KubernetesClient client, String namespace) {
-    return createCluster(client, namespace, false);
+    return createCluster(client, namespace, false, false);
   }
 
   public static GerritCluster createCluster(
-      KubernetesClient client, String namespace, boolean isNfsEnbaled) {
+      KubernetesClient client, String namespace, boolean isIngressEnabled, boolean isNfsEnbaled) {
     GerritCluster cluster = new GerritCluster();
 
     cluster.setMetadata(
@@ -101,6 +103,16 @@ public class Util {
     Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
     imagePullSecrets.add(new LocalObjectReference(IMAGE_PULL_SECRET_NAME));
     clusterSpec.setImagePullSecrets(imagePullSecrets);
+
+    GerritIngressConfig ingressConfig = new GerritIngressConfig();
+    ingressConfig.setEnabled(isIngressEnabled);
+    ingressConfig.setHost(getIngressDomain());
+    ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
+    GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
+    ingressTlsConfig.setEnabled(true);
+    ingressTlsConfig.setSecret("tls-secret");
+    ingressConfig.setTls(ingressTlsConfig);
+    clusterSpec.setIngress(ingressConfig);
 
     cluster.setSpec(clusterSpec);
     client.resources(GerritCluster.class).inNamespace(namespace).createOrReplace(cluster);
@@ -163,5 +175,9 @@ public class Util {
 
   public static String getContainerTag() {
     return System.getProperty("tag", "latest");
+  }
+
+  public static String getIngressDomain() {
+    return System.getProperty("ingressDomain", "example.com");
   }
 }

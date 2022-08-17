@@ -10,3 +10,8 @@ spec:
     size: 1Gi
   logsStorage:
     size: 1Gi
+  ingress:
+    enabled: true
+    host: example.com
+    tls:
+      enabled: false
