@@ -64,11 +64,11 @@ public class Util {
   }
 
   public static GerritCluster createCluster(KubernetesClient client, String namespace) {
-    return createCluster(client, namespace, false);
+    return createCluster(client, namespace, false, false);
   }
 
   public static GerritCluster createCluster(
-      KubernetesClient client, String namespace, boolean isNfsEnbaled) {
+      KubernetesClient client, String namespace, boolean isIngressEnabled, boolean isNfsEnbaled) {
     GerritCluster cluster = new GerritCluster();
 
     cluster.setMetadata(
@@ -163,5 +163,9 @@ public class Util {
 
   public static String getContainerTag() {
     return System.getProperty("tag", "latest");
+  }
+
+  public static String getIngressDomain() {
+    return System.getProperty("ingressDomain", "example.com");
   }
 }

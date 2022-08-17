@@ -44,7 +44,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGitRepositoriesPvcCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), false);
+    GerritCluster cluster = createCluster(client, operator.getNamespace());
 
     logger.atInfo().log("Waiting max 1 minutes for the git repositories pvc to be created.");
     await()
@@ -66,7 +66,7 @@ public class GerritClusterE2E {
 
   @Test
   void testGerritLogsPvcCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), false);
+    GerritCluster cluster = createCluster(client, operator.getNamespace());
 
     logger.atInfo().log("Waiting max 1 minutes for the gerrit logs pvc to be created.");
     await()
@@ -88,7 +88,7 @@ public class GerritClusterE2E {
 
   @Test
   void testNfsIdmapdConfigMapCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), true);
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), false, true);
 
     logger.atInfo().log("Waiting max 1 minutes for the nfs idmapd configmap to be created.");
     await()

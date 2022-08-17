@@ -60,6 +60,16 @@ kubectl apply -f k8s/gerrit.sample.yaml
 
 The operator will create all resources to run a primary Gerrit.
 
+### GerritNetwork
+
+The GerritNetwork CustomResource manages the network related components in the
+Gerrit cluster, e.g. an Ingress. An example of a GerritNetwork-CustomResource can
+be found at `k8s/gerritNetwork.sample.yaml`. To install it into the cluster run:
+
+```sh
+kubectl apply -f k8s/gerritNetwork.sample.yaml
+```
+
 ### GitGarbageCollection
 
 An example of a GitGc-CustomResource can be found at `k8s/gitgc.sample.yaml`.
@@ -339,6 +349,42 @@ spec:
   ## will be mounted into the Gerrit site's etc-directory (optional)
   secrets: []
   # - gerrit-secure-config
+```
+
+### Gerrit Network
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GerritNetwork
+metadata:
+  name: gerrit
+spec:
+  ## Name of the Gerrit cluster this network configuration is a part of. (mandatory)
+  cluster: gerrit
+
+  ## Configuration for an ingress tha twill be used to route ingress traffic to
+  ## all exposed applications within the Gerrit cluster.
+  ingress:
+
+    ## Hostname to be used by the ingress. For each Gerrit deployment a new
+    ## subdomain using the name of the respective Gerrit CustomResource will be
+    ## used.
+    host: example.com
+
+    ## Annotations to be set for the ingress. This allows to configure the ingress
+    ## further by e.g. setting the ingress class.
+    annotations: {}
+
+    ## Configuration of TLS to be used in the ingress
+    tls:
+
+      ## Whether to use TLS
+      enabled: false
+
+      ## Name of the secret containing the TLS key pair. The certificate should
+      ## be a wildcard certificate allowing for all subdomains under the given
+      ## host.
+      secret: ""
 ```
 
 ### GitGarbageCollection
