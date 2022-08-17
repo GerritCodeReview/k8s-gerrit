@@ -29,6 +29,7 @@ import java.util.Map;
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class),
       @Dependent(type = GerritLogsPVC.class),
+      @Dependent(type = GerritIngress.class)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {

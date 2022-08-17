@@ -29,6 +29,7 @@ public class GerritClusterSpec {
   private Set<String> imagePullSecrets = new HashSet<>();
   private GerritRepositoryConfig gerritImages = new GerritRepositoryConfig();
   private BusyBoxImage busyBox = new BusyBoxImage();
+  private IngressConfig ingress = new IngressConfig();
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
@@ -94,5 +95,13 @@ public class GerritClusterSpec {
 
   public void setBusyBox(BusyBoxImage busyBox) {
     this.busyBox = busyBox;
+  }
+
+  public IngressConfig getIngress() {
+    return ingress;
+  }
+
+  public void setIngress(IngressConfig ingress) {
+    this.ingress = ingress;
   }
 }
