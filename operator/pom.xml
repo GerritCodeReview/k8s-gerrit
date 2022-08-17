@@ -62,9 +62,15 @@
 			<version>${flogger.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-slf4j-impl</artifactId>
-		    <version>2.17.2</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.urswolfer.gerrit.client.rest</groupId>
+			<artifactId>gerrit-rest-java-client</artifactId>
+			<version>0.9.5</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
