@@ -31,7 +31,7 @@ import java.util.Map;
 
 @KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-service")
 public class ServiceDependentResource extends CRUDKubernetesDependentResource<Service, Gerrit> {
-  public static final String GERRIT_SERVICE_NAME = "gerrit-service";
+  public static final String HTTP_PORT_NAME = "http";
 
   public ServiceDependentResource() {
     super(Service.class);
@@ -52,7 +52,7 @@ public class ServiceDependentResource extends CRUDKubernetesDependentResource<Se
     return new ServiceBuilder()
         .withApiVersion("v1")
         .withNewMetadata()
-        .withName(GERRIT_SERVICE_NAME)
+        .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(getLabels(gerritCluster))
         .endMetadata()
@@ -64,6 +64,10 @@ public class ServiceDependentResource extends CRUDKubernetesDependentResource<Se
         .build();
   }
 
+  public static String getName(Gerrit gerrit) {
+    return gerrit.getMetadata().getName();
+  }
+
   public static Map<String, String> getLabels(GerritCluster gerritCluster) {
     return gerritCluster.getLabels("gerrit-service", GerritReconciler.class.getSimpleName());
   }
@@ -72,7 +76,7 @@ public class ServiceDependentResource extends CRUDKubernetesDependentResource<Se
     List<ServicePort> ports = new ArrayList<>();
     ports.add(
         new ServicePortBuilder()
-            .withName("http")
+            .withName(HTTP_PORT_NAME)
             .withPort(gerrit.getSpec().getService().getHttpPort())
             .withNewTargetPort(HTTP_PORT)
             .build());
