@@ -14,11 +14,23 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
+import io.javaoperatorsdk.operator.processing.dependent.workflow.WorkflowReconcileResult;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
+import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
+import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ControllerConfiguration(
     dependents = {
@@ -33,11 +45,43 @@ import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
           type = ServiceDependentResource.class,
           dependsOn = {"gerrit-statefulset"})
     })
-public class GerritReconciler implements Reconciler<Gerrit> {
+public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
 
   @Override
-  public UpdateControl<Gerrit> reconcile(Gerrit resource, Context<Gerrit> context)
-      throws Exception {
-    return UpdateControl.noUpdate();
+  public Map<String, EventSource> prepareEventSources(EventSourceContext<Gerrit> context) {
+    final SecondaryToPrimaryMapper<GerritCluster> gerritClusterMapper =
+        (GerritCluster cluster) ->
+            context
+                .getPrimaryCache()
+                .list(
+                    gerrit -> gerrit.getSpec().getCluster().equals(cluster.getMetadata().getName()))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+
+    InformerEventSource<GerritCluster, Gerrit> gerritClusterEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(GerritCluster.class, context)
+                .withSecondaryToPrimaryMapper(gerritClusterMapper)
+                .build(),
+            context);
+
+    return EventSourceInitializer.nameEventSources(gerritClusterEventSource);
+  }
+
+  @Override
+  public UpdateControl<Gerrit> reconcile(Gerrit gerrit, Context<Gerrit> context) throws Exception {
+    GerritStatus status = gerrit.getStatus();
+    if (status == null) {
+      status = new GerritStatus();
+    }
+    Optional<WorkflowReconcileResult> result =
+        context.managedDependentResourceContext().getWorkflowReconcileResult();
+    if (result.isPresent()) {
+      status.setReady(result.get().allDependentResourcesReady());
+    } else {
+      status.setReady(false);
+    }
+    gerrit.setStatus(status);
+    return UpdateControl.patchStatus(gerrit);
   }
 }

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
@@ -22,13 +24,18 @@ import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
+import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class),
-      @Dependent(type = GerritLogsPVC.class),
+      @Dependent(type = GerritLogsPVC.class)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
@@ -36,6 +43,7 @@ public class GerritClusterReconciler
 
   private NfsIdmapdConfigMap dependentNfsImapdConfigMap;
   private PluginCachePVC dependentPluginCachePvc;
+  private GerritIngress gerritIngress;
 
   public GerritClusterReconciler(KubernetesClient client) {
     this.kubernetesClient = client;
@@ -45,13 +53,35 @@ public class GerritClusterReconciler
 
     this.dependentPluginCachePvc = new PluginCachePVC();
     this.dependentPluginCachePvc.setKubernetesClient(kubernetesClient);
+
+    this.gerritIngress = new GerritIngress();
+    this.gerritIngress.setKubernetesClient(kubernetesClient);
   }
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
+    final SecondaryToPrimaryMapper<Gerrit> gerritMapper =
+        (Gerrit gerrit) ->
+            context
+                .getPrimaryCache()
+                .list(
+                    gerritCluster ->
+                        gerritCluster.getMetadata().getName().equals(gerrit.getSpec().getCluster()))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+
+    InformerEventSource<Gerrit, GerritCluster> gerritEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Gerrit.class, context)
+                .withSecondaryToPrimaryMapper(gerritMapper)
+                .build(),
+            context);
+
     return EventSourceInitializer.nameEventSources(
+        gerritEventSource,
         this.dependentNfsImapdConfigMap.initEventSource(context),
-        this.dependentPluginCachePvc.initEventSource(context));
+        this.dependentPluginCachePvc.initEventSource(context),
+        this.gerritIngress.initEventSource(context));
   }
 
   @Override
@@ -67,6 +97,36 @@ public class GerritClusterReconciler
       dependentPluginCachePvc.reconcile(gerritCluster, context);
     }
 
-    return UpdateControl.noUpdate();
+    List<String> managedGerrits = getManagedGerritInstances(gerritCluster);
+    if (!managedGerrits.isEmpty() && gerritCluster.getSpec().getIngress().isEnabled()) {
+      this.gerritIngress.reconcile(gerritCluster, context);
+    }
+    return UpdateControl.patchStatus(updateStatus(gerritCluster, managedGerrits));
+  }
+
+  private GerritCluster updateStatus(GerritCluster gerritCluster, List<String> managedGerrits) {
+    if (managedGerrits.isEmpty()) {
+      return gerritCluster;
+    }
+
+    GerritClusterStatus status = gerritCluster.getStatus();
+    if (status == null) {
+      status = new GerritClusterStatus();
+    }
+    status.setManagedGerritInstances(managedGerrits);
+    gerritCluster.setStatus(status);
+    return gerritCluster;
+  }
+
+  private List<String> getManagedGerritInstances(GerritCluster gerritCluster) {
+    return kubernetesClient
+        .resources(Gerrit.class)
+        .inNamespace(gerritCluster.getMetadata().getNamespace())
+        .list()
+        .getItems()
+        .stream()
+        .filter(gerrit -> GerritCluster.isGerritInstancePartOfCluster(gerrit, gerritCluster))
+        .map(gerrit -> gerrit.getMetadata().getName())
+        .collect(Collectors.toList());
   }
 }

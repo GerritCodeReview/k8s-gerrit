@@ -168,6 +168,31 @@ spec:
       # matchLabels:
       #   volume-type: ssd
       #   aws-availability-zone: us-east-1
+
+  ## Configuration for an ingress that will be used to route ingress traffic to
+  ## all exposed applications within the Gerrit cluster.
+  ingress:
+    ## Whether to provision an Ingress.
+    enabled: true
+
+    ## Hostname to be used by the ingress. For each Gerrit deployment a new
+    ## subdomain using the name of the respective Gerrit CustomResource will be
+    ## used.
+    host: example.com
+
+    ## Annotations to be set for the ingress. This allows to configure the ingress
+    ## further by e.g. setting the ingress class.
+    annotations: {}
+
+    ## Configuration of TLS to be used in the ingress
+    tls:
+      ## Whether to use TLS
+      enabled: false
+
+      ## Name of the secret containing the TLS key pair. The certificate should
+      ## be a wildcard certificate allowing for all subdomains under the given
+      ## host.
+      secret: ""
 ```
 
 ### Gerrit
