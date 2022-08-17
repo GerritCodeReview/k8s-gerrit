@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource.GERRIT_SERVICE_NAME;
 import static com.google.gerrit.k8s.operator.test.Util.createCluster;
 import static com.google.gerrit.k8s.operator.test.Util.createImagePullSecret;
 import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
@@ -22,24 +21,29 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.GerritConfigMapDependentResource;
-import com.google.gerrit.k8s.operator.gerrit.GerritInitConfigMapDependentResource;
-import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.gerrit.GerritSite;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec;
+import com.google.gerrit.k8s.operator.test.Util;
+import com.urswolfer.gerrit.client.rest.GerritAuthData;
+import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
+import io.fabric8.kubernetes.api.model.LoadBalancerIngress;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.ResourceRequirementsBuilder;
+import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,6 +53,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 public class GerritE2E {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final KubernetesClient client = getKubernetesClient();
+
+  private static final String INGRESS_NAME = "gerrit-ingress";
 
   @RegisterExtension
   LocallyRunOperatorExtension operator =
@@ -64,8 +70,8 @@ public class GerritE2E {
   }
 
   @Test
-  void testGerritStatefulSetCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace());
+  void testGerritStatefulSetCreated() throws Exception {
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
 
     Gerrit gerrit = new Gerrit();
     ObjectMeta gerritMeta =
@@ -160,7 +166,7 @@ public class GerritE2E {
                   client
                       .services()
                       .inNamespace(operator.getNamespace())
-                      .withName(GERRIT_SERVICE_NAME)
+                      .withName(ServiceDependentResource.getName(gerrit))
                       .get(),
                   is(notNullValue()));
             });
@@ -177,6 +183,45 @@ public class GerritE2E {
                       .inNamespace(operator.getNamespace())
                       .withName(gerrit.getMetadata().getName())
                       .isReady());
+            });
+
+    logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              Ingress ingress =
+                  client
+                      .network()
+                      .v1()
+                      .ingresses()
+                      .inNamespace(operator.getNamespace())
+                      .withName(INGRESS_NAME)
+                      .get();
+              assertThat(ingress, is(notNullValue()));
+              IngressStatus status = ingress.getStatus();
+              assertThat(status, is(notNullValue()));
+              List<LoadBalancerIngress> lbIngresses = status.getLoadBalancer().getIngress();
+              assertThat(lbIngresses, hasSize(1));
+              assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
+            });
+
+    GerritApi gerritApi =
+        new GerritRestApiFactory()
+            .create(
+                new GerritAuthData.Basic(
+                    String.format(
+                        "http://%s.%s",
+                        ServiceDependentResource.getName(gerrit), Util.getIngressDomain())));
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertDoesNotThrow(() -> gerritApi.config().server().getVersion());
+              assertThat(gerritApi.config().server().getVersion(), notNullValue());
+              assertThat(gerritApi.config().server().getVersion(), not(is("<2.8")));
+              logger.atInfo().log("Gerrit version: %s", gerritApi.config().server().getVersion());
             });
   }
 
