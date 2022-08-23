@@ -28,6 +28,7 @@ import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -105,6 +106,11 @@ public class GerritClusterE2E {
             });
 
     logger.atInfo().log("Deleting test cluster object: %s", cluster);
+  }
+
+  @AfterEach
+  void cleanup() {
+    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
   }
 
   private GerritCluster createGerritCluster(boolean isNfsEnbaled) {
