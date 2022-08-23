@@ -232,7 +232,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         else:
             LOG.info("%s not found in cache. Downloading it.", plugin["name"])
             download_target = self._get_cached_plugin_path(plugin)
-            self._create_plugin_cache_dir(os.path.dirname(target))
+            self._create_plugin_cache_dir(os.path.dirname(download_target))
 
             lock_path = f"{download_target}.lock"
             while os.path.exists(lock_path):
