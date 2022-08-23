@@ -251,7 +251,7 @@ future.
 | `gerrit.topologySpreadConstraints` | Control how Pods are spread across your cluster among failure-domains. For more information, please refer to the following documents. [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints) | {} |
 | `gerrit.affinity` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
 | `gerrit.replicas` | Number of replica pods to deploy | `1` |
-| `gerrit.updatePartition` | Number of pods to update simultaneously | `1` |
+| `gerrit.updatePartition` | Ordinal at which to start updating pods. Pods with a lower ordinal will not be updated. | `0` |
 | `gerrit.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 1` |
 |                    |                                                               | `requests.memory: 5Gi` |
 |                    |                                                               | `limits.cpu: 1` |
