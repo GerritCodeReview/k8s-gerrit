@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebef782f_67387127",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079507
+      },
+      "writtenOn": "2022-08-23T14:20:11Z",
+      "side": 1,
+      "message": "Using the gerrit helm-chart with downloaded plugins and an enabled plugin cache fails, as the base directory of the lock file is not present when first writing it. It looks like the directory creation is attempted, but it uses the wrong path.\n\nWith this change, the init container does not crash anymore and gerrit deploys successfully with the downloaded plugins.",
+      "revId": "1e7825b24b2b03be08f7bdec58ac434160e4ca17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
