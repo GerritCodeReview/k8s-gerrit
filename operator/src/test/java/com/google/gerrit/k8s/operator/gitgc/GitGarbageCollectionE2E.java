@@ -39,6 +39,7 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -192,6 +193,12 @@ public class GitGarbageCollectionE2E {
             .withName("selective-gc-2")
             .get();
     assertNull(cronJob);
+  }
+
+  @AfterEach
+  void cleanup() {
+    client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
+    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
   }
 
   private void createCluster() {
