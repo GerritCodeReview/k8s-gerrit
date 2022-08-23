@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.cluster;
 
 public class NfsWorkaroundConfig {
 
-  private boolean enabled;
+  private boolean enabled = false;
   private String idmapdConfig;
 
   public boolean isEnabled() {

@@ -71,12 +71,12 @@ metadata:
   name: gerrit
 spec:
   ## List of names representing imagePullSecrets available in the cluster. These
-  ## secrets will be added to all pods.
+  ## secrets will be added to all pods. (optional)
   imagePullSecrets: []
   # - docker
 
   ## ImagePullPolicy (https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy)
-  ## to be used in all containers
+  ## to be used in all containers. (default: Always)
   imagePullPolicy: "Always"
 
   ## The container images in this project are tagged with the output of git describe.
@@ -84,21 +84,21 @@ spec:
   ## was not updated. This ensures that all containers work well together.
   ## Here, the data on how to get those images can be configured.
   gerritImages:
-    ## The registry from which to pull the images
+    ## The registry from which to pull the images. (default: docker.io)
     registry: "docker.io"
 
-    ## The organization in the registry containing the images
+    ## The organization in the registry containing the images. (default: k8sgerrit)
     org: "k8sgerrit"
 
-    ## The tag/version of the images
+    ## The tag/version of the images. (default: latest)
     tag: "latest"
 
   ## The busybox container is used for some init containers.
   busyBox:
-    ## The registry from which to  pull the "busybox' image
+    ## The registry from which to  pull the "busybox' image. (default: docker.io)
     registry: docker.io
 
-    ## The tag/version of the 'busybox' image
+    ## The tag/version of the 'busybox' image. (default: latest)
     tag: latest
 
   storageClasses:
@@ -106,26 +106,26 @@ spec:
     readWriteOnce: default
 
     ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
-    readWriteMany: nfs-client
+    readWriteMany: shared-storage
 
     ## NFS is not well supported by Kubernetes. These options provide a workaround
     ## to ensure correct file ownership and id mapping
     nfsWorkaround:
       ## If enabled, file ownership will be manually set, if a volume is mounted
-      ## for the first time.
+      ## for the first time. (default: false)
       enabled: false
 
       ## The idmapd.config file can be used to e.g. configure the ID domain. This
       ## might be necessary for some NFS servers to ensure correct mapping of
-      ## user and group IDs.
-      idmapdConfig: |-
-        [General]
-          Verbosity = 0
-          Domain = localdomain.com
+      ## user and group IDs. (optional)
+      idmapdConfig: ""
+        # [General]
+        #   Verbosity = 0
+        #   Domain = localdomain.com
 
-        [Mapping]
-          Nobody-User = nobody
-          Nobody-Group = nogroup
+        # [Mapping]
+        #   Nobody-User = nobody
+        #   Nobody-Group = nogroup
 
 
   ## Storage for git repositories
@@ -134,14 +134,14 @@ spec:
     size: 1Gi
 
     ## Name of a specific persistent volume to claim (optional)
-    volumeName: git-repositories
+    volumeName: ""
 
     ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
     ## to select a specific persistent volume (optional)
-    selector:
-      matchLabels:
-        volume-type: ssd
-        aws-availability-zone: us-east-1
+    selector: {}
+      # matchLabels:
+      #   volume-type: ssd
+      #   aws-availability-zone: us-east-1
 
   ## Storage for logs
   gerritLogsStorage:
@@ -182,15 +182,16 @@ spec:
   ## Resource requests/limits of the git gc container
   ## (https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
   ## (optional)
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 100m
-      memory: 256Mi
+  resources: {}
+    # requests:
+    #   cpu: 100m
+    #   memory: 256Mi
+    # limits:
+    #   cpu: 100m
+    #   memory: 256Mi
 
   ## Pod tolerations (https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  ## (optional)
   tolerations: []
   # - key: "key1"
   #   operator: "Equal"
@@ -198,6 +199,7 @@ spec:
   #   effect: "NoSchedule"
 
   ## Pod affinity (https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  ## (optional)
   affinity: {}
     # nodeAffinity:
     # requiredDuringSchedulingIgnoredDuringExecution:
