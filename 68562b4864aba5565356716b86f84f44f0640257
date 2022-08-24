@@ -16,6 +16,24 @@
       "message": "Actually this broke the init process. The download-plugins.py script now deletes plugins from /var/gerrit/plugins when it cleans the cache.\n\n```\nmhorstmann@DSN-P-003:~/dev/dev/gerrit$ kubectl -n gerrit logs gerrit-gerrit-stateful-set-0 -c gerrit-init\n[2022-08-24 08:55:58,143] DEBUG SHA1 of file \u0027/var/plugins/healthcheck.jar\u0027 is c2cfe6342733a0075c434f02370db5f1b52db15d\n[2022-08-24 08:55:58,144] DEBUG SHA1 of file \u0027/var/gerrit/plugins/healthcheck.jar\u0027 is c2cfe6342733a0075c434f02370db5f1b52db15d\n[2022-08-24 08:55:58,144] INFO Installing packaged plugin commit-message-length-validator.\n[2022-08-24 08:55:58,157] INFO Installing packaged plugin plugin-manager.\n[2022-08-24 08:55:58,173] INFO Installing packaged plugin codemirror-editor.\n[2022-08-24 08:55:58,194] INFO Installing packaged plugin gitiles.\n[2022-08-24 08:55:58,225] INFO Installing packaged plugin reviewnotes.\n[2022-08-24 08:55:58,236] INFO Installing packaged plugin delete-project.\n[2022-08-24 08:55:58,251] INFO Installing packaged plugin singleusergroup.\n[2022-08-24 08:55:58,265] INFO Installing packaged plugin download-commands.\n[2022-08-24 08:55:58,278] INFO Installing packaged plugin webhooks.\n[2022-08-24 08:55:58,291] INFO Installing packaged plugin hooks.\n[2022-08-24 08:55:58,306] INFO Installing reviewers plugin from cache.\n[2022-08-24 08:55:58,310] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/healthcheck.jar\n[2022-08-24 08:55:58,311] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/commit-message-length-validator.jar\n[2022-08-24 08:55:58,312] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/plugin-manager.jar\n[2022-08-24 08:55:58,312] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/codemirror-editor.jar\n[2022-08-24 08:55:58,313] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/gitiles.jar\n[2022-08-24 08:55:58,314] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/reviewnotes.jar\n[2022-08-24 08:55:58,315] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/delete-project.jar\n[2022-08-24 08:55:58,316] INFO Installing verifycommitsig plugin from cache.\n[2022-08-24 08:55:58,320] INFO Too many cached files in /var/gerrit/plugins. Removing file /var/gerrit/plugins/singleusergroup.jar\n[2022-08-24 08:55:58,321] INFO Plugins were installed or updated. Initializing.\n[2022-08-24 08:55:58,321] INFO Existing gerrit.config found.\nInitialized /var/gerrit\n[2022-08-24 08:56:03,084] INFO Skipping reindexing.\n\n```",
       "revId": "68562b4864aba5565356716b86f84f44f0640257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b9876c3_14e85a6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079507
+      },
+      "writtenOn": "2022-08-24T09:13:09Z",
+      "side": 1,
+      "message": "nevermind, this is just an unrelated bug in the script. Will submit another patch",
+      "parentUuid": "4050cbae_c92249d7",
+      "revId": "68562b4864aba5565356716b86f84f44f0640257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
