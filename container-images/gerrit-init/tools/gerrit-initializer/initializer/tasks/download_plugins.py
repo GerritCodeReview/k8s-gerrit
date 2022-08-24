@@ -253,7 +253,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
                 self._remove_download_lock(lock_path)
 
         shutil.copy(cached_plugin_path, target)
-        self._cleanup_cache(os.path.dirname(target))
+        self._cleanup_cache(os.path.dirname(cached_plugin_path))
 
     def _install_plugin(self, plugin):
         install_path = os.path.join(self.plugin_dir, f"{plugin['name']}.jar")
