@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdd88b7e_68048844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-24T07:18:47Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "873b74c42219cafe2862b865e193bfc22b7c7194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2893f090_a795f91c",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-24T07:18:47Z",
+      "side": 1,
+      "message": "This line could be removed as it is the same as L228. Should be done in a different change.",
+      "revId": "873b74c42219cafe2862b865e193bfc22b7c7194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd32e230_d3155e4a",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-24T07:18:47Z",
+      "side": 1,
+      "message": "Thinking about it, this is not safe. The symlinked plugin might be removed by a cleanup of the cache, while it is still loaded in an active instance. Very unlikely, but possible. In this case copying the plugin does make sense. Especially since the cache does not need to be mounted to the main container in this case.\n\nAlso to be solved in a separate change.",
+      "revId": "873b74c42219cafe2862b865e193bfc22b7c7194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b61dbbc_bbba63c8",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-24T07:18:47Z",
+      "side": 1,
+      "message": "This also affects the gerrit-replica chart. Could you add the VolumeMount there as well?",
+      "revId": "873b74c42219cafe2862b865e193bfc22b7c7194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
