@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 # Copyright (C) 2011, 2020 SAP SE
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -86,21 +86,22 @@ log()
 
   # Do not log an empty line
   if [[ ! "$1" =~ ^[[:space:]]*$ ]]; then
+    echo $1
     echo $1 >>$LOG
   fi
 }
 
 gc_all_projects()
 {
-  find $TOP -type d -name *.git -printf "%P\0" | sed 's,^./,,' | while IFS= read -r -d $'\0' d
+  for d in $(find $TOP -type d -name *.git)
   do
-    gc_project "$d"
+    gc_project "$(basename $d)"
   done
 }
 
 gc_specified_projects()
 {
-  for PROJECT_NAME in ${GC_PROJECTS[@]}
+  for PROJECT_NAME in ${GC_PROJECTS}
   do
     gc_project "$PROJECT_NAME"
   done
@@ -121,7 +122,7 @@ gc_project()
 
   # Check if git-gc for this project has to be skipped
   if [ $SKIP_PROJECTS_OPT -eq 1 ]; then
-    for SKIP_PROJECT in "${SKIP_PROJECTS[@]}"; do
+    for SKIP_PROJECT in "${SKIP_PROJECTS}"; do
       if [ "$SKIP_PROJECT" == "$PROJECT_NAME" ] ; then
         OUT=$(date +"%D %r Skipped: $PROJECT_NAME") && log "$OUT"
         return 0
@@ -132,7 +133,7 @@ gc_project()
   # Check if writing bitmaps for this project has to be disabled
   WRITEBITMAPS='true';
   if [ $DONOT_WRITE_BITMAPS_OPT -eq 1 ]; then
-    for BITMAP_PROJECT in "${DONOT_WRITE_BITMAPS[@]}"; do
+    for BITMAP_PROJECT in "${DONOT_WRITE_BITMAPS}"; do
       if [ "$BITMAP_PROJECT" == "$PROJECT_NAME" ] ; then
         WRITEBITMAPS='false';
       fi
@@ -173,9 +174,9 @@ gc_project()
 # Main script starts here #
 ###########################
 
-SKIP_PROJECTS=()
-GC_PROJECTS=()
-DONOT_WRITE_BITMAPS=()
+SKIP_PROJECTS=
+GC_PROJECTS=
+DONOT_WRITE_BITMAPS=
 SKIP_PROJECTS_OPT=0
 GC_PROJECTS_OPT=0
 DONOT_WRITE_BITMAPS_OPT=0
@@ -184,15 +185,15 @@ while getopts 's:p:b:?h' c
 do
   case $c in
     s)
-      SKIP_PROJECTS+=("${OPTARG}.git")
+      SKIP_PROJECTS="${SKIP_PROJECTS} ${OPTARG}.git"
       SKIP_PROJECTS_OPT=1
       ;;
     p)
-      GC_PROJECTS+=("${OPTARG}.git")
+      GC_PROJECTS="${GC_PROJECTS} ${OPTARG}.git"
       GC_PROJECTS_OPT=1
       ;;
     b)
-      DONOT_WRITE_BITMAPS+=("${OPTARG}.git")
+      DONOT_WRITE_BITMAPS="${DONOT_WRITE_BITMAPS} ${OPTARG}.git"
       DONOT_WRITE_BITMAPS_OPT=1
       ;;
     h|?)
@@ -201,7 +202,7 @@ do
   esac
 done
 
-test $# -gt 0 || usage
+test $# -eq 0 || usage
 
 TOP=/var/gerrit/git
 LOG=/var/log/git/gc.log
