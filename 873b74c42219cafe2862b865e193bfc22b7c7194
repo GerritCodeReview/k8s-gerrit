@@ -67,6 +67,24 @@
       "message": "This also affects the gerrit-replica chart. Could you add the VolumeMount there as well?",
       "revId": "873b74c42219cafe2862b865e193bfc22b7c7194",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54edc71b_f38ae035",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-24T07:20:00Z",
+      "side": 1,
+      "message": "Sorry, it is already working with the gerrit-replica.",
+      "parentUuid": "3b61dbbc_bbba63c8",
+      "revId": "873b74c42219cafe2862b865e193bfc22b7c7194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
