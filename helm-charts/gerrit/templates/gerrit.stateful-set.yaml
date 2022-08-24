@@ -189,10 +189,6 @@ spec:
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
         {{- end }}
-        {{- if and .Values.gerrit.plugins.cache.enabled .Values.gerrit.plugins.downloaded }}
-        - name: gerrit-plugin-cache
-          mountPath: "/var/mnt/plugins"
-        {{- end }}
         - name: gerrit-config
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-secure-config

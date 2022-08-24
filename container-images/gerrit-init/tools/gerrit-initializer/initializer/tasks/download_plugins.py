@@ -252,7 +252,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
             finally:
                 self._remove_download_lock(lock_path)
 
-        os.symlink(cached_plugin_path, target)
+        shutil.copy(cached_plugin_path, target)
         self._cleanup_cache(os.path.dirname(target))
 
     def _install_plugin(self, plugin):

@@ -242,10 +242,6 @@ spec:
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
         {{- end }}
-        {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
-        - name: gerrit-plugin-cache
-          mountPath: "/var/mnt/plugins"
-        {{- end }}
         - name: gerrit-config
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
