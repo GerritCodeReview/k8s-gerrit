@@ -231,10 +231,9 @@ class CachedPluginInstaller(AbstractPluginInstaller):
             LOG.info("Installing %s plugin from cache.", plugin["name"])
         else:
             LOG.info("%s not found in cache. Downloading it.", plugin["name"])
-            download_target = self._get_cached_plugin_path(plugin)
-            self._create_plugin_cache_dir(os.path.dirname(download_target))
+            self._create_plugin_cache_dir(os.path.dirname(cached_plugin_path))
 
-            lock_path = f"{download_target}.lock"
+            lock_path = f"{cached_plugin_path}.lock"
             while os.path.exists(lock_path):
                 LOG.info(
                     "Download lock found (%s). Waiting %d seconds for it to be released.",
@@ -249,7 +248,7 @@ class CachedPluginInstaller(AbstractPluginInstaller):
             self._create_download_lock(lock_path)
 
             try:
-                self._download_plugin(plugin, download_target)
+                self._download_plugin(plugin, cached_plugin_path)
             finally:
                 self._remove_download_lock(lock_path)
 
