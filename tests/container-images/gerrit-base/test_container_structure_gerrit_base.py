@@ -37,10 +37,10 @@ def test_gerrit_base_inherits_from_base(gerrit_base_image):
 
 @pytest.mark.docker
 @pytest.mark.structure
-def test_gerrit_base_contains_java8(container_run):
+def test_gerrit_base_contains_java(container_run):
     _, output = container_run.exec_run("java -version")
     output = output.strip().decode("utf-8")
-    assert re.search(re.compile(f'openjdk version "{JAVA_VER}.[0-9]+.[0-9]+"'), output)
+    assert re.search(re.compile(f'openjdk version "{JAVA_VER}.[0-9.]+"'), output)
 
 
 @pytest.mark.docker
