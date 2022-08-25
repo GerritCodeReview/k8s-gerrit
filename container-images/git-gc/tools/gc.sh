@@ -93,9 +93,9 @@ log()
 
 gc_all_projects()
 {
-  for d in $(find $TOP -type d -name *.git)
+  for d in $(cd $TOP && find . -type d -name "*.git" | cut -c3- -)
   do
-    gc_project "$(basename $d)"
+    gc_project "$d"
   done
 }
 
