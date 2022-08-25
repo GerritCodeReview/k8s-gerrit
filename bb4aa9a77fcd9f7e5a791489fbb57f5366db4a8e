@@ -16,6 +16,24 @@
       "message": "Additional log lines explaining the issue:\n\nBefore change:\n```\n08/25/22 03:01:22 AM Started: All-Users.git\n08/25/22 03:01:22 AM Finished: All-Users.git\n08/25/22 03:01:22 AM Failed: Directory does not exist: /var/gerrit/git/postgresql-embedded.git\n08/25/22 03:01:22 AM Failed: Directory does not exist: /var/gerrit/git/libreoffice-online.git\n```\nAfter change:\n```\n08/25/22 07:08:56 AM Started: All-Users.git\n08/25/22 07:08:56 AM Finished: All-Users.git\n08/25/22 07:08:56 AM Started: thirdparty/java/yandex-qatools/postgresql-embedded.git\n08/25/22 07:08:56 AM Finished: thirdparty/java/yandex-qatools/postgresql-embedded.git\n08/25/22 07:08:56 AM Started: thirdparty/libreoffice-online.git\n08/25/22 07:08:57 AM Finished: thirdparty/libreoffice-online.git\n```\n\nI initially tried to implement the resolution of project pathes relative to $TOP with the realpath --relative-to command, which is more elegant and readable IMHO, but it is only supported in the coreutils version, which is not installed.",
       "revId": "bb4aa9a77fcd9f7e5a791489fbb57f5366db4a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a4c2be_79da0c5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-08-25T07:55:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1c709211_427d02f0",
+      "revId": "bb4aa9a77fcd9f7e5a791489fbb57f5366db4a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
