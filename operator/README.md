@@ -84,7 +84,7 @@ spec:
   ## List of names representing imagePullSecrets available in the cluster. These
   ## secrets will be added to all pods. (optional)
   imagePullSecrets: []
-  # - docker
+  # - name: docker
 
   ## ImagePullPolicy (https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy)
   ## to be used in all containers. (default: Always)
@@ -155,7 +155,7 @@ spec:
       #   aws-availability-zone: us-east-1
 
   ## Storage for logs
-  gerritLogsStorage:
+  logsStorage:
     ## Size of the volume (ReadWriteMany) used to store logs. (mandatory)
     size: 1Gi
 
