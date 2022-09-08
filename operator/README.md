@@ -13,9 +13,27 @@ mvn clean install -DskipTests jib:dockerBuild
 
 ## Tests
 
-The tests require a Kubernetes cluster with a StorageClass that supports
-ReadWriteMany access. The tests can be configured to use a storage class by
-setting the rwmStorageClass property (default: nfs-client).
+Executing the E2E tests has a few infrastructure requirements that have to be
+provided:
+
+- An (unused) Kubernetes cluster
+- The 'default' StorageClass that supports ReadWriteOnce access. It has to be
+  possible to provision volumes using this StorageClass.
+- A StorageClass that supports ReadWriteMany access. It has to be possible to
+  provision volumes using this StorageClass. Such a StorageClass could be provided
+  by the [NFS-subdir-provisioner chart](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).
+- An [Nginx Ingress Controller](https://github.com/kubernetes/ingress-nginx)
+- A valid default TLS certificate configured in the ingress controller
+
+In addition, some properties have to be set to configure the tests:
+
+- `rwmStorageClass`: Name of the StorageClass providing RWM-access (default:nfs-client)
+- `registry`: Registry to pull container images from
+- `RegistryOrg`: Organization of the container images
+- `tag`: Container tag
+- `registryUser`: User for the container registry
+- `registryPwd`: Password for the container registry
+- `ingressDomain`: Domain to be used for the ingress
 
 ## Deploy
 
