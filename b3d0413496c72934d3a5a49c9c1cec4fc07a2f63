@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2640af68_3d195d51",
+        "filename": "container-images/apache-git-http-backend/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-09T11:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3137e4a6_0f646c26",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "b3d0413496c72934d3a5a49c9c1cec4fc07a2f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "267b9e1a_40757c0a",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-09T09:15:47Z",
       "side": 1,
       "message": "I think 200 or 204 would be more appropriate since execution of the request has completed, see https://www.rfc-editor.org/rfc/rfc9110.html#name-202-accepted",
+      "range": {
+        "startLine": 16,
+        "startChar": 21,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "b3d0413496c72934d3a5a49c9c1cec4fc07a2f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4a51215_5e411932",
+        "filename": "container-images/apache-git-http-backend/tools/project_admin.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-09-09T11:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "267b9e1a_40757c0a",
       "range": {
         "startLine": 16,
         "startChar": 21,
