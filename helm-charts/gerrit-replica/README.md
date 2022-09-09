@@ -335,6 +335,10 @@ project.
 At least one endpoint (HTTP and/or HTTPS) has to be enabled in the service!
 ***
 
+Project creation, project deletion and HEAD update can also replicated. To enable
+this feature configure the replication plugin to use an adminUrl using the format
+`gerrit+https://<apache-git-http-backend host>`.
+
 ### Git garbage collection
 
 | Parameter | Description | Default |

@@ -84,6 +84,8 @@ spec:
         prefix: /git/
     - uri:
         prefix: /new/
+    - uri:
+        prefix: /a/projects/
     route:
     - destination:
         host: {{ .Release.Name }}-git-backend-service.{{ .Release.Namespace }}.svc.cluster.local
