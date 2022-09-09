@@ -29,6 +29,13 @@ spec:
     http:
       paths:
       - pathType: Prefix
+        path: /a/projects
+        backend:
+          service:
+            name: {{ .Release.Name }}-git-backend-service
+            port:
+              number: {{ .Values.gitBackend.service.http.port }}
+      - pathType: Prefix
         path: /new
         backend:
           service:
