@@ -89,6 +89,21 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.google.gerrit.k8s.operator.GerritOperator</mainClass>
+							<addDefaultImplementationEntries>
+								true
+							</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.2.0</version>
@@ -96,6 +111,7 @@
 					<container>
 						<mainClass>com.google.gerrit.k8s.operator.GerritOperator</mainClass>
 					</container>
+					<containerizingMode>packaged</containerizingMode>
 					<from>
 						<image>gcr.io/distroless/java:11</image>
 					</from>
