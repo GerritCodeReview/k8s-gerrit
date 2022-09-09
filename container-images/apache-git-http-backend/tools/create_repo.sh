@@ -1,5 +1,10 @@
 #!/bin/ash
 
+#####################################################################################
+# DEPRECATED
+# Use project_admin.sh instead, which is fully compatible with the replciation plugin
+#####################################################################################
+
 echo "Content-type: text/html"
 REPO=${REQUEST_URI##/new/}
 
