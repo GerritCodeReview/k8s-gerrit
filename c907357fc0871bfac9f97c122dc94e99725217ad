@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83fb69c0_f4d8bd6f",
+        "filename": "container-images/apache-git-http-backend/tools/create_repo.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-09-09T08:53:16Z",
+      "side": 1,
+      "message": "I think status 202 is incorrect, RFC 9110 says:\n\nThe 202 (Accepted) status code indicates that the request has been accepted for processing, but the processing has not been completed.\n\nit seems 200 or 204 would be more appropriate\n\nhttps://www.rfc-editor.org/rfc/rfc9110.html#name-202-accepted",
+      "range": {
+        "startLine": 14,
+        "startChar": 17,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "c907357fc0871bfac9f97c122dc94e99725217ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
