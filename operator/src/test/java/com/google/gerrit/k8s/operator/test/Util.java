@@ -49,6 +49,7 @@ public class Util {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String CLUSTER_NAME = "test-cluster";
   public static final String IMAGE_PULL_SECRET_NAME = "image-pull-secret";
+  public static final TestProperties testProps = new TestProperties();
 
   public static KubernetesClient getKubernetesClient() {
     Config config;
@@ -83,7 +84,7 @@ public class Util {
     logStorage.setSize(Quantity.parse("1Gi"));
 
     StorageClassConfig storageClassConfig = new StorageClassConfig();
-    storageClassConfig.setReadWriteMany(System.getProperty("rwmStorageClass", "nfs-client"));
+    storageClassConfig.setReadWriteMany(testProps.getRWMStorageClass());
 
     NfsWorkaroundConfig nfsWorkaround = new NfsWorkaroundConfig();
     nfsWorkaround.setEnabled(isNfsEnabled);
@@ -96,9 +97,9 @@ public class Util {
     clusterSpec.setStorageClasses(storageClassConfig);
 
     GerritRepositoryConfig repoConfig = new GerritRepositoryConfig();
-    repoConfig.setOrg(getContainerRegistryOrg());
-    repoConfig.setRegistry(getContainerRegistry());
-    repoConfig.setTag(getContainerTag());
+    repoConfig.setOrg(testProps.getRegistryOrg());
+    repoConfig.setRegistry(testProps.getRegistry());
+    repoConfig.setTag(testProps.getTag());
     clusterSpec.setGerritImages(repoConfig);
     Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
     imagePullSecrets.add(new LocalObjectReference(IMAGE_PULL_SECRET_NAME));
@@ -106,7 +107,7 @@ public class Util {
 
     GerritIngressConfig ingressConfig = new GerritIngressConfig();
     ingressConfig.setEnabled(isIngressEnabled);
-    ingressConfig.setHost(getIngressDomain());
+    ingressConfig.setHost(testProps.getIngressDomain());
     ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
     GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
     ingressTlsConfig.setEnabled(true);
@@ -135,12 +136,12 @@ public class Util {
   public static void createImagePullSecret(KubernetesClient client, String namespace) {
     StringBuilder secretBuilder = new StringBuilder();
     secretBuilder.append("{\"auths\": {\"");
-    secretBuilder.append(getContainerRegistry());
+    secretBuilder.append(testProps.getRegistry());
     secretBuilder.append("\": {\"auth\": \"");
     secretBuilder.append(
         Base64.getEncoder()
             .encodeToString(
-                String.format("%s:%s", getContainerRegistryUser(), getContainerRegistryPassword())
+                String.format("%s:%s", testProps.getRegistryUser(), testProps.getRegistryPwd())
                     .getBytes()));
     secretBuilder.append("\"}}}");
     String data = Base64.getEncoder().encodeToString(secretBuilder.toString().getBytes());
@@ -155,29 +156,5 @@ public class Util {
             .withData(Map.of(".dockerconfigjson", data))
             .build();
     client.secrets().create(imagePullSecret);
-  }
-
-  public static String getContainerRegistry() {
-    return System.getProperty("registry", "");
-  }
-
-  public static String getContainerRegistryUser() {
-    return System.getProperty("registryUser", "");
-  }
-
-  public static String getContainerRegistryPassword() {
-    return System.getProperty("registryPwd", "");
-  }
-
-  public static String getContainerRegistryOrg() {
-    return System.getProperty("registryOrg", "k8sgerrit");
-  }
-
-  public static String getContainerTag() {
-    return System.getProperty("tag", "latest");
-  }
-
-  public static String getIngressDomain() {
-    return System.getProperty("ingressDomain", "example.com");
   }
 }
