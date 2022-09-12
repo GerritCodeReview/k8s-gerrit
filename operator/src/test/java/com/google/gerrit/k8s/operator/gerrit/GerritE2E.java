@@ -31,7 +31,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
-import com.google.gerrit.k8s.operator.test.Util;
+import com.google.gerrit.k8s.operator.test.TestProperties;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.LoadBalancerIngress;
@@ -55,6 +55,7 @@ public class GerritE2E {
   private static final KubernetesClient client = getKubernetesClient();
 
   private static final String INGRESS_NAME = "gerrit-ingress";
+  private static final String INGRESS_DOMAIN = new TestProperties().getIngressDomain();
 
   @RegisterExtension
   LocallyRunOperatorExtension operator =
@@ -211,8 +212,7 @@ public class GerritE2E {
             .create(
                 new GerritAuthData.Basic(
                     String.format(
-                        "http://%s.%s",
-                        ServiceDependentResource.getName(gerrit), Util.getIngressDomain())));
+                        "http://%s.%s", ServiceDependentResource.getName(gerrit), INGRESS_DOMAIN)));
 
     await()
         .atMost(2, MINUTES)
