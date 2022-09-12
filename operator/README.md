@@ -35,6 +35,10 @@ In addition, some properties have to be set to configure the tests:
 - `registryPwd`: Password for the container registry
 - `ingressDomain`: Domain to be used for the ingress
 
+The properties should be set in the `test.properties` file. ALternatively, a
+path of a properties file can be configured by using
+`mvn clean install -Dproperties=<path to properties file> $TARGET`
+
 ## Deploy
 
 First all CustomResourceDefinitions have to be deployed:
