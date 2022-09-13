@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import static com.google.gerrit.k8s.operator.test.Util.createCluster;
-import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,24 +21,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class GerritClusterE2E {
+public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final KubernetesClient client = getKubernetesClient();
-
-  @RegisterExtension
-  LocallyRunOperatorExtension operator =
-      LocallyRunOperatorExtension.builder()
-          .waitForNamespaceDeletion(true)
-          .withReconciler(new GerritClusterReconciler(client))
-          .build();
 
   @Test
   void testGitRepositoriesPvcCreated() {
@@ -105,10 +92,5 @@ public class GerritClusterE2E {
             });
 
     logger.atInfo().log("Deleting test cluster object: %s", cluster);
-  }
-
-  @AfterEach
-  void cleanup() {
-    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
   }
 }
