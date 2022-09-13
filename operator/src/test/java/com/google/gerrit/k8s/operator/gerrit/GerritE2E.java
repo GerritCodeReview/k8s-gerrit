@@ -14,9 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static com.google.gerrit.k8s.operator.test.Util.createCluster;
-import static com.google.gerrit.k8s.operator.test.Util.createImagePullSecret;
-import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -30,13 +27,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.network.GerritIngressConfig;
 import com.google.gerrit.k8s.operator.network.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.network.GerritNetwork;
-import com.google.gerrit.k8s.operator.network.GerritNetworkReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkSpec;
-import com.google.gerrit.k8s.operator.test.TestProperties;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.LoadBalancerIngress;
@@ -46,35 +41,15 @@ import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.ResourceRequirementsBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class GerritE2E {
+public class GerritE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final KubernetesClient client = getKubernetesClient();
 
   private static final String INGRESS_NAME = "gerrit-ingress";
-  private static final String INGRESS_DOMAIN = new TestProperties().getIngressDomain();
-
-  @RegisterExtension
-  LocallyRunOperatorExtension operator =
-      LocallyRunOperatorExtension.builder()
-          .waitForNamespaceDeletion(true)
-          .withReconciler(new GerritClusterReconciler(client))
-          .withReconciler(new GerritReconciler())
-          .withReconciler(new GerritNetworkReconciler())
-          .build();
-
-  @BeforeEach
-  void setup() {
-    createImagePullSecret(client, operator.getNamespace());
-  }
+  private static final String INGRESS_DOMAIN = testProps.getIngressDomain();
 
   @Test
   void testGerritStatefulSetCreated() throws Exception {
@@ -251,11 +226,5 @@ public class GerritE2E {
               assertThat(gerritApi.config().server().getVersion(), not(is("<2.8")));
               logger.atInfo().log("Gerrit version: %s", gerritApi.config().server().getVersion());
             });
-  }
-
-  @AfterEach
-  void cleanup() {
-    client.resources(Gerrit.class).inNamespace(operator.getNamespace()).delete();
-    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
   }
 }
