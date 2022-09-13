@@ -14,9 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
-import static com.google.gerrit.k8s.operator.test.Util.CLUSTER_NAME;
-import static com.google.gerrit.k8s.operator.test.Util.createCluster;
-import static com.google.gerrit.k8s.operator.test.Util.getKubernetesClient;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -27,33 +24,18 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import java.util.List;
 import java.util.Set;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class GitGarbageCollectionE2E {
+public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static final String GITGC_SCHEDULE = "*/1 * * * *";
-
-  static final KubernetesClient client = getKubernetesClient();
-
-  @RegisterExtension
-  LocallyRunOperatorExtension operator =
-      LocallyRunOperatorExtension.builder()
-          .waitForNamespaceDeletion(true)
-          .withReconciler(new GitGarbageCollectionReconciler(client))
-          .withReconciler(new GerritClusterReconciler(client))
-          .build();
 
   @Test
   void testGitGcAllProjectsCreationAndDeletion() {
@@ -190,12 +172,6 @@ public class GitGarbageCollectionE2E {
             .withName("selective-gc-2")
             .get();
     assertNull(cronJob);
-  }
-
-  @AfterEach
-  void cleanup() {
-    client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
-    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
   }
 
   private GitGarbageCollection createCompleteGc() {
