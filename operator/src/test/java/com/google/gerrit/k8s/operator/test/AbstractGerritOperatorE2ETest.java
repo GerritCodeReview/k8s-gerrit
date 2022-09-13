@@ -22,11 +22,18 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
 import com.google.gerrit.k8s.operator.cluster.GerritRepositoryConfig;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.SharedStorage;
 import com.google.gerrit.k8s.operator.cluster.StorageClassConfig;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
+import com.google.gerrit.k8s.operator.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.network.GerritNetworkReconciler;
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
@@ -35,6 +42,7 @@ import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,14 +50,41 @@ import java.util.Base64;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class Util {
+public class AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  protected static final KubernetesClient client = getKubernetesClient();
   public static final String CLUSTER_NAME = "test-cluster";
   public static final String IMAGE_PULL_SECRET_NAME = "image-pull-secret";
   public static final TestProperties testProps = new TestProperties();
 
-  public static KubernetesClient getKubernetesClient() {
+  @RegisterExtension
+  protected LocallyRunOperatorExtension operator =
+      LocallyRunOperatorExtension.builder()
+          .waitForNamespaceDeletion(true)
+          .withReconciler(new GerritClusterReconciler(client))
+          .withReconciler(new GerritReconciler())
+          .withReconciler(new GerritNetworkReconciler())
+          .withReconciler(new GitGarbageCollectionReconciler(client))
+          .build();
+
+  @BeforeEach
+  void setup() {
+    createImagePullSecret(client, operator.getNamespace());
+  }
+
+  @AfterEach
+  void cleanup() {
+    client.resources(Gerrit.class).inNamespace(operator.getNamespace()).delete();
+    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
+    client.resources(GerritNetwork.class).inNamespace(operator.getNamespace()).delete();
+    client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
+  }
+
+  private static KubernetesClient getKubernetesClient() {
     Config config;
     try {
       String kubeconfig = System.getenv("KUBECONFIG");
@@ -62,6 +97,31 @@ public class Util {
       logger.atSevere().log("Failed to load kubeconfig. Trying default", e);
     }
     return new DefaultKubernetesClient();
+  }
+
+  private static void createImagePullSecret(KubernetesClient client, String namespace) {
+    StringBuilder secretBuilder = new StringBuilder();
+    secretBuilder.append("{\"auths\": {\"");
+    secretBuilder.append(testProps.getRegistry());
+    secretBuilder.append("\": {\"auth\": \"");
+    secretBuilder.append(
+        Base64.getEncoder()
+            .encodeToString(
+                String.format("%s:%s", testProps.getRegistryUser(), testProps.getRegistryPwd())
+                    .getBytes()));
+    secretBuilder.append("\"}}}");
+    String data = Base64.getEncoder().encodeToString(secretBuilder.toString().getBytes());
+
+    Secret imagePullSecret =
+        new SecretBuilder()
+            .withType("kubernetes.io/dockerconfigjson")
+            .withNewMetadata()
+            .withName(IMAGE_PULL_SECRET_NAME)
+            .withNamespace(namespace)
+            .endMetadata()
+            .withData(Map.of(".dockerconfigjson", data))
+            .build();
+    client.secrets().create(imagePullSecret);
   }
 
   public static GerritCluster createCluster(KubernetesClient client, String namespace) {
@@ -119,30 +179,5 @@ public class Util {
               assertThat(updatedCluster, is(notNullValue()));
             });
     return cluster;
-  }
-
-  public static void createImagePullSecret(KubernetesClient client, String namespace) {
-    StringBuilder secretBuilder = new StringBuilder();
-    secretBuilder.append("{\"auths\": {\"");
-    secretBuilder.append(testProps.getRegistry());
-    secretBuilder.append("\": {\"auth\": \"");
-    secretBuilder.append(
-        Base64.getEncoder()
-            .encodeToString(
-                String.format("%s:%s", testProps.getRegistryUser(), testProps.getRegistryPwd())
-                    .getBytes()));
-    secretBuilder.append("\"}}}");
-    String data = Base64.getEncoder().encodeToString(secretBuilder.toString().getBytes());
-
-    Secret imagePullSecret =
-        new SecretBuilder()
-            .withType("kubernetes.io/dockerconfigjson")
-            .withNewMetadata()
-            .withName(IMAGE_PULL_SECRET_NAME)
-            .withNamespace(namespace)
-            .endMetadata()
-            .withData(Map.of(".dockerconfigjson", data))
-            .build();
-    client.secrets().create(imagePullSecret);
   }
 }
