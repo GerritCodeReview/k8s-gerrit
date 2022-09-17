@@ -8,6 +8,7 @@ usage() {
 
 UPDATE_LATEST=false
 ORGANIZATION=k8sgerrit
+PUSH_IMAGES=true
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -33,6 +34,10 @@ while test $# -gt 0 ; do
     TAG=$1
     shift
     ;;
+  --no-push)
+    PUSH_IMAGES=false
+    shift
+    ;;
   *)
     break
   esac
@@ -54,11 +59,15 @@ publish_image(){
   IMAGE=$1
   if test "$UPDATE_LATEST" = "true" ; then
     docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:latest
-    docker push ${REGISTRY}${ORGANIZATION}/$IMAGE:latest
+    if test "$PUSH_IMAGES" = "true" ; then
+      docker push "${REGISTRY}${ORGANIZATION}/$IMAGE:latest"
+    fi
   fi
 
   docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG
-  docker push ${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG
+  if test "$PUSH_IMAGES" = "true" ; then
+    docker push "${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG"
+  fi
 }
 
 if test $# -eq 0 ; then
