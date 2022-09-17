@@ -79,13 +79,13 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"has:unresolved"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["has:unresolved"],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"has:unresolved"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["has:unresolved"]}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["has:unresolved"],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"-has:unresolved"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
       },
       "overrideExpressionResult": {
-        "value": {"expression":{"expressionString":"hashtag:allow-unresolved-comments"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["hashtag:allow-unresolved-comments"]}
+        "value": {"expression":{"expressionString":"hashtag:allow-unresolved-comments"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
       },
       "patchSetCommitId": "70cbf8837a9d4d738f25698af9f4ae54a1799c08",
       "legacy": {
