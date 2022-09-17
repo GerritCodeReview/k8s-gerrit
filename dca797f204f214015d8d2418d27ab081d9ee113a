@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d399ffcf_08e84eeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-09-17T22:29:56Z",
+      "side": 1,
+      "message": "I see the publishing process for images.\nI suppose the other approach is better than my patch.\nI reject this patch and will resend the other patch.",
+      "parentUuid": "a259b723_39031638",
+      "revId": "dca797f204f214015d8d2418d27ab081d9ee113a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d072dcd_c8d858e0",
         "filename": "build",
         "patchSetId": 1
