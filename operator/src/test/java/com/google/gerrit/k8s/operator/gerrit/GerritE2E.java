@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +24,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -39,11 +42,16 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.ResourceRequirementsBuilder;
+import io.fabric8.kubernetes.api.model.Secret;
+import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class GerritE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -51,56 +59,41 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   private static final String INGRESS_NAME = "gerrit-ingress";
   private static final String INGRESS_DOMAIN = testProps.getIngressDomain();
 
+  private static final String DEFAULT_GERRIT_CONFIG =
+      "[gerrit]\n"
+          + "  basePath = git\n"
+          + "  serverId = gerrit-1\n"
+          + "  canonicalWebUrl = http://example.com/\n"
+          + "[index]\n"
+          + "  type = LUCENE\n"
+          + "  onlineUpgrade = false\n"
+          + "[auth]\n"
+          + "  type = DEVELOPMENT_BECOME_ANY_ACCOUNT\n"
+          + "[httpd]\n"
+          + "  listenUrl = proxy-http://*:8080/\n"
+          + "  requestLog = true\n"
+          + "  gracefulStopTimeout = 1m\n"
+          + "[sshd]\n"
+          + "  listenAddress = off\n"
+          + "[transfer]\n"
+          + "  timeout = 120 s\n"
+          + "[user]\n"
+          + "  name = Gerrit Code Review\n"
+          + "  email = gerrit@example.com\n"
+          + "  anonymousCoward = Unnamed User\n"
+          + "[cache]\n"
+          + "  directory = cache\n"
+          + "[container]\n"
+          + "  user = gerrit\n"
+          + "  javaHome = /usr/lib/jvm/java-11-openjdk\n"
+          + "  javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore\n"
+          + "  javaOptions = -Xmx4g";
+
   @Test
   void testGerritStatefulSetCreated() throws Exception {
     GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
+    Gerrit gerrit = createGerritCR(cluster);
 
-    Gerrit gerrit = new Gerrit();
-    ObjectMeta gerritMeta =
-        new ObjectMetaBuilder().withName("gerrit").withNamespace(operator.getNamespace()).build();
-    gerrit.setMetadata(gerritMeta);
-    GerritSpec gerritSpec = new GerritSpec();
-    gerritSpec.setCluster(cluster.getMetadata().getName());
-    GerritSite site = new GerritSite();
-    site.setSize(new Quantity("1Gi"));
-    gerritSpec.setSite(site);
-    gerritSpec.setResources(
-        new ResourceRequirementsBuilder()
-            .withRequests(Map.of("cpu", new Quantity("1"), "memory", new Quantity("5Gi")))
-            .build());
-    gerritSpec.setConfigFiles(
-        Map.of(
-            "gerrit.config",
-            "        [gerrit]\n"
-                + "          basePath = git\n"
-                + "          serverId = gerrit-1\n"
-                + "          canonicalWebUrl = http://example.com/\n"
-                + "        [index]\n"
-                + "          type = LUCENE\n"
-                + "          onlineUpgrade = false\n"
-                + "        [auth]\n"
-                + "          type = DEVELOPMENT_BECOME_ANY_ACCOUNT\n"
-                + "        [httpd]\n"
-                + "          listenUrl = proxy-http://*:8080/\n"
-                + "          requestLog = true\n"
-                + "          gracefulStopTimeout = 1m\n"
-                + "        [sshd]\n"
-                + "          listenAddress = off\n"
-                + "        [transfer]\n"
-                + "          timeout = 120 s\n"
-                + "        [user]\n"
-                + "          name = Gerrit Code Review\n"
-                + "          email = gerrit@example.com\n"
-                + "          anonymousCoward = Unnamed User\n"
-                + "        [cache]\n"
-                + "          directory = cache\n"
-                + "        [container]\n"
-                + "          user = gerrit\n"
-                + "          javaHome = /usr/lib/jvm/java-11-openjdk\n"
-                + "          javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore\n"
-                + "          javaOptions = -Xmx4g"));
-
-    gerrit.setSpec(gerritSpec);
     client.resource(gerrit).createOrReplace();
 
     logger.atInfo().log("Waiting max 1 minutes for the configmaps to be created.");
@@ -112,14 +105,14 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
                   client
                       .configMaps()
                       .inNamespace(operator.getNamespace())
-                      .withName(GerritConfigMapDependentResource.GERRIT_CONFIGMAP_NAME)
+                      .withName(GerritConfigMapDependentResource.getName(gerrit))
                       .get(),
                   is(notNullValue()));
               assertThat(
                   client
                       .configMaps()
                       .inNamespace(operator.getNamespace())
-                      .withName(GerritInitConfigMapDependentResource.GERRIT_INIT_CONFIGMAP_NAME)
+                      .withName(GerritInitConfigMapDependentResource.getName(gerrit))
                       .get(),
                   is(notNullValue()));
             });
@@ -226,5 +219,127 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
               assertThat(gerritApi.config().server().getVersion(), not(is("<2.8")));
               logger.atInfo().log("Gerrit version: %s", gerritApi.config().server().getVersion());
             });
+  }
+
+  @Test
+  void testRestartHandlingOnConfigChange() {
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
+
+    String gerritSecretName = "gerrit-secret";
+    Secret secret =
+        new SecretBuilder()
+            .withNewMetadata()
+            .withNamespace(operator.getNamespace())
+            .withName(gerritSecretName)
+            .endMetadata()
+            .withData(
+                Map.of(
+                    "secure.config",
+                    Base64.getEncoder().encodeToString("[section]\nkey = value".getBytes())))
+            .build();
+    client.resource(secret).createOrReplace();
+
+    await()
+        .atMost(30, SECONDS)
+        .untilAsserted(
+            () -> {
+              assertThat(
+                  client
+                      .secrets()
+                      .inNamespace(operator.getNamespace())
+                      .withName(gerritSecretName)
+                      .get(),
+                  is(notNullValue()));
+            });
+
+    Gerrit gerrit = createGerritCR(cluster);
+    GerritSpec gerritSpec = gerrit.getSpec();
+    gerritSpec.setSecrets(Set.of(gerritSecretName));
+    gerrit.setSpec(gerritSpec);
+    client.resource(gerrit).createOrReplace();
+
+    logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertTrue(
+                  client
+                      .apps()
+                      .statefulSets()
+                      .inNamespace(operator.getNamespace())
+                      .withName(gerrit.getMetadata().getName())
+                      .isReady());
+            });
+
+    GerritServiceConfig svcConfig = new GerritServiceConfig();
+    int changedPort = 8081;
+    svcConfig.setHttpPort(changedPort);
+    gerritSpec.setService(svcConfig);
+    gerrit.setSpec(gerritSpec);
+    client.resource(gerrit).createOrReplace();
+
+    await()
+        .atMost(30, SECONDS)
+        .untilAsserted(
+            () -> {
+              assertTrue(
+                  client
+                      .services()
+                      .inNamespace(operator.getNamespace())
+                      .withName(ServiceDependentResource.getName(gerrit))
+                      .get()
+                      .getSpec()
+                      .getPorts()
+                      .stream()
+                      .anyMatch(port -> port.getPort() == changedPort));
+            });
+    Mockito.verify(gerritReconciler, times(0)).restartGerritStatefulSet(any());
+
+    String changedConfig =
+        DEFAULT_GERRIT_CONFIG.replace("proxy-http://*:8080/", "proxy-http://*:8081/");
+    gerritSpec.setConfigFiles(Map.of("gerrit.config", changedConfig));
+    gerrit.setSpec(gerritSpec);
+    client.resource(gerrit).createOrReplace();
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
+            });
+
+    secret.setData(
+        Map.of(
+            "secure.config",
+            Base64.getEncoder().encodeToString("[section]\nkey = value_new".getBytes())));
+    client.resource(secret).createOrReplace();
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              Mockito.verify(gerritReconciler, times(2)).restartGerritStatefulSet(any());
+            });
+  }
+
+  private Gerrit createGerritCR(GerritCluster cluster) {
+    Gerrit gerrit = new Gerrit();
+    ObjectMeta gerritMeta =
+        new ObjectMetaBuilder().withName("gerrit").withNamespace(operator.getNamespace()).build();
+    gerrit.setMetadata(gerritMeta);
+    GerritSpec gerritSpec = new GerritSpec();
+    gerritSpec.setCluster(cluster.getMetadata().getName());
+    GerritSite site = new GerritSite();
+    site.setSize(new Quantity("1Gi"));
+    gerritSpec.setSite(site);
+    gerritSpec.setResources(
+        new ResourceRequirementsBuilder()
+            .withRequests(Map.of("cpu", new Quantity("1"), "memory", new Quantity("5Gi")))
+            .build());
+    gerritSpec.setConfigFiles(Map.of("gerrit.config", DEFAULT_GERRIT_CONFIG));
+
+    gerrit.setSpec(gerritSpec);
+    return gerrit;
   }
 }
