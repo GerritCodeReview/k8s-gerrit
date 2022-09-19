@@ -151,7 +151,7 @@ public class StatefulSetDependentResource
         new VolumeBuilder()
             .withName("gerrit-init-config")
             .withNewConfigMap()
-            .withName(GerritInitConfigMapDependentResource.GERRIT_INIT_CONFIGMAP_NAME)
+            .withName(GerritInitConfigMapDependentResource.getName(gerrit))
             .endConfigMap()
             .build());
 
@@ -159,7 +159,7 @@ public class StatefulSetDependentResource
         new VolumeBuilder()
             .withName("gerrit-config")
             .withNewConfigMap()
-            .withName(GerritConfigMapDependentResource.GERRIT_CONFIGMAP_NAME)
+            .withName(GerritConfigMapDependentResource.getName(gerrit))
             .endConfigMap()
             .build());
 
