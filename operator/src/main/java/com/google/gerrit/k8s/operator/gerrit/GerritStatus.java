@@ -14,8 +14,12 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GerritStatus {
   private boolean ready = false;
+  private Map<String, String> appliedSecretVersions = new HashMap<>();
 
   public boolean isReady() {
     return ready;
@@ -23,5 +27,13 @@ public class GerritStatus {
 
   public void setReady(boolean ready) {
     this.ready = ready;
+  }
+
+  public Map<String, String> getAppliedSecretVersions() {
+    return appliedSecretVersions;
+  }
+
+  public void setAppliedSecretVersions(Map<String, String> appliedSecretVersions) {
+    this.appliedSecretVersions = appliedSecretVersions;
   }
 }
