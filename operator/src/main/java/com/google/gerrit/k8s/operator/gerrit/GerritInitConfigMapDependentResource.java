@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 public class GerritInitConfigMapDependentResource
     extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  public static final String GERRIT_INIT_CONFIGMAP_NAME = "gerrit-init-configmap";
 
   public GerritInitConfigMapDependentResource() {
     super(ConfigMap.class);
@@ -56,7 +55,7 @@ public class GerritInitConfigMapDependentResource
     return new ConfigMapBuilder()
         .withApiVersion("v1")
         .withNewMetadata()
-        .withName(GERRIT_INIT_CONFIGMAP_NAME)
+        .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(gerritLabels)
         .endMetadata()
@@ -90,5 +89,9 @@ public class GerritInitConfigMapDependentResource
       logger.atSevere().withCause(e).log("Could not serialize gerrit-init.config");
       throw new IllegalStateException(e);
     }
+  }
+
+  protected static String getName(Gerrit gerrit) {
+    return String.format("%s-init-configmap", gerrit.getMetadata().getName());
   }
 }
