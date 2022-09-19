@@ -47,6 +47,9 @@ First all CustomResourceDefinitions have to be deployed:
 kubectl apply -f target/classes/META-INF/fabric8/*-v1.yml
 ```
 
+Note that these do not include the -v1beta1.yaml files, as those are for old
+Kubernetes versions.
+
 Then the operator and associated RBAC rules can be deployed:
 
 ```sh

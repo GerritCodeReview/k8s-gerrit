@@ -9,8 +9,8 @@ This project provides helm-charts to install Gerrit either as a primary instance
 or a replica on Kubernetes.
 
 The helm-charts are located in the `./helm-charts`-directory. Currently, the
-charts are not published in a registry and have to be deployed from local
-sources.
+charts are not published in a registry and have to be deployed from local sources.
+
 For a detailed guide of how to install the helm-charts refer to the respective
 READMEs in the helm-charts directories:
 
@@ -29,7 +29,7 @@ description how to set up the Minikube cluster and install the charts.
 This project provides the sources for docker images used by the helm-charts.
 The images are also provided on [Dockerhub](https://hub.docker.com/u/k8sgerrit).
 
-The project also provides script to build and publish the images, so that custom
+The project also provides scripts to build and publish the images so that custom
 versions can be used by the helm-charts. This requires however a docker registry
 that can be accessed from the Kubernetes cluster, on which Gerrit will be
 deployed. The functionality of the scripts is described in the following sub-
