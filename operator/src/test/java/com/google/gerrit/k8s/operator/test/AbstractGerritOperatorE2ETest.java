@@ -53,6 +53,7 @@ import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.mockito.Mockito;
 
 public class AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -61,18 +62,21 @@ public class AbstractGerritOperatorE2ETest {
   public static final String IMAGE_PULL_SECRET_NAME = "image-pull-secret";
   public static final TestProperties testProps = new TestProperties();
 
+  protected GerritReconciler gerritReconciler = Mockito.spy(new GerritReconciler(client));
+
   @RegisterExtension
   protected LocallyRunOperatorExtension operator =
       LocallyRunOperatorExtension.builder()
           .waitForNamespaceDeletion(true)
           .withReconciler(new GerritClusterReconciler(client))
-          .withReconciler(new GerritReconciler())
+          .withReconciler(gerritReconciler)
           .withReconciler(new GerritNetworkReconciler())
           .withReconciler(new GitGarbageCollectionReconciler(client))
           .build();
 
   @BeforeEach
   void setup() {
+    Mockito.reset(gerritReconciler);
     createImagePullSecret(client, operator.getNamespace());
   }
 

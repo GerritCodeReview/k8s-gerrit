@@ -27,7 +27,6 @@ public class GerritConfigMapDependentResource
     extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final String DEFAULT_HEALTHCHECK_CONFIG =
       "[healthcheck \"auth\"]\nenabled = false\n[healthcheck \"querychanges\"]\nenabled = false";
-  public static final String GERRIT_CONFIGMAP_NAME = "gerrit-configmap";
 
   public GerritConfigMapDependentResource() {
     super(ConfigMap.class);
@@ -57,11 +56,15 @@ public class GerritConfigMapDependentResource
     return new ConfigMapBuilder()
         .withApiVersion("v1")
         .withNewMetadata()
-        .withName(GERRIT_CONFIGMAP_NAME)
+        .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(gerritLabels)
         .endMetadata()
         .withData(configFiles)
         .build();
+  }
+
+  protected static String getName(Gerrit gerrit) {
+    return String.format("%s-configmap", gerrit.getMetadata().getName());
   }
 }
