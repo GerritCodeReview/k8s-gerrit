@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "196aa2d5_1d534cb2",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/AbstractGerritOperatorE2ETest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-09-20T13:52:54Z",
+      "side": 1,
+      "message": "Is there a reason this was moved? Just curious, I don\u0027t know.",
+      "revId": "a46b8234b05c623fa8db940f7cdff2eafab1b49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
