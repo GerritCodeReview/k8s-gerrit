@@ -45,4 +45,8 @@ public class TestProperties {
   public String getIngressDomain() {
     return props.getProperty("ingressDomain", "");
   }
+
+  public String getLdapAdminPwd() {
+    return props.getProperty("ldapAdminPwd", "");
+  }
 }
