@@ -30,6 +30,7 @@ import static org.mockito.Mockito.times;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.network.GerritIngress;
 import com.google.gerrit.k8s.operator.network.GerritIngressConfig;
 import com.google.gerrit.k8s.operator.network.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.network.GerritNetwork;
@@ -58,19 +59,23 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   private static final String INGRESS_NAME = "gerrit-ingress";
   private static final String INGRESS_DOMAIN = testProps.getIngressDomain();
-
+  private static final String SECURE_CONFIG_SECRET_NAME = "gerrit-secret";
   private static final String DEFAULT_GERRIT_CONFIG =
       "[gerrit]\n"
           + "  basePath = git\n"
           + "  serverId = gerrit-1\n"
-          + "  canonicalWebUrl = http://example.com/\n"
+          + "  canonicalWebUrl = https://example.com/\n"
           + "[index]\n"
           + "  type = LUCENE\n"
           + "  onlineUpgrade = false\n"
           + "[auth]\n"
-          + "  type = DEVELOPMENT_BECOME_ANY_ACCOUNT\n"
+          + "  type = LDAP\n"
+          + "[ldap]\n"
+          + "  server = ldap://openldap.openldap.svc.cluster.local:1389\n"
+          + "  accountBase = dc=example,dc=org\n"
+          + "  username = cn=admin,dc=example,dc=org\n"
           + "[httpd]\n"
-          + "  listenUrl = proxy-http://*:8080/\n"
+          + "  listenUrl = proxy-https://*:8080/\n"
           + "  requestLog = true\n"
           + "  gracefulStopTimeout = 1m\n"
           + "[sshd]\n"
@@ -92,8 +97,11 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   @Test
   void testGerritStatefulSetCreated() throws Exception {
     GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
-    Gerrit gerrit = createGerritCR(cluster);
 
+    Secret secureConfig = createSecureConfig();
+    client.resource(secureConfig).createOrReplace();
+
+    Gerrit gerrit = createGerritCR(cluster);
     client.resource(gerrit).createOrReplace();
 
     logger.atInfo().log("Waiting max 1 minutes for the configmaps to be created.");
@@ -182,6 +190,23 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
     network.setSpec(networkSpec);
     client.resource(network).createOrReplace();
 
+    String hostname =
+        GerritIngress.getFullHostname(
+            client
+                .services()
+                .inNamespace(operator.getNamespace())
+                .withName(ServiceDependentResource.getName(gerrit))
+                .get(),
+            network);
+    GerritSpec gerritSpec = gerrit.getSpec();
+    String changedConfig =
+        DEFAULT_GERRIT_CONFIG.replace(
+            "canonicalWebUrl = https://example.com/",
+            String.format("canonicalWebUrl = https://%s/", hostname));
+    gerritSpec.setConfigFiles(Map.of("gerrit.config", changedConfig));
+    gerrit.setSpec(gerritSpec);
+    client.resource(gerrit).createOrReplace();
+
     logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
     await()
         .atMost(2, MINUTES)
@@ -225,37 +250,10 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   void testRestartHandlingOnConfigChange() {
     GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
 
-    String gerritSecretName = "gerrit-secret";
-    Secret secret =
-        new SecretBuilder()
-            .withNewMetadata()
-            .withNamespace(operator.getNamespace())
-            .withName(gerritSecretName)
-            .endMetadata()
-            .withData(
-                Map.of(
-                    "secure.config",
-                    Base64.getEncoder().encodeToString("[section]\nkey = value".getBytes())))
-            .build();
-    client.resource(secret).createOrReplace();
-
-    await()
-        .atMost(30, SECONDS)
-        .untilAsserted(
-            () -> {
-              assertThat(
-                  client
-                      .secrets()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gerritSecretName)
-                      .get(),
-                  is(notNullValue()));
-            });
+    Secret secureConfig = createSecureConfig();
+    client.resource(secureConfig).createOrReplace();
 
     Gerrit gerrit = createGerritCR(cluster);
-    GerritSpec gerritSpec = gerrit.getSpec();
-    gerritSpec.setSecrets(Set.of(gerritSecretName));
-    gerrit.setSpec(gerritSpec);
     client.resource(gerrit).createOrReplace();
 
     logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
@@ -275,6 +273,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
     GerritServiceConfig svcConfig = new GerritServiceConfig();
     int changedPort = 8081;
     svcConfig.setHttpPort(changedPort);
+    GerritSpec gerritSpec = gerrit.getSpec();
     gerritSpec.setService(svcConfig);
     gerrit.setSpec(gerritSpec);
     client.resource(gerrit).createOrReplace();
@@ -297,7 +296,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
     Mockito.verify(gerritReconciler, times(0)).restartGerritStatefulSet(any());
 
     String changedConfig =
-        DEFAULT_GERRIT_CONFIG.replace("proxy-http://*:8080/", "proxy-http://*:8081/");
+        DEFAULT_GERRIT_CONFIG.replace("proxy-https://*:8080/", "proxy-https://*:8081/");
     gerritSpec.setConfigFiles(Map.of("gerrit.config", changedConfig));
     gerrit.setSpec(gerritSpec);
     client.resource(gerrit).createOrReplace();
@@ -309,11 +308,11 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
               Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
             });
 
-    secret.setData(
+    secureConfig.setData(
         Map.of(
             "secure.config",
             Base64.getEncoder().encodeToString("[section]\nkey = value_new".getBytes())));
-    client.resource(secret).createOrReplace();
+    client.resource(secureConfig).createOrReplace();
 
     await()
         .atMost(2, MINUTES)
@@ -338,8 +337,25 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
             .withRequests(Map.of("cpu", new Quantity("1"), "memory", new Quantity("5Gi")))
             .build());
     gerritSpec.setConfigFiles(Map.of("gerrit.config", DEFAULT_GERRIT_CONFIG));
+    gerritSpec.setSecrets(Set.of(SECURE_CONFIG_SECRET_NAME));
 
     gerrit.setSpec(gerritSpec);
     return gerrit;
+  }
+
+  private Secret createSecureConfig() {
+    return new SecretBuilder()
+        .withNewMetadata()
+        .withNamespace(operator.getNamespace())
+        .withName(SECURE_CONFIG_SECRET_NAME)
+        .endMetadata()
+        .withData(
+            Map.of(
+                "secure.config",
+                Base64.getEncoder()
+                    .encodeToString(
+                        String.format("[ldap]\npassword = %s", testProps.getLdapAdminPwd())
+                            .getBytes())))
+        .build();
   }
 }
