@@ -28,7 +28,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-init-configmap")
+@KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
 public class GerritInitConfigMapDependentResource
     extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

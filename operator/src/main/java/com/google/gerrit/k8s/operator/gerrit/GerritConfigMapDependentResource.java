@@ -22,7 +22,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-configmap")
+@KubernetesDependent(resourceDiscriminator = GerritConfigMapDiscriminator.class)
 public class GerritConfigMapDependentResource
     extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final String DEFAULT_HEALTHCHECK_CONFIG =

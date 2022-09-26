@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.ConfigMap;
@@ -43,8 +45,14 @@ import java.util.stream.Collectors;
 
 @ControllerConfiguration(
     dependents = {
-      @Dependent(name = "gerrit-configmap", type = GerritConfigMapDependentResource.class),
-      @Dependent(name = "gerrit-init-configmap", type = GerritInitConfigMapDependentResource.class),
+      @Dependent(
+          name = "gerrit-configmap",
+          type = GerritConfigMapDependentResource.class,
+          useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
+      @Dependent(
+          name = "gerrit-init-configmap",
+          type = GerritInitConfigMapDependentResource.class,
+          useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-statefulset",
           type = StatefulSetDependentResource.class,
@@ -55,6 +63,8 @@ import java.util.stream.Collectors;
           dependsOn = {"gerrit-statefulset"})
     })
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
+  public static final String CONFIG_MAP_EVENT_SOURCE = "configmap-event-source";
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
@@ -98,8 +108,13 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
                 .build(),
             context);
 
+    InformerEventSource<ConfigMap, Gerrit> configmapEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(ConfigMap.class, context).build(), context);
+
     Map<String, EventSource> eventSources =
         EventSourceInitializer.nameEventSources(gerritClusterEventSource);
+    eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
   }
@@ -164,10 +179,10 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
     if (reconcileResults.isPresent()) {
       Collection<ReconcileResult> results = reconcileResults.get().getReconcileResults().values();
       for (ReconcileResult r : results) {
-        if (r.getResource().isPresent()
-            && r.getResource().get() instanceof ConfigMap
-            && (r.getOperation().equals(Operation.UPDATED)
-                || r.getOperation().equals(Operation.CREATED))) {
+        if (r.getSingleResource().isPresent()
+            && r.getSingleResource().get() instanceof ConfigMap
+            && (r.getSingleOperation().equals(Operation.UPDATED)
+                || r.getSingleOperation().equals(Operation.CREATED))) {
           return true;
         }
       }
