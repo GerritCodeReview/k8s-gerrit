@@ -11,9 +11,9 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<fabric8.version>5.12.3</fabric8.version>
+		<fabric8.version>6.1.1</fabric8.version>
 		<flogger.version>0.7.4</flogger.version>
-		<javaoperatorsdk.version>3.1.1</javaoperatorsdk.version>
+		<javaoperatorsdk.version>4.0.0</javaoperatorsdk.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
