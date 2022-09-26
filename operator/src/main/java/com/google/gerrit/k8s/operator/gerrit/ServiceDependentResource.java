@@ -80,7 +80,7 @@ public class ServiceDependentResource extends CRUDKubernetesDependentResource<Se
             .withPort(gerrit.getSpec().getService().getHttpPort())
             .withNewTargetPort(HTTP_PORT)
             .build());
-    if (gerrit.getSpec().getService().getSshPort() > 0) {
+    if (gerrit.getSpec().getService().getSshPort() != null) {
       ports.add(
           new ServicePortBuilder()
               .withName("ssh")
