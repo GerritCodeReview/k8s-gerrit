@@ -14,7 +14,10 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
+
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -34,11 +37,12 @@ import java.util.stream.Collectors;
 
 @ControllerConfiguration(
     dependents = {
-      @Dependent(type = GitRepositoriesPVC.class),
-      @Dependent(type = GerritLogsPVC.class)
+      @Dependent(type = GitRepositoriesPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE),
+      @Dependent(type = GerritLogsPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
+  public static final String PVC_EVENT_SOURCE = "pvc-event-source";
   private final KubernetesClient kubernetesClient;
 
   private NfsIdmapdConfigMap dependentNfsImapdConfigMap;
@@ -77,11 +81,19 @@ public class GerritClusterReconciler
                 .build(),
             context);
 
-    return EventSourceInitializer.nameEventSources(
-        gerritEventSource,
-        this.dependentNfsImapdConfigMap.initEventSource(context),
-        this.dependentPluginCachePvc.initEventSource(context),
-        this.gerritIngress.initEventSource(context));
+    InformerEventSource<PersistentVolumeClaim, GerritCluster> pvcEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(PersistentVolumeClaim.class, context).build(), context);
+
+    Map<String, EventSource> eventSources =
+        EventSourceInitializer.nameEventSources(
+            gerritEventSource,
+            this.dependentNfsImapdConfigMap.initEventSource(context),
+            this.dependentPluginCachePvc.initEventSource(context),
+            this.gerritIngress.initEventSource(context));
+    eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
+
+    return eventSources;
   }
 
   @Override
