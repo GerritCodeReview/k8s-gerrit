@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a524ee3b_29449f5d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/PluginCachePVC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-09-26T11:35:28Z",
+      "side": 1,
+      "message": "Should this be a public static final String too (along with where PLUGIN_CACHE_PVC_NAME is?)",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8827c1e5_8dd2e20d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritInitConfigMapDependentResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-09-26T11:35:28Z",
+      "side": 1,
+      "message": "Should this be GERRIT_INIT_CONFIGMAP_NAME?",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a4123f7_6e2414d2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/ServiceDependentResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-09-26T11:35:28Z",
+      "side": 1,
+      "message": "This could use GERRIT_SERVICE_NAME (unless at some point that will diverge from the label?)",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
