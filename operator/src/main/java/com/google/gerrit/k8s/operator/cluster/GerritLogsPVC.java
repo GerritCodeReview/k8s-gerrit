@@ -21,7 +21,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-logs-storage")
+@KubernetesDependent(resourceDiscriminator = GerritLogsPVCDiscriminator.class)
 public class GerritLogsPVC
     extends CRUDKubernetesDependentResource<PersistentVolumeClaim, GerritCluster> {
 
