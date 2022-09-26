@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a96e8c5_cf5315a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-26T12:19:48Z",
+      "side": 1,
+      "message": "Is the rename of default.config.yaml to gerrit-init.yaml related to this change?",
+      "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e967d95_d4c23220",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-26T12:19:48Z",
+      "side": 1,
+      "message": "This method returns in the same way (no return value, no exception) in case of an error and in case of a success. Therefore, a caller doesn\u0027t really ensure that a symlink exists after this method finishes.\n\nThis method should either return a value indicating the success/error or throw an exception in the case of an error. I would prefer the latter as it makes control flow easier.",
+      "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b98b613_ee1ec19c",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-26T12:19:48Z",
+      "side": 1,
+      "message": "This can go to the constructor as it is already known at that point.",
+      "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
