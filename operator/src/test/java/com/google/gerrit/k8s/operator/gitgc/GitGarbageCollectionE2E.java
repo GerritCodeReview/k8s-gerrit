@@ -187,7 +187,7 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
     gitGc.setSpec(spec);
 
     logger.atInfo().log("Creating test GitGc object: %s", gitGc);
-    client.resources(GitGarbageCollection.class).createOrReplace(gitGc);
+    client.resource(gitGc).createOrReplace();
 
     return gitGc;
   }
@@ -203,7 +203,7 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
     gitGc.setSpec(spec);
 
     logger.atInfo().log("Creating test GitGc object: %s", gitGc);
-    client.resources(GitGarbageCollection.class).createOrReplace(gitGc);
+    client.resource(gitGc).createOrReplace();
 
     return gitGc;
   }
