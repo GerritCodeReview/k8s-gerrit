@@ -40,8 +40,8 @@ import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -94,13 +94,13 @@ public class AbstractGerritOperatorE2ETest {
       String kubeconfig = System.getenv("KUBECONFIG");
       if (kubeconfig != null) {
         config = Config.fromKubeconfig(Files.readString(Path.of(kubeconfig)));
-        return new DefaultKubernetesClient(config);
+        return new KubernetesClientBuilder().withConfig(config).build();
       }
       logger.atWarning().log("KUBECONFIG variable not set. Using default config.");
     } catch (IOException e) {
       logger.atSevere().log("Failed to load kubeconfig. Trying default", e);
     }
-    return new DefaultKubernetesClient();
+    return new KubernetesClientBuilder().build();
   }
 
   public static GerritCluster createCluster(KubernetesClient client, String namespace) {
@@ -143,7 +143,7 @@ public class AbstractGerritOperatorE2ETest {
     clusterSpec.setImagePullSecrets(imagePullSecrets);
 
     cluster.setSpec(clusterSpec);
-    client.resources(GerritCluster.class).inNamespace(namespace).createOrReplace(cluster);
+    client.resource(cluster).inNamespace(namespace).createOrReplace();
 
     await()
         .atMost(1, MINUTES)
@@ -182,6 +182,6 @@ public class AbstractGerritOperatorE2ETest {
             .endMetadata()
             .withData(Map.of(".dockerconfigjson", data))
             .build();
-    client.secrets().create(imagePullSecret);
+    client.resource(imagePullSecret).createOrReplace();
   }
 }
