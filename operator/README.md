@@ -373,7 +373,7 @@ spec:
   # - gerrit-secure-config
 ```
 
-### Gerrit
+### Gerrit Network
 
 ```yaml
 apiVersion: "gerritoperator.google.com/v1alpha1"
