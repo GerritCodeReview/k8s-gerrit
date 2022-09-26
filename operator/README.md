@@ -181,7 +181,7 @@ spec:
 
     ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
     ## to select a specific persistent volume (optional)
-    selector: {}
+    selector: null
       # matchLabels:
       #   volume-type: ssd
       #   aws-availability-zone: us-east-1
@@ -196,7 +196,7 @@ spec:
 
     ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
     ## to select a specific persistent volume (optional)
-    selector: {}
+    selector: null
       # matchLabels:
       #   volume-type: ssd
       #   aws-availability-zone: us-east-1
