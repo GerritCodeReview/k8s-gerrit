@@ -21,7 +21,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-plugin-cache-storage")
+@KubernetesDependent(resourceDiscriminator = PluginCachePVCDiscriminator.class)
 public class PluginCachePVC
     extends CRUDKubernetesDependentResource<PersistentVolumeClaim, GerritCluster> {
 
