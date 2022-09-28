@@ -28,20 +28,19 @@ import java.util.Map;
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class),
-      @Dependent(type = GerritLogsPVC.class)
+      @Dependent(type = GerritLogsPVC.class),
+      @Dependent(
+          type = NfsIdmapdConfigMap.class,
+          reconcilePrecondition = NfsWorkaroundCondition.class)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   private final KubernetesClient kubernetesClient;
 
-  private NfsIdmapdConfigMap dependentNfsImapdConfigMap;
   private PluginCachePVC dependentPluginCachePvc;
 
   public GerritClusterReconciler(KubernetesClient client) {
     this.kubernetesClient = client;
-
-    this.dependentNfsImapdConfigMap = new NfsIdmapdConfigMap();
-    this.dependentNfsImapdConfigMap.setKubernetesClient(kubernetesClient);
 
     this.dependentPluginCachePvc = new PluginCachePVC();
     this.dependentPluginCachePvc.setKubernetesClient(kubernetesClient);
@@ -50,18 +49,12 @@ public class GerritClusterReconciler
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
     return EventSourceInitializer.nameEventSources(
-        this.dependentNfsImapdConfigMap.initEventSource(context),
         this.dependentPluginCachePvc.initEventSource(context));
   }
 
   @Override
   public UpdateControl<GerritCluster> reconcile(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
-        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
-            != null) {
-      dependentNfsImapdConfigMap.reconcile(gerritCluster, context);
-    }
 
     if (gerritCluster.getSpec().getPluginCacheStorage().isEnabled()) {
       dependentPluginCachePvc.reconcile(gerritCluster, context);
