@@ -14,25 +14,20 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
 @KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-logs-storage")
-public class GerritLogsPVC
-    extends CRUDKubernetesDependentResource<PersistentVolumeClaim, GerritCluster> {
+public class GerritLogsPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
   public static final String LOGS_PVC_NAME = "gerrit-logs-pvc";
 
-  public GerritLogsPVC() {
-    super(PersistentVolumeClaim.class);
-  }
-
   @Override
-  protected PersistentVolumeClaim desired(
+  protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
     PersistentVolumeClaim gerritLogsPvc =
         new PersistentVolumeClaimBuilder()
