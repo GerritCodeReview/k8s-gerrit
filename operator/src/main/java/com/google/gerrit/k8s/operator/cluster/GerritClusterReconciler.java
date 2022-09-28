@@ -41,21 +41,21 @@ import java.util.stream.Collectors;
       @Dependent(type = GerritLogsPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           type = NfsIdmapdConfigMap.class,
-          reconcilePrecondition = NfsWorkaroundCondition.class)
+          reconcilePrecondition = NfsWorkaroundCondition.class),
+      @Dependent(
+          type = PluginCachePVC.class,
+          reconcilePrecondition = PluginCacheCondition.class,
+          useEventSourceWithName = PVC_EVENT_SOURCE)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   public static final String PVC_EVENT_SOURCE = "pvc-event-source";
   private final KubernetesClient kubernetesClient;
 
-  private PluginCachePVC dependentPluginCachePvc;
   private GerritIngress gerritIngress;
 
   public GerritClusterReconciler(KubernetesClient client) {
     this.kubernetesClient = client;
-
-    this.dependentPluginCachePvc = new PluginCachePVC();
-    this.dependentPluginCachePvc.setKubernetesClient(kubernetesClient);
 
     this.gerritIngress = new GerritIngress();
     this.gerritIngress.setKubernetesClient(kubernetesClient);
@@ -98,11 +98,6 @@ public class GerritClusterReconciler
   @Override
   public UpdateControl<GerritCluster> reconcile(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-
-    if (gerritCluster.getSpec().getPluginCacheStorage().isEnabled()) {
-      dependentPluginCachePvc.reconcile(gerritCluster, context);
-    }
-
     List<String> managedGerrits = getManagedGerritInstances(gerritCluster);
     if (!managedGerrits.isEmpty() && gerritCluster.getSpec().getIngress().isEnabled()) {
       this.gerritIngress.reconcile(gerritCluster, context);
