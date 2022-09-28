@@ -14,25 +14,20 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GitRepositoriesPVCDiscriminator.class)
-public class GitRepositoriesPVC
-    extends CRUDKubernetesDependentResource<PersistentVolumeClaim, GerritCluster> {
+public class GitRepositoriesPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
   public static final String REPOSITORY_PVC_NAME = "git-repositories-pvc";
 
-  public GitRepositoriesPVC() {
-    super(PersistentVolumeClaim.class);
-  }
-
   @Override
-  protected PersistentVolumeClaim desired(
+  protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
     PersistentVolumeClaim gitRepoPvc =
         new PersistentVolumeClaimBuilder()
