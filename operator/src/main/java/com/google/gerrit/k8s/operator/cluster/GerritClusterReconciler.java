@@ -14,16 +14,11 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
-import io.javaoperatorsdk.operator.processing.event.source.EventSource;
-import java.util.Map;
 
 @ControllerConfiguration(
     dependents = {
@@ -31,35 +26,16 @@ import java.util.Map;
       @Dependent(type = GerritLogsPVC.class),
       @Dependent(
           type = NfsIdmapdConfigMap.class,
-          reconcilePrecondition = NfsWorkaroundCondition.class)
+          reconcilePrecondition = NfsWorkaroundCondition.class),
+      @Dependent(type = PluginCachePVC.class, reconcilePrecondition = PluginCacheCondition.class)
     })
-public class GerritClusterReconciler
-    implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
-  private final KubernetesClient kubernetesClient;
+public class GerritClusterReconciler implements Reconciler<GerritCluster> {
 
-  private PluginCachePVC dependentPluginCachePvc;
-
-  public GerritClusterReconciler(KubernetesClient client) {
-    this.kubernetesClient = client;
-
-    this.dependentPluginCachePvc = new PluginCachePVC();
-    this.dependentPluginCachePvc.setKubernetesClient(kubernetesClient);
-  }
-
-  @Override
-  public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
-    return EventSourceInitializer.nameEventSources(
-        this.dependentPluginCachePvc.initEventSource(context));
-  }
+  public GerritClusterReconciler() {}
 
   @Override
   public UpdateControl<GerritCluster> reconcile(
-      GerritCluster gerritCluster, Context<GerritCluster> context) {
-
-    if (gerritCluster.getSpec().getPluginCacheStorage().isEnabled()) {
-      dependentPluginCachePvc.reconcile(gerritCluster, context);
-    }
-
+      GerritCluster gerritCluster, Context<GerritCluster> context) throws Exception {
     return UpdateControl.noUpdate();
   }
 }

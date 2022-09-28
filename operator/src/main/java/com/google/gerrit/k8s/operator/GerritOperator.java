@@ -38,7 +38,7 @@ public class GerritOperator {
     KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
     Operator operator = new Operator(client);
     logger.atFine().log("Registering GerritCluster Reconciler");
-    operator.register(new GerritClusterReconciler(client));
+    operator.register(new GerritClusterReconciler());
     logger.atFine().log("Registering GitGc Reconciler");
     operator.register(new GitGarbageCollectionReconciler(client));
     logger.atFine().log("Registering Gerrit Reconciler");
