@@ -14,25 +14,20 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
 @KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-plugin-cache-storage")
-public class PluginCachePVC
-    extends CRUDKubernetesDependentResource<PersistentVolumeClaim, GerritCluster> {
+public class PluginCachePVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
   public static final String PLUGIN_CACHE_PVC_NAME = "gerrit-plugin-cache-pvc";
 
-  public PluginCachePVC() {
-    super(PersistentVolumeClaim.class);
-  }
-
   @Override
-  protected PersistentVolumeClaim desired(
+  protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
     PersistentVolumeClaim gerritPluginCachePvc =
         new PersistentVolumeClaimBuilder()
