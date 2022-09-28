@@ -98,10 +98,17 @@ class GerritInit:
 
         if self.gerrit_config:
             LOG.info("Existing gerrit.config found.")
+            dev_option = (
+                "--dev"
+                if self.gerrit_config.get("auth.type").lower()
+                == "development_become_any_account"
+                else ""
+            )
         else:
             LOG.info("No gerrit.config found. Initializing default site.")
+            dev_option = "--dev"
 
-        flags = "--no-auto-start --batch"
+        flags = "--no-auto-start --batch {dev_option}"
 
         command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
 
