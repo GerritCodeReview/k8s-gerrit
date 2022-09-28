@@ -68,7 +68,7 @@ public class AbstractGerritOperatorE2ETest {
   protected LocallyRunOperatorExtension operator =
       LocallyRunOperatorExtension.builder()
           .waitForNamespaceDeletion(true)
-          .withReconciler(new GerritClusterReconciler(client))
+          .withReconciler(new GerritClusterReconciler())
           .withReconciler(gerritReconciler)
           .withReconciler(new GerritNetworkReconciler())
           .withReconciler(new GitGarbageCollectionReconciler(client))
