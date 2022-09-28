@@ -38,22 +38,21 @@ import java.util.stream.Collectors;
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE),
-      @Dependent(type = GerritLogsPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE)
+      @Dependent(type = GerritLogsPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE),
+      @Dependent(
+          type = NfsIdmapdConfigMap.class,
+          reconcilePrecondition = NfsWorkaroundCondition.class)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   public static final String PVC_EVENT_SOURCE = "pvc-event-source";
   private final KubernetesClient kubernetesClient;
 
-  private NfsIdmapdConfigMap dependentNfsImapdConfigMap;
   private PluginCachePVC dependentPluginCachePvc;
   private GerritIngress gerritIngress;
 
   public GerritClusterReconciler(KubernetesClient client) {
     this.kubernetesClient = client;
-
-    this.dependentNfsImapdConfigMap = new NfsIdmapdConfigMap();
-    this.dependentNfsImapdConfigMap.setKubernetesClient(kubernetesClient);
 
     this.dependentPluginCachePvc = new PluginCachePVC();
     this.dependentPluginCachePvc.setKubernetesClient(kubernetesClient);
@@ -88,7 +87,6 @@ public class GerritClusterReconciler
     Map<String, EventSource> eventSources =
         EventSourceInitializer.nameEventSources(
             gerritEventSource,
-            this.dependentNfsImapdConfigMap.initEventSource(context),
             this.dependentPluginCachePvc.initEventSource(context),
             this.gerritIngress.initEventSource(context));
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
@@ -99,11 +97,6 @@ public class GerritClusterReconciler
   @Override
   public UpdateControl<GerritCluster> reconcile(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
-        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
-            != null) {
-      dependentNfsImapdConfigMap.reconcile(gerritCluster, context);
-    }
 
     if (gerritCluster.getSpec().getPluginCacheStorage().isEnabled()) {
       dependentPluginCachePvc.reconcile(gerritCluster, context);
