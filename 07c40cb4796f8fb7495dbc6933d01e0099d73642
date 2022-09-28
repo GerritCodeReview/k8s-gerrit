@@ -16,6 +16,24 @@
       "message": "You forgot the f to make it an f-String",
       "revId": "07c40cb4796f8fb7495dbc6933d01e0099d73642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43bb98cd_35209e4f",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-28T12:58:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1375865a_f99e4cb8",
+      "revId": "07c40cb4796f8fb7495dbc6933d01e0099d73642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
