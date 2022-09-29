@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1675cc13_4db7d5e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-29T13:25:47Z",
+      "side": 1,
+      "message": "that comma seems to be in wrong place",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fe542e0_932be31a",
+        "filename": "operator/k8s/gerrit.sample.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-09-29T13:25:47Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a524ee3b_29449f5d",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/PluginCachePVC.java",
         "patchSetId": 5
