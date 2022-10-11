@@ -54,17 +54,57 @@ spec:
       {{- end }}
       {{- end }}
       initContainers:
+      {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.chownOnStartup }}
+      - name: nfs-init
+        image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
+        command:
+        - sh
+        - -c
+        args:
+        - |
+          chown 1000:100 /var/mnt/logs
+          chown 1000:100 /var/mnt/git
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        volumeMounts:
+        - name: logs
+          subPathExpr: "gerrit-replica/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
+        - name: git-repositories
+          mountPath: "/var/mnt/git"
+        {{- if .Values.nfsWorkaround.idDomain }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
+      {{- end }}
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
         - name: git-repositories
           mountPath: "/var/mnt/git"
+        - name: logs
+          subPathExpr: "gerrit/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
         - name: gerrit-init-config
           mountPath: "/var/config/gerrit-init.yaml"
           subPath: gerrit-init.yaml
+        {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
         {{- if and .Values.gerrit.plugins.cache.enabled .Values.gerrit.plugins.downloaded }}
         - name: gerrit-plugin-cache
           mountPath: "/var/mnt/plugins"
@@ -90,6 +130,11 @@ spec:
       - name: gerrit
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerrit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         lifecycle:
           preStop:
             exec:
@@ -109,6 +154,14 @@ spec:
           mountPath: "/var/gerrit"
         - name: git-repositories
           mountPath: "/var/mnt/git"
+        - name: logs
+          subPathExpr: "gerrit/$(POD_NAME)"
+          mountPath: "/var/mnt/logs"
+        {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
+        - name: nfs-config
+          mountPath: "/etc/idmapd.conf"
+          subPath: idmapd.conf
+        {{- end }}
         {{ if eq .Values.gerrit.index.type "elasticsearch" -}}
         - name: gerrit-index-config
           mountPath: "/var/mnt/index"
@@ -155,6 +208,17 @@ spec:
           {{- else }}
           claimName: {{ .Release.Name }}-git-repositories-pvc
           {{- end }}
+      - name: logs
+        {{ if .Values.logStorage.enabled -}}
+        persistentVolumeClaim:
+          {{- if .Values.logStorage.externalPVC.use }}
+          claimName: {{ .Values.logStorage.externalPVC.name }}
+          {{- else }}
+          claimName: {{ .Release.Name }}-log-pvc
+          {{- end }}
+        {{ else -}}
+        emptyDir: {}
+        {{- end }}
       - name: gerrit-init-config
         configMap:
           name: {{ .Release.Name }}-gerrit-init-configmap
@@ -178,6 +242,11 @@ spec:
       - name: {{ .name }}
         configMap:
           name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
+      {{- end }}
+      {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
+      - name: nfs-config
+        configMap:
+          name: {{ .Release.Name }}-nfs-configmap
       {{- end }}
   volumeClaimTemplates:
   {{ if .Values.gerrit.persistence.enabled -}}
