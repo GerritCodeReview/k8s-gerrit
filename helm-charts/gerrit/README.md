@@ -163,6 +163,21 @@ The same principle also applies to other use cases, e.g. connecting to a databas
 For more information about the NetworkPolicy resource refer to the
 [Kubernetes documentation](https://kubernetes.io/docs/concepts/services-networking/network-policies/).
 
+### Workaround for NFS
+
+Kubernetes will not always be able to adapt the ownership of the files within NFS
+volumes. Thus, a workaround exists that will add init-containers to
+adapt file ownership. Note, that only the ownership of the root directory of the
+volume will be changed. All data contained within will be expected to already be
+owned by the user used by Gerrit. Also the ID-domain will be configured to ensure
+correct ID-mapping.
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `nfsWorkaround.enabled` | Whether the volume used is an NFS-volume | `false` |
+| `nfsWorkaround.chownOnStartup` | Whether to chown the volume on pod startup | `false` |
+| `nfsWorkaround.idDomain` | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com` |
+
 ### Storage for Git repositories
 
 | Parameter | Description | Default |
@@ -176,6 +191,28 @@ a way that the volume containing them can be mounted by the reinstalled chart,
 the PVC claiming the volume has to be created independently of the chart. To use
 the external PVC, set `gitRepositoryStorage.externalPVC.enabled` to `true` and
 give the name of the PVC under `gitRepositoryStorage.externalPVC.name`.
+
+### Storage for Logs
+
+The logs can be stored in a dedicated persistent volume. This volume has to be a
+read-write-many volume to be able to be used by multiple pods.
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `logStorage.enabled` | Whether to enable persistence of logs | `false` |
+| `logStorage.externalPVC.use` | Whether to use a PVC deployed outside the chart | `false` |
+| `logStorage.externalPVC.name` | Name of the external PVC | `gerrit-logs-pvc` |
+| `logStorage.size` | Size of the volume | `5Gi` |
+| `logStorage.cleanup.enabled` | Whether to regularly delete old logs | `false` |
+| `logStorage.cleanup.schedule` | Cron schedule defining when to run the cleanup job | `0 0 * * *` |
+| `logStorage.cleanup.retentionDays` | Number of days to retain the logs | `14` |
+| `logStorage.cleanup.resources` | Resources the container is allowed to use | `requests.cpu: 100m` |
+| | | `requests.memory: 256Mi` |
+| | | `limits.cpu: 100m` |
+| | | `limits.memory: 256Mi` |
+
+Each pod will create a separate folder for its logs, allowing to trace logs to
+the respective pods.
 
 ### CA certificate
 
