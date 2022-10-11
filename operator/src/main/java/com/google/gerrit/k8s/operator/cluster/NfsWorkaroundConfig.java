@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.cluster;
 public class NfsWorkaroundConfig {
 
   private boolean enabled = false;
+  private boolean chownOnStartup = false;
   private String idmapdConfig;
 
   public boolean isEnabled() {
@@ -25,6 +26,14 @@ public class NfsWorkaroundConfig {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+  public boolean isChownOnStartup() {
+    return chownOnStartup;
+  }
+
+  public void setChownOnStartup(boolean chownOnStartup) {
+    this.chownOnStartup = chownOnStartup;
   }
 
   public String getIdmapdConfig() {

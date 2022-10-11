@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.PluginCachePVC;
+import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -59,6 +60,13 @@ public class StatefulSetDependentResource
 
     StatefulSetBuilder stsBuilder = new StatefulSetBuilder();
 
+    List<Container> initContainers = new ArrayList<>();
+
+    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isChownOnStartup()) {
+      initContainers.add(gerritCluster.createNfsInitContainer());
+    }
+
     stsBuilder
         .withApiVersion("apps/v1")
         .withNewMetadata()
@@ -98,6 +106,7 @@ public class StatefulSetDependentResource
         .withResources(gerrit.getSpec().getResources())
         .addAllToVolumeMounts(getVolumeMounts(gerrit, gerritCluster, true))
         .endInitContainer()
+        .addAllToInitContainers(initContainers)
         .addNewContainer()
         .withName("gerrit")
         .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
@@ -110,6 +119,7 @@ public class StatefulSetDependentResource
         .endExec()
         .endPreStop()
         .endLifecycle()
+        .withEnv(GerritCluster.getPodNameEnvVar())
         .withPorts(getContainerPorts(gerrit))
         .withResources(gerrit.getSpec().getResources())
         .withStartupProbe(gerrit.getSpec().getStartupProbe())
@@ -186,6 +196,12 @@ public class StatefulSetDependentResource
               .build());
     }
 
+    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+            != null) {
+      volumes.add(gerritCluster.getNfsImapdConfigVolume());
+    }
+
     return volumes;
   }
 
@@ -225,6 +241,13 @@ public class StatefulSetDependentResource
                 .build());
       }
     }
+
+    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+            != null) {
+      volumeMounts.add(gerritCluster.getNfsImapdConfigVolumeMount());
+    }
+
     return volumeMounts;
   }
 
