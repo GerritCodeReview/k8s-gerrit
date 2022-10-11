@@ -18,8 +18,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
-import io.fabric8.kubernetes.api.model.EnvVar;
-import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeMount;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
@@ -65,7 +63,9 @@ public class GitGarbageCollectionCronJob
         List.of(gerritCluster.getGitRepositoriesVolume(), gerritCluster.getLogsVolume());
 
     if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()) {
-      initContainers.add(createNfsImapdInitContainer(gerritCluster));
+      if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isChownOnStartup()) {
+        initContainers.add(gerritCluster.createNfsInitContainer());
+      }
       if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
           != null) {
         volumes.add(gerritCluster.getNfsImapdConfigVolume());
@@ -123,37 +123,6 @@ public class GitGarbageCollectionCronJob
         .build();
   }
 
-  private Container createNfsImapdInitContainer(GerritCluster gerritCluster) {
-    List<VolumeMount> volumeMounts = List.of(gerritCluster.getLogsVolumeMount());
-
-    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
-        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
-            != null) {
-      volumeMounts.add(gerritCluster.getNfsImapdConfigVolumeMount());
-    }
-
-    return new ContainerBuilder()
-        .withName("nfs-init")
-        .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
-        .withImage(gerritCluster.getSpec().getBusyBox().getBusyBoxImage())
-        .withCommand(List.of("sh", "-c"))
-        .withArgs("chown -R 1000:100 /var/mnt/logs")
-        .withEnv(getPodNameEnvVar())
-        .withVolumeMounts(volumeMounts)
-        .build();
-  }
-
-  private static EnvVar getPodNameEnvVar() {
-    return new EnvVarBuilder()
-        .withName("POD_NAME")
-        .withNewValueFrom()
-        .withNewFieldRef()
-        .withFieldPath("metadata.name")
-        .endFieldRef()
-        .endValueFrom()
-        .build();
-  }
-
   private Container buildGitGcContainer(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
     List<VolumeMount> volumeMounts =
         List.of(
@@ -172,7 +141,7 @@ public class GitGarbageCollectionCronJob
             .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
             .withImage(gerritCluster.getSpec().getGerritImages().getFullImageName("git-gc"))
             .withResources(gitGc.getSpec().getResources())
-            .withEnv(getPodNameEnvVar())
+            .withEnv(GerritCluster.getPodNameEnvVar())
             .withVolumeMounts(volumeMounts);
 
     ArrayList<String> args = new ArrayList<>();
