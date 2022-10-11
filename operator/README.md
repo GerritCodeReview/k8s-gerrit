@@ -147,9 +147,14 @@ spec:
     ## NFS is not well supported by Kubernetes. These options provide a workaround
     ## to ensure correct file ownership and id mapping
     nfsWorkaround:
-      ## If enabled, file ownership will be manually set, if a volume is mounted
-      ## for the first time. (default: false)
+      ## If enabled, below options might be used. (default: false)
       enabled: false
+
+      ## If enabled, the ownership of the mounted NFS volumes will be set on pod
+      ## startup. Note that this is not done recursively. It is expected that all
+      ## data already present in the volume was created by the user used in accessing
+      ## containers. (default: false)
+      chownOnStartup: false
 
       ## The idmapd.config file can be used to e.g. configure the ID domain. This
       ## might be necessary for some NFS servers to ensure correct mapping of
