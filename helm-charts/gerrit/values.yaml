@@ -49,6 +49,12 @@ storageClasses:
       mountOptions: vers=4.1
 
 
+nfsWorkaround:
+  enabled: false
+  chownOnStartup: false
+  idDomain: localdomain.com
+
+
 networkPolicies:
   enabled: false
   dnsPorts:
@@ -61,6 +67,24 @@ gitRepositoryStorage:
     use: false
     name: git-repositories-pvc
   size: 5Gi
+
+logStorage:
+  enabled: false
+  externalPVC:
+    use: false
+    name: gerrit-logs-pvc
+  size: 5Gi
+  cleanup:
+    enabled: false
+    schedule: "0 0 * * *"
+    retentionDays: 14
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
 
 caCert:
 
