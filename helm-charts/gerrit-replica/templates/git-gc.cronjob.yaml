@@ -44,7 +44,7 @@ spec:
           {{- end }}
           {{- end }}
           initContainers:
-          {{- if .Values.nfsWorkaround.enabled }}
+          {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.chownOnStartup }}
           - name: nfs-init
             image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
             command:
@@ -52,7 +52,8 @@ spec:
             - -c
             args:
             - |
-              chown -R 1000:100 /var/mnt/logs
+              chown 1000:100 /var/mnt/logs
+              chown 1000:100 /var/mnt/git
             env:
             - name: POD_NAME
               valueFrom:
@@ -62,9 +63,13 @@ spec:
             - name: logs
               subPathExpr: "git-gc/$(POD_NAME)"
               mountPath: "/var/mnt/logs"
+            - name: git-repositories
+              mountPath: "/var/mnt/git"
+            {{- if .Values.nfsWorkaround.idDomain }}
             - name: nfs-config
               mountPath: "/etc/idmapd.conf"
               subPath: idmapd.conf
+            {{- end }}
           {{- end }}
           containers:
           - name: git-gc
@@ -83,7 +88,7 @@ spec:
             - name: logs
               subPathExpr: "git-gc/$(POD_NAME)"
               mountPath: "/var/log/git"
-            {{- if .Values.nfsWorkaround.enabled }}
+            {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
             - name: nfs-config
               mountPath: "/etc/idmapd.conf"
               subPath: idmapd.conf
@@ -107,7 +112,7 @@ spec:
             {{ else -}}
             emptyDir: {}
             {{- end }}
-          {{- if .Values.nfsWorkaround.enabled }}
+          {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
           - name: nfs-config
             configMap:
               name: {{ .Release.Name }}-nfs-configmap

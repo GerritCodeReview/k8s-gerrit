@@ -1,4 +1,4 @@
-{{- if .Values.nfsWorkaround.enabled -}}
+{{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
