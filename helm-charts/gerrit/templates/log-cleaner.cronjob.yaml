@@ -1,0 +1,48 @@
+{{- if and .Values.logStorage.enabled .Values.logStorage.cleanup.enabled }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-log-cleaner
+  labels:
+    app: log-cleaner
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  schedule: {{ .Values.logStorage.cleanup.schedule | quote }}
+  concurrencyPolicy: "Forbid"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: log-cleaner
+            imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+            image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
+            command:
+            - sh
+            - -c
+            args:
+            - |
+              find /var/logs/ \
+                -mindepth 1 \
+                -type f \
+                -mtime +{{ .Values.logStorage.cleanup.retentionDays }} \
+                -print \
+                -delete
+              find /var/logs/ -type d -empty -delete
+            resources:
+{{ toYaml .Values.logStorage.cleanup.resources | indent 14 }}
+            volumeMounts:
+            - name: logs
+              mountPath: "/var/logs"
+          volumes:
+          - name: logs
+            persistentVolumeClaim:
+              {{- if .Values.logStorage.externalPVC.use }}
+              claimName: {{ .Values.logStorage.externalPVC.name }}
+              {{- else }}
+              claimName: {{ .Release.Name }}-log-pvc
+              {{- end }}
+{{- end }}
