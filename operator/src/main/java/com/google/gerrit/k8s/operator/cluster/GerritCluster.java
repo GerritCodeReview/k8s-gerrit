@@ -19,6 +19,10 @@ import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITO
 import static com.google.gerrit.k8s.operator.cluster.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.fabric8.kubernetes.api.model.Container;
+import io.fabric8.kubernetes.api.model.ContainerBuilder;
+import io.fabric8.kubernetes.api.model.EnvVar;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -28,7 +32,9 @@ import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -121,6 +127,39 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
         .withMountPath("/etc/idmapd.conf")
         .withSubPath("idmapd.conf")
+        .build();
+  }
+
+  @JsonIgnore
+  public Container createNfsInitContainer() {
+    List<VolumeMount> volumeMounts = new ArrayList<>();
+    volumeMounts.add(getLogsVolumeMount());
+    volumeMounts.add(getGitRepositoriesVolumeMount());
+
+    if (getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig() != null) {
+      volumeMounts.add(getNfsImapdConfigVolumeMount());
+    }
+
+    return new ContainerBuilder()
+        .withName("nfs-init")
+        .withImagePullPolicy(getSpec().getImagePullPolicy())
+        .withImage(getSpec().getBusyBox().getBusyBoxImage())
+        .withCommand(List.of("sh", "-c"))
+        .withArgs("chown 1000:100 /var/mnt/logs; chown 1000:100 /var/mnt/git")
+        .withEnv(getPodNameEnvVar())
+        .withVolumeMounts(volumeMounts)
+        .build();
+  }
+
+  @JsonIgnore
+  public static EnvVar getPodNameEnvVar() {
+    return new EnvVarBuilder()
+        .withName("POD_NAME")
+        .withNewValueFrom()
+        .withNewFieldRef()
+        .withFieldPath("metadata.name")
+        .endFieldRef()
+        .endValueFrom()
         .build();
   }
 }
