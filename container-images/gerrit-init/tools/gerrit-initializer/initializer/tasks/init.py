@@ -105,9 +105,7 @@ class GerritInit:
 
     def _symlink_mounted_site_components(self):
         self._ensure_symlink(f"{MNT_PATH}/git", f"{self.site}/git")
-        # TODO(Thomas): Enable this feature for primary Gerrits as well
-        if self.is_replica:
-            self._ensure_symlink(f"{MNT_PATH}/logs", f"{self.site}/logs")
+        self._ensure_symlink(f"{MNT_PATH}/logs", f"{self.site}/logs")
 
         index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
         if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
