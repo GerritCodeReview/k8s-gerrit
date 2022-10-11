@@ -140,14 +140,17 @@ Note, that Gerrit will require its CA in a JKS keytore, which is described below
 
 ### Workaround for NFS
 
-Kubernetes will not be able to adapt the ownership of the files within NFS
-volumes. Thus, a workaround exists that will add init-containers and jobs to
-adapt file ownership. Also the ID-domain will be configured to ensure correct
-ID-mapping.
+Kubernetes will not always be able to adapt the ownership of the files within NFS
+volumes. Thus, a workaround exists that will add init-containers to
+adapt file ownership. Note, that only the ownership of the root directory of the
+volume will be changed. All data contained within will be expected to already be
+owned by the user used by Gerrit. Also the ID-domain will be configured to ensure
+correct ID-mapping.
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `nfsWorkaround.enabled` | Whether the volume used is an NFS-volume | `false` |
+| `nfsWorkaround.chownOnStartup` | Whether to chown the volume on pod startup | `false` |
 | `nfsWorkaround.idDomain` | The ID-domain that should be used to map user-/group-IDs for the NFS mount | `localdomain.com` |
 
 ### Network policies

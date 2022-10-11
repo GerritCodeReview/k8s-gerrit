@@ -29,7 +29,7 @@ spec:
       - name: {{ . }}
       {{- end }}
       {{- end }}
-      {{- if .Values.nfsWorkaround.enabled }}
+      {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.chownOnStartup }}
       initContainers:
       - name: nfs-init
         image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
@@ -117,7 +117,7 @@ spec:
         secret:
           secretName: {{ .Release.Name }}-tls-ca
       {{- end }}
-      {{- if .Values.nfsWorkaround.enabled }}
+      {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
       - name: nfs-config
         configMap:
           name: {{ .Release.Name }}-nfs-configmap
