@@ -1,0 +1,24 @@
+{{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-nfs-configmap
+  labels:
+    app: gerrit
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  idmapd.conf: |-
+    [General]
+
+    Verbosity = 0
+    Pipefs-Directory = /run/rpc_pipefs
+    # set your own domain here, if it differs from FQDN minus hostname
+    Domain = {{ .Values.nfsWorkaround.idDomain }}
+
+    [Mapping]
+
+    Nobody-User = nobody
+    Nobody-Group = nogroup
+{{- end }}
