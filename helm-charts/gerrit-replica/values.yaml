@@ -50,6 +50,7 @@ storageClasses:
 
 nfsWorkaround:
   enabled: false
+  chownOnStartup: false
   idDomain: localdomain.com
 
 
