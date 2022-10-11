@@ -20,6 +20,10 @@ import static com.google.gerrit.k8s.operator.cluster.NfsIdmapdConfigMap.NFS_IDMA
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import io.fabric8.kubernetes.api.model.Container;
+import io.fabric8.kubernetes.api.model.ContainerBuilder;
+import io.fabric8.kubernetes.api.model.EnvVar;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -29,7 +33,9 @@ import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -43,6 +49,8 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
+  private static final int GERRIT_FS_UID = 1000;
+  private static final int GERRIT_FS_GID = 100;
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
@@ -128,5 +136,40 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   @JsonIgnore
   public static boolean isGerritInstancePartOfCluster(Gerrit gerrit, GerritCluster cluster) {
     return gerrit.getSpec().getCluster().equals(cluster.getMetadata().getName());
+  }
+
+  @JsonIgnore
+  public Container createNfsInitContainer() {
+    List<VolumeMount> volumeMounts = new ArrayList<>();
+    volumeMounts.add(getLogsVolumeMount());
+    volumeMounts.add(getGitRepositoriesVolumeMount());
+
+    if (getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig() != null) {
+      volumeMounts.add(getNfsImapdConfigVolumeMount());
+    }
+
+    return new ContainerBuilder()
+        .withName("nfs-init")
+        .withImagePullPolicy(getSpec().getImagePullPolicy())
+        .withImage(getSpec().getBusyBox().getBusyBoxImage())
+        .withCommand(List.of("sh", "-c"))
+        .withArgs(
+            String.format(
+                "chown -R %d:%d /var/mnt/logs /var/mnt/git", GERRIT_FS_UID, GERRIT_FS_GID))
+        .withEnv(getPodNameEnvVar())
+        .withVolumeMounts(volumeMounts)
+        .build();
+  }
+
+  @JsonIgnore
+  public static EnvVar getPodNameEnvVar() {
+    return new EnvVarBuilder()
+        .withName("POD_NAME")
+        .withNewValueFrom()
+        .withNewFieldRef()
+        .withFieldPath("metadata.name")
+        .endFieldRef()
+        .endValueFrom()
+        .build();
   }
 }
