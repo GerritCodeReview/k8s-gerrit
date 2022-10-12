@@ -63,9 +63,11 @@ spec:
               mountPath: "/var/mnt/logs"
             - name: git-repositories
               mountPath: "/var/mnt/git"
+            {{- if .Values.nfsWorkaround.idDomain }}
             - name: nfs-config
               mountPath: "/etc/idmapd.conf"
               subPath: idmapd.conf
+            {{- end }}
           {{- end }}
           containers:
           - name: git-gc
