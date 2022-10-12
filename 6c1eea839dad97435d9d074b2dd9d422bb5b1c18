@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a31c0d_f6a39405",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1145289
+      },
+      "writtenOn": "2022-10-12T23:49:37Z",
+      "side": 1,
+      "message": "I uploaded patch set 2.",
+      "revId": "6c1eea839dad97435d9d074b2dd9d422bb5b1c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
