@@ -43,7 +43,7 @@ class NoteDbValidator:
 
         return git_show_ref.returncode == 0
 
-    def execute(self):
+    def wait_until_valid(self):
         for repo in self.notedb_repos:
             LOG.info("Waiting for repository %s.", repo)
             while not self._test_repo_exists(repo):
@@ -55,3 +55,17 @@ class NoteDbValidator:
                 while not self._test_ref_exists(repo, ref):
                     time.sleep(1)
                 LOG.info("Found ref %s in repo %s.", ref, repo)
+
+    def check(self):
+        for repo in self.notedb_repos:
+            if not self._test_repo_exists(repo):
+                LOG.info("Repository %s is missing.", repo)
+                return False
+            LOG.info("Found %s.", repo)
+
+            for ref in self.required_refs[repo]:
+                if not self._test_ref_exists(repo, ref):
+                    LOG.info("Ref %s in repository %s is missing.", ref, repo)
+                    return False
+                LOG.info("Found ref %s in repo %s.", ref, repo)
+        return True
