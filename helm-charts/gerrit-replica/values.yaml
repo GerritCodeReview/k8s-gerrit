@@ -267,10 +267,7 @@ gerritReplica:
           topologyKey: "topology.kubernetes.io/zone"
 
   replicas: 1
-  maxSurge: 25%
-  # For just one replica, 100 % unavailability has to be allowed for updates to
-  # work.
-  maxUnavailable: 100%
+  updatePartition: 0
 
   livenessProbe:
     initialDelaySeconds: 60
@@ -294,6 +291,10 @@ gerritReplica:
     limits:
       cpu: 1
       memory: 6Gi
+
+  persistence:
+    enabled: true
+    size: 5Gi
 
   # The general NetworkPolicy rules implemented by this chart may be too restrictive
   # for some setups, e.g. when trying to connect to an external database. Here
