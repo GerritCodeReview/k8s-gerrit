@@ -1,20 +1,20 @@
 {{- $root := . -}}
 
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-gerrit-replica-deployment
+  name: {{ .Release.Name }}-gerrit-replica-statefulset
   labels:
     app: gerrit-replica
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
+  serviceName: {{ .Release.Name }}-gerrit-replica-service
   replicas: {{ .Values.gerritReplica.replicas }}
-  strategy:
+  updateStrategy:
     rollingUpdate:
-      maxSurge: {{ .Values.gerritReplica.maxSurge }}
-      maxUnavailable: {{ .Values.gerritReplica.maxUnavailable }}
+      partition: {{ .Values.gerritReplica.updatePartition }}
   selector:
     matchLabels:
       app: gerrit-replica
@@ -79,32 +79,6 @@ spec:
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
       {{- end }}
-      - name: site-cleanup
-        image: {{ .Values.images.busybox.registry -}}/busybox:{{- .Values.images.busybox.tag }}
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 100
-        command:
-        - sh
-        - -c
-        args:
-        - |
-          # Remove directories that should be mounted rather than exist with the
-          # rest of the site
-          [ ! -L /var/gerrit/git ] && rm -rf /var/gerrit/git
-          [ ! -L /var/gerrit/logs ] && rm -rf /var/gerrit/logs
-          rm -f /var/gerrit/logs/gerrit.pid
-
-          if [ -d /var/gerrit/data ]; then
-            for link in $(find /var/gerrit/data -type l); do
-              if [[ $(readlink -f $link) == /var/mnt/data/* ]]; then
-                unlink $link
-              fi
-            done
-          fi
-        volumeMounts:
-        - name: gerrit-site
-          mountPath: "/var/gerrit"
       - name: gerrit-init
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritInit }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -121,14 +95,14 @@ spec:
         - name: logs
           subPathExpr: "gerrit-replica/$(POD_NAME)"
           mountPath: "/var/mnt/logs"
+        - name: gerrit-init-config
+          mountPath: "/var/config/gerrit-init.yaml"
+          subPath: gerrit-init.yaml
         {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
         - name: nfs-config
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
         {{- end }}
-        - name: gerrit-init-config
-          mountPath: "/var/config/gerrit-init.yaml"
-          subPath: gerrit-init.yaml
         {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
         - name: gerrit-plugin-cache
           mountPath: "/var/mnt/plugins"
@@ -137,6 +111,11 @@ spec:
           mountPath: "/var/mnt/etc/config"
         - name: gerrit-replica-secure-config
           mountPath: "/var/mnt/etc/secret"
+        {{ if .Values.caCert -}}
+        - name: tls-ca
+          subPath: ca.crt
+          mountPath: "/var/config/ca.crt"
+        {{- end }}
         {{- range .Values.gerritReplica.additionalConfigMaps }}
         - name: {{ .name }}
           mountPath: "/var/mnt/data/{{ .subDir }}"
@@ -145,6 +124,11 @@ spec:
       - name: gerrit-replica
         image: {{ template "registry" . }}{{ .Values.gerritReplica.images.gerritReplica }}:{{ .Values.images.version }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         lifecycle:
           preStop:
             exec:
@@ -152,11 +136,6 @@ spec:
                 - "/bin/ash"
                 - "-c"
                 - "kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null"
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
         ports:
         - name: http
           containerPort: 8080
@@ -255,8 +234,15 @@ spec:
         {{- end }}
       {{- end }}
       volumes:
+      {{ if not .Values.gerritReplica.persistence.enabled -}}
       - name: gerrit-site
         emptyDir: {}
+      {{- end }}
+      {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
+      - name: gerrit-plugin-cache
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-plugin-cache-pvc
+      {{- end }}
       - name: git-repositories
         persistentVolumeClaim:
           {{- if .Values.gitRepositoryStorage.externalPVC.use }}
@@ -275,16 +261,6 @@ spec:
         {{ else -}}
         emptyDir: {}
         {{- end }}
-      {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
-      - name: gerrit-plugin-cache
-        persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-plugin-cache-pvc
-      {{- end }}
-      {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
-      - name: nfs-config
-        configMap:
-          name: {{ .Release.Name }}-nfs-configmap
-      {{- end }}
       - name: gerrit-init-config
         configMap:
           name: {{ .Release.Name }}-gerrit-init-configmap
@@ -299,6 +275,16 @@ spec:
         secret:
           secretName: {{ .Release.Name }}-tls-ca
       {{- end }}
+      {{- range .Values.gerritReplica.additionalConfigMaps }}
+      - name: {{ .name }}
+        configMap:
+          name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
+      {{- end }}
+      {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
+      - name: nfs-config
+        configMap:
+          name: {{ .Release.Name }}-nfs-configmap
+      {{- end }}
       {{ if .Values.promtailSidecar.enabled -}}
       - name: promtail-config
         configMap:
@@ -307,8 +293,20 @@ spec:
         secret:
           secretName: {{ .Release.Name }}-promtail-secret
       {{- end }}
-      {{- range .Values.gerritReplica.additionalConfigMaps }}
-      - name: {{ .name }}
-        configMap:
-          name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
-      {{- end }}
+  {{ if .Values.gerritReplica.persistence.enabled -}}
+  volumeClaimTemplates:
+  - metadata:
+      name: gerrit-site
+      labels:
+        app: gerrit-replica
+        chart: {{ template "gerrit-replica.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.gerritReplica.persistence.size }}
+      storageClassName: {{ .Values.storageClasses.default.name }}
+  {{- end }}
