@@ -37,7 +37,7 @@ def _run_reindex(args):
 
 
 def _run_validate_notedb(args):
-    validate_notedb.NoteDbValidator(args.site).execute()
+    validate_notedb.NoteDbValidator(args.site).wait_until_valid()
 
 
 def main():
