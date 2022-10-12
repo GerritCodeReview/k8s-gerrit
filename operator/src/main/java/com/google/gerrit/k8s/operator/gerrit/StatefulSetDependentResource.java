@@ -158,6 +158,7 @@ public class StatefulSetDependentResource
     Set<Volume> volumes = new HashSet<>();
 
     volumes.add(gerritCluster.getGitRepositoriesVolume());
+    volumes.add(gerritCluster.getLogsVolume());
 
     volumes.add(
         new VolumeBuilder()
@@ -211,6 +212,7 @@ public class StatefulSetDependentResource
     volumeMounts.add(
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
     volumeMounts.add(gerritCluster.getGitRepositoriesVolumeMount());
+    volumeMounts.add(gerritCluster.getLogsVolumeMount());
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
