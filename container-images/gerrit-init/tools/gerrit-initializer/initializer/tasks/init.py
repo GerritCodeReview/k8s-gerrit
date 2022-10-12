@@ -149,6 +149,9 @@ class GerritInit:
     def execute(self):
         if not self.is_replica:
             self._symlink_mounted_site_components()
+        elif not NoteDbValidator(MNT_PATH).check():
+            LOG.info("NoteDB not ready. Initializing repositories.")
+            self._symlink_mounted_site_components()
         self._symlink_configuration()
 
         if os.path.exists(self.pid_file):
@@ -183,6 +186,5 @@ class GerritInit:
 
         if self.is_replica:
             self._symlink_mounted_site_components()
-            NoteDbValidator(self.site).execute()
         else:
             get_reindexer(self.site, self.config).start(False)

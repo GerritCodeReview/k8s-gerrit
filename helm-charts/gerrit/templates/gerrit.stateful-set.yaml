@@ -246,8 +246,8 @@ spec:
         configMap:
           name: {{ .Release.Name }}-nfs-configmap
       {{- end }}
-  volumeClaimTemplates:
   {{ if .Values.gerrit.persistence.enabled -}}
+  volumeClaimTemplates:
   - metadata:
       name: gerrit-site
       labels:
