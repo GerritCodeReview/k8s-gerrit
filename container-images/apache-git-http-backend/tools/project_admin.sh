@@ -42,6 +42,7 @@ update_head(){
 
 echo "Content-type: text/html"
 REPO=${REQUEST_URI##/a/projects/}
+REPO="${REPO//%2F//}"
 REPO="${REPO%%.git}"
 
 if test "${REQUEST_METHOD}" == "PUT"; then
