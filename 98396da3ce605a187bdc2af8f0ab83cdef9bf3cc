@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e91b0e_b2542478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T08:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1675cc13_4db7d5e7",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fe542e0_932be31a",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-09-29T13:25:47Z",
       "side": 1,
       "message": "nit: unnecessary empty line",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e240a99e_962b46fb",
+        "filename": "operator/k8s/gerrit.sample.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T08:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fe542e0_932be31a",
       "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6df93101_e84bc621",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/PluginCachePVC.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T08:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a524ee3b_29449f5d",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8827c1e5_8dd2e20d",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "889c9f1d_d914b765",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritInitConfigMapDependentResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T08:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8827c1e5_8dd2e20d",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a4123f7_6e2414d2",
@@ -88,6 +166,24 @@
       "writtenOn": "2022-09-26T11:35:28Z",
       "side": 1,
       "message": "This could use GERRIT_SERVICE_NAME (unless at some point that will diverge from the label?)",
+      "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d0d16a5_dccc3281",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/ServiceDependentResource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T08:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a4123f7_6e2414d2",
       "revId": "98396da3ce605a187bdc2af8f0ab83cdef9bf3cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
