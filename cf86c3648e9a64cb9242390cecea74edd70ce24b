@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47736d8d_049ae76c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T07:42:52Z",
+      "side": 1,
+      "message": "Yes. This way it matches the name used in the Kubernetes deployment, where default does not make sense. Without changing the filename, we would have to set the command in each Deployment/StatefulSet using this container.",
+      "parentUuid": "0a96e8c5_cf5315a0",
+      "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e967d95_d4c23220",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c6276a9_8ba886b5",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T07:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e967d95_d4c23220",
+      "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b98b613_ee1ec19c",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-09-26T12:19:48Z",
       "side": 1,
       "message": "This can go to the constructor as it is already known at that point.",
+      "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c33f7c40_ffa9d18c",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-10-17T07:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b98b613_ee1ec19c",
       "revId": "cf86c3648e9a64cb9242390cecea74edd70ce24b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
