@@ -58,12 +58,10 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   private static final String SECURE_CONFIG_SECRET_NAME = "gerrit-secret";
   private static final String DEFAULT_GERRIT_CONFIG =
       "[gerrit]\n"
-          + "  basePath = git\n"
           + "  serverId = gerrit-1\n"
           + "  canonicalWebUrl = https://example.com/\n"
           + "[index]\n"
           + "  type = LUCENE\n"
-          + "  onlineUpgrade = false\n"
           + "[auth]\n"
           + "  type = LDAP\n"
           + "[ldap]\n"
@@ -85,9 +83,6 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
           + "[cache]\n"
           + "  directory = cache\n"
           + "[container]\n"
-          + "  user = gerrit\n"
-          + "  javaHome = /usr/lib/jvm/java-11-openjdk\n"
-          + "  javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore\n"
           + "  javaOptions = -Xmx4g";
 
   @Test

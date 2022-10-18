@@ -15,12 +15,14 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 
 @KubernetesDependent(resourceDiscriminator = GerritConfigMapDiscriminator.class)
 public class GerritConfigMapDependentResource
@@ -48,6 +50,13 @@ public class GerritConfigMapDependentResource
         gerritCluster.getLabels(getName(gerrit), this.getClass().getSimpleName());
 
     Map<String, String> configFiles = gerrit.getSpec().getConfigFiles();
+
+    if (!configFiles.containsKey("gerrit.config")) {
+      configFiles.put("gerrit.config", "");
+    }
+
+    Config gerritConfig = GerritConfigBuilder.buildFromText(configFiles.get("gerrit.config"));
+    configFiles.put("gerrit.config", gerritConfig.toText());
 
     if (!configFiles.containsKey("healthcheck.config")) {
       configFiles.put("healthcheck.config", DEFAULT_HEALTHCHECK_CONFIG);
