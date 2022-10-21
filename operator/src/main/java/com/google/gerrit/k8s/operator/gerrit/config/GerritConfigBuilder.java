@@ -23,8 +23,8 @@ import org.eclipse.jgit.lib.Config;
 
 @SuppressWarnings("rawtypes")
 public class GerritConfigBuilder {
-  private static final List<RequiredOption> requiredOptions =
-      new ArrayList<>(setupStaticRequiredOptions());
+  private List<RequiredOption> requiredOptions = new ArrayList<>(setupStaticRequiredOptions());
+  private Config cfg;
 
   private static List<RequiredOption> setupStaticRequiredOptions() {
     List<RequiredOption> requiredOptions = new ArrayList<>();
@@ -41,7 +41,7 @@ public class GerritConfigBuilder {
     return requiredOptions;
   }
 
-  public static Config buildFromText(String text) {
+  public GerritConfigBuilder withConfig(String text) {
     Config cfg = new Config();
     try {
       cfg.fromText(text);
@@ -49,41 +49,50 @@ public class GerritConfigBuilder {
       throw new IllegalStateException("The provided gerrit.config is invalid.");
     }
 
-    return buildFromConfig(cfg);
+    return withConfig(cfg);
   }
 
-  public static Config buildFromConfig(Config cfg) {
-    GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
-    configValidator.check(cfg);
+  public GerritConfigBuilder withConfig(Config cfg) {
+    this.cfg = cfg;
+    return this;
+  }
 
-    return setRequiredOptions(cfg);
+  public GerritConfigBuilder withUrl(String url) {
+    this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+    return this;
+  }
+
+  public Config build() {
+    GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
+    configValidator.check(this.cfg);
+    setRequiredOptions();
+    return this.cfg;
   }
 
   @SuppressWarnings("unchecked")
-  private static Config setRequiredOptions(Config cfg) {
+  private void setRequiredOptions() {
     for (RequiredOption<?> opt : requiredOptions) {
       if (opt.getExpected() instanceof String) {
-        cfg.setString(
+        this.cfg.setString(
             opt.getSection(), opt.getSubSection(), opt.getKey(), (String) opt.getExpected());
       } else if (opt.getExpected() instanceof Boolean) {
-        cfg.setBoolean(
+        this.cfg.setBoolean(
             opt.getSection(), opt.getSubSection(), opt.getKey(), (Boolean) opt.getExpected());
       } else if (opt.getExpected() instanceof Set) {
         List<String> values =
             new ArrayList<String>(
                 Arrays.asList(
-                    cfg.getStringList(opt.getSection(), opt.getSubSection(), opt.getKey())));
+                    this.cfg.getStringList(opt.getSection(), opt.getSubSection(), opt.getKey())));
         List<String> expectedSet = new ArrayList<String>();
         expectedSet.addAll((Set<String>) opt.getExpected());
         expectedSet.removeAll(values);
         values.addAll(expectedSet);
-        cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
+        this.cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
       }
     }
-    return cfg;
   }
 
-  public static List<RequiredOption> getRequiredOptions() {
+  public List<RequiredOption> getRequiredOptions() {
     return requiredOptions;
   }
 }
