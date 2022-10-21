@@ -30,7 +30,6 @@ import static org.mockito.Mockito.times;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.GerritIngress;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
@@ -59,7 +58,6 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   private static final String DEFAULT_GERRIT_CONFIG =
       "[gerrit]\n"
           + "  serverId = gerrit-1\n"
-          + "  canonicalWebUrl = https://example.com/\n"
           + "[index]\n"
           + "  type = LUCENE\n"
           + "[auth]\n"
@@ -159,17 +157,6 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
                       .isReady());
             });
 
-    String hostname =
-        GerritIngress.getFullHostname(ServiceDependentResource.getName(gerrit), cluster);
-    GerritSpec gerritSpec = gerrit.getSpec();
-    String changedConfig =
-        DEFAULT_GERRIT_CONFIG.replace(
-            "canonicalWebUrl = https://example.com/",
-            String.format("canonicalWebUrl = https://%s/", hostname));
-    gerritSpec.setConfigFiles(Map.of("gerrit.config", changedConfig));
-    gerrit.setSpec(gerritSpec);
-    client.resource(gerrit).createOrReplace();
-
     logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
     await()
         .atMost(2, MINUTES)
@@ -211,7 +198,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testRestartHandlingOnConfigChange() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
+    GerritCluster cluster = createCluster(client, operator.getNamespace(), false, false);
 
     Secret secureConfig = createSecureConfig();
     client.resource(secureConfig).createOrReplace();
@@ -256,7 +243,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
                       .stream()
                       .anyMatch(port -> port.getPort() == changedPort));
             });
-    Mockito.verify(gerritReconciler, times(0)).restartGerritStatefulSet(any());
+    Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
 
     String changedConfig =
         DEFAULT_GERRIT_CONFIG.replace("proxy-https://*:8080/", "proxy-https://*:8081/");
@@ -268,7 +255,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
-              Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
+              Mockito.verify(gerritReconciler, times(2)).restartGerritStatefulSet(any());
             });
 
     secureConfig.setData(
@@ -281,7 +268,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
-              Mockito.verify(gerritReconciler, times(2)).restartGerritStatefulSet(any());
+              Mockito.verify(gerritReconciler, times(3)).restartGerritStatefulSet(any());
             });
   }
 
