@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 @KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-ingress")
 public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, GerritCluster> {
+  public static final String INGRESS_NAME = "gerrit-ingress";
 
   public GerritIngress() {
     super(Ingress.class);
