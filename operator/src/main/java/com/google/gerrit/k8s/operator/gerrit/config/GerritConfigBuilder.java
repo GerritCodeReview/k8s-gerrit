@@ -23,8 +23,8 @@ import org.eclipse.jgit.lib.Config;
 
 @SuppressWarnings("rawtypes")
 public class GerritConfigBuilder {
-  private static final List<RequiredOption> requiredOptions =
-      new ArrayList<>(setupStaticRequiredOptions());
+  private List<RequiredOption> requiredOptions = new ArrayList<>(setupStaticRequiredOptions());
+  private Config cfg;
 
   private static List<RequiredOption> setupStaticRequiredOptions() {
     List<RequiredOption> requiredOptions = new ArrayList<>();
@@ -41,7 +41,7 @@ public class GerritConfigBuilder {
     return requiredOptions;
   }
 
-  public static Config buildFromText(String text) {
+  public GerritConfigBuilder withConfig(String text) {
     Config cfg = new Config();
     try {
       cfg.fromText(text);
@@ -49,18 +49,28 @@ public class GerritConfigBuilder {
       throw new IllegalStateException("The provided gerrit.config is invalid.");
     }
 
-    return buildFromConfig(cfg);
+    return withConfig(cfg);
   }
 
-  public static Config buildFromConfig(Config cfg) {
+  public GerritConfigBuilder withConfig(Config cfg) {
+    this.cfg = cfg;
+    return this;
+  }
+
+  public GerritConfigBuilder withUrl(String url) {
+    this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+    return this;
+  }
+
+  public Config build() {
     GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
     configValidator.check(cfg);
-
-    return setRequiredOptions(cfg);
+    setRequiredOptions();
+    return cfg;
   }
 
   @SuppressWarnings("unchecked")
-  private static Config setRequiredOptions(Config cfg) {
+  private void setRequiredOptions() {
     for (RequiredOption<?> opt : requiredOptions) {
       if (opt.getExpected() instanceof String) {
         cfg.setString(
@@ -80,10 +90,9 @@ public class GerritConfigBuilder {
         cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
       }
     }
-    return cfg;
   }
 
-  public static List<RequiredOption> getRequiredOptions() {
+  public List<RequiredOption> getRequiredOptions() {
     return requiredOptions;
   }
 }
