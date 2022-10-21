@@ -18,6 +18,7 @@ import java.util.List;
 
 public class GerritClusterStatus {
   private List<String> managedGerritInstances;
+  private boolean isExposed;
 
   public List<String> getManagedGerritInstances() {
     return managedGerritInstances;
@@ -25,5 +26,13 @@ public class GerritClusterStatus {
 
   public void setManagedGerritInstances(List<String> managedGerritInstances) {
     this.managedGerritInstances = managedGerritInstances;
+  }
+
+  public boolean isExposed() {
+    return isExposed;
+  }
+
+  public void setExposed(boolean isExposed) {
+    this.isExposed = isExposed;
   }
 }

@@ -24,9 +24,12 @@ import org.eclipse.jgit.lib.Config;
 
 @SuppressWarnings("rawtypes")
 public class GerritConfigBuilder {
-  private static final Set<RequiredOption> requiredOptions = setupRequiredOptions();
+  private static final Set<RequiredOption> staticRequiredOptions = setupStaticRequiredOptions();
 
-  private static Set<RequiredOption> setupRequiredOptions() {
+  private Set<RequiredOption> requiredOptions = new HashSet<>(staticRequiredOptions);
+  private Config cfg;
+
+  private static Set<RequiredOption> setupStaticRequiredOptions() {
     Set<RequiredOption> requiredOptions = new HashSet<>();
     requiredOptions.add(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
@@ -41,11 +44,7 @@ public class GerritConfigBuilder {
     return requiredOptions;
   }
 
-  public static Set<RequiredOption> getRequiredOptions() {
-    return requiredOptions;
-  }
-
-  public static Config buildFromText(String text) {
+  public GerritConfigBuilder withConfig(String text) {
     Config cfg = new Config();
     try {
       cfg.fromText(text);
@@ -53,37 +52,50 @@ public class GerritConfigBuilder {
       throw new IllegalStateException("The provided gerrit.config is invalid.");
     }
 
-    return buildFromConfig(cfg);
+    return withConfig(cfg);
   }
 
-  public static Config buildFromConfig(Config cfg) {
-    GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
-    configValidator.check(cfg);
+  public GerritConfigBuilder withConfig(Config cfg) {
+    this.cfg = cfg;
+    return this;
+  }
 
-    return setRequiredOptions(cfg);
+  public GerritConfigBuilder withUrl(String url) {
+    this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+    return this;
+  }
+
+  public Config build() {
+    GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
+    configValidator.check(this.cfg);
+    setRequiredOptions();
+    return this.cfg;
   }
 
   @SuppressWarnings("unchecked")
-  private static Config setRequiredOptions(Config cfg) {
+  private void setRequiredOptions() {
     for (RequiredOption<?> opt : requiredOptions) {
       if (opt.getExpected() instanceof String) {
-        cfg.setString(
+        this.cfg.setString(
             opt.getSection(), opt.getSubSection(), opt.getKey(), (String) opt.getExpected());
       } else if (opt.getExpected() instanceof Boolean) {
-        cfg.setBoolean(
+        this.cfg.setBoolean(
             opt.getSection(), opt.getSubSection(), opt.getKey(), (Boolean) opt.getExpected());
       } else if (opt.getExpected() instanceof Set) {
         List<String> values =
             new ArrayList<String>(
                 Arrays.asList(
-                    cfg.getStringList(opt.getSection(), opt.getSubSection(), opt.getKey())));
+                    this.cfg.getStringList(opt.getSection(), opt.getSubSection(), opt.getKey())));
         Set<String> expectedSet = new HashSet<String>();
         expectedSet.addAll((Set<String>) opt.getExpected());
         expectedSet.removeAll(values);
         values.addAll(expectedSet);
-        cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
+        this.cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
       }
     }
-    return cfg;
+  }
+
+  public Set<RequiredOption> getRequiredOptions() {
+    return requiredOptions;
   }
 }

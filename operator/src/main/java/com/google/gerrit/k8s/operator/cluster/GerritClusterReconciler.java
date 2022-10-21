@@ -14,7 +14,10 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import static com.google.gerrit.k8s.operator.cluster.GerritIngress.INGRESS_NAME;
+
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -30,6 +33,7 @@ import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMap
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ControllerConfiguration(
@@ -43,6 +47,8 @@ import java.util.stream.Collectors;
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
+  private static final String GERRIT_INGRESS_EVENT_SOURCE = "gerrit-ingress";
+
   private final KubernetesClient kubernetesClient;
 
   private GerritIngress gerritIngress;
@@ -73,8 +79,12 @@ public class GerritClusterReconciler
                 .build(),
             context);
 
-    return EventSourceInitializer.nameEventSources(
-        gerritEventSource, this.gerritIngress.initEventSource(context));
+    Map<String, EventSource> eventSources =
+        EventSourceInitializer.nameEventSources(gerritEventSource);
+
+    eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, this.gerritIngress.initEventSource(context));
+
+    return eventSources;
   }
 
   @Override
@@ -88,15 +98,20 @@ public class GerritClusterReconciler
   }
 
   private GerritCluster updateStatus(GerritCluster gerritCluster, List<String> managedGerrits) {
-    if (managedGerrits.isEmpty()) {
-      return gerritCluster;
-    }
-
     GerritClusterStatus status = gerritCluster.getStatus();
     if (status == null) {
       status = new GerritClusterStatus();
     }
     status.setManagedGerritInstances(managedGerrits);
+
+    Optional<Ingress> ing =
+        Optional.ofNullable(
+            kubernetesClient
+                .resources(Ingress.class)
+                .inNamespace(gerritCluster.getMetadata().getName())
+                .withName(INGRESS_NAME)
+                .get());
+    status.setExposed(ing.isPresent());
     gerritCluster.setStatus(status);
     return gerritCluster;
   }
