@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
@@ -43,6 +44,8 @@ import java.util.stream.Collectors;
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
+  private static final String GERRIT_INGRESS_EVENT_SOURCE = "gerrit-ingress";
+
   private final KubernetesClient kubernetesClient;
 
   private GerritIngress gerritIngress;
@@ -73,8 +76,12 @@ public class GerritClusterReconciler
                 .build(),
             context);
 
-    return EventSourceInitializer.nameEventSources(
-        gerritEventSource, this.gerritIngress.initEventSource(context));
+    Map<String, EventSource> eventSources =
+        EventSourceInitializer.nameEventSources(gerritEventSource);
+
+    eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, this.gerritIngress.initEventSource(context));
+
+    return eventSources;
   }
 
   @Override
@@ -88,10 +95,6 @@ public class GerritClusterReconciler
   }
 
   private GerritCluster updateStatus(GerritCluster gerritCluster, List<String> managedGerrits) {
-    if (managedGerrits.isEmpty()) {
-      return gerritCluster;
-    }
-
     GerritClusterStatus status = gerritCluster.getStatus();
     if (status == null) {
       status = new GerritClusterStatus();
