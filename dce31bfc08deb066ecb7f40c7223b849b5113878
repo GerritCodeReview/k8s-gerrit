@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ba7aca2_b8687922",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/ServiceDependentResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-10-24T11:31:34Z",
+      "side": 1,
+      "message": "Does this need to check for non-zero still or is not null sufficient?",
+      "revId": "dce31bfc08deb066ecb7f40c7223b849b5113878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
