@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f04fcdcf_bbd8beb7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritCluster.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-10-24T11:21:30Z",
+      "side": 1,
+      "message": "Will these values ever be different/should they be variables?",
+      "revId": "a51bb13f6ce3a6436c50a230f83fb5ae1532c3af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
