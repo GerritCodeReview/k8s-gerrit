@@ -1,17 +1,5 @@
 #!/bin/ash
 
-symlink_config_to_site(){
-    mkdir -p /var/gerrit/etc
-    for file in /var/mnt/etc/config/* /var/mnt/etc/secret/*; do
-        ln -sf $file /var/gerrit/etc/$(basename $file)
-    done
-}
-
-# Ensure that configuration provided at /var/mnt/config and /var/mnt/secret
-# is symlinked to the Gerrit site. This is necessary, because mounting files
-# from secrets/configmaps in Kubernetes make the containing directory read-only.
-symlink_config_to_site
-
 JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
 java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war daemon \
   -d /var/gerrit \
