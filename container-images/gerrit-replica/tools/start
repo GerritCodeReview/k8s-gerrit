@@ -1,17 +1,5 @@
 #!/bin/ash
 
-symlink_config_to_site(){
-  mkdir -p /var/gerrit/etc
-  for file in /var/mnt/etc/config/* /var/mnt/etc/secret/*; do
-      ln -sf $file /var/gerrit/etc/$(basename $file)
-  done
-}
-
-# Ensure that configuration provided at /var/mnt/config and /var/mnt/secret
-# is symlinked to the Gerrit site. This is necessary, because mounting files
-# from secrets/configmaps in Kubernetes make the containing directory read-only.
-symlink_config_to_site
-
 IS_REPLICA=$(git config -f /var/gerrit/etc/gerrit.config --get container.replica)
 if [[ ! "$IS_REPLICA" == "true" ]]; then
   echo "container.replica in gerrit.config has to be true"
