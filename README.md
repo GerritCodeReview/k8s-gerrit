@@ -48,7 +48,7 @@ If a specific image should be built, the image name can be specified as an argum
 Multiple images can be specified at once:
 
 ```
-./build gerrit-replica git-gc
+./build gerrit git-gc
 ```
 
 The build-script usually uses the `latest`-tag to tag the images. By using the
@@ -101,8 +101,8 @@ case they override the values from env variables:
 ./publish <component-name>
 ```
 
-The `<component-name>` is one of: `apache-git-http-backend`, `git-gc`,
-`gerrit-replica`, `gerrit` or `gerrit-init`.
+The `<component-name>` is one of: `apache-git-http-backend`, `git-gc`, `gerrit`
+or `gerrit-init`.
 
 Adding the `--update-latest`-flag will also update the images tagged `latest` in
 the repository:
