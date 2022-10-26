@@ -1,16 +1,13 @@
 # Gerrit image
 
-Gerrit image for a primary Gerrit instance
+Container image for a Gerrit instance
 
 ## Content
 
-* Gerrit base image
+* the [gerrit-base](../gerrit-base/README.md) image
 * `/var/tools/start`: start script
 
 ## Start
 
-* starts the container via start script `/var/tools/start` (definition of
-Entrypoint is inherited from gerrit-base container)
-* If configuration files (`gerrit.config`, `secret.config`, `replication.config`
-and `keystore`) are provide in `/var/config`, they will be symlinked into the
-Gerrit site.
+* starts Gerrit via start script `/var/tools/start` either as primary or replica
+  depending on the provided `gerrit.config`
