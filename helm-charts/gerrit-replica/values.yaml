@@ -249,7 +249,7 @@ gitGC:
 gerritReplica:
   images:
     gerritInit: k8sgerrit/gerrit-init
-    gerritReplica: k8sgerrit/gerrit-replica
+    gerritReplica: k8sgerrit/gerrit
 
   tolerations: []
   topologySpreadConstraints: {}

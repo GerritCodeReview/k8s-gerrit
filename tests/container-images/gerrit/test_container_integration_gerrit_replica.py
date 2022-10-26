@@ -36,7 +36,7 @@ def container_run(
     docker_client,
     docker_network,
     tmp_dir,
-    gerrit_replica_image,
+    gerrit_image,
     gerrit_container_factory,
     free_port,
 ):
@@ -61,7 +61,7 @@ def container_run(
     }
 
     test_setup = gerrit_container_factory(
-        docker_client, docker_network, tmp_dir, gerrit_replica_image, configs, free_port
+        docker_client, docker_network, tmp_dir, gerrit_image, configs, free_port
     )
     test_setup.start()
 
