@@ -20,8 +20,8 @@ RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
     ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
 # Download healthcheck plugin
-RUN curl -k -o /var/plugins/healthcheck.jar \
-        https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-healthcheck-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar && \
+ARG HEALTHCHECK_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-healthcheck-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar
+RUN curl -k -o /var/plugins/healthcheck.jar ${HEALTHCHECK_JAR_URL} && \
     ln -s /var/plugins/healthcheck.jar /var/gerrit/plugins/healthcheck.jar
 
 # Allow incoming traffic

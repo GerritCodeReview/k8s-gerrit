@@ -24,6 +24,12 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --healthcheck-jar-url)
+    shift
+    HEALTHCHECK_JAR_URL=$1
+    shift
+    ;;
+
   *)
     break
   esac
@@ -35,6 +41,10 @@ IMAGES=$(get_image_list)
 
 if test -n "$GERRIT_WAR_URL"; then
     BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
+fi
+
+if test -n "$HEALTHCHECK_JAR_URL"; then
+    BUILD_ARGS="$BUILD_ARGS --build-arg HEALTHCHECK_JAR_URL=$HEALTHCHECK_JAR_URL"
 fi
 
 export REV="$(git describe --always --dirty)"
