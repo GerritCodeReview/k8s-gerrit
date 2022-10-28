@@ -84,78 +84,16 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
           + "  javaOptions = -Xmx4g";
 
   @Test
-  void testGerritStatefulSetCreated() throws Exception {
+  void testPrimaryGerritIsCreated() throws Exception {
     gerritCluster.setIngressEnabled(true);
 
     Secret secureConfig = createSecureConfig();
     client.resource(secureConfig).createOrReplace();
 
-    Gerrit gerrit = createGerritCR();
+    Gerrit gerrit = createGerritCR(false);
     client.resource(gerrit).createOrReplace();
 
-    logger.atInfo().log("Waiting max 1 minutes for the configmaps to be created.");
-    await()
-        .atMost(1, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertThat(
-                  client
-                      .configMaps()
-                      .inNamespace(operator.getNamespace())
-                      .withName(GerritConfigMapDependentResource.getName(gerrit))
-                      .get(),
-                  is(notNullValue()));
-              assertThat(
-                  client
-                      .configMaps()
-                      .inNamespace(operator.getNamespace())
-                      .withName(GerritInitConfigMapDependentResource.getName(gerrit))
-                      .get(),
-                  is(notNullValue()));
-            });
-
-    logger.atInfo().log("Waiting max 1 minutes for the Gerrit StatefulSet to be created.");
-    await()
-        .atMost(1, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertThat(
-                  client
-                      .apps()
-                      .statefulSets()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gerrit.getMetadata().getName())
-                      .get(),
-                  is(notNullValue()));
-            });
-
-    logger.atInfo().log("Waiting max 1 minutes for the Gerrit Service to be created.");
-    await()
-        .atMost(1, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertThat(
-                  client
-                      .services()
-                      .inNamespace(operator.getNamespace())
-                      .withName(ServiceDependentResource.getName(gerrit))
-                      .get(),
-                  is(notNullValue()));
-            });
-
-    logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertTrue(
-                  client
-                      .apps()
-                      .statefulSets()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gerrit.getMetadata().getName())
-                      .isReady());
-            });
+    waitForGerritReadiness(gerrit);
 
     logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
     await()
@@ -197,11 +135,31 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   }
 
   @Test
+  void testGerritReplicaIsCreated() throws Exception {
+    Secret secureConfig = createSecureConfig();
+    client.resource(secureConfig).createOrReplace();
+
+    Gerrit gerrit = createGerritCR(true);
+    client.resource(gerrit).createOrReplace();
+
+    waitForGerritReadiness(gerrit);
+
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(gerrit.getMetadata().getName() + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review [replica]"));
+  }
+
+  @Test
   void testRestartHandlingOnConfigChange() {
     Secret secureConfig = createSecureConfig();
     client.resource(secureConfig).createOrReplace();
 
-    Gerrit gerrit = createGerritCR();
+    Gerrit gerrit = createGerritCR(false);
     client.resource(gerrit).createOrReplace();
 
     logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
@@ -270,7 +228,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
             });
   }
 
-  private Gerrit createGerritCR() {
+  private Gerrit createGerritCR(boolean isReplica) {
     Gerrit gerrit = new Gerrit();
     ObjectMeta gerritMeta =
         new ObjectMetaBuilder().withName("gerrit").withNamespace(operator.getNamespace()).build();
@@ -279,6 +237,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
     gerritSpec.setCluster(CLUSTER_NAME);
     GerritSite site = new GerritSite();
     site.setSize(new Quantity("1Gi"));
+    gerritSpec.setReplica(isReplica);
     gerritSpec.setSite(site);
     gerritSpec.setResources(
         new ResourceRequirementsBuilder()
@@ -305,5 +264,71 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
                         String.format("[ldap]\npassword = %s", testProps.getLdapAdminPwd())
                             .getBytes())))
         .build();
+  }
+
+  private void waitForGerritReadiness(Gerrit gerrit) {
+    logger.atInfo().log("Waiting max 1 minutes for the configmaps to be created.");
+    await()
+        .atMost(1, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertThat(
+                  client
+                      .configMaps()
+                      .inNamespace(operator.getNamespace())
+                      .withName(GerritConfigMapDependentResource.getName(gerrit))
+                      .get(),
+                  is(notNullValue()));
+              assertThat(
+                  client
+                      .configMaps()
+                      .inNamespace(operator.getNamespace())
+                      .withName(GerritInitConfigMapDependentResource.getName(gerrit))
+                      .get(),
+                  is(notNullValue()));
+            });
+
+    logger.atInfo().log("Waiting max 1 minutes for the Gerrit StatefulSet to be created.");
+    await()
+        .atMost(1, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertThat(
+                  client
+                      .apps()
+                      .statefulSets()
+                      .inNamespace(operator.getNamespace())
+                      .withName(gerrit.getMetadata().getName())
+                      .get(),
+                  is(notNullValue()));
+            });
+
+    logger.atInfo().log("Waiting max 1 minutes for the Gerrit Service to be created.");
+    await()
+        .atMost(1, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertThat(
+                  client
+                      .services()
+                      .inNamespace(operator.getNamespace())
+                      .withName(ServiceDependentResource.getName(gerrit))
+                      .get(),
+                  is(notNullValue()));
+            });
+
+    logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertTrue(
+                  client
+                      .apps()
+                      .statefulSets()
+                      .inNamespace(operator.getNamespace())
+                      .withName(gerrit.getMetadata().getName())
+                      .isReady());
+            });
   }
 }
