@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -48,6 +49,7 @@ public class GerritSpec {
   private List<GerritPlugin> plugins = List.of();
   private Map<String, String> configFiles = Map.of();
   private Set<String> secrets = Set.of();
+  private boolean isReplica = false;
 
   public String getCluster() {
     return cluster;
@@ -184,5 +186,14 @@ public class GerritSpec {
 
   public void setSecrets(Set<String> secrets) {
     this.secrets = secrets;
+  }
+
+  @JsonProperty(value = "isReplica")
+  public boolean isReplica() {
+    return isReplica;
+  }
+
+  public void setReplica(boolean isReplica) {
+    this.isReplica = isReplica;
   }
 }
