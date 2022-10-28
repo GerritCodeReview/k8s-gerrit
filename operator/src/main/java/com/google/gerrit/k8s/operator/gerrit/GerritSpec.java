@@ -48,6 +48,7 @@ public class GerritSpec {
   private List<GerritPlugin> plugins = List.of();
   private Map<String, String> configFiles = Map.of();
   private Set<String> secrets = Set.of();
+  private GerritMode mode = GerritMode.PRIMARY;
 
   public String getCluster() {
     return cluster;
@@ -184,5 +185,18 @@ public class GerritSpec {
 
   public void setSecrets(Set<String> secrets) {
     this.secrets = secrets;
+  }
+
+  public GerritMode getMode() {
+    return mode;
+  }
+
+  public void setMode(GerritMode mode) {
+    this.mode = mode;
+  }
+
+  public enum GerritMode {
+    PRIMARY,
+    REPLICA
   }
 }
