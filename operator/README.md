@@ -331,6 +331,9 @@ spec:
     ## Port used for SSH requests (optional; if unset, SSH access is disabled)
     sshPort: null
 
+  ## Whether to run Gerrit in replica mode
+  isReplica: true
+
   ## Configuration concerning the Gerrit site
   site:
     ## Size of the volume used to persist not otherwise persisted site components

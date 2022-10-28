@@ -58,6 +58,8 @@ public class GerritConfigMapDependentResource
     GerritConfigBuilder gerritConfigBuilder =
         new GerritConfigBuilder().withConfig(configFiles.get("gerrit.config"));
 
+    gerritConfigBuilder.useReplicaMode(gerrit.getSpec().isReplica());
+
     if (gerritCluster.getSpec().getIngress().isEnabled()) {
       gerritConfigBuilder.withUrl(
           GerritIngress.getFullHostname(ServiceDependentResource.getName(gerrit), gerritCluster));
