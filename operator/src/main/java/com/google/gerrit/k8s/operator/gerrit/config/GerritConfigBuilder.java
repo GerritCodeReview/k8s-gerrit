@@ -62,6 +62,11 @@ public class GerritConfigBuilder {
     return this;
   }
 
+  public GerritConfigBuilder useReplicaMode(boolean isReplica) {
+    this.requiredOptions.add(new RequiredOption<Boolean>("container", "replica", isReplica));
+    return this;
+  }
+
   public Config build() {
     GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
     configValidator.check(this.cfg);
