@@ -16,6 +16,24 @@
       "message": "Does this need to check for non-zero still or is not null sufficient?",
       "revId": "dce31bfc08deb066ecb7f40c7223b849b5113878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e84bba8d_a23749a2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/ServiceDependentResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-02T13:29:02Z",
+      "side": 1,
+      "message": "Since we do not generally check for invalid port numbers, I don\u0027t think we should check for 0. The type is Integer not int, so it is null, if not set. IIRC, I did that because there were serialisation issues otherwise.",
+      "parentUuid": "4ba7aca2_b8687922",
+      "revId": "dce31bfc08deb066ecb7f40c7223b849b5113878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
