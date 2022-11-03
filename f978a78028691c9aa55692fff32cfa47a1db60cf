@@ -22,6 +22,30 @@
       },
       "revId": "f978a78028691c9aa55692fff32cfa47a1db60cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fde12fe_a54b11d9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/StatefulSetDependentResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T15:02:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6153e874_0f8be92a",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 70
+      },
+      "revId": "f978a78028691c9aa55692fff32cfa47a1db60cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
