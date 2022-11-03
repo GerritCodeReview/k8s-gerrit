@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4619620_584cdb46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T09:35:17Z",
+      "side": 1,
+      "message": "this sentence seems ambiguous, maybe better: \nThis ensures that kubectl apply creates the contained resources in the order they are stored in the manifest.",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "333aba27824b12b925b0e06143cc5d64831838cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
