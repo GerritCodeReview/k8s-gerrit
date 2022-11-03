@@ -34,6 +34,24 @@
       "parentUuid": "4ba7aca2_b8687922",
       "revId": "dce31bfc08deb066ecb7f40c7223b849b5113878",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c8e2d8_035adc24",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/ServiceDependentResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-11-03T09:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e84bba8d_a23749a2",
+      "revId": "dce31bfc08deb066ecb7f40c7223b849b5113878",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
