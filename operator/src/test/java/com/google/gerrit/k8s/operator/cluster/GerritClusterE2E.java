@@ -31,8 +31,6 @@ public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testGitRepositoriesPvcCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace());
-
     logger.atInfo().log("Waiting max 1 minutes for the git repositories pvc to be created.");
     await()
         .atMost(1, MINUTES)
@@ -46,15 +44,10 @@ public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
                       .get();
               assertThat(pvc, is(notNullValue()));
             });
-
-    logger.atInfo().log("Deleting test cluster object: %s", cluster);
-    client.resource(cluster).delete();
   }
 
   @Test
   void testGerritLogsPvcCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace());
-
     logger.atInfo().log("Waiting max 1 minutes for the gerrit logs pvc to be created.");
     await()
         .atMost(1, MINUTES)
@@ -68,15 +61,11 @@ public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
                       .get();
               assertThat(pvc, is(notNullValue()));
             });
-
-    logger.atInfo().log("Deleting test cluster object: %s", cluster);
-    client.resource(cluster).delete();
   }
 
   @Test
   void testNfsIdmapdConfigMapCreated() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), false, true);
-
+    gerritCluster.setNfsEnabled(true);
     logger.atInfo().log("Waiting max 1 minutes for the nfs idmapd configmap to be created.");
     await()
         .atMost(1, MINUTES)
@@ -90,7 +79,5 @@ public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
                       .get();
               assertThat(cm, is(notNullValue()));
             });
-
-    logger.atInfo().log("Deleting test cluster object: %s", cluster);
   }
 }
