@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27d63c59_500c61cf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/NfsWorkaroundCondition.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2022-11-03T13:33:50Z",
+      "side": 1,
+      "message": "Could be more legible if assigned to local variables (similar to this recc: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/348102/8/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/StatefulSetDependentResource.java#65)",
+      "revId": "b9f32e5f2f53c44f201ba1061f7c10b1fb52b819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
