@@ -46,6 +46,30 @@
       },
       "revId": "2c74eb257ef6eb5df26d8c13dbf5cccbd3b453f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e84c80_bbd6f42e",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T15:37:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f5207e84_26246b33",
+      "range": {
+        "startLine": 80,
+        "startChar": 19,
+        "endLine": 80,
+        "endChar": 21
+      },
+      "revId": "2c74eb257ef6eb5df26d8c13dbf5cccbd3b453f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
