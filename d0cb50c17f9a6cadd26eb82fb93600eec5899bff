@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca02dd1_fc85ec1c",
+        "filename": "operator/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T09:25:23Z",
+      "side": 1,
+      "message": "s/L/l/",
+      "range": {
+        "startLine": 38,
+        "startChar": 60,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "d0cb50c17f9a6cadd26eb82fb93600eec5899bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddeacbe6_647f7337",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/TestProperties.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T09:25:23Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "d0cb50c17f9a6cadd26eb82fb93600eec5899bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
