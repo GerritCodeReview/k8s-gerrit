@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60343fd3_d9bb372f",
+        "filename": "operator/README.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T14:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d1c935a_8b9035bc",
+      "range": {
+        "startLine": 172,
+        "startChar": 34,
+        "endLine": 172,
+        "endChar": 43
+      },
+      "revId": "5ba9a27d933b3c28ac8ad15545bf7bc1af6188c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69728536_429e7211",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-11-03T09:22:34Z",
       "side": 1,
       "message": "this filter is used several times in this change, maybe it makes sense to extract it",
+      "range": {
+        "startLine": 129,
+        "startChar": 12,
+        "endLine": 129,
+        "endChar": 97
+      },
+      "revId": "5ba9a27d933b3c28ac8ad15545bf7bc1af6188c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc51cfcd_e39edd43",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T14:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69728536_429e7211",
       "range": {
         "startLine": 129,
         "startChar": 12,
@@ -103,6 +151,54 @@
       "range": {
         "startLine": 73,
         "startChar": 83,
+        "endLine": 73,
+        "endChar": 95
+      },
+      "revId": "5ba9a27d933b3c28ac8ad15545bf7bc1af6188c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c527cfce_432816e9",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/Util.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T14:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9a3495b_b64b1ac9",
+      "range": {
+        "startLine": 73,
+        "startChar": 83,
+        "endLine": 73,
+        "endChar": 95
+      },
+      "revId": "5ba9a27d933b3c28ac8ad15545bf7bc1af6188c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8826410d_be262936",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/Util.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T14:07:13Z",
+      "side": 1,
+      "message": "Done in I5e0cbd12dc1df7b06edcdc13a0138623b57aff55",
+      "parentUuid": "0f6180b9_0612bc4b",
+      "range": {
+        "startLine": 73,
+        "startChar": 49,
         "endLine": 73,
         "endChar": 95
       },
