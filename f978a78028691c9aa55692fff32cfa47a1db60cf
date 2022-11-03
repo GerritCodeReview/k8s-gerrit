@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6153e874_0f8be92a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/StatefulSetDependentResource.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T09:41:33Z",
+      "side": 1,
+      "message": "assign this to a local variable to make the conditions easier to read ?\nmore occurrences below",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 70
+      },
+      "revId": "f978a78028691c9aa55692fff32cfa47a1db60cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
