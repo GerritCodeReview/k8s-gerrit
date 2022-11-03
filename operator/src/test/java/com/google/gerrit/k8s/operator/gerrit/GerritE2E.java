@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import static com.google.gerrit.k8s.operator.test.TestGerritCluster.CLUSTER_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
@@ -29,7 +30,6 @@ import static org.mockito.Mockito.times;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
@@ -85,12 +85,12 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testGerritStatefulSetCreated() throws Exception {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), true, false);
+    gerritCluster.setIngressEnabled(true);
 
     Secret secureConfig = createSecureConfig();
     client.resource(secureConfig).createOrReplace();
 
-    Gerrit gerrit = createGerritCR(cluster);
+    Gerrit gerrit = createGerritCR();
     client.resource(gerrit).createOrReplace();
 
     logger.atInfo().log("Waiting max 1 minutes for the configmaps to be created.");
@@ -198,12 +198,10 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testRestartHandlingOnConfigChange() {
-    GerritCluster cluster = createCluster(client, operator.getNamespace(), false, false);
-
     Secret secureConfig = createSecureConfig();
     client.resource(secureConfig).createOrReplace();
 
-    Gerrit gerrit = createGerritCR(cluster);
+    Gerrit gerrit = createGerritCR();
     client.resource(gerrit).createOrReplace();
 
     logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
@@ -272,13 +270,13 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
             });
   }
 
-  private Gerrit createGerritCR(GerritCluster cluster) {
+  private Gerrit createGerritCR() {
     Gerrit gerrit = new Gerrit();
     ObjectMeta gerritMeta =
         new ObjectMetaBuilder().withName("gerrit").withNamespace(operator.getNamespace()).build();
     gerrit.setMetadata(gerritMeta);
     GerritSpec gerritSpec = new GerritSpec();
-    gerritSpec.setCluster(cluster.getMetadata().getName());
+    gerritSpec.setCluster(CLUSTER_NAME);
     GerritSite site = new GerritSite();
     site.setSize(new Quantity("1Gi"));
     gerritSpec.setSite(site);
