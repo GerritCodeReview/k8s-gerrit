@@ -65,6 +65,13 @@ URL for a `.war`-file containing Gerrit:
 ./build --gerrit-url https://example.com/gerrit.war
 ```
 
+The version of a health-check plugin built into the images can be changed by
+providing a download URL for a `.jar`-file containing the plugin:
+
+```
+./build --healthcheck-jar-url https://example.com/healthcheck.jar
+```
+
 The build script will in addition tag the image with the output of
 `git describe --dirty`.
 
