@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68adfcdc_c87dfdeb",
+        "filename": "operator/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T15:02:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ca02dd1_fc85ec1c",
+      "range": {
+        "startLine": 38,
+        "startChar": 60,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "d0cb50c17f9a6cadd26eb82fb93600eec5899bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddeacbe6_647f7337",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-11-03T09:25:23Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "d0cb50c17f9a6cadd26eb82fb93600eec5899bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eaf6be6_1b6c5ab8",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/TestProperties.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T15:02:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddeacbe6_647f7337",
       "revId": "d0cb50c17f9a6cadd26eb82fb93600eec5899bff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
