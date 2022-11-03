@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d01bfe43_ca7dbe5e",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/validate_notedb.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T13:19:33Z",
+      "side": 1,
+      "message": "shouldn\u0027t that be logged as an error ?",
+      "revId": "590bf58eaf6fdad4f3552863da2ba452519e6cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "510a4047_31a8a082",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/validate_notedb.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-11-03T13:19:33Z",
+      "side": 1,
+      "message": "shouldn\u0027t that be logged as an error ?",
+      "revId": "590bf58eaf6fdad4f3552863da2ba452519e6cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
