@@ -16,6 +16,24 @@
       "message": "Should these just have a default value?",
       "revId": "e1a40d44cc2521a03ee5b8f5698d7f54e6212737",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29aeb9c_0aeaac7d",
+        "filename": "supplements/test-cluster/ldap/openldap.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T09:33:11Z",
+      "side": 1,
+      "message": "I dislike setting defaults for passwords, since people (me included) are lazy and might use insecure passwords. This way I force users to set a password. Also by not encoding the users-value, this fails to deploy by default, pushing users to do the proper changes first.",
+      "parentUuid": "5200c5ca_b1d39d8d",
+      "revId": "e1a40d44cc2521a03ee5b8f5698d7f54e6212737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
