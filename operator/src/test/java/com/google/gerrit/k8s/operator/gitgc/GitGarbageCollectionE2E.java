@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gitgc;
 
+import static com.google.gerrit.k8s.operator.test.TestGerritCluster.CLUSTER_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -39,7 +40,6 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testGitGcAllProjectsCreationAndDeletion() {
-    createCluster(client, operator.getNamespace());
     GitGarbageCollection gitGc = createCompleteGc();
 
     logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
@@ -59,7 +59,6 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testGitGcSelectedProjects() {
-    createCluster(client, operator.getNamespace());
     GitGarbageCollection gitGc = createSelectiveGc("selective-gc", Set.of("All-Projects", "test"));
 
     logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
@@ -77,7 +76,6 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testSelectiveGcIsExcludedFromCompleteGc() {
-    createCluster(client, operator.getNamespace());
     GitGarbageCollection completeGitGc = createCompleteGc();
 
     logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
@@ -136,7 +134,6 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testConflictingSelectiveGcFailsBeforeCronJobCreation() throws InterruptedException {
-    createCluster(client, operator.getNamespace());
     Set<String> selectedProjects = Set.of("All-Projects", "test");
     GitGarbageCollection selectiveGitGc1 = createSelectiveGc("selective-gc-1", selectedProjects);
 
