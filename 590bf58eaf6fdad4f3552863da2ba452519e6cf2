@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "281f2d2d_b345c1e9",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/validate_notedb.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-03T15:01:36Z",
+      "side": 1,
+      "message": "This is sometimes expected, e.g. if you install the replica for the first time. This tool just checks, if the repository is as expected and may wait for it. So that they are missing is not exactly an error, but if it is not handled properly, Gerrit will throw an error and not start.\nNot sure, whether error would be the right choice then.",
+      "parentUuid": "d01bfe43_ca7dbe5e",
+      "revId": "590bf58eaf6fdad4f3552863da2ba452519e6cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "510a4047_31a8a082",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/validate_notedb.py",
         "patchSetId": 15
