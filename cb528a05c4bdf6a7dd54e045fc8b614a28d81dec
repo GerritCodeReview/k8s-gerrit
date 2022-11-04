@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c175d9_fa3118b0",
+        "filename": "operator/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-04T14:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c82d065_d19e7a46",
+      "revId": "cb528a05c4bdf6a7dd54e045fc8b614a28d81dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e03475a4_5799277c",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-03T13:25:03Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "cb528a05c4bdf6a7dd54e045fc8b614a28d81dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6397e54d_7b98fdcf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredOption.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-04T14:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e03475a4_5799277c",
       "revId": "cb528a05c4bdf6a7dd54e045fc8b614a28d81dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
