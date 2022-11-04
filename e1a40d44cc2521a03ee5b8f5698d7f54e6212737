@@ -34,6 +34,24 @@
       "parentUuid": "5200c5ca_b1d39d8d",
       "revId": "e1a40d44cc2521a03ee5b8f5698d7f54e6212737",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea5aae7e_d73d608b",
+        "filename": "supplements/test-cluster/ldap/openldap.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-04T07:18:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d29aeb9c_0aeaac7d",
+      "revId": "e1a40d44cc2521a03ee5b8f5698d7f54e6212737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
