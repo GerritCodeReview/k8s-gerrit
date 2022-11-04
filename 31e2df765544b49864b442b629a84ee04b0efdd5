@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f9ba37b_21c76676",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-04T14:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc13ab9_0516284b",
+      "revId": "31e2df765544b49864b442b629a84ee04b0efdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fc01e9a_19ee9848",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-11-03T13:39:03Z",
       "side": 1,
       "message": "why not 6.0.1 ? \nsee https://pypi.org/project/docker/",
+      "revId": "31e2df765544b49864b442b629a84ee04b0efdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28c993ec_d3129e46",
+        "filename": "Pipfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2022-11-04T14:49:48Z",
+      "side": 1,
+      "message": "Was not released yet :-)",
+      "parentUuid": "9fc01e9a_19ee9848",
       "revId": "31e2df765544b49864b442b629a84ee04b0efdd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
