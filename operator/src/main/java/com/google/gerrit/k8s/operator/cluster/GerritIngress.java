@@ -14,10 +14,10 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import static com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource.HTTP_PORT_NAME;
-
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.receiver.ReceiverServiceDependentResource;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPathBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
@@ -33,6 +33,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-ingress")
@@ -52,8 +53,33 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
             .list()
             .getItems()
             .stream()
-            .filter(gerrit -> GerritCluster.isGerritInstancePartOfCluster(gerrit, gerritCluster))
+            .filter(gerrit -> GerritCluster.isMemberPartOfCluster(gerrit.getSpec(), gerritCluster))
             .collect(Collectors.toList());
+
+    List<Receiver> receivers =
+        client
+            .resources(Receiver.class)
+            .inNamespace(gerritCluster.getMetadata().getNamespace())
+            .list()
+            .getItems()
+            .stream()
+            .filter(r -> GerritCluster.isMemberPartOfCluster(r.getSpec(), gerritCluster))
+            .collect(Collectors.toList());
+
+    List<String> hosts = new ArrayList<>();
+    List<IngressRule> ingressRules = new ArrayList<>();
+    if (receivers.size() > 1) {
+      throw new IllegalStateException("Only one receiver is allowed per cluster.");
+    } else if (receivers.size() == 1) {
+      Receiver receiver = receivers.get(0);
+      ingressRules.add(getReceiverIngressRule(gerritCluster, receiver));
+      hosts.add(getFullHostname(receiver.getMetadata().getName(), gerritCluster));
+    }
+
+    ingressRules.addAll(getGerritIngressRules(gerritCluster, gerrits));
+    for (Gerrit gerrit : gerrits) {
+      hosts.add(getFullHostname(gerrit.getMetadata().getName(), gerritCluster));
+    }
 
     Ingress gerritIngress =
         new IngressBuilder()
@@ -64,20 +90,16 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
             .withAnnotations(gerritCluster.getSpec().getIngress().getAnnotations())
             .endMetadata()
             .withNewSpec()
-            .withTls(getIngressTLS(gerritCluster, gerrits))
-            .withRules(getIngressRules(gerritCluster, gerrits))
+            .withTls(getIngressTLS(gerritCluster, hosts))
+            .withRules(ingressRules)
             .endSpec()
             .build();
 
     return gerritIngress;
   }
 
-  private IngressTLS getIngressTLS(GerritCluster gerritCluster, List<Gerrit> gerrits) {
+  private IngressTLS getIngressTLS(GerritCluster gerritCluster, List<String> hosts) {
     if (gerritCluster.getSpec().getIngress().getTls().isEnabled()) {
-      List<String> hosts = new ArrayList<>();
-      for (Gerrit gerrit : gerrits) {
-        hosts.add(getFullHostname(ServiceDependentResource.getName(gerrit), gerritCluster));
-      }
       return new IngressTLSBuilder()
           .withHosts(hosts)
           .withSecretName(gerritCluster.getSpec().getIngress().getTls().getSecret())
@@ -86,24 +108,36 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
     return new IngressTLS();
   }
 
-  private List<IngressRule> getIngressRules(GerritCluster gerritCluster, List<Gerrit> gerrits) {
+  private List<IngressRule> getGerritIngressRules(
+      GerritCluster gerritCluster, List<Gerrit> gerrits) {
     List<IngressRule> ingressRules = new ArrayList<>();
 
     for (Gerrit gerrit : gerrits) {
-      String svcName = ServiceDependentResource.getName(gerrit);
+      String gerritSvcName = ServiceDependentResource.getName(gerrit);
       ingressRules.add(
           new IngressRuleBuilder()
-              .withHost(getFullHostname(svcName, gerritCluster))
+              .withHost(getFullHostname(gerritSvcName, gerritCluster))
               .withNewHttp()
-              .withPaths(getHTTPIngressPaths(svcName))
+              .withPaths(getGerritHTTPIngressPath(gerritSvcName))
               .endHttp()
               .build());
     }
+
     return ingressRules;
   }
 
-  public HTTPIngressPath getHTTPIngressPaths(String svcName) {
-    ServiceBackendPort port = new ServiceBackendPortBuilder().withName(HTTP_PORT_NAME).build();
+  private IngressRule getReceiverIngressRule(GerritCluster gerritCluster, Receiver receiver) {
+    return new IngressRuleBuilder()
+        .withHost(getFullHostname(receiver.getMetadata().getName(), gerritCluster))
+        .withNewHttp()
+        .withPaths(getReceiverIngressPaths(ReceiverServiceDependentResource.getName(receiver)))
+        .endHttp()
+        .build();
+  }
+
+  public HTTPIngressPath getGerritHTTPIngressPath(String svcName) {
+    ServiceBackendPort port =
+        new ServiceBackendPortBuilder().withName(ServiceDependentResource.HTTP_PORT_NAME).build();
 
     return new HTTPIngressPathBuilder()
         .withPathType("Prefix")
@@ -115,6 +149,29 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
         .endService()
         .endBackend()
         .build();
+  }
+
+  public List<HTTPIngressPath> getReceiverIngressPaths(String svcName) {
+    List<HTTPIngressPath> paths = new ArrayList<>();
+    ServiceBackendPort port =
+        new ServiceBackendPortBuilder()
+            .withName(ReceiverServiceDependentResource.HTTP_PORT_NAME)
+            .build();
+
+    for (String path : Set.of("/a/projects", "/new", "/git")) {
+      paths.add(
+          new HTTPIngressPathBuilder()
+              .withPathType("Prefix")
+              .withPath(path)
+              .withNewBackend()
+              .withNewService()
+              .withName(svcName)
+              .withPort(port)
+              .endService()
+              .endBackend()
+              .build());
+    }
+    return paths;
   }
 
   public static String getFullHostname(String svcName, GerritCluster gerritCluster) {

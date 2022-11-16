@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import static com.google.gerrit.k8s.operator.cluster.GerritIngress.INGRESS_NAME;
 import static com.google.gerrit.k8s.operator.test.TestGerritCluster.CLUSTER_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -52,7 +53,6 @@ import org.mockito.Mockito;
 public class GerritE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String INGRESS_NAME = "gerrit-ingress";
   private static final String INGRESS_DOMAIN = testProps.getIngressDomain();
   private static final String SECURE_CONFIG_SECRET_NAME = "gerrit-secret";
   private static final String DEFAULT_GERRIT_CONFIG =
