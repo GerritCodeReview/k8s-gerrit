@@ -63,4 +63,12 @@ public class TestProperties {
   public String getLdapAdminPwd() {
     return props.getProperty("ldapAdminPwd", "");
   }
+
+  public String getGerritUser() {
+    return props.getProperty("gerritUser", "");
+  }
+
+  public String getGerritPwd() {
+    return props.getProperty("gerritPwd", "");
+  }
 }

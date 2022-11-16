@@ -76,6 +76,9 @@ kubectl apply -f k8s/cluster.sample.yaml
 
 ### Gerrit
 
+**NOTE:** A primary Gerrit should never be installed in the same GerritCluster as a
+Receiver to avoid conflicts when writing into repositories.
+
 An example of a Gerrit-CustomResource can be found at `k8s/gerrit.sample.yaml`.
 To install it into the cluster run:
 
@@ -95,6 +98,21 @@ kubectl apply -f k8s/gitgc.sample.yaml
 ```
 
 The operator will create a CronJob based on the provided spec.
+
+### Receiver
+
+**NOTE:** A Receiver should never be installed in the same GerritCluster as a
+primary Gerrit to avoid conflicts when writing into repositories.
+
+An example of a Receiver-CustomResource can be found at `k8s/receiver.sample.yaml`.
+To install it into the cluster run:
+
+```sh
+kubectl apply -f k8s/receiver.sample.yaml
+```
+
+The operator will create all resources to run a receiver for push replication
+requests.
 
 ## Configure custom resources
 
@@ -449,4 +467,104 @@ spec:
     #       operator: In
     #       values:
     #       - ssd
+```
+
+### Receiver
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: Receiver
+metadata:
+  name: receiver
+spec:
+  ## Name of the Gerrit cluster this Gerrit is a part of. (mandatory)
+  cluster: gerrit
+
+  ## Pod tolerations (https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+  ## (optional)
+  tolerations: []
+  # - key: "key1"
+  #   operator: "Equal"
+  #   value: "value1"
+  #   effect: "NoSchedule"
+
+  ## Pod affinity (https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+  ## (optional)
+  affinity: {}
+    # nodeAffinity:
+    # requiredDuringSchedulingIgnoredDuringExecution:
+    #   nodeSelectorTerms:
+    #   - matchExpressions:
+    #     - key: disktype
+    #       operator: In
+    #       values:
+    #       - ssd
+
+  ## Pod topology spread constraints (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/#:~:text=You%20can%20use%20topology%20spread,well%20as%20efficient%20resource%20utilization.)
+  ## (optional)
+  topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: zone
+  #   whenUnsatisfiable: DoNotSchedule
+  #   labelSelector:
+  #     matchLabels:
+  #       foo: bar
+
+  ## PriorityClass to be used with the pod (https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/)
+  ## (optional)
+  priorityClassName: ""
+
+  ## Number of pods running Gerrit in the StatefulSet (default: 1)
+  replicas: 1
+
+  ## Ordinal or percentage of pods that are allowed to be created in addition during
+  ## rolling updates. (default: 1)
+  maxSurge: 1
+
+  ## Ordinal or percentage of pods that are allowed to be unavailable during
+  ## rolling updates. (default: 1)
+  maxUnavailable: 1
+
+  ## Resource requests/limits of the receiver container
+  ## (https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+  ## (optional)
+  resources: {}
+    # requests:
+    #   cpu: 1
+    #   memory: 5Gi
+    # limits:
+    #   cpu: 1
+    #   memory: 6Gi
+
+  ## Readiness probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+  ## The action will be set by the operator. All other probe parameters can be set.
+  ## (optional)
+  readinessProbe: {}
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
+
+  ## Liveness probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+  ## The action will be set by the operator. All other probe parameters can be set.
+  ## (optional)
+  livenessProbe: {}
+    # initialDelaySeconds: 0
+    # periodSeconds: 10
+    # timeoutSeconds: 1
+    # successThreshold: 1
+    # failureThreshold: 3
+
+  ## Configuration for the service used to manage network access to the StatefulSet
+  service:
+    ## Service type (default: NodePort)
+    type: NodePort
+
+    ## Port used for HTTP requests (default: 80)
+    httpPort: 80
+
+  ## Name of the secret containing the .htpasswd file used to configure basic
+  ## authentication within the Apache server (mandatory)
+  credentialSecretRef: null
 ```
