@@ -91,7 +91,7 @@ public class GerritInitConfigMapDependentResource
     }
   }
 
-  protected static String getName(Gerrit gerrit) {
+  public static String getName(Gerrit gerrit) {
     return String.format("%s-init-configmap", gerrit.getMetadata().getName());
   }
 }

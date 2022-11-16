@@ -12,19 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.receiver;
 
-import java.util.List;
-import java.util.Map;
+public class ReceiverStatus {
+  private boolean ready;
+  private String appliedCredentialSecretVersion = "";
 
-public class GerritClusterStatus {
-  private Map<String, List<String>> members;
-
-  public Map<String, List<String>> getMembers() {
-    return members;
+  public boolean isReady() {
+    return ready;
   }
 
-  public void setMembers(Map<String, List<String>> members) {
-    this.members = members;
+  public void setReady(boolean ready) {
+    this.ready = ready;
+  }
+
+  public String getAppliedCredentialSecretVersion() {
+    return appliedCredentialSecretVersion;
+  }
+
+  public void setAppliedCredentialSecretVersion(String appliedCredentialSecretVersion) {
+    this.appliedCredentialSecretVersion = appliedCredentialSecretVersion;
   }
 }
