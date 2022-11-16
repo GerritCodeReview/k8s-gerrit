@@ -14,17 +14,8 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import java.util.List;
-import java.util.Map;
+public interface GerritClusterMemberSpec {
+  public String getCluster();
 
-public class GerritClusterStatus {
-  private Map<String, List<String>> members;
-
-  public Map<String, List<String>> getMembers() {
-    return members;
-  }
-
-  public void setMembers(Map<String, List<String>> members) {
-    this.members = members;
-  }
+  public void setCluster(String cluster);
 }
