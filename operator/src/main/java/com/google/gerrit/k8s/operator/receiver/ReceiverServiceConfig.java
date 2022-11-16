@@ -12,19 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.receiver;
 
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
 
-public class GerritClusterStatus {
-  private Map<String, List<String>> members;
+class ReceiverServiceConfig implements Serializable {
+  private static final long serialVersionUID = 1L;
 
-  public Map<String, List<String>> getMembers() {
-    return members;
+  String type = "NodePort";
+  int httpPort = 80;
+
+  public String getType() {
+    return type;
   }
 
-  public void setMembers(Map<String, List<String>> members) {
-    this.members = members;
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public int getHttpPort() {
+    return httpPort;
+  }
+
+  public void setHttpPort(int httpPort) {
+    this.httpPort = httpPort;
   }
 }

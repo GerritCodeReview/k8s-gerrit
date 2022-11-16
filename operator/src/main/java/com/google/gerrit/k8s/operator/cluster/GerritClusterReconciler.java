@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.cluster;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
@@ -31,6 +32,8 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -82,47 +85,72 @@ public class GerritClusterReconciler
                 .build(),
             context);
 
+    final SecondaryToPrimaryMapper<Receiver> receiverMapper =
+        (Receiver receiver) ->
+            context
+                .getPrimaryCache()
+                .list(
+                    gerritCluster ->
+                        gerritCluster
+                            .getMetadata()
+                            .getName()
+                            .equals(receiver.getSpec().getCluster()))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+
+    InformerEventSource<Receiver, GerritCluster> receiverEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Receiver.class, context)
+                .withSecondaryToPrimaryMapper(receiverMapper)
+                .build(),
+            context);
+
     InformerEventSource<PersistentVolumeClaim, GerritCluster> pvcEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(PersistentVolumeClaim.class, context).build(), context);
 
     Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(gerritEventSource);
+        EventSourceInitializer.nameEventSources(gerritEventSource, receiverEventSource);
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
     eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, this.gerritIngress.initEventSource(context));
-
     return eventSources;
   }
 
   @Override
   public UpdateControl<GerritCluster> reconcile(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    List<String> managedGerrits = getManagedGerritInstances(gerritCluster);
-    if (!managedGerrits.isEmpty() && gerritCluster.getSpec().getIngress().isEnabled()) {
+    Map<String, List<String>> members = new HashMap<>();
+    members.put("gerrit", getManagedMemberInstances(gerritCluster, Gerrit.class));
+    members.put("receiver", getManagedMemberInstances(gerritCluster, Receiver.class));
+    if (members.values().stream().flatMap(Collection::stream).count() > 0
+        && gerritCluster.getSpec().getIngress().isEnabled()) {
       this.gerritIngress.reconcile(gerritCluster, context);
     }
-    return UpdateControl.patchStatus(updateStatus(gerritCluster, managedGerrits));
+    return UpdateControl.patchStatus(updateStatus(gerritCluster, members));
   }
 
-  private GerritCluster updateStatus(GerritCluster gerritCluster, List<String> managedGerrits) {
+  private GerritCluster updateStatus(
+      GerritCluster gerritCluster, Map<String, List<String>> members) {
     GerritClusterStatus status = gerritCluster.getStatus();
     if (status == null) {
       status = new GerritClusterStatus();
     }
-    status.setManagedGerritInstances(managedGerrits);
+    status.setMembers(members);
     gerritCluster.setStatus(status);
     return gerritCluster;
   }
 
-  private List<String> getManagedGerritInstances(GerritCluster gerritCluster) {
+  private List<String> getManagedMemberInstances(
+      GerritCluster gerritCluster,
+      Class<? extends GerritClusterMember<? extends GerritClusterMemberSpec, ?>> clazz) {
     return kubernetesClient
-        .resources(Gerrit.class)
+        .resources(clazz)
         .inNamespace(gerritCluster.getMetadata().getNamespace())
         .list()
         .getItems()
         .stream()
-        .filter(gerrit -> GerritCluster.isGerritInstancePartOfCluster(gerrit, gerritCluster))
-        .map(gerrit -> gerrit.getMetadata().getName())
+        .filter(c -> GerritCluster.isMemberPartOfCluster(c.getSpec(), gerritCluster))
+        .map(c -> c.getMetadata().getName())
         .collect(Collectors.toList());
   }
 }

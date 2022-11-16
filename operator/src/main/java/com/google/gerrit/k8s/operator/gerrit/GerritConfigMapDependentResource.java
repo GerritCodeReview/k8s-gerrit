@@ -85,7 +85,7 @@ public class GerritConfigMapDependentResource
         .build();
   }
 
-  protected static String getName(Gerrit gerrit) {
+  public static String getName(Gerrit gerrit) {
     return String.format("%s-configmap", gerrit.getMetadata().getName());
   }
 }
