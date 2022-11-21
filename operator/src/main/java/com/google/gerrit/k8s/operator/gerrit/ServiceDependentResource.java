@@ -59,7 +59,7 @@ public class ServiceDependentResource extends CRUDKubernetesDependentResource<Se
         .withNewSpec()
         .withType(gerrit.getSpec().getService().getType())
         .withPorts(getServicePorts(gerrit))
-        .withSelector(StatefulSetDependentResource.getLabels(gerritCluster, gerrit))
+        .withSelector(StatefulSetDependentResource.getSelectorLabels(gerritCluster, gerrit))
         .endSpec()
         .build();
   }
