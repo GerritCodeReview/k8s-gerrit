@@ -70,8 +70,8 @@ public class AbstractGerritOperatorE2ETest {
   void cleanup() {
     client.resources(Gerrit.class).inNamespace(operator.getNamespace()).delete();
     client.resources(Receiver.class).inNamespace(operator.getNamespace()).delete();
-    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
+    client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
   }
 
   private static KubernetesClient getKubernetesClient() {
