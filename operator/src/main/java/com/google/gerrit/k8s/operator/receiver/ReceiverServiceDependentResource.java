@@ -59,7 +59,8 @@ public class ReceiverServiceDependentResource
         .withNewSpec()
         .withType(receiver.getSpec().getService().getType())
         .withPorts(getServicePorts(receiver))
-        .withSelector(ReceiverDeploymentDependentResource.getLabels(gerritCluster, receiver))
+        .withSelector(
+            ReceiverDeploymentDependentResource.getSelectorLabels(gerritCluster, receiver))
         .endSpec()
         .build();
   }

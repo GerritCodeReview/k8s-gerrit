@@ -81,7 +81,7 @@ public class ReceiverDeploymentDependentResource
         .endRollingUpdate()
         .endStrategy()
         .withNewSelector()
-        .withMatchLabels(getLabels(gerritCluster, receiver))
+        .withMatchLabels(getSelectorLabels(gerritCluster, receiver))
         .endSelector()
         .withNewTemplate()
         .withNewMetadata()
@@ -117,10 +117,18 @@ public class ReceiverDeploymentDependentResource
     return deploymentBuilder.build();
   }
 
+  private static String getComponentName(Receiver receiver) {
+    return String.format("receiver-deployment-%s", receiver.getMetadata().getName());
+  }
+
+  public static Map<String, String> getSelectorLabels(
+      GerritCluster gerritCluster, Receiver receiver) {
+    return gerritCluster.getSelectorLabels(getComponentName(receiver));
+  }
+
   public static Map<String, String> getLabels(GerritCluster gerritCluster, Receiver receiver) {
     return gerritCluster.getLabels(
-        String.format("receiver-deployment-%s", receiver.getMetadata().getName()),
-        ReceiverReconciler.class.getSimpleName());
+        getComponentName(receiver), ReceiverReconciler.class.getSimpleName());
   }
 
   private Set<Volume> getVolumes(Receiver receiver, GerritCluster gerritCluster) {

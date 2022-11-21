@@ -59,13 +59,22 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   public Map<String, String> getLabels(String component, String createdBy) {
     Map<String, String> labels = new HashMap<>();
 
+    labels.putAll(getSelectorLabels(component));
+    labels.put("app.kubernetes.io/version", getClass().getPackage().getImplementationVersion());
+    labels.put("app.kubernetes.io/created-by", createdBy);
+
+    return labels;
+  }
+
+  @JsonIgnore
+  public Map<String, String> getSelectorLabels(String component) {
+    Map<String, String> labels = new HashMap<>();
+
     labels.put("app.kubernetes.io/name", "gerrit");
     labels.put("app.kubernetes.io/instance", getMetadata().getName());
-    labels.put("app.kubernetes.io/version", getClass().getPackage().getImplementationVersion());
     labels.put("app.kubernetes.io/component", component);
     labels.put("app.kubernetes.io/part-of", getMetadata().getName());
     labels.put("app.kubernetes.io/managed-by", "gerrit-operator");
-    labels.put("app.kubernetes.io/created-by", createdBy);
 
     return labels;
   }
