@@ -70,12 +70,20 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
     List<IngressRule> ingressRules = new ArrayList<>();
     for (Receiver receiver : receivers) {
       ingressRules.add(getReceiverIngressRule(gerritCluster, receiver));
-      hosts.add(getFullHostname(receiver.getMetadata().getName(), gerritCluster));
+      hosts.add(
+          gerritCluster
+              .getSpec()
+              .getIngress()
+              .getFullHostnameForService(receiver.getMetadata().getName()));
     }
 
     ingressRules.addAll(getGerritIngressRules(gerritCluster, gerrits));
     for (Gerrit gerrit : gerrits) {
-      hosts.add(getFullHostname(gerrit.getMetadata().getName(), gerritCluster));
+      hosts.add(
+          gerritCluster
+              .getSpec()
+              .getIngress()
+              .getFullHostnameForService(gerrit.getMetadata().getName()));
     }
 
     Ingress gerritIngress =
@@ -113,7 +121,8 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
       String gerritSvcName = ServiceDependentResource.getName(gerrit);
       ingressRules.add(
           new IngressRuleBuilder()
-              .withHost(getFullHostname(gerritSvcName, gerritCluster))
+              .withHost(
+                  gerritCluster.getSpec().getIngress().getFullHostnameForService(gerritSvcName))
               .withNewHttp()
               .withPaths(getGerritHTTPIngressPath(gerritSvcName))
               .endHttp()
@@ -125,7 +134,11 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
 
   private IngressRule getReceiverIngressRule(GerritCluster gerritCluster, Receiver receiver) {
     return new IngressRuleBuilder()
-        .withHost(getFullHostname(receiver.getMetadata().getName(), gerritCluster))
+        .withHost(
+            gerritCluster
+                .getSpec()
+                .getIngress()
+                .getFullHostnameForService(receiver.getMetadata().getName()))
         .withNewHttp()
         .withPaths(getReceiverIngressPaths(ReceiverServiceDependentResource.getName(receiver)))
         .endHttp()
@@ -169,9 +182,5 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
               .build());
     }
     return paths;
-  }
-
-  public static String getFullHostname(String svcName, GerritCluster gerritCluster) {
-    return String.format("%s.%s", svcName, gerritCluster.getSpec().getIngress().getHost());
   }
 }
