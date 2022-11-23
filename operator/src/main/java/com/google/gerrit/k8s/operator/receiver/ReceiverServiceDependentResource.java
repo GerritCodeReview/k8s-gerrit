@@ -73,6 +73,11 @@ public class ReceiverServiceDependentResource
     return gerritCluster.getLabels("receiver-service", ReceiverReconciler.class.getSimpleName());
   }
 
+  public static String getHostname(Receiver receiver) {
+    return String.format(
+        "%s.%s.svc.cluster.local", getName(receiver), receiver.getMetadata().getNamespace());
+  }
+
   private static List<ServicePort> getServicePorts(Receiver receiver) {
     List<ServicePort> ports = new ArrayList<>();
     ports.add(

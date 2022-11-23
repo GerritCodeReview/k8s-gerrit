@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
@@ -82,12 +83,12 @@ public class ReceiverE2E extends AbstractGerritOperatorE2ETest {
 
   @BeforeEach
   public void setupComponents() {
-    gerritCluster.setIngressEnabled(true);
+    gerritCluster.setIngressType(IngressType.INGRESS);
     createCredentialsSecret();
     client.resource(receiver).inNamespace(operator.getNamespace()).createOrReplace();
     awaitReceiverReadiness();
 
-    gerritReplica = new TestGerrit(client, testProps, operator.getNamespace(), GerritMode.REPLICA);
+    gerritReplica = new TestGerrit(client, testProps, gerritCluster, GerritMode.REPLICA);
     gerritReplica.deploy();
   }
 
