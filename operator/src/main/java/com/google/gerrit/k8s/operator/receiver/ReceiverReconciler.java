@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.receiver;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
@@ -46,8 +47,13 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
 
+  private final ReceiverIstioVirtualService virtualService;
+
   public ReceiverReconciler(KubernetesClient client) {
     this.client = client;
+
+    this.virtualService = new ReceiverIstioVirtualService();
+    this.virtualService.setKubernetesClient(client);
   }
 
   @Override
@@ -90,7 +96,8 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
             context);
 
     Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(gerritClusterEventSource);
+        EventSourceInitializer.nameEventSources(
+            gerritClusterEventSource, virtualService.initEventSource(context));
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
   }
@@ -100,6 +107,22 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
       throws Exception {
     if (receiver.getStatus() != null && isReceiverRestartRequired(receiver, context)) {
       restartReceiverDeployment(receiver);
+    }
+
+    GerritCluster gerritCluster =
+        client
+            .resources(GerritCluster.class)
+            .inNamespace(receiver.getMetadata().getNamespace())
+            .withName(receiver.getSpec().getCluster())
+            .get();
+
+    if (gerritCluster == null) {
+      throw new IllegalStateException("The Gerrit cluster could not be found.");
+    }
+
+    if (gerritCluster.getSpec().getIngress().isEnabled()
+        && gerritCluster.getSpec().getIngress().getType().equals(IngressType.ISTIO)) {
+      this.virtualService.reconcile(receiver, context);
     }
 
     return UpdateControl.patchStatus(updateStatus(receiver, context));

@@ -60,6 +60,10 @@ public class TestProperties {
     return props.getProperty("ingressDomain", "");
   }
 
+  public String getIstioDomain() {
+    return props.getProperty("istioDomain", "");
+  }
+
   public String getLdapAdminPwd() {
     return props.getProperty("ldapAdminPwd", "");
   }
