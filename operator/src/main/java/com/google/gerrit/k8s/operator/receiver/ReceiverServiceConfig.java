@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.receiver;
 
 import java.io.Serializable;
 
-class ReceiverServiceConfig implements Serializable {
+public class ReceiverServiceConfig implements Serializable {
   private static final long serialVersionUID = 1L;
 
   String type = "NodePort";

@@ -89,16 +89,19 @@ public class TestGerrit {
   private Config secureConfig = new Config();
 
   public TestGerrit(
-      KubernetesClient client, TestProperties testProps, String namespace, GerritMode mode) {
+      KubernetesClient client,
+      TestProperties testProps,
+      TestGerritCluster cluster,
+      GerritMode mode) {
     this.client = client;
-    this.namespace = namespace;
+    this.namespace = cluster.getNamespace();
     this.mode = mode;
-    this.ingress_domain = testProps.getIngressDomain();
+    this.ingress_domain = cluster.getHostname();
     this.secureConfig.setString("ldap", null, "password", testProps.getLdapAdminPwd());
   }
 
-  public TestGerrit(KubernetesClient client, TestProperties testProps, String namespace) {
-    this(client, testProps, namespace, GerritMode.PRIMARY);
+  public TestGerrit(KubernetesClient client, TestProperties testProps, TestGerritCluster cluster) {
+    this(client, testProps, cluster, GerritMode.PRIMARY);
   }
 
   public void build() {
@@ -118,7 +121,7 @@ public class TestGerrit {
         .create(
             new GerritAuthData.Basic(
                 String.format(
-                    "http://%s.%s", ServiceDependentResource.getName(gerrit), ingress_domain)));
+                    "https://%s.%s", ServiceDependentResource.getName(gerrit), ingress_domain)));
   }
 
   public void modifyGerritConfig(String section, String key, String value) {
