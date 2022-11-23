@@ -14,10 +14,18 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GerritIngressConfig {
   private boolean enabled = false;
+  private IngressType type = IngressType.NONE;
   private String host;
   private Map<String, String> annotations;
   private GerritIngressTlsConfig tls = new GerritIngressTlsConfig();
@@ -28,6 +36,14 @@ public class GerritIngressConfig {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+  public IngressType getType() {
+    return type;
+  }
+
+  public void setType(IngressType type) {
+    this.type = type;
   }
 
   public String getHost() {
@@ -52,5 +68,51 @@ public class GerritIngressConfig {
 
   public void setTls(GerritIngressTlsConfig tls) {
     this.tls = tls;
+  }
+
+  public enum IngressType {
+    NONE,
+    INGRESS,
+    ISTIO
+  }
+
+  @JsonIgnore
+  public String getFullHostnameForService(String svcName) {
+    return String.format("%s.%s", svcName, getHost());
+  }
+
+  @JsonIgnore
+  public List<String> computeHostnames(KubernetesClient client, GerritCluster gerritCluster) {
+    List<String> hostnames = new ArrayList<>();
+    hostnames.addAll(computeGerritHostnames(client, gerritCluster));
+    hostnames.addAll(computeReceiverHostnames(client, gerritCluster));
+    return hostnames;
+  }
+
+  @JsonIgnore
+  public List<String> computeGerritHostnames(KubernetesClient client, GerritCluster gerritCluster) {
+    return client
+        .resources(Gerrit.class)
+        .inNamespace(gerritCluster.getMetadata().getNamespace())
+        .list()
+        .getItems()
+        .stream()
+        .filter(gerrit -> GerritCluster.isMemberPartOfCluster(gerrit.getSpec(), gerritCluster))
+        .map(gerrit -> getFullHostnameForService(gerrit.getMetadata().getName()))
+        .collect(Collectors.toList());
+  }
+
+  @JsonIgnore
+  public List<String> computeReceiverHostnames(
+      KubernetesClient client, GerritCluster gerritCluster) {
+    return client
+        .resources(Receiver.class)
+        .inNamespace(gerritCluster.getMetadata().getNamespace())
+        .list()
+        .getItems()
+        .stream()
+        .filter(r -> GerritCluster.isMemberPartOfCluster(r.getSpec(), gerritCluster))
+        .map(r -> getFullHostnameForService(r.getMetadata().getName()))
+        .collect(Collectors.toList());
   }
 }

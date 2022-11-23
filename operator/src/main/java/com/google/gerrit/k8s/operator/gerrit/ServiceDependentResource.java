@@ -70,10 +70,12 @@ public class ServiceDependentResource extends CRUDKubernetesDependentResource<Se
 
   public static String getHostname(Gerrit gerrit) {
     return String.format(
-        "http://%s.%s.svc.cluster.local:%s",
-        getName(gerrit),
-        gerrit.getMetadata().getNamespace(),
-        gerrit.getSpec().getService().getHttpPort());
+        "%s.%s.svc.cluster.local", getName(gerrit), gerrit.getMetadata().getNamespace());
+  }
+
+  public static String getUrl(Gerrit gerrit) {
+    return String.format(
+        "http://%s:%s", getHostname(gerrit), gerrit.getSpec().getService().getHttpPort());
   }
 
   public static Map<String, String> getLabels(GerritCluster gerritCluster) {
