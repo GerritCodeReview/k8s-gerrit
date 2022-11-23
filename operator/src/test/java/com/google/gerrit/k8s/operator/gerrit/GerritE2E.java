@@ -30,6 +30,7 @@ import static org.mockito.Mockito.times;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import io.fabric8.kubernetes.api.model.LoadBalancerIngress;
@@ -44,9 +45,9 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testPrimaryGerritIsCreated() throws Exception {
-    gerritCluster.setIngressEnabled(true);
+    gerritCluster.setIngressType(IngressType.INGRESS);
 
-    TestGerrit testGerrit = new TestGerrit(client, testProps, operator.getNamespace(), false);
+    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster, false);
     testGerrit.deploy();
 
     logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
@@ -83,8 +84,27 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   }
 
   @Test
+  void testPrimaryGerritWithIstio() throws Exception {
+    gerritCluster.setIngressType(IngressType.ISTIO);
+
+    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster, false);
+    testGerrit.deploy();
+
+    GerritApi gerritApi = testGerrit.getGerritApiClient();
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertDoesNotThrow(() -> gerritApi.config().server().getVersion());
+              assertThat(gerritApi.config().server().getVersion(), notNullValue());
+              assertThat(gerritApi.config().server().getVersion(), not(is("<2.8")));
+              logger.atInfo().log("Gerrit version: %s", gerritApi.config().server().getVersion());
+            });
+  }
+
+  @Test
   void testGerritReplicaIsCreated() throws Exception {
-    TestGerrit testGerrit = new TestGerrit(client, testProps, operator.getNamespace(), true);
+    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster, true);
     testGerrit.deploy();
 
     assertTrue(
@@ -99,7 +119,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testRestartHandlingOnConfigChange() {
-    TestGerrit testGerrit = new TestGerrit(client, testProps, operator.getNamespace(), false);
+    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster, false);
     testGerrit.deploy();
 
     GerritServiceConfig svcConfig = new GerritServiceConfig();

@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSpec;
 import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.cluster.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritRepositoryConfig;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
@@ -43,18 +44,70 @@ public class TestGerritCluster {
   private final KubernetesClient client;
   private final String namespace;
 
-  private boolean isIngressEnabled = false;
+  private GerritIngressConfig ingressConfig;
   private boolean isNfsEnabled = false;
   private GerritCluster cluster = new GerritCluster();
+  private String hostname;
 
   public TestGerritCluster(KubernetesClient client, String namespace) {
     this.client = client;
     this.namespace = namespace;
+
+    defaultIngressConfig();
   }
 
-  public void setIngressEnabled(boolean isIngressEnabled) {
-    this.isIngressEnabled = isIngressEnabled;
+  public String getHostname() {
+    return hostname;
+  }
+
+  public String getNamespace() {
+    return cluster.getMetadata().getNamespace();
+  }
+
+  public void setIngressType(IngressType type) {
+    switch (type) {
+      case INGRESS:
+        enableIngress();
+        break;
+      case ISTIO:
+        enableIstio();
+        break;
+      default:
+        defaultIngressConfig();
+    }
     this.deploy();
+  }
+
+  private void defaultIngressConfig() {
+    hostname = null;
+    ingressConfig = new GerritIngressConfig();
+    ingressConfig.setEnabled(false);
+  }
+
+  private void enableIngress() {
+    hostname = testProps.getIngressDomain();
+    ingressConfig = new GerritIngressConfig();
+    ingressConfig.setEnabled(true);
+    ingressConfig.setType(IngressType.INGRESS);
+    ingressConfig.setHost(hostname);
+    ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
+    GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
+    ingressTlsConfig.setEnabled(true);
+    ingressTlsConfig.setSecret("tls-secret");
+    ingressConfig.setTls(ingressTlsConfig);
+  }
+
+  private void enableIstio() {
+    hostname = testProps.getIstioDomain();
+    ingressConfig = new GerritIngressConfig();
+    ingressConfig.setEnabled(true);
+    ingressConfig.setType(IngressType.ISTIO);
+    ingressConfig.setHost(hostname);
+    ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
+    GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
+    ingressTlsConfig.setEnabled(true);
+    ingressTlsConfig.setSecret("tls-secret");
+    ingressConfig.setTls(ingressTlsConfig);
   }
 
   public void setNfsEnabled(boolean isNfsEnabled) {
@@ -94,15 +147,6 @@ public class TestGerritCluster {
     imagePullSecrets.add(
         new LocalObjectReference(AbstractGerritOperatorE2ETest.IMAGE_PULL_SECRET_NAME));
     clusterSpec.setImagePullSecrets(imagePullSecrets);
-
-    GerritIngressConfig ingressConfig = new GerritIngressConfig();
-    ingressConfig.setEnabled(isIngressEnabled);
-    ingressConfig.setHost(testProps.getIngressDomain());
-    ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
-    GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
-    ingressTlsConfig.setEnabled(true);
-    ingressTlsConfig.setSecret("tls-secret");
-    ingressConfig.setTls(ingressTlsConfig);
     clusterSpec.setIngress(ingressConfig);
 
     cluster.setSpec(clusterSpec);

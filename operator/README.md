@@ -23,7 +23,14 @@ provided:
   provision volumes using this StorageClass. Such a StorageClass could be provided
   by the [NFS-subdir-provisioner chart](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).
 - An [Nginx Ingress Controller](https://github.com/kubernetes/ingress-nginx)
-- A valid default TLS certificate configured in the ingress controller
+- Istio installed with the [profile](../istio/gerrit.profile.yaml) provided by
+  this project
+- A secret containing valid certificates for the given hostnames. For istio this
+  secret has to be named `tls-secret` and be present in the `istio-system` namespace.
+  For the Ingress controller, the secret has to be either set as the default
+  secret to be used or somehow automatically be provided in the namespaces created
+  by the tests and named `tls-secret`, e.g. by using Gardener to manage DNS and
+  certificates.
 
 In addition, some properties have to be set to configure the tests:
 
@@ -34,6 +41,7 @@ In addition, some properties have to be set to configure the tests:
 - `registryUser`: User for the container registry
 - `registryPwd`: Password for the container registry
 - `ingressDomain`: Domain to be used for the ingress
+- `istioDomain`: Domain to be used for istio
 
 The properties should be set in the `test.properties` file. Alternatively, a
 path of a properties file can be configured by using
@@ -223,13 +231,18 @@ spec:
     ## Whether to provision an Ingress.
     enabled: true
 
+    ## Which type of Ingress provider to use. Either: NONE, INGRESS or ISTIO
+    ## (default: NONE)
+    type: NONE
+
     ## Hostname to be used by the ingress. For each Gerrit deployment a new
     ## subdomain using the name of the respective Gerrit CustomResource will be
     ## used.
     host: example.com
 
     ## Annotations to be set for the ingress. This allows to configure the ingress
-    ## further by e.g. setting the ingress class.
+    ## further by e.g. setting the ingress class. This will be only used for type
+    ## INGRESS and ignored otherwise. (optional)
     annotations: {}
 
     ## Configuration of TLS to be used in the ingress
@@ -347,6 +360,9 @@ spec:
     httpPort: 80
 
     ## Port used for SSH requests (optional; if unset, SSH access is disabled)
+    ## If Istio is used, the Gateway will be automatically configured to accept
+    ## SSH requests. If an Ingress controller is used, SSH requests will only be
+    ## served by the Service itself!
     sshPort: null
 
   ## Whether to run Gerrit in replica mode

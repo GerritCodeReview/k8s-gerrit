@@ -64,7 +64,7 @@ public class GerritConfigMapDependentResource
       gerritConfigBuilder.withUrl(
           GerritIngress.getFullHostname(ServiceDependentResource.getName(gerrit), gerritCluster));
     } else {
-      gerritConfigBuilder.withUrl(ServiceDependentResource.getHostname(gerrit));
+      gerritConfigBuilder.withUrl(ServiceDependentResource.getUrl(gerrit));
     }
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
