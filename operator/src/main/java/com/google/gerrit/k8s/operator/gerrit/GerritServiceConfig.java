@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import java.io.Serializable;
 
-class GerritServiceConfig implements Serializable {
+public class GerritServiceConfig implements Serializable {
   private static final long serialVersionUID = 1L;
 
   String type = "NodePort";
