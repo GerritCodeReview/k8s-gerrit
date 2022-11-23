@@ -116,6 +116,16 @@ spec:
                 # TO_BE_CHANGED: Change IP-Range to whitelist
                 # value:
                 # - 0.0.0.0/32
+              - path: metadata.annotations
+                # TO_BE_CHANGED: Annotations to be set in the service, e.g. to
+                # configure automated DNS and certificate management in Gardener
+                # value:
+                #   dns.gardener.cloud/dnsnames: '*.example.com'
+                #   dns.gardener.cloud/class: garden
+                #   dns.gardener.cloud/ttl: "600"
+                #   cert.gardener.cloud/commonName: '*.example.com'
+                #   cert.gardener.cloud/purpose: managed
+                #   cert.gardener.cloud/secretname: tls-secret
       name: istio-ingressgateway
     istiodRemote:
       enabled: false

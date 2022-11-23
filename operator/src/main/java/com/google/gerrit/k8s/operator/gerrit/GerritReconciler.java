@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -69,8 +70,17 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
 
+  private final GerritIstioVirtualService virtualService;
+  private final GerritIstioDestinationRule destinationRule;
+
   public GerritReconciler(KubernetesClient client) {
     this.client = client;
+
+    this.virtualService = new GerritIstioVirtualService();
+    this.virtualService.setKubernetesClient(client);
+
+    this.destinationRule = new GerritIstioDestinationRule();
+    this.destinationRule.setKubernetesClient(client);
   }
 
   @Override
@@ -113,7 +123,10 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
 
     Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(gerritClusterEventSource);
+        EventSourceInitializer.nameEventSources(
+            gerritClusterEventSource,
+            virtualService.initEventSource(context),
+            destinationRule.initEventSource(context));
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
@@ -123,6 +136,23 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   public UpdateControl<Gerrit> reconcile(Gerrit gerrit, Context<Gerrit> context) throws Exception {
     if (gerrit.getStatus() != null && isGerritRestartRequired(gerrit, context)) {
       restartGerritStatefulSet(gerrit);
+    }
+
+    GerritCluster gerritCluster =
+        client
+            .resources(GerritCluster.class)
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(gerrit.getSpec().getCluster())
+            .get();
+
+    if (gerritCluster == null) {
+      throw new IllegalStateException("The Gerrit cluster could not be found.");
+    }
+
+    if (gerritCluster.getSpec().getIngress().isEnabled()
+        && gerritCluster.getSpec().getIngress().getType().equals(IngressType.ISTIO)) {
+      this.virtualService.reconcile(gerrit, context);
+      this.destinationRule.reconcile(gerrit, context);
     }
 
     return UpdateControl.patchStatus(updateStatus(gerrit, context));

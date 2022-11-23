@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
@@ -54,16 +55,21 @@ public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   public static final String PVC_EVENT_SOURCE = "pvc-event-source";
   private static final String GERRIT_INGRESS_EVENT_SOURCE = "gerrit-ingress";
+  private static final String GERRIT_ISTIO_EVENT_SOURCE = "gerrit-istio";
 
   private final KubernetesClient kubernetesClient;
 
   private GerritIngress gerritIngress;
+  private GerritIstioGateway gerritIstioGateway;
 
   public GerritClusterReconciler(KubernetesClient client) {
     this.kubernetesClient = client;
 
     this.gerritIngress = new GerritIngress();
     this.gerritIngress.setKubernetesClient(kubernetesClient);
+
+    this.gerritIstioGateway = new GerritIstioGateway();
+    this.gerritIstioGateway.setKubernetesClient(kubernetesClient);
   }
 
   @Override
@@ -113,6 +119,7 @@ public class GerritClusterReconciler
         EventSourceInitializer.nameEventSources(gerritEventSource, receiverEventSource);
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
     eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, this.gerritIngress.initEventSource(context));
+    eventSources.put(GERRIT_ISTIO_EVENT_SOURCE, this.gerritIstioGateway.initEventSource(context));
     return eventSources;
   }
 
@@ -124,7 +131,13 @@ public class GerritClusterReconciler
     members.put("receiver", getManagedMemberInstances(gerritCluster, Receiver.class));
     if (members.values().stream().flatMap(Collection::stream).count() > 0
         && gerritCluster.getSpec().getIngress().isEnabled()) {
-      this.gerritIngress.reconcile(gerritCluster, context);
+      if (gerritCluster.getSpec().getIngress().getType().equals(IngressType.INGRESS)) {
+        this.gerritIngress.reconcile(gerritCluster, context);
+      } else if (gerritCluster.getSpec().getIngress().getType().equals(IngressType.ISTIO)) {
+        this.gerritIstioGateway.reconcile(gerritCluster, context);
+      } else {
+        throw new IllegalStateException("Unknown Ingress type.");
+      }
     }
     return UpdateControl.patchStatus(updateStatus(gerritCluster, members));
   }
