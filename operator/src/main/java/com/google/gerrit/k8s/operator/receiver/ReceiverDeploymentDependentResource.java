@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.receiver;
 
+import com.google.gerrit.k8s.operator.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
@@ -25,7 +26,6 @@ import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,7 +35,7 @@ import java.util.Set;
 
 @KubernetesDependent
 public class ReceiverDeploymentDependentResource
-    extends CRUDKubernetesDependentResource<Deployment, Receiver> {
+    extends GerritClusterMemberDependentResource<Deployment, Receiver> {
   public static final int HTTP_PORT = 80;
 
   public ReceiverDeploymentDependentResource() {
@@ -44,16 +44,7 @@ public class ReceiverDeploymentDependentResource
 
   @Override
   protected Deployment desired(Receiver receiver, Context<Receiver> context) {
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(receiver.getMetadata().getNamespace())
-            .withName(receiver.getSpec().getCluster())
-            .get();
-
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
+    GerritCluster gerritCluster = getGerritCluster(receiver);
 
     DeploymentBuilder deploymentBuilder = new DeploymentBuilder();
 
