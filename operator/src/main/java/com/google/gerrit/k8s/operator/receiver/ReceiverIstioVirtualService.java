@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.receiver;
 
+import com.google.gerrit.k8s.operator.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIstioGateway;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequest;
@@ -26,12 +27,11 @@ import io.fabric8.istio.api.networking.v1beta1.StringMatchBuilder;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReceiverIstioVirtualService
-    extends CRUDKubernetesDependentResource<VirtualService, Receiver> {
+    extends GerritClusterMemberDependentResource<VirtualService, Receiver> {
 
   public ReceiverIstioVirtualService() {
     super(VirtualService.class);
@@ -39,16 +39,7 @@ public class ReceiverIstioVirtualService
 
   @Override
   protected VirtualService desired(Receiver receiver, Context<Receiver> context) {
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(receiver.getMetadata().getNamespace())
-            .withName(receiver.getSpec().getCluster())
-            .get();
-
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
+    GerritCluster gerritCluster = getGerritCluster(receiver);
 
     return new VirtualServiceBuilder()
         .withNewMetadata()

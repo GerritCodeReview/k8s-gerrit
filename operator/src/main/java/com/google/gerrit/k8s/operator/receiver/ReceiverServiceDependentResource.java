@@ -16,13 +16,13 @@ package com.google.gerrit.k8s.operator.receiver;
 
 import static com.google.gerrit.k8s.operator.receiver.ReceiverDeploymentDependentResource.HTTP_PORT;
 
+import com.google.gerrit.k8s.operator.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 @KubernetesDependent
 public class ReceiverServiceDependentResource
-    extends CRUDKubernetesDependentResource<Service, Receiver> {
+    extends GerritClusterMemberDependentResource<Service, Receiver> {
   public static final String HTTP_PORT_NAME = "http";
 
   public ReceiverServiceDependentResource() {
@@ -39,15 +39,7 @@ public class ReceiverServiceDependentResource
 
   @Override
   protected Service desired(Receiver receiver, Context<Receiver> context) {
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(receiver.getMetadata().getNamespace())
-            .withName(receiver.getSpec().getCluster())
-            .get();
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
+    GerritCluster gerritCluster = getGerritCluster(receiver);
 
     return new ServiceBuilder()
         .withApiVersion("v1")
