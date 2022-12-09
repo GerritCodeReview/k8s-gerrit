@@ -14,16 +14,16 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import com.google.gerrit.k8s.operator.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
 import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsSimpleLB;
 import io.fabric8.istio.api.networking.v1beta1.TrafficPolicyBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 
 public class GerritIstioDestinationRule
-    extends CRUDKubernetesDependentResource<DestinationRule, Gerrit> {
+    extends GerritClusterMemberDependentResource<DestinationRule, Gerrit> {
 
   public GerritIstioDestinationRule() {
     super(DestinationRule.class);
@@ -31,16 +31,7 @@ public class GerritIstioDestinationRule
 
   @Override
   protected DestinationRule desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerrit.getSpec().getCluster())
-            .get();
-
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
+    GerritCluster gerritCluster = getGerritCluster(gerrit);
 
     return new DestinationRuleBuilder()
         .withNewMetadata()
