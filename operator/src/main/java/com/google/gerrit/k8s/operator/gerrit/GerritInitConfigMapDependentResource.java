@@ -19,18 +19,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
 public class GerritInitConfigMapDependentResource
-    extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
+    extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GerritInitConfigMapDependentResource() {
@@ -39,16 +39,7 @@ public class GerritInitConfigMapDependentResource
 
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerrit.getSpec().getCluster())
-            .get();
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
-
+    GerritCluster gerritCluster = getGerritCluster(gerrit);
     Map<String, String> gerritLabels =
         gerritCluster.getLabels(getName(gerrit), this.getClass().getSimpleName());
 
