@@ -1,0 +1,8 @@
+nfs:
+  server: #TODO
+  path: #TODO
+
+storageClass:
+  reclaimPolicy: Delete
+  archiveOnDelete: false
+  onDelete: delete
