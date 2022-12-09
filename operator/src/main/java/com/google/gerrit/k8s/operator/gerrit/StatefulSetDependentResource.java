@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.PluginCachePVC;
 import io.fabric8.kubernetes.api.model.Container;
@@ -26,7 +27,6 @@ import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.apps.StatefulSetBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +36,7 @@ import java.util.Set;
 
 @KubernetesDependent
 public class StatefulSetDependentResource
-    extends CRUDKubernetesDependentResource<StatefulSet, Gerrit> {
+    extends GerritClusterMemberDependentResource<StatefulSet, Gerrit> {
 
   private static final String SITE_VOLUME_NAME = "gerrit-site";
   public static final int HTTP_PORT = 8080;
@@ -48,16 +48,7 @@ public class StatefulSetDependentResource
 
   @Override
   protected StatefulSet desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerrit.getSpec().getCluster())
-            .get();
-
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
+    GerritCluster gerritCluster = getGerritCluster(gerrit);
 
     StatefulSetBuilder stsBuilder = new StatefulSetBuilder();
 
