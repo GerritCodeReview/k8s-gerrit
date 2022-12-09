@@ -32,6 +32,11 @@ provided:
   by the tests and named `tls-secret`, e.g. by using Gardener to manage DNS and
   certificates.
 
+A sample setup for components required in the cluster is provided under
+`$REPO_ROOT/supplements/test-cluster`. Some configuration has to be done manually
+(marked by `#TODO`) and the `deploy.sh`-script can be used to install/update all
+components.
+
 In addition, some properties have to be set to configure the tests:
 
 - `rwmStorageClass`: Name of the StorageClass providing RWM-access (default:nfs-client)
