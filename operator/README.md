@@ -23,6 +23,8 @@ provided:
   provision volumes using this StorageClass. Such a StorageClass could be provided
   by the [NFS-subdir-provisioner chart](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).
 - An [Nginx Ingress Controller](https://github.com/kubernetes/ingress-nginx)
+- An installation of [OpenLDAP](../supplements/test-cluster/ldap/openldap.yaml)
+  with at least one user.
 - Istio installed with the [profile](../istio/gerrit.profile.yaml) provided by
   this project
 - A secret containing valid certificates for the given hostnames. For istio this
@@ -47,6 +49,9 @@ In addition, some properties have to be set to configure the tests:
 - `registryPwd`: Password for the container registry
 - `ingressDomain`: Domain to be used for the ingress
 - `istioDomain`: Domain to be used for istio
+- `ldapAdminPwd`: Admin password for LDAP server
+- `gerritUser`: Username of a user in LDAP
+- `gerritPwd`: The password of `gerritUser`
 
 The properties should be set in the `test.properties` file. Alternatively, a
 path of a properties file can be configured by using
