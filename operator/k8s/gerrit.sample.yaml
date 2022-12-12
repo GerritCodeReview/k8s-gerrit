@@ -11,8 +11,6 @@ spec:
     gerrit.config: |-
       [auth]
         type = DEVELOPMENT_BECOME_ANY_ACCOUNT
-      [cache]
-        directory = cache
       [container]
         javaOptions = -Xms200m
         javaOptions = -Xmx4g
