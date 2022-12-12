@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import com.google.gerrit.k8s.operator.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.GerritIngress;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -53,9 +53,21 @@ public class GerritConfigMapDependentResource
 
     if (gerritCluster.getSpec().getIngress().isEnabled()) {
       gerritConfigBuilder.withUrl(
-          GerritIngress.getFullHostname(ServiceDependentResource.getName(gerrit), gerritCluster));
+          gerritCluster.getSpec().getIngress().getUrl(ServiceDependentResource.getName(gerrit)));
     } else {
       gerritConfigBuilder.withUrl(ServiceDependentResource.getUrl(gerrit));
+    }
+
+    if (gerritCluster.getSpec().getIngress().getType().equals(IngressType.ISTIO)) {
+      gerritConfigBuilder.withSsh(
+          gerrit.getSpec().getService().getSshPort() != null,
+          gerritCluster
+                  .getSpec()
+                  .getIngress()
+                  .getFullHostnameForService(ServiceDependentResource.getName(gerrit))
+              + ":29418");
+    } else {
+      gerritConfigBuilder.withSsh(gerrit.getSpec().getService().getSshPort() != null);
     }
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
