@@ -407,33 +407,21 @@ spec:
   configFiles:
     gerrit.config: |-
         [gerrit]
-          basePath = git
           serverId = gerrit-1
-          canonicalWebUrl = http://example.com/
           disableReverseDnsLookup = true
         [index]
           type = LUCENE
-          onlineUpgrade = false
         [auth]
           type = DEVELOPMENT_BECOME_ANY_ACCOUNT
         [httpd]
-          listenUrl = proxy-http://*:8080/
-          requestLog = true
           gracefulStopTimeout = 1m
-        [sshd]
-          listenAddress = off
         [transfer]
           timeout = 120 s
         [user]
           name = Gerrit Code Review
           email = gerrit@example.com
           anonymousCoward = Unnamed User
-        [cache]
-          directory = cache
         [container]
-          user = gerrit
-          javaHome = /usr/lib/jvm/java-11-openjdk
-          javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
           javaOptions = -Xms200m
           javaOptions = -Xmx4g
 
@@ -442,6 +430,65 @@ spec:
   secrets: []
   # - gerrit-secure-config
 ```
+
+#### Prohibited options in gerrit.config
+
+Some options in the gerrit.config are not allowed to be changed. Their values
+are preset by the containers/Kubernetes. The operator will configure those options
+automatically and won't allow different values, i.e. it will fail to reconcile
+if a value is set to an illegal value. These options are:
+
+- `cache.directory`
+
+    This should stay in the volume mounted to contain the Gerrit site and will
+    thus be set to `cache`.
+
+- `container.javaHome`
+
+    This has to be set to `/usr/lib/jvm/java-11-openjdk-amd64`, since this is
+    the path of the Java installation in the container.
+
+- `container.javaOptions = -Djavax.net.ssl.trustStore`
+
+    The keystore will be mounted to `/var/gerrit/etc/keystore`.
+
+- `container.replica`
+
+    This has to be set in the Gerrit-CustomResource under `spec.isReplica`.
+
+- `container.user`
+
+    The technical user in the Gerrit container is called `gerrit`.
+
+- `gerrit.basePath`
+
+    The git repositories are mounted to `/var/gerrit/git` in the container.
+
+- `gerrit.canonicalWebUrl`
+
+    The canonical web URL has to be set to the hostname used by the Ingress/Istio.
+
+- `httpd.listenURL`
+
+    This has to be set to `proxy-http://*:8080/` or `proxy-https://*:8080`,
+    depending of TLS is enabled in the Ingress or not, otherwise the Jetty
+    servlet will run into an endless redirect loop.
+
+- `index.onlineUpgrade`
+
+    Online reindexing is currently **NOT** supported. An offline reindexing will
+    be enforced upon Gerrit updates. Online reindexing might under some circum-
+    stances interfere with the Gerrit pod startup procedure and thus has to be
+    deactivated.
+
+- `sshd.advertisedAddress`
+
+    This is only enforced, if Istio is enabled. It can be configured otherwise.
+
+- `sshd.listenAddress`
+
+    Since the container port for SSH is fixed, this will be set automatically.
+    If no SSH port is configured in the service, the SSHD is disabled.
 
 ### GitGarbageCollection
 
