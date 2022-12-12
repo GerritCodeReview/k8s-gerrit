@@ -416,8 +416,6 @@ spec:
         [httpd]
           requestLog = true
           gracefulStopTimeout = 1m
-        [sshd]
-          listenAddress = off
         [transfer]
           timeout = 120 s
         [user]
@@ -483,6 +481,15 @@ if a value is set to an illegal value. These options are:
     be enforced upon Gerrit updates. Online reindexing might under some circum-
     stances interfere with the Gerrit pod startup procedure and thus has to be
     deactivated.
+
+- `sshd.advertisedAddress`
+
+    This is only enforced, if Istio is enabled. It can be configured otherwise.
+
+- `sshd.listenAddress`
+
+    Since the container port for SSH is fixed, this will be set automatically.
+    If no SSH port is configured in the service, the SSHD is disabled.
 
 ### GitGarbageCollection
 
