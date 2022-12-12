@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.config;
 
 import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.SSH_PORT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,6 +82,23 @@ public class GerritConfigBuilder {
     this.requiredOptions.add(
         new RequiredOption<String>("httpd", "listenUrl", listenUrlBuilder.toString()));
     return this;
+  }
+
+  public GerritConfigBuilder withSsh(boolean enabled) {
+    String listenAddress;
+    if (enabled) {
+      listenAddress = "*:" + SSH_PORT;
+    } else {
+      listenAddress = "off";
+    }
+    this.requiredOptions.add(new RequiredOption<String>("sshd", "listenAddress", listenAddress));
+    return this;
+  }
+
+  public GerritConfigBuilder withSsh(boolean enabled, String advertisedAddress) {
+    this.requiredOptions.add(
+        new RequiredOption<String>("sshd", "advertisedAddress", advertisedAddress));
+    return withSsh(enabled);
   }
 
   public GerritConfigBuilder useReplicaMode(boolean isReplica) {

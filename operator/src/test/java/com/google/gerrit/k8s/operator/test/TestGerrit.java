@@ -64,8 +64,6 @@ public class TestGerrit {
           + "[httpd]\n"
           + "  requestLog = true\n"
           + "  gracefulStopTimeout = 1m\n"
-          + "[sshd]\n"
-          + "  listenAddress = off\n"
           + "[transfer]\n"
           + "  timeout = 120 s\n"
           + "[user]\n"
