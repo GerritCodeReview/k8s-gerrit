@@ -148,6 +148,7 @@ gerrit:
   tolerations: []
   topologySpreadConstraints: {}
   affinity: {}
+  additionalAnnotations: {}
 
   replicas: 1
   updatePartition: 0

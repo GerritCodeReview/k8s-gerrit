@@ -382,6 +382,7 @@ is mandatory, if access to the Gerrit replica is required!
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].operator: In |
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0]: gerrit-replica |
 | `gerritReplica.replicas` | Number of pod replicas to deploy | `1` |
+| `gerritReplica.additionalAnnotations` | Additional annotations for the ReplicaSets | {} |
 | `gerritReplica.maxSurge` | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%` |
 | `gerritReplica.maxUnavailable` | Max. percentage or number of pods allowed to be unavailable at a time | `100%` |
 | `gerritReplica.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 60, periodSeconds: 5}` |

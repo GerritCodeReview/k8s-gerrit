@@ -27,6 +27,9 @@ spec:
         release: {{ .Release.Name }}
       annotations:
         chartRevision: "{{ .Release.Revision }}"
+        {{- if .Values.gerritReplica.additionalAnnotations }}
+{{ toYaml .Values.gerritReplica.additionalAnnotations  | indent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.gerritReplica.tolerations }}
       tolerations:
