@@ -83,7 +83,7 @@ public class GerritIstioGateway extends CRUDKubernetesDependentResource<Gateway,
 
     boolean sshEnabled =
         client.resources(Gerrit.class).list().getItems().stream()
-            .anyMatch(g -> g.getSpec().getService().getSshPort() != null);
+            .anyMatch(g -> g.getSpec().getService().isSshEnabled());
 
     if (sshEnabled) {
       servers.add(
