@@ -83,7 +83,7 @@ public class ServiceDependentResource
             .withPort(gerrit.getSpec().getService().getHttpPort())
             .withNewTargetPort(HTTP_PORT)
             .build());
-    if (gerrit.getSpec().getService().getSshPort() != null) {
+    if (gerrit.getSpec().getService().isSshEnabled()) {
       ports.add(
           new ServicePortBuilder()
               .withName("ssh")
