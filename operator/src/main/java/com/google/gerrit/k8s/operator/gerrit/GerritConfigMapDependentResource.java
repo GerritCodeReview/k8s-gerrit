@@ -61,14 +61,14 @@ public class GerritConfigMapDependentResource
 
     if (gerritCluster.getSpec().getIngress().getType().equals(IngressType.ISTIO)) {
       gerritConfigBuilder.withSsh(
-          gerrit.getSpec().getService().getSshPort() != null,
+          gerrit.getSpec().getService().isSshEnabled(),
           gerritCluster
                   .getSpec()
                   .getIngress()
                   .getFullHostnameForService(ServiceDependentResource.getName(gerrit))
               + ":29418");
     } else {
-      gerritConfigBuilder.withSsh(gerrit.getSpec().getService().getSshPort() != null);
+      gerritConfigBuilder.withSsh(gerrit.getSpec().getService().isSshEnabled());
     }
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());

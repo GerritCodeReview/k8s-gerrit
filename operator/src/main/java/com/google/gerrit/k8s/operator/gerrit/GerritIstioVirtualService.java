@@ -65,7 +65,7 @@ public class GerritIstioVirtualService
 
   private List<TCPRoute> getTCPRoutes(Gerrit gerrit) {
     List<TCPRoute> routes = new ArrayList<>();
-    if (gerrit.getSpec().getService().getSshPort() != null) {
+    if (gerrit.getSpec().getService().isSshEnabled()) {
       routes.add(
           new TCPRouteBuilder()
               .withMatch(List.of(new L4MatchAttributesBuilder().withPort(29418).build()))
