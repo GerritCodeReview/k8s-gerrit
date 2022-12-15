@@ -36,6 +36,10 @@ class GerritInit:
         self.gerrit_config = git.GitConfigParser(
             os.path.join(MNT_PATH, "etc/config/gerrit.config")
         )
+        self.is_online_reindex = self.gerrit_config.get_boolean(
+            "index.onlineUpgrade", True
+        )
+        self.forceOfflineReindex = False
         self.installed_plugins = self._get_installed_plugins()
 
         self.is_replica = self.gerrit_config.get_boolean("container.replica")
@@ -68,13 +72,14 @@ class GerritInit:
             installed_version,
             provided_version,
         )
+        installed_minor_version = installed_version.split(".")[0:2]
+        provided_minor_version = provided_version.split(".")[0:2]
+
+        if not self.is_online_reindex and installed_minor_version != provided_minor_version:
+            self.forceOfflineReindex = True
         return installed_version != provided_version
 
     def _needs_init(self):
-        if self.plugin_installer.plugins_changed:
-            LOG.info("Plugins were installed or updated. Initializing.")
-            return True
-
         installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
         if not os.path.exists(installed_war_path):
             LOG.info("Gerrit is not yet installed. Initializing new site.")
@@ -82,6 +87,10 @@ class GerritInit:
 
         if self._gerrit_war_updated():
             LOG.info("Reinitializing site to perform update.")
+            return True
+
+        if self.plugin_installer.plugins_changed:
+            LOG.info("Plugins were installed or updated. Initializing.")
             return True
 
         if self.config.packaged_plugins.difference(self.installed_plugins):
@@ -198,4 +207,4 @@ class GerritInit:
                 self._symlink_mounted_site_components()
 
         if not self.is_replica:
-            get_reindexer(self.site, self.config).start(False)
+            get_reindexer(self.site, self.config).start(self.forceOfflineReindex)
