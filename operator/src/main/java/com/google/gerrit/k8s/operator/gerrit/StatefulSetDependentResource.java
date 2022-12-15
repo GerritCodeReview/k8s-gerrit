@@ -257,7 +257,7 @@ public class StatefulSetDependentResource
     List<ContainerPort> containerPorts = new ArrayList<>();
     containerPorts.add(new ContainerPort(HTTP_PORT, null, null, "http", null));
 
-    if (gerrit.getSpec().getService().getSshPort() != null) {
+    if (gerrit.getSpec().getService().isSshEnabled()) {
       containerPorts.add(new ContainerPort(SSH_PORT, null, null, "ssh", null));
     }
 
