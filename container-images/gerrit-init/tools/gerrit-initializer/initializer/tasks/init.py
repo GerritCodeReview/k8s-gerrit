@@ -164,32 +164,31 @@ class GerritInit:
 
         self.plugin_installer.execute()
 
-        if not self._needs_init():
-            return
+        if self._needs_init():
+            if self.gerrit_config:
+                LOG.info("Existing gerrit.config found.")
+            else:
+                LOG.info("No gerrit.config found. Initializing default site.")
 
-        if self.gerrit_config:
-            LOG.info("Existing gerrit.config found.")
-        else:
-            LOG.info("No gerrit.config found. Initializing default site.")
+            flags = "--no-auto-start --batch"
 
-        flags = "--no-auto-start --batch"
+            command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
 
-        command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
-
-        init_process = subprocess.run(
-            command.split(), stdout=subprocess.PIPE, check=True
-        )
-
-        if init_process.returncode > 0:
-            LOG.error(
-                "An error occurred, when initializing Gerrit. Exit code: %d",
-                init_process.returncode,
+            init_process = subprocess.run(
+                command.split(), stdout=subprocess.PIPE, check=True
             )
-            sys.exit(1)
 
-        self._symlink_configuration()
+            if init_process.returncode > 0:
+                LOG.error(
+                    "An error occurred, when initializing Gerrit. Exit code: %d",
+                    init_process.returncode,
+                )
+                sys.exit(1)
 
-        if self.is_replica:
-            self._symlink_mounted_site_components()
-        else:
+            self._symlink_configuration()
+
+            if self.is_replica:
+                self._symlink_mounted_site_components()
+
+        if not self.is_replica:
             get_reindexer(self.site, self.config).start(False)
