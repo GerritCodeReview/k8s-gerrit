@@ -44,7 +44,6 @@ public class GerritConfigBuilder {
     requiredOptions.add(new RequiredOption<String>("container", "user", "gerrit"));
     requiredOptions.add(new RequiredOption<String>("gerrit", "basepath", "git"));
     requiredOptions.add(new RequiredOption<String>("cache", "directory", "cache"));
-    requiredOptions.add(new RequiredOption<Boolean>("index", "onlineUpgrade", false));
     return requiredOptions;
   }
 
