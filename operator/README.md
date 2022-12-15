@@ -474,13 +474,6 @@ if a value is set to an illegal value. These options are:
     depending of TLS is enabled in the Ingress or not, otherwise the Jetty
     servlet will run into an endless redirect loop.
 
-- `index.onlineUpgrade`
-
-    Online reindexing is currently **NOT** supported. An offline reindexing will
-    be enforced upon Gerrit updates. Online reindexing might under some circum-
-    stances interfere with the Gerrit pod startup procedure and thus has to be
-    deactivated.
-
 - `sshd.advertisedAddress`
 
     This is only enforced, if Istio is enabled. It can be configured otherwise.

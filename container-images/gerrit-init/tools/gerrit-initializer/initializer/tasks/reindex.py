@@ -25,6 +25,8 @@ import requests
 from ..helpers import git, log
 
 LOG = log.get_logger("reindex")
+MNT_PATH = "/var/mnt"
+INDEXES = set(["accounts", "changes", "groups", "projects"])
 
 
 class IndexType(enum.Enum):
@@ -37,6 +39,12 @@ class GerritAbstractReindexer(abc.ABC):
         self.gerrit_site_path = gerrit_site_path
         self.index_config_path = f"{self.gerrit_site_path}/index/gerrit_index.config"
         self.init_config = config
+
+        self.gerrit_config = git.GitConfigParser(
+            os.path.join(MNT_PATH, "etc/config/gerrit.config")
+        )
+        self.is_online_reindex = self.gerrit_config.get_boolean("index.onlineUpgrade")
+        LOG.info(f"Online reindexing: {self.is_online_reindex}")
 
         self.configured_indices = self._parse_gerrit_index_config()
 
@@ -65,6 +73,7 @@ class GerritAbstractReindexer(abc.ABC):
             if not index_attrs["ready"]:
                 LOG.info("Index %s not ready.", index)
                 unready_indices.append(index)
+        unready_indices.extend(INDEXES.difference(self.configured_indices.keys()))
         return unready_indices
 
     def _check_index_versions(self):
@@ -112,7 +121,7 @@ class GerritAbstractReindexer(abc.ABC):
         if unready_indices:
             self.reindex(unready_indices)
 
-        if not self._check_index_versions():
+        if not self.is_online_reindex and not self._check_index_versions():
             LOG.info("Not all indices are up-to-date.")
             self.reindex()
             return
