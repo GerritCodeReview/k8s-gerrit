@@ -24,7 +24,7 @@ import requests
 from kubernetes import client
 
 PLUGINS = ["code-owners", "account"]
-GERRIT_VERSION = "3.6"
+GERRIT_VERSION = "3.7"
 
 
 @pytest.fixture(scope="module")
@@ -33,7 +33,7 @@ def plugin_list():
     for plugin in PLUGINS:
         url = (
             f"https://gerrit-ci.gerritforge.com/view/Plugins-stable-{GERRIT_VERSION}/"
-            f"job/plugin-{plugin}-bazel-stable-{GERRIT_VERSION}/lastSuccessfulBuild/"
+            f"job/plugin-{plugin}-bazel-master-stable-{GERRIT_VERSION}/lastSuccessfulBuild/"
             f"artifact/bazel-bin/plugins/{plugin}/{plugin}.jar"
         )
         jar = requests.get(url, verify=False).content
