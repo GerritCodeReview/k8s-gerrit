@@ -164,39 +164,38 @@ class GerritInit:
 
         self.plugin_installer.execute()
 
-        if not self._needs_init():
-            return
+        if self._needs_init():
+            if self.gerrit_config:
+                LOG.info("Existing gerrit.config found.")
+                dev_option = (
+                    "--dev"
+                    if self.gerrit_config.get("auth.type").lower()
+                    == "development_become_any_account"
+                    else ""
+                )
+            else:
+                LOG.info("No gerrit.config found. Initializing default site.")
+                dev_option = "--dev"
 
-        if self.gerrit_config:
-            LOG.info("Existing gerrit.config found.")
-            dev_option = (
-                "--dev"
-                if self.gerrit_config.get("auth.type").lower()
-                == "development_become_any_account"
-                else ""
+            flags = f"--no-auto-start --batch {dev_option}"
+
+            command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
+
+            init_process = subprocess.run(
+                command.split(), stdout=subprocess.PIPE, check=True
             )
-        else:
-            LOG.info("No gerrit.config found. Initializing default site.")
-            dev_option = "--dev"
 
-        flags = f"--no-auto-start --batch {dev_option}"
+            if init_process.returncode > 0:
+                LOG.error(
+                    "An error occurred, when initializing Gerrit. Exit code: %d",
+                    init_process.returncode,
+                )
+                sys.exit(1)
 
-        command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
+            self._symlink_configuration()
 
-        init_process = subprocess.run(
-            command.split(), stdout=subprocess.PIPE, check=True
-        )
+            if self.is_replica:
+                self._symlink_mounted_site_components()
 
-        if init_process.returncode > 0:
-            LOG.error(
-                "An error occurred, when initializing Gerrit. Exit code: %d",
-                init_process.returncode,
-            )
-            sys.exit(1)
-
-        self._symlink_configuration()
-
-        if self.is_replica:
-            self._symlink_mounted_site_components()
-        else:
+        if not self.is_replica:
             get_reindexer(self.site, self.config).start(False)
