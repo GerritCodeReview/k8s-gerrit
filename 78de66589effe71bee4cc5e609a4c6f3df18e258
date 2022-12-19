@@ -39,6 +39,30 @@
       },
       "revId": "78de66589effe71bee4cc5e609a4c6f3df18e258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a0fba5_faee6b92",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1079507
+      },
+      "writtenOn": "2022-12-19T22:54:18Z",
+      "side": 1,
+      "message": "Right, I have adjusted the URL template.\n\nI\u0027m wondering if the test was already broken for 3.6, as the jenkins job for the account plugin is also named \"plugin-account-bazel-master-stable-3.6\" in the 3.6 view ;)",
+      "parentUuid": "fe5818b2_7fa4c2a0",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "78de66589effe71bee4cc5e609a4c6f3df18e258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
