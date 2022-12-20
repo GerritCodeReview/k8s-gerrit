@@ -75,7 +75,6 @@
 			<groupId>com.urswolfer.gerrit.client.rest</groupId>
 			<artifactId>gerrit-rest-java-client</artifactId>
 			<version>0.9.5</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>

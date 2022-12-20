@@ -185,6 +185,14 @@ public class StatefulSetDependentResource
             .endConfigMap()
             .build());
 
+    volumes.add(
+        new VolumeBuilder()
+            .withName("gerrit-plugin-config")
+            .withNewConfigMap()
+            .withName(GerritPluginConfigMapDependentResource.getName(gerrit))
+            .endConfigMap()
+            .build());
+
     for (String secretName : gerrit.getSpec().getSecrets()) {
       volumes.add(
           new VolumeBuilder()

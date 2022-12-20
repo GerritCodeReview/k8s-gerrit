@@ -15,9 +15,11 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.PLUGIN_CONFIG_MAP_EVENT_SOURCE;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -37,6 +39,9 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,9 +59,16 @@ import java.util.stream.Collectors;
           type = GerritInitConfigMapDependentResource.class,
           useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
       @Dependent(
+          name = "gerrit-plugin-configmap",
+          type = GerritPluginConfigMapDependentResource.class,
+          useEventSourceWithName = PLUGIN_CONFIG_MAP_EVENT_SOURCE),
+      @Dependent(
           name = "gerrit-statefulset",
           type = StatefulSetDependentResource.class,
-          dependsOn = {"gerrit-configmap", "gerrit-init-configmap"}),
+          dependsOn = {
+            "gerrit-configmap",
+            "gerrit-init-configmap"
+          }), // , "gerrit-plugin-configmap"?
       @Dependent(
           name = "gerrit-service",
           type = ServiceDependentResource.class,
@@ -64,10 +76,11 @@ import java.util.stream.Collectors;
     })
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
   public static final String CONFIG_MAP_EVENT_SOURCE = "configmap-event-source";
-
+  public static final String PLUGIN_CONFIG_MAP_EVENT_SOURCE = "plugin-configmap-event-source";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
+
 
   public GerritReconciler(KubernetesClient client) {
     this.client = client;
@@ -112,10 +125,15 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
         new InformerEventSource<>(
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
 
+    InformerEventSource<ConfigMap, Gerrit> pluginConfigmapEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(ConfigMap.class, context).build(), context);
+
     Map<String, EventSource> eventSources =
         EventSourceInitializer.nameEventSources(gerritClusterEventSource);
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
+    eventSources.put(PLUGIN_CONFIG_MAP_EVENT_SOURCE, pluginConfigmapEventSource);
     return eventSources;
   }
 
@@ -171,6 +189,25 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
     return gerrit;
   }
 
+  private void reloadGerritPlugin(String plugin) throws IOException {
+	/**
+	 * Wendy TODO: 
+	 * Check for cases when plugin name isn't the same as the config.
+	 * Look into solution for authentication for GerritRestApi
+	 * (import com.urswolfer.gerrit.client.rest.GerritRestApi;)
+	 * Will the operator need an internal user/permissions for using the REST api?
+	 */
+    String pluginName = plugin.replace(".config", "");
+    String urlString = client.getMasterUrl().toString() + "plugins/" + pluginName + "~reload";
+    logger.atInfo().log(urlString);
+    URL url = new URL(urlString);
+    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+    con.setRequestMethod("POST");
+    con.setDoOutput(true);
+    con.getOutputStream();
+    con.getInputStream().close();
+  }
+
   @SuppressWarnings("rawtypes")
   private boolean isGerritRestartRequired(Gerrit gerrit, Context<Gerrit> context) {
     ManagedDependentResourceContext managedResources = context.managedDependentResourceContext();
@@ -183,7 +220,23 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
             && r.getSingleResource().get() instanceof ConfigMap
             && (r.getSingleOperation().equals(Operation.UPDATED)
                 || r.getSingleOperation().equals(Operation.CREATED))) {
-          return true;
+          Map<String, String> resourceInfo = ((ConfigMap) r.getSingleResource().get()).getData();
+          logger.atInfo().log("Configuration change in: %s", resourceInfo.keySet().toString());
+          if (resourceInfo.containsKey("gerrit.config")) {
+            // Restart when gerrit.config updated
+            return true;
+          } else {
+            // Changes in gerrit plugins necessitating reload
+            logger.atInfo().log("Plugins reloading.");
+            for (String k : resourceInfo.keySet()) {
+              try {
+                reloadGerritPlugin(k);
+              } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
+            }
+          }
         }
       }
     }
@@ -199,7 +252,8 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
               .getResourceVersion();
       if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(sec))) {
         logger.atFine().log(
-            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
+            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known"
+                + " to Gerrit: %s",
             sec, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(sec));
         return true;
       }

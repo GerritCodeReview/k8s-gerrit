@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.PLUGIN_CONFIG_MAP_EVENT_SOURCE;
 
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -23,7 +23,8 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.Optional;
 
-public class GerritInitConfigMapDiscriminator implements ResourceDiscriminator<ConfigMap, Gerrit> {
+public class GerritPluginConfigMapDiscriminator
+    implements ResourceDiscriminator<ConfigMap, Gerrit> {
   @Override
   public Optional<ConfigMap> distinguish(
       Class<ConfigMap> resource, Gerrit primary, Context<Gerrit> context) {
@@ -31,11 +32,11 @@ public class GerritInitConfigMapDiscriminator implements ResourceDiscriminator<C
         (InformerEventSource<ConfigMap, Gerrit>)
             context
                 .eventSourceRetriever()
-                .getResourceEventSourceFor(ConfigMap.class, CONFIG_MAP_EVENT_SOURCE);
+                .getResourceEventSourceFor(ConfigMap.class, PLUGIN_CONFIG_MAP_EVENT_SOURCE);
 
     return ies.get(
         new ResourceID(
-            GerritInitConfigMapDependentResource.getName(primary),
+            GerritPluginConfigMapDependentResource.getName(primary),
             primary.getMetadata().getNamespace()));
   }
 }

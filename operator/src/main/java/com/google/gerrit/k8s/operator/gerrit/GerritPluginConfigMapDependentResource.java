@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIngress;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -25,15 +25,14 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = GerritConfigMapDiscriminator.class)
-public class GerritConfigMapDependentResource
+@KubernetesDependent(resourceDiscriminator = GerritPluginConfigMapDiscriminator.class)
+public class GerritPluginConfigMapDependentResource
     extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
-  private static final String DEFAULT_HEALTHCHECK_CONFIG =
-      "[healthcheck \"auth\"]\nenabled = false\n[healthcheck \"querychanges\"]\nenabled = false";
-
-  public GerritConfigMapDependentResource() {
+  public GerritPluginConfigMapDependentResource() {
     super(ConfigMap.class);
   }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
@@ -52,33 +51,29 @@ public class GerritConfigMapDependentResource
 
     Map<String, String> configFiles = gerrit.getSpec().getConfigFiles();
 
-    if (!configFiles.containsKey("gerrit.config")) {
-      configFiles.put("gerrit.config", "");
+    if (!configFiles.isEmpty()) {
+      for (var entry : configFiles.entrySet()) {
+        GerritConfigBuilder gerritConfigBuilder =
+            new GerritConfigBuilder().withConfig(configFiles.get(entry.getKey()));
+
+        if (gerritCluster.getSpec().getIngress().isEnabled()) {
+          gerritConfigBuilder.withUrl(
+              GerritIngress.getFullHostname(
+                  ServiceDependentResource.getName(gerrit), gerritCluster));
+        } else {
+          gerritConfigBuilder.withUrl(ServiceDependentResource.getHostname(gerrit));
+        }
+
+        configFiles.put(entry.getKey(), gerritConfigBuilder.build().toText());
+      }
     }
 
-    GerritConfigBuilder gerritConfigBuilder =
-        new GerritConfigBuilder().withConfig(configFiles.get("gerrit.config"));
-
-    gerritConfigBuilder.useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
-
-    if (gerritCluster.getSpec().getIngress().isEnabled()) {
-      gerritConfigBuilder.withUrl(
-          GerritIngress.getFullHostname(ServiceDependentResource.getName(gerrit), gerritCluster));
-    } else {
-      gerritConfigBuilder.withUrl(ServiceDependentResource.getHostname(gerrit));
+    if (configFiles.containsKey("gerrit.config")) {
+      configFiles.remove("gerrit.config");
     }
-
-    configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
-
-    if (!configFiles.containsKey("healthcheck.config")) {
-      configFiles.put("healthcheck.config", DEFAULT_HEALTHCHECK_CONFIG);
+    if (configFiles.containsKey("healthcheck.config")) {
+      configFiles.remove("healthcheck.config");
     }
-
-    // TODO: Remove this (should use validation for whether or not something is a plugin config
-    // file)
-    //    if (configFiles.containsKey("replication.config")) {
-    //     configFiles.remove("replication.config");
-    //  }
 
     return new ConfigMapBuilder()
         .withApiVersion("v1")
@@ -91,7 +86,7 @@ public class GerritConfigMapDependentResource
         .build();
   }
 
-  public static String getName(Gerrit gerrit) {
-    return String.format("%s-configmap", gerrit.getMetadata().getName());
+  protected static String getName(Gerrit gerrit) {
+    return String.format("%s-plugin-configmap", gerrit.getMetadata().getName());
   }
 }
