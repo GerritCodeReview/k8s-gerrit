@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
+
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;
@@ -23,6 +25,7 @@ import java.util.Optional;
 
 public class GerritLogsPVCDiscriminator
     implements ResourceDiscriminator<PersistentVolumeClaim, GerritCluster> {
+
   @Override
   public Optional<PersistentVolumeClaim> distinguish(
       Class<PersistentVolumeClaim> resource,
@@ -30,7 +33,9 @@ public class GerritLogsPVCDiscriminator
       Context<GerritCluster> context) {
     InformerEventSource<PersistentVolumeClaim, GerritCluster> ies =
         (InformerEventSource<PersistentVolumeClaim, GerritCluster>)
-            context.eventSourceRetriever().getResourceEventSourceFor(PersistentVolumeClaim.class);
+            context
+                .eventSourceRetriever()
+                .getResourceEventSourceFor(PersistentVolumeClaim.class, PVC_EVENT_SOURCE);
 
     return ies.get(
         new ResourceID(GerritLogsPVC.LOGS_PVC_NAME, primary.getMetadata().getNamespace()));
