@@ -71,6 +71,12 @@ public class GerritConfigMapDependentResource
       configFiles.put("healthcheck.config", DEFAULT_HEALTHCHECK_CONFIG);
     }
 
+    // TODO: Remove this (should use validation for whether or not something is a plugin config
+    // file)
+    if (configFiles.containsKey("replication.config")) {
+      configFiles.remove("replication.config");
+    }
+
     return new ConfigMapBuilder()
         .withApiVersion("v1")
         .withNewMetadata()
