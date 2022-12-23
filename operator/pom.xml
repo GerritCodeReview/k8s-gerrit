@@ -52,9 +52,14 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.takes</groupId>
-			<artifactId>takes</artifactId>
-			<version>1.19</version>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>11.0.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>11.0.15</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.flogger</groupId>
@@ -65,6 +70,11 @@
 			<groupId>com.google.flogger</groupId>
 			<artifactId>flogger-log4j2-backend</artifactId>
 			<version>${flogger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>5.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
