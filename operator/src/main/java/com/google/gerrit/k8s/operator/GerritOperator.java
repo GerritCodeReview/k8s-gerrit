@@ -19,21 +19,20 @@ import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.server.HttpServer;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Stage;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.javaoperatorsdk.operator.Operator;
-import java.io.IOException;
-import org.takes.facets.fork.FkRegex;
-import org.takes.facets.fork.TkFork;
-import org.takes.http.Exit;
-import org.takes.http.FtBasic;
 
 public class GerritOperator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
     Config config = new ConfigBuilder().withNamespace(null).build();
     KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
     Operator operator = new Operator(client);
@@ -48,6 +47,7 @@ public class GerritOperator {
     operator.installShutdownHook();
     operator.start();
 
-    new FtBasic(new TkFork(new FkRegex("/health", "ALL GOOD.")), 8080).start(Exit.NEVER);
+    Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
+    injector.getInstance(HttpServer.class).start();
   }
 }
