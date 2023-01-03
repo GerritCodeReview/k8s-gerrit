@@ -11,6 +11,17 @@ metadata:
   namespace: gerrit-operator
 
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  gerrit-operator-ssl
+  namespace: gerrit-operator
+data:
+  keystore.jks: # base64-encoded Java keystore
+  keystore.password: # base64-encoded Java keystore password
+type: Opaque
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,12 +47,22 @@ spec:
           httpGet:
             path: /health
             port: 8080
+            scheme: HTTPS
           initialDelaySeconds: 1
         livenessProbe:
           httpGet:
             path: /health
             port: 8080
+            scheme: HTTPS
           initialDelaySeconds: 30
+        volumeMounts:
+        - name: ssl
+          readOnly: true
+          mountPath: /operator
+      volumes:
+      - name: ssl
+        secret:
+          secretName: gerrit-operator-ssl
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
