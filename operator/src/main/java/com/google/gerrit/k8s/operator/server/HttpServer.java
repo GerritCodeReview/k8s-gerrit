@@ -15,17 +15,38 @@
 package com.google.gerrit.k8s.operator.server;
 
 import com.google.inject.Singleton;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 @Singleton
 public class HttpServer {
+  private static final String KEYSTORE_PATH = "/operator/keystore.jks";
+  private static final String KEYSTORE_PWD_FILE = "/operator/keystore.password";
+
   private final Server server = new Server();
 
   public void start() throws Exception {
-    ServerConnector connector = new ServerConnector(server);
+    SslContextFactory.Server ssl = new SslContextFactory.Server();
+    ssl.setKeyStorePath(KEYSTORE_PATH);
+    ssl.setTrustStorePath(KEYSTORE_PATH);
+    String pwd = Files.readString(Path.of(KEYSTORE_PWD_FILE));
+    ssl.setKeyStorePassword(pwd);
+    ssl.setTrustStorePassword(pwd);
+    ssl.setSniRequired(false);
+
+    HttpConfiguration sslConfiguration = new HttpConfiguration();
+    sslConfiguration.addCustomizer(new SecureRequestCustomizer(false));
+    HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(sslConfiguration);
+
+    ServerConnector connector = new ServerConnector(server, ssl, httpConnectionFactory);
     connector.setPort(8080);
     server.setConnectors(new Connector[] {connector});
 
@@ -33,6 +54,7 @@ public class HttpServer {
     server.setHandler(servletHandler);
 
     servletHandler.addServletWithMapping(HealthcheckServlet.class, "/health");
+
     server.start();
   }
 }
