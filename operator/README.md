@@ -68,6 +68,24 @@ kubectl apply -f target/classes/META-INF/fabric8/*-v1.yml
 Note that these do not include the -v1beta1.yaml files, as those are for old
 Kubernetes versions.
 
+The operator requires a Java Keystore with a keypair inside to allow TLS
+verification for Kubernetes Admission Webhooks. To create a keystore and
+encode it with base64, run:
+
+```sh
+keytool \
+  -genkeypair \
+  -alias operator \
+  -keystore keystore \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 3650
+cat keystore | base64 -b 0
+```
+
+Add the result to the Secret in `k8s/operator.yaml` (see comments in the file)
+and also add the base64-encoded password for the keystore to the secret.
+
 Then the operator and associated RBAC rules can be deployed:
 
 ```sh
