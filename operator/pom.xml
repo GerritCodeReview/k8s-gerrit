@@ -14,6 +14,7 @@
 		<fabric8.version>6.2.0</fabric8.version>
 		<flogger.version>0.7.4</flogger.version>
 		<javaoperatorsdk.version>4.2.4</javaoperatorsdk.version>
+		<jetty.version>11.0.15</jetty.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
@@ -54,12 +55,12 @@
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
-			<version>11.0.15</version>
+			<version>${jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
-			<version>11.0.15</version>
+			<version>${jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.flogger</groupId>
