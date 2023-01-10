@@ -14,11 +14,13 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
-public class RequiredOption<T> {
-  private final String section;
-  private final String subSection;
-  private final String key;
-  private final T expected;
+import org.eclipse.jgit.lib.Config;
+
+public abstract class RequiredOption<T> {
+  protected final String section;
+  protected final String subSection;
+  protected final String key;
+  protected final T expected;
 
   public RequiredOption(String section, String subSection, String key, T expected) {
     this.section = section;
@@ -30,6 +32,8 @@ public class RequiredOption<T> {
   public RequiredOption(String section, String key, T expected) {
     this(section, null, key, expected);
   }
+
+  public abstract void set(Config cfg);
 
   public String getSection() {
     return section;
