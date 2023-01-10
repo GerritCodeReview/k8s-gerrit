@@ -15,9 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.config;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -29,15 +27,15 @@ public class GerritConfigBuilder {
   private static List<RequiredOption> setupStaticRequiredOptions() {
     List<RequiredOption> requiredOptions = new ArrayList<>();
     requiredOptions.add(
-        new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
+        new RequiredStringOption("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
     requiredOptions.add(
-        new RequiredOption<Set<String>>(
+        new RequiredStringListOption(
             "container",
             "javaOptions",
-            Set.of("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore")));
-    requiredOptions.add(new RequiredOption<String>("container", "user", "gerrit"));
-    requiredOptions.add(new RequiredOption<String>("gerrit", "basepath", "git"));
-    requiredOptions.add(new RequiredOption<Boolean>("index", "onlineUpgrade", false));
+            List.of("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore")));
+    requiredOptions.add(new RequiredStringOption("container", "user", "gerrit"));
+    requiredOptions.add(new RequiredStringOption("gerrit", "basepath", "git"));
+    requiredOptions.add(new RequiredBooleanOption("index", "onlineUpgrade", false));
     return requiredOptions;
   }
 
@@ -58,12 +56,12 @@ public class GerritConfigBuilder {
   }
 
   public GerritConfigBuilder withUrl(String url) {
-    this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+    this.requiredOptions.add(new RequiredStringOption("gerrit", "canonicalWebUrl", url));
     return this;
   }
 
   public GerritConfigBuilder useReplicaMode(boolean isReplica) {
-    this.requiredOptions.add(new RequiredOption<Boolean>("container", "replica", isReplica));
+    this.requiredOptions.add(new RequiredBooleanOption("container", "replica", isReplica));
     return this;
   }
 
@@ -77,23 +75,7 @@ public class GerritConfigBuilder {
   @SuppressWarnings("unchecked")
   private void setRequiredOptions() {
     for (RequiredOption<?> opt : requiredOptions) {
-      if (opt.getExpected() instanceof String) {
-        cfg.setString(
-            opt.getSection(), opt.getSubSection(), opt.getKey(), (String) opt.getExpected());
-      } else if (opt.getExpected() instanceof Boolean) {
-        cfg.setBoolean(
-            opt.getSection(), opt.getSubSection(), opt.getKey(), (Boolean) opt.getExpected());
-      } else if (opt.getExpected() instanceof Set) {
-        List<String> values =
-            new ArrayList<String>(
-                Arrays.asList(
-                    cfg.getStringList(opt.getSection(), opt.getSubSection(), opt.getKey())));
-        List<String> expectedSet = new ArrayList<String>();
-        expectedSet.addAll((Set<String>) opt.getExpected());
-        expectedSet.removeAll(values);
-        values.addAll(expectedSet);
-        cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
-      }
+      opt.set(cfg);
     }
   }
 
