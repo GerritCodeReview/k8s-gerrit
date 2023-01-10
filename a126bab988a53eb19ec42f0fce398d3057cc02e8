@@ -52,6 +52,24 @@
       "parentUuid": "3cb0ad61_d1d693a9",
       "revId": "a126bab988a53eb19ec42f0fce398d3057cc02e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b060af_80667681",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-01-10T12:37:45Z",
+      "side": 1,
+      "message": "Java conventions are against initialising fields to their default values. Gerrit code also doesn\u0027t do that.",
+      "parentUuid": "6df58adf_7e9b8db1",
+      "revId": "a126bab988a53eb19ec42f0fce398d3057cc02e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
