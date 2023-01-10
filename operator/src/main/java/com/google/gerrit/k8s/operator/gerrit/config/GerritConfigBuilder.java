@@ -19,13 +19,12 @@ import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-@SuppressWarnings("rawtypes")
 public class GerritConfigBuilder {
-  private List<RequiredOption> requiredOptions = new ArrayList<>(setupStaticRequiredOptions());
+  private List<RequiredOption<?>> requiredOptions = setupStaticRequiredOptions();
   private Config cfg;
 
-  private static List<RequiredOption> setupStaticRequiredOptions() {
-    List<RequiredOption> requiredOptions = new ArrayList<>();
+  private static List<RequiredOption<?>> setupStaticRequiredOptions() {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
     requiredOptions.add(
         new RequiredStringOption("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
     requiredOptions.add(
@@ -72,14 +71,13 @@ public class GerritConfigBuilder {
     return cfg;
   }
 
-  @SuppressWarnings("unchecked")
   private void setRequiredOptions() {
     for (RequiredOption<?> opt : requiredOptions) {
       opt.set(cfg);
     }
   }
 
-  public List<RequiredOption> getRequiredOptions() {
+  public List<RequiredOption<?>> getRequiredOptions() {
     return requiredOptions;
   }
 }
