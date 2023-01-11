@@ -63,6 +63,30 @@
       },
       "revId": "78de66589effe71bee4cc5e609a4c6f3df18e258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71ca5460_acc0a163",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-11T15:13:46Z",
+      "side": 1,
+      "message": "Oh I must have missed that. It might also have changed in the meantime. The URLs in the CI are not that stable unfortunately.\nThe updated URL also does not fit the account-plugin, since it is now being built against the stable branch. Could you change it to a different plugin?\nSorry for that mess...",
+      "parentUuid": "54a0fba5_faee6b92",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "78de66589effe71bee4cc5e609a4c6f3df18e258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
