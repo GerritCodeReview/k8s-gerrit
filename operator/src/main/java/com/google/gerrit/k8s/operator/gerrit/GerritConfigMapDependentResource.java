@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIngress;
+import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -57,6 +58,8 @@ public class GerritConfigMapDependentResource
 
     GerritConfigBuilder gerritConfigBuilder =
         new GerritConfigBuilder().withConfig(configFiles.get("gerrit.config"));
+
+    gerritConfigBuilder.useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
 
     if (gerritCluster.getSpec().getIngress().isEnabled()) {
       gerritConfigBuilder.withUrl(
