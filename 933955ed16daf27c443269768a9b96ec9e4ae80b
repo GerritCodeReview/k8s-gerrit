@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "563478e1_b21412c7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredBooleanOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-12T09:17:35Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c85f620_03b69623",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredStringListOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-12T09:17:35Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "214c1117_0e2034d1",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredStringListOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-12T09:17:35Z",
+      "side": 1,
+      "message": "This will override the complete list, but we just want to add a single option. The user should still be able to add their own options. Think of javaOptions for example.",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db4dd311_9efeb07c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredStringOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-12T09:17:35Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
