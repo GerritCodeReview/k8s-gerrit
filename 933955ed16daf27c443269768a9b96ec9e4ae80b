@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d17e20a8_72b670d1",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredBooleanOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-01-12T12:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "563478e1_b21412c7",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c85f620_03b69623",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-12T09:17:35Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc948da_f5d9f2ea",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredStringListOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-01-12T12:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c85f620_03b69623",
       "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -70,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba2c3fe2_caf16bcd",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredStringListOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-01-12T12:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eff5942f_0426181e",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db4dd311_9efeb07c",
@@ -83,6 +137,24 @@
       "writtenOn": "2023-01-12T09:17:35Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "898acdf2_bbf1ef9f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/RequiredStringOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-01-12T12:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db4dd311_9efeb07c",
       "revId": "933955ed16daf27c443269768a9b96ec9e4ae80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
