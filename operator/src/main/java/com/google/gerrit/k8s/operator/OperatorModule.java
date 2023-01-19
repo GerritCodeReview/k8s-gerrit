@@ -14,12 +14,34 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
+import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
+import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.AbstractModule;
+import com.google.inject.multibindings.Multibinder;
+import io.fabric8.kubernetes.client.Config;
+import io.fabric8.kubernetes.client.ConfigBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
+import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 
 public class OperatorModule extends AbstractModule {
+  @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
+    bind(KubernetesClient.class).toInstance(getKubernetesClient());
     bind(HttpServer.class);
+    Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
+    reconcilers.addBinding().to(GerritClusterReconciler.class);
+    reconcilers.addBinding().to(GerritReconciler.class);
+    reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
+    reconcilers.addBinding().to(ReceiverReconciler.class);
+  }
+
+  private KubernetesClient getKubernetesClient() {
+    Config config = new ConfigBuilder().withNamespace(null).build();
+    return new KubernetesClientBuilder().withConfig(config).build();
   }
 }
