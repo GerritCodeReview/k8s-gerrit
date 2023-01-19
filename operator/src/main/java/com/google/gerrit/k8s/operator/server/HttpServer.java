@@ -14,9 +14,8 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -28,18 +27,24 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 @Singleton
 public class HttpServer {
-  private static final String KEYSTORE_PATH = "/operator/keystore.jks";
-  private static final String KEYSTORE_PWD_FILE = "/operator/keystore.password";
+  public static final String KEYSTORE_PATH = "/operator/keystore.jks";
+  public static final String KEYSTORE_PWD_FILE = "/operator/keystore.password";
+  public static final int PORT = 8080;
 
   private final Server server = new Server();
+  private final KeyStoreProvider keyStoreProvider;
+
+  @Inject
+  public HttpServer(KeyStoreProvider keyStoreProvider) {
+    this.keyStoreProvider = keyStoreProvider;
+  }
 
   public void start() throws Exception {
     SslContextFactory.Server ssl = new SslContextFactory.Server();
-    ssl.setKeyStorePath(KEYSTORE_PATH);
-    ssl.setTrustStorePath(KEYSTORE_PATH);
-    String pwd = Files.readString(Path.of(KEYSTORE_PWD_FILE));
-    ssl.setKeyStorePassword(pwd);
-    ssl.setTrustStorePassword(pwd);
+    ssl.setKeyStorePath(keyStoreProvider.getKeyStorePath().toString());
+    ssl.setTrustStorePath(keyStoreProvider.getKeyStorePath().toString());
+    ssl.setKeyStorePassword(keyStoreProvider.getKeyStorePassword());
+    ssl.setTrustStorePassword(keyStoreProvider.getKeyStorePassword());
     ssl.setSniRequired(false);
 
     HttpConfiguration sslConfiguration = new HttpConfiguration();
@@ -47,7 +52,7 @@ public class HttpServer {
     HttpConnectionFactory httpConnectionFactory = new HttpConnectionFactory(sslConfiguration);
 
     ServerConnector connector = new ServerConnector(server, ssl, httpConnectionFactory);
-    connector.setPort(8080);
+    connector.setPort(PORT);
     server.setConnectors(new Connector[] {connector});
 
     ServletHandler servletHandler = new ServletHandler();
