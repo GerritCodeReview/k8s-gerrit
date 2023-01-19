@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.gitgc;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -38,20 +40,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Singleton
 @ControllerConfiguration
 public class GitGarbageCollectionReconciler
     implements Reconciler<GitGarbageCollection>,
         EventSourceInitializer<GitGarbageCollection>,
         ErrorStatusHandler<GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private final KubernetesClient kubernetesClient;
+  private final KubernetesClient client;
 
   private GitGarbageCollectionCronJob dependentCronJob;
 
-  public GitGarbageCollectionReconciler(KubernetesClient kubernetesClient) {
-    this.kubernetesClient = kubernetesClient;
+  @Inject
+  public GitGarbageCollectionReconciler(KubernetesClient client) {
+    this.client = client;
     this.dependentCronJob = new GitGarbageCollectionCronJob();
-    this.dependentCronJob.setKubernetesClient(kubernetesClient);
+    this.dependentCronJob.setKubernetesClient(client);
   }
 
   @Override
@@ -116,7 +120,7 @@ public class GitGarbageCollectionReconciler
 
   private GitGarbageCollection excludeProjectsHandledSeparately(GitGarbageCollection currentGitGc) {
     List<GitGarbageCollection> gitGcs =
-        kubernetesClient
+        client
             .resources(GitGarbageCollection.class)
             .inNamespace(currentGitGc.getMetadata().getNamespace())
             .list()
@@ -134,7 +138,7 @@ public class GitGarbageCollectionReconciler
 
   private void validateGitGCProjectList(GitGarbageCollection gitGc) {
     List<GitGarbageCollection> gitGcs =
-        kubernetesClient
+        client
             .resources(GitGarbageCollection.class)
             .inNamespace(gitGc.getMetadata().getNamespace())
             .list()
