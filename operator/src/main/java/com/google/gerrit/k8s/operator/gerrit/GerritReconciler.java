@@ -19,6 +19,8 @@ import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -44,6 +46,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Singleton
 @ControllerConfiguration(
     dependents = {
       @Dependent(
@@ -73,6 +76,7 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   private final GerritIstioVirtualService virtualService;
   private final GerritIstioDestinationRule destinationRule;
 
+  @Inject
   public GerritReconciler(KubernetesClient client) {
     this.client = client;
 

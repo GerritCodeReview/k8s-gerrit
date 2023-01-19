@@ -18,6 +18,8 @@ import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC
 
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
@@ -38,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Singleton
 @ControllerConfiguration(
     dependents = {
       @Dependent(type = GitRepositoriesPVC.class, useEventSourceWithName = PVC_EVENT_SOURCE),
@@ -56,19 +59,20 @@ public class GerritClusterReconciler
   private static final String GERRIT_INGRESS_EVENT_SOURCE = "gerrit-ingress";
   private static final String GERRIT_ISTIO_EVENT_SOURCE = "gerrit-istio";
 
-  private final KubernetesClient kubernetesClient;
+  private final KubernetesClient client;
 
   private GerritIngress gerritIngress;
   private GerritIstioGateway gerritIstioGateway;
 
+  @Inject
   public GerritClusterReconciler(KubernetesClient client) {
-    this.kubernetesClient = client;
+    this.client = client;
 
     this.gerritIngress = new GerritIngress();
-    this.gerritIngress.setKubernetesClient(kubernetesClient);
+    this.gerritIngress.setKubernetesClient(client);
 
     this.gerritIstioGateway = new GerritIstioGateway();
-    this.gerritIstioGateway.setKubernetesClient(kubernetesClient);
+    this.gerritIstioGateway.setKubernetesClient(client);
   }
 
   @Override
@@ -158,7 +162,7 @@ public class GerritClusterReconciler
   private List<String> getManagedMemberInstances(
       GerritCluster gerritCluster,
       Class<? extends GerritClusterMember<? extends GerritClusterMemberSpec, ?>> clazz) {
-    return kubernetesClient
+    return client
         .resources(clazz)
         .inNamespace(gerritCluster.getMetadata().getNamespace())
         .list()
