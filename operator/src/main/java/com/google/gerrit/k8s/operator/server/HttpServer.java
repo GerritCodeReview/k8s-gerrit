@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.server;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Set;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
@@ -23,6 +24,7 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 @Singleton
@@ -33,10 +35,13 @@ public class HttpServer {
 
   private final Server server = new Server();
   private final KeyStoreProvider keyStoreProvider;
+  private final Set<AdmissionWebhookServlet> admissionWebhookServlets;
 
   @Inject
-  public HttpServer(KeyStoreProvider keyStoreProvider) {
+  public HttpServer(
+      KeyStoreProvider keyStoreProvider, Set<AdmissionWebhookServlet> admissionWebhookServlets) {
     this.keyStoreProvider = keyStoreProvider;
+    this.admissionWebhookServlets = admissionWebhookServlets;
   }
 
   public void start() throws Exception {
@@ -57,6 +62,11 @@ public class HttpServer {
 
     ServletHandler servletHandler = new ServletHandler();
     server.setHandler(servletHandler);
+
+    for (AdmissionWebhookServlet servlet : admissionWebhookServlets) {
+      servletHandler.addServletWithMapping(
+          new ServletHolder(servlet), "/admission/" + servlet.getName());
+    }
     servletHandler.addServletWithMapping(HealthcheckServlet.class, "/health");
     server.start();
   }
