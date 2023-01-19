@@ -18,7 +18,7 @@ import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
-import com.google.gerrit.k8s.operator.server.HttpServer;
+import com.google.gerrit.k8s.operator.server.ServerModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import io.fabric8.kubernetes.client.Config;
@@ -31,6 +31,8 @@ public class OperatorModule extends AbstractModule {
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
+    install(new ServerModule());
+
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
     bind(HttpServer.class);
     bind(GerritOperator.class);
