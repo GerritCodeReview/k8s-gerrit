@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
@@ -21,6 +22,7 @@ import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.server.ServerModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Names;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -32,9 +34,13 @@ public class OperatorModule extends AbstractModule {
   @Override
   protected void configure() {
     install(new ServerModule());
+    install(new AdmissionWebhookModule());
 
+    bind(String.class)
+        .annotatedWith(Names.named("Namespace"))
+        .toInstance(System.getenv("NAMESPACE"));
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
-    bind(HttpServer.class);
+    bind(LifecycleManager.class);
     bind(GerritOperator.class);
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
     reconcilers.addBinding().to(GerritClusterReconciler.class);
