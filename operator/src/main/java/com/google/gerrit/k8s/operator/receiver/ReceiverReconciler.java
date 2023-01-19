@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.receiver;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
@@ -34,6 +36,7 @@ import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEven
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Singleton
 @ControllerConfiguration(
     dependents = {
       @Dependent(name = "receiver-deployment", type = ReceiverDeploymentDependentResource.class),
@@ -49,6 +52,7 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
 
   private final ReceiverIstioVirtualService virtualService;
 
+  @Inject
   public ReceiverReconciler(KubernetesClient client) {
     this.client = client;
 
