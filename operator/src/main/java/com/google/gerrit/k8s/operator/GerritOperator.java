@@ -29,6 +29,7 @@ public class GerritOperator {
   public static final int SERVICE_PORT = 8080;
 
   private final KubernetesClient client;
+  private final LifecycleManager lifecycleManager;
 
   @SuppressWarnings("rawtypes")
   private final Set<Reconciler> reconcilers;
@@ -37,7 +38,9 @@ public class GerritOperator {
 
   @Inject
   @SuppressWarnings("rawtypes")
-  public GerritOperator(KubernetesClient client, Set<Reconciler> reconcilers) {
+  public GerritOperator(
+      LifecycleManager lifecycleManager, KubernetesClient client, Set<Reconciler> reconcilers) {
+    this.lifecycleManager = lifecycleManager;
     this.client = client;
     this.reconcilers = reconcilers;
   }
@@ -49,7 +52,7 @@ public class GerritOperator {
           String.format("Registering reconciler: %s", reconciler.getClass().getSimpleName()));
       operator.register(reconciler);
     }
-    operator.installShutdownHook();
     operator.start();
+    lifecycleManager.addShutdownHook(999, new Thread(operator::stop));
   }
 }
