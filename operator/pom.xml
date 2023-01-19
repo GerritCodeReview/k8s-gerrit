@@ -87,6 +87,11 @@
 			<version>6.3.0.202209071007-r</version>
 		</dependency>
 		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.70</version>
+		</dependency>
+		<dependency>
 			<groupId>com.urswolfer.gerrit.client.rest</groupId>
 			<artifactId>gerrit-rest-java-client</artifactId>
 			<version>0.9.5</version>
