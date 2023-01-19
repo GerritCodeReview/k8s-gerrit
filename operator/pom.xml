@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.google.gerrit.operator</groupId>
@@ -41,9 +43,9 @@
 			<version>${fabric8.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.fabric8</groupId>
-		    <artifactId>istio-client</artifactId>
-		    <version>${fabric8.version}</version>
+			<groupId>io.fabric8</groupId>
+			<artifactId>istio-client</artifactId>
+			<version>${fabric8.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.fabric8</groupId>
@@ -85,6 +87,11 @@
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
 			<version>6.3.0.202209071007-r</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>1.70</version>
 		</dependency>
 		<dependency>
 			<groupId>com.urswolfer.gerrit.client.rest</groupId>
@@ -135,7 +142,7 @@
 				<version>3.3.1</version>
 				<configuration>
 					<container>
-						<mainClass>com.google.gerrit.k8s.operator.GerritOperator</mainClass>
+						<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
 					</container>
 					<containerizingMode>packaged</containerizingMode>
 					<from>

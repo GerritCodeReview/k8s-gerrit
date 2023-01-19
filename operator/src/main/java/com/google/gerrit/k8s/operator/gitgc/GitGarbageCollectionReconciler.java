@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.gitgc;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -31,27 +33,26 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+@Singleton
 @ControllerConfiguration
 public class GitGarbageCollectionReconciler
     implements Reconciler<GitGarbageCollection>,
         EventSourceInitializer<GitGarbageCollection>,
         ErrorStatusHandler<GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private final KubernetesClient kubernetesClient;
+  private final KubernetesClient client;
 
   private GitGarbageCollectionCronJob dependentCronJob;
 
-  public GitGarbageCollectionReconciler(KubernetesClient kubernetesClient) {
-    this.kubernetesClient = kubernetesClient;
+  @Inject
+  public GitGarbageCollectionReconciler(KubernetesClient client) {
+    this.client = client;
     this.dependentCronJob = new GitGarbageCollectionCronJob();
-    this.dependentCronJob.setKubernetesClient(kubernetesClient);
+    this.dependentCronJob.setKubernetesClient(client);
   }
 
   @Override
@@ -94,7 +95,6 @@ public class GitGarbageCollectionReconciler
   @Override
   public UpdateControl<GitGarbageCollection> reconcile(
       GitGarbageCollection gitGc, Context<GitGarbageCollection> context) {
-    validateGitGCProjectList(gitGc);
     if (gitGc.getSpec().getProjects().isEmpty()) {
       gitGc = excludeProjectsHandledSeparately(gitGc);
     }
@@ -116,7 +116,7 @@ public class GitGarbageCollectionReconciler
 
   private GitGarbageCollection excludeProjectsHandledSeparately(GitGarbageCollection currentGitGc) {
     List<GitGarbageCollection> gitGcs =
-        kubernetesClient
+        client
             .resources(GitGarbageCollection.class)
             .inNamespace(currentGitGc.getMetadata().getNamespace())
             .list()
@@ -130,55 +130,6 @@ public class GitGarbageCollectionReconciler
     currentGitGc.setStatus(currentGitGcStatus);
 
     return currentGitGc;
-  }
-
-  private void validateGitGCProjectList(GitGarbageCollection gitGc) {
-    List<GitGarbageCollection> gitGcs =
-        kubernetesClient
-            .resources(GitGarbageCollection.class)
-            .inNamespace(gitGc.getMetadata().getNamespace())
-            .list()
-            .getItems();
-    Set<String> projects = gitGc.getSpec().getProjects();
-
-    gitGcs =
-        gitGcs.stream()
-            .filter(gc -> !gc.getMetadata().getUid().equals(gitGc.getMetadata().getUid()))
-            .collect(Collectors.toList());
-    logger.atFine().log("Detected GitGcs: %s", gitGcs);
-    List<GitGarbageCollection> allProjectGcs =
-        gitGcs.stream().filter(gc -> gc.getStatus().isReplicateAll()).collect(Collectors.toList());
-    if (!allProjectGcs.isEmpty() && projects.isEmpty()) {
-      throw new GitGarbageCollectionConflictException(
-          "Multiple Git GC jobs working on all projects are not allowed.");
-    }
-
-    Set<String> projectsWithExistingGC =
-        gitGcs.stream()
-            .map(gc -> gc.getSpec().getProjects())
-            .flatMap(Collection::stream)
-            .collect(Collectors.toSet());
-    Set<String> projectsIntercept = getIntercept(projects, projectsWithExistingGC);
-    if (projectsIntercept.isEmpty()) {
-      return;
-    }
-    logger.atFine().log("Found conflicting projects: %s", projectsIntercept);
-
-    if (gitGcs.stream()
-        .filter(gc -> !getIntercept(projects, gc.getSpec().getProjects()).isEmpty())
-        .allMatch(gc -> gc.getStatus().getState().equals(GitGcState.CONFLICT))) {
-      logger.atFine().log("All other GitGcs are marked as conflicting. Activating %s", gitGc);
-      return;
-    }
-    logger.atFine().log("%s will be marked as conflicting", gitGc);
-    throw new GitGarbageCollectionConflictException(projectsIntercept);
-  }
-
-  private Set<String> getIntercept(Set<String> set1, Set<String> set2) {
-    Set<String> intercept = new HashSet<>();
-    intercept.addAll(set1);
-    intercept.retainAll(set2);
-    return intercept;
   }
 
   @Override
