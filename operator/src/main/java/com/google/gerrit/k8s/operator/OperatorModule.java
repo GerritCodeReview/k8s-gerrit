@@ -34,6 +34,7 @@ public class OperatorModule extends AbstractModule {
     install(new ServerModule());
 
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
+    bind(LifecycleManager.class);
     bind(GerritOperator.class);
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
     reconcilers.addBinding().to(GerritClusterReconciler.class);
