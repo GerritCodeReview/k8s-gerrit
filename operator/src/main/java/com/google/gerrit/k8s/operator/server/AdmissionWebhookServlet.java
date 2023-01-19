@@ -12,20 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator;
+package com.google.gerrit.k8s.operator.server;
 
-import com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigs;
-import com.google.gerrit.k8s.operator.server.HttpServer;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
+import jakarta.servlet.http.HttpServlet;
 
-public class Main {
+public abstract class AdmissionWebhookServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
 
-  public static void main(String[] args) throws Exception {
-    Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
-    injector.getInstance(HttpServer.class).start();
-    injector.getInstance(ValidationWebhookConfigs.class).apply();
-    injector.getInstance(GerritOperator.class).start();
-  }
+  public abstract String getName();
 }
