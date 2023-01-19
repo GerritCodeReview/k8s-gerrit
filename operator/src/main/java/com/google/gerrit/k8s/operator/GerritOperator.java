@@ -15,39 +15,41 @@
 package com.google.gerrit.k8s.operator;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
-import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
-import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
-import com.google.gerrit.k8s.operator.server.HttpServer;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
-import io.fabric8.kubernetes.client.Config;
-import io.fabric8.kubernetes.client.ConfigBuilder;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.javaoperatorsdk.operator.Operator;
+import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import java.util.Set;
 
+@Singleton
 public class GerritOperator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  public static final String SERVICE_NAME = "gerrit-operator";
+  public static final int SERVICE_PORT = 8080;
 
-  public static void main(String[] args) throws Exception {
-    Config config = new ConfigBuilder().withNamespace(null).build();
-    KubernetesClient client = new KubernetesClientBuilder().withConfig(config).build();
-    Operator operator = new Operator(client);
-    logger.atFine().log("Registering GerritCluster Reconciler");
-    operator.register(new GerritClusterReconciler(client));
-    logger.atFine().log("Registering GitGc Reconciler");
-    operator.register(new GitGarbageCollectionReconciler(client));
-    logger.atFine().log("Registering Gerrit Reconciler");
-    operator.register(new GerritReconciler(client));
-    logger.atFine().log("Registering Receiver Reconciler");
-    operator.register(new ReceiverReconciler(client));
+  private final KubernetesClient client;
+
+  @SuppressWarnings("rawtypes")
+  private final Set<Reconciler> reconcilers;
+
+  private Operator operator;
+
+  @SuppressWarnings("rawtypes")
+  @Inject
+  public GerritOperator(KubernetesClient client, Set<Reconciler> reconcilers) {
+    this.client = client;
+    this.reconcilers = reconcilers;
+  }
+
+  public void start() throws Exception {
+    operator = new Operator(client);
+    for (Reconciler<?> reconciler : reconcilers) {
+      logger.atInfo().log(
+          String.format("Registering reconciler: %s", reconciler.getClass().getSimpleName()));
+      operator.register(reconciler);
+    }
     operator.installShutdownHook();
     operator.start();
-
-    Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
-    injector.getInstance(HttpServer.class).start();
   }
 }
