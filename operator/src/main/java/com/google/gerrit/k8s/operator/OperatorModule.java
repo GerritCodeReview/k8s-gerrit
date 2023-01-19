@@ -39,6 +39,7 @@ public class OperatorModule extends AbstractModule {
         .annotatedWith(Names.named("Namespace"))
         .toInstance(System.getenv("NAMESPACE"));
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
+    bind(LifecycleManager.class);
     bind(GerritOperator.class);
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
     reconcilers.addBinding().to(GerritClusterReconciler.class);
