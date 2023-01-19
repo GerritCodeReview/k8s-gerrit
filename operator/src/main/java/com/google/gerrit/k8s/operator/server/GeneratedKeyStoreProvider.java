@@ -50,9 +50,8 @@ import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 
 @Singleton
-public class GeneratedKeyStoreProvider implements KeyStoreProvider {
+public class GeneratedKeyStoreProvider extends AbstractKeyStoreProvider {
   private static final Path KEYSTORE_PATH = Path.of("/tmp/keystore.jks");
-  private static final String ALIAS = "operator";
 
   private final String namespace;
   private final String password;
@@ -120,7 +119,7 @@ public class GeneratedKeyStoreProvider implements KeyStoreProvider {
 
       KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
       keyStore.load(null, null);
-      keyStore.setKeyEntry(ALIAS, keyPair.getPrivate(), password.toCharArray(), chain);
+      keyStore.setKeyEntry(getAlias(), keyPair.getPrivate(), password.toCharArray(), chain);
       keyStore.store(fos, password.toCharArray());
     } catch (IOException
         | NoSuchAlgorithmException
