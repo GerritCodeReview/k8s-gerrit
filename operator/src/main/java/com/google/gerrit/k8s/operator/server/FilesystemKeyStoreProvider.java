@@ -14,18 +14,23 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import static com.google.gerrit.k8s.operator.server.FilesystemKeyStoreProvider.KEYSTORE_PATH;
+import com.google.inject.Singleton;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import com.google.inject.AbstractModule;
-import java.io.File;
+@Singleton
+public class FilesystemKeyStoreProvider extends AbstractKeyStoreProvider {
+  static final String KEYSTORE_PATH = "/operator/keystore.jks";
+  static final String KEYSTORE_PWD_FILE = "/operator/keystore.password";
 
-public class ServerModule extends AbstractModule {
-  public void configure() {
-    if (new File(KEYSTORE_PATH).exists()) {
-      bind(KeyStoreProvider.class).to(FilesystemKeyStoreProvider.class);
-    } else {
-      bind(KeyStoreProvider.class).to(GeneratedKeyStoreProvider.class);
-    }
-    bind(HttpServer.class);
+  @Override
+  public Path getKeystorePath() {
+    return Path.of(KEYSTORE_PATH);
+  }
+
+  @Override
+  public String getKeystorePassword() throws IOException {
+    return Files.readString(Path.of(KEYSTORE_PWD_FILE));
   }
 }
