@@ -121,7 +121,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.google.gerrit.k8s.operator.GerritOperator</mainClass>
+							<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
 							<addDefaultImplementationEntries>
 								true
 							</addDefaultImplementationEntries>
@@ -135,7 +135,7 @@
 				<version>3.3.1</version>
 				<configuration>
 					<container>
-						<mainClass>com.google.gerrit.k8s.operator.GerritOperator</mainClass>
+						<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
 					</container>
 					<containerizingMode>packaged</containerizingMode>
 					<from>
