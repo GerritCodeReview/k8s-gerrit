@@ -14,13 +14,21 @@
 
 package com.google.gerrit.k8s.operator;
 
+import static com.google.gerrit.k8s.operator.server.HttpServer.PORT;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.api.model.ServiceBuilder;
+import io.fabric8.kubernetes.api.model.ServicePort;
+import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.Operator;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -34,16 +42,21 @@ public class GerritOperator {
 
   private final Set<Reconciler<? extends HasMetadata>> reconcilers;
 
+  private final String namespace;
+
   private Operator operator;
+  private Service svc;
 
   @Inject
   public GerritOperator(
       LifecycleManager lifecycleManager,
       KubernetesClient client,
-      Set<Reconciler<? extends HasMetadata>> reconcilers) {
+      Set<Reconciler<? extends HasMetadata>> reconcilers,
+      @Named("Namespace") String namespace) {
     this.lifecycleManager = lifecycleManager;
     this.client = client;
     this.reconcilers = reconcilers;
+    this.namespace = namespace;
   }
 
   public void start() throws Exception {
@@ -54,6 +67,38 @@ public class GerritOperator {
       operator.register(reconciler);
     }
     operator.start();
+    lifecycleManager.addShutdownHook(2, new Thread(this::shutdown));
     lifecycleManager.addShutdownHook(999, new Thread(operator::stop));
+    applyService();
+  }
+
+  public void shutdown() {
+    client.resource(svc).delete();
+  }
+
+  private void applyService() {
+    ServicePort port =
+        new ServicePortBuilder()
+            .withName("http")
+            .withPort(SERVICE_PORT)
+            .withNewTargetPort(PORT)
+            .withProtocol("TCP")
+            .build();
+    svc =
+        new ServiceBuilder()
+            .withApiVersion("v1")
+            .withNewMetadata()
+            .withName(SERVICE_NAME)
+            .withNamespace(namespace)
+            .endMetadata()
+            .withNewSpec()
+            .withType("ClusterIP")
+            .withPorts(port)
+            .withSelector(Map.of("app", "gerrit-operator"))
+            .endSpec()
+            .build();
+
+    logger.atInfo().log(String.format("Applying Service for Gerrit Operator: %s", svc.toString()));
+    client.resource(svc).createOrReplace();
   }
 }
