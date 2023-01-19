@@ -12,20 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
-
-import static com.google.gerrit.k8s.operator.server.FileSystemKeyStoreProvider.KEYSTORE_PATH;
+package com.google.gerrit.k8s.operator;
 
 import com.google.inject.AbstractModule;
-import java.io.File;
+import com.google.inject.name.Names;
 
-public class ServerModule extends AbstractModule {
-  public void configure() {
-    if (new File(KEYSTORE_PATH).exists()) {
-      bind(KeyStoreProvider.class).to(FileSystemKeyStoreProvider.class);
-    } else {
-      bind(KeyStoreProvider.class).to(GeneratedKeyStoreProvider.class);
-    }
-    bind(HttpServer.class);
+public class EnvModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(String.class)
+        .annotatedWith(Names.named("Namespace"))
+        .toInstance(System.getenv("NAMESPACE"));
   }
 }

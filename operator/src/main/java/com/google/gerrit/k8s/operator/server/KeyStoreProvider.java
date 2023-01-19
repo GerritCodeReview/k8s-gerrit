@@ -14,18 +14,11 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import static com.google.gerrit.k8s.operator.server.FileSystemKeyStoreProvider.KEYSTORE_PATH;
+import java.io.IOException;
+import java.nio.file.Path;
 
-import com.google.inject.AbstractModule;
-import java.io.File;
+public interface KeyStoreProvider {
+  Path getKeyStorePath();
 
-public class ServerModule extends AbstractModule {
-  public void configure() {
-    if (new File(KEYSTORE_PATH).exists()) {
-      bind(KeyStoreProvider.class).to(FileSystemKeyStoreProvider.class);
-    } else {
-      bind(KeyStoreProvider.class).to(GeneratedKeyStoreProvider.class);
-    }
-    bind(HttpServer.class);
-  }
+  String getKeyStorePassword() throws IOException;
 }
