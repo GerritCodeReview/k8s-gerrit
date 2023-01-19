@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
@@ -33,6 +34,7 @@ public class OperatorModule extends AbstractModule {
   @Override
   protected void configure() {
     install(new ServerModule());
+    install(new AdmissionWebhookModule());
 
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
