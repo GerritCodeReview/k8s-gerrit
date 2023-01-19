@@ -10,16 +10,17 @@ metadata:
   name: gerrit-operator
   namespace: gerrit-operator
 
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name:  gerrit-operator-ssl
-  namespace: gerrit-operator
-data:
-  keystore.jks: # base64-encoded Java keystore
-  keystore.password: # base64-encoded Java keystore password
-type: Opaque
+## Only required, if an external/persistent keystore is being used.
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name:  gerrit-operator-ssl
+#   namespace: gerrit-operator
+# data:
+#   keystore.jks: # base64-encoded Java keystore
+#   keystore.password: # base64-encoded Java keystore password
+# type: Opaque
 
 ---
 apiVersion: apps/v1
@@ -41,6 +42,11 @@ spec:
       - name: operator
         image: k8sgerrit/gerrit-operator
         imagePullPolicy: Always
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         ports:
         - containerPort: 80
         readinessProbe:
@@ -55,14 +61,15 @@ spec:
             port: 8080
             scheme: HTTPS
           initialDelaySeconds: 30
-        volumeMounts:
-        - name: ssl
-          readOnly: true
-          mountPath: /operator
-      volumes:
-      - name: ssl
-        secret:
-          secretName: gerrit-operator-ssl
+      ## Only required, if an external/persistent keystore is being used.
+      #   volumeMounts:
+      #   - name: ssl
+      #     readOnly: true
+      #     mountPath: /operator
+      # volumes:
+      # - name: ssl
+      #   secret:
+      #     secretName: gerrit-operator-ssl
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
