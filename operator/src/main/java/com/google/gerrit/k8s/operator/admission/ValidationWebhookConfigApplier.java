@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
+package com.google.gerrit.k8s.operator.admission;
 
-import com.google.inject.Singleton;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
 
-@Singleton
-public class FileSystemKeyStoreProvider extends AbstractKeyStoreProvider {
-  static final String KEYSTORE_PATH = "/operator/keystore.jks";
-  static final String KEYSTORE_PWD_FILE = "/operator/keystore.password";
-
-  @Override
-  public Path getKeyStorePath() {
-    return Path.of(KEYSTORE_PATH);
-  }
-
-  @Override
-  public String getKeyStorePassword() throws IOException {
-    return Files.readString(Path.of(KEYSTORE_PWD_FILE));
-  }
+public interface ValidationWebhookConfigApplier {
+  /** Builds the ValidatingWebhookConfiguration */
+  ValidatingWebhookConfiguration build() throws Exception;
+  /** Applies the ValidatingWebhookConfiguration to the cluster */
+  void apply() throws Exception;
+  /** Deletes the ValidatingWebhookConfiguration to the cluster */
+  void delete();
 }

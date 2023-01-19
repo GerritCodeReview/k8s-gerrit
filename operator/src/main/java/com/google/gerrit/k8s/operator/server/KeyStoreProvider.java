@@ -16,9 +16,17 @@ package com.google.gerrit.k8s.operator.server;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
 
 public interface KeyStoreProvider {
   Path getKeyStorePath();
 
   String getKeyStorePassword() throws IOException;
+
+  String getCertificate()
+      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
+          CertificateException, IOException;
 }
