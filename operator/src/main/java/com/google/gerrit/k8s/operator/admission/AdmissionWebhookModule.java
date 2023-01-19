@@ -12,20 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator;
+package com.google.gerrit.k8s.operator.admission;
 
-import com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigs;
-import com.google.gerrit.k8s.operator.server.HttpServer;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
+import com.google.inject.AbstractModule;
+import com.google.inject.multibindings.Multibinder;
 
-public class Main {
+public class AdmissionWebhookModule extends AbstractModule {
+  public void configure() {
+    Multibinder<ValidationWebhookConfigApplier> vwcAppliers =
+        Multibinder.newSetBinder(binder(), ValidationWebhookConfigApplier.class);
+    vwcAppliers.addBinding().to(GitGcValidationWebhookConfigApplier.class);
 
-  public static void main(String[] args) throws Exception {
-    Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
-    injector.getInstance(GerritOperator.class).start();
-    injector.getInstance(HttpServer.class).start();
-    injector.getInstance(ValidationWebhookConfigs.class).apply();
+    bind(ValidationWebhookConfigs.class);
   }
 }
