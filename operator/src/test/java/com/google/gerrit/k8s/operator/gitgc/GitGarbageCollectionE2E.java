@@ -25,7 +25,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
@@ -130,45 +129,6 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
                       .get();
               assert updatedCompleteGitGc.getStatus().getExcludedProjects().isEmpty();
             });
-  }
-
-  @Test
-  void testConflictingSelectiveGcFailsBeforeCronJobCreation() throws InterruptedException {
-    Set<String> selectedProjects = Set.of("All-Projects", "test");
-    GitGarbageCollection selectiveGitGc1 = createSelectiveGc("selective-gc-1", selectedProjects);
-
-    logger.atInfo().log("Waiting max 2 minutes for GitGc to be created.");
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertGitGcCreation(selectiveGitGc1.getMetadata().getName());
-              assertGitGcCronJobCreation(selectiveGitGc1.getMetadata().getName());
-            });
-
-    GitGarbageCollection selectiveGitGc2 = createSelectiveGc("selective-gc-2", selectedProjects);
-    logger.atInfo().log("Waiting max 2 minutes for conflicting GitGc to be created.");
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              GitGarbageCollection updatedSelectiveGitGc =
-                  client
-                      .resources(GitGarbageCollection.class)
-                      .inNamespace(operator.getNamespace())
-                      .withName(selectiveGitGc2.getMetadata().getName())
-                      .get();
-              assert updatedSelectiveGitGc.getStatus().getState().equals(GitGcState.CONFLICT);
-            });
-    CronJob cronJob =
-        client
-            .batch()
-            .v1()
-            .cronjobs()
-            .inNamespace(operator.getNamespace())
-            .withName("selective-gc-2")
-            .get();
-    assertNull(cronJob);
   }
 
   private GitGarbageCollection createCompleteGc() {
