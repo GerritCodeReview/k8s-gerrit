@@ -12,24 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
-
-import static com.google.gerrit.k8s.operator.server.FileSystemKeyStoreProvider.KEYSTORE_PATH;
+package com.google.gerrit.k8s.operator.admission;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
-import java.io.File;
 
-public class ServerModule extends AbstractModule {
+public class AdmissionWebhookModule extends AbstractModule {
   public void configure() {
-    if (new File(KEYSTORE_PATH).exists()) {
-      bind(KeyStoreProvider.class).to(FileSystemKeyStoreProvider.class);
-    } else {
-      bind(KeyStoreProvider.class).to(GeneratedKeyStoreProvider.class);
-    }
-    bind(HttpServer.class);
-    Multibinder<AdmissionWebhookServlet> admissionWebhookServlets =
-        Multibinder.newSetBinder(binder(), AdmissionWebhookServlet.class);
-    admissionWebhookServlets.addBinding().to(GitGcAdmissionWebhook.class);
+    Multibinder<ValidationWebhookConfigApplier> vwcAppliers =
+        Multibinder.newSetBinder(binder(), ValidationWebhookConfigApplier.class);
+    vwcAppliers.addBinding().to(GitGcValidationWebhookConfigApplier.class);
+
+    bind(ValidationWebhookConfigs.class);
   }
 }
