@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60181b0_625a93db",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritReconciler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-01-23T09:50:16Z",
+      "side": 1,
+      "message": "Can this be replaced with getGerritCluster() from https://gerrit-review.googlesource.com/c/k8s-gerrit/+/354576?",
+      "revId": "aa85b5c8258048a719dbe6d92063092ae2fa61d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
