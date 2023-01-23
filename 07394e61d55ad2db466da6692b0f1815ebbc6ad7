@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03abf2e9_2b03da96",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-01-23T07:56:51Z",
+      "side": 1,
+      "message": "You could replace this block (the url.startsWiths) with this. It\u0027s functionally the same I think. \n\nif(url.matches(\"https?://.+\")) {\n    listenUrlBuilder.append(url.substring(0, url.indexOf(\"://\")));\n} else {\n    throw new IllegalStateException(\n        String.format(\"Unknown protocol used for canonicalWebUrl: %s\", url));\n}",
+      "revId": "07394e61d55ad2db466da6692b0f1815ebbc6ad7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
