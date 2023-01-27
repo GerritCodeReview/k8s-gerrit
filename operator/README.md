@@ -6,9 +6,17 @@ To build all components of the operator run:
 
 ```sh
 # With E2E tests
-mvn clean install jib:dockerBuild
+mvn clean install
 # Without E2E tests
-mvn clean install -DskipTests jib:dockerBuild
+mvn clean install -DskipTests
+```
+
+## Publish
+
+To publish the container image of the Gerrit Operator run:
+
+```sh
+mvn clean install -P publish
 ```
 
 ## Tests

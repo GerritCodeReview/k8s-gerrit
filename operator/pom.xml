@@ -23,6 +23,44 @@
 		<docker.org>k8sgerrit</docker.org>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>publish</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<version>3.3.1</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+								<configuration>
+									<container>
+										<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
+									</container>
+									<containerizingMode>packaged</containerizingMode>
+									<from>
+										<image>gcr.io/distroless/java:11</image>
+									</from>
+									<to>
+										<image>${docker.registry}/${docker.org}/gerrit-operator</image>
+										<tags>
+											<tag>${project.version}</tag>
+										</tags>
+									</to>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.javaoperatorsdk</groupId>
@@ -143,21 +181,26 @@
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.3.1</version>
-				<configuration>
-					<container>
-						<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
-					</container>
-					<containerizingMode>packaged</containerizingMode>
-					<from>
-						<image>gcr.io/distroless/java:11</image>
-					</from>
-					<to>
-						<image>${docker.registry}/${docker.org}/gerrit-operator</image>
-						<tags>
-							<tag>${project.version}</tag>
-						</tags>
-					</to>
-				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>dockerBuild</goal>
+						</goals>
+						<configuration>
+							<container>
+								<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
+							</container>
+							<containerizingMode>packaged</containerizingMode>
+							<from>
+								<image>gcr.io/distroless/java:11</image>
+							</from>
+							<to>
+								<image>gerrit-operator</image>
+							</to>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
