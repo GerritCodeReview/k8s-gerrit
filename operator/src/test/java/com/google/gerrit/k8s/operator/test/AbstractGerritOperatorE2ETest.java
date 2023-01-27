@@ -21,6 +21,8 @@ import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.Config;
@@ -53,6 +55,7 @@ public class AbstractGerritOperatorE2ETest {
           .withReconciler(new GerritClusterReconciler(client))
           .withReconciler(gerritReconciler)
           .withReconciler(new GitGarbageCollectionReconciler(client))
+          .withReconciler(new ReceiverReconciler(client))
           .build();
 
   @BeforeEach
@@ -66,6 +69,7 @@ public class AbstractGerritOperatorE2ETest {
   @AfterEach
   void cleanup() {
     client.resources(Gerrit.class).inNamespace(operator.getNamespace()).delete();
+    client.resources(Receiver.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
   }

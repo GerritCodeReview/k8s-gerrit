@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITO
 import static com.google.gerrit.k8s.operator.cluster.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -134,8 +133,9 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static boolean isGerritInstancePartOfCluster(Gerrit gerrit, GerritCluster cluster) {
-    return gerrit.getSpec().getCluster().equals(cluster.getMetadata().getName());
+  public static boolean isMemberPartOfCluster(
+      GerritClusterMemberSpec memberSpec, GerritCluster cluster) {
+    return memberSpec.getCluster().equals(cluster.getMetadata().getName());
   }
 
   @JsonIgnore
