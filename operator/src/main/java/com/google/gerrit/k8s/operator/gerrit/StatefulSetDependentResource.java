@@ -85,7 +85,7 @@ public class StatefulSetDependentResource
         .endRollingUpdate()
         .endUpdateStrategy()
         .withNewSelector()
-        .withMatchLabels(getLabels(gerritCluster, gerrit))
+        .withMatchLabels(getSelectorLabels(gerritCluster, gerrit))
         .endSelector()
         .withNewTemplate()
         .withNewMetadata()
@@ -135,7 +135,7 @@ public class StatefulSetDependentResource
         .addNewVolumeClaimTemplate()
         .withNewMetadata()
         .withName(SITE_VOLUME_NAME)
-        .withLabels(getLabels(gerritCluster, gerrit))
+        .withLabels(getSelectorLabels(gerritCluster, gerrit))
         .endMetadata()
         .withNewSpec()
         .withAccessModes("ReadWriteOnce")
@@ -150,10 +150,17 @@ public class StatefulSetDependentResource
     return stsBuilder.build();
   }
 
-  public static Map<String, String> getLabels(GerritCluster gerritCluster, Gerrit gerrit) {
+  private static String getComponentName(Gerrit gerrit) {
+    return String.format("gerrit-statefulset-%s", gerrit.getMetadata().getName());
+  }
+
+  public static Map<String, String> getSelectorLabels(GerritCluster gerritCluster, Gerrit gerrit) {
+    return gerritCluster.getSelectorLabels(getComponentName(gerrit));
+  }
+
+  private static Map<String, String> getLabels(GerritCluster gerritCluster, Gerrit gerrit) {
     return gerritCluster.getLabels(
-        String.format("gerrit-statefulset-%s", gerrit.getMetadata().getName()),
-        GerritReconciler.class.getSimpleName());
+        getComponentName(gerrit), GerritReconciler.class.getSimpleName());
   }
 
   private Set<Volume> getVolumes(Gerrit gerrit, GerritCluster gerritCluster) {
