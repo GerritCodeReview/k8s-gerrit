@@ -6,9 +6,9 @@ To build all components of the operator run:
 
 ```sh
 # With E2E tests
-mvn clean install jib:dockerBuild
+mvn clean install
 # Without E2E tests
-mvn clean install -DskipTests jib:dockerBuild
+mvn clean install -DskipTests
 ```
 
 ## Tests
