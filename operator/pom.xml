@@ -19,6 +19,8 @@
 		<jetty.version>11.0.15</jetty.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<docker.registry>docker.io</docker.registry>
+		<docker.org>k8sgerrit</docker.org>
 	</properties>
 
 	<dependencies>
@@ -150,7 +152,10 @@
 						<image>gcr.io/distroless/java:11</image>
 					</from>
 					<to>
-						<image>gerrit-operator</image>
+						<image>${docker.registry}/${docker.org}/gerrit-operator</image>
+						<tags>
+							<tag>${project.version}</tag>
+						</tags>
 					</to>
 				</configuration>
 			</plugin>
