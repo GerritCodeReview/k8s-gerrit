@@ -5,10 +5,7 @@
 To build all components of the operator run:
 
 ```sh
-# With E2E tests
 mvn clean install
-# Without E2E tests
-mvn clean install -DskipTests
 ```
 
 ## Publish
@@ -62,8 +59,17 @@ In addition, some properties have to be set to configure the tests:
 - `gerritPwd`: The password of `gerritUser`
 
 The properties should be set in the `test.properties` file. Alternatively, a
-path of a properties file can be configured by using
-`mvn clean install -Dproperties=<path to properties file> $TARGET`
+path of a properties file can be configured by using the
+`-Dproperties=<path to properties file>`-option.
+
+To run all E2E tests, use:
+
+```sh
+mvn clean install -P "integration-test" -Dproperties=<path to properties file>
+```
+
+Note, that running the E2E tests will also involve pushing the container image
+to the repository in the properties file.
 
 ## Deploy
 
