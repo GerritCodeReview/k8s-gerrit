@@ -59,6 +59,79 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>integration-test</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>1.1.0</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>read-project-properties</goal>
+								</goals>
+								<configuration>
+									<files>
+										<file>${basedir}/test.properties</file>
+									</files>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<version>3.3.1</version>
+						<executions>
+							<execution>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+								<configuration>
+									<container>
+										<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
+									</container>
+									<containerizingMode>packaged</containerizingMode>
+									<from>
+										<image>gcr.io/distroless/java:11</image>
+									</from>
+									<to>
+										<image>${registry}/${registryOrg}/gerrit-operator:${tag}</image>
+										<auth>
+											<username>${registryUser}</username>
+											<password>${registryPwd}</password>
+										</auth>
+									</to>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.22.2</version>
+						<executions>
+							<execution>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+								<configuration>
+									<systemPropertiesFile>${basedir}/test.properties</systemPropertiesFile>
+									<includes>
+										<include>**/*E2E.java</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<dependencies>
@@ -213,7 +286,6 @@
 				<version>2.22.2</version>
 				<configuration>
 					<includes>
-						<include>**/*E2E.java</include>
 						<include>**/*Test.java</include>
 					</includes>
 					<rerunFailingTestsCount>1</rerunFailingTestsCount>
