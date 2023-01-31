@@ -16,6 +16,24 @@
       "message": "Can this be replaced with getGerritCluster() from https://gerrit-review.googlesource.com/c/k8s-gerrit/+/354576?",
       "revId": "aa85b5c8258048a719dbe6d92063092ae2fa61d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b858510a_8ba0712b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritReconciler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-01-31T12:44:32Z",
+      "side": 1,
+      "message": "No, since getGerritCluster() is not static and the Reconciler does not inherit from the class containing it.\nI will look for a better way. Since we introduce Guice later in this series that should be possible. I will do that in a separate change then.",
+      "parentUuid": "f60181b0_625a93db",
+      "revId": "aa85b5c8258048a719dbe6d92063092ae2fa61d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
