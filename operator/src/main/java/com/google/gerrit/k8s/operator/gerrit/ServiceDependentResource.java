@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@KubernetesDependent(labelSelector = "app.kubernetes.io/component=gerrit-service")
 public class ServiceDependentResource extends CRUDKubernetesDependentResource<Service, Gerrit> {
   public static final String HTTP_PORT_NAME = "http";
 
