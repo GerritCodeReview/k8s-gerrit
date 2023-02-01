@@ -21,7 +21,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(labelSelector = "app.kubernetes.io/component=git-repositories-storage")
+@KubernetesDependent
 public class NfsIdmapdConfigMap extends CRUDKubernetesDependentResource<ConfigMap, GerritCluster> {
   public static final String NFS_IDMAPD_CM_NAME = "nfs-idmapd-config";
 
