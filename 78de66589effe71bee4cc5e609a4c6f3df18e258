@@ -87,6 +87,30 @@
       },
       "revId": "78de66589effe71bee4cc5e609a4c6f3df18e258",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e5ba4f9_1c610a75",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-06T12:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71ca5460_acc0a163",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 63
+      },
+      "revId": "78de66589effe71bee4cc5e609a4c6f3df18e258",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
