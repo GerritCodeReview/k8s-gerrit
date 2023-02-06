@@ -22,6 +22,7 @@ public class AdmissionWebhookModule extends AbstractModule {
     Multibinder<ValidationWebhookConfigApplier> vwcAppliers =
         Multibinder.newSetBinder(binder(), ValidationWebhookConfigApplier.class);
     vwcAppliers.addBinding().to(GitGcValidationWebhookConfigApplier.class);
+    vwcAppliers.addBinding().to(GerritValidationWebhookConfigApplier.class);
 
     bind(ValidationWebhookConfigs.class);
   }
