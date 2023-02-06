@@ -31,5 +31,6 @@ public class ServerModule extends AbstractModule {
     Multibinder<AdmissionWebhookServlet> admissionWebhookServlets =
         Multibinder.newSetBinder(binder(), AdmissionWebhookServlet.class);
     admissionWebhookServlets.addBinding().to(GitGcAdmissionWebhook.class);
+    admissionWebhookServlets.addBinding().to(GerritAdmissionWebhook.class);
   }
 }
