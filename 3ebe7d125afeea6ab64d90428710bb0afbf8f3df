@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb452a8d_a462d6d8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/LifecycleManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T14:45:03Z",
+      "side": 1,
+      "message": "Looks to me that this should rather be just Runnable because we call Thread.run() method (line 40) which executes on the calling thread i.e. the whole forEach (line 38) loop is executed single-threaded.",
+      "range": {
+        "startLine": 23,
+        "startChar": 28,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "3ebe7d125afeea6ab64d90428710bb0afbf8f3df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
