@@ -82,6 +82,12 @@ public class GerritIngressConfig {
   }
 
   @JsonIgnore
+  public String getUrl(String svcName) {
+    String protocol = getTls().isEnabled() ? "https" : "http";
+    return String.format("%s://%s", protocol, getFullHostnameForService(svcName));
+  }
+
+  @JsonIgnore
   public List<String> computeHostnames(KubernetesClient client, GerritCluster gerritCluster) {
     List<String> hostnames = new ArrayList<>();
     hostnames.addAll(computeGerritHostnames(client, gerritCluster));

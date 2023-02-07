@@ -14,15 +14,20 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
+import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @SuppressWarnings("rawtypes")
 public class GerritConfigBuilder {
+  private static final Pattern PROTOCOL_PATTERN = Pattern.compile("^(https?)://.+");
   private List<RequiredOption> requiredOptions = new ArrayList<>(setupStaticRequiredOptions());
   private Config cfg;
 
@@ -59,6 +64,21 @@ public class GerritConfigBuilder {
 
   public GerritConfigBuilder withUrl(String url) {
     this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+
+    StringBuilder listenUrlBuilder = new StringBuilder();
+    listenUrlBuilder.append("proxy-");
+    Matcher protocolMatcher = PROTOCOL_PATTERN.matcher(url);
+    if (protocolMatcher.matches()) {
+      listenUrlBuilder.append(protocolMatcher.group(1));
+    } else {
+      throw new IllegalStateException(
+          String.format("Unknown protocol used for canonicalWebUrl: %s", url));
+    }
+    listenUrlBuilder.append("://*:");
+    listenUrlBuilder.append(HTTP_PORT);
+    listenUrlBuilder.append("/");
+    this.requiredOptions.add(
+        new RequiredOption<String>("httpd", "listenUrl", listenUrlBuilder.toString()));
     return this;
   }
 
