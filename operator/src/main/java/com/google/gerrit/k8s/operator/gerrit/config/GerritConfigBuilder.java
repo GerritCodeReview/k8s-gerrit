@@ -42,6 +42,7 @@ public class GerritConfigBuilder {
             Set.of("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore")));
     requiredOptions.add(new RequiredOption<String>("container", "user", "gerrit"));
     requiredOptions.add(new RequiredOption<String>("gerrit", "basepath", "git"));
+    requiredOptions.add(new RequiredOption<String>("cache", "directory", "cache"));
     requiredOptions.add(new RequiredOption<Boolean>("index", "onlineUpgrade", false));
     return requiredOptions;
   }
