@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdfaf52f_6ef6c164",
+        "filename": "supplements/test-cluster/deploy.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T13:16:08Z",
+      "side": 1,
+      "message": "Incomplete?",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bce544ab_df6c4daf",
+        "filename": "supplements/test-cluster/deploy.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T13:16:08Z",
+      "side": 1,
+      "message": "Using long option names in scripts is better for readability while short option names are more convenient for interactive work. Therefore I propose to use:\n```\n--values nfs/nfs-provisioner.values.yaml\n```\n\nhere.",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b48ce9e8_6aa0a13a",
+        "filename": "supplements/test-cluster/deploy.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T13:16:08Z",
+      "side": 1,
+      "message": "Same here, use --namespace",
+      "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
