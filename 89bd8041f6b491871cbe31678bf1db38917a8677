@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b5d012_94611114",
+        "filename": "operator/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T13:21:37Z",
+      "side": 1,
+      "message": "This, and several other items, in this document are unrelated to this change.",
+      "revId": "89bd8041f6b491871cbe31678bf1db38917a8677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52f2bf0a_cf5014b0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritIngressConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T13:21:37Z",
+      "side": 1,
+      "message": "unrelated",
+      "revId": "89bd8041f6b491871cbe31678bf1db38917a8677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
