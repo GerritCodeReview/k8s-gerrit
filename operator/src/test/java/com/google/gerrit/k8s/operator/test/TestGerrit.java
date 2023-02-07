@@ -72,8 +72,6 @@ public class TestGerrit {
           + "  name = Gerrit Code Review\n"
           + "  email = gerrit@example.com\n"
           + "  anonymousCoward = Unnamed User\n"
-          + "[cache]\n"
-          + "  directory = cache\n"
           + "[container]\n"
           + "  javaOptions = -Xmx4g";
 
