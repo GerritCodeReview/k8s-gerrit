@@ -108,7 +108,7 @@ class TestGerritReindex:
         exit_code, _ = container_run_endless.exec_run("/var/gerrit/bin/gerrit.sh start")
         assert exit_code == 0
 
-    def test_gerrit_init_fixes_unready_indices(self, container_run_endless):
+    def test_gerrit_init_fixes_not_ready_indices(self, container_run_endless):
         container_run_endless.exec_run(
             (
                 "python3 /var/tools/gerrit-initializer "
