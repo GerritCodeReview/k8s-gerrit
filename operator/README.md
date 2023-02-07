@@ -407,13 +407,10 @@ spec:
   configFiles:
     gerrit.config: |-
         [gerrit]
-          basePath = git
           serverId = gerrit-1
-          canonicalWebUrl = http://example.com/
           disableReverseDnsLookup = true
         [index]
           type = LUCENE
-          onlineUpgrade = false
         [auth]
           type = DEVELOPMENT_BECOME_ANY_ACCOUNT
         [httpd]
@@ -431,9 +428,6 @@ spec:
         [cache]
           directory = cache
         [container]
-          user = gerrit
-          javaHome = /usr/lib/jvm/java-11-openjdk
-          javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
           javaOptions = -Xms200m
           javaOptions = -Xmx4g
 
@@ -442,6 +436,45 @@ spec:
   secrets: []
   # - gerrit-secure-config
 ```
+
+#### Prohibited options in gerrit.config
+
+Some options in the gerrit.config are not allowed to be changed. Their values
+are preset by the containers/Kubernetes. The operator will configure those options
+automatically and won't allow different values, i.e. it will fail to reconcile
+if a value is set to an illegal value. These options are:
+
+- `container.javaHome`
+
+    This has to be set to `/usr/lib/jvm/java-11-openjdk-amd64`, since this is
+    the path of the Java installation in the container.
+
+- `container.javaOptions = -Djavax.net.ssl.trustStore`
+
+    The keystore will be mounted to `/var/gerrit/etc/keystore`.
+
+- `container.replica`
+
+    This has to be set in the Gerrit-CustomResource under `spec.isReplica`.
+
+- `container.user`
+
+    The technical user in the Gerrit container is called `gerrit`.
+
+- `gerrit.basePath`
+
+    The git repositories are mounted to `/var/gerrit/git` in the container.
+
+- `gerrit.canonicalWebUrl`
+
+    The canonical web URL has to be set to the hostname used by the Ingress/Istio.
+
+- `index.onlineUpgrade`
+
+    Online reindexing is currently **NOT** supported. An offline reindexing will
+    be enforced upon Gerrit updates. Online reindexing might under some circum-
+    stances interfere with the Gerrit pod startup procedure and thus has to be
+    deactivated.
 
 ### GitGarbageCollection
 
