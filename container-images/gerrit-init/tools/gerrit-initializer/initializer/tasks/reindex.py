@@ -59,13 +59,13 @@ class GerritAbstractReindexer(abc.ABC):
                 }
         return indices
 
-    def _get_unready_indices(self):
-        unready_indices = []
+    def _get_not_ready_indices(self):
+        not_ready_indices = []
         for index, index_attrs in self.configured_indices.items():
             if not index_attrs["ready"]:
                 LOG.info("Index %s not ready.", index)
-                unready_indices.append(index)
-        return unready_indices
+                not_ready_indices.append(index)
+        return not_ready_indices
 
     def _check_index_versions(self):
         indices = self._get_indices()
@@ -108,9 +108,9 @@ class GerritAbstractReindexer(abc.ABC):
             self.reindex()
             return
 
-        unready_indices = self._get_unready_indices()
-        if unready_indices:
-            self.reindex(unready_indices)
+        not_ready_indices = self._get_not_ready_indices()
+        if not_ready_indices:
+            self.reindex(not_ready_indices)
 
         if not self._check_index_versions():
             LOG.info("Not all indices are up-to-date.")
