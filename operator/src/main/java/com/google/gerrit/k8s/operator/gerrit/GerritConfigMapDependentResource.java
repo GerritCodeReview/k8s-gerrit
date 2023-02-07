@@ -53,10 +53,7 @@ public class GerritConfigMapDependentResource
 
     if (gerritCluster.getSpec().getIngress().isEnabled()) {
       gerritConfigBuilder.withUrl(
-          gerritCluster
-              .getSpec()
-              .getIngress()
-              .getFullHostnameForService(ServiceDependentResource.getName(gerrit)));
+          gerritCluster.getSpec().getIngress().getUrl(ServiceDependentResource.getName(gerrit)));
     } else {
       gerritConfigBuilder.withUrl(ServiceDependentResource.getUrl(gerrit));
     }

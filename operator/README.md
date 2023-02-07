@@ -414,7 +414,6 @@ spec:
         [auth]
           type = DEVELOPMENT_BECOME_ANY_ACCOUNT
         [httpd]
-          listenUrl = proxy-http://*:8080/
           requestLog = true
           gracefulStopTimeout = 1m
         [sshd]
@@ -468,6 +467,12 @@ if a value is set to an illegal value. These options are:
 - `gerrit.canonicalWebUrl`
 
     The canonical web URL has to be set to the hostname used by the Ingress/Istio.
+
+- `httpd.listenURL`
+
+    This has to be set to `proxy-http://*:8080/` or `proxy-https://*:8080`,
+    depending of TLS is enabled in the Ingress or not, otherwise the Jetty
+    servlet will run into an endless redirect loop.
 
 - `index.onlineUpgrade`
 
