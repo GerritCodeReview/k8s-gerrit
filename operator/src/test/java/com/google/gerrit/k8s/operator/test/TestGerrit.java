@@ -62,7 +62,6 @@ public class TestGerrit {
           + "  accountBase = dc=example,dc=org\n"
           + "  username = cn=admin,dc=example,dc=org\n"
           + "[httpd]\n"
-          + "  listenUrl = proxy-https://*:8080/\n"
           + "  requestLog = true\n"
           + "  gracefulStopTimeout = 1m\n"
           + "[sshd]\n"
