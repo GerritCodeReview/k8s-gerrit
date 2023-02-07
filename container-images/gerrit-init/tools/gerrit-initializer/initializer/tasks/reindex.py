@@ -67,7 +67,7 @@ class GerritAbstractReindexer(abc.ABC):
                 not_ready_indices.append(index)
         return not_ready_indices
 
-    def _check_index_versions(self):
+    def _does_newest_index_exist(self):
         indices = self._get_indices()
 
         if not indices:
@@ -112,7 +112,7 @@ class GerritAbstractReindexer(abc.ABC):
         if not_ready_indices:
             self.reindex(not_ready_indices)
 
-        if not self._check_index_versions():
+        if not self._does_newest_index_exist():
             LOG.info("Not all indices are up-to-date.")
             self.reindex()
             return
