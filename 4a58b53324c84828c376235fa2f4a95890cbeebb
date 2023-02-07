@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c270958_e5d69e48",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/AbstractKeyStoreProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T14:35:21Z",
+      "side": 1,
+      "message": "It may be good to make these methods final in the abstract class. They are usually not meant to be overridden in concrete subclasses.",
+      "revId": "4a58b53324c84828c376235fa2f4a95890cbeebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efe76d9d_7d8fa623",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/FilesystemKeyStoreProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T14:35:21Z",
+      "side": 1,
+      "message": "FileSystem\n\nExamples from JDK: java.nio.file.FileSystem, java.nio.file.FileSystemException, ...",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "4a58b53324c84828c376235fa2f4a95890cbeebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc3525ca_463b2a4a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/KeyStoreProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T14:35:21Z",
+      "side": 1,
+      "message": "KeyStore\n\nbe consistent with the interface name",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 20
+      },
+      "revId": "4a58b53324c84828c376235fa2f4a95890cbeebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2168a3fc_ffd029be",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/KeyStoreProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-07T14:35:21Z",
+      "side": 1,
+      "message": "Where is this and the following two methods used outside of the KeyStoreProvider implementation classes? Do these really need to be exposed in the interface?",
+      "revId": "4a58b53324c84828c376235fa2f4a95890cbeebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
