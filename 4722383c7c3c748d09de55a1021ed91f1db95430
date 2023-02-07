@@ -41,6 +41,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19cdd8ea_d7264ad2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-07T15:07:15Z",
+      "side": 1,
+      "message": "Does still not handle the case of having multiple entries per index in the config-file.",
+      "revId": "4722383c7c3c748d09de55a1021ed91f1db95430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "888632c5_f9015e04",
@@ -54,6 +71,24 @@
       "writtenOn": "2023-02-07T13:30:51Z",
       "side": 1,
       "message": "changes in this file seem unrelated to the commit message",
+      "revId": "4722383c7c3c748d09de55a1021ed91f1db95430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd49bd5c_5e59b97d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-07T15:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "888632c5_f9015e04",
       "revId": "4722383c7c3c748d09de55a1021ed91f1db95430",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +116,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83442f80_db548ff9",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-07T15:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14c1cc83_8ff57105",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "4722383c7c3c748d09de55a1021ed91f1db95430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de491325_3cb30c80",
@@ -94,6 +153,30 @@
       "writtenOn": "2023-02-07T13:30:51Z",
       "side": 1,
       "message": "unrelated to this change but bad method name for a boolean type return value. We don\u0027t know from the method name when it returns true and when it returns false",
+      "range": {
+        "startLine": 124,
+        "startChar": 51,
+        "endLine": 124,
+        "endChar": 72
+      },
+      "revId": "4722383c7c3c748d09de55a1021ed91f1db95430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab8b755b_626c2332",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-07T15:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de491325_3cb30c80",
       "range": {
         "startLine": 124,
         "startChar": 51,
