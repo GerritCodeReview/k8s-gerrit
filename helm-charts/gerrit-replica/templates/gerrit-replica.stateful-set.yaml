@@ -11,7 +11,9 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   serviceName: {{ .Release.Name }}-gerrit-replica-service
+  {{ if .Values.gerritReplica.replicas }}
   replicas: {{ .Values.gerritReplica.replicas }}
+  {{- end }}
   updateStrategy:
     rollingUpdate:
       partition: {{ .Values.gerritReplica.updatePartition }}
