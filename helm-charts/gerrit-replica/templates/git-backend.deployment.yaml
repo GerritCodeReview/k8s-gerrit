@@ -8,7 +8,9 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
+  {{ if .Values.gitBackend.replicas }}
   replicas: {{ .Values.gitBackend.replicas }}
+  {{- end }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.gitBackend.maxSurge }}
