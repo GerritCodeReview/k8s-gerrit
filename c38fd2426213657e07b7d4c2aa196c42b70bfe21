@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c8c76f9_28c62b02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be7f1d0b_93d74129",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "c38fd2426213657e07b7d4c2aa196c42b70bfe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0697f042_cb2ef4a8",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-02-07T13:03:41Z",
       "side": 1,
       "message": "IngressType is an enum. While using equals to compare enum constants is not wrong, the preferred way is to compare enum constant is to use the \"\u003d\u003d\" operator i.e. compare memory references. Java guarantees that there is only one instance of each enum constant.",
+      "range": {
+        "startLine": 134,
+        "startChar": 57,
+        "endLine": 134,
+        "endChar": 63
+      },
+      "revId": "c38fd2426213657e07b7d4c2aa196c42b70bfe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2bf3660_cf891eac",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:04:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0697f042_cb2ef4a8",
       "range": {
         "startLine": 134,
         "startChar": 57,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e54d467c_08d9738e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:04:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c5000ab5_433a6029",
+      "range": {
+        "startLine": 136,
+        "startChar": 64,
+        "endLine": 136,
+        "endChar": 70
+      },
+      "revId": "c38fd2426213657e07b7d4c2aa196c42b70bfe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3a0f61e_60950d0b",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9309d11_a7c37d7c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3a0f61e_60950d0b",
+      "revId": "c38fd2426213657e07b7d4c2aa196c42b70bfe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "523999ca_5a07e8c2",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-02-07T13:03:41Z",
       "side": 1,
       "message": "use \u003d\u003d",
+      "range": {
+        "startLine": 153,
+        "startChar": 58,
+        "endLine": 153,
+        "endChar": 64
+      },
+      "revId": "c38fd2426213657e07b7d4c2aa196c42b70bfe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "619b509f_1f263d7d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritReconciler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "523999ca_5a07e8c2",
       "range": {
         "startLine": 153,
         "startChar": 58,
