@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80738232_a73dcd98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-08T10:00:58Z",
+      "side": 1,
+      "message": "please mark previous comments as done",
+      "revId": "d6573626ff351132f8896dbc5a556af6e8150a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fef8a9d1_baf40ff2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-08T10:00:58Z",
+      "side": 1,
+      "message": "explicit usage \"this.\" for instance members is not necessary. We normally only use it if we have same named local variable.",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 15
+      },
+      "revId": "d6573626ff351132f8896dbc5a556af6e8150a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
