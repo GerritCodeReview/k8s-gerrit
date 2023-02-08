@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16aff1de_0d9a1f09",
+        "filename": "supplements/test-cluster/deploy.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdfaf52f_6ef6c164",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bce544ab_df6c4daf",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f4e8353_f06b8511",
+        "filename": "supplements/test-cluster/deploy.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bce544ab_df6c4daf",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b48ce9e8_6aa0a13a",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-02-07T13:16:08Z",
       "side": 1,
       "message": "Same here, use --namespace",
+      "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca320bc_5b9bad38",
+        "filename": "supplements/test-cluster/deploy.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-08T15:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b48ce9e8_6aa0a13a",
       "revId": "6fb9889bd9e92b199f7877b3804a8847a1948f6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
