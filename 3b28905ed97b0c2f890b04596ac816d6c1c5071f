@@ -16,6 +16,24 @@
       "message": "are quotes necessary?",
       "revId": "3b28905ed97b0c2f890b04596ac816d6c1c5071f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b0285a5_83a0840b",
+        "filename": "operator/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-09T12:06:48Z",
+      "side": 1,
+      "message": "No they are not.",
+      "parentUuid": "719d3049_d2c04bff",
+      "revId": "3b28905ed97b0c2f890b04596ac816d6c1c5071f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
