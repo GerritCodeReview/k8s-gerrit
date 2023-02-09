@@ -55,19 +55,19 @@ public class GerritRepositoryConfig {
   public String getFullImageName(String image) {
     StringBuilder builder = new StringBuilder();
 
-    if (this.registry != null) {
+    if (registry != null) {
       builder.append(registry);
       builder.append("/");
     }
 
-    if (this.org != null) {
+    if (org != null) {
       builder.append(org);
       builder.append("/");
     }
 
     builder.append(image);
 
-    if (this.tag != null) {
+    if (tag != null) {
       builder.append(":");
       builder.append(tag);
     }
