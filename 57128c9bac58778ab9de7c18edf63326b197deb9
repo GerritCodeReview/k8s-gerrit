@@ -16,6 +16,24 @@
       "message": "[optional] we may extract bindings for all system environment variable in an EnvModule",
       "revId": "57128c9bac58778ab9de7c18edf63326b197deb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e157ad_c40f2186",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-09T12:06:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf612493_bedb6975",
+      "revId": "57128c9bac58778ab9de7c18edf63326b197deb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
