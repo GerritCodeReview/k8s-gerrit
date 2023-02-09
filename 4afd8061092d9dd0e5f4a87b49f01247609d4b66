@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "32c52ae9_a37da593",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-09T12:13:50Z",
+      "side": 1,
+      "message": "nit: Use a shorter commit header (max. 72 chars).",
+      "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "06e5d85b_a51a9ac3",
@@ -31,6 +48,23 @@
       "writtenOn": "2023-02-08T23:49:20Z",
       "side": 1,
       "message": "I\u0027m ready for review.\nThx!",
+      "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e6449bc_e4c35368",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-09T12:13:50Z",
+      "side": 1,
+      "message": "Interesting. Do you think you could add your HPA setup to the chart?\nOn what metrics do you decide whether to scale up/down?",
       "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
