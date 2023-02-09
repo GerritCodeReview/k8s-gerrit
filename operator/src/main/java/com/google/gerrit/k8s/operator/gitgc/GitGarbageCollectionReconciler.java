@@ -89,7 +89,7 @@ public class GitGarbageCollectionReconciler
             context);
 
     return EventSourceInitializer.nameEventSources(
-        gitGcEventSource, gerritClusterEventSource, this.dependentCronJob.initEventSource(context));
+        gitGcEventSource, gerritClusterEventSource, dependentCronJob.initEventSource(context));
   }
 
   @Override
@@ -99,7 +99,7 @@ public class GitGarbageCollectionReconciler
       gitGc = excludeProjectsHandledSeparately(gitGc);
     }
 
-    this.dependentCronJob.reconcile(gitGc, context);
+    dependentCronJob.reconcile(gitGc, context);
     return UpdateControl.updateStatus(updateGitGcStatus(gitGc));
   }
 

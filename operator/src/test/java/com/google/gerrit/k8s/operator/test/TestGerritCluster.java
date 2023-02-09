@@ -75,7 +75,7 @@ public class TestGerritCluster {
       default:
         defaultIngressConfig();
     }
-    this.deploy();
+    deploy();
   }
 
   private void defaultIngressConfig() {
@@ -112,7 +112,7 @@ public class TestGerritCluster {
 
   public void setNfsEnabled(boolean isNfsEnabled) {
     this.isNfsEnabled = isNfsEnabled;
-    this.deploy();
+    deploy();
   }
 
   private void build() {
@@ -153,7 +153,7 @@ public class TestGerritCluster {
   }
 
   public void deploy() {
-    this.build();
+    build();
     client.resource(cluster).inNamespace(namespace).createOrReplace();
 
     await()
