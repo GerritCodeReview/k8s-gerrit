@@ -155,8 +155,8 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
     if (gerritCluster.getSpec().getIngress().isEnabled()
         && gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
-      this.virtualService.reconcile(gerrit, context);
-      this.destinationRule.reconcile(gerrit, context);
+      virtualService.reconcile(gerrit, context);
+      destinationRule.reconcile(gerrit, context);
     }
 
     return UpdateControl.patchStatus(updateStatus(gerrit, context));
