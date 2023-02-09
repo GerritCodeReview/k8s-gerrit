@@ -72,6 +72,6 @@ class GerritPlugin implements Serializable {
 
   @JsonIgnore
   public boolean isPackagedPlugin() {
-    return this.url == null;
+    return url == null;
   }
 }
