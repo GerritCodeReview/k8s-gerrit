@@ -45,14 +45,14 @@ public class BusyBoxImage {
   public String getBusyBoxImage() {
     StringBuilder builder = new StringBuilder();
 
-    if (this.registry != null) {
+    if (registry != null) {
       builder.append(registry);
       builder.append("/");
     }
 
     builder.append("busybox");
 
-    if (this.tag != null) {
+    if (tag != null) {
       builder.append(":");
       builder.append(tag);
     }
