@@ -121,7 +121,7 @@ public class GerritClusterReconciler
     Map<String, EventSource> eventSources =
         EventSourceInitializer.nameEventSources(gerritEventSource, receiverEventSource);
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
-    eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, this.gerritIngress.initEventSource(context));
+    eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, gerritIngress.initEventSource(context));
     eventSources.put(GERRIT_ISTIO_EVENT_SOURCE, gerritIstioGateway.initEventSource(context));
     return eventSources;
   }

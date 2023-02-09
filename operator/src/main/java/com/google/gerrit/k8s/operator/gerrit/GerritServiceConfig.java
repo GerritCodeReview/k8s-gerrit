@@ -50,6 +50,6 @@ public class GerritServiceConfig implements Serializable {
 
   @JsonIgnore
   public boolean isSshEnabled() {
-    return this.sshPort != null;
+    return sshPort != null;
   }
 }
