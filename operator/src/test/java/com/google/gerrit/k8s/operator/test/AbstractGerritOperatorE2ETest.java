@@ -62,7 +62,7 @@ public class AbstractGerritOperatorE2ETest {
   void setup() {
     Mockito.reset(gerritReconciler);
     createImagePullSecret(client, operator.getNamespace());
-    this.gerritCluster = new TestGerritCluster(client, operator.getNamespace());
+    gerritCluster = new TestGerritCluster(client, operator.getNamespace());
     gerritCluster.deploy();
   }
 
