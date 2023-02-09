@@ -64,7 +64,7 @@ public class GerritConfigBuilder {
   }
 
   public GerritConfigBuilder withUrl(String url) {
-    this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+    requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
 
     StringBuilder listenUrlBuilder = new StringBuilder();
     listenUrlBuilder.append("proxy-");
@@ -78,7 +78,7 @@ public class GerritConfigBuilder {
     listenUrlBuilder.append("://*:");
     listenUrlBuilder.append(HTTP_PORT);
     listenUrlBuilder.append("/");
-    this.requiredOptions.add(
+    requiredOptions.add(
         new RequiredOption<String>("httpd", "listenUrl", listenUrlBuilder.toString()));
     return this;
   }
@@ -90,18 +90,17 @@ public class GerritConfigBuilder {
     } else {
       listenAddress = "off";
     }
-    this.requiredOptions.add(new RequiredOption<String>("sshd", "listenAddress", listenAddress));
+    requiredOptions.add(new RequiredOption<String>("sshd", "listenAddress", listenAddress));
     return this;
   }
 
   public GerritConfigBuilder withSsh(boolean enabled, String advertisedAddress) {
-    this.requiredOptions.add(
-        new RequiredOption<String>("sshd", "advertisedAddress", advertisedAddress));
+    requiredOptions.add(new RequiredOption<String>("sshd", "advertisedAddress", advertisedAddress));
     return withSsh(enabled);
   }
 
   public GerritConfigBuilder useReplicaMode(boolean isReplica) {
-    this.requiredOptions.add(new RequiredOption<Boolean>("container", "replica", isReplica));
+    requiredOptions.add(new RequiredOption<Boolean>("container", "replica", isReplica));
     return this;
   }
 

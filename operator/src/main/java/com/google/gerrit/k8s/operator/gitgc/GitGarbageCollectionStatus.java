@@ -36,11 +36,11 @@ public class GitGarbageCollectionStatus {
   }
 
   public void resetExcludedProjects() {
-    this.excludedProjects = new HashSet<>();
+    excludedProjects = new HashSet<>();
   }
 
   public void excludeProjects(Set<String> projects) {
-    this.excludedProjects.addAll(projects);
+    excludedProjects.addAll(projects);
   }
 
   public GitGcState getState() {

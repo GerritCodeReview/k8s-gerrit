@@ -126,7 +126,7 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
 
     if (gerritCluster.getSpec().getIngress().isEnabled()
         && gerritCluster.getSpec().getIngress().getType().equals(IngressType.ISTIO)) {
-      this.virtualService.reconcile(receiver, context);
+      virtualService.reconcile(receiver, context);
     }
 
     return UpdateControl.patchStatus(updateStatus(receiver, context));
