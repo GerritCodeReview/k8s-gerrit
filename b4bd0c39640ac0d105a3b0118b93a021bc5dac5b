@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00887439_bcadb607",
+        "filename": "operator/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-02-10T09:56:32Z",
+      "side": 1,
+      "message": "Can we ignore those values (also log a warning) and assume the correct ones instead of failing to reconcile?",
+      "revId": "b4bd0c39640ac0d105a3b0118b93a021bc5dac5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
