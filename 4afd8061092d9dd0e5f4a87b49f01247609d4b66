@@ -85,6 +85,24 @@
       "message": "Interesting. Do you think you could add your HPA setup to the chart?\nOn what metrics do you decide whether to scale up/down?",
       "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf1db13_2175db60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146590
+      },
+      "writtenOn": "2023-02-15T14:55:08Z",
+      "side": 1,
+      "message": "I think it is difficult to incorporate because the indicator changes depending on SSH and HTTPS and is not valid as a general indicator.\n\nHowever, if you run a Gerrit Replica or similar on Knative Serving, you can scale out by the number of concurrent TCP connections metric.\nhttps://knative.dev/docs/serving/\n\nWould you be interested in Knative Serving support?",
+      "parentUuid": "8e6449bc_e4c35368",
+      "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
