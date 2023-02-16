@@ -468,8 +468,8 @@ spec:
 
 Some options in the gerrit.config are not allowed to be changed. Their values
 are preset by the containers/Kubernetes. The operator will configure those options
-automatically and won't allow different values, i.e. it will fail to reconcile
-if a value is set to an illegal value. These options are:
+automatically and won't allow different values, i.e. the custom resource will be
+rejected by a validation webhook. These options are:
 
 - `cache.directory`
 
