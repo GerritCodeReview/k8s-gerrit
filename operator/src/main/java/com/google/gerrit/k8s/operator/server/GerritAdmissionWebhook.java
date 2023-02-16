@@ -14,8 +14,11 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -53,6 +56,15 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
+    try {
+      invalidGerritConfiguration(gerrit);
+    } catch (InvalidGerritConfigException e) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage(e.getMessage())
+          .build();
+    }
+
     return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
   }
 
@@ -77,6 +89,16 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
                 clusterName.equals(g.getSpec().getCluster())
                     && g.getSpec().getMode() == GerritMode.PRIMARY
                     && !gerrit.getMetadata().getName().equals(g.getMetadata().getName()));
+  }
+
+  private void invalidGerritConfiguration(Gerrit gerrit) throws InvalidGerritConfigException {
+    GerritCluster gerritCluster =
+        client
+            .resources(GerritCluster.class)
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(gerrit.getSpec().getCluster())
+            .get();
+    new GerritConfigBuilder().forGerrit(gerrit, gerritCluster).validate();
   }
 
   @Override

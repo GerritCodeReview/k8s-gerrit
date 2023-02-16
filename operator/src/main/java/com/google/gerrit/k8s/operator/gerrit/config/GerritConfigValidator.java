@@ -27,13 +27,13 @@ public class GerritConfigValidator {
     this.requiredOptions = requiredOptions;
   }
 
-  public void check(Config cfg) {
+  public void check(Config cfg) throws InvalidGerritConfigException {
     for (RequiredOption<?> opt : requiredOptions) {
       checkOption(cfg, opt);
     }
   }
 
-  private void checkOption(Config cfg, RequiredOption<?> opt) {
+  private void checkOption(Config cfg, RequiredOption<?> opt) throws InvalidGerritConfigException {
     if (!optionExists(cfg, opt)) {
       return;
     }
@@ -44,10 +44,7 @@ public class GerritConfigValidator {
       if (isExpectedValue(value, opt)) {
         return;
       }
-      throw new IllegalStateException(
-          String.format(
-              "Option %s.%s.%s set to unsupported value %s. Expected %s.",
-              opt.getSection(), opt.getSubSection(), opt.getKey(), value, opt.getExpected()));
+      throw new InvalidGerritConfigException(value, opt);
     }
   }
 
