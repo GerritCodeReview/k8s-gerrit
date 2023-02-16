@@ -16,8 +16,6 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
-import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -48,28 +46,7 @@ public class GerritConfigMapDependentResource
     }
 
     GerritConfigBuilder gerritConfigBuilder =
-        new GerritConfigBuilder().withConfig(configFiles.get("gerrit.config"));
-
-    gerritConfigBuilder.useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
-
-    if (gerritCluster.getSpec().getIngress().isEnabled()) {
-      gerritConfigBuilder.withUrl(
-          gerritCluster.getSpec().getIngress().getUrl(ServiceDependentResource.getName(gerrit)));
-    } else {
-      gerritConfigBuilder.withUrl(ServiceDependentResource.getUrl(gerrit));
-    }
-
-    if (gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
-      gerritConfigBuilder.withSsh(
-          gerrit.getSpec().getService().isSshEnabled(),
-          gerritCluster
-                  .getSpec()
-                  .getIngress()
-                  .getFullHostnameForService(ServiceDependentResource.getName(gerrit))
-              + ":29418");
-    } else {
-      gerritConfigBuilder.withSsh(gerrit.getSpec().getService().isSshEnabled());
-    }
+        new GerritConfigBuilder().forGerrit(gerrit, gerritCluster);
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
 
