@@ -17,6 +17,11 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.SSH_PORT;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +50,32 @@ public class GerritConfigBuilder {
     requiredOptions.add(new RequiredOption<String>("gerrit", "basepath", "git"));
     requiredOptions.add(new RequiredOption<String>("cache", "directory", "cache"));
     return requiredOptions;
+  }
+
+  public GerritConfigBuilder forGerrit(Gerrit gerrit, GerritCluster cluster) {
+    String gerritConfig = gerrit.getSpec().getConfigFiles().getOrDefault("gerrit.config", "");
+
+    withConfig(gerritConfig);
+    useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
+
+    if (cluster.getSpec().getIngress().isEnabled()) {
+      withUrl(cluster.getSpec().getIngress().getUrl(ServiceDependentResource.getName(gerrit)));
+    } else {
+      withUrl(ServiceDependentResource.getUrl(gerrit));
+    }
+
+    if (cluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
+      withSsh(
+          gerrit.getSpec().getService().isSshEnabled(),
+          cluster
+                  .getSpec()
+                  .getIngress()
+                  .getFullHostnameForService(ServiceDependentResource.getName(gerrit))
+              + ":29418");
+    } else {
+      withSsh(gerrit.getSpec().getService().isSshEnabled());
+    }
+    return this;
   }
 
   public GerritConfigBuilder withConfig(String text) {
@@ -109,6 +140,16 @@ public class GerritConfigBuilder {
     configValidator.check(cfg);
     setRequiredOptions();
     return cfg;
+  }
+
+  public boolean validate() {
+    GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
+    try {
+      configValidator.check(cfg);
+      return true;
+    } catch (IllegalStateException e) {
+      return false;
+    }
   }
 
   @SuppressWarnings("unchecked")
