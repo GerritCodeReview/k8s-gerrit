@@ -4,6 +4,7 @@ FROM gerrit-base:${TAG}
 USER root
 
 COPY dependencies/* /var/tools/
+COPY requirements.txt /var/tools/
 WORKDIR /var/tools
 
 RUN apk update && \
@@ -11,7 +12,8 @@ RUN apk update && \
       python3 && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --no-cache --upgrade pip setuptools wheel pipenv && \
+    # follow https://til.simonwillison.net/python/pip-tools to update hashes
+    pip3 install --require-hashes -r requirements.txt --no-cache --upgrade && \
     pipenv install --python 3.9 --system
 
 COPY tools /var/tools/
