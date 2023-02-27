@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3174a6d6_136298cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-27T08:55:52Z",
+      "side": 1,
+      "message": "This still does not work. Git will use the complete first paragraph as a header, which should be a single line and 72 chars long (80 is also still fine if necessary). I would suggest:\n\n```\nDo not set spec.replicas if unset in values.yaml\n\nAlways setting spec.replicas in ReplicaSets could cause\nconflicts with the HPA, which tries to set the number of\nreplicas automatically.\n\nIf the *.replicas option in the charts\u0027 values.yaml files\nis not set, the spec.replicas option in the ReplicaSets\nwill now not be set.\n```",
+      "parentUuid": "2cc2e32e_f448de36",
+      "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "06e5d85b_a51a9ac3",
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I think it is difficult to incorporate because the indicator changes depending on SSH and HTTPS and is not valid as a general indicator.\n\nHowever, if you run a Gerrit Replica or similar on Knative Serving, you can scale out by the number of concurrent TCP connections metric.\nhttps://knative.dev/docs/serving/\n\nWould you be interested in Knative Serving support?",
       "parentUuid": "8e6449bc_e4c35368",
+      "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4db8ba8_45e5dee8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-02-27T08:55:52Z",
+      "side": 1,
+      "message": "This might indeed be very specific and likely to specific for the chart. But I think it would be worth to document it in the project as an example on how to use HPA in this setting. This will certainly help some people achieving the same, either using knative or an alternative environment with similar metrics, e.g. istio.\n\nNote, that for the Gerrit Replica the metric to use would be the used batch threads and the associated queue. This has some assumptions on the Gerrit configuration. A Gerrit replica will likely not benefit from having two separate thread pools for git requests (interactive and batch), since no UI / REST API access is happening. Thus, everything can be handled by a single thread pool (batch). Git requests are usually handled by the same thread pool independent of whether SSH or HTTPS is used, thus on a replica just watching that thread pool would be a good indicator, e.g. scale up, if a thread pool is 80% used. Note, that if the repositories are quite diverse in size and complexity, there may still be performance issues, if only a small number of threads are working on huge clones/fetches that allocate a lot of memory. Thus, watching memory allocation as a second factor might make sense. Matthias pushed a change adding a metric for that: https://gerrit-review.googlesource.com/c/gerrit/+/360221",
+      "parentUuid": "caf1db13_2175db60",
       "revId": "4afd8061092d9dd0e5f4a87b49f01247609d4b66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
