@@ -16,6 +16,24 @@
       "message": "Can we ignore those values (also log a warning) and assume the correct ones instead of failing to reconcile?",
       "revId": "b4bd0c39640ac0d105a3b0118b93a021bc5dac5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad12a21_27ed9166",
+        "filename": "operator/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-03-09T11:52:42Z",
+      "side": 1,
+      "message": "I will move that part to validation webhooks later in the series. Then it will fail before it is applied.",
+      "parentUuid": "00887439_bcadb607",
+      "revId": "b4bd0c39640ac0d105a3b0118b93a021bc5dac5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
