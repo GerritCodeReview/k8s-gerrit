@@ -1,8 +1,10 @@
 #!/bin/bash
+BASE_IMAGE=alpine:3.16.1
+REPO=""
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--tag TAG] [--gerrit-url URL] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--tag TAG] [--gerrit-url URL] [--base-image IMAGE] [--repo IMAGE_REPO] [IMAGE]"
     exit 1
 }
 
@@ -27,6 +29,18 @@ while test $# -gt 0 ; do
   --healthcheck-jar-url)
     shift
     HEALTHCHECK_JAR_URL=$1
+    shift
+    ;;
+
+  --base-image)
+    shift
+    BASE_IMAGE=$1
+    shift
+    ;;
+
+  --repo)
+    shift
+    REPO="$1/"
     shift
     ;;
 
@@ -55,14 +69,14 @@ docker_build(){
     docker build \
         --platform=linux/amd64 \
         --build-arg TAG=$REV \
-        -t k8sgerrit/$IMAGE:$TAG \
+        -t ${REPO}k8sgerrit/$IMAGE:$TAG \
         ./container-images/$IMAGE
 
     if test $? -ne 0; then
-        REPORT="$REPORT Failed: k8sgerrit/$IMAGE.\n"
+        REPORT="$REPORT Failed: ${REPO}k8sgerrit/$IMAGE.\n"
         RETURN_CODE=1
     else
-        REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n"
+        REPORT="$REPORT Success: ${REPO}k8sgerrit/$IMAGE:$TAG\n"
     fi
 }
 
@@ -93,7 +107,7 @@ create_image_tag(){
 REPORT="Build results: \n"
 RETURN_CODE=0
 
-docker build --platform=linux/amd64 -t base:$REV ./container-images/base
+docker build --build-arg BASE_IMAGE="$BASE_IMAGE" --platform=linux/amd64 -t base:$REV ./container-images/base
 if test $? -ne 0; then
     echo -e "\n\nFailed to build base image."
     exit 1
