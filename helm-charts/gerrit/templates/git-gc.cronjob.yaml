@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-git-gc
   labels:
-    app: git-gc
+    app: {{ .Release.Name }}-git-gc
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -15,7 +15,7 @@ spec:
       template:
         metadata:
           labels:
-            app: git-gc
+            app: {{ .Release.Name }}-git-gc
             chart: {{ template "gerrit.chart" . }}
             heritage: {{ .Release.Service }}
             release: {{ .Release.Name }}

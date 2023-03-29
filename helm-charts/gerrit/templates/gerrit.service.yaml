@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-gerrit-service
   labels:
-    app: gerrit
+    app: {{ .Release.Name }}-gerrit
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -18,7 +18,7 @@ spec:
     port: {{ .ssh.port }}
     targetPort: 29418
   {{- end }}
-  selector:
-    app: gerrit
   type: {{ .type }}
   {{- end }}
+  selector:
+    app: {{ .Release.Name }}-gerrit

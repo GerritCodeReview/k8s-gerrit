@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name }}-git-gc-logs-pvc
   labels:
-    app: git-gc
+    app: {{ .Release.Name }}-git-gc
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}

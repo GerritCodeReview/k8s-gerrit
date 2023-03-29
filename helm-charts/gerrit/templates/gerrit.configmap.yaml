@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-gerrit-configmap
   labels:
-    app: gerrit
+    app: {{ .Release.Name }}-gerrit
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -29,7 +29,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-gerrit-init-configmap
   labels:
-    app: gerrit
+    app: {{ .Release.Name }}-gerrit
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -60,7 +60,7 @@ kind: ConfigMap
 metadata:
   name:  {{ $root.Release.Name }}-{{ .name }}
   labels:
-    app: gerrit
+    app: {{ .Release.Name }}-gerrit
     chart: {{ template "gerrit.chart" $root }}
     heritage: {{ $root.Release.Service }}
     release: {{ $root.Release.Name }}

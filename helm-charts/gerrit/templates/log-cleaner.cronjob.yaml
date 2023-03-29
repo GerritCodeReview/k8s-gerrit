@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-log-cleaner
   labels:
-    app: log-cleaner
+    app: {{ .Release.Name }}.log-cleaner
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
