@@ -329,6 +329,7 @@ project.
 | `gitBackend.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 5, periodSeconds: 1}` |
 | `gitBackend.credentials.htpasswd` | `.htpasswd`-file containing username/password-credentials for accessing git | `git:$apr1$O/LbLKC7$Q60GWE7OcqSEMSfe/K8xU.` (user: git, password: secret) |
 | `gitBackend.service.type` | Which kind of Service to deploy | `LoadBalancer` |
+| `gitBackend.service.externalTrafficPolicy` | Specify how traffic from external is handled | `Cluster` |
 | `gitBackend.service.http.enabled` | Whether to serve HTTP-requests (needed for Ingress) | `true` |
 | `gitBackend.service.http.port` | Port over which to expose HTTP | `80` |
 | `gitBackend.service.https.enabled` | Whether to serve HTTPS-requests | `false` |
@@ -396,6 +397,7 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.networkPolicy.ingress` | Custom ingress-network policy for gerrit-replica pods | `nil` |
 | `gerritReplica.networkPolicy.egress` | Custom egress-network policy for gerrit-replica pods | `nil` |
 | `gerritReplica.service.type` | Which kind of Service to deploy | `NodePort` |
+| `gerritReplica.service.externalTrafficPolicy` | Specify how traffic from external is handled | `Cluster` |
 | `gerritReplica.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerritReplica.service.ssh.enabled` | Whether to enable SSH for the Gerrit replica | `false` |
 | `gerritReplica.service.ssh.port` | Port for SSH | `29418` |

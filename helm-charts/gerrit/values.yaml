@@ -198,6 +198,7 @@ gerrit:
 
   service:
     type: NodePort
+    externalTrafficPolicy: Cluster
     http:
       port: 80
     ssh:

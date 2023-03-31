@@ -16,4 +16,5 @@ spec:
   selector:
     app: git-backend
   type: {{ .type }}
+  externalTrafficPolicy: {{ .externalTrafficPolicy }}
   {{- end }}

@@ -21,4 +21,5 @@ spec:
   selector:
     app: gerrit-replica
   type: {{ .type }}
+  externalTrafficPolicy: {{ .externalTrafficPolicy }}
   {{- end }}

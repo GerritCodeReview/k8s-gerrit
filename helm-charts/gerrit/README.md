@@ -303,6 +303,7 @@ future.
 | `gerrit.networkPolicy.ingress` | Custom ingress-network policy for gerrit pods | `nil` |
 | `gerrit.networkPolicy.egress` | Custom egress-network policy for gerrit pods | `nil` |
 | `gerrit.service.type` | Which kind of Service to deploy | `NodePort` |
+| `gerrit.service.externalTrafficPolicy` | Specify how traffic from external is handled | `Cluster` |
 | `gerrit.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerrit.service.ssh.enabled` | Whether to enable SSH | `false` |
 | `gerrit.service.ssh.port` | Port over which to expose SSH | `29418` |

@@ -21,4 +21,5 @@ spec:
   selector:
     app: gerrit
   type: {{ .type }}
+  externalTrafficPolicy: {{ .externalTrafficPolicy }}
   {{- end }}
