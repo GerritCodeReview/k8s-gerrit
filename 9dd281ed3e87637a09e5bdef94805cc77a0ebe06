@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f05c8942_a53f8c31",
+        "filename": "build",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T06:40:48Z",
+      "side": 1,
+      "message": "This functionality is currently already present in the `publish` script using the `--registry` option. I think it makes sense to already add it here, especially since it reflects the behaviour of `docker build` and `docker push` more closely. However, I would prefer to use the same option name in both cases. Terminology-wise, the server is called registry [1], while a docker repository contains all the versions of a single image, e.g. hub.docker.io/k8sgerrit/gerrit. Thus, the option should be called `--registry` (adding a shorter alias, is of course a welcome change).\n\n[1] https://docs.docker.com/registry/",
+      "range": {
+        "startLine": 7,
+        "startChar": 86,
+        "endLine": 7,
+        "endChar": 105
+      },
+      "revId": "9dd281ed3e87637a09e5bdef94805cc77a0ebe06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
