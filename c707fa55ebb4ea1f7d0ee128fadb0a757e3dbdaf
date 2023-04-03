@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed33b2dd_97b6208a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T06:54:22Z",
+      "side": 1,
+      "message": "nit: Adding unique label to components of gerrit-chart\n\nIt would be nice though, if you could do the same to the gerrit-replica chart.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "c707fa55ebb4ea1f7d0ee128fadb0a757e3dbdaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1384157_28116d49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T06:54:22Z",
+      "side": 1,
+      "message": "nit: are",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "c707fa55ebb4ea1f7d0ee128fadb0a757e3dbdaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c51c404_d05b6422",
+        "filename": "helm-charts/gerrit/templates/gerrit.configmap.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-03T06:54:22Z",
+      "side": 1,
+      "message": "I also have wanted to move to standard labels [1] for a while now, but couldn\u0027t find the time yet. \n\n[1] https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/",
+      "revId": "c707fa55ebb4ea1f7d0ee128fadb0a757e3dbdaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
