@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-git-backend-service
   labels:
-    app: git-backend
+    app.kubernetes.io/component: git-backend
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -13,7 +14,8 @@ spec:
   - name: http
     port: {{ .http.port }}
     targetPort: 80
-  selector:
-    app: git-backend
   type: {{ .type }}
   {{- end }}
+  selector:
+    app.kubernetes.io/component: git-backend
+    app.kubernetes.io/instance: {{ .Release.Name }}

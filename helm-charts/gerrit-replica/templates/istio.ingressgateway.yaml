@@ -6,7 +6,8 @@ metadata:
   name:  {{ .Release.Name }}-istio-tls-secret
   namespace: istio-system
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -23,7 +24,8 @@ kind: Gateway
 metadata:
   name: {{ .Release.Name }}-istio-gateway
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -68,7 +70,8 @@ kind: VirtualService
 metadata:
   name: {{ .Release.Name }}-istio-virtual-service
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -113,7 +116,8 @@ kind: DestinationRule
 metadata:
   name: {{ .Release.Name }}-gerrit-destination-rule
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
