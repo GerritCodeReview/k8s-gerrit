@@ -4,7 +4,8 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -64,7 +65,8 @@ kind: Secret
 metadata:
   name:  {{ .Release.Name }}-tls-secret
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}

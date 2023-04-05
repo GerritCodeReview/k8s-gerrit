@@ -4,7 +4,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-nfs-configmap
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}

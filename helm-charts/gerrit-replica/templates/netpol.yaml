@@ -49,7 +49,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: gerrit-replica-allow-external
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -58,7 +59,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit-replica.chart" . }}
       release: {{ .Release.Name }}
-      app: gerrit-replica
+      app.kubernetes.io/component: gerrit-replica
+      app.kubernetes.io/instance: {{ .Release.Name }}
   ingress:
   - ports:
     - port: 8080
@@ -70,7 +72,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: git-backend-custom-ingress-policies
   labels:
-    app: git-backend
+    app.kubernetes.io/component: git-backend
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -81,7 +84,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit-replica.chart" . }}
       release: {{ .Release.Name }}
-      app: git-backend
+      app.kubernetes.io/component: git-backend
+      app.kubernetes.io/instance: {{ .Release.Name }}
   ingress:
 {{ toYaml .Values.gitBackend.networkPolicy.ingress | indent 2 }}
 {{- end }}
@@ -92,7 +96,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: git-backend-custom-egress-policies
   labels:
-    app: git-backend
+    app.kubernetes.io/component: git-backend
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -103,7 +108,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit-replica.chart" . }}
       release: {{ .Release.Name }}
-      app: git-backend
+      app.kubernetes.io/component: git-backend
+      app.kubernetes.io/instance: {{ .Release.Name }}
   egress:
 {{ toYaml .Values.gitBackend.networkPolicy.egress | indent 2 }}
 {{- end }}
@@ -114,7 +120,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: gerrit-replica-custom-ingress-policies
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -125,7 +132,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit-replica.chart" . }}
       release: {{ .Release.Name }}
-      app: gerrit-replica
+      app.kubernetes.io/component: gerrit-replica
+      app.kubernetes.io/instance: {{ .Release.Name }}
   ingress:
 {{ toYaml .Values.gerritReplica.networkPolicy.ingress | indent 2 }}
 {{- end }}
@@ -136,7 +144,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: gerrit-replica-custom-egress-policies
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -147,7 +156,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit-replica.chart" . }}
       release: {{ .Release.Name }}
-      app: gerrit-replica
+      app.kubernetes.io/component: gerrit-replica
+      app.kubernetes.io/instance: {{ .Release.Name }}
   egress:
 {{ toYaml .Values.gerritReplica.networkPolicy.egress | indent 2 }}
 {{- end }}
