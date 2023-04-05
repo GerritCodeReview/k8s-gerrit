@@ -5,7 +5,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-gerrit-replica-configmap
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -29,7 +30,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-gerrit-init-configmap
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -60,7 +62,8 @@ kind: ConfigMap
 metadata:
   name:  {{ $root.Release.Name }}-{{ .name }}
   labels:
-    app: gerrit-replica
+    app.kubernetes.io/component: gerrit-replica
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
     chart: {{ template "gerrit-replica.chart" $root }}
     heritage: {{ $root.Release.Service }}
     release: {{ $root.Release.Name }}

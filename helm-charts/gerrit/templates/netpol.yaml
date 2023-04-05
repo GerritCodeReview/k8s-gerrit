@@ -49,7 +49,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: gerrit-allow-external
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -58,7 +59,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit.chart" . }}
       release: {{ .Release.Name }}
-      app: gerrit
+      app.kubernetes.io/component: gerrit
+      app.kubernetes.io/instance: {{ .Release.Name }}
   ingress:
   - ports:
     - port: 8080
@@ -70,7 +72,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: gerrit-custom-ingress-policies
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -81,7 +84,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit.chart" . }}
       release: {{ .Release.Name }}
-      app: gerrit
+      app.kubernetes.io/component: gerrit
+      app.kubernetes.io/instance: {{ .Release.Name }}
   ingress:
 {{ toYaml .Values.gerrit.networkPolicy.ingress | indent 2 }}
 {{- end }}
@@ -92,7 +96,8 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: gerrit-custom-egress-policies
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -103,7 +108,8 @@ spec:
     matchLabels:
       chart: {{ template "gerrit.chart" . }}
       release: {{ .Release.Name }}
-      app: gerrit
+      app.kubernetes.io/component: gerrit
+      app.kubernetes.io/instance: {{ .Release.Name }}
   egress:
 {{ toYaml .Values.gerrit.networkPolicy.egress | indent 2 }}
 {{- end }}
