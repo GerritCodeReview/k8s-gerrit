@@ -7,6 +7,10 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+  {{- if .Values.gerrit.service.additionalAnnotations }}
+  annotations:
+{{ toYaml .Values.gerrit.service.additionalAnnotations  | indent 4 }}
+  {{- end }}
 spec:
   {{ with .Values.gerrit.service }}
   ports:
