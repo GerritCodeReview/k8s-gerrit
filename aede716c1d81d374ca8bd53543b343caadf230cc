@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4d92f6_b4fb8702",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.configmap.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-13T06:57:48Z",
+      "side": 1,
+      "message": "You have to prepend `$root`, since we are in a `range` loop.\n\n```suggestion\n    app.kubernetes.io/instance: {{ $root.Release.Name }}\n```",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 51
+      },
+      "revId": "aede716c1d81d374ca8bd53543b343caadf230cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d85b41f_88aa33cc",
+        "filename": "helm-charts/gerrit/templates/gerrit.configmap.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-04-13T06:57:48Z",
+      "side": 1,
+      "message": "You have to prepend `$root`, since we are in a `range` loop.\n\n```suggestion\n    app.kubernetes.io/instance: {{ $root.Release.Name }}\n```",
+      "range": {
+        "startLine": 66,
+        "startChar": 35,
+        "endLine": 66,
+        "endChar": 48
+      },
+      "revId": "aede716c1d81d374ca8bd53543b343caadf230cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
