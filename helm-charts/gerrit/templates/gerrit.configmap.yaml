@@ -5,7 +5,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-gerrit-configmap
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -29,7 +30,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-gerrit-init-configmap
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -60,7 +62,8 @@ kind: ConfigMap
 metadata:
   name:  {{ $root.Release.Name }}-{{ .name }}
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
     chart: {{ template "gerrit.chart" $root }}
     heritage: {{ $root.Release.Service }}
     release: {{ $root.Release.Name }}

@@ -5,7 +5,8 @@ kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}-gerrit-stateful-set
   labels:
-    app: gerrit
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -17,11 +18,13 @@ spec:
       partition: {{ .Values.gerrit.updatePartition }}
   selector:
     matchLabels:
-      app: gerrit
+      app.kubernetes.io/component: gerrit
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: gerrit
+        app.kubernetes.io/component: gerrit
+        app.kubernetes.io/instance: {{ .Release.Name }}
         chart: {{ template "gerrit.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
@@ -256,7 +259,8 @@ spec:
   - metadata:
       name: gerrit-site
       labels:
-        app: gerrit
+        app.kubernetes.io/component: gerrit
+        app.kubernetes.io/instance: {{ .Release.Name }}
         chart: {{ template "gerrit.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
