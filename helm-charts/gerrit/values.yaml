@@ -198,6 +198,7 @@ gerrit:
 
   service:
     additionalAnnotations: {}
+    loadBalancerSourceRanges: []
     type: NodePort
     externalTrafficPolicy: Cluster
     http:

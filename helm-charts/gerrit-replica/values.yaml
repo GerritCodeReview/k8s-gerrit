@@ -217,6 +217,7 @@ gitBackend:
 
   service:
     additionalAnnotations: {}
+    loadBalancerSourceRanges: []
     type: NodePort
     externalTrafficPolicy: Cluster
     http:
@@ -308,6 +309,7 @@ gerritReplica:
 
   service:
     additionalAnnotations: {}
+    loadBalancerSourceRanges: []
     type: NodePort
     externalTrafficPolicy: Cluster
     http:
