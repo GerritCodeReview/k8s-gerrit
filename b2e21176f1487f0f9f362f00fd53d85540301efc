@@ -33,6 +33,24 @@
       "message": "@thomas.draebing@sap.com Can you verify this?",
       "revId": "b2e21176f1487f0f9f362f00fd53d85540301efc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "461803ff_223e7351",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-03T14:51:41Z",
+      "side": 1,
+      "message": "I verified that on our CI, but to use it on the gerrit-ci we would still need the credentials for Dockerhub.",
+      "parentUuid": "638ddc0c_249b4993",
+      "revId": "b2e21176f1487f0f9f362f00fd53d85540301efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
