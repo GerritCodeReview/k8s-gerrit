@@ -73,15 +73,11 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
 
-  private final GerritIstioVirtualService virtualService;
   private final GerritIstioDestinationRule destinationRule;
 
   @Inject
   public GerritReconciler(KubernetesClient client) {
     this.client = client;
-
-    this.virtualService = new GerritIstioVirtualService();
-    this.virtualService.setKubernetesClient(client);
 
     this.destinationRule = new GerritIstioDestinationRule();
     this.destinationRule.setKubernetesClient(client);
@@ -128,9 +124,7 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
     Map<String, EventSource> eventSources =
         EventSourceInitializer.nameEventSources(
-            gerritClusterEventSource,
-            virtualService.initEventSource(context),
-            destinationRule.initEventSource(context));
+            gerritClusterEventSource, destinationRule.initEventSource(context));
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
@@ -155,7 +149,6 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
     if (gerritCluster.getSpec().getIngress().isEnabled()
         && gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
-      virtualService.reconcile(gerrit, context);
       destinationRule.reconcile(gerrit, context);
     }
 
