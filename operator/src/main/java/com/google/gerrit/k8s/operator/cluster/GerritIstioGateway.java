@@ -50,6 +50,7 @@ public class GerritIstioGateway extends CRUDKubernetesDependentResource<Gateway,
 
   private List<Server> configureServers(GerritCluster gerritCluster) {
     List<Server> servers = new ArrayList<>();
+    String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
 
     servers.add(
         new ServerBuilder()
@@ -58,7 +59,7 @@ public class GerritIstioGateway extends CRUDKubernetesDependentResource<Gateway,
             .withNumber(80)
             .withProtocol("HTTP")
             .endPort()
-            .withHosts(gerritCluster.getSpec().getIngress().computeHostnames(client, gerritCluster))
+            .withHosts(gerritClusterHost)
             .withNewTls()
             .withHttpsRedirect(gerritCluster.getSpec().getIngress().getTls().isEnabled())
             .endTls()
@@ -72,8 +73,7 @@ public class GerritIstioGateway extends CRUDKubernetesDependentResource<Gateway,
               .withNumber(443)
               .withProtocol("HTTPS")
               .endPort()
-              .withHosts(
-                  gerritCluster.getSpec().getIngress().computeHostnames(client, gerritCluster))
+              .withHosts(gerritClusterHost)
               .withNewTls()
               .withMode(ServerTLSSettingsTLSmode.SIMPLE)
               .withCredentialName(gerritCluster.getSpec().getIngress().getTls().getSecret())
@@ -81,22 +81,23 @@ public class GerritIstioGateway extends CRUDKubernetesDependentResource<Gateway,
               .build());
     }
 
-    boolean sshEnabled =
-        client.resources(Gerrit.class).list().getItems().stream()
-            .anyMatch(g -> g.getSpec().getService().isSshEnabled());
-
-    if (sshEnabled) {
-      servers.add(
-          new ServerBuilder()
-              .withNewPort()
-              .withName("ssh")
-              .withNumber(29418)
-              .withProtocol("TCP")
-              .endPort()
-              .withHosts(
-                  gerritCluster.getSpec().getIngress().computeHostnames(client, gerritCluster))
-              .build());
+    List<Gerrit> gerrits = client.resources(Gerrit.class).list().getItems();
+    List<String> hostnames = new ArrayList<>();
+    hostnames.add(gerritClusterHost);
+    for (Gerrit gerrit : gerrits) {
+      if (gerrit.getSpec().getService().isSshEnabled()) {
+        hostnames.add(gerrit.getMetadata().getName() + "." + gerritClusterHost);
+      }
     }
+    servers.add(
+        new ServerBuilder()
+            .withNewPort()
+            .withName("ssh")
+            .withNumber(29418)
+            .withProtocol("TCP")
+            .endPort()
+            .withHosts(hostnames)
+            .build());
 
     return servers;
   }
