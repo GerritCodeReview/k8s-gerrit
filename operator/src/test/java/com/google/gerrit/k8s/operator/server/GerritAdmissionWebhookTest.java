@@ -250,7 +250,9 @@ public class GerritAdmissionWebhookTest {
     GerritSpec gerritSpec = new GerritSpec();
     gerritSpec.setCluster(cluster);
     gerritSpec.setMode(GerritMode.PRIMARY);
-    gerritSpec.setConfigFiles(Map.of("gerrit.config", gerritConfig.toText()));
+    if (gerritConfig != null) {
+      gerritSpec.setConfigFiles(Map.of("gerrit.config", gerritConfig.toText()));
+    }
     Gerrit gerrit = new Gerrit();
     gerrit.setMetadata(meta);
     gerrit.setSpec(gerritSpec);

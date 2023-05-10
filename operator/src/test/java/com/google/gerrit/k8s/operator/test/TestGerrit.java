@@ -111,12 +111,17 @@ public class TestGerrit {
     waitForGerritReadiness();
   }
 
-  public GerritApi getGerritApiClient() {
+  public GerritApi getGerritApiClientForIngress() {
     return new GerritRestApiFactory()
         .create(
             new GerritAuthData.Basic(
                 String.format(
                     "https://%s.%s", ServiceDependentResource.getName(gerrit), ingress_domain)));
+  }
+
+  public GerritApi getGerritApiClientForIstio() {
+    return new GerritRestApiFactory()
+        .create(new GerritAuthData.Basic(String.format("https://%s", ingress_domain)));
   }
 
   public void modifyGerritConfig(String section, String key, String value) {
