@@ -72,7 +72,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
               assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
             });
 
-    GerritApi gerritApi = testGerrit.getGerritApiClient();
+    GerritApi gerritApi = testGerrit.getGerritApiClientForIngress();
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -91,7 +91,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
     TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster);
     testGerrit.deploy();
 
-    GerritApi gerritApi = testGerrit.getGerritApiClient();
+    GerritApi gerritApi = testGerrit.getGerritApiClientForIstio();
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
