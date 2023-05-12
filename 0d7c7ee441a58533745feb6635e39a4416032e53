@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e28e5f4_1cb7433f",
+        "filename": "operator/k8s/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:10:18Z",
+      "side": 1,
+      "message": "Make clear that self-signed certs will be used otherwise ?\n\nRequired to use an external/persistent keystore, otherwise a keystore using self-signed certificates will be generated",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cb7f74_c326ed98",
+        "filename": "operator/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:10:18Z",
+      "side": 1,
+      "message": "we should update this to 6.5.0.202303070854-r",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "231370d6_24bcdee2",
+        "filename": "operator/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:10:18Z",
+      "side": 1,
+      "message": "we should use the `-jdk180n` artefacts and the latest release which is org.bouncycastle:bcpkix-jdk18on:1.73",
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaaf0396_3940333d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GeneratedKeyStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:10:18Z",
+      "side": 1,
+      "message": "use 1 year ?",
+      "range": {
+        "startLine": 100,
+        "startChar": 37,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
