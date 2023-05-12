@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83760976_452d0de6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:42:27Z",
+      "side": 1,
+      "message": "can we provide more details about which settings are invalid ?",
+      "revId": "7b51f987b5053d910c8ad44fa4648dd1b773a73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
