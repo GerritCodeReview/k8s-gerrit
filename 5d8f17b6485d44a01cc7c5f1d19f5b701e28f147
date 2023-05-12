@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9be01901_facd4d0f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookServlet.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:38:10Z",
+      "side": 1,
+      "message": "why don\u0027t you use HttpServlet ?",
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c30ce72f_3edce2a7",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhookTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:38:10Z",
+      "side": 1,
+      "message": "I don\u0027t understand this\n\nwith JUnit 5 you can use @DisplayName to set a human readable test description",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 63
+      },
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b138c9_2083c690",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/TestAdmissionWebhookServer.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T09:38:10Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
