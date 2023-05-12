@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f58b489_d05f4344",
+        "filename": "operator/pom.xml",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T08:44:47Z",
+      "side": 1,
+      "message": "update this to latest 11.0.15 ?\n\nGerrit still uses 9.4.51.v20230217, but 9.x is EOL since 2022-06-01\n\njetty 11.x uses jakarta.* package namespace",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "b05461e7b0285b76fe1c05b849fb017f6d56287d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
