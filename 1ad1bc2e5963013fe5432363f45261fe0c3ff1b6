@@ -16,6 +16,24 @@
       "message": "Do we have a way to force a reindex? \nIn the past we had some service releases requiring reindexing, see e.g. https://www.gerritcodereview.com/2.16.html#2164",
       "revId": "1ad1bc2e5963013fe5432363f45261fe0c3ff1b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd471d46_c23a5382",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-15T08:58:14Z",
+      "side": 1,
+      "message": "So far, this is not possible. We could add an option to the chart/CR that enforces offline reindexing, but then it would happen on every restart, so the admin would have to remove it manually if that is not required anymore. Not nice. I think online reindexing should become the standard.",
+      "parentUuid": "c5a10ed5_cdc0ef59",
+      "revId": "1ad1bc2e5963013fe5432363f45261fe0c3ff1b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
