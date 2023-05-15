@@ -16,6 +16,24 @@
       "message": "according to [1] the sshd is disabled if sssh.listenAddress\u003doff\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#sshd.listenAddress",
       "revId": "3146c9cf8ae335d063ad37172299af7abbe42b10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21d4f76a_6634de6b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritServiceConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-15T08:48:41Z",
+      "side": 1,
+      "message": "These are two different things. This is about the indrastructure (Kubernetes) config and you are talking about the Gerrit config, where the listenaddress is actually managed by the operator.",
+      "parentUuid": "c7520c82_bfae9471",
+      "revId": "3146c9cf8ae335d063ad37172299af7abbe42b10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
