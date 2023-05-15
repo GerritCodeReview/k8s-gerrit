@@ -25,6 +25,8 @@ import requests
 from ..helpers import git, log
 
 LOG = log.get_logger("reindex")
+MNT_PATH = "/var/mnt"
+INDEXES = set(["accounts", "changes", "groups", "projects"])
 
 
 class IndexType(enum.Enum):
@@ -37,6 +39,13 @@ class GerritAbstractReindexer(abc.ABC):
         self.gerrit_site_path = gerrit_site_path
         self.index_config_path = f"{self.gerrit_site_path}/index/gerrit_index.config"
         self.init_config = config
+
+        self.gerrit_config = git.GitConfigParser(
+            os.path.join(MNT_PATH, "etc/config/gerrit.config")
+        )
+        self.is_online_reindex = self.gerrit_config.get_boolean(
+            "index.onlineUpgrade", True
+        )
 
         self.configured_indices = self._parse_gerrit_index_config()
 
@@ -51,32 +60,42 @@ class GerritAbstractReindexer(abc.ABC):
             options = config.list()
             for opt in options:
                 name, version = opt["subsection"].rsplit("_", 1)
-                # TODO (Thomas): Properly handle multiple versions of the same index,
-                # which may be present due to online-reindexing in progress.
-                indices[name] = {
-                    "version": int(version),
-                    "ready": opt["value"].lower() == "true",
-                }
+                ready = opt["value"].lower() == "true"
+                if name in indices:
+                    indices[name] = {
+                        "read": version if ready else indices[name]["read"],
+                        "latest_write": max(version, indices[name]["latest_write"]),
+                    }
+                else:
+                    indices[name] = {
+                        "read": version if ready else None,
+                        "latest_write": version,
+                    }
         return indices
 
-    def _get_unready_indices(self):
-        unready_indices = []
+    def _get_not_ready_indices(self):
+        not_ready_indices = []
         for index, index_attrs in self.configured_indices.items():
-            if not index_attrs["ready"]:
+            if not index_attrs["read"]:
                 LOG.info("Index %s not ready.", index)
-                unready_indices.append(index)
-        return unready_indices
+                not_ready_indices.append(index)
+        not_ready_indices.extend(INDEXES.difference(self.configured_indices.keys()))
+        return not_ready_indices
 
-    def _check_index_versions(self):
+    def _indexes_need_update(self):
         indices = self._get_indices()
 
         if not indices:
-            return False
+            return True
 
         for index, index_attrs in self.configured_indices.items():
-            if index not in indices or index_attrs["version"] is not indices[index]:
-                return False
-        return True
+            if (
+                index not in indices
+                or index_attrs["latest_write"] != indices[index]
+                or index_attrs["read"] != index_attrs["latest_write"]
+            ):
+                return True
+        return False
 
     def reindex(self, indices=None):
         LOG.info("Starting to reindex.")
@@ -108,11 +127,11 @@ class GerritAbstractReindexer(abc.ABC):
             self.reindex()
             return
 
-        unready_indices = self._get_unready_indices()
-        if unready_indices:
-            self.reindex(unready_indices)
+        not_ready_indices = self._get_not_ready_indices()
+        if not_ready_indices:
+            self.reindex(not_ready_indices)
 
-        if not self._check_index_versions():
+        if not self.is_online_reindex and self._indexes_need_update():
             LOG.info("Not all indices are up-to-date.")
             self.reindex()
             return
@@ -128,7 +147,10 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
         for index in file_list:
             try:
                 (name, version) = index.split("_")
-                lucene_indices[name] = int(version)
+                if name in lucene_indices:
+                    lucene_indices[name] = max(version, lucene_indices[name])
+                else:
+                    lucene_indices[name] = version
             except ValueError:
                 LOG.debug("Ignoring invalid file in index-directory: %s", index)
         return lucene_indices
@@ -161,7 +183,7 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
             try:
                 index = index.replace(es_config["prefix"], "", 1)
                 (name, version) = index.split("_")
-                es_indices[name] = int(version)
+                es_indices[name] = version
             except ValueError:
                 LOG.debug("Found unknown index: %s", index)
 

@@ -36,6 +36,10 @@ class GerritInit:
         self.gerrit_config = git.GitConfigParser(
             os.path.join(MNT_PATH, "etc/config/gerrit.config")
         )
+        self.is_online_reindex = self.gerrit_config.get_boolean(
+            "index.onlineUpgrade", True
+        )
+        self.force_offline_reindex = False
         self.installed_plugins = self._get_installed_plugins()
 
         self.is_replica = self.gerrit_config.get_boolean("container.replica")
@@ -68,13 +72,17 @@ class GerritInit:
             installed_version,
             provided_version,
         )
+        installed_minor_version = installed_version.split(".")[0:2]
+        provided_minor_version = provided_version.split(".")[0:2]
+
+        if (
+            not self.is_online_reindex
+            and installed_minor_version != provided_minor_version
+        ):
+            self.force_offline_reindex = True
         return installed_version != provided_version
 
     def _needs_init(self):
-        if self.plugin_installer.plugins_changed:
-            LOG.info("Plugins were installed or updated. Initializing.")
-            return True
-
         installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
         if not os.path.exists(installed_war_path):
             LOG.info("Gerrit is not yet installed. Initializing new site.")
@@ -82,6 +90,10 @@ class GerritInit:
 
         if self._gerrit_war_updated():
             LOG.info("Reinitializing site to perform update.")
+            return True
+
+        if self.plugin_installer.plugins_changed:
+            LOG.info("Plugins were installed or updated. Initializing.")
             return True
 
         if self.config.packaged_plugins.difference(self.installed_plugins):
@@ -164,39 +176,38 @@ class GerritInit:
 
         self.plugin_installer.execute()
 
-        if not self._needs_init():
-            return
+        if self._needs_init():
+            if self.gerrit_config:
+                LOG.info("Existing gerrit.config found.")
+                dev_option = (
+                    "--dev"
+                    if self.gerrit_config.get("auth.type").lower()
+                    == "development_become_any_account"
+                    else ""
+                )
+            else:
+                LOG.info("No gerrit.config found. Initializing default site.")
+                dev_option = "--dev"
 
-        if self.gerrit_config:
-            LOG.info("Existing gerrit.config found.")
-            dev_option = (
-                "--dev"
-                if self.gerrit_config.get("auth.type").lower()
-                == "development_become_any_account"
-                else ""
+            flags = f"--no-auto-start --batch {dev_option}"
+
+            command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
+
+            init_process = subprocess.run(
+                command.split(), stdout=subprocess.PIPE, check=True
             )
-        else:
-            LOG.info("No gerrit.config found. Initializing default site.")
-            dev_option = "--dev"
 
-        flags = f"--no-auto-start --batch {dev_option}"
+            if init_process.returncode > 0:
+                LOG.error(
+                    "An error occurred, when initializing Gerrit. Exit code: %d",
+                    init_process.returncode,
+                )
+                sys.exit(1)
 
-        command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
+            self._symlink_configuration()
 
-        init_process = subprocess.run(
-            command.split(), stdout=subprocess.PIPE, check=True
-        )
+            if self.is_replica:
+                self._symlink_mounted_site_components()
 
-        if init_process.returncode > 0:
-            LOG.error(
-                "An error occurred, when initializing Gerrit. Exit code: %d",
-                init_process.returncode,
-            )
-            sys.exit(1)
-
-        self._symlink_configuration()
-
-        if self.is_replica:
-            self._symlink_mounted_site_components()
-        else:
-            get_reindexer(self.site, self.config).start(False)
+        if not self.is_replica:
+            get_reindexer(self.site, self.config).start(self.force_offline_reindex)

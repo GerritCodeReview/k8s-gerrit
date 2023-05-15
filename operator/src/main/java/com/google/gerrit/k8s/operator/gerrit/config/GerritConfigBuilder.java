@@ -14,15 +14,21 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
+import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.SSH_PORT;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 @SuppressWarnings("rawtypes")
 public class GerritConfigBuilder {
+  private static final Pattern PROTOCOL_PATTERN = Pattern.compile("^(https?)://.+");
   private List<RequiredOption> requiredOptions = new ArrayList<>(setupStaticRequiredOptions());
   private Config cfg;
 
@@ -37,7 +43,7 @@ public class GerritConfigBuilder {
             Set.of("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore")));
     requiredOptions.add(new RequiredOption<String>("container", "user", "gerrit"));
     requiredOptions.add(new RequiredOption<String>("gerrit", "basepath", "git"));
-    requiredOptions.add(new RequiredOption<Boolean>("index", "onlineUpgrade", false));
+    requiredOptions.add(new RequiredOption<String>("cache", "directory", "cache"));
     return requiredOptions;
   }
 
@@ -59,7 +65,39 @@ public class GerritConfigBuilder {
 
   public GerritConfigBuilder withUrl(String url) {
     this.requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+
+    StringBuilder listenUrlBuilder = new StringBuilder();
+    listenUrlBuilder.append("proxy-");
+    Matcher protocolMatcher = PROTOCOL_PATTERN.matcher(url);
+    if (protocolMatcher.matches()) {
+      listenUrlBuilder.append(protocolMatcher.group(1));
+    } else {
+      throw new IllegalStateException(
+          String.format("Unknown protocol used for canonicalWebUrl: %s", url));
+    }
+    listenUrlBuilder.append("://*:");
+    listenUrlBuilder.append(HTTP_PORT);
+    listenUrlBuilder.append("/");
+    this.requiredOptions.add(
+        new RequiredOption<String>("httpd", "listenUrl", listenUrlBuilder.toString()));
     return this;
+  }
+
+  public GerritConfigBuilder withSsh(boolean enabled) {
+    String listenAddress;
+    if (enabled) {
+      listenAddress = "*:" + SSH_PORT;
+    } else {
+      listenAddress = "off";
+    }
+    this.requiredOptions.add(new RequiredOption<String>("sshd", "listenAddress", listenAddress));
+    return this;
+  }
+
+  public GerritConfigBuilder withSsh(boolean enabled, String advertisedAddress) {
+    this.requiredOptions.add(
+        new RequiredOption<String>("sshd", "advertisedAddress", advertisedAddress));
+    return withSsh(enabled);
   }
 
   public GerritConfigBuilder useReplicaMode(boolean isReplica) {

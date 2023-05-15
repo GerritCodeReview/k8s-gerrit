@@ -17,7 +17,9 @@ spec:
           metrics:
           - resource:
               name: cpu
-              targetAverageUtilization: 80
+              target:
+                type: Utilization
+                averageUtilization: 80
             type: Resource
           minReplicas: 1
           scaleTargetRef:
@@ -61,7 +63,9 @@ spec:
           metrics:
           - resource:
               name: cpu
-              targetAverageUtilization: 80
+              target:
+                type: Utilization
+                averageUtilization: 80
             type: Resource
           minReplicas: 5
           scaleTargetRef:
@@ -162,7 +166,8 @@ spec:
     defaultConfig:
       proxyMetadata: {}
     enablePrometheusMerge: true
-  tag: 1.11.4
+  profile: default
+  tag: 1.16.0
   values:
     base:
       enableCRDTemplates: false
@@ -180,7 +185,6 @@ spec:
           name: egressgateway-ca-certs
           secretName: istio-egressgateway-ca-certs
         type: ClusterIP
-        zvpn: {}
       istio-ingressgateway:
         autoscaleEnabled: true
         env: {}
@@ -193,7 +197,6 @@ spec:
           name: ingressgateway-ca-certs
           secretName: istio-ingressgateway-ca-certs
         type: LoadBalancer
-        zvpn: {}
     global:
       configValidation: true
       defaultNodeSelector: {}
@@ -283,6 +286,7 @@ spec:
       image: pilot
       keepaliveMaxServerConnectionAge: 24h
       nodeSelector: {}
+      podLabels: {}
       replicaCount: 1
       traceSampling: 1
     sidecarInjectorWebhook:
