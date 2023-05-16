@@ -255,6 +255,7 @@ configured to gracefully close the connections as well.
 | `gitGC.logging.persistence.enabled` | Whether to persist logs | `true` |
 | `gitGC.logging.persistence.size` | Storage size for persisted logs | `1Gi` |
 | `gitGC.tolerations` | Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. For more information, please refer to the following documents. [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration) | [] |
+| `gitGC.nodeSelector` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
 | `gitGC.affinity` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
 
 ### Gerrit
@@ -285,6 +286,7 @@ future.
 | `gerrit.images.gerrit` | Image name of the Gerrit container image | `k8sgerrit/gerrit` |
 | `gerrit.tolerations` | Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. For more information, please refer to the following documents. [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration) | [] |
 | `gerrit.topologySpreadConstraints` | Control how Pods are spread across your cluster among failure-domains. For more information, please refer to the following documents. [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints) | {} |
+| `gerrit.nodeSelector` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
 | `gerrit.affinity` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
 | `gerrit.additionalAnnotations` | Additional annotations for the Pods | {} |
 | `gerrit.replicas` | Number of replica pods to deploy | `1` |
