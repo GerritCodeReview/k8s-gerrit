@@ -29,11 +29,13 @@ import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@KubernetesDependent(resourceDiscriminator = GerritIstioVirtualServiceDiscriminator.class)
 public class GerritIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -45,7 +47,10 @@ public class GerritIstioVirtualService
   @Override
   protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
     String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
-    List<Gerrit> gerrits = getGerrits(gerritCluster);
+    List<Gerrit> gerrits =
+        gerritCluster.getSpec().getGerrits().stream()
+            .map(t -> t.toClusterOwnedGerrit(gerritCluster))
+            .collect(Collectors.toList());
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
@@ -60,17 +65,6 @@ public class GerritIstioVirtualService
         .withHttp(getHTTPRoutes(gerrits))
         .endSpec()
         .build();
-  }
-
-  private List<Gerrit> getGerrits(GerritCluster gerritCluster) {
-    return client
-        .resources(Gerrit.class)
-        .inNamespace(gerritCluster.getMetadata().getNamespace())
-        .list()
-        .getItems()
-        .stream()
-        .filter(g -> g.getSpec().getCluster().equals(gerritCluster.getMetadata().getName()))
-        .collect(Collectors.toList());
   }
 
   public static String getName(GerritCluster gerritCluster) {

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMember;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
@@ -25,9 +24,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Group("gerritoperator.google.com")
 @Version("v1alpha1")
 @ShortNames("gcr")
-public class Gerrit extends GerritClusterMember<GerritSpec, GerritStatus> implements Namespaced {
-  private static final long serialVersionUID = 1L;
-
+public class Gerrit implements Namespaced {
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
   }

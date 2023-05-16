@@ -22,6 +22,7 @@ import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.api.model.OwnerReference;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
@@ -85,22 +86,6 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<Gerrit> context) {
-    final SecondaryToPrimaryMapper<GerritCluster> gerritClusterMapper =
-        (GerritCluster cluster) ->
-            context
-                .getPrimaryCache()
-                .list(
-                    gerrit -> gerrit.getSpec().getCluster().equals(cluster.getMetadata().getName()))
-                .map(ResourceID::fromResource)
-                .collect(Collectors.toSet());
-
-    InformerEventSource<GerritCluster, Gerrit> gerritClusterEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(GerritCluster.class, context)
-                .withSecondaryToPrimaryMapper(gerritClusterMapper)
-                .build(),
-            context);
-
     final SecondaryToPrimaryMapper<Secret> secretMapper =
         (Secret secret) ->
             context
@@ -123,8 +108,7 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
 
     Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(
-            gerritClusterEventSource, destinationRule.initEventSource(context));
+        EventSourceInitializer.nameEventSources(destinationRule.initEventSource(context));
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
@@ -136,11 +120,28 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
       restartGerritStatefulSet(gerrit);
     }
 
+    Optional<OwnerReference> gerritClusterOwnerRef =
+        gerrit.getMetadata().getOwnerReferences().stream()
+            .filter(or -> or.getKind().toLowerCase().equals("gerritcluster"))
+            .findFirst();
+
+    if (gerritClusterOwnerRef.isEmpty()) {
+      throw new IllegalStateException(
+          String.format(
+              "Gerrit %s/%s is not owned by any GerritCluster.",
+              gerrit.getMetadata().getNamespace(), gerrit.getMetadata().getName()));
+    }
+
     GerritCluster gerritCluster =
         client
             .resources(GerritCluster.class)
             .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerrit.getSpec().getCluster())
+            .withName(
+                gerrit.getMetadata().getOwnerReferences().stream()
+                    .filter(or -> or.getKind().toLowerCase().equals("gerritcluster"))
+                    .findFirst()
+                    .get()
+                    .getName())
             .get();
 
     if (gerritCluster == null) {

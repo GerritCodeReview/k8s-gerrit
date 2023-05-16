@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GerritSpec implements GerritClusterMemberSpec {
+public class GerritSpec {
   private String cluster;
 
   private List<Toleration> tolerations;

@@ -15,15 +15,21 @@
 package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritLogsPVC.LOGS_PVC_NAME;
+import static com.google.gerrit.k8s.operator.cluster.GerritTemplate.GERRIT_CLUSTER_ANNOTATION;
 import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
+import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -42,8 +48,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Group("gerritoperator.google.com")
 @Version("v1alpha1")
 @ShortNames("gclus")
-public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
-    implements Namespaced {
+public class GerritCluster extends CustomResource<GerritClusterSpec, Status> implements Namespaced {
   private static final long serialVersionUID = 1L;
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
@@ -142,12 +147,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static boolean isMemberPartOfCluster(
-      GerritClusterMemberSpec memberSpec, GerritCluster cluster) {
-    return memberSpec.getCluster().equals(cluster.getMetadata().getName());
-  }
-
-  @JsonIgnore
   public Container createNfsInitContainer() {
     List<VolumeMount> volumeMounts = new ArrayList<>();
     volumeMounts.add(getLogsVolumeMount());
@@ -180,5 +179,21 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .endFieldRef()
         .endValueFrom()
         .build();
+  }
+
+  @JsonIgnore
+  public static GerritCluster fromString(String json)
+      throws JsonMappingException, JsonProcessingException {
+    return new ObjectMapper().readerFor(GerritCluster.class).readValue(json);
+  }
+
+  @JsonIgnore
+  public static GerritCluster forSecondary(HasMetadata secondary) {
+    try {
+      return GerritCluster.fromString(
+          secondary.getMetadata().getAnnotations().get(GERRIT_CLUSTER_ANNOTATION));
+    } catch (JsonProcessingException e) {
+      throw new IllegalStateException("Could not parse GerritClusterSpec from annotation.", e);
+    }
   }
 }

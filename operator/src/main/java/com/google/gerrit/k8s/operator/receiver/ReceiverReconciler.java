@@ -62,23 +62,6 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<Receiver> context) {
-    final SecondaryToPrimaryMapper<GerritCluster> gerritClusterMapper =
-        (GerritCluster cluster) ->
-            context
-                .getPrimaryCache()
-                .list(
-                    receiver ->
-                        receiver.getSpec().getCluster().equals(cluster.getMetadata().getName()))
-                .map(ResourceID::fromResource)
-                .collect(Collectors.toSet());
-
-    InformerEventSource<GerritCluster, Receiver> gerritClusterEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(GerritCluster.class, context)
-                .withSecondaryToPrimaryMapper(gerritClusterMapper)
-                .build(),
-            context);
-
     final SecondaryToPrimaryMapper<Secret> secretMapper =
         (Secret secret) ->
             context
@@ -100,8 +83,7 @@ public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInit
             context);
 
     Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(
-            gerritClusterEventSource, virtualService.initEventSource(context));
+        EventSourceInitializer.nameEventSources(virtualService.initEventSource(context));
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
   }

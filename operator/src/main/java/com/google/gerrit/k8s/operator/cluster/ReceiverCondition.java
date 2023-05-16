@@ -14,8 +14,15 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-public interface GerritClusterMemberSpec {
-  public String getCluster();
+import com.google.gerrit.k8s.operator.receiver.Receiver;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
-  public void setCluster(String cluster);
+public class ReceiverCondition implements Condition<Receiver, GerritCluster> {
+
+  @Override
+  public boolean isMet(
+      GerritCluster gerritCluster, Receiver secondary, Context<GerritCluster> context) {
+    return gerritCluster.getSpec().getReceiver() != null;
+  }
 }

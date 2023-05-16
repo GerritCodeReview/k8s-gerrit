@@ -14,10 +14,17 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import io.fabric8.kubernetes.api.model.Namespaced;
-import io.fabric8.kubernetes.client.CustomResource;
+import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
-public abstract class GerritClusterMember<S extends GerritClusterMemberSpec, T>
-    extends CustomResource<S, T> implements Namespaced {
-  private static final long serialVersionUID = 1L;
+public class GerritSSHCondition implements Condition<VirtualService, GerritCluster> {
+
+  @Override
+  public boolean isMet(
+      GerritCluster gerritCluster, VirtualService secondary, Context<GerritCluster> context) {
+    return !gerritCluster.getSpec().getGerrits().isEmpty()
+        && gerritCluster.getSpec().getGerrits().stream()
+            .anyMatch(g -> g.getSpec().getService().isSshEnabled());
+  }
 }

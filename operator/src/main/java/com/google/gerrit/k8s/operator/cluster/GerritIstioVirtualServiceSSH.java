@@ -39,7 +39,10 @@ public class GerritIstioVirtualServiceSSH
   @Override
   protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
     String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
-    List<Gerrit> gerrits = getGerrits(gerritCluster);
+    List<Gerrit> gerrits =
+        gerritCluster.getSpec().getGerrits().stream()
+            .map(t -> t.toClusterOwnedGerrit(gerritCluster))
+            .collect(Collectors.toList());
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
@@ -54,20 +57,6 @@ public class GerritIstioVirtualServiceSSH
         .withTcp(getTCPRoutes(gerrits))
         .endSpec()
         .build();
-  }
-
-  private List<Gerrit> getGerrits(GerritCluster gerritCluster) {
-    return client
-        .resources(Gerrit.class)
-        .inNamespace(gerritCluster.getMetadata().getNamespace())
-        .list()
-        .getItems()
-        .stream()
-        .filter(
-            g ->
-                g.getSpec().getCluster().equals(gerritCluster.getMetadata().getName())
-                    && g.getSpec().getService().isSshEnabled())
-        .collect(Collectors.toList());
   }
 
   public static String getName(GerritCluster gerritCluster) {

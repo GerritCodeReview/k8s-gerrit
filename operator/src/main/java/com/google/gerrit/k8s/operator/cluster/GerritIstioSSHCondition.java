@@ -14,17 +14,16 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import java.util.List;
-import java.util.Map;
+import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
-public class GerritClusterStatus {
-  private Map<String, List<String>> members;
+public class GerritIstioSSHCondition implements Condition<VirtualService, GerritCluster> {
 
-  public Map<String, List<String>> getMembers() {
-    return members;
-  }
-
-  public void setMembers(Map<String, List<String>> members) {
-    this.members = members;
+  @Override
+  public boolean isMet(
+      GerritCluster gerritCluster, VirtualService secondary, Context<GerritCluster> context) {
+    return new GerritIstioCondition().isMet(gerritCluster, secondary, context)
+        && new GerritSSHCondition().isMet(gerritCluster, secondary, context);
   }
 }
