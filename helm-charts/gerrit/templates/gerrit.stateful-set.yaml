@@ -28,6 +28,9 @@ spec:
         chart: {{ template "gerrit.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
+        {{- if .Values.gerrit.additionalLabels }}
+{{ toYaml .Values.gerrit.additionalLabels  | indent 8 }}
+        {{- end }}
       annotations:
         chartRevision: "{{ .Release.Revision }}"
         {{- if .Values.gerrit.additionalAnnotations }}

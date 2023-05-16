@@ -123,6 +123,7 @@ gitGC:
 
   tolerations: []
   affinity: {}
+  additionalLabels: {}
 
   schedule: 0 6,18 * * *
 
@@ -149,6 +150,7 @@ gerrit:
   topologySpreadConstraints: {}
   affinity: {}
   additionalAnnotations: {}
+  additionalLabels: {}
 
   replicas: 1
   updatePartition: 0

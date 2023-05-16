@@ -21,6 +21,9 @@ spec:
             chart: {{ template "gerrit.chart" . }}
             heritage: {{ .Release.Service }}
             release: {{ .Release.Name }}
+            {{- if .Values.gitGC.additionalLabels }}
+{{ toYaml .Values.gitGC.additionalLabels  | indent 12 }}
+            {{- end }}
           annotations:
             cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
         spec:

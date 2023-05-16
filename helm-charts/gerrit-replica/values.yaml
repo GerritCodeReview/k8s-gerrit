@@ -238,6 +238,7 @@ gitGC:
 
   tolerations: []
   affinity: {}
+  additionalLabels: {}
 
   schedule: 0 6,18 * * *
 
@@ -272,6 +273,7 @@ gerritReplica:
   replicas: 1
   updatePartition: 0
   additionalAnnotations: {}
+  additionalLabels: {}
 
   livenessProbe:
     initialDelaySeconds: 60

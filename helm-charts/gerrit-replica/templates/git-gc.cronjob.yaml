@@ -26,6 +26,9 @@ spec:
             chart: {{ template "gerrit-replica.chart" . }}
             heritage: {{ .Release.Service }}
             release: {{ .Release.Name }}
+            {{- if .Values.gitGC.additionalLabels }}
+{{ toYaml .Values.gitGC.additionalLabels  | indent 12 }}
+            {{- end }}
         spec:
           {{- with .Values.gitGC.tolerations }}
           tolerations:

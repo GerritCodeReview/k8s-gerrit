@@ -357,6 +357,7 @@ this feature configure the replication plugin to use an adminUrl using the forma
 |                   |                                                               | `limits.memory: 256Mi` |
 | `gitGC.tolerations` | Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. For more information, please refer to the following documents. [Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration) | [] |
 | `gitGC.affinity` | Assigns a Pod to the specified Nodes. For more information, please refer to the following documents. [Assign Pods to Nodes using Node Affinity](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/). [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) | {} |
+| `gitGC.additionalLabels` | Additional labels for the Pods | {} |
 
 ### Gerrit replica
 
@@ -386,6 +387,7 @@ is mandatory, if access to the Gerrit replica is required!
 | | | podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchExpressions[0].values[0]: gerrit-replica |
 | `gerritReplica.replicas` | Number of pod replicas to deploy | `1` |
 | `gerritReplica.additionalAnnotations` | Additional annotations for the Pods | {} |
+| `gerritReplica.additionalLabels` | Additional labels for the Pods | {} |
 | `gerritReplica.maxSurge` | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%` |
 | `gerritReplica.maxUnavailable` | Max. percentage or number of pods allowed to be unavailable at a time | `100%` |
 | `gerritReplica.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 60, periodSeconds: 5}` |
