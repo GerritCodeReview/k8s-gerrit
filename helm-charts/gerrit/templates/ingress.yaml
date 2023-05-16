@@ -9,6 +9,9 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.ingress.additionalLabels }}
+{{ toYaml .Values.ingress.additionalLabels  | indent 4 }}
+    {{- end }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.maxBodySize | default "50m" }}
     {{- if .Values.ingress.additionalAnnotations }}
@@ -49,6 +52,9 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.ingress.additionalLabels }}
+{{ toYaml .Values.ingress.additionalLabels  | indent 4 }}
+    {{- end }}
 type: kubernetes.io/tls
 data:
   {{ with .Values.ingress.tls -}}

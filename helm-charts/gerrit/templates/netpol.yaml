@@ -7,6 +7,9 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.networkPolicies.additionalLabels }}
+{{ toYaml .Values.networkPolicies.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   podSelector:
     matchLabels:
@@ -27,6 +30,9 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.networkPolicies.additionalLabels }}
+{{ toYaml .Values.networkPolicies.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   podSelector:
     matchLabels:

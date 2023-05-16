@@ -10,6 +10,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   serviceName: {{ .Release.Name }}-gerrit-replica-service
   replicas: {{ .Values.gerritReplica.replicas }}
@@ -28,6 +31,12 @@ spec:
         chart: {{ template "gerrit-replica.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
+        {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 8 }}
+        {{- end }}
+        {{- if .Values.gerritReplica.additionalPodLabels }}
+{{ toYaml .Values.gerritReplica.additionalPodLabels  | indent 8 }}
+        {{- end }}
       annotations:
         chartRevision: "{{ .Release.Revision }}"
         {{- if .Values.gerritReplica.additionalAnnotations }}
@@ -311,6 +320,9 @@ spec:
         chart: {{ template "gerrit-replica.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
+        {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 8 }}
+        {{- end }}
     spec:
       accessModes:
       - ReadWriteOnce

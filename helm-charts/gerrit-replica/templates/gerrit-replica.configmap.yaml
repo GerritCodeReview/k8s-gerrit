@@ -10,6 +10,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 data:
   {{- range $key, $value := .Values.gerritReplica.etc.config }}
   {{ $key }}:
@@ -35,6 +38,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 data:
   gerrit-init.yaml: |-
     {{ if .Values.caCert -}}
@@ -67,6 +73,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" $root }}
     heritage: {{ $root.Release.Service }}
     release: {{ $root.Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 data:
 {{ toYaml .data | indent 2 }}
 {{- end }}

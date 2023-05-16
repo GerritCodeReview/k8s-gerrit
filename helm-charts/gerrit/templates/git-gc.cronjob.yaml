@@ -8,6 +8,9 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   schedule: {{ .Values.gitGC.schedule | quote }}
   concurrencyPolicy: "Forbid"
@@ -21,6 +24,12 @@ spec:
             chart: {{ template "gerrit.chart" . }}
             heritage: {{ .Release.Service }}
             release: {{ .Release.Name }}
+            {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 12 }}
+            {{- end }}
+            {{- if .Values.gitGC.additionalPodLabels }}
+{{ toYaml .Values.gitGC.additionalPodLabels  | indent 12 }}
+            {{- end }}
           annotations:
             cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
         spec:
