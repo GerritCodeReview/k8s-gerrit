@@ -9,12 +9,28 @@ metadata:
     chart: {{ template "gerrit.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   schedule: {{ .Values.logStorage.cleanup.schedule | quote }}
   concurrencyPolicy: "Forbid"
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            app.kubernetes.io/component: log-cleaner
+            app.kubernetes.io/instance: {{ .Release.Name }}
+            chart: {{ template "gerrit.chart" . }}
+            heritage: {{ .Release.Service }}
+            release: {{ .Release.Name }}
+            {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 12 }}
+            {{- end }}
+            {{- if .Values.logStorage.cleanup.additionalPodLabels }}
+{{ toYaml .Values.logStorage.cleanup.additionalPodLabels  | indent 12 }}
+            {{- end }}
         spec:
           restartPolicy: OnFailure
           containers:

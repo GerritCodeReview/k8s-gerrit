@@ -21,6 +21,8 @@ images:
   # pods of this chart. E.g. to pull busybox from dockerhub.
   additionalImagePullSecrets: []
 
+# Additional labels that should be applied to all resources
+additionalLabels: {}
 
 storageClasses:
   # Storage class used for storing logs and other pod-specific persisted data
@@ -76,6 +78,7 @@ logStorage:
   size: 5Gi
   cleanup:
     enabled: false
+    additionalPodLabels: {}
     schedule: "0 0 * * *"
     retentionDays: 14
     resources:
@@ -168,6 +171,7 @@ promtailSidecar:
 gitBackend:
   image: k8sgerrit/apache-git-http-backend
 
+  additionalPodLabels: {}
   tolerations: []
   topologySpreadConstraints: {}
   affinity:
@@ -238,6 +242,7 @@ gitGC:
 
   tolerations: []
   affinity: {}
+  additionalPodLabels: {}
 
   schedule: 0 6,18 * * *
 
@@ -272,6 +277,7 @@ gerritReplica:
   replicas: 1
   updatePartition: 0
   additionalAnnotations: {}
+  additionalPodLabels: {}
 
   livenessProbe:
     initialDelaySeconds: 60
