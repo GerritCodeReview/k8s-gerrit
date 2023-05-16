@@ -31,6 +31,10 @@ spec:
           tolerations:
             {{- toYaml . | nindent 10 }}
           {{- end }}
+          {{- with .Values.gitGC.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
           {{- with .Values.gitGC.affinity }}
           affinity:
             {{- toYaml . | nindent 10 }}

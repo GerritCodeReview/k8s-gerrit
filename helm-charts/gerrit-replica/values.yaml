@@ -170,6 +170,7 @@ gitBackend:
 
   tolerations: []
   topologySpreadConstraints: {}
+  nodeSelector: {}
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
@@ -237,6 +238,7 @@ gitGC:
   image: k8sgerrit/git-gc
 
   tolerations: []
+  nodeSelector: {}
   affinity: {}
 
   schedule: 0 6,18 * * *
@@ -256,6 +258,7 @@ gerritReplica:
 
   tolerations: []
   topologySpreadConstraints: {}
+  nodeSelector: {}
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
