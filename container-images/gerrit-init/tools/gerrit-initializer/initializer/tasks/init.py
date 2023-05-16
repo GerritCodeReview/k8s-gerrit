@@ -111,7 +111,7 @@ class GerritInit:
             return
 
         if os.path.exists(target):
-            if os.path.isdir(target):
+            if os.path.isdir(target) and not os.path.islink(target):
                 shutil.rmtree(target)
             else:
                 os.remove(target)
@@ -129,23 +129,23 @@ class GerritInit:
         data_dir = f"{self.site}/data"
         if os.path.exists(data_dir):
             for file_or_dir in os.listdir(data_dir):
+                abs_path = os.path.join(data_dir, file_or_dir)
                 if (
-                    os.path.isdir(file_or_dir)
-                    and os.path.islink(file_or_dir)
-                    and not os.path.exists(os.readlink(file_or_dir))
+                    os.path.isdir(abs_path)
+                    and os.path.islink(abs_path)
+                    and not os.path.exists(os.path.realpath(abs_path))
                 ):
-                    os.unlink(file_or_dir)
+                    os.unlink(abs_path)
         else:
             os.makedirs(data_dir)
 
         mounted_data_dir = f"{MNT_PATH}/data"
         if os.path.exists(mounted_data_dir):
             for file_or_dir in os.listdir(mounted_data_dir):
-                if os.path.isdir(file_or_dir):
-                    self._ensure_symlink(
-                        os.path.join(mounted_data_dir, file_or_dir),
-                        os.path.join(data_dir, file_or_dir),
-                    )
+                abs_path = os.path.join(data_dir, file_or_dir)
+                abs_mounted_path = os.path.join(mounted_data_dir, file_or_dir)
+                if os.path.isdir(abs_mounted_path):
+                    self._ensure_symlink(abs_mounted_path, abs_path)
 
     def _symlink_configuration(self):
         etc_dir = f"{self.site}/etc"
@@ -206,8 +206,8 @@ class GerritInit:
 
             self._symlink_configuration()
 
-            if self.is_replica:
-                self._symlink_mounted_site_components()
+        if self.is_replica:
+            self._symlink_mounted_site_components()
 
         if not self.is_replica:
             get_reindexer(self.site, self.config).start(self.force_offline_reindex)
