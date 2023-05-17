@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMember;
 import io.fabric8.kubernetes.api.model.Namespaced;
@@ -24,9 +24,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
 @Version("v1alpha1")
-@ShortNames("grec")
-public class Receiver extends GerritClusterMember<ReceiverSpec, ReceiverStatus>
-    implements Namespaced {
+@ShortNames("gcr")
+public class Gerrit extends GerritClusterMember<GerritSpec, GerritStatus> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
   public String toString() {

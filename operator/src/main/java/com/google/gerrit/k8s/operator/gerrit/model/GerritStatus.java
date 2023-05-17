@@ -12,20 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.model;
 
-import io.fabric8.kubernetes.api.model.Quantity;
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-public class GerritSite implements Serializable {
-  private static final long serialVersionUID = 1L;
-  Quantity size;
+public class GerritStatus {
+  private boolean ready = false;
+  private Map<String, String> appliedSecretVersions = new HashMap<>();
 
-  public Quantity getSize() {
-    return size;
+  public boolean isReady() {
+    return ready;
   }
 
-  public void setSize(Quantity size) {
-    this.size = size;
+  public void setReady(boolean ready) {
+    this.ready = ready;
+  }
+
+  public Map<String, String> getAppliedSecretVersions() {
+    return appliedSecretVersions;
+  }
+
+  public void setAppliedSecretVersions(Map<String, String> appliedSecretVersions) {
+    this.appliedSecretVersions = appliedSecretVersions;
   }
 }

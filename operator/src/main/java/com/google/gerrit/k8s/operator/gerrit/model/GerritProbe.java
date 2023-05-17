@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import io.fabric8.kubernetes.api.model.ExecAction;
 import io.fabric8.kubernetes.api.model.GRPCAction;
 import io.fabric8.kubernetes.api.model.HTTPGetAction;
@@ -23,13 +23,13 @@ import io.fabric8.kubernetes.api.model.HTTPGetActionBuilder;
 import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.Probe;
 
-public class ReceiverProbe extends Probe {
+public class GerritProbe extends Probe {
   private static final long serialVersionUID = 1L;
 
   private static final HTTPGetAction HTTP_GET_ACTION =
       new HTTPGetActionBuilder()
-          .withPath("/")
-          .withPort(new IntOrString(ReceiverDeployment.HTTP_PORT))
+          .withPath("/config/server/healthcheck~status")
+          .withPort(new IntOrString(GerritStatefulSet.HTTP_PORT))
           .build();
 
   @JsonIgnore private ExecAction exec;
