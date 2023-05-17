@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.model;
 
-public class NfsWorkaroundConfig {
+public class OptionalSharedStorage extends SharedStorage {
 
   private boolean enabled = false;
-  private boolean chownOnStartup = false;
-  private String idmapdConfig;
 
   public boolean isEnabled() {
     return enabled;
@@ -26,21 +24,5 @@ public class NfsWorkaroundConfig {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
-  }
-
-  public boolean isChownOnStartup() {
-    return chownOnStartup;
-  }
-
-  public void setChownOnStartup(boolean chownOnStartup) {
-    this.chownOnStartup = chownOnStartup;
-  }
-
-  public String getIdmapdConfig() {
-    return idmapdConfig;
-  }
-
-  public void setIdmapdConfig(String idmapdConfig) {
-    this.idmapdConfig = idmapdConfig;
   }
 }

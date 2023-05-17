@@ -17,11 +17,11 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

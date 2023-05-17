@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.fabric8.istio.api.networking.v1beta1.L4MatchAttributesBuilder;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestination;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestinationBuilder;

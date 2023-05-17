@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class GerritRepositoryConfig {
+public class BusyBoxImage {
   private String registry;
-  private String org;
   private String tag;
 
-  public GerritRepositoryConfig() {
+  public BusyBoxImage() {
     this.registry = "docker.io";
-    this.org = "k8sgerrit";
     this.tag = "latest";
   }
 
@@ -35,14 +33,6 @@ public class GerritRepositoryConfig {
     return registry;
   }
 
-  public String getOrg() {
-    return org;
-  }
-
-  public void setOrg(String org) {
-    this.org = org;
-  }
-
   public void setTag(String tag) {
     this.tag = tag;
   }
@@ -52,7 +42,7 @@ public class GerritRepositoryConfig {
   }
 
   @JsonIgnore
-  public String getFullImageName(String image) {
+  public String getBusyBoxImage() {
     StringBuilder builder = new StringBuilder();
 
     if (registry != null) {
@@ -60,12 +50,7 @@ public class GerritRepositoryConfig {
       builder.append("/");
     }
 
-    if (org != null) {
-      builder.append(org);
-      builder.append("/");
-    }
-
-    builder.append(image);
+    builder.append("busybox");
 
     if (tag != null) {
       builder.append(":");
