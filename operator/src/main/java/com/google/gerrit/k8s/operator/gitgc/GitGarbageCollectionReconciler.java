@@ -15,9 +15,11 @@
 package com.google.gerrit.k8s.operator.gitgc;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionStatus.GitGcState;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gitgc.dependent.GitGarbageCollectionCronJob;
+import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollectionStatus;
+import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollectionStatus.GitGcState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.client.KubernetesClient;

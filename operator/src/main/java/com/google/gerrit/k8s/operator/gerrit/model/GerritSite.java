@@ -12,29 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.gerrit.model;
 
+import io.fabric8.kubernetes.api.model.Quantity;
 import java.io.Serializable;
 
-public class ReceiverServiceConfig implements Serializable {
+public class GerritSite implements Serializable {
   private static final long serialVersionUID = 1L;
+  Quantity size;
 
-  String type = "NodePort";
-  int httpPort = 80;
-
-  public String getType() {
-    return type;
+  public Quantity getSize() {
+    return size;
   }
 
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public int getHttpPort() {
-    return httpPort;
-  }
-
-  public void setHttpPort(int httpPort) {
-    this.httpPort = httpPort;
+  public void setSize(Quantity size) {
+    this.size = size;
   }
 }

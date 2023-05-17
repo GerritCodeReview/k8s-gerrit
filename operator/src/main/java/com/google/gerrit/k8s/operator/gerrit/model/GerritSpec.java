@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import io.fabric8.kubernetes.api.model.Affinity;
-import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
 import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class ReceiverSpec implements GerritClusterMemberSpec {
+public class GerritSpec implements GerritClusterMemberSpec {
   private String cluster;
 
   private List<Toleration> tolerations;
@@ -32,17 +33,23 @@ public class ReceiverSpec implements GerritClusterMemberSpec {
   private String priorityClassName;
 
   private int replicas = 1;
-  private IntOrString maxSurge = new IntOrString(1);
-  private IntOrString maxUnavailable = new IntOrString(1);
+  private int updatePartition = 0;
 
   private ResourceRequirements resources;
 
-  private ReceiverProbe readinessProbe = new ReceiverProbe();
-  private ReceiverProbe livenessProbe = new ReceiverProbe();
+  private GerritProbe startupProbe = new GerritProbe();
+  private GerritProbe readinessProbe = new GerritProbe();
+  private GerritProbe livenessProbe = new GerritProbe();
 
-  private ReceiverServiceConfig service = new ReceiverServiceConfig();
+  private long gracefulStopTimeout;
 
-  private String credentialSecretRef;
+  private GerritServiceConfig service = new GerritServiceConfig();
+
+  private GerritSite site = new GerritSite();
+  private List<GerritPlugin> plugins = List.of();
+  private Map<String, String> configFiles = Map.of();
+  private Set<String> secrets = Set.of();
+  private GerritMode mode = GerritMode.PRIMARY;
 
   public String getCluster() {
     return cluster;
@@ -93,20 +100,12 @@ public class ReceiverSpec implements GerritClusterMemberSpec {
     this.replicas = replicas;
   }
 
-  public IntOrString getMaxSurge() {
-    return maxSurge;
+  public int getUpdatePartition() {
+    return updatePartition;
   }
 
-  public void setMaxSurge(IntOrString maxSurge) {
-    this.maxSurge = maxSurge;
-  }
-
-  public IntOrString getMaxUnavailable() {
-    return maxUnavailable;
-  }
-
-  public void setMaxUnavailable(IntOrString maxUnavailable) {
-    this.maxUnavailable = maxUnavailable;
+  public void setUpdatePartition(int updatePartition) {
+    this.updatePartition = updatePartition;
   }
 
   public ResourceRequirements getResources() {
@@ -117,35 +116,88 @@ public class ReceiverSpec implements GerritClusterMemberSpec {
     this.resources = resources;
   }
 
-  public ReceiverProbe getReadinessProbe() {
+  public GerritProbe getStartupProbe() {
+    return startupProbe;
+  }
+
+  public void setStartupProbe(GerritProbe startupProbe) {
+    this.startupProbe = startupProbe;
+  }
+
+  public GerritProbe getReadinessProbe() {
     return readinessProbe;
   }
 
-  public void setReadinessProbe(ReceiverProbe readinessProbe) {
+  public void setReadinessProbe(GerritProbe readinessProbe) {
     this.readinessProbe = readinessProbe;
   }
 
-  public ReceiverProbe getLivenessProbe() {
+  public GerritProbe getLivenessProbe() {
     return livenessProbe;
   }
 
-  public void setLivenessProbe(ReceiverProbe livenessProbe) {
+  public void setLivenessProbe(GerritProbe livenessProbe) {
     this.livenessProbe = livenessProbe;
   }
 
-  public ReceiverServiceConfig getService() {
+  public long getGracefulStopTimeout() {
+    return gracefulStopTimeout;
+  }
+
+  public void setGracefulStopTimeout(long gracefulStopTimeout) {
+    this.gracefulStopTimeout = gracefulStopTimeout;
+  }
+
+  public GerritServiceConfig getService() {
     return service;
   }
 
-  public void setService(ReceiverServiceConfig service) {
+  public void setService(GerritServiceConfig service) {
     this.service = service;
   }
 
-  public String getCredentialSecretRef() {
-    return credentialSecretRef;
+  public GerritSite getSite() {
+    return site;
   }
 
-  public void setCredentialSecretRef(String credentialSecretRef) {
-    this.credentialSecretRef = credentialSecretRef;
+  public void setSite(GerritSite site) {
+    this.site = site;
+  }
+
+  public List<GerritPlugin> getPlugins() {
+    return plugins;
+  }
+
+  public void setPlugins(List<GerritPlugin> plugins) {
+    this.plugins = plugins;
+  }
+
+  public Map<String, String> getConfigFiles() {
+    return configFiles;
+  }
+
+  public void setConfigFiles(Map<String, String> configFiles) {
+    this.configFiles = configFiles;
+  }
+
+  public Set<String> getSecrets() {
+    return secrets;
+  }
+
+  public void setSecrets(Set<String> secrets) {
+    this.secrets = secrets;
+  }
+
+  public GerritMode getMode() {
+    return mode;
+  }
+
+  public void setMode(GerritMode mode) {
+    this.mode = mode;
+  }
+
+  public enum GerritMode {
+    PRIMARY,
+    REPLICA
   }
 }

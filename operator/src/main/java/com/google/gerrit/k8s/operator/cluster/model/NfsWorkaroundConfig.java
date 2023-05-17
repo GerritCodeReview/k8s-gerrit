@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.model;
 
-public class GerritIngressTlsConfig {
+public class NfsWorkaroundConfig {
 
   private boolean enabled = false;
-  private String secret;
+  private boolean chownOnStartup = false;
+  private String idmapdConfig;
 
   public boolean isEnabled() {
     return enabled;
@@ -27,11 +28,19 @@ public class GerritIngressTlsConfig {
     this.enabled = enabled;
   }
 
-  public String getSecret() {
-    return secret;
+  public boolean isChownOnStartup() {
+    return chownOnStartup;
   }
 
-  public void setSecret(String secret) {
-    this.secret = secret;
+  public void setChownOnStartup(boolean chownOnStartup) {
+    this.chownOnStartup = chownOnStartup;
+  }
+
+  public String getIdmapdConfig() {
+    return idmapdConfig;
+  }
+
+  public void setIdmapdConfig(String idmapdConfig) {
+    this.idmapdConfig = idmapdConfig;
   }
 }

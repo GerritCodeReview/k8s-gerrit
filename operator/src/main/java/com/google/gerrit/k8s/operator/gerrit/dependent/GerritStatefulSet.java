@@ -14,12 +14,12 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
-import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.model.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.Volume;

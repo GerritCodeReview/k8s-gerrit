@@ -15,11 +15,13 @@
 package com.google.gerrit.k8s.operator.receiver;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverIstioVirtualService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.Secret;

@@ -16,10 +16,10 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment.HTTP_PORT;
 
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
-import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;

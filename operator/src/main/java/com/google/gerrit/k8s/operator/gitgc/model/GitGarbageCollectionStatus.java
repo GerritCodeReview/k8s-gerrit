@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gitgc;
+package com.google.gerrit.k8s.operator.gitgc.model;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -67,7 +67,7 @@ public class GitGarbageCollectionStatus {
     return false;
   }
 
-  enum GitGcState {
+  public enum GitGcState {
     ACTIVE,
     INACTIVE,
     CONFLICT,
