@@ -16,6 +16,24 @@
       "message": "can we provide more details about which settings are invalid ?",
       "revId": "7b51f987b5053d910c8ad44fa4648dd1b773a73e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df212576_46c6976a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:30:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83760976_452d0de6",
+      "revId": "7b51f987b5053d910c8ad44fa4648dd1b773a73e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
