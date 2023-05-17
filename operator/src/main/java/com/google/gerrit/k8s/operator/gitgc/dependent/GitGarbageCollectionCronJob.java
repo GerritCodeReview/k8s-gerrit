@@ -15,9 +15,9 @@
 package com.google.gerrit.k8s.operator.gitgc.dependent;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.Volume;

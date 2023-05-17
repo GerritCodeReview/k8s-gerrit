@@ -24,13 +24,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.GerritSite;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSite;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.ObjectMeta;

@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.receiver.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class GerritStatus {
-  private boolean ready = false;
-  private Map<String, String> appliedSecretVersions = new HashMap<>();
+public class ReceiverStatus {
+  private boolean ready;
+  private String appliedCredentialSecretVersion = "";
 
   public boolean isReady() {
     return ready;
@@ -29,11 +26,11 @@ public class GerritStatus {
     this.ready = ready;
   }
 
-  public Map<String, String> getAppliedSecretVersions() {
-    return appliedSecretVersions;
+  public String getAppliedCredentialSecretVersion() {
+    return appliedCredentialSecretVersion;
   }
 
-  public void setAppliedSecretVersions(Map<String, String> appliedSecretVersions) {
-    this.appliedSecretVersions = appliedSecretVersions;
+  public void setAppliedCredentialSecretVersion(String appliedCredentialSecretVersion) {
+    this.appliedCredentialSecretVersion = appliedCredentialSecretVersion;
   }
 }

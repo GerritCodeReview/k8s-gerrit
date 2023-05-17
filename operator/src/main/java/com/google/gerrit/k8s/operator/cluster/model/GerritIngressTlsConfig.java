@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.model;
 
-public class OptionalSharedStorage extends SharedStorage {
+public class GerritIngressTlsConfig {
 
   private boolean enabled = false;
+  private String secret;
 
   public boolean isEnabled() {
     return enabled;
@@ -24,5 +25,13 @@ public class OptionalSharedStorage extends SharedStorage {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+  public String getSecret() {
+    return secret;
+  }
+
+  public void setSecret(String secret) {
+    this.secret = secret;
   }
 }

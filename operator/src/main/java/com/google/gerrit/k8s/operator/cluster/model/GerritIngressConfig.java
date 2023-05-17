@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import java.util.List;
 import java.util.Map;

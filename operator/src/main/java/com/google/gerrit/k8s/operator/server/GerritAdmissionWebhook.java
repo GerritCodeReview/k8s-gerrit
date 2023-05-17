@@ -14,11 +14,11 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;

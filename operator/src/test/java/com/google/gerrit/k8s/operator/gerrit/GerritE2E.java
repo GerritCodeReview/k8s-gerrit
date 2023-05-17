@@ -30,8 +30,10 @@ import static org.mockito.Mockito.times;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritServiceConfig;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import io.fabric8.kubernetes.api.model.LoadBalancerIngress;

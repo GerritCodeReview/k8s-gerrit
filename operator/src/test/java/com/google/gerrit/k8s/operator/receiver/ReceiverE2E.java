@@ -24,9 +24,11 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverSpec;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;

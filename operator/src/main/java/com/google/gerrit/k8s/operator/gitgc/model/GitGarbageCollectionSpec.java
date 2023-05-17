@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gitgc;
+package com.google.gerrit.k8s.operator.gitgc.model;
 
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import io.fabric8.kubernetes.api.model.Affinity;

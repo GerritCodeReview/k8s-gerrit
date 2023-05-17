@@ -12,25 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.receiver.model;
 
-public class ReceiverStatus {
-  private boolean ready;
-  private String appliedCredentialSecretVersion = "";
+import java.io.Serializable;
 
-  public boolean isReady() {
-    return ready;
+public class ReceiverServiceConfig implements Serializable {
+  private static final long serialVersionUID = 1L;
+
+  String type = "NodePort";
+  int httpPort = 80;
+
+  public String getType() {
+    return type;
   }
 
-  public void setReady(boolean ready) {
-    this.ready = ready;
+  public void setType(String type) {
+    this.type = type;
   }
 
-  public String getAppliedCredentialSecretVersion() {
-    return appliedCredentialSecretVersion;
+  public int getHttpPort() {
+    return httpPort;
   }
 
-  public void setAppliedCredentialSecretVersion(String appliedCredentialSecretVersion) {
-    this.appliedCredentialSecretVersion = appliedCredentialSecretVersion;
+  public void setHttpPort(int httpPort) {
+    this.httpPort = httpPort;
   }
 }

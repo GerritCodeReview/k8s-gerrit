@@ -14,11 +14,11 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPathBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;

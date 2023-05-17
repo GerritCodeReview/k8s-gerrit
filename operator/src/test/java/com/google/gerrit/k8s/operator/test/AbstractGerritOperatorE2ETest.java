@@ -15,14 +15,14 @@
 package com.google.gerrit.k8s.operator.test;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
-import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.Config;

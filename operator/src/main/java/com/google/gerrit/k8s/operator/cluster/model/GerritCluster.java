@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.model;
 
 import static com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC.LOGS_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
