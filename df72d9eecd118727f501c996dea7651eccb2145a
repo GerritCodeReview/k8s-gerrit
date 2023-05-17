@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f3ae3ff_823f7359",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T13:55:44Z",
+      "side": 1,
+      "message": "If I remove an entry for `.Values.gerrit.additionalConfigMaps` the symlink is not deleted, so something still doesn\u0027t work. Could you give it another check? Thanks!",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 39
+      },
+      "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
