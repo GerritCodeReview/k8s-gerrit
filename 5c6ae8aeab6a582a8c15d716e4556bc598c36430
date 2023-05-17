@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a97c8eb6_f1b85ebc",
+        "filename": "helm-charts/gerrit-replica/templates/git-gc.cronjob.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T13:49:07Z",
+      "side": 1,
+      "message": "Should be 10.",
+      "range": {
+        "startLine": 36,
+        "startChar": 35,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "5c6ae8aeab6a582a8c15d716e4556bc598c36430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "195e1f58_6b5bcec9",
+        "filename": "helm-charts/gerrit/templates/git-gc.cronjob.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T13:49:07Z",
+      "side": 1,
+      "message": "Should be 10",
+      "range": {
+        "startLine": 33,
+        "startChar": 35,
+        "endLine": 33,
+        "endChar": 36
+      },
+      "revId": "5c6ae8aeab6a582a8c15d716e4556bc598c36430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
