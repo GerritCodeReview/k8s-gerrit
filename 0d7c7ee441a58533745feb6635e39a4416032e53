@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57f35d62_e178c8a5",
+        "filename": "operator/k8s/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e28e5f4_1cb7433f",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90cb7f74_c326ed98",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-12T09:10:18Z",
       "side": 1,
       "message": "we should update this to 6.5.0.202303070854-r",
+      "range": {
+        "startLine": 88,
+        "startChar": 12,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e6dda3_660080d6",
+        "filename": "operator/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90cb7f74_c326ed98",
       "range": {
         "startLine": 88,
         "startChar": 12,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d8680b_e1d99d5c",
+        "filename": "operator/pom.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231370d6_24bcdee2",
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaaf0396_3940333d",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-05-12T09:10:18Z",
       "side": 1,
       "message": "use 1 year ?",
+      "range": {
+        "startLine": 100,
+        "startChar": 37,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "0d7c7ee441a58533745feb6635e39a4416032e53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f7fa9e_51ba2fc4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GeneratedKeyStoreProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaaf0396_3940333d",
       "range": {
         "startLine": 100,
         "startChar": 37,
