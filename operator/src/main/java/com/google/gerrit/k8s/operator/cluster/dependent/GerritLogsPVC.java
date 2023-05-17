@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
@@ -21,34 +22,33 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = PluginCachePVCDiscriminator.class)
-public class PluginCachePVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
+@KubernetesDependent(resourceDiscriminator = GerritLogsPVCDiscriminator.class)
+public class GerritLogsPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
-  public static final String PLUGIN_CACHE_PVC_NAME = "gerrit-plugin-cache-pvc";
+  public static final String LOGS_PVC_NAME = "gerrit-logs-pvc";
 
   @Override
   protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    PersistentVolumeClaim gerritPluginCachePvc =
+    PersistentVolumeClaim gerritLogsPvc =
         new PersistentVolumeClaimBuilder()
             .withNewMetadata()
-            .withName(PLUGIN_CACHE_PVC_NAME)
+            .withName(LOGS_PVC_NAME)
             .withNamespace(gerritCluster.getMetadata().getNamespace())
             .withLabels(
-                gerritCluster.getLabels(PLUGIN_CACHE_PVC_NAME, this.getClass().getSimpleName()))
+                gerritCluster.getLabels("gerrit-logs-storage", this.getClass().getSimpleName()))
             .endMetadata()
             .withNewSpec()
             .withAccessModes("ReadWriteMany")
             .withNewResources()
-            .withRequests(
-                Map.of("storage", gerritCluster.getSpec().getPluginCacheStorage().getSize()))
+            .withRequests(Map.of("storage", gerritCluster.getSpec().getLogsStorage().getSize()))
             .endResources()
             .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getPluginCacheStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getPluginCacheStorage().getVolumeName())
+            .withSelector(gerritCluster.getSpec().getLogsStorage().getSelector())
+            .withVolumeName(gerritCluster.getSpec().getLogsStorage().getVolumeName())
             .endSpec()
             .build();
 
-    return gerritPluginCachePvc;
+    return gerritLogsPvc;
   }
 }

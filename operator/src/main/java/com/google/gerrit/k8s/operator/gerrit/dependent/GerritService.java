@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
-import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.SSH_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
@@ -30,11 +32,10 @@ import java.util.List;
 import java.util.Map;
 
 @KubernetesDependent
-public class ServiceDependentResource
-    extends GerritClusterMemberDependentResource<Service, Gerrit> {
+public class GerritService extends GerritClusterMemberDependentResource<Service, Gerrit> {
   public static final String HTTP_PORT_NAME = "http";
 
-  public ServiceDependentResource() {
+  public GerritService() {
     super(Service.class);
   }
 
@@ -52,7 +53,7 @@ public class ServiceDependentResource
         .withNewSpec()
         .withType(gerrit.getSpec().getService().getType())
         .withPorts(getServicePorts(gerrit))
-        .withSelector(StatefulSetDependentResource.getSelectorLabels(gerritCluster, gerrit))
+        .withSelector(GerritStatefulSet.getSelectorLabels(gerritCluster, gerrit))
         .endSpec()
         .build();
   }

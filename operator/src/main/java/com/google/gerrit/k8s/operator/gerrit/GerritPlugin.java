@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.net.URL;
 
-class GerritPlugin implements Serializable {
+public class GerritPlugin implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String name;

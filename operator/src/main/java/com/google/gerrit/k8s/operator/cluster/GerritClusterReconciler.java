@@ -16,6 +16,16 @@ package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress;
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioGateway;
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioVirtualService;
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioVirtualServiceSSH;
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
+import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
+import com.google.gerrit.k8s.operator.cluster.dependent.PluginCacheCondition;
+import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.receiver.Receiver;
 import com.google.inject.Inject;

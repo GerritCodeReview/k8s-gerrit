@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
-import com.google.gerrit.k8s.operator.cluster.PluginCachePVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.Volume;
@@ -35,14 +37,13 @@ import java.util.Map;
 import java.util.Set;
 
 @KubernetesDependent
-public class StatefulSetDependentResource
-    extends GerritClusterMemberDependentResource<StatefulSet, Gerrit> {
+public class GerritStatefulSet extends GerritClusterMemberDependentResource<StatefulSet, Gerrit> {
 
   private static final String SITE_VOLUME_NAME = "gerrit-site";
   public static final int HTTP_PORT = 8080;
   public static final int SSH_PORT = 29418;
 
-  public StatefulSetDependentResource() {
+  public GerritStatefulSet() {
     super(StatefulSet.class);
   }
 
@@ -68,7 +69,7 @@ public class StatefulSetDependentResource
         .withLabels(getLabels(gerritCluster, gerrit))
         .endMetadata()
         .withNewSpec()
-        .withServiceName(ServiceDependentResource.getName(gerrit))
+        .withServiceName(GerritService.getName(gerrit))
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate()
@@ -164,7 +165,7 @@ public class StatefulSetDependentResource
         new VolumeBuilder()
             .withName("gerrit-init-config")
             .withNewConfigMap()
-            .withName(GerritInitConfigMapDependentResource.getName(gerrit))
+            .withName(GerritInitConfigMap.getName(gerrit))
             .endConfigMap()
             .build());
 
@@ -172,7 +173,7 @@ public class StatefulSetDependentResource
         new VolumeBuilder()
             .withName("gerrit-config")
             .withNewConfigMap()
-            .withName(GerritConfigMapDependentResource.getName(gerrit))
+            .withName(GerritConfigMap.getName(gerrit))
             .endConfigMap()
             .build());
 
