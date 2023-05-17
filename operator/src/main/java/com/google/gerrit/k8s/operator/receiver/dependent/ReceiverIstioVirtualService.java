@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
-import com.google.gerrit.k8s.operator.cluster.GerritIstioGateway;
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioGateway;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequest;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;
@@ -71,7 +72,7 @@ public class ReceiverIstioVirtualService
   private HTTPRouteDestination getReceiverHTTPDestination(Receiver receiver) {
     return new HTTPRouteDestinationBuilder()
         .withNewDestination()
-        .withHost(ReceiverServiceDependentResource.getHostname(receiver))
+        .withHost(ReceiverService.getHostname(receiver))
         .withNewPort()
         .withNumber(receiver.getSpec().getService().getHttpPort())
         .endPort()

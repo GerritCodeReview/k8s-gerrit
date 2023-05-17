@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
-import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteBuilder;
@@ -146,7 +147,7 @@ public class GerritIstioVirtualService
   private HTTPRouteDestination getGerritHTTPDestinations(Gerrit gerrit) {
     return new HTTPRouteDestinationBuilder()
         .withNewDestination()
-        .withHost(ServiceDependentResource.getHostname(gerrit))
+        .withHost(GerritService.getHostname(gerrit))
         .withNewPort()
         .withNumber(gerrit.getSpec().getService().getHttpPort())
         .endPort()

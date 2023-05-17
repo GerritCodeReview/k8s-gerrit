@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritLogsPVC.LOGS_PVC_NAME;
-import static com.google.gerrit.k8s.operator.cluster.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
-import static com.google.gerrit.k8s.operator.cluster.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC.LOGS_PVC_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Container;

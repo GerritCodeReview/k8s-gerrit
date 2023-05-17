@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.receiver;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
 import io.fabric8.kubernetes.api.model.ExecAction;
 import io.fabric8.kubernetes.api.model.GRPCAction;
 import io.fabric8.kubernetes.api.model.HTTPGetAction;
@@ -28,7 +29,7 @@ public class ReceiverProbe extends Probe {
   private static final HTTPGetAction HTTP_GET_ACTION =
       new HTTPGetActionBuilder()
           .withPath("/")
-          .withPort(new IntOrString(ReceiverDeploymentDependentResource.HTTP_PORT))
+          .withPort(new IntOrString(ReceiverDeployment.HTTP_PORT))
           .build();
 
   @JsonIgnore private ExecAction exec;

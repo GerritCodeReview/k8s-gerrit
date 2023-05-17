@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.receiver;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritIngress.INGRESS_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
@@ -132,7 +133,7 @@ public class ReceiverE2E extends AbstractGerritOperatorE2ETest {
                   client
                       .services()
                       .inNamespace(operator.getNamespace())
-                      .withName(ReceiverServiceDependentResource.getName(receiver))
+                      .withName(ReceiverService.getName(receiver))
                       .get(),
                   is(notNullValue()));
             });

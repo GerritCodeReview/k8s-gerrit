@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.receiver.dependent;
 
-import static com.google.gerrit.k8s.operator.receiver.ReceiverDeploymentDependentResource.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment.HTTP_PORT;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
@@ -29,11 +31,10 @@ import java.util.List;
 import java.util.Map;
 
 @KubernetesDependent
-public class ReceiverServiceDependentResource
-    extends GerritClusterMemberDependentResource<Service, Receiver> {
+public class ReceiverService extends GerritClusterMemberDependentResource<Service, Receiver> {
   public static final String HTTP_PORT_NAME = "http";
 
-  public ReceiverServiceDependentResource() {
+  public ReceiverService() {
     super(Service.class);
   }
 
@@ -51,8 +52,7 @@ public class ReceiverServiceDependentResource
         .withNewSpec()
         .withType(receiver.getSpec().getService().getType())
         .withPorts(getServicePorts(receiver))
-        .withSelector(
-            ReceiverDeploymentDependentResource.getSelectorLabels(gerritCluster, receiver))
+        .withSelector(ReceiverDeployment.getSelectorLabels(gerritCluster, receiver))
         .endSpec()
         .build();
   }

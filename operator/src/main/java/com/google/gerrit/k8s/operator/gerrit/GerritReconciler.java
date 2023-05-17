@@ -19,6 +19,11 @@ import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritIstioDestinationRule;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
@@ -51,19 +56,19 @@ import java.util.stream.Collectors;
     dependents = {
       @Dependent(
           name = "gerrit-configmap",
-          type = GerritConfigMapDependentResource.class,
+          type = GerritConfigMap.class,
           useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-init-configmap",
-          type = GerritInitConfigMapDependentResource.class,
+          type = GerritInitConfigMap.class,
           useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-statefulset",
-          type = StatefulSetDependentResource.class,
+          type = GerritStatefulSet.class,
           dependsOn = {"gerrit-configmap", "gerrit-init-configmap"}),
       @Dependent(
           name = "gerrit-service",
-          type = ServiceDependentResource.class,
+          type = GerritService.class,
           dependsOn = {"gerrit-statefulset"})
     })
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {

@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
 import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsSimpleLB;
@@ -40,7 +41,7 @@ public class GerritIstioDestinationRule
         .withLabels(gerritCluster.getLabels(getName(gerrit), this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
-        .withHost(ServiceDependentResource.getHostname(gerrit))
+        .withHost(GerritService.getHostname(gerrit))
         .withTrafficPolicy(
             new TrafficPolicyBuilder()
                 .withNewLoadBalancer()

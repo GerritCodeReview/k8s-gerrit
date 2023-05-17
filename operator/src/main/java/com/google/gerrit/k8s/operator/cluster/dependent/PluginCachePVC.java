@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
@@ -21,35 +22,34 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = GitRepositoriesPVCDiscriminator.class)
-public class GitRepositoriesPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
+@KubernetesDependent(resourceDiscriminator = PluginCachePVCDiscriminator.class)
+public class PluginCachePVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
-  public static final String REPOSITORY_PVC_NAME = "git-repositories-pvc";
+  public static final String PLUGIN_CACHE_PVC_NAME = "gerrit-plugin-cache-pvc";
 
   @Override
   protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    PersistentVolumeClaim gitRepoPvc =
+    PersistentVolumeClaim gerritPluginCachePvc =
         new PersistentVolumeClaimBuilder()
             .withNewMetadata()
-            .withName(REPOSITORY_PVC_NAME)
+            .withName(PLUGIN_CACHE_PVC_NAME)
             .withNamespace(gerritCluster.getMetadata().getNamespace())
             .withLabels(
-                gerritCluster.getLabels(
-                    "git-repositories-storage", this.getClass().getSimpleName()))
+                gerritCluster.getLabels(PLUGIN_CACHE_PVC_NAME, this.getClass().getSimpleName()))
             .endMetadata()
             .withNewSpec()
             .withAccessModes("ReadWriteMany")
             .withNewResources()
             .withRequests(
-                Map.of("storage", gerritCluster.getSpec().getGitRepositoryStorage().getSize()))
+                Map.of("storage", gerritCluster.getSpec().getPluginCacheStorage().getSize()))
             .endResources()
             .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getGitRepositoryStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getGitRepositoryStorage().getVolumeName())
+            .withSelector(gerritCluster.getSpec().getPluginCacheStorage().getSelector())
+            .withVolumeName(gerritCluster.getSpec().getPluginCacheStorage().getVolumeName())
             .endSpec()
             .build();
 
-    return gitRepoPvc;
+    return gerritPluginCachePvc;
   }
 }
