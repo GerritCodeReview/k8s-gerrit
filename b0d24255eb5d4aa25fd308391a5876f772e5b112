@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46e094e_8edc5281",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-17T10:07:09Z",
+      "side": 1,
+      "message": "Done. I updated as many as I found.",
+      "parentUuid": "9744090c_6bed9927",
+      "revId": "b0d24255eb5d4aa25fd308391a5876f772e5b112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "045204d6_14c9cfa9",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-05-17T06:45:34Z",
       "side": 1,
       "message": "This is likely meant to go to `.Values.gerrit` instead of `.Values.gitgc`",
+      "range": {
+        "startLine": 125,
+        "startChar": 2,
+        "endLine": 125,
+        "endChar": 18
+      },
+      "revId": "b0d24255eb5d4aa25fd308391a5876f772e5b112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35baaffb_832716cf",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-17T10:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "045204d6_14c9cfa9",
       "range": {
         "startLine": 125,
         "startChar": 2,
