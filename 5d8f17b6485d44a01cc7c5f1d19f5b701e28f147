@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6a510b_6d4cf42a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookServlet.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T13:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27119b93_a469b0a9",
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c30ce72f_3edce2a7",
