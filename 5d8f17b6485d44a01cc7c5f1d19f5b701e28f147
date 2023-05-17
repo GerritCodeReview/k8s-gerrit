@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a86ed9c_c2ef0c69",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookServlet.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:38Z",
+      "side": 1,
+      "message": "That doesn\u0027t exist anymore in jetty 11",
+      "parentUuid": "9be01901_facd4d0f",
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c30ce72f_3edce2a7",
         "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhookTest.java",
         "patchSetId": 21
@@ -31,6 +49,30 @@
       "writtenOn": "2023-05-12T09:38:10Z",
       "side": 1,
       "message": "I don\u0027t understand this\n\nwith JUnit 5 you can use @DisplayName to set a human readable test description",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 63
+      },
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedca2d9_5e79f71b",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhookTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c30ce72f_3edce2a7",
       "range": {
         "startLine": 76,
         "startChar": 14,
@@ -54,6 +96,24 @@
       "writtenOn": "2023-05-12T09:38:10Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4d320f_557b632d",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/TestAdmissionWebhookServer.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T11:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8b138c9_2083c690",
       "revId": "5d8f17b6485d44a01cc7c5f1d19f5b701e28f147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
