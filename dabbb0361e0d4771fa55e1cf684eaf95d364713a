@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "980dff9f_c534958d",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T07:21:22Z",
+      "side": 1,
+      "message": "What about the gitBackend?",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 10
+      },
+      "revId": "dabbb0361e0d4771fa55e1cf684eaf95d364713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f5bc03_78a3ff0d",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T07:21:22Z",
+      "side": 1,
+      "message": "Should those labels also be applied to the StatefulSet and/or used by the LabelSelector as well?\nIf not, I think it would be more descriptive to use `additionalPodLabels` as the key.\nAlso to keep the number of options as small as possible, would you require different labels for pods created by different Deployments/StatefulSets etc.? Or would a top level option and adding those labels to all resources managed by the charts also be an option?",
+      "revId": "dabbb0361e0d4771fa55e1cf684eaf95d364713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
