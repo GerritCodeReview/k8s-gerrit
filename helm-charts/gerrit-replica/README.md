@@ -405,7 +405,7 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerritReplica.service.ssh.enabled` | Whether to enable SSH for the Gerrit replica | `false` |
 | `gerritReplica.service.ssh.port` | Port for SSH | `29418` |
-| `gerritReplica.keystore` | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil` |
+| `gerritReplica.keystore` | base64-encoded Java keystore (`cat keystore.jks \| base64`) to be used by Gerrit, when using SSL | `nil` |
 | `gerritReplica.plugins.packaged` | List of Gerrit plugins that are packaged into the Gerrit-war-file to install | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
 | `gerritReplica.plugins.downloaded` | List of Gerrit plugins that will be downloaded | `nil` |
 | `gerritReplica.plugins.downloaded[0].name` | Name of plugin | `nil` |
