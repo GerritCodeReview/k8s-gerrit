@@ -39,6 +39,30 @@
       },
       "revId": "8f4dc258afce45b720f9f1747ca15f9faa5ba51c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48312880_90bf0954",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-17T10:07:15Z",
+      "side": 1,
+      "message": "Yes you\u0027re right. Done.",
+      "parentUuid": "2f9b747b_aa06a869",
+      "range": {
+        "startLine": 136,
+        "startChar": 28,
+        "endLine": 136,
+        "endChar": 65
+      },
+      "revId": "8f4dc258afce45b720f9f1747ca15f9faa5ba51c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
