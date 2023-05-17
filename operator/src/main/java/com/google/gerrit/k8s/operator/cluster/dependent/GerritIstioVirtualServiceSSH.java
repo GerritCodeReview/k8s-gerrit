@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import io.fabric8.istio.api.networking.v1beta1.L4MatchAttributesBuilder;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestination;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestinationBuilder;
@@ -95,7 +96,7 @@ public class GerritIstioVirtualServiceSSH
   private RouteDestination getGerritTCPDestination(Gerrit gerrit) {
     return new RouteDestinationBuilder()
         .withNewDestination()
-        .withHost(ServiceDependentResource.getHostname(gerrit))
+        .withHost(GerritService.getHostname(gerrit))
         .withNewPort()
         .withNumber(gerrit.getSpec().getService().getSshPort())
         .endPort()

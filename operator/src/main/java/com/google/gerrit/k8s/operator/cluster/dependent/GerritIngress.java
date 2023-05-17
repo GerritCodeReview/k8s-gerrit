@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.Receiver;
-import com.google.gerrit.k8s.operator.receiver.ReceiverServiceDependentResource;
+import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPathBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
@@ -118,7 +119,7 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
     List<IngressRule> ingressRules = new ArrayList<>();
 
     for (Gerrit gerrit : gerrits) {
-      String gerritSvcName = ServiceDependentResource.getName(gerrit);
+      String gerritSvcName = GerritService.getName(gerrit);
       ingressRules.add(
           new IngressRuleBuilder()
               .withHost(
@@ -140,14 +141,14 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
                 .getIngress()
                 .getFullHostnameForService(receiver.getMetadata().getName()))
         .withNewHttp()
-        .withPaths(getReceiverIngressPaths(ReceiverServiceDependentResource.getName(receiver)))
+        .withPaths(getReceiverIngressPaths(ReceiverService.getName(receiver)))
         .endHttp()
         .build();
   }
 
   public HTTPIngressPath getGerritHTTPIngressPath(String svcName) {
     ServiceBackendPort port =
-        new ServiceBackendPortBuilder().withName(ServiceDependentResource.HTTP_PORT_NAME).build();
+        new ServiceBackendPortBuilder().withName(GerritService.HTTP_PORT_NAME).build();
 
     return new HTTPIngressPathBuilder()
         .withPathType("Prefix")
@@ -164,9 +165,7 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
   public List<HTTPIngressPath> getReceiverIngressPaths(String svcName) {
     List<HTTPIngressPath> paths = new ArrayList<>();
     ServiceBackendPort port =
-        new ServiceBackendPortBuilder()
-            .withName(ReceiverServiceDependentResource.HTTP_PORT_NAME)
-            .build();
+        new ServiceBackendPortBuilder().withName(ReceiverService.HTTP_PORT_NAME).build();
 
     for (String path : Set.of("/a/projects", "/new", "/git")) {
       paths.add(

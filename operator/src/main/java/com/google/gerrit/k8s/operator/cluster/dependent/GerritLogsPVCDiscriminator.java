@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;
@@ -23,7 +24,7 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.Optional;
 
-public class PluginCachePVCDiscriminator
+public class GerritLogsPVCDiscriminator
     implements ResourceDiscriminator<PersistentVolumeClaim, GerritCluster> {
   @Override
   public Optional<PersistentVolumeClaim> distinguish(
@@ -37,6 +38,6 @@ public class PluginCachePVCDiscriminator
                 .getResourceEventSourceFor(PersistentVolumeClaim.class, PVC_EVENT_SOURCE);
 
     return ies.get(
-        new ResourceID(PluginCachePVC.PLUGIN_CACHE_PVC_NAME, primary.getMetadata().getNamespace()));
+        new ResourceID(GerritLogsPVC.LOGS_PVC_NAME, primary.getMetadata().getNamespace()));
   }
 }

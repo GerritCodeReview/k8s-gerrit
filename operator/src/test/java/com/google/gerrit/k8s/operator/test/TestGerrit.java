@@ -25,12 +25,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.GerritConfigMapDependentResource;
-import com.google.gerrit.k8s.operator.gerrit.GerritInitConfigMapDependentResource;
 import com.google.gerrit.k8s.operator.gerrit.GerritSite;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
-import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -115,8 +115,7 @@ public class TestGerrit {
     return new GerritRestApiFactory()
         .create(
             new GerritAuthData.Basic(
-                String.format(
-                    "https://%s.%s", ServiceDependentResource.getName(gerrit), ingress_domain)));
+                String.format("https://%s.%s", GerritService.getName(gerrit), ingress_domain)));
   }
 
   public GerritApi getGerritApiClientForIstio() {
@@ -200,14 +199,14 @@ public class TestGerrit {
                   client
                       .configMaps()
                       .inNamespace(namespace)
-                      .withName(GerritConfigMapDependentResource.getName(gerrit))
+                      .withName(GerritConfigMap.getName(gerrit))
                       .get(),
                   is(notNullValue()));
               assertThat(
                   client
                       .configMaps()
                       .inNamespace(namespace)
-                      .withName(GerritInitConfigMapDependentResource.getName(gerrit))
+                      .withName(GerritInitConfigMap.getName(gerrit))
                       .get(),
                   is(notNullValue()));
             });
@@ -236,7 +235,7 @@ public class TestGerrit {
                   client
                       .services()
                       .inNamespace(namespace)
-                      .withName(ServiceDependentResource.getName(gerrit))
+                      .withName(GerritService.getName(gerrit))
                       .get(),
                   is(notNullValue()));
             });

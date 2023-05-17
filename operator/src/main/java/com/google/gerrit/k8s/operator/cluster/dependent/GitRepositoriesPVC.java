@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
@@ -21,33 +22,35 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = GerritLogsPVCDiscriminator.class)
-public class GerritLogsPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
+@KubernetesDependent(resourceDiscriminator = GitRepositoriesPVCDiscriminator.class)
+public class GitRepositoriesPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
-  public static final String LOGS_PVC_NAME = "gerrit-logs-pvc";
+  public static final String REPOSITORY_PVC_NAME = "git-repositories-pvc";
 
   @Override
   protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    PersistentVolumeClaim gerritLogsPvc =
+    PersistentVolumeClaim gitRepoPvc =
         new PersistentVolumeClaimBuilder()
             .withNewMetadata()
-            .withName(LOGS_PVC_NAME)
+            .withName(REPOSITORY_PVC_NAME)
             .withNamespace(gerritCluster.getMetadata().getNamespace())
             .withLabels(
-                gerritCluster.getLabels("gerrit-logs-storage", this.getClass().getSimpleName()))
+                gerritCluster.getLabels(
+                    "git-repositories-storage", this.getClass().getSimpleName()))
             .endMetadata()
             .withNewSpec()
             .withAccessModes("ReadWriteMany")
             .withNewResources()
-            .withRequests(Map.of("storage", gerritCluster.getSpec().getLogsStorage().getSize()))
+            .withRequests(
+                Map.of("storage", gerritCluster.getSpec().getGitRepositoryStorage().getSize()))
             .endResources()
             .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getLogsStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getLogsStorage().getVolumeName())
+            .withSelector(gerritCluster.getSpec().getGitRepositoryStorage().getSelector())
+            .withVolumeName(gerritCluster.getSpec().getGitRepositoryStorage().getVolumeName())
             .endSpec()
             .build();
 
-    return gerritLogsPvc;
+    return gitRepoPvc;
   }
 }

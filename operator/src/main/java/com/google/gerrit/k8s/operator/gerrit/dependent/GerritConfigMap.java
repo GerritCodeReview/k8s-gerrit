@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -24,12 +25,11 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GerritConfigMapDiscriminator.class)
-public class GerritConfigMapDependentResource
-    extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
+public class GerritConfigMap extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
   private static final String DEFAULT_HEALTHCHECK_CONFIG =
       "[healthcheck \"auth\"]\nenabled = false\n[healthcheck \"querychanges\"]\nenabled = false";
 
-  public GerritConfigMapDependentResource() {
+  public GerritConfigMap() {
     super(ConfigMap.class);
   }
 
