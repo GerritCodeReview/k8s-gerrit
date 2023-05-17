@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritIngress.INGRESS_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;

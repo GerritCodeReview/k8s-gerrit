@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import io.fabric8.kubernetes.api.model.ExecAction;
 import io.fabric8.kubernetes.api.model.GRPCAction;
 import io.fabric8.kubernetes.api.model.HTTPGetAction;
@@ -28,7 +29,7 @@ public class GerritProbe extends Probe {
   private static final HTTPGetAction HTTP_GET_ACTION =
       new HTTPGetActionBuilder()
           .withPath("/config/server/healthcheck~status")
-          .withPort(new IntOrString(StatefulSetDependentResource.HTTP_PORT))
+          .withPort(new IntOrString(GerritStatefulSet.HTTP_PORT))
           .build();
 
   @JsonIgnore private ExecAction exec;

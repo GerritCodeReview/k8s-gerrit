@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver;
+package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.receiver.Receiver;
+import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.Volume;
@@ -34,11 +36,10 @@ import java.util.Map;
 import java.util.Set;
 
 @KubernetesDependent
-public class ReceiverDeploymentDependentResource
-    extends GerritClusterMemberDependentResource<Deployment, Receiver> {
+public class ReceiverDeployment extends GerritClusterMemberDependentResource<Deployment, Receiver> {
   public static final int HTTP_PORT = 80;
 
-  public ReceiverDeploymentDependentResource() {
+  public ReceiverDeployment() {
     super(Deployment.class);
   }
 

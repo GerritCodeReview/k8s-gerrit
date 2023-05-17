@@ -14,14 +14,14 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
-import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.HTTP_PORT;
-import static com.google.gerrit.k8s.operator.gerrit.StatefulSetDependentResource.SSH_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritSpec.GerritMode;
-import com.google.gerrit.k8s.operator.gerrit.ServiceDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,18 +61,15 @@ public class GerritConfigBuilder {
     boolean ingressEnabled = cluster.getSpec().getIngress().isEnabled();
 
     if (ingressEnabled) {
-      withUrl(cluster.getSpec().getIngress().getUrl(ServiceDependentResource.getName(gerrit)));
+      withUrl(cluster.getSpec().getIngress().getUrl(GerritService.getName(gerrit)));
     } else {
-      withUrl(ServiceDependentResource.getUrl(gerrit));
+      withUrl(GerritService.getUrl(gerrit));
     }
 
     if (ingressEnabled && cluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
       withSsh(
           gerrit.getSpec().getService().isSshEnabled(),
-          cluster
-                  .getSpec()
-                  .getIngress()
-                  .getFullHostnameForService(ServiceDependentResource.getName(gerrit))
+          cluster.getSpec().getIngress().getFullHostnameForService(GerritService.getName(gerrit))
               + ":29418");
     } else {
       withSsh(gerrit.getSpec().getService().isSshEnabled());

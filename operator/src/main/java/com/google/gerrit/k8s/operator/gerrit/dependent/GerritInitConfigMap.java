@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +21,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.GerritInitConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -29,11 +31,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
-public class GerritInitConfigMapDependentResource
-    extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
+public class GerritInitConfigMap extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public GerritInitConfigMapDependentResource() {
+  public GerritInitConfigMap() {
     super(ConfigMap.class);
   }
 

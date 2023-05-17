@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.gerrit.dependent;
 
+import com.google.gerrit.k8s.operator.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;
@@ -21,7 +22,7 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.Optional;
 
-public class GerritConfigMapDiscriminator implements ResourceDiscriminator<ConfigMap, Gerrit> {
+public class GerritInitConfigMapDiscriminator implements ResourceDiscriminator<ConfigMap, Gerrit> {
   @Override
   public Optional<ConfigMap> distinguish(
       Class<ConfigMap> resource, Gerrit primary, Context<Gerrit> context) {
@@ -30,8 +31,6 @@ public class GerritConfigMapDiscriminator implements ResourceDiscriminator<Confi
             context.eventSourceRetriever().getResourceEventSourceFor(ConfigMap.class);
 
     return ies.get(
-        new ResourceID(
-            GerritConfigMapDependentResource.getName(primary),
-            primary.getMetadata().getNamespace()));
+        new ResourceID(GerritInitConfigMap.getName(primary), primary.getMetadata().getNamespace()));
   }
 }
