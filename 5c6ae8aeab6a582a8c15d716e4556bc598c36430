@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e9bd6dd_3bf9fcc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-18T09:23:48Z",
+      "side": 1,
+      "message": "Done. Sorry for the mistakes.",
+      "revId": "5c6ae8aeab6a582a8c15d716e4556bc598c36430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a97c8eb6_f1b85ebc",
@@ -24,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cddd09c_f0d1c0a5",
+        "filename": "helm-charts/gerrit-replica/templates/git-gc.cronjob.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-18T09:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a97c8eb6_f1b85ebc",
+      "range": {
+        "startLine": 36,
+        "startChar": 35,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "5c6ae8aeab6a582a8c15d716e4556bc598c36430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "195e1f58_6b5bcec9",
@@ -37,6 +78,30 @@
       "writtenOn": "2023-05-17T13:49:07Z",
       "side": 1,
       "message": "Should be 10",
+      "range": {
+        "startLine": 33,
+        "startChar": 35,
+        "endLine": 33,
+        "endChar": 36
+      },
+      "revId": "5c6ae8aeab6a582a8c15d716e4556bc598c36430",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aca2bda_2daf3983",
+        "filename": "helm-charts/gerrit/templates/git-gc.cronjob.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-18T09:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "195e1f58_6b5bcec9",
       "range": {
         "startLine": 33,
         "startChar": 35,
