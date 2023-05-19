@@ -55,7 +55,7 @@ data:
 {{ toYaml .Values.gerritReplica.plugins.installAsLibrary | indent 6 }}
     {{- end }}
 {{- range .Values.gerritReplica.additionalConfigMaps -}}
-{{- if .data }}
+{{- if or .data .binaryData }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -67,7 +67,15 @@ metadata:
     chart: {{ template "gerrit-replica.chart" $root }}
     heritage: {{ $root.Release.Service }}
     release: {{ $root.Release.Name }}
+{{- if .binaryData }}
+binaryData:
+  {{- range $key, $value := .binaryData }}
+  {{ $key }}: {{ $value | b64enc }}
+  {{- end}}
+{{- end }}
+{{- if .data }}
 data:
 {{ toYaml .data | indent 2 }}
+{{- end }}
 {{- end }}
 {{- end }}
