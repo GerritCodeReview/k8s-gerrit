@@ -260,7 +260,7 @@ spec:
       {{- range .Values.gerrit.additionalConfigMaps }}
       - name: {{ .name }}
         configMap:
-          name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
+          name: {{ if or .data .binaryData }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
       {{- end }}
       {{- if and .Values.nfsWorkaround.enabled .Values.nfsWorkaround.idDomain }}
       - name: nfs-config

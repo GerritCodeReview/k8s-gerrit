@@ -336,6 +336,7 @@ future.
 | `gerrit.additionalConfigMaps[*].name` | Name of the ConfigMap | `nil` |
 | `gerrit.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked | `nil` |
 | `gerrit.additionalConfigMaps[*].data` | Data of the ConfigMap. If not set, ConfigMap has to be created manually | `nil` |
+| `gerrit.additionalConfigMaps[*].binaryData` | Binary data of the ConfigMap. If not set, ConfigMap has to be created manually | `nil` |
 
 ### Gerrit config files
 

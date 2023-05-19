@@ -61,7 +61,7 @@ data:
 {{ toYaml .Values.gerrit.plugins.installAsLibrary | indent 6 }}
     {{- end }}
 {{- range .Values.gerrit.additionalConfigMaps -}}
-{{- if .data }}
+{{- if or .data .binaryData }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -76,7 +76,15 @@ metadata:
     {{- if $root.Values.additionalLabels }}
 {{ toYaml $root.Values.additionalLabels | indent 4 }}
     {{- end }}
+{{- if .binaryData }}
+binaryData:
+  {{- range $key, $value := .binaryData }}
+  {{ $key }}: {{ $value | b64enc }}
+  {{- end}}
+{{- end }}
+{{- if .data }}
 data:
 {{ toYaml .data | indent 2 }}
+{{- end }}
 {{- end }}
 {{- end }}
