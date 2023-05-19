@@ -22,6 +22,30 @@
       },
       "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "108c0255_7dcbc952",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-05-19T03:33:08Z",
+      "side": 1,
+      "message": "Does this happen for replicas? I checked and saw this is skipped for initialized replicas. I\u0027ve upload a new PS. PTAL.",
+      "parentUuid": "8f3ae3ff_823f7359",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 39
+      },
+      "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
