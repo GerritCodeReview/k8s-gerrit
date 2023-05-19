@@ -15,7 +15,9 @@
 package com.google.gerrit.k8s.operator.cluster.model;
 
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GerritClusterSpec {
@@ -29,6 +31,7 @@ public class GerritClusterSpec {
   private GerritRepositoryConfig gerritImages = new GerritRepositoryConfig();
   private BusyBoxImage busyBox = new BusyBoxImage();
   private GerritIngressConfig ingress = new GerritIngressConfig();
+  private List<GerritTemplate> gerrits = new ArrayList<>();
 
   public StorageClassConfig getStorageClasses() {
     return storageClasses;
@@ -100,5 +103,13 @@ public class GerritClusterSpec {
 
   public void setIngress(GerritIngressConfig ingress) {
     this.ingress = ingress;
+  }
+
+  public List<GerritTemplate> getGerrits() {
+    return gerrits;
+  }
+
+  public void setGerrits(List<GerritTemplate> gerrits) {
+    this.gerrits = gerrits;
   }
 }
