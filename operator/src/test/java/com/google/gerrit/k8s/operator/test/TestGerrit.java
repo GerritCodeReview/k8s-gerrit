@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.test;
 
-import static com.google.gerrit.k8s.operator.test.TestGerritCluster.CLUSTER_NAME;
+import static com.google.gerrit.k8s.operator.test.TestSecureConfig.SECURE_CONFIG_SECRET_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,24 +23,29 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritSite;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
-import com.urswolfer.gerrit.client.rest.GerritAuthData;
-import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritRepositoryConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
+import com.google.gerrit.k8s.operator.shared.model.SharedStorage;
+import com.google.gerrit.k8s.operator.shared.model.StorageClassConfig;
+import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.ResourceRequirementsBuilder;
-import io.fabric8.kubernetes.api.model.Secret;
-import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import java.util.Base64;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -48,9 +53,8 @@ import org.eclipse.jgit.lib.Config;
 
 public class TestGerrit {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  public static final String NAME = "gerrit";
-  private static final String SECURE_CONFIG_SECRET_NAME = "gerrit-secret";
-  private static final String DEFAULT_GERRIT_CONFIG =
+  public static final TestProperties testProps = new TestProperties();
+  public static final String DEFAULT_GERRIT_CONFIG =
       "[gerrit]\n"
           + "  serverId = gerrit-1\n"
           + "[index]\n"
@@ -74,64 +78,42 @@ public class TestGerrit {
           + "  javaOptions = -Xmx4g";
 
   private final KubernetesClient client;
+  private final String name;
   private final String namespace;
   private final GerritMode mode;
-  private final String ingress_domain;
 
-  private Secret secureConfigSecret;
   private Gerrit gerrit = new Gerrit();
   private Config config = defaultConfig();
-  private Config secureConfig = new Config();
 
   public TestGerrit(
       KubernetesClient client,
       TestProperties testProps,
-      TestGerritCluster cluster,
-      GerritMode mode) {
+      GerritMode mode,
+      String name,
+      String namespace) {
     this.client = client;
-    this.namespace = cluster.getNamespace();
     this.mode = mode;
-    this.ingress_domain = cluster.getHostname();
-    this.secureConfig.setString("ldap", null, "password", testProps.getLdapAdminPwd());
+    this.name = name;
+    this.namespace = namespace;
   }
 
-  public TestGerrit(KubernetesClient client, TestProperties testProps, TestGerritCluster cluster) {
-    this(client, testProps, cluster, GerritMode.PRIMARY);
+  public TestGerrit(
+      KubernetesClient client, TestProperties testProps, String name, String namespace) {
+    this(client, testProps, GerritMode.PRIMARY, name, namespace);
   }
 
   public void build() {
     createGerritCR();
-    createSecureConfig();
   }
 
   public void deploy() {
     build();
-    client.resource(secureConfigSecret).inNamespace(namespace).createOrReplace();
     client.resource(gerrit).inNamespace(namespace).createOrReplace();
     waitForGerritReadiness();
   }
 
-  public GerritApi getGerritApiClientForIngress() {
-    return new GerritRestApiFactory()
-        .create(
-            new GerritAuthData.Basic(
-                String.format("https://%s.%s", GerritService.getName(gerrit), ingress_domain)));
-  }
-
-  public GerritApi getGerritApiClientForIstio() {
-    return new GerritRestApiFactory()
-        .create(new GerritAuthData.Basic(String.format("https://%s", ingress_domain)));
-  }
-
   public void modifyGerritConfig(String section, String key, String value) {
     config.setString(section, null, key, value);
-    deploy();
-  }
-
-  public void modifySecureConfig(String section, String key, String value) {
-    secureConfig.setString(section, null, key, value);
-    createSecureConfig();
-    client.resource(secureConfigSecret).inNamespace(namespace).createOrReplace();
   }
 
   public GerritSpec getSpec() {
@@ -153,8 +135,41 @@ public class TestGerrit {
     return cfg;
   }
 
+  public GerritTemplate createGerritTemplate() throws ConfigInvalidException {
+    return createGerritTemplate(name, mode, config);
+  }
+
+  public static GerritTemplate createGerritTemplate(String name, GerritMode mode)
+      throws ConfigInvalidException {
+    Config cfg = new Config();
+    cfg.fromText(DEFAULT_GERRIT_CONFIG);
+    return createGerritTemplate(name, mode, cfg);
+  }
+
+  public static GerritTemplate createGerritTemplate(String name, GerritMode mode, Config config) {
+    GerritTemplate template = new GerritTemplate();
+    ObjectMeta gerritMeta = new ObjectMetaBuilder().withName(name).build();
+    template.setMetadata(gerritMeta);
+    GerritTemplateSpec gerritSpec = template.getSpec();
+    if (gerritSpec == null) {
+      gerritSpec = new GerritTemplateSpec();
+      GerritSite site = new GerritSite();
+      site.setSize(new Quantity("1Gi"));
+      gerritSpec.setSite(site);
+      gerritSpec.setResources(
+          new ResourceRequirementsBuilder()
+              .withRequests(Map.of("cpu", new Quantity("1"), "memory", new Quantity("5Gi")))
+              .build());
+    }
+    gerritSpec.setMode(mode);
+    gerritSpec.setConfigFiles(Map.of("gerrit.config", config.toText()));
+    gerritSpec.setSecrets(Set.of(SECURE_CONFIG_SECRET_NAME));
+    template.setSpec(gerritSpec);
+    return template;
+  }
+
   private void createGerritCR() {
-    ObjectMeta gerritMeta = new ObjectMetaBuilder().withName(NAME).withNamespace(namespace).build();
+    ObjectMeta gerritMeta = new ObjectMetaBuilder().withName(name).withNamespace(namespace).build();
     gerrit.setMetadata(gerritMeta);
     GerritSpec gerritSpec = gerrit.getSpec();
     if (gerritSpec == null) {
@@ -167,26 +182,45 @@ public class TestGerrit {
               .withRequests(Map.of("cpu", new Quantity("1"), "memory", new Quantity("5Gi")))
               .build());
     }
-    gerritSpec.setCluster(CLUSTER_NAME);
     gerritSpec.setMode(mode);
     gerritSpec.setConfigFiles(Map.of("gerrit.config", config.toText()));
     gerritSpec.setSecrets(Set.of(SECURE_CONFIG_SECRET_NAME));
 
-    gerrit.setSpec(gerritSpec);
-  }
+    SharedStorage repoStorage = new SharedStorage();
+    repoStorage.setSize(Quantity.parse("1Gi"));
 
-  private void createSecureConfig() {
-    secureConfigSecret =
-        new SecretBuilder()
-            .withNewMetadata()
-            .withNamespace(namespace)
-            .withName(SECURE_CONFIG_SECRET_NAME)
-            .endMetadata()
-            .withData(
-                Map.of(
-                    "secure.config",
-                    Base64.getEncoder().encodeToString(secureConfig.toText().getBytes())))
-            .build();
+    SharedStorage logStorage = new SharedStorage();
+    logStorage.setSize(Quantity.parse("1Gi"));
+
+    StorageClassConfig storageClassConfig = new StorageClassConfig();
+    storageClassConfig.setReadWriteMany(testProps.getRWMStorageClass());
+
+    GerritStorageConfig gerritStorageConfig = new GerritStorageConfig();
+    gerritStorageConfig.setGitRepositoryStorage(repoStorage);
+    gerritStorageConfig.setLogsStorage(logStorage);
+    gerritStorageConfig.setStorageClasses(storageClassConfig);
+    gerritSpec.setStorage(gerritStorageConfig);
+
+    GerritRepositoryConfig repoConfig = new GerritRepositoryConfig();
+    repoConfig.setOrg(testProps.getRegistryOrg());
+    repoConfig.setRegistry(testProps.getRegistry());
+    repoConfig.setTag(testProps.getTag());
+
+    ContainerImageConfig containerImageConfig = new ContainerImageConfig();
+    containerImageConfig.setGerritImages(repoConfig);
+    Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
+    imagePullSecrets.add(
+        new LocalObjectReference(AbstractGerritOperatorE2ETest.IMAGE_PULL_SECRET_NAME));
+    containerImageConfig.setImagePullSecrets(imagePullSecrets);
+    gerritSpec.setContainerImages(containerImageConfig);
+
+    IngressConfig ingressConfig = new IngressConfig();
+    ingressConfig.setHost(testProps.getIngressDomain());
+    ingressConfig.setType(IngressType.INGRESS);
+    ingressConfig.setTls(false);
+    gerritSpec.setIngress(ingressConfig);
+
+    gerrit.setSpec(gerritSpec);
   }
 
   private void waitForGerritReadiness() {

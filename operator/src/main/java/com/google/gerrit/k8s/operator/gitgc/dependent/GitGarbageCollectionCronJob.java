@@ -52,15 +52,25 @@ public class GitGarbageCollectionCronJob
 
     List<Container> initContainers = new ArrayList<>();
     List<Volume> volumes =
-        List.of(gerritCluster.getGitRepositoriesVolume(), gerritCluster.getLogsVolume());
+        List.of(GerritCluster.getGitRepositoriesVolume(), GerritCluster.getLogsVolume());
 
-    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()) {
-      if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isChownOnStartup()) {
+    if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()) {
+      if (gerritCluster
+          .getSpec()
+          .getStorage()
+          .getStorageClasses()
+          .getNfsWorkaround()
+          .isChownOnStartup()) {
         initContainers.add(gerritCluster.createNfsInitContainer());
       }
-      if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+      if (gerritCluster
+              .getSpec()
+              .getStorage()
+              .getStorageClasses()
+              .getNfsWorkaround()
+              .getIdmapdConfig()
           != null) {
-        volumes.add(gerritCluster.getNfsImapdConfigVolume());
+        volumes.add(GerritCluster.getNfsImapdConfigVolume());
       }
     }
 
@@ -80,7 +90,8 @@ public class GitGarbageCollectionCronJob
             .withNewSpec()
             .withTolerations(gitGc.getSpec().getTolerations())
             .withAffinity(gitGc.getSpec().getAffinity())
-            .addAllToImagePullSecrets(gerritCluster.getSpec().getImagePullSecrets())
+            .addAllToImagePullSecrets(
+                gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
             .withRestartPolicy("OnFailure")
             .withNewSecurityContext()
             .withFsGroup(100L)
@@ -118,20 +129,30 @@ public class GitGarbageCollectionCronJob
   private Container buildGitGcContainer(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
     List<VolumeMount> volumeMounts =
         List.of(
-            gerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"),
-            gerritCluster.getLogsVolumeMount("/var/log/git"));
+            GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"),
+            GerritCluster.getLogsVolumeMount("/var/log/git"));
 
-    if (gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().isEnabled()
-        && gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+    if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster
+                .getSpec()
+                .getStorage()
+                .getStorageClasses()
+                .getNfsWorkaround()
+                .getIdmapdConfig()
             != null) {
-      volumeMounts.add(gerritCluster.getNfsImapdConfigVolumeMount());
+      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
 
     ContainerBuilder gitGcContainerBuilder =
         new ContainerBuilder()
             .withName("git-gc")
-            .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
-            .withImage(gerritCluster.getSpec().getGerritImages().getFullImageName("git-gc"))
+            .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
+            .withImage(
+                gerritCluster
+                    .getSpec()
+                    .getContainerImages()
+                    .getGerritImages()
+                    .getFullImageName("git-gc"))
             .withResources(gitGc.getSpec().getResources())
             .withEnv(GerritCluster.getPodNameEnvVar())
             .withVolumeMounts(volumeMounts);

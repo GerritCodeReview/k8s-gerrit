@@ -14,18 +14,18 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GerritConfigMapDiscriminator.class)
-public class GerritConfigMap extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
+public class GerritConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final String DEFAULT_HEALTHCHECK_CONFIG =
       "[healthcheck \"auth\"]\nenabled = false\n[healthcheck \"querychanges\"]\nenabled = false";
 
@@ -35,9 +35,9 @@ public class GerritConfigMap extends GerritClusterMemberDependentResource<Config
 
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster = getGerritCluster(gerrit);
     Map<String, String> gerritLabels =
-        gerritCluster.getLabels(getName(gerrit), this.getClass().getSimpleName());
+        GerritCluster.getLabels(
+            gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName());
 
     Map<String, String> configFiles = gerrit.getSpec().getConfigFiles();
 
@@ -45,8 +45,7 @@ public class GerritConfigMap extends GerritClusterMemberDependentResource<Config
       configFiles.put("gerrit.config", "");
     }
 
-    GerritConfigBuilder gerritConfigBuilder =
-        new GerritConfigBuilder().forGerrit(gerrit, gerritCluster);
+    GerritConfigBuilder gerritConfigBuilder = new GerritConfigBuilder().forGerrit(gerrit);
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
 

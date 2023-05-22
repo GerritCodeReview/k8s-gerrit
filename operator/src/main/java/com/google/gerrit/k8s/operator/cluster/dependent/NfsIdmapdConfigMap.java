@@ -41,7 +41,12 @@ public class NfsIdmapdConfigMap extends CRUDKubernetesDependentResource<ConfigMa
         .withData(
             Map.of(
                 "idmapd.conf",
-                gerritCluster.getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig()))
+                gerritCluster
+                    .getSpec()
+                    .getStorage()
+                    .getStorageClasses()
+                    .getNfsWorkaround()
+                    .getIdmapdConfig()))
         .build();
   }
 }

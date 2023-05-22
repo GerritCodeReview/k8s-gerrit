@@ -41,11 +41,13 @@ public class GerritLogsPVC extends CRUDKubernetesDependentPVCResource<GerritClus
             .withNewSpec()
             .withAccessModes("ReadWriteMany")
             .withNewResources()
-            .withRequests(Map.of("storage", gerritCluster.getSpec().getLogsStorage().getSize()))
+            .withRequests(
+                Map.of("storage", gerritCluster.getSpec().getStorage().getLogsStorage().getSize()))
             .endResources()
-            .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getLogsStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getLogsStorage().getVolumeName())
+            .withStorageClassName(
+                gerritCluster.getSpec().getStorage().getStorageClasses().getReadWriteMany())
+            .withSelector(gerritCluster.getSpec().getStorage().getLogsStorage().getSelector())
+            .withVolumeName(gerritCluster.getSpec().getStorage().getLogsStorage().getVolumeName())
             .endSpec()
             .build();
 

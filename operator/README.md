@@ -113,9 +113,8 @@ docker image name etc. might have to be adapted.
 
 ### GerritCluster
 
-The GerritCluster custom resource configures and provisions resources shared by
-multiple components in a Gerrit cluster. A cluster is meant to be run in a single
-namespace and only one cluster per namespace is allowed.
+The GerritCluster custom resource installs one or multiple Gerrit instances and
+manages the storage and network for all its Gerrit instances.
 
 An example CustomResource is provided at `k8s/cluster.sample.yaml`. To install
 it into the cluster run:
@@ -126,8 +125,11 @@ kubectl apply -f k8s/cluster.sample.yaml
 
 ### Gerrit
 
-**NOTE:** A primary Gerrit should never be installed in the same GerritCluster as a
-Receiver to avoid conflicts when writing into repositories.
+The Gerrit-CustomResource is mainly meant to be used by the GerritCluster-reconciler
+to install Gerrit-instances managed by a GerritCluster. Gerrit-CustomResources
+can however also be applied separately. Note, that the Gerrit operator will then
+not create any storage resources or setup any network resources in addition to
+the service.
 
 An example of a Gerrit-CustomResource can be found at `k8s/gerrit.sample.yaml`.
 To install it into the cluster run:
@@ -151,8 +153,8 @@ The operator will create a CronJob based on the provided spec.
 
 ### Receiver
 
-**NOTE:** A Receiver should never be installed in the same GerritCluster as a
-primary Gerrit to avoid conflicts when writing into repositories.
+**NOTE:** A Receiver should never be installed for a GerritCluster that is already
+managing a primary Gerrit to avoid conflicts when writing into repositories.
 
 An example of a Receiver-CustomResource can be found at `k8s/receiver.sample.yaml`.
 To install it into the cluster run:
@@ -169,103 +171,111 @@ requests.
 ### GerritCluster
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha1"
+apiVersion: "gerritoperator.google.com/v1alpha2"
 kind: GerritCluster
 metadata:
   name: gerrit
 spec:
-  ## List of names representing imagePullSecrets available in the cluster. These
-  ## secrets will be added to all pods. (optional)
-  imagePullSecrets: []
-  # - name: docker
+  ## Configuration options regarding container images used in the GerritCluster.
+  containerImages:
+    ## List of names representing imagePullSecrets available in the cluster. These
+    ## secrets will be added to all pods. (optional)
+    imagePullSecrets: []
+    # - name: docker
 
-  ## ImagePullPolicy (https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy)
-  ## to be used in all containers. (default: Always)
-  imagePullPolicy: "Always"
+    ## ImagePullPolicy (https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy)
+    ## to be used in all containers. (default: Always)
+    imagePullPolicy: "Always"
 
-  ## The container images in this project are tagged with the output of git describe.
-  ## All container images are published for each version, even when the image itself
-  ## was not updated. This ensures that all containers work well together.
-  ## Here, the data on how to get those images can be configured.
-  gerritImages:
-    ## The registry from which to pull the images. (default: docker.io)
-    registry: "docker.io"
+    ## The container images in this project are tagged with the output of git describe.
+    ## All container images are published for each version, even when the image itself
+    ## was not updated. This ensures that all containers work well together.
+    ## Here, the data on how to get those images can be configured.
+    gerritImages:
+      ## The registry from which to pull the images. (default: docker.io)
+      registry: "docker.io"
 
-    ## The organization in the registry containing the images. (default: k8sgerrit)
-    org: "k8sgerrit"
+      ## The organization in the registry containing the images. (default: k8sgerrit)
+      org: "k8sgerrit"
 
-    ## The tag/version of the images. (default: latest)
-    tag: "latest"
+      ## The tag/version of the images. (default: latest)
+      tag: "latest"
 
-  ## The busybox container is used for some init containers.
-  busyBox:
-    ## The registry from which to  pull the "busybox' image. (default: docker.io)
-    registry: docker.io
+    ## The busybox container is used for some init containers.
+    busyBox:
+      ## The registry from which to  pull the "busybox' image. (default: docker.io)
+      registry: docker.io
 
-    ## The tag/version of the 'busybox' image. (default: latest)
-    tag: latest
+      ## The tag/version of the 'busybox' image. (default: latest)
+      tag: latest
 
-  storageClasses:
-    ## Name of a StorageClass allowing ReadWriteOnce access. (default: default)
-    readWriteOnce: default
+  storage:
+    storageClasses:
+      ## Name of a StorageClass allowing ReadWriteOnce access. (default: default)
+      readWriteOnce: default
 
-    ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
-    readWriteMany: shared-storage
+      ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
+      readWriteMany: shared-storage
 
-    ## NFS is not well supported by Kubernetes. These options provide a workaround
-    ## to ensure correct file ownership and id mapping
-    nfsWorkaround:
-      ## If enabled, below options might be used. (default: false)
+      ## NFS is not well supported by Kubernetes. These options provide a workaround
+      ## to ensure correct file ownership and id mapping
+      nfsWorkaround:
+        ## If enabled, below options might be used. (default: false)
+        enabled: false
+
+        ## If enabled, the ownership of the mounted NFS volumes will be set on pod
+        ## startup. Note that this is not done recursively. It is expected that all
+        ## data already present in the volume was created by the user used in accessing
+        ## containers. (default: false)
+        chownOnStartup: false
+
+        ## The idmapd.config file can be used to e.g. configure the ID domain. This
+        ## might be necessary for some NFS servers to ensure correct mapping of
+        ## user and group IDs. (optional)
+        idmapdConfig: ""
+          # [General]
+          #   Verbosity = 0
+          #   Domain = localdomain.com
+
+          # [Mapping]
+          #   Nobody-User = nobody
+          #   Nobody-Group = nogroup
+
+
+    ## Storage for git repositories
+    gitRepositoryStorage:
+      ## Size of the volume (ReadWriteMany) used to store git repositories. (mandatory)
+      size: 1Gi
+
+      ## Name of a specific persistent volume to claim (optional)
+      volumeName: ""
+
+      ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
+      ## to select a specific persistent volume (optional)
+      selector: null
+        # matchLabels:
+        #   volume-type: ssd
+        #   aws-availability-zone: us-east-1
+
+    ## Storage for logs
+    logsStorage:
+      ## Size of the volume (ReadWriteMany) used to store logs. (mandatory)
+      size: 1Gi
+
+      ## Name of a specific persistent volume to claim (optional)
+      volumeName: ""
+
+      ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
+      ## to select a specific persistent volume (optional)
+      selector: null
+        # matchLabels:
+        #   volume-type: ssd
+        #   aws-availability-zone: us-east-1
+
+    ## Storage for cached plugin JARs
+    pluginCacheStorage:
+      ## Whether to enable the plugin cache
       enabled: false
-
-      ## If enabled, the ownership of the mounted NFS volumes will be set on pod
-      ## startup. Note that this is not done recursively. It is expected that all
-      ## data already present in the volume was created by the user used in accessing
-      ## containers. (default: false)
-      chownOnStartup: false
-
-      ## The idmapd.config file can be used to e.g. configure the ID domain. This
-      ## might be necessary for some NFS servers to ensure correct mapping of
-      ## user and group IDs. (optional)
-      idmapdConfig: ""
-        # [General]
-        #   Verbosity = 0
-        #   Domain = localdomain.com
-
-        # [Mapping]
-        #   Nobody-User = nobody
-        #   Nobody-Group = nogroup
-
-
-  ## Storage for git repositories
-  gitRepositoryStorage:
-    ## Size of the volume (ReadWriteMany) used to store git repositories. (mandatory)
-    size: 1Gi
-
-    ## Name of a specific persistent volume to claim (optional)
-    volumeName: ""
-
-    ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
-    ## to select a specific persistent volume (optional)
-    selector: null
-      # matchLabels:
-      #   volume-type: ssd
-      #   aws-availability-zone: us-east-1
-
-  ## Storage for logs
-  logsStorage:
-    ## Size of the volume (ReadWriteMany) used to store logs. (mandatory)
-    size: 1Gi
-
-    ## Name of a specific persistent volume to claim (optional)
-    volumeName: ""
-
-    ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
-    ## to select a specific persistent volume (optional)
-    selector: null
-      # matchLabels:
-      #   volume-type: ssd
-      #   aws-availability-zone: us-east-1
 
   ## Configuration for an ingress that will be used to route ingress traffic to
   ## all exposed applications within the Gerrit cluster.
@@ -296,19 +306,180 @@ spec:
       ## be a wildcard certificate allowing for all subdomains under the given
       ## host.
       secret: ""
+
+  ## List of GerritTemplates to create Gerrit instances. Only a single primary
+  ## Gerrit is allowed, but multiple Gerrit Replicas can be deployed.
+  gerrits: []
+  ## Metadata used for the Gerrit instance. A name is mandatory. Labels can optionally
+  ## be defined. Other fields like the namespace are ignored.
+  # - metadata:
+      # name: gerrit
+      # labels:
+      #   app: gerrit
+    # spec:
+      ## Pod tolerations (https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+      ## (optional)
+      # tolerations: []
+      # - key: "key1"
+      #   operator: "Equal"
+      #   value: "value1"
+      #   effect: "NoSchedule"
+
+      ## Pod affinity (https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/)
+      ## (optional)
+      # affinity: {}
+        # nodeAffinity:
+        # requiredDuringSchedulingIgnoredDuringExecution:
+        #   nodeSelectorTerms:
+        #   - matchExpressions:
+        #     - key: disktype
+        #       operator: In
+        #       values:
+        #       - ssd
+
+      ## Pod topology spread constraints (https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/#:~:text=You%20can%20use%20topology%20spread,well%20as%20efficient%20resource%20utilization.)
+      ## (optional)
+      # topologySpreadConstraints: []
+      # - maxSkew: 1
+      #   topologyKey: zone
+      #   whenUnsatisfiable: DoNotSchedule
+      #   labelSelector:
+      #     matchLabels:
+      #       foo: bar
+
+      ## PriorityClass to be used with the pod (https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/)
+      ## (optional)
+      # priorityClassName: ""
+
+      ## Number of pods running Gerrit in the StatefulSet (default: 1)
+      # replicas: 1
+
+      ## Ordinal at which to start updating pods. Pods with a lower ordinal will not be updated. (default: 0)
+      # updatePartition: 0
+
+      ## Resource requests/limits of the gerrit container
+      ## (https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+      ## (optional)
+      # resources: {}
+        # requests:
+        #   cpu: 1
+        #   memory: 5Gi
+        # limits:
+        #   cpu: 1
+        #   memory: 6Gi
+
+      ## Startup probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+      ## The action will be set by the operator. All other probe parameters can be set.
+      ## (optional)
+      # startupProbe: {}
+        # initialDelaySeconds: 0
+        # periodSeconds: 10
+        # timeoutSeconds: 1
+        # successThreshold: 1
+        # failureThreshold: 3
+
+      ## Readiness probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+      ## The action will be set by the operator. All other probe parameters can be set.
+      ## (optional)
+      # readinessProbe: {}
+        # initialDelaySeconds: 0
+        # periodSeconds: 10
+        # timeoutSeconds: 1
+        # successThreshold: 1
+        # failureThreshold: 3
+
+      ## Liveness probe (https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)
+      ## The action will be set by the operator. All other probe parameters can be set.
+      ## (optional)
+      # livenessProbe: {}
+        # initialDelaySeconds: 0
+        # periodSeconds: 10
+        # timeoutSeconds: 1
+        # successThreshold: 1
+        # failureThreshold: 3
+
+      ## Seconds the pod is allowed to shutdown until it is forcefully killed (default: 30)
+      # gracefulStopTimeout: 30
+
+      ## Configuration for the service used to manage network access to the StatefulSet
+      # service:
+        ## Service type (default: NodePort)
+        # type: NodePort
+
+        ## Port used for HTTP requests (default: 80)
+        # httpPort: 80
+
+        ## Port used for SSH requests (optional; if unset, SSH access is disabled)
+        ## If Istio is used, the Gateway will be automatically configured to accept
+        ## SSH requests. If an Ingress controller is used, SSH requests will only be
+        ## served by the Service itself!
+        # sshPort: null
+
+      ## In which mode Gerrit should be run. Options: PRIMARY, REPLICA (default: PRIMARY)
+      # mode: PRIMARY
+
+      ## Configuration concerning the Gerrit site
+      # site:
+        ## Size of the volume used to persist not otherwise persisted site components
+        ## (e.g. git repositories are persisted in a dedicated volume) (mandatory)
+        # size: 1Gi
+
+      ## List of Gerrit plugins to install. These plugins can either be packaged in
+      ## the Gerrit war-file or they will be downloaded. (optional)
+      # plugins: []
+      ## Installs a packaged plugin
+      # - name: delete-project
+
+      ## Downloads and installs a plugin
+      # - name: javamelody
+      #   url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-javamelody-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/javamelody/javamelody.jar
+      #   sha1: 40ffcd00263171e373a24eb6a311791b2924707c
+
+      ## If the `installAsLibrary` option is set to `true` the plugin's jar-file will
+      ## be symlinked to the lib directory and thus installed as a library as well.
+      # - name: saml
+      #   url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-saml-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/saml/saml.jar
+      #   sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
+      #   installAsLibrary: true
+
+      ## Configuration files for Gerrit that will be mounted into the Gerrit site's
+      ## etc-directory (gerrit.config is mandatory)
+      # configFiles:
+      #   gerrit.config: |-
+      #       [gerrit]
+      #         serverId = gerrit-1
+      #         disableReverseDnsLookup = true
+      #       [index]
+      #         type = LUCENE
+      #       [auth]
+      #         type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+      #       [httpd]
+      #         requestLog = true
+      #         gracefulStopTimeout = 1m
+      #       [transfer]
+      #         timeout = 120 s
+      #       [user]
+      #         name = Gerrit Code Review
+      #         email = gerrit@example.com
+      #         anonymousCoward = Unnamed User
+      #       [container]
+      #         javaOptions = -Xms200m
+      #         javaOptions = -Xmx4g
+
+      ## Names of secrets containing configuration files, e.g. secure.config, that
+      ## will be mounted into the Gerrit site's etc-directory (optional)
+      # secrets: []
+      # - gerrit-secure-config
 ```
 
 ### Gerrit
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha1"
+apiVersion: "gerritoperator.google.com/v1alpha2"
 kind: Gerrit
 metadata:
   name: gerrit
 spec:
-  ## Name of the Gerrit cluster this Gerrit is a part of. (mandatory)
-  cluster: gerrit
-
   ## Pod tolerations (https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
   ## (optional)
   tolerations: []
@@ -407,8 +578,8 @@ spec:
     ## served by the Service itself!
     sshPort: null
 
-  ## Whether to run Gerrit in replica mode
-  isReplica: true
+  ## In which mode Gerrit should be run. Options: PRIMARY, REPLICA (default: PRIMARY)
+  mode: PRIMARY
 
   ## Configuration concerning the Gerrit site
   site:
@@ -461,7 +632,107 @@ spec:
   ## Names of secrets containing configuration files, e.g. secure.config, that
   ## will be mounted into the Gerrit site's etc-directory (optional)
   secrets: []
-  # - gerrit-secure-config
+  # - gerrit-secure-config  ## Configuration options regarding container images used in the GerritCluster.
+
+  containerImages:
+    ## List of names representing imagePullSecrets available in the cluster. These
+    ## secrets will be added to all pods. (optional)
+    imagePullSecrets: []
+    # - name: docker
+
+    ## ImagePullPolicy (https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy)
+    ## to be used in all containers. (default: Always)
+    imagePullPolicy: "Always"
+
+    ## The container images in this project are tagged with the output of git describe.
+    ## All container images are published for each version, even when the image itself
+    ## was not updated. This ensures that all containers work well together.
+    ## Here, the data on how to get those images can be configured.
+    gerritImages:
+      ## The registry from which to pull the images. (default: docker.io)
+      registry: "docker.io"
+
+      ## The organization in the registry containing the images. (default: k8sgerrit)
+      org: "k8sgerrit"
+
+      ## The tag/version of the images. (default: latest)
+      tag: "latest"
+
+    ## The busybox container is used for some init containers.
+    busyBox:
+      ## The registry from which to  pull the "busybox' image. (default: docker.io)
+      registry: docker.io
+
+      ## The tag/version of the 'busybox' image. (default: latest)
+      tag: latest
+
+  storage:
+    storageClasses:
+      ## Name of a StorageClass allowing ReadWriteOnce access. (default: default)
+      readWriteOnce: default
+
+      ## Name of a StorageClass allowing ReadWriteMany access. (default: shared-storage)
+      readWriteMany: shared-storage
+
+      ## NFS is not well supported by Kubernetes. These options provide a workaround
+      ## to ensure correct file ownership and id mapping
+      nfsWorkaround:
+        ## If enabled, below options might be used. (default: false)
+        enabled: false
+
+        ## If enabled, the ownership of the mounted NFS volumes will be set on pod
+        ## startup. Note that this is not done recursively. It is expected that all
+        ## data already present in the volume was created by the user used in accessing
+        ## containers. (default: false)
+        chownOnStartup: false
+
+        ## The idmapd.config file can be used to e.g. configure the ID domain. This
+        ## might be necessary for some NFS servers to ensure correct mapping of
+        ## user and group IDs. (optional)
+        idmapdConfig: ""
+          # [General]
+          #   Verbosity = 0
+          #   Domain = localdomain.com
+
+          # [Mapping]
+          #   Nobody-User = nobody
+          #   Nobody-Group = nogroup
+
+
+    ## Storage for git repositories
+    gitRepositoryStorage:
+      ## Size of the volume (ReadWriteMany) used to store git repositories. (mandatory)
+      size: 1Gi
+
+      ## Name of a specific persistent volume to claim (optional)
+      volumeName: ""
+
+      ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
+      ## to select a specific persistent volume (optional)
+      selector: null
+        # matchLabels:
+        #   volume-type: ssd
+        #   aws-availability-zone: us-east-1
+
+    ## Storage for logs
+    logsStorage:
+      ## Size of the volume (ReadWriteMany) used to store logs. (mandatory)
+      size: 1Gi
+
+      ## Name of a specific persistent volume to claim (optional)
+      volumeName: ""
+
+      ## Selector (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)
+      ## to select a specific persistent volume (optional)
+      selector: null
+        # matchLabels:
+        #   volume-type: ssd
+        #   aws-availability-zone: us-east-1
+
+    ## Storage for cached plugin JARs
+    pluginCacheStorage:
+      ## Whether to enable the plugin cache                                                                                                                                                                            │
+      enabled: false
 ```
 
 #### Prohibited options in gerrit.config
