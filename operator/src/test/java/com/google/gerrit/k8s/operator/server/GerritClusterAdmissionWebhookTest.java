@@ -20,17 +20,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterSpec;
+import com.google.gerrit.k8s.operator.cluster.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
-import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
-import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import com.google.gerrit.k8s.operator.test.TestGerrit;
+import com.google.gerrit.k8s.operator.test.TestGerritCluster;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
@@ -41,8 +37,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
@@ -53,18 +47,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class GerritAdmissionWebhookTest {
+public class GerritClusterAdmissionWebhookTest {
   private static final String NAMESPACE = "test";
-  private static final String LIST_GERRITS_PATH =
-      String.format(
-          "/apis/%s/namespaces/%s/%s",
-          HasMetadata.getApiVersion(Gerrit.class), NAMESPACE, HasMetadata.getPlural(Gerrit.class));
-  private static final String LIST_GERRIT_CLUSTERS_PATH =
-      String.format(
-          "/apis/%s/namespaces/%s/%s",
-          HasMetadata.getApiVersion(GerritCluster.class),
-          NAMESPACE,
-          HasMetadata.getPlural(GerritCluster.class));
   private TestAdmissionWebhookServer server;
 
   @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
@@ -74,32 +58,29 @@ public class GerritAdmissionWebhookTest {
     KubernetesDeserializer.registerCustomKind(
         "gerritoperator.google.com/v1alpha2", "Gerrit", Gerrit.class);
     KubernetesDeserializer.registerCustomKind(
+        "gerritoperator.google.com/v1alpha2", "GerritCluster", GerritCluster.class);
+    KubernetesDeserializer.registerCustomKind(
         "gerritoperator.google.com/v1alpha1", "Receiver", Receiver.class);
     server = new TestAdmissionWebhookServer();
 
     kubernetesServer.before();
 
-    GerritAdmissionWebhook webhook = new GerritAdmissionWebhook();
-    server.registerWebhook(webhook);
+    server.registerWebhook(new GerritClusterAdmissionWebhook());
+    server.registerWebhook(new GerritAdmissionWebhook());
     server.start();
   }
 
   @Test
-  public void testInvalidGerritConfigRejected() throws Exception {
-    String clusterName = "gerrit";
-    Config gerritConfig = new Config();
-    gerritConfig.setString("container", null, "user", "gerrit");
-    Gerrit gerrit = createGerrit(clusterName, gerritConfig);
-    kubernetesServer
-        .expect()
-        .get()
-        .withPath(LIST_GERRITS_PATH)
-        .andReturn(HttpURLConnection.HTTP_OK, new DefaultKubernetesResourceList<Gerrit>())
-        .times(2);
+  public void testOnlySinglePrimaryGerritIsAcceptedPerGerritCluster() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
+    GerritTemplate gerrit1 = TestGerrit.createGerritTemplate("gerrit1", GerritMode.PRIMARY, cfg);
+    TestGerritCluster gerritCluster =
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
+    gerritCluster.addGerrit(gerrit1);
+    GerritCluster cluster = gerritCluster.build();
 
-    mockGerritCluster(clusterName);
-
-    HttpURLConnection http = sendAdmissionRequest(gerrit);
+    HttpURLConnection http = sendAdmissionRequest(cluster);
 
     AdmissionReview response =
         new ObjectMapper().readValue(http.getInputStream(), AdmissionReview.class);
@@ -107,61 +88,59 @@ public class GerritAdmissionWebhookTest {
     assertThat(http.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
     assertThat(response.getResponse().getAllowed(), is(true));
 
-    gerritConfig.setString("container", null, "user", "invalid");
-    Gerrit gerrit2 = createGerrit(clusterName, gerritConfig);
-    HttpURLConnection http2 = sendAdmissionRequest(gerrit2);
+    GerritTemplate gerrit2 = TestGerrit.createGerritTemplate("gerrit2", GerritMode.PRIMARY, cfg);
+    gerritCluster.addGerrit(gerrit2);
+    HttpURLConnection http2 = sendAdmissionRequest(gerritCluster.build());
 
     AdmissionReview response2 =
         new ObjectMapper().readValue(http2.getInputStream(), AdmissionReview.class);
 
     assertThat(http2.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
     assertThat(response2.getResponse().getAllowed(), is(false));
+    assertThat(
+        response2.getResponse().getStatus().getCode(),
+        is(equalTo(HttpServletResponse.SC_CONFLICT)));
   }
 
-  private void mockGerritCluster(String name) {
-    GerritCluster cluster = new GerritCluster();
-    cluster.setMetadata(new ObjectMetaBuilder().withName(name).withNamespace(NAMESPACE).build());
-    GerritClusterSpec clusterSpec = new GerritClusterSpec();
-    GerritClusterIngressConfig ingressConfig = new GerritClusterIngressConfig();
-    ingressConfig.setEnabled(false);
-    clusterSpec.setIngress(ingressConfig);
-    cluster.setSpec(clusterSpec);
+  @Test
+  public void testPrimaryAndReplicaAreAcceptedInSameGerritCluster() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
+    GerritTemplate gerrit1 = TestGerrit.createGerritTemplate("gerrit1", GerritMode.PRIMARY, cfg);
+    TestGerritCluster gerritCluster =
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
+    gerritCluster.addGerrit(gerrit1);
 
-    kubernetesServer
-        .expect()
-        .get()
-        .withPath(LIST_GERRIT_CLUSTERS_PATH + "/" + name)
-        .andReturn(HttpURLConnection.HTTP_OK, cluster)
-        .always();
+    HttpURLConnection http = sendAdmissionRequest(gerritCluster.build());
+
+    AdmissionReview response =
+        new ObjectMapper().readValue(http.getInputStream(), AdmissionReview.class);
+
+    assertThat(http.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
+    assertThat(response.getResponse().getAllowed(), is(true));
+
+    GerritTemplate gerrit2 = TestGerrit.createGerritTemplate("gerrit2", GerritMode.REPLICA, cfg);
+    gerritCluster.addGerrit(gerrit2);
+    HttpURLConnection http2 = sendAdmissionRequest(gerritCluster.build());
+
+    AdmissionReview response2 =
+        new ObjectMapper().readValue(http2.getInputStream(), AdmissionReview.class);
+
+    assertThat(http.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
+    assertThat(response2.getResponse().getAllowed(), is(true));
   }
 
-  private Gerrit createGerrit(String cluster, Config gerritConfig) {
-    ObjectMeta meta =
-        new ObjectMetaBuilder()
-            .withName(RandomStringUtils.random(10))
-            .withNamespace(NAMESPACE)
-            .build();
-    GerritSpec gerritSpec = new GerritSpec();
-    gerritSpec.setMode(GerritMode.PRIMARY);
-    if (gerritConfig != null) {
-      gerritSpec.setConfigFiles(Map.of("gerrit.config", gerritConfig.toText()));
-    }
-    Gerrit gerrit = new Gerrit();
-    gerrit.setMetadata(meta);
-    gerrit.setSpec(gerritSpec);
-    return gerrit;
-  }
-
-  private HttpURLConnection sendAdmissionRequest(Gerrit gerrit)
+  private HttpURLConnection sendAdmissionRequest(GerritCluster gerritCluster)
       throws MalformedURLException, IOException {
     HttpURLConnection http =
-        (HttpURLConnection) new URL("http://localhost:8080/admission/gerrit").openConnection();
+        (HttpURLConnection)
+            new URL("http://localhost:8080/admission/gerritcluster").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);
 
     AdmissionRequest admissionReq = new AdmissionRequest();
-    admissionReq.setObject(gerrit);
+    admissionReq.setObject(gerritCluster);
     AdmissionReview admissionReview = new AdmissionReview();
     admissionReview.setRequest(admissionReq);
 

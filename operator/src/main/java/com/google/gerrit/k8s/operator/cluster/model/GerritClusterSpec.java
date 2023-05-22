@@ -14,94 +14,39 @@
 
 package com.google.gerrit.k8s.operator.cluster.model;
 
-import io.fabric8.kubernetes.api.model.LocalObjectReference;
+import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GerritClusterSpec {
 
-  private StorageClassConfig storageClasses;
-  private SharedStorage gitRepositoryStorage;
-  private SharedStorage logsStorage;
-  private OptionalSharedStorage pluginCacheStorage = new OptionalSharedStorage();
-  private String imagePullPolicy = "Always";
-  private Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
-  private GerritRepositoryConfig gerritImages = new GerritRepositoryConfig();
-  private BusyBoxImage busyBox = new BusyBoxImage();
-  private GerritIngressConfig ingress = new GerritIngressConfig();
+  private GerritStorageConfig storage = new GerritStorageConfig();
+  private ContainerImageConfig containerImages = new ContainerImageConfig();
+  private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
   private List<GerritTemplate> gerrits = new ArrayList<>();
 
-  public StorageClassConfig getStorageClasses() {
-    return storageClasses;
+  public GerritStorageConfig getStorage() {
+    return storage;
   }
 
-  public SharedStorage getGitRepositoryStorage() {
-    return gitRepositoryStorage;
+  public void setStorage(GerritStorageConfig storage) {
+    this.storage = storage;
   }
 
-  public void setStorageClasses(StorageClassConfig storageClasses) {
-    this.storageClasses = storageClasses;
+  public ContainerImageConfig getContainerImages() {
+    return containerImages;
   }
 
-  public void setGitRepositoryStorage(SharedStorage gitRepositoryStorage) {
-    this.gitRepositoryStorage = gitRepositoryStorage;
+  public void setContainerImages(ContainerImageConfig containerImages) {
+    this.containerImages = containerImages;
   }
 
-  public SharedStorage getLogsStorage() {
-    return logsStorage;
-  }
-
-  public void setLogsStorage(SharedStorage logsStorage) {
-    this.logsStorage = logsStorage;
-  }
-
-  public OptionalSharedStorage getPluginCacheStorage() {
-    return pluginCacheStorage;
-  }
-
-  public void setPluginCacheStorage(OptionalSharedStorage pluginCacheStorage) {
-    this.pluginCacheStorage = pluginCacheStorage;
-  }
-
-  public String getImagePullPolicy() {
-    return imagePullPolicy;
-  }
-
-  public void setImagePullPolicy(String imagePullPolicy) {
-    this.imagePullPolicy = imagePullPolicy;
-  }
-
-  public Set<LocalObjectReference> getImagePullSecrets() {
-    return imagePullSecrets;
-  }
-
-  public void setImagePullSecrets(Set<LocalObjectReference> imagePullSecrets) {
-    this.imagePullSecrets = imagePullSecrets;
-  }
-
-  public GerritRepositoryConfig getGerritImages() {
-    return gerritImages;
-  }
-
-  public void setGerritImages(GerritRepositoryConfig gerritImages) {
-    this.gerritImages = gerritImages;
-  }
-
-  public BusyBoxImage getBusyBox() {
-    return busyBox;
-  }
-
-  public void setBusyBox(BusyBoxImage busyBox) {
-    this.busyBox = busyBox;
-  }
-
-  public GerritIngressConfig getIngress() {
+  public GerritClusterIngressConfig getIngress() {
     return ingress;
   }
 
-  public void setIngress(GerritIngressConfig ingress) {
+  public void setIngress(GerritClusterIngressConfig ingress) {
     this.ingress = ingress;
   }
 

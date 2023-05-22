@@ -24,8 +24,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverSpec;
@@ -66,11 +66,11 @@ import org.junit.jupiter.api.io.TempDir;
 @TestInstance(Lifecycle.PER_CLASS)
 public class ReceiverE2E extends AbstractGerritOperatorE2ETest {
   private static final String CREDENTIALS_SECRET_NAME = "receiver-secret";
+  private static final String GERRIT_NAME = "gerrit";
   private static final String USER = "git";
   private static final String PASSWORD = RandomStringUtils.randomAlphanumeric(32);
 
   private Receiver receiver;
-  private TestGerrit gerritReplica;
 
   @BeforeAll
   public void setupReceiver() {
@@ -85,14 +85,15 @@ public class ReceiverE2E extends AbstractGerritOperatorE2ETest {
   }
 
   @BeforeEach
-  public void setupComponents() {
+  public void setupComponents() throws Exception {
     gerritCluster.setIngressType(IngressType.INGRESS);
     createCredentialsSecret();
+
+    gerritCluster.addGerrit(TestGerrit.createGerritTemplate(GERRIT_NAME, GerritMode.REPLICA));
+    gerritCluster.deploy();
+
     client.resource(receiver).inNamespace(operator.getNamespace()).createOrReplace();
     awaitReceiverReadiness();
-
-    gerritReplica = new TestGerrit(client, testProps, gerritCluster, GerritMode.REPLICA);
-    gerritReplica.deploy();
   }
 
   @Test
@@ -204,7 +205,7 @@ public class ReceiverE2E extends AbstractGerritOperatorE2ETest {
   private URL getGerritUrl(String path) throws Exception {
     return new URIBuilder()
         .setScheme("https")
-        .setHost(String.format("%s.%s", TestGerrit.NAME, testProps.getIngressDomain()))
+        .setHost(String.format("%s.%s", GERRIT_NAME, testProps.getIngressDomain()))
         .setPath(path)
         .build()
         .toURL();

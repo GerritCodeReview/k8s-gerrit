@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster;
+package com.google.gerrit.k8s.operator.cluster.dependent;
 
-import com.google.gerrit.k8s.operator.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.GarbageCollected;
@@ -26,14 +28,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class GerritDependentResource extends KubernetesDependentResource<Gerrit, GerritCluster>
+public class ClusterManagedGerrit extends KubernetesDependentResource<Gerrit, GerritCluster>
     implements Creator<Gerrit, GerritCluster>,
         Updater<Gerrit, GerritCluster>,
         Deleter<GerritCluster>,
         BulkDependentResource<Gerrit, GerritCluster>,
         GarbageCollected<GerritCluster> {
 
-  public GerritDependentResource() {
+  public ClusterManagedGerrit() {
     super(Gerrit.class);
   }
 
@@ -48,7 +50,7 @@ public class GerritDependentResource extends KubernetesDependentResource<Gerrit,
   }
 
   private Gerrit desired(GerritCluster gerritCluster, GerritTemplate template) {
-    return template.toClusterOwnedGerrit(gerritCluster);
+    return template.toGerrit(gerritCluster);
   }
 
   @Override

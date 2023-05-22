@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.model;
+package com.google.gerrit.k8s.operator.shared.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

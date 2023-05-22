@@ -14,16 +14,19 @@
 
 package com.google.gerrit.k8s.operator.cluster.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
-import io.fabric8.kubernetes.api.model.HasMetadata;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
+import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.sundr.builder.annotations.Buildable;
-import org.apache.commons.lang3.NotImplementedException;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -34,14 +37,14 @@ import org.apache.commons.lang3.NotImplementedException;
     generateBuilderPackage = true,
     lazyCollectionInitEnabled = false,
     builderPackage = "io.fabric8.kubernetes.api.builder")
-public class GerritTemplate implements KubernetesResource, HasMetadata {
+public class GerritTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("metadata")
   private ObjectMeta metadata;
 
   @JsonProperty("spec")
-  private GerritSpec spec;
+  private GerritTemplateSpec spec;
 
   public GerritTemplate() {}
 
@@ -56,18 +59,37 @@ public class GerritTemplate implements KubernetesResource, HasMetadata {
   }
 
   @JsonProperty("spec")
-  public GerritSpec getSpec() {
+  public GerritTemplateSpec getSpec() {
     return spec;
   }
 
   @JsonProperty("spec")
-  public void setSpec(GerritSpec spec) {
+  public void setSpec(GerritTemplateSpec spec) {
     this.spec = spec;
   }
 
-  @Override
-  public void setApiVersion(String version) {
-    // Since this is not a real resource, this is not required.
-    throw new NotImplementedException();
+  @JsonIgnore
+  public Gerrit toGerrit(GerritCluster gerritCluster) {
+    Gerrit gerrit = new Gerrit();
+    gerrit.setMetadata(getGerritMetadata(gerritCluster));
+    GerritSpec gerritSpec = new GerritSpec(spec);
+    gerritSpec.setContainerImages(gerritCluster.getSpec().getContainerImages());
+    gerritSpec.setStorage(gerritCluster.getSpec().getStorage());
+    IngressConfig ingressConfig = new IngressConfig();
+    ingressConfig.setHost(gerritCluster.getSpec().getIngress().getHost());
+    ingressConfig.setType(gerritCluster.getSpec().getIngress().getType());
+    ingressConfig.setTls(gerritCluster.getSpec().getIngress().getTls().isEnabled());
+    gerritSpec.setIngress(ingressConfig);
+    gerrit.setSpec(gerritSpec);
+    return gerrit;
+  }
+
+  @JsonIgnore
+  private ObjectMeta getGerritMetadata(GerritCluster gerritCluster) {
+    return new ObjectMetaBuilder()
+        .withName(metadata.getName())
+        .withLabels(metadata.getLabels())
+        .withNamespace(gerritCluster.getMetadata().getNamespace())
+        .build();
   }
 }

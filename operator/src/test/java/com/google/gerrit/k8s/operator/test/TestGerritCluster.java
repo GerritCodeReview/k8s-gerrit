@@ -19,35 +19,47 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterSpec;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.cluster.model.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.cluster.model.GerritRepositoryConfig;
-import com.google.gerrit.k8s.operator.cluster.model.NfsWorkaroundConfig;
-import com.google.gerrit.k8s.operator.cluster.model.SharedStorage;
-import com.google.gerrit.k8s.operator.cluster.model.StorageClassConfig;
+import com.google.gerrit.k8s.operator.cluster.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.shared.model.SharedStorage;
+import com.google.gerrit.k8s.operator.shared.model.StorageClassConfig;
+import com.urswolfer.gerrit.client.rest.GerritAuthData;
+import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class TestGerritCluster {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String CLUSTER_NAME = "test-cluster";
   public static final TestProperties testProps = new TestProperties();
 
   private final KubernetesClient client;
   private final String namespace;
 
-  private GerritIngressConfig ingressConfig;
+  private GerritClusterIngressConfig ingressConfig;
   private boolean isNfsEnabled = false;
   private GerritCluster cluster = new GerritCluster();
   private String hostname;
+  private List<GerritTemplate> gerrits = new ArrayList<>();
 
   public TestGerritCluster(KubernetesClient client, String namespace) {
     this.client = client;
@@ -80,13 +92,13 @@ public class TestGerritCluster {
 
   private void defaultIngressConfig() {
     hostname = null;
-    ingressConfig = new GerritIngressConfig();
+    ingressConfig = new GerritClusterIngressConfig();
     ingressConfig.setEnabled(false);
   }
 
   private void enableIngress() {
     hostname = testProps.getIngressDomain();
-    ingressConfig = new GerritIngressConfig();
+    ingressConfig = new GerritClusterIngressConfig();
     ingressConfig.setEnabled(true);
     ingressConfig.setType(IngressType.INGRESS);
     ingressConfig.setHost(hostname);
@@ -99,7 +111,7 @@ public class TestGerritCluster {
 
   private void enableIstio() {
     hostname = testProps.getIstioDomain();
-    ingressConfig = new GerritIngressConfig();
+    ingressConfig = new GerritClusterIngressConfig();
     ingressConfig.setEnabled(true);
     ingressConfig.setType(IngressType.ISTIO);
     ingressConfig.setHost(hostname);
@@ -110,12 +122,32 @@ public class TestGerritCluster {
     ingressConfig.setTls(ingressTlsConfig);
   }
 
+  public GerritApi getGerritApiClientForIngress(GerritTemplate gerrit) {
+    return new GerritRestApiFactory()
+        .create(
+            new GerritAuthData.Basic(
+                String.format("https://%s.%s", gerrit.getMetadata().getName(), hostname)));
+  }
+
+  public GerritApi getGerritApiClientForIstio() {
+    return new GerritRestApiFactory()
+        .create(new GerritAuthData.Basic(String.format("https://%s", hostname)));
+  }
+
   public void setNfsEnabled(boolean isNfsEnabled) {
     this.isNfsEnabled = isNfsEnabled;
     deploy();
   }
 
-  private void build() {
+  public void addGerrit(GerritTemplate gerrit) {
+    gerrits.add(gerrit);
+  }
+
+  public void removeGerrit(GerritTemplate gerrit) {
+    gerrits.remove(gerrit);
+  }
+
+  public GerritCluster build() {
     cluster.setMetadata(
         new ObjectMetaBuilder().withName(CLUSTER_NAME).withNamespace(namespace).build());
 
@@ -134,22 +166,31 @@ public class TestGerritCluster {
     storageClassConfig.setNfsWorkaround(nfsWorkaround);
 
     GerritClusterSpec clusterSpec = new GerritClusterSpec();
-    clusterSpec.setGitRepositoryStorage(repoStorage);
-    clusterSpec.setLogsStorage(logStorage);
-    clusterSpec.setStorageClasses(storageClassConfig);
+    GerritStorageConfig gerritStorageConfig = new GerritStorageConfig();
+    gerritStorageConfig.setGitRepositoryStorage(repoStorage);
+    gerritStorageConfig.setLogsStorage(logStorage);
+    gerritStorageConfig.setStorageClasses(storageClassConfig);
+    clusterSpec.setStorage(gerritStorageConfig);
 
     GerritRepositoryConfig repoConfig = new GerritRepositoryConfig();
     repoConfig.setOrg(testProps.getRegistryOrg());
     repoConfig.setRegistry(testProps.getRegistry());
     repoConfig.setTag(testProps.getTag());
-    clusterSpec.setGerritImages(repoConfig);
+
+    ContainerImageConfig containerImageConfig = new ContainerImageConfig();
+    containerImageConfig.setGerritImages(repoConfig);
     Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
     imagePullSecrets.add(
         new LocalObjectReference(AbstractGerritOperatorE2ETest.IMAGE_PULL_SECRET_NAME));
-    clusterSpec.setImagePullSecrets(imagePullSecrets);
+    containerImageConfig.setImagePullSecrets(imagePullSecrets);
+    clusterSpec.setContainerImages(containerImageConfig);
+
     clusterSpec.setIngress(ingressConfig);
 
+    clusterSpec.setGerrits(gerrits);
+
     cluster.setSpec(clusterSpec);
+    return cluster;
   }
 
   public void deploy() {
@@ -157,7 +198,7 @@ public class TestGerritCluster {
     client.resource(cluster).inNamespace(namespace).createOrReplace();
 
     await()
-        .atMost(1, MINUTES)
+        .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
               GerritCluster updatedCluster =
@@ -167,6 +208,33 @@ public class TestGerritCluster {
                       .withName(CLUSTER_NAME)
                       .get();
               assertThat(updatedCluster, is(notNullValue()));
+              for (GerritTemplate gerrit : updatedCluster.getSpec().getGerrits()) {
+                waitForGerritReadiness(gerrit);
+              }
+            });
+  }
+
+  private void waitForGerritReadiness(GerritTemplate gerrit) {
+    logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertThat(
+                  client
+                      .apps()
+                      .statefulSets()
+                      .inNamespace(namespace)
+                      .withName(gerrit.getMetadata().getName())
+                      .get(),
+                  is(notNullValue()));
+              assertTrue(
+                  client
+                      .apps()
+                      .statefulSets()
+                      .inNamespace(namespace)
+                      .withName(gerrit.getMetadata().getName())
+                      .isReady());
             });
   }
 }

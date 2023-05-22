@@ -17,11 +17,10 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,24 +51,24 @@ public class GerritConfigBuilder {
     return requiredOptions;
   }
 
-  public GerritConfigBuilder forGerrit(Gerrit gerrit, GerritCluster cluster) {
+  public GerritConfigBuilder forGerrit(Gerrit gerrit) {
     String gerritConfig = gerrit.getSpec().getConfigFiles().getOrDefault("gerrit.config", "");
 
     withConfig(gerritConfig);
     useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
 
-    boolean ingressEnabled = cluster.getSpec().getIngress().isEnabled();
+    boolean ingressEnabled = gerrit.getSpec().getIngress().getType() != IngressType.NONE;
 
     if (ingressEnabled) {
-      withUrl(cluster.getSpec().getIngress().getUrl(GerritService.getName(gerrit)));
+      withUrl(gerrit.getSpec().getIngress().getUrl(GerritService.getName(gerrit)));
     } else {
       withUrl(GerritService.getUrl(gerrit));
     }
 
-    if (ingressEnabled && cluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
+    if (ingressEnabled && gerrit.getSpec().getIngress().getType() == IngressType.ISTIO) {
       withSsh(
           gerrit.getSpec().getService().isSshEnabled(),
-          cluster.getSpec().getIngress().getFullHostnameForService(GerritService.getName(gerrit))
+          gerrit.getSpec().getIngress().getFullHostnameForService(GerritService.getName(gerrit))
               + ":29418");
     } else {
       withSsh(gerrit.getSpec().getService().isSshEnabled());

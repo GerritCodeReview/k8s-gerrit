@@ -30,10 +30,11 @@ import static org.mockito.Mockito.times;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.cluster.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritServiceConfig;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
@@ -43,15 +44,17 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class GerritE2E extends AbstractGerritOperatorE2ETest {
+public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Test
   void testPrimaryGerritIsCreated() throws Exception {
     gerritCluster.setIngressType(IngressType.INGRESS);
-
-    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster);
-    testGerrit.deploy();
+    TestGerrit gerrit =
+        new TestGerrit(client, testProps, GerritMode.PRIMARY, "gerrit", operator.getNamespace());
+    GerritTemplate gerritTemplate = gerrit.createGerritTemplate();
+    gerritCluster.addGerrit(gerritTemplate);
+    gerritCluster.deploy();
 
     logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
     await()
@@ -74,7 +77,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
               assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
             });
 
-    GerritApi gerritApi = testGerrit.getGerritApiClientForIngress();
+    GerritApi gerritApi = gerritCluster.getGerritApiClientForIngress(gerritTemplate);
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -89,11 +92,12 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
   @Test
   void testPrimaryGerritWithIstio() throws Exception {
     gerritCluster.setIngressType(IngressType.ISTIO);
+    TestGerrit gerrit =
+        new TestGerrit(client, testProps, GerritMode.PRIMARY, "gerrit", operator.getNamespace());
+    gerritCluster.addGerrit(gerrit.createGerritTemplate());
+    gerritCluster.deploy();
 
-    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster);
-    testGerrit.deploy();
-
-    GerritApi gerritApi = testGerrit.getGerritApiClientForIstio();
+    GerritApi gerritApi = gerritCluster.getGerritApiClientForIstio();
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -107,30 +111,104 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testGerritReplicaIsCreated() throws Exception {
-    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster, GerritMode.REPLICA);
-    testGerrit.deploy();
+    String gerritName = "gerrit-replica";
+    TestGerrit gerrit =
+        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName, operator.getNamespace());
+    gerritCluster.addGerrit(gerrit.createGerritTemplate());
+    gerritCluster.deploy();
 
     assertTrue(
         client
             .pods()
             .inNamespace(operator.getNamespace())
-            .withName(TestGerrit.NAME + "-0")
+            .withName(gerritName + "-0")
             .inContainer("gerrit")
             .getLog()
             .contains("Gerrit Code Review [replica]"));
   }
 
   @Test
-  void testRestartHandlingOnConfigChange() {
-    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritCluster);
-    testGerrit.deploy();
+  void testMultipleGerritReplicaAreCreated() throws Exception {
+    String gerritName = "gerrit-replica-1";
+    TestGerrit gerrit =
+        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName, operator.getNamespace());
+    gerritCluster.addGerrit(gerrit.createGerritTemplate());
+    String gerritName2 = "gerrit-replica-2";
+    TestGerrit gerrit2 =
+        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName2, operator.getNamespace());
+    gerritCluster.addGerrit(gerrit2.createGerritTemplate());
+    gerritCluster.deploy();
 
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(gerritName + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review [replica]"));
+
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(gerritName2 + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review [replica]"));
+  }
+
+  @Test
+  void testGerritReplicaAndPrimaryGerritAreCreated() throws Exception {
+    String primaryGerritName = "gerrit";
+    TestGerrit primaryGerrit =
+        new TestGerrit(
+            client, testProps, GerritMode.PRIMARY, primaryGerritName, operator.getNamespace());
+    gerritCluster.addGerrit(primaryGerrit.createGerritTemplate());
+    String gerritReplicaName = "gerrit-replica";
+    TestGerrit gerritReplica =
+        new TestGerrit(
+            client, testProps, GerritMode.REPLICA, gerritReplicaName, operator.getNamespace());
+    gerritCluster.addGerrit(gerritReplica.createGerritTemplate());
+    gerritCluster.deploy();
+
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(primaryGerritName + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review"));
+
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(gerritReplicaName + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review [replica]"));
+  }
+
+  @Test
+  void testRestartHandlingOnConfigChange() throws Exception {
+    String gerritName = "gerrit";
+    TestGerrit gerrit =
+        new TestGerrit(client, testProps, GerritMode.PRIMARY, gerritName, operator.getNamespace());
+    GerritTemplate gerritTemplate = gerrit.createGerritTemplate();
+    gerritCluster.addGerrit(gerritTemplate);
+    gerritCluster.deploy();
+
+    gerritCluster.removeGerrit(gerritTemplate);
     GerritServiceConfig svcConfig = new GerritServiceConfig();
     int changedPort = 8081;
     svcConfig.setHttpPort(changedPort);
-    GerritSpec gerritSpec = testGerrit.getSpec();
+    GerritTemplateSpec gerritSpec = gerritTemplate.getSpec();
     gerritSpec.setService(svcConfig);
-    testGerrit.setSpec(gerritSpec);
+    gerritTemplate.setSpec(gerritSpec);
+    gerritCluster.addGerrit(gerritTemplate);
+    gerritCluster.deploy();
 
     await()
         .atMost(30, SECONDS)
@@ -140,7 +218,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
                   client
                       .services()
                       .inNamespace(operator.getNamespace())
-                      .withName(TestGerrit.NAME)
+                      .withName(gerritName)
                       .get()
                       .getSpec()
                       .getPorts()
@@ -149,7 +227,11 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
             });
     Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
 
-    testGerrit.modifyGerritConfig("test", "test", "test");
+    gerrit.modifyGerritConfig("test", "test", "test");
+    gerritTemplate = gerrit.createGerritTemplate();
+    gerritCluster.removeGerrit(gerritTemplate);
+    gerritCluster.addGerrit(gerritTemplate);
+    gerritCluster.deploy();
 
     await()
         .atMost(2, MINUTES)
@@ -158,7 +240,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
               Mockito.verify(gerritReconciler, times(2)).restartGerritStatefulSet(any());
             });
 
-    testGerrit.modifySecureConfig("test", "test", "test");
+    secureConfig.modify("test", "test", "test");
 
     await()
         .atMost(2, MINUTES)
