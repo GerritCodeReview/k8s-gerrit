@@ -308,7 +308,7 @@ future.
 | `gerrit.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerrit.service.ssh.enabled` | Whether to enable SSH | `false` |
 | `gerrit.service.ssh.port` | Port over which to expose SSH | `29418` |
-| `gerrit.keystore` | base64-encoded Java keystore (`cat keystore.jks | base64`) to be used by Gerrit, when using SSL | `nil` |
+| `gerrit.keystore` | base64-encoded Java keystore (`cat keystore.jks \| base64`) to be used by Gerrit, when using SSL | `nil` |
 | `gerrit.index.type` | Index type used by Gerrit (either `lucene` or `elasticsearch`) | `lucene` |
 | `gerrit.plugins.packaged` | List of Gerrit plugins that are packaged into the Gerrit-war-file to install | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
 | `gerrit.plugins.downloaded` | List of Gerrit plugins that will be downloaded | `nil` |
