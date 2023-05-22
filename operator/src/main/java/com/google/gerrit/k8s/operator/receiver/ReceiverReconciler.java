@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.receiver;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverIstioVirtualService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;

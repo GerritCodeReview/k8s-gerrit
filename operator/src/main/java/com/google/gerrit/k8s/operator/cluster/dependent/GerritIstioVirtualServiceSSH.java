@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import io.fabric8.istio.api.networking.v1beta1.L4MatchAttributesBuilder;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestination;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestinationBuilder;
@@ -40,7 +40,7 @@ public class GerritIstioVirtualServiceSSH
   @Override
   protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
     String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
-    List<Gerrit> gerrits = getGerrits(gerritCluster);
+    List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
@@ -52,51 +52,38 @@ public class GerritIstioVirtualServiceSSH
         .withNewSpec()
         .withHosts(collectHosts(gerrits, gerritClusterHost))
         .withGateways(GerritIstioGateway.NAME)
-        .withTcp(getTCPRoutes(gerrits))
+        .withTcp(getTCPRoutes(gerrits, gerritCluster))
         .endSpec()
         .build();
-  }
-
-  private List<Gerrit> getGerrits(GerritCluster gerritCluster) {
-    return client
-        .resources(Gerrit.class)
-        .inNamespace(gerritCluster.getMetadata().getNamespace())
-        .list()
-        .getItems()
-        .stream()
-        .filter(
-            g ->
-                g.getSpec().getCluster().equals(gerritCluster.getMetadata().getName())
-                    && g.getSpec().getService().isSshEnabled())
-        .collect(Collectors.toList());
   }
 
   public static String getName(GerritCluster gerritCluster) {
     return String.format("%s-ssh-virtual-service", gerritCluster.getMetadata().getName());
   }
 
-  private List<String> collectHosts(List<Gerrit> gerrits, String gerritClusterHost) {
+  private List<String> collectHosts(List<GerritTemplate> gerrits, String gerritClusterHost) {
     return gerrits.stream()
         .map(g -> g.getMetadata().getName() + "." + gerritClusterHost)
         .collect(Collectors.toList());
   }
 
-  private List<TCPRoute> getTCPRoutes(List<Gerrit> gerrits) {
+  private List<TCPRoute> getTCPRoutes(List<GerritTemplate> gerrits, GerritCluster gerritCluster) {
     List<TCPRoute> routes = new ArrayList<>();
-    for (Gerrit gerrit : gerrits) {
+    for (GerritTemplate gerrit : gerrits) {
       routes.add(
           new TCPRouteBuilder()
               .withMatch(List.of(new L4MatchAttributesBuilder().withPort(29418).build()))
-              .withRoute(getGerritTCPDestination(gerrit))
+              .withRoute(getGerritTCPDestination(gerrit, gerritCluster))
               .build());
     }
     return routes;
   }
 
-  private RouteDestination getGerritTCPDestination(Gerrit gerrit) {
+  private RouteDestination getGerritTCPDestination(
+      GerritTemplate gerrit, GerritCluster gerritCluster) {
     return new RouteDestinationBuilder()
         .withNewDestination()
-        .withHost(GerritService.getHostname(gerrit))
+        .withHost(GerritService.getHostname(gerrit.toGerrit(gerritCluster)))
         .withNewPort()
         .withNumber(gerrit.getSpec().getService().getSshPort())
         .endPort()

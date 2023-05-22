@@ -17,7 +17,6 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -26,13 +25,14 @@ import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @KubernetesDependent
-public class GerritService extends GerritClusterMemberDependentResource<Service, Gerrit> {
+public class GerritService extends CRUDKubernetesDependentResource<Service, Gerrit> {
   public static final String HTTP_PORT_NAME = "http";
 
   public GerritService() {
@@ -41,19 +41,17 @@ public class GerritService extends GerritClusterMemberDependentResource<Service,
 
   @Override
   protected Service desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster = getGerritCluster(gerrit);
-
     return new ServiceBuilder()
         .withApiVersion("v1")
         .withNewMetadata()
         .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
-        .withLabels(getLabels(gerritCluster))
+        .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
         .withType(gerrit.getSpec().getService().getType())
         .withPorts(getServicePorts(gerrit))
-        .withSelector(GerritStatefulSet.getSelectorLabels(gerritCluster, gerrit))
+        .withSelector(GerritStatefulSet.getSelectorLabels(gerrit))
         .endSpec()
         .build();
   }
@@ -63,8 +61,11 @@ public class GerritService extends GerritClusterMemberDependentResource<Service,
   }
 
   public static String getHostname(Gerrit gerrit) {
-    return String.format(
-        "%s.%s.svc.cluster.local", getName(gerrit), gerrit.getMetadata().getNamespace());
+    return getHostname(gerrit.getMetadata().getName(), gerrit.getMetadata().getNamespace());
+  }
+
+  private static String getHostname(String name, String namespace) {
+    return String.format("%s.%s.svc.cluster.local", name, namespace);
   }
 
   public static String getUrl(Gerrit gerrit) {
@@ -72,8 +73,9 @@ public class GerritService extends GerritClusterMemberDependentResource<Service,
         "http://%s:%s", getHostname(gerrit), gerrit.getSpec().getService().getHttpPort());
   }
 
-  public static Map<String, String> getLabels(GerritCluster gerritCluster) {
-    return gerritCluster.getLabels("gerrit-service", GerritReconciler.class.getSimpleName());
+  public static Map<String, String> getLabels(Gerrit gerrit) {
+    return GerritCluster.getLabels(
+        gerrit.getMetadata().getName(), "gerrit-service", GerritReconciler.class.getSimpleName());
   }
 
   private static List<ServicePort> getServicePorts(Gerrit gerrit) {

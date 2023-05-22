@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class GerritIngressConfig {
+public class GerritClusterIngressConfig {
   private boolean enabled = false;
   private IngressType type = IngressType.NONE;
   private String host;
@@ -76,14 +76,27 @@ public class GerritIngressConfig {
 
   @JsonIgnore
   public String getFullHostnameForService(String svcName) {
-    return String.format("%s.%s", svcName, getHost());
+    return getFullHostnameForService(svcName, getHost());
+  }
+
+  @JsonIgnore
+  public static String getFullHostnameForService(String svcName, String ingressHost) {
+    return String.format("%s.%s", svcName, ingressHost);
   }
 
   @JsonIgnore
   public String getUrl(String svcName) {
-    String protocol = getTls().isEnabled() ? "https" : "http";
+    return getUrl(svcName, getTls().isEnabled(), getHost(), getType());
+  }
+
+  @JsonIgnore
+  public static String getUrl(
+      String svcName, boolean tlsEnabled, String ingressHost, IngressType ingressType) {
+    String protocol = tlsEnabled ? "https" : "http";
     String hostname =
-        getType() == IngressType.ISTIO ? getHost() : getFullHostnameForService(svcName);
+        ingressType == IngressType.ISTIO
+            ? ingressHost
+            : getFullHostnameForService(svcName, ingressHost);
     return String.format("%s://%s", protocol, hostname);
   }
 
