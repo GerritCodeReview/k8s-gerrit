@@ -42,11 +42,16 @@ public class PluginCachePVC extends CRUDKubernetesDependentPVCResource<GerritClu
             .withAccessModes("ReadWriteMany")
             .withNewResources()
             .withRequests(
-                Map.of("storage", gerritCluster.getSpec().getPluginCacheStorage().getSize()))
+                Map.of(
+                    "storage",
+                    gerritCluster.getSpec().getStorage().getPluginCacheStorage().getSize()))
             .endResources()
-            .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getPluginCacheStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getPluginCacheStorage().getVolumeName())
+            .withStorageClassName(
+                gerritCluster.getSpec().getStorage().getStorageClasses().getReadWriteMany())
+            .withSelector(
+                gerritCluster.getSpec().getStorage().getPluginCacheStorage().getSelector())
+            .withVolumeName(
+                gerritCluster.getSpec().getStorage().getPluginCacheStorage().getVolumeName())
             .endSpec()
             .build();
 

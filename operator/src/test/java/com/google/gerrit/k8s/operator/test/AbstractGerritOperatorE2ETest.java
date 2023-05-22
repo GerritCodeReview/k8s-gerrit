@@ -47,6 +47,7 @@ public class AbstractGerritOperatorE2ETest {
 
   protected GerritReconciler gerritReconciler = Mockito.spy(new GerritReconciler(client));
   protected TestGerritCluster gerritCluster;
+  protected TestSecureConfig secureConfig;
 
   @RegisterExtension
   protected LocallyRunOperatorExtension operator =
@@ -62,6 +63,10 @@ public class AbstractGerritOperatorE2ETest {
   void setup() {
     Mockito.reset(gerritReconciler);
     createImagePullSecret(client, operator.getNamespace());
+
+    secureConfig = new TestSecureConfig(client, testProps, operator.getNamespace());
+    secureConfig.createOrReplace();
+
     gerritCluster = new TestGerritCluster(client, operator.getNamespace());
     gerritCluster.deploy();
   }

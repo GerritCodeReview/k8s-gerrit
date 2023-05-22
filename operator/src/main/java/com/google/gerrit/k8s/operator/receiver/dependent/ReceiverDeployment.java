@@ -16,9 +16,9 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.Volume;
@@ -52,7 +52,7 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
     List<Container> initContainers = new ArrayList<>();
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.isChownOnStartup()) {
       initContainers.add(gerritCluster.createNfsInitContainer());
     }
@@ -84,16 +84,21 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
         .withTopologySpreadConstraints(receiver.getSpec().getTopologySpreadConstraints())
         .withAffinity(receiver.getSpec().getAffinity())
         .withPriorityClassName(receiver.getSpec().getPriorityClassName())
-        .addAllToImagePullSecrets(gerritCluster.getSpec().getImagePullSecrets())
+        .addAllToImagePullSecrets(
+            gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withNewSecurityContext()
         .withFsGroup(100L)
         .endSecurityContext()
         .addAllToInitContainers(initContainers)
         .addNewContainer()
         .withName("apache-git-http-backend")
-        .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
+        .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
-            gerritCluster.getSpec().getGerritImages().getFullImageName("apache-git-http-backend"))
+            gerritCluster
+                .getSpec()
+                .getContainerImages()
+                .getGerritImages()
+                .getFullImageName("apache-git-http-backend"))
         .withEnv(GerritCluster.getPodNameEnvVar())
         .withPorts(getContainerPorts(receiver))
         .withResources(receiver.getSpec().getResources())
@@ -125,8 +130,8 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
 
   private Set<Volume> getVolumes(Receiver receiver, GerritCluster gerritCluster) {
     Set<Volume> volumes = new HashSet<>();
-    volumes.add(gerritCluster.getGitRepositoriesVolume());
-    volumes.add(gerritCluster.getLogsVolume());
+    volumes.add(GerritCluster.getGitRepositoriesVolume());
+    volumes.add(GerritCluster.getLogsVolume());
 
     volumes.add(
         new VolumeBuilder()
@@ -137,9 +142,9 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
             .build());
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumes.add(gerritCluster.getNfsImapdConfigVolume());
+      volumes.add(GerritCluster.getNfsImapdConfigVolume());
     }
 
     return volumes;
@@ -148,8 +153,8 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
   private Set<VolumeMount> getVolumeMounts(
       Receiver receiver, GerritCluster gerritCluster, boolean isInitContainer) {
     Set<VolumeMount> volumeMounts = new HashSet<>();
-    volumeMounts.add(gerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
-    volumeMounts.add(gerritCluster.getLogsVolumeMount("/var/log/apache2"));
+    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
+    volumeMounts.add(GerritCluster.getLogsVolumeMount("/var/log/apache2"));
 
     volumeMounts.add(
         new VolumeMountBuilder()
@@ -159,9 +164,9 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
             .build());
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumeMounts.add(gerritCluster.getNfsImapdConfigVolumeMount());
+      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
 
     return volumeMounts;

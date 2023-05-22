@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
@@ -27,7 +27,8 @@ public class NfsWorkaroundCondition implements Condition<ConfigMap, GerritCluste
       DependentResource<ConfigMap, GerritCluster> dependentResource,
       GerritCluster gerritCluster,
       Context<GerritCluster> context) {
-    NfsWorkaroundConfig cfg = gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+    NfsWorkaroundConfig cfg =
+        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     return cfg.isEnabled() && cfg.getIdmapdConfig() != null;
   }
 }
