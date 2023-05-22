@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
-import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
@@ -24,38 +24,40 @@ import io.fabric8.kubernetes.api.model.StatusBuilder;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Singleton
-public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
+public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
 
   @Override
   Status validate(HasMetadata resource) {
-    if (!(resource instanceof Gerrit)) {
+    GerritCluster gerritCluster = (GerritCluster) resource;
+
+    if (moreThanOnePrimaryGerritInCluster(gerritCluster)) {
       return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage("Invalid resource. Expected Gerrit-resource for validation.")
+          .withCode(HttpServletResponse.SC_CONFLICT)
+          .withMessage("Only a single primary Gerrit is allowed per Gerrit Cluster.")
           .build();
     }
 
-    Gerrit gerrit = (Gerrit) resource;
-
-    try {
-      invalidGerritConfiguration(gerrit);
-    } catch (InvalidGerritConfigException e) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage(e.getMessage())
-          .build();
+    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
+    for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
+      Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
+      if (status.getCode() != HttpServletResponse.SC_OK) {
+        return status;
+      }
     }
 
     return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
   }
 
-  private void invalidGerritConfiguration(Gerrit gerrit) throws InvalidGerritConfigException {
-    new GerritConfigBuilder().forGerrit(gerrit).validate();
+  private boolean moreThanOnePrimaryGerritInCluster(GerritCluster gerritCluster) {
+    return gerritCluster.getSpec().getGerrits().stream()
+            .filter(g -> g.getSpec().getMode() == GerritMode.PRIMARY)
+            .count()
+        > 1;
   }
 
   @Override
   public String getName() {
-    return "gerrit";
+    return "gerritcluster";
   }
 }

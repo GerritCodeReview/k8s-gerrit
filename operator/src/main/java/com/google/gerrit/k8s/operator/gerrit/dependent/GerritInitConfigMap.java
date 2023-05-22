@@ -19,19 +19,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritInitConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
-public class GerritInitConfigMap extends GerritClusterMemberDependentResource<ConfigMap, Gerrit> {
+public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GerritInitConfigMap() {
@@ -40,9 +40,9 @@ public class GerritInitConfigMap extends GerritClusterMemberDependentResource<Co
 
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster = getGerritCluster(gerrit);
     Map<String, String> gerritLabels =
-        gerritCluster.getLabels(getName(gerrit), this.getClass().getSimpleName());
+        GerritCluster.getLabels(
+            gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName());
 
     return new ConfigMapBuilder()
         .withApiVersion("v1")
@@ -51,11 +51,11 @@ public class GerritInitConfigMap extends GerritClusterMemberDependentResource<Co
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(gerritLabels)
         .endMetadata()
-        .withData(Map.of("gerrit-init.yaml", getGerritInitConfig(gerrit, gerritCluster)))
+        .withData(Map.of("gerrit-init.yaml", getGerritInitConfig(gerrit)))
         .build();
   }
 
-  private String getGerritInitConfig(Gerrit gerrit, GerritCluster gerritCluster) {
+  private String getGerritInitConfig(Gerrit gerrit) {
     GerritInitConfig config = new GerritInitConfig();
     config.setDownloadedPlugins(
         gerrit.getSpec().getPlugins().stream()
@@ -66,7 +66,7 @@ public class GerritInitConfigMap extends GerritClusterMemberDependentResource<Co
             .filter(p -> p.isPackagedPlugin())
             .map(p -> p.getName())
             .collect(Collectors.toSet()));
-    config.setPluginCacheEnabled(gerritCluster.getSpec().getPluginCacheStorage().isEnabled());
+    config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled());
     config.setInstallAsLibrary(
         gerrit.getSpec().getPlugins().stream()
             .filter(p -> p.isInstallAsLibrary())

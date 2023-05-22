@@ -1,9 +1,16 @@
-apiVersion: "gerritoperator.google.com/v1alpha1"
+apiVersion: "gerritoperator.google.com/v1alpha2"
 kind: Gerrit
 metadata:
   name: gerrit
 spec:
-  cluster: gerrit
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: nfs-client
+    gitRepositoryStorage:
+      size: 1Gi
+    logsStorage:
+      size: 1Gi
   site:
     size: 5Gi
   plugins: []

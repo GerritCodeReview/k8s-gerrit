@@ -18,8 +18,8 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteBuilder;
@@ -33,7 +33,6 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GerritIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
@@ -48,7 +47,6 @@ public class GerritIstioVirtualService
   @Override
   protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
     String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
-    List<Gerrit> gerrits = getGerrits(gerritCluster);
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
@@ -60,29 +58,19 @@ public class GerritIstioVirtualService
         .withNewSpec()
         .withHosts(gerritClusterHost)
         .withGateways(GerritIstioGateway.NAME)
-        .withHttp(getHTTPRoutes(gerrits))
+        .withHttp(getHTTPRoutes(gerritCluster))
         .endSpec()
         .build();
-  }
-
-  private List<Gerrit> getGerrits(GerritCluster gerritCluster) {
-    return client
-        .resources(Gerrit.class)
-        .inNamespace(gerritCluster.getMetadata().getNamespace())
-        .list()
-        .getItems()
-        .stream()
-        .filter(g -> g.getSpec().getCluster().equals(gerritCluster.getMetadata().getName()))
-        .collect(Collectors.toList());
   }
 
   public static String getName(GerritCluster gerritCluster) {
     return String.format("%s-http-virtual-service", gerritCluster.getMetadata().getName());
   }
 
-  private List<HTTPRoute> getHTTPRoutes(List<Gerrit> gerrits) {
+  private List<HTTPRoute> getHTTPRoutes(GerritCluster gerritCluster) {
+    List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
     ArrayListMultimap<GerritMode, HTTPRoute> routesByMode = ArrayListMultimap.create();
-    for (Gerrit gerrit : gerrits) {
+    for (GerritTemplate gerrit : gerrits) {
       switch (gerrit.getSpec().getMode()) {
         case REPLICA:
           routesByMode.put(
@@ -122,7 +110,7 @@ public class GerritIstioVirtualService
                           .endStringMatchExactType()
                           .endMethod()
                           .build())
-                  .withRoute(getGerritHTTPDestinations(gerrit))
+                  .withRoute(getGerritHTTPDestinations(gerrit, gerritCluster))
                   .build());
           break;
         case PRIMARY:
@@ -130,7 +118,7 @@ public class GerritIstioVirtualService
               GerritMode.PRIMARY,
               new HTTPRouteBuilder()
                   .withName("gerrit-primary-" + gerrit.getMetadata().getName())
-                  .withRoute(getGerritHTTPDestinations(gerrit))
+                  .withRoute(getGerritHTTPDestinations(gerrit, gerritCluster))
                   .build());
           break;
         default:
@@ -146,10 +134,11 @@ public class GerritIstioVirtualService
     return routes;
   }
 
-  private HTTPRouteDestination getGerritHTTPDestinations(Gerrit gerrit) {
+  private HTTPRouteDestination getGerritHTTPDestinations(
+      GerritTemplate gerrit, GerritCluster gerritCluster) {
     return new HTTPRouteDestinationBuilder()
         .withNewDestination()
-        .withHost(GerritService.getHostname(gerrit))
+        .withHost(GerritService.getHostname(gerrit.toGerrit(gerritCluster)))
         .withNewPort()
         .withNumber(gerrit.getSpec().getService().getHttpPort())
         .endPort()
