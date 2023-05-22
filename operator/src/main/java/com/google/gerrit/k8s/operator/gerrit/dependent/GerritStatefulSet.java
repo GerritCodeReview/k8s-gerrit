@@ -14,12 +14,11 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.Volume;
@@ -29,6 +28,7 @@ import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.apps.StatefulSetBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 @KubernetesDependent
-public class GerritStatefulSet extends GerritClusterMemberDependentResource<StatefulSet, Gerrit> {
+public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulSet, Gerrit> {
 
   private static final String SITE_VOLUME_NAME = "gerrit-site";
   public static final int HTTP_PORT = 8080;
@@ -49,16 +49,18 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
 
   @Override
   protected StatefulSet desired(Gerrit gerrit, Context<Gerrit> context) {
-    GerritCluster gerritCluster = getGerritCluster(gerrit);
-
     StatefulSetBuilder stsBuilder = new StatefulSetBuilder();
 
     List<Container> initContainers = new ArrayList<>();
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+        gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.isChownOnStartup()) {
-      initContainers.add(gerritCluster.createNfsInitContainer());
+      initContainers.add(
+          GerritCluster.createNfsInitContainer(
+              gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+                  != null,
+              gerrit.getSpec().getContainerImages()));
     }
 
     stsBuilder
@@ -66,7 +68,7 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
         .withNewMetadata()
         .withName(gerrit.getMetadata().getName())
         .withNamespace(gerrit.getMetadata().getNamespace())
-        .withLabels(getLabels(gerritCluster, gerrit))
+        .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
         .withServiceName(GerritService.getName(gerrit))
@@ -77,11 +79,11 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
         .endRollingUpdate()
         .endUpdateStrategy()
         .withNewSelector()
-        .withMatchLabels(getSelectorLabels(gerritCluster, gerrit))
+        .withMatchLabels(getSelectorLabels(gerrit))
         .endSelector()
         .withNewTemplate()
         .withNewMetadata()
-        .withLabels(getLabels(gerritCluster, gerrit))
+        .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
         .withTolerations(gerrit.getSpec().getTolerations())
@@ -89,22 +91,24 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
         .withAffinity(gerrit.getSpec().getAffinity())
         .withPriorityClassName(gerrit.getSpec().getPriorityClassName())
         .withTerminationGracePeriodSeconds(gerrit.getSpec().getGracefulStopTimeout())
-        .addAllToImagePullSecrets(gerritCluster.getSpec().getImagePullSecrets())
+        .addAllToImagePullSecrets(gerrit.getSpec().getContainerImages().getImagePullSecrets())
         .withNewSecurityContext()
         .withFsGroup(100L)
         .endSecurityContext()
         .addNewInitContainer()
         .withName("gerrit-init")
-        .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
-        .withImage(gerritCluster.getSpec().getGerritImages().getFullImageName("gerrit-init"))
+        .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
+        .withImage(
+            gerrit.getSpec().getContainerImages().getGerritImages().getFullImageName("gerrit-init"))
         .withResources(gerrit.getSpec().getResources())
-        .addAllToVolumeMounts(getVolumeMounts(gerrit, gerritCluster, true))
+        .addAllToVolumeMounts(getVolumeMounts(gerrit, true))
         .endInitContainer()
         .addAllToInitContainers(initContainers)
         .addNewContainer()
         .withName("gerrit")
-        .withImagePullPolicy(gerritCluster.getSpec().getImagePullPolicy())
-        .withImage(gerritCluster.getSpec().getGerritImages().getFullImageName("gerrit"))
+        .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
+        .withImage(
+            gerrit.getSpec().getContainerImages().getGerritImages().getFullImageName("gerrit"))
         .withNewLifecycle()
         .withNewPreStop()
         .withNewExec()
@@ -119,22 +123,22 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
         .withStartupProbe(gerrit.getSpec().getStartupProbe())
         .withReadinessProbe(gerrit.getSpec().getReadinessProbe())
         .withLivenessProbe(gerrit.getSpec().getLivenessProbe())
-        .addAllToVolumeMounts(getVolumeMounts(gerrit, gerritCluster, false))
+        .addAllToVolumeMounts(getVolumeMounts(gerrit, false))
         .endContainer()
-        .addAllToVolumes(getVolumes(gerrit, gerritCluster))
+        .addAllToVolumes(getVolumes(gerrit))
         .endSpec()
         .endTemplate()
         .addNewVolumeClaimTemplate()
         .withNewMetadata()
         .withName(SITE_VOLUME_NAME)
-        .withLabels(getSelectorLabels(gerritCluster, gerrit))
+        .withLabels(getSelectorLabels(gerrit))
         .endMetadata()
         .withNewSpec()
         .withAccessModes("ReadWriteOnce")
         .withNewResources()
         .withRequests(Map.of("storage", gerrit.getSpec().getSite().getSize()))
         .endResources()
-        .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteOnce())
+        .withStorageClassName(gerrit.getSpec().getStorage().getStorageClasses().getReadWriteOnce())
         .endSpec()
         .endVolumeClaimTemplate()
         .endSpec();
@@ -146,20 +150,23 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
     return String.format("gerrit-statefulset-%s", gerrit.getMetadata().getName());
   }
 
-  public static Map<String, String> getSelectorLabels(GerritCluster gerritCluster, Gerrit gerrit) {
-    return gerritCluster.getSelectorLabels(getComponentName(gerrit));
+  public static Map<String, String> getSelectorLabels(Gerrit gerrit) {
+    return GerritCluster.getSelectorLabels(
+        gerrit.getMetadata().getName(), getComponentName(gerrit));
   }
 
-  private static Map<String, String> getLabels(GerritCluster gerritCluster, Gerrit gerrit) {
-    return gerritCluster.getLabels(
-        getComponentName(gerrit), GerritReconciler.class.getSimpleName());
+  private static Map<String, String> getLabels(Gerrit gerrit) {
+    return GerritCluster.getLabels(
+        gerrit.getMetadata().getName(),
+        getComponentName(gerrit),
+        GerritReconciler.class.getSimpleName());
   }
 
-  private Set<Volume> getVolumes(Gerrit gerrit, GerritCluster gerritCluster) {
+  private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
-    volumes.add(gerritCluster.getGitRepositoriesVolume());
-    volumes.add(gerritCluster.getLogsVolume());
+    volumes.add(GerritCluster.getGitRepositoriesVolume());
+    volumes.add(GerritCluster.getLogsVolume());
 
     volumes.add(
         new VolumeBuilder()
@@ -187,7 +194,7 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
               .build());
     }
 
-    if (gerritCluster.getSpec().getPluginCacheStorage().isEnabled()
+    if (gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled()
         && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
       volumes.add(
           new VolumeBuilder()
@@ -199,21 +206,20 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
     }
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+        gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumes.add(gerritCluster.getNfsImapdConfigVolume());
+      volumes.add(GerritCluster.getNfsImapdConfigVolume());
     }
 
     return volumes;
   }
 
-  private Set<VolumeMount> getVolumeMounts(
-      Gerrit gerrit, GerritCluster gerritCluster, boolean isInitContainer) {
+  private Set<VolumeMount> getVolumeMounts(Gerrit gerrit, boolean isInitContainer) {
     Set<VolumeMount> volumeMounts = new HashSet<>();
     volumeMounts.add(
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
-    volumeMounts.add(gerritCluster.getGitRepositoriesVolumeMount());
-    volumeMounts.add(gerritCluster.getLogsVolumeMount());
+    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
+    volumeMounts.add(GerritCluster.getLogsVolumeMount());
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
@@ -235,7 +241,7 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
               .withMountPath("/var/config")
               .build());
 
-      if (gerritCluster.getSpec().getPluginCacheStorage().isEnabled()
+      if (gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled()
           && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
         volumeMounts.add(
             new VolumeMountBuilder()
@@ -246,9 +252,9 @@ public class GerritStatefulSet extends GerritClusterMemberDependentResource<Stat
     }
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
+        gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumeMounts.add(gerritCluster.getNfsImapdConfigVolumeMount());
+      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
 
     return volumeMounts;

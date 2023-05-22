@@ -15,6 +15,8 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.shared.model.SharedStorage;
 import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
@@ -30,6 +32,8 @@ public class PluginCachePVC extends CRUDKubernetesDependentPVCResource<GerritClu
   @Override
   protected PersistentVolumeClaim desiredPVC(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
+    GerritStorageConfig storageConfig = gerritCluster.getSpec().getStorage();
+    SharedStorage pluginStorage = storageConfig.getGitRepositoryStorage();
     PersistentVolumeClaim gerritPluginCachePvc =
         new PersistentVolumeClaimBuilder()
             .withNewMetadata()
@@ -41,12 +45,11 @@ public class PluginCachePVC extends CRUDKubernetesDependentPVCResource<GerritClu
             .withNewSpec()
             .withAccessModes("ReadWriteMany")
             .withNewResources()
-            .withRequests(
-                Map.of("storage", gerritCluster.getSpec().getPluginCacheStorage().getSize()))
+            .withRequests(Map.of("storage", pluginStorage.getSize()))
             .endResources()
-            .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getPluginCacheStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getPluginCacheStorage().getVolumeName())
+            .withStorageClassName(storageConfig.getStorageClasses().getReadWriteMany())
+            .withSelector(pluginStorage.getSelector())
+            .withVolumeName(pluginStorage.getVolumeName())
             .endSpec()
             .build();
 

@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMa
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
+import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -41,11 +42,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha1")
+@Version("v1alpha2")
 @ShortNames("gclus")
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
@@ -67,21 +68,41 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
     return labels;
   }
 
+  // TODO(Thomas): Having so many string parameters is bad. The only parameter should be the
+  // Kubernetes resource that implements an interface that provides methods to retrieve the
+  // required information.
+  @JsonIgnore
+  public static Map<String, String> getLabels(String instance, String component, String createdBy) {
+    Map<String, String> labels = new HashMap<>();
+
+    labels.putAll(getSelectorLabels(instance, component));
+    labels.put(
+        "app.kubernetes.io/version", GerritCluster.class.getPackage().getImplementationVersion());
+    labels.put("app.kubernetes.io/created-by", createdBy);
+
+    return labels;
+  }
+
   @JsonIgnore
   public Map<String, String> getSelectorLabels(String component) {
+    return getSelectorLabels(getMetadata().getName(), component);
+  }
+
+  @JsonIgnore
+  public static Map<String, String> getSelectorLabels(String instance, String component) {
     Map<String, String> labels = new HashMap<>();
 
     labels.put("app.kubernetes.io/name", "gerrit");
-    labels.put("app.kubernetes.io/instance", getMetadata().getName());
+    labels.put("app.kubernetes.io/instance", instance);
     labels.put("app.kubernetes.io/component", component);
-    labels.put("app.kubernetes.io/part-of", getMetadata().getName());
+    labels.put("app.kubernetes.io/part-of", instance);
     labels.put("app.kubernetes.io/managed-by", "gerrit-operator");
 
     return labels;
   }
 
   @JsonIgnore
-  public Volume getGitRepositoriesVolume() {
+  public static Volume getGitRepositoriesVolume() {
     return new VolumeBuilder()
         .withName(GIT_REPOSITORIES_VOLUME_NAME)
         .withNewPersistentVolumeClaim()
@@ -91,12 +112,12 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public VolumeMount getGitRepositoriesVolumeMount() {
+  public static VolumeMount getGitRepositoriesVolumeMount() {
     return getGitRepositoriesVolumeMount("/var/mnt/git");
   }
 
   @JsonIgnore
-  public VolumeMount getGitRepositoriesVolumeMount(String mountPath) {
+  public static VolumeMount getGitRepositoriesVolumeMount(String mountPath) {
     return new VolumeMountBuilder()
         .withName(GIT_REPOSITORIES_VOLUME_NAME)
         .withMountPath(mountPath)
@@ -104,7 +125,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public Volume getLogsVolume() {
+  public static Volume getLogsVolume() {
     return new VolumeBuilder()
         .withName(LOGS_VOLUME_NAME)
         .withNewPersistentVolumeClaim()
@@ -114,17 +135,17 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public VolumeMount getLogsVolumeMount() {
+  public static VolumeMount getLogsVolumeMount() {
     return getLogsVolumeMount("/var/mnt/logs");
   }
 
   @JsonIgnore
-  public VolumeMount getLogsVolumeMount(String mountPath) {
+  public static VolumeMount getLogsVolumeMount(String mountPath) {
     return new VolumeMountBuilder().withName(LOGS_VOLUME_NAME).withMountPath(mountPath).build();
   }
 
   @JsonIgnore
-  public Volume getNfsImapdConfigVolume() {
+  public static Volume getNfsImapdConfigVolume() {
     return new VolumeBuilder()
         .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
         .withNewConfigMap()
@@ -134,7 +155,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public VolumeMount getNfsImapdConfigVolumeMount() {
+  public static VolumeMount getNfsImapdConfigVolumeMount() {
     return new VolumeMountBuilder()
         .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
         .withMountPath("/etc/idmapd.conf")
@@ -150,18 +171,26 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
   @JsonIgnore
   public Container createNfsInitContainer() {
+    return createNfsInitContainer(
+        getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig() != null,
+        getSpec().getContainerImages());
+  }
+
+  @JsonIgnore
+  public static Container createNfsInitContainer(
+      boolean configureIdmapd, ContainerImageConfig imageConfig) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
     volumeMounts.add(getLogsVolumeMount());
     volumeMounts.add(getGitRepositoriesVolumeMount());
 
-    if (getSpec().getStorageClasses().getNfsWorkaround().getIdmapdConfig() != null) {
+    if (configureIdmapd) {
       volumeMounts.add(getNfsImapdConfigVolumeMount());
     }
 
     return new ContainerBuilder()
         .withName("nfs-init")
-        .withImagePullPolicy(getSpec().getImagePullPolicy())
-        .withImage(getSpec().getBusyBox().getBusyBoxImage())
+        .withImagePullPolicy(imageConfig.getImagePullPolicy())
+        .withImage(imageConfig.getBusyBox().getBusyBoxImage())
         .withCommand(List.of("sh", "-c"))
         .withArgs(
             String.format(

@@ -17,11 +17,8 @@ package com.google.gerrit.k8s.operator.gerrit;
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritIstioDestinationRule;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -80,34 +77,13 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
 
-  private final GerritIstioDestinationRule destinationRule;
-
   @Inject
   public GerritReconciler(KubernetesClient client) {
     this.client = client;
-
-    this.destinationRule = new GerritIstioDestinationRule();
-    this.destinationRule.setKubernetesClient(client);
   }
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<Gerrit> context) {
-    final SecondaryToPrimaryMapper<GerritCluster> gerritClusterMapper =
-        (GerritCluster cluster) ->
-            context
-                .getPrimaryCache()
-                .list(
-                    gerrit -> gerrit.getSpec().getCluster().equals(cluster.getMetadata().getName()))
-                .map(ResourceID::fromResource)
-                .collect(Collectors.toSet());
-
-    InformerEventSource<GerritCluster, Gerrit> gerritClusterEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(GerritCluster.class, context)
-                .withSecondaryToPrimaryMapper(gerritClusterMapper)
-                .build(),
-            context);
-
     final SecondaryToPrimaryMapper<Secret> secretMapper =
         (Secret secret) ->
             context
@@ -129,9 +105,7 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
         new InformerEventSource<>(
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
 
-    Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(
-            gerritClusterEventSource, destinationRule.initEventSource(context));
+    Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
     eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
@@ -141,22 +115,6 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   public UpdateControl<Gerrit> reconcile(Gerrit gerrit, Context<Gerrit> context) throws Exception {
     if (gerrit.getStatus() != null && isGerritRestartRequired(gerrit, context)) {
       restartGerritStatefulSet(gerrit);
-    }
-
-    GerritCluster gerritCluster =
-        client
-            .resources(GerritCluster.class)
-            .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerrit.getSpec().getCluster())
-            .get();
-
-    if (gerritCluster == null) {
-      throw new IllegalStateException("The Gerrit cluster could not be found.");
-    }
-
-    if (gerritCluster.getSpec().getIngress().isEnabled()
-        && gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO) {
-      destinationRule.reconcile(gerrit, context);
     }
 
     return UpdateControl.patchStatus(updateStatus(gerrit, context));
