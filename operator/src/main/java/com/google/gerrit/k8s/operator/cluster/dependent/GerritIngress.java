@@ -54,7 +54,11 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
             .list()
             .getItems()
             .stream()
-            .filter(gerrit -> GerritCluster.isMemberPartOfCluster(gerrit.getSpec(), gerritCluster))
+            .filter(
+                gerrit ->
+                    gerritCluster.getSpec().getGerrits().stream()
+                        .map(g -> g.getMetadata().getName())
+                        .anyMatch(g -> g.equals(gerrit.getMetadata().getName())))
             .collect(Collectors.toList());
 
     List<Receiver> receivers =
