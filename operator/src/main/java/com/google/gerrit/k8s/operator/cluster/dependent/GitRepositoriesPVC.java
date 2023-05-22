@@ -43,11 +43,16 @@ public class GitRepositoriesPVC extends CRUDKubernetesDependentPVCResource<Gerri
             .withAccessModes("ReadWriteMany")
             .withNewResources()
             .withRequests(
-                Map.of("storage", gerritCluster.getSpec().getGitRepositoryStorage().getSize()))
+                Map.of(
+                    "storage",
+                    gerritCluster.getSpec().getStorage().getGitRepositoryStorage().getSize()))
             .endResources()
-            .withStorageClassName(gerritCluster.getSpec().getStorageClasses().getReadWriteMany())
-            .withSelector(gerritCluster.getSpec().getGitRepositoryStorage().getSelector())
-            .withVolumeName(gerritCluster.getSpec().getGitRepositoryStorage().getVolumeName())
+            .withStorageClassName(
+                gerritCluster.getSpec().getStorage().getStorageClasses().getReadWriteMany())
+            .withSelector(
+                gerritCluster.getSpec().getStorage().getGitRepositoryStorage().getSelector())
+            .withVolumeName(
+                gerritCluster.getSpec().getStorage().getGitRepositoryStorage().getVolumeName())
             .endSpec()
             .build();
 
