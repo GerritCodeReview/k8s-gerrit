@@ -26,7 +26,8 @@ from ..helpers import git, log
 
 LOG = log.get_logger("reindex")
 MNT_PATH = "/var/mnt"
-INDEXES = set(["accounts", "changes", "groups", "projects"])
+INDEXES_PRIMARY = set(["accounts", "changes", "groups", "projects"])
+INDEXES_REPLICA = set(["groups"])
 
 
 class IndexType(enum.Enum):
@@ -46,6 +47,7 @@ class GerritAbstractReindexer(abc.ABC):
         self.is_online_reindex = self.gerrit_config.get_boolean(
             "index.onlineUpgrade", True
         )
+        self.is_replica = self.gerrit_config.get_boolean("container.replica", False)
 
         self.configured_indices = self._parse_gerrit_index_config()
 
@@ -79,7 +81,8 @@ class GerritAbstractReindexer(abc.ABC):
             if not index_attrs["read"]:
                 LOG.info("Index %s not ready.", index)
                 not_ready_indices.append(index)
-        not_ready_indices.extend(INDEXES.difference(self.configured_indices.keys()))
+        index_set = INDEXES_REPLICA if self.is_replica else INDEXES_PRIMARY
+        not_ready_indices.extend(index_set.difference(self.configured_indices.keys()))
         return not_ready_indices
 
     def _indexes_need_update(self):
