@@ -18,13 +18,15 @@ import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
 public class NfsWorkaroundCondition implements Condition<ConfigMap, GerritCluster> {
-
   @Override
   public boolean isMet(
-      GerritCluster gerritCluster, ConfigMap secondary, Context<GerritCluster> context) {
+      DependentResource<ConfigMap, GerritCluster> dependentResource,
+      GerritCluster gerritCluster,
+      Context<GerritCluster> context) {
     NfsWorkaroundConfig cfg = gerritCluster.getSpec().getStorageClasses().getNfsWorkaround();
     return cfg.isEnabled() && cfg.getIdmapdConfig() != null;
   }
