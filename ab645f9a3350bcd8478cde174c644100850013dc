@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32d137c5_358d215e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-23T06:52:27Z",
+      "side": 1,
+      "message": "Please also provide these new options to the services in the gerrit-replica chart, so that it also benefits from them.",
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4441f5dc_e5182670",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-23T06:52:27Z",
+      "side": 1,
+      "message": "Please use a more descriptive header. Also consider splitting this change into multiple changes.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a1fe40_1125ec6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-23T06:52:27Z",
+      "side": 1,
+      "message": "Thanks for the contribution!\nI assume you use an ingress strategy that does not use an ingress controller or Istio? Could you tell us how you manage ingress traffic or even better could you provide some documentation for such a use case to the project, which would help other users?",
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a96557a_ae9afdd9",
+        "filename": "helm-charts/gerrit/templates/gerrit.service.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-23T06:52:27Z",
+      "side": 1,
+      "message": "I would suggest adding ` and eq .Values.gerrit.service.type \"LoadBalancer\"`.",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 47
+      },
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08723352_35c14c3f",
+        "filename": "helm-charts/gerrit/templates/gerrit.service.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-23T06:52:27Z",
+      "side": 1,
+      "message": "Put this into the scope of the `with`-clause.",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 12
+      },
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
