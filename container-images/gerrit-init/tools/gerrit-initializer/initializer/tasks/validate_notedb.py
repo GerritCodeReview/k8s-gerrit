@@ -38,7 +38,10 @@ class NoteDbValidator:
     def _test_ref_exists(self, repo, ref):
         command = f"git --git-dir {self.site}/git/{repo} rev-parse --verify {ref}"
         git_show_ref = subprocess.run(
-            command.split(), stdout=subprocess.PIPE, universal_newlines=True, check=True
+            command.split(),
+            stdout=subprocess.PIPE,
+            universal_newlines=True,
+            check=False,
         )
 
         return git_show_ref.returncode == 0
