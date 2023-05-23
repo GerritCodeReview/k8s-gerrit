@@ -181,7 +181,9 @@ class GerritInit:
                 LOG.info("Existing gerrit.config found.")
                 dev_option = (
                     "--dev"
-                    if self.gerrit_config.get("auth.type").lower()
+                    if self.gerrit_config.get(
+                        "auth.type", "development_become_any_account"
+                    ).lower()
                     == "development_become_any_account"
                     else ""
                 )
