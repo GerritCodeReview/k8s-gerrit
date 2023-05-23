@@ -1,5 +1,4 @@
 #!/bin/bash
-BASE_IMAGE=alpine:3.16.1
 
 usage() {
     me=`basename "$0"`
@@ -100,7 +99,11 @@ create_image_tag(){
 REPORT="Build results: \n"
 RETURN_CODE=0
 
-docker build --build-arg BASE_IMAGE="$BASE_IMAGE" --platform=linux/amd64 -t base:$REV ./container-images/base
+if test -n "$BASE_IMAGE"; then
+    BASE_BUILD_ARGS="--build-arg BASE_IMAGE=$BASE_IMAGE"
+fi
+
+docker build $BASE_BUILD_ARGS --platform=linux/amd64 -t base:$REV ./container-images/base
 if test $? -ne 0; then
     echo -e "\n\nFailed to build base image."
     exit 1
