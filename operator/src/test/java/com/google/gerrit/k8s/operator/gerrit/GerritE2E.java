@@ -36,8 +36,8 @@ import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
-import io.fabric8.kubernetes.api.model.LoadBalancerIngress;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
 import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ public class GerritE2E extends AbstractGerritOperatorE2ETest {
               assertThat(ingress, is(notNullValue()));
               IngressStatus status = ingress.getStatus();
               assertThat(status, is(notNullValue()));
-              List<LoadBalancerIngress> lbIngresses = status.getLoadBalancer().getIngress();
+              List<IngressLoadBalancerIngress> lbIngresses = status.getLoadBalancer().getIngress();
               assertThat(lbIngresses, hasSize(1));
               assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
             });
