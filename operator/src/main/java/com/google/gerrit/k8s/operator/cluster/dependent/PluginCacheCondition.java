@@ -17,14 +17,15 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
 public class PluginCacheCondition implements Condition<PersistentVolumeClaim, GerritCluster> {
 
   @Override
   public boolean isMet(
+      DependentResource<PersistentVolumeClaim, GerritCluster> dependentResource,
       GerritCluster gerritCluster,
-      PersistentVolumeClaim secondary,
       Context<GerritCluster> context) {
     return gerritCluster.getSpec().getPluginCacheStorage().isEnabled();
   }
