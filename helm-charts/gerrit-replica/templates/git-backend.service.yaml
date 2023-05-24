@@ -29,6 +29,9 @@ spec:
     targetPort: 80
   type: {{ .type }}
   externalTrafficPolicy: {{ .externalTrafficPolicy }}
+  {{- if and .loadBalancerIP (eq .type "LoadBalancer") }}
+  loadBalancerIP: {{ .loadBalancerIP }}
+  {{- end }}
   {{- end }}
   selector:
     app.kubernetes.io/component: git-backend

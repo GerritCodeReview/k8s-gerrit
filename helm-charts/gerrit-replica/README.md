@@ -345,6 +345,7 @@ project.
 | `gitBackend.service.loadBalancerSourceRanges` | The list of allowed IPs for the Service | `[]` |
 | `gitBackend.service.type` | Which kind of Service to deploy | `LoadBalancer` |
 | `gitBackend.service.externalTrafficPolicy` | Specify how traffic from external is handled | `Cluster` |
+| `gitBackend.service.loadBalancerIP` | If service.type is LoadBalancer, this can be specified which IP address to use | `nil` |
 | `gitBackend.service.http.enabled` | Whether to serve HTTP-requests (needed for Ingress) | `true` |
 | `gitBackend.service.http.port` | Port over which to expose HTTP | `80` |
 | `gitBackend.service.https.enabled` | Whether to serve HTTPS-requests | `false` |
@@ -419,6 +420,7 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.service.loadBalancerSourceRanges` | The list of allowed IPs for the Service | `[]` |
 | `gerritReplica.service.type` | Which kind of Service to deploy | `NodePort` |
 | `gerritReplica.service.externalTrafficPolicy` | Specify how traffic from external is handled | `Cluster` |
+| `gerritReplica.service.loadBalancerIP` | If service.type is LoadBalancer, this can be specified which IP address to use | `nil` |
 | `gerritReplica.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerritReplica.service.ssh.enabled` | Whether to enable SSH for the Gerrit replica | `false` |
 | `gerritReplica.service.ssh.port` | Port for SSH | `29418` |

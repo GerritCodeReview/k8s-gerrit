@@ -34,6 +34,9 @@ spec:
   {{- end }}
   type: {{ .type }}
   externalTrafficPolicy: {{ .externalTrafficPolicy }}
+  {{- if and .loadBalancerIP (eq .type "LoadBalancer") }}
+  loadBalancerIP: {{ .loadBalancerIP }}
+  {{- end }}
   {{- end }}
   selector:
     app.kubernetes.io/component: gerrit-replica
