@@ -60,7 +60,7 @@ public class GerritClusterAdmissionWebhookTest {
     KubernetesDeserializer.registerCustomKind(
         "gerritoperator.google.com/v1alpha2", "GerritCluster", GerritCluster.class);
     KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1alpha1", "Receiver", Receiver.class);
+        "gerritoperator.google.com/v1alpha2", "Receiver", Receiver.class);
     server = new TestAdmissionWebhookServer();
 
     kubernetesServer.before();

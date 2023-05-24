@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.receiver.model;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMember;
 import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
@@ -23,10 +23,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha1")
+@Version("v1alpha2")
 @ShortNames("grec")
-public class Receiver extends GerritClusterMember<ReceiverSpec, ReceiverStatus>
-    implements Namespaced {
+public class Receiver extends CustomResource<ReceiverSpec, ReceiverStatus> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
   public String toString() {
