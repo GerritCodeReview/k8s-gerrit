@@ -1,7 +1,8 @@
 # Gerrit Deployment on Kubernetes
 
-Container images, configurations and [Helm](https://helm.sh/) charts for installing
-[Gerrit](https://www.gerritcodereview.com/) on [Kubernetes](https://kubernetes.io/).
+Container images, configurations, [helm charts](https://helm.sh/) and a Kubernetes
+Operator for installing [Gerrit](https://www.gerritcodereview.com/) on
+[Kubernetes](https://kubernetes.io/).
 
 # Deploying Gerrit on Kubernetes
 
@@ -23,6 +24,10 @@ configuration options currently provided by the charts.
 To evaluate and test the helm-charts, they can be installed on a local machine
 running Minikube. Follow this [guide](Documentation/minikube.md) to get a detailed
 description how to set up the Minikube cluster and install the charts.
+
+Alternatively, a Gerrit Operator can be used to install and operate Gerrit in a
+Kubernetes cluster. The [documentation](./Documentation/operator.md) describes
+how to build and deploy the Gerrit Operator and how to use it to install Gerrit.
 
 # Docker images
 
