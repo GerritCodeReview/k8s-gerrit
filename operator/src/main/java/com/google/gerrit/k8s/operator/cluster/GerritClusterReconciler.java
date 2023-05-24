@@ -15,11 +15,14 @@
 package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.GERRIT_ISTIO_DESTINATION_RULE_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiver;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiverCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioDestinationRule;
@@ -32,11 +35,13 @@ import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCacheCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.ReceiverIstioVirtualService;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterStatus;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
@@ -51,9 +56,7 @@ import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
-import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
-import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.Collection;
 import java.util.HashMap;
@@ -86,6 +89,12 @@ import java.util.stream.Collectors;
           dependsOn = {"git-repositories-pvc", "gerrit-logs-pvc"},
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_EVENT_SOURCE),
       @Dependent(
+          name = "receiver",
+          type = ClusterManagedReceiver.class,
+          reconcilePrecondition = ClusterManagedReceiverCondition.class,
+          dependsOn = {"git-repositories-pvc", "gerrit-logs-pvc"},
+          useEventSourceWithName = CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE),
+      @Dependent(
           name = "gerrit-destination-rules",
           type = GerritIstioDestinationRule.class,
           reconcilePrecondition = GerritIstioCondition.class,
@@ -95,6 +104,7 @@ public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   public static final String PVC_EVENT_SOURCE = "pvc-event-source";
   public static final String CLUSTER_MANAGED_GERRIT_EVENT_SOURCE = "cluster-managed-gerrit";
+  public static final String CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE = "cluster-managed-receiver";
   public static final String GERRIT_ISTIO_DESTINATION_RULE_EVENT_SOURCE =
       "gerrit-istio-destination-rule";
   private static final String GERRIT_INGRESS_EVENT_SOURCE = "gerrit-ingress";
@@ -102,52 +112,32 @@ public class GerritClusterReconciler
   private static final String GERRIT_ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE =
       "gerrit-istio-virtual-service";
 
-  private final KubernetesClient client;
-
   private GerritIngress gerritIngress;
   private GerritIstioGateway gerritIstioGateway;
-  private GerritIstioVirtualService virtualService;
-  private GerritIstioVirtualServiceSSH virtualServiceSSH;
+  private GerritIstioVirtualService gerritVirtualService;
+  private GerritIstioVirtualServiceSSH gerritVirtualServiceSSH;
+  private ReceiverIstioVirtualService receiverVirtualService;
 
   @Inject
   public GerritClusterReconciler(KubernetesClient client) {
-    this.client = client;
-
     this.gerritIngress = new GerritIngress();
     this.gerritIngress.setKubernetesClient(client);
 
     this.gerritIstioGateway = new GerritIstioGateway();
     this.gerritIstioGateway.setKubernetesClient(client);
 
-    this.virtualService = new GerritIstioVirtualService();
-    this.virtualService.setKubernetesClient(client);
+    this.gerritVirtualService = new GerritIstioVirtualService();
+    this.gerritVirtualService.setKubernetesClient(client);
 
-    this.virtualServiceSSH = new GerritIstioVirtualServiceSSH();
-    this.virtualServiceSSH.setKubernetesClient(client);
+    this.gerritVirtualServiceSSH = new GerritIstioVirtualServiceSSH();
+    this.gerritVirtualServiceSSH.setKubernetesClient(client);
+
+    this.receiverVirtualService = new ReceiverIstioVirtualService();
+    this.receiverVirtualService.setKubernetesClient(client);
   }
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
-    final SecondaryToPrimaryMapper<Receiver> receiverMapper =
-        (Receiver receiver) ->
-            context
-                .getPrimaryCache()
-                .list(
-                    gerritCluster ->
-                        gerritCluster
-                            .getMetadata()
-                            .getName()
-                            .equals(receiver.getSpec().getCluster()))
-                .map(ResourceID::fromResource)
-                .collect(Collectors.toSet());
-
-    InformerEventSource<Receiver, GerritCluster> receiverEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(Receiver.class, context)
-                .withSecondaryToPrimaryMapper(receiverMapper)
-                .build(),
-            context);
-
     InformerEventSource<PersistentVolumeClaim, GerritCluster> pvcEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(PersistentVolumeClaim.class, context).build(), context);
@@ -160,21 +150,26 @@ public class GerritClusterReconciler
         new InformerEventSource<>(
             InformerConfiguration.from(Gerrit.class, context).build(), context);
 
+    InformerEventSource<Receiver, GerritCluster> clusterManagedReceiverEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Receiver.class, context).build(), context);
+
     InformerEventSource<DestinationRule, GerritCluster> gerritIstioDestinationRuleEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(DestinationRule.class, context).build(), context);
 
-    Map<String, EventSource> eventSources =
-        EventSourceInitializer.nameEventSources(receiverEventSource);
+    Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
     eventSources.put(CLUSTER_MANAGED_GERRIT_EVENT_SOURCE, clusterManagedGerritEventSource);
+    eventSources.put(CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE, clusterManagedReceiverEventSource);
     eventSources.put(
         GERRIT_ISTIO_DESTINATION_RULE_EVENT_SOURCE, gerritIstioDestinationRuleEventSource);
     eventSources.put(GERRIT_INGRESS_EVENT_SOURCE, gerritIngress.initEventSource(context));
     eventSources.put(
         GERRIT_ISTIO_GATEWAY_EVENT_SOURCE, gerritIstioGateway.initEventSource(context));
-    virtualService.configureWith(virtualServiceEventSource);
-    virtualServiceSSH.configureWith(virtualServiceEventSource);
+    gerritVirtualService.configureWith(virtualServiceEventSource);
+    gerritVirtualServiceSSH.configureWith(virtualServiceEventSource);
+    receiverVirtualService.configureWith(virtualServiceEventSource);
     eventSources.put(GERRIT_ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE, virtualServiceEventSource);
     return eventSources;
   }
@@ -187,11 +182,10 @@ public class GerritClusterReconciler
     members.put(
         "gerrit",
         managedGerrits.stream().map(g -> g.getMetadata().getName()).collect(Collectors.toList()));
-    members.put(
-        "receiver",
-        getManagedMemberInstances(gerritCluster, Receiver.class).stream()
-            .map(g -> g.getMetadata().getName())
-            .collect(Collectors.toList()));
+    ReceiverTemplate managedReceiver = gerritCluster.getSpec().getReceiver();
+    if (managedReceiver != null) {
+      members.put("receiver", List.of(managedReceiver.getMetadata().getName()));
+    }
     if (members.values().stream().flatMap(Collection::stream).count() > 0
         && gerritCluster.getSpec().getIngress().isEnabled()) {
       switch (gerritCluster.getSpec().getIngress().getType()) {
@@ -201,17 +195,23 @@ public class GerritClusterReconciler
         case ISTIO:
           gerritIstioGateway.reconcile(gerritCluster, context);
 
-          virtualService.setResourceDiscriminator(
+          gerritVirtualService.setResourceDiscriminator(
               new ResourceNameDiscriminator<>(GerritIstioVirtualService.getName(gerritCluster)));
-          virtualServiceSSH.setResourceDiscriminator(
+          gerritVirtualServiceSSH.setResourceDiscriminator(
               new ResourceNameDiscriminator<>(GerritIstioVirtualServiceSSH.getName(gerritCluster)));
 
-          virtualService.reconcile(gerritCluster, context);
+          gerritVirtualService.reconcile(gerritCluster, context);
 
           if (managedGerrits.stream().anyMatch(g -> g.getSpec().getService().isSshEnabled())) {
-            virtualServiceSSH.reconcile(gerritCluster, context);
+            gerritVirtualServiceSSH.reconcile(gerritCluster, context);
           } else {
-            virtualServiceSSH.delete(gerritCluster, context);
+            gerritVirtualServiceSSH.delete(gerritCluster, context);
+          }
+          if (managedReceiver != null) {
+            receiverVirtualService.setResourceDiscriminator(
+                new ResourceNameDiscriminator<>(
+                    ReceiverIstioVirtualService.getName(gerritCluster)));
+            receiverVirtualService.reconcile(gerritCluster, context);
           }
           break;
         default:
@@ -230,19 +230,5 @@ public class GerritClusterReconciler
     status.setMembers(members);
     gerritCluster.setStatus(status);
     return gerritCluster;
-  }
-
-  private List<? extends GerritClusterMember<? extends GerritClusterMemberSpec, ?>>
-      getManagedMemberInstances(
-          GerritCluster gerritCluster,
-          Class<? extends GerritClusterMember<? extends GerritClusterMemberSpec, ?>> clazz) {
-    return client
-        .resources(clazz)
-        .inNamespace(gerritCluster.getMetadata().getNamespace())
-        .list()
-        .getItems()
-        .stream()
-        .filter(c -> GerritCluster.isMemberPartOfCluster(c.getSpec(), gerritCluster))
-        .collect(Collectors.toList());
   }
 }
