@@ -276,14 +276,17 @@ gerritReplica:
   livenessProbe:
     initialDelaySeconds: 60
     periodSeconds: 5
+  livenessScheme:
 
   readinessProbe:
     initialDelaySeconds: 10
     periodSeconds: 10
+  readinessScheme:
 
   startupProbe:
     initialDelaySeconds: 10
     periodSeconds: 30
+  startupScheme:
 
   gracefulStopTimeout: 90
 

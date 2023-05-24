@@ -176,16 +176,25 @@ spec:
           httpGet:
             path: /config/server/healthcheck~status
             port: http
+{{- if .Values.gerrit.livenessScheme }}
+            scheme: {{ .Values.gerritReplica.livenessScheme }}
+{{- end }}
 {{ toYaml .Values.gerritReplica.livenessProbe | indent 10 }}
         readinessProbe:
           httpGet:
             path: /config/server/healthcheck~status
             port: http
+{{- if .Values.gerrit.readinessScheme }}
+            scheme: {{ .Values.gerritReplica.readinessScheme }}
+{{- end }}
 {{ toYaml .Values.gerritReplica.readinessProbe | indent 10 }}
         startupProbe:
           httpGet:
             path: /config/server/healthcheck~status
             port: http
+{{- if .Values.gerrit.startupScheme }}
+            scheme: {{ .Values.gerritReplica.startupScheme }}
+{{- end }}
 {{ toYaml .Values.gerritReplica.startupProbe | indent 10 }}
         resources:
 {{ toYaml .Values.gerritReplica.resources | indent 10 }}

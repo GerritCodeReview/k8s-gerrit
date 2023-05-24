@@ -169,14 +169,17 @@ gerrit:
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 5
+  livenessScheme:
 
   readinessProbe:
     initialDelaySeconds: 5
     periodSeconds: 1
+  readinessScheme:
 
   startupProbe:
     initialDelaySeconds: 10
     periodSeconds: 30
+  startupScheme:
 
   gracefulStopTimeout: 90
 
