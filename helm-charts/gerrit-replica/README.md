@@ -389,8 +389,11 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.maxSurge` | Max. percentage or number of pods allowed to be scheduled above the desired number | `25%` |
 | `gerritReplica.maxUnavailable` | Max. percentage or number of pods allowed to be unavailable at a time | `100%` |
 | `gerritReplica.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 60, periodSeconds: 5}` |
+| `gerritReplica.livenessScheme` | Scheme for liveness probe, for instance HTTPS | `nil` |
 | `gerritReplica.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 10, periodSeconds: 10}` |
+| `gerritReplica.readinessScheme` | Scheme for readiness probe, for instance HTTPS | `nil` |
 | `gerritReplica.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
+| `gerritReplica.startupScheme` | Scheme for startup probe, for instance HTTPS | `nil` |
 | `gerritReplica.gracefulStopTimeout` | Time in seconds Kubernetes will wait until killing the pod during termination (has to be longer then Gerrit's httpd.gracefulStopTimeout to allow graceful shutdown of Gerrit) | `90` |
 | `gerritReplica.resources` | Configure the amount of resources the pod requests/is allowed | `requests.cpu: 1` |
 |                           |                                                               | `requests.memory: 5Gi` |
