@@ -317,6 +317,7 @@ gerritReplica:
     ssh:
       enabled: false
       port: 29418
+    extraPorts: []
 
   # `gerritReplica.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and
