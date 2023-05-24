@@ -1,4 +1,4 @@
-apiVersion: "gerritoperator.google.com/v1alpha2"
+apiVersion: "gerritoperator.google.com/v1alpha3"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -40,3 +40,8 @@ spec:
             anonymousCoward = Unnamed User
       secrets:
       - gerrit-secure-config
+  receiver:
+    metadata:
+      name: receiver
+    spec:
+      credentialSecretRef: receiver-credentials

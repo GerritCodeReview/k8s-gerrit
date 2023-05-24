@@ -30,13 +30,15 @@
    26. [GerritSpec](#gerritspec)
    27. [GerritStatus](#gerritstatus)
    28. [IngressConfig](#ingressconfig)
-   29. [ReceiverSpec](#receiverspec)
-   30. [ReceiverStatus](#receiverstatus)
-   31. [ReceiverProbe](#receiverprobe)
-   32. [ReceiverServiceConfig](#receiverserviceconfig)
-   33. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   34. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   35. [GitGcState](#gitgcstate)
+   29. [ReceiverTemplate](#receivertemplate)
+   30. [ReceiverTemplateSpec](#receivertemplatespec)
+   31. [ReceiverSpec](#receiverspec)
+   32. [ReceiverStatus](#receiverstatus)
+   33. [ReceiverProbe](#receiverprobe)
+   34. [ReceiverServiceConfig](#receiverserviceconfig)
+   35. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   36. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   37. [GitGcState](#gitgcstate)
 
 ## General Remarks
 
@@ -51,7 +53,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha2 \
+**Version**: v1alpha3 \
 **Kind**: GerritCluster
 
 ---
@@ -68,7 +70,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha2"
+apiVersion: "gerritoperator.google.com/v1alpha3"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -205,7 +207,7 @@ spec:
         httpPort: 80
         sshPort: 29418
 
-      mode: PRIMARY
+      mode: REPLICA
 
       site:
         size: 1Gi
@@ -250,6 +252,70 @@ spec:
 
       secrets:
       - gerrit-secure-config
+
+  receiver:
+    metadata:
+      name: receiver
+      labels:
+        app: receiver
+    spec:
+      tolerations:
+      - key: key1
+        operator: Equal
+        value: value2
+        effect: NoSchedule
+
+      affinity:
+        nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: disktype
+              operator: In
+              values:
+              - ssd
+
+      topologySpreadConstraints: []
+      - maxSkew: 1
+        topologyKey: zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            foo: bar
+
+      priorityClassName: ""
+
+      replicas: 2
+      maxSurge: 1
+      maxUnavailable: 1
+
+      resources:
+        requests:
+          cpu: 1
+          memory: 5Gi
+        limits:
+          cpu: 1
+          memory: 6Gi
+
+      readinessProbe:
+        initialDelaySeconds: 0
+        periodSeconds: 10
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 3
+
+      livenessProbe:
+        initialDelaySeconds: 0
+        periodSeconds: 10
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 3
+
+      service:
+        type: NodePort
+        httpPort: 80
+
+      credentialSecretRef: receiver-credentials
 ```
 
 ## Gerrit
@@ -453,7 +519,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha1 \
+**Version**: v1alpha2 \
 **Kind**: Receiver
 
 ---
@@ -470,7 +536,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha1"
+apiVersion: "gerritoperator.google.com/v1alpha2"
 kind: Receiver
 metadata:
   name: receiver
@@ -533,6 +599,54 @@ spec:
     httpPort: 80
 
   credentialSecretRef: apache-credentials
+
+  containerImages:
+    imagePullSecrets: []
+    imagePullPolicy: Always
+    gerritImages:
+      registry: docker.io
+      org: k8sgerrit
+      tag: latest
+    busyBox:
+      registry: docker.io
+      tag: latest
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+      nfsWorkaround:
+        enabled: false
+        chownOnStartup: false
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup
+
+    gitRepositoryStorage:
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+    logsStorage:
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+  ingress:
+    type: INGRESS
+    host: example.com
+    tlsEnabled: false
 ```
 
 ## GitGarbageCollection
@@ -600,6 +714,7 @@ spec:
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit is permitted. |
+| `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
 
 ## GerritClusterStatus
 
@@ -614,7 +729,7 @@ spec:
 | `storageClasses` | [`StorageClassConfig`](#storageclassconfig) | StorageClasses used in the GerritCluster |
 | `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage) | Volume used for storing Git repositories |
 | `logsStorage` | [`SharedStorage`](#sharedstorage) | Volume used for storing logs |
-| `pluginCacheStorage` | [`OptionalSharedStorage`](#optionalsharedstorage) | Volume used for caching downloaded plugin JAR-files |
+| `pluginCacheStorage` | [`OptionalSharedStorage`](#optionalsharedstorage) | Volume used for caching downloaded plugin JAR-files (Only used by Gerrit resources. Otherwise ignored.) |
 
 ## StorageClassConfig
 
@@ -788,11 +903,17 @@ compared to the parent object. All other options can still be configured.
 | `host` | `string` | Hostname that is being used by the ingress provider for this Gerrit instance. |
 | `tlsEnabled` | `boolean` | Whether the ingress provider enables TLS. (default: `false`) |
 
-## ReceiverSpec
+## ReceiverTemplate
 
 | Field | Type | Description |
 |---|---|---|
-| `cluster` | `string` | Name of the Gerrit cluster this Gerrit is a part of. (mandatory) |
+| `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource. A name is mandatory. Labels can optionally be defined. Other fields like the namespace are ignored. |
+| `spec` | [`ReceiverTemplateSpec`](#receivertemplatespec) | Specification for ReceiverTemplate |
+
+## ReceiverTemplateSpec
+
+| Field | Type | Description |
+|---|---|---|
 | `tolerations` | [`Toleration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core)-Array | Pod tolerations (optional) |
 | `affinity` | [`Affinity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core) | Pod affinity (optional) |
 | `topologySpreadConstraints` | [`TopologySpreadConstraint`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#topologyspreadconstraint-v1-core)-Array | Pod topology spread constraints (optional) |
@@ -805,6 +926,16 @@ compared to the parent object. All other options can still be configured.
 | `livenessProbe` | [`ReceiverProbe`](#receiverprobe) | [Liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes). The action will be set by the operator. All other probe parameters can be set. |
 | `service` | [`ReceiverServiceConfig`](#receiverserviceconfig) |  Configuration for the service used to manage network access to the Deployment |
 | `credentialSecretRef` | `String` | Name of the secret containing the .htpasswd file used to configure basic authentication within the Apache server (mandatory) |
+
+## ReceiverSpec
+
+**Extends:** [`ReceiverTemplateSpec`](#receivertemplatespec)
+
+| Field | Type | Description |
+|---|---|---|
+| `storage` | [`GerritStorageConfig`](#gerritstorageconfig) | Storage used by Gerrit/Receiver instances |
+| `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
+| `ingress` | [`IngressConfig`](#ingressconfig) | Ingress configuration for Gerrit |
 
 ## ReceiverStatus
 
