@@ -286,6 +286,7 @@ gerritReplica:
   additionalAnnotations: {}
   additionalPodLabels: {}
 
+  probeScheme:
   livenessProbe:
     initialDelaySeconds: 60
     periodSeconds: 5

@@ -177,6 +177,7 @@ gerrit:
     enabled: true
     size: 10Gi
 
+  probeScheme:
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 5
