@@ -14,10 +14,13 @@
 
 package com.google.gerrit.k8s.operator.test;
 
+import static com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,6 +32,7 @@ import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.I
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterSpec;
 import com.google.gerrit.k8s.operator.cluster.model.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritRepositoryConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
@@ -40,11 +44,15 @@ import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
+import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
+import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public class TestGerritCluster {
@@ -60,12 +68,17 @@ public class TestGerritCluster {
   private GerritCluster cluster = new GerritCluster();
   private String hostname;
   private List<GerritTemplate> gerrits = new ArrayList<>();
+  private Optional<ReceiverTemplate> receiver = Optional.empty();
 
   public TestGerritCluster(KubernetesClient client, String namespace) {
     this.client = client;
     this.namespace = namespace;
 
     defaultIngressConfig();
+  }
+
+  public GerritCluster getGerritCluster() {
+    return cluster;
   }
 
   public String getHostname() {
@@ -147,6 +160,10 @@ public class TestGerritCluster {
     gerrits.remove(gerrit);
   }
 
+  public void setReceiver(ReceiverTemplate receiver) {
+    this.receiver = Optional.ofNullable(receiver);
+  }
+
   public GerritCluster build() {
     cluster.setMetadata(
         new ObjectMetaBuilder().withName(CLUSTER_NAME).withNamespace(namespace).build());
@@ -188,6 +205,9 @@ public class TestGerritCluster {
     clusterSpec.setIngress(ingressConfig);
 
     clusterSpec.setGerrits(gerrits);
+    if (receiver.isPresent()) {
+      clusterSpec.setReceiver(receiver.get());
+    }
 
     cluster.setSpec(clusterSpec);
     return cluster;
@@ -210,6 +230,9 @@ public class TestGerritCluster {
               assertThat(updatedCluster, is(notNullValue()));
               for (GerritTemplate gerrit : updatedCluster.getSpec().getGerrits()) {
                 waitForGerritReadiness(gerrit);
+              }
+              if (receiver.isPresent()) {
+                waitForReceiverReadiness();
               }
             });
   }
@@ -235,6 +258,44 @@ public class TestGerritCluster {
                       .inNamespace(namespace)
                       .withName(gerrit.getMetadata().getName())
                       .isReady());
+            });
+  }
+
+  private void waitForReceiverReadiness() {
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              assertTrue(
+                  client
+                      .apps()
+                      .deployments()
+                      .inNamespace(namespace)
+                      .withName(receiver.get().getMetadata().getName())
+                      .isReady());
+            });
+
+    await()
+        .atMost(2, MINUTES)
+        .untilAsserted(
+            () -> {
+              Ingress ingress =
+                  client
+                      .network()
+                      .v1()
+                      .ingresses()
+                      .inNamespace(namespace)
+                      .withName(INGRESS_NAME)
+                      .get();
+              assertThat(ingress, is(notNullValue()));
+              IngressStatus status = ingress.getStatus();
+              assertThat(status, is(notNullValue()));
+              List<IngressLoadBalancerIngress> lbIngresses = status.getLoadBalancer().getIngress();
+              assertThat(lbIngresses, hasSize(1));
+              assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
+              assertThat(
+                  ReceiverUtil.sendReceiverApiRequest(cluster, "GET", "/new/readycheck.git"),
+                  is(equalTo(201)));
             });
   }
 }
