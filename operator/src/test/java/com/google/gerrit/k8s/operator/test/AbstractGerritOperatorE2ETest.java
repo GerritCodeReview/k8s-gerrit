@@ -48,6 +48,7 @@ public class AbstractGerritOperatorE2ETest {
   protected GerritReconciler gerritReconciler = Mockito.spy(new GerritReconciler(client));
   protected TestGerritCluster gerritCluster;
   protected TestSecureConfig secureConfig;
+  protected Secret receiverCredentials;
 
   @RegisterExtension
   protected LocallyRunOperatorExtension operator =
@@ -67,6 +68,10 @@ public class AbstractGerritOperatorE2ETest {
     secureConfig = new TestSecureConfig(client, testProps, operator.getNamespace());
     secureConfig.createOrReplace();
 
+    receiverCredentials = ReceiverUtil.createCredentialsSecret(operator.getNamespace());
+
+    client.resource(receiverCredentials).inNamespace(operator.getNamespace()).createOrReplace();
+
     gerritCluster = new TestGerritCluster(client, operator.getNamespace());
     gerritCluster.deploy();
   }
@@ -77,6 +82,7 @@ public class AbstractGerritOperatorE2ETest {
     client.resources(Receiver.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
+    client.resource(receiverCredentials).inNamespace(operator.getNamespace()).delete();
   }
 
   private static KubernetesClient getKubernetesClient() {

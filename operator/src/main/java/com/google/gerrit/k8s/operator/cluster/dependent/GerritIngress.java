@@ -48,39 +48,20 @@ public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, Gerr
   @Override
   protected Ingress desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
     List<Gerrit> gerrits =
-        client
-            .resources(Gerrit.class)
-            .inNamespace(gerritCluster.getMetadata().getNamespace())
-            .list()
-            .getItems()
-            .stream()
-            .filter(
-                gerrit ->
-                    gerritCluster.getSpec().getGerrits().stream()
-                        .map(g -> g.getMetadata().getName())
-                        .anyMatch(g -> g.equals(gerrit.getMetadata().getName())))
+        gerritCluster.getSpec().getGerrits().stream()
+            .map(g -> g.toGerrit(gerritCluster))
             .collect(Collectors.toList());
 
-    List<Receiver> receivers =
-        client
-            .resources(Receiver.class)
-            .inNamespace(gerritCluster.getMetadata().getNamespace())
-            .list()
-            .getItems()
-            .stream()
-            .filter(r -> GerritCluster.isMemberPartOfCluster(r.getSpec(), gerritCluster))
-            .collect(Collectors.toList());
+    Receiver receiver = gerritCluster.getSpec().getReceiver().toReceiver(gerritCluster);
 
     List<String> hosts = new ArrayList<>();
     List<IngressRule> ingressRules = new ArrayList<>();
-    for (Receiver receiver : receivers) {
-      ingressRules.add(getReceiverIngressRule(gerritCluster, receiver));
-      hosts.add(
-          gerritCluster
-              .getSpec()
-              .getIngress()
-              .getFullHostnameForService(receiver.getMetadata().getName()));
-    }
+    ingressRules.add(getReceiverIngressRule(gerritCluster, receiver));
+    hosts.add(
+        gerritCluster
+            .getSpec()
+            .getIngress()
+            .getFullHostnameForService(receiver.getMetadata().getName()));
 
     ingressRules.addAll(getGerritIngressRules(gerritCluster, gerrits));
     for (Gerrit gerrit : gerrits) {

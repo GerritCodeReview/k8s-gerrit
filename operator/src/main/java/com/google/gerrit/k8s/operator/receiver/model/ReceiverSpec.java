@@ -14,138 +14,42 @@
 
 package com.google.gerrit.k8s.operator.receiver.model;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
-import io.fabric8.kubernetes.api.model.Affinity;
-import io.fabric8.kubernetes.api.model.IntOrString;
-import io.fabric8.kubernetes.api.model.ResourceRequirements;
-import io.fabric8.kubernetes.api.model.Toleration;
-import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
 
-public class ReceiverSpec implements GerritClusterMemberSpec {
-  private String cluster;
+public class ReceiverSpec extends ReceiverTemplateSpec {
+  private ContainerImageConfig containerImages = new ContainerImageConfig();
+  private GerritStorageConfig storage = new GerritStorageConfig();
+  private IngressConfig ingress = new IngressConfig();
 
-  private List<Toleration> tolerations;
-  private Affinity affinity;
-  private List<TopologySpreadConstraint> topologySpreadConstraints = new ArrayList<>();
-  private String priorityClassName;
+  public ReceiverSpec() {}
 
-  private int replicas = 1;
-  private IntOrString maxSurge = new IntOrString(1);
-  private IntOrString maxUnavailable = new IntOrString(1);
-
-  private ResourceRequirements resources;
-
-  private ReceiverProbe readinessProbe = new ReceiverProbe();
-  private ReceiverProbe livenessProbe = new ReceiverProbe();
-
-  private ReceiverServiceConfig service = new ReceiverServiceConfig();
-
-  private String credentialSecretRef;
-
-  public String getCluster() {
-    return cluster;
+  public ReceiverSpec(ReceiverTemplateSpec templateSpec) {
+    super(templateSpec);
   }
 
-  public void setCluster(String cluster) {
-    this.cluster = cluster;
+  public ContainerImageConfig getContainerImages() {
+    return containerImages;
   }
 
-  public List<Toleration> getTolerations() {
-    return tolerations;
+  public void setContainerImages(ContainerImageConfig containerImages) {
+    this.containerImages = containerImages;
   }
 
-  public void setTolerations(List<Toleration> tolerations) {
-    this.tolerations = tolerations;
+  public GerritStorageConfig getStorage() {
+    return storage;
   }
 
-  public Affinity getAffinity() {
-    return affinity;
+  public void setStorage(GerritStorageConfig storage) {
+    this.storage = storage;
   }
 
-  public void setAffinity(Affinity affinity) {
-    this.affinity = affinity;
+  public IngressConfig getIngress() {
+    return ingress;
   }
 
-  public List<TopologySpreadConstraint> getTopologySpreadConstraints() {
-    return topologySpreadConstraints;
-  }
-
-  public void setTopologySpreadConstraints(
-      List<TopologySpreadConstraint> topologySpreadConstraints) {
-    this.topologySpreadConstraints = topologySpreadConstraints;
-  }
-
-  public String getPriorityClassName() {
-    return priorityClassName;
-  }
-
-  public void setPriorityClassName(String priorityClassName) {
-    this.priorityClassName = priorityClassName;
-  }
-
-  public int getReplicas() {
-    return replicas;
-  }
-
-  public void setReplicas(int replicas) {
-    this.replicas = replicas;
-  }
-
-  public IntOrString getMaxSurge() {
-    return maxSurge;
-  }
-
-  public void setMaxSurge(IntOrString maxSurge) {
-    this.maxSurge = maxSurge;
-  }
-
-  public IntOrString getMaxUnavailable() {
-    return maxUnavailable;
-  }
-
-  public void setMaxUnavailable(IntOrString maxUnavailable) {
-    this.maxUnavailable = maxUnavailable;
-  }
-
-  public ResourceRequirements getResources() {
-    return resources;
-  }
-
-  public void setResources(ResourceRequirements resources) {
-    this.resources = resources;
-  }
-
-  public ReceiverProbe getReadinessProbe() {
-    return readinessProbe;
-  }
-
-  public void setReadinessProbe(ReceiverProbe readinessProbe) {
-    this.readinessProbe = readinessProbe;
-  }
-
-  public ReceiverProbe getLivenessProbe() {
-    return livenessProbe;
-  }
-
-  public void setLivenessProbe(ReceiverProbe livenessProbe) {
-    this.livenessProbe = livenessProbe;
-  }
-
-  public ReceiverServiceConfig getService() {
-    return service;
-  }
-
-  public void setService(ReceiverServiceConfig service) {
-    this.service = service;
-  }
-
-  public String getCredentialSecretRef() {
-    return credentialSecretRef;
-  }
-
-  public void setCredentialSecretRef(String credentialSecretRef) {
-    this.credentialSecretRef = credentialSecretRef;
+  public void setIngress(IngressConfig ingress) {
+    this.ingress = ingress;
   }
 }
