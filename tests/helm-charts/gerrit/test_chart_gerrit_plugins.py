@@ -214,9 +214,7 @@ class TestGerritChartOtherPluginInstall:
 def test_install_other_plugins_fails_wrong_sha(
     gerrit_deployment_with_other_plugin_wrong_sha,
 ):
-    pod_labels = (
-        f"app=gerrit,release={gerrit_deployment_with_other_plugin_wrong_sha.chart_name}"
-    )
+    pod_labels = f"app.kubernetes.io/component=gerrit,release={gerrit_deployment_with_other_plugin_wrong_sha.chart_name}"
     core_v1 = client.CoreV1Api()
     pod_name = ""
     while not pod_name:
@@ -227,7 +225,8 @@ def test_install_other_plugins_fails_wrong_sha(
         )
         if len(pod_list.items) > 1:
             raise RuntimeError("Too many gerrit pods with the same release name.")
-        pod_name = pod_list.items[0].metadata.name
+        elif len(pod_list.items) == 1:
+            pod_name = pod_list.items[0].metadata.name
 
     current_status = None
     while not current_status:
