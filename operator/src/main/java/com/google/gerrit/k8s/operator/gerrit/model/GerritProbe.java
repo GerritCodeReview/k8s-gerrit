@@ -22,6 +22,7 @@ import io.fabric8.kubernetes.api.model.HTTPGetAction;
 import io.fabric8.kubernetes.api.model.HTTPGetActionBuilder;
 import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.Probe;
+import io.fabric8.kubernetes.api.model.TCPSocketAction;
 
 public class GerritProbe extends Probe {
   private static final long serialVersionUID = 1L;
@@ -35,6 +36,8 @@ public class GerritProbe extends Probe {
   @JsonIgnore private ExecAction exec;
 
   @JsonIgnore private GRPCAction grpc;
+
+  @JsonIgnore private TCPSocketAction tcpSocket;
 
   @Override
   public void setExec(ExecAction exec) {
@@ -52,6 +55,11 @@ public class GerritProbe extends Probe {
   }
 
   @Override
+  public void setTcpSocket(TCPSocketAction tcpSocket) {
+    super.setTcpSocket(null);
+  }
+
+  @Override
   public ExecAction getExec() {
     return null;
   }
@@ -64,5 +72,10 @@ public class GerritProbe extends Probe {
   @Override
   public HTTPGetAction getHttpGet() {
     return HTTP_GET_ACTION;
+  }
+
+  @Override
+  public TCPSocketAction getTcpSocket() {
+    return null;
   }
 }
