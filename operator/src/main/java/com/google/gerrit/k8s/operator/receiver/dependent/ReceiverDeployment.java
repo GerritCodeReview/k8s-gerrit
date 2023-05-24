@@ -14,9 +14,8 @@
 
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
@@ -28,6 +27,7 @@ import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 @KubernetesDependent
-public class ReceiverDeployment extends GerritClusterMemberDependentResource<Deployment, Receiver> {
+public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployment, Receiver> {
   public static final int HTTP_PORT = 80;
 
   public ReceiverDeployment() {
@@ -45,16 +45,23 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
 
   @Override
   protected Deployment desired(Receiver receiver, Context<Receiver> context) {
-    GerritCluster gerritCluster = getGerritCluster(receiver);
-
     DeploymentBuilder deploymentBuilder = new DeploymentBuilder();
 
     List<Container> initContainers = new ArrayList<>();
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
+        receiver.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.isChownOnStartup()) {
-      initContainers.add(gerritCluster.createNfsInitContainer());
+      initContainers.add(
+          GerritCluster.createNfsInitContainer(
+              receiver
+                      .getSpec()
+                      .getStorage()
+                      .getStorageClasses()
+                      .getNfsWorkaround()
+                      .getIdmapdConfig()
+                  != null,
+              receiver.getSpec().getContainerImages()));
     }
 
     deploymentBuilder
@@ -62,7 +69,7 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
         .withNewMetadata()
         .withName(receiver.getMetadata().getName())
         .withNamespace(receiver.getMetadata().getNamespace())
-        .withLabels(getLabels(gerritCluster, receiver))
+        .withLabels(getLabels(receiver))
         .endMetadata()
         .withNewSpec()
         .withReplicas(receiver.getSpec().getReplicas())
@@ -73,28 +80,27 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
         .endRollingUpdate()
         .endStrategy()
         .withNewSelector()
-        .withMatchLabels(getSelectorLabels(gerritCluster, receiver))
+        .withMatchLabels(getSelectorLabels(receiver))
         .endSelector()
         .withNewTemplate()
         .withNewMetadata()
-        .withLabels(getLabels(gerritCluster, receiver))
+        .withLabels(getLabels(receiver))
         .endMetadata()
         .withNewSpec()
         .withTolerations(receiver.getSpec().getTolerations())
         .withTopologySpreadConstraints(receiver.getSpec().getTopologySpreadConstraints())
         .withAffinity(receiver.getSpec().getAffinity())
         .withPriorityClassName(receiver.getSpec().getPriorityClassName())
-        .addAllToImagePullSecrets(
-            gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
+        .addAllToImagePullSecrets(receiver.getSpec().getContainerImages().getImagePullSecrets())
         .withNewSecurityContext()
         .withFsGroup(100L)
         .endSecurityContext()
         .addAllToInitContainers(initContainers)
         .addNewContainer()
         .withName("apache-git-http-backend")
-        .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
+        .withImagePullPolicy(receiver.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
-            gerritCluster
+            receiver
                 .getSpec()
                 .getContainerImages()
                 .getGerritImages()
@@ -104,9 +110,9 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
         .withResources(receiver.getSpec().getResources())
         .withReadinessProbe(receiver.getSpec().getReadinessProbe())
         .withLivenessProbe(receiver.getSpec().getLivenessProbe())
-        .addAllToVolumeMounts(getVolumeMounts(receiver, gerritCluster, false))
+        .addAllToVolumeMounts(getVolumeMounts(receiver, false))
         .endContainer()
-        .addAllToVolumes(getVolumes(receiver, gerritCluster))
+        .addAllToVolumes(getVolumes(receiver))
         .endSpec()
         .endTemplate()
         .endSpec();
@@ -118,17 +124,19 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
     return String.format("receiver-deployment-%s", receiver.getMetadata().getName());
   }
 
-  public static Map<String, String> getSelectorLabels(
-      GerritCluster gerritCluster, Receiver receiver) {
-    return gerritCluster.getSelectorLabels(getComponentName(receiver));
+  public static Map<String, String> getSelectorLabels(Receiver receiver) {
+    return GerritCluster.getSelectorLabels(
+        receiver.getMetadata().getName(), getComponentName(receiver));
   }
 
-  public static Map<String, String> getLabels(GerritCluster gerritCluster, Receiver receiver) {
-    return gerritCluster.getLabels(
-        getComponentName(receiver), ReceiverReconciler.class.getSimpleName());
+  public static Map<String, String> getLabels(Receiver receiver) {
+    return GerritCluster.getLabels(
+        receiver.getMetadata().getName(),
+        getComponentName(receiver),
+        GerritReconciler.class.getSimpleName());
   }
 
-  private Set<Volume> getVolumes(Receiver receiver, GerritCluster gerritCluster) {
+  private Set<Volume> getVolumes(Receiver receiver) {
     Set<Volume> volumes = new HashSet<>();
     volumes.add(GerritCluster.getGitRepositoriesVolume());
     volumes.add(GerritCluster.getLogsVolume());
@@ -142,7 +150,7 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
             .build());
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
+        receiver.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
       volumes.add(GerritCluster.getNfsImapdConfigVolume());
     }
@@ -150,8 +158,7 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
     return volumes;
   }
 
-  private Set<VolumeMount> getVolumeMounts(
-      Receiver receiver, GerritCluster gerritCluster, boolean isInitContainer) {
+  private Set<VolumeMount> getVolumeMounts(Receiver receiver, boolean isInitContainer) {
     Set<VolumeMount> volumeMounts = new HashSet<>();
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
     volumeMounts.add(GerritCluster.getLogsVolumeMount("/var/log/apache2"));
@@ -164,7 +171,7 @@ public class ReceiverDeployment extends GerritClusterMemberDependentResource<Dep
             .build());
 
     NfsWorkaroundConfig nfsWorkaround =
-        gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
+        receiver.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
       volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
