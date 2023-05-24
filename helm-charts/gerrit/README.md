@@ -335,7 +335,7 @@ future.
 | `gerrit.additionalConfigMaps` | Allows to mount additional ConfigMaps into a subdirectory of `$SITE/data` | `[]` |
 | `gerrit.additionalConfigMaps[*].name` | Name of the ConfigMap | `nil` |
 | `gerrit.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked | `nil` |
-| `gerrit.additionalConfigMaps[*].data` | Data of the ConfigMap. If not set, secret has to be created manually | `nil` |
+| `gerrit.additionalConfigMaps[*].data` | Data of the ConfigMap. If not set, ConfigMap has to be created manually | `nil` |
 
 ### Gerrit config files
 
