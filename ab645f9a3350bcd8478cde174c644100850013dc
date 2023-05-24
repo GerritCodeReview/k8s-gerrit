@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8acb4a8b_e140b273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-05-24T12:22:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "32d137c5_358d215e",
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4441f5dc_e5182670",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-05-23T06:52:27Z",
       "side": 1,
       "message": "Please use a more descriptive header. Also consider splitting this change into multiple changes.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc145be4_604dd52a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-05-24T12:22:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4441f5dc_e5182670",
       "range": {
         "startLine": 7,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbd2ecc0_c0bf8238",
+        "filename": "helm-charts/gerrit/templates/gerrit.service.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-05-24T12:22:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1a96557a_ae9afdd9",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 38,
+        "endChar": 47
+      },
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08723352_35c14c3f",
@@ -94,6 +160,30 @@
       "writtenOn": "2023-05-23T06:52:27Z",
       "side": 1,
       "message": "Put this into the scope of the `with`-clause.",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 12
+      },
+      "revId": "ab645f9a3350bcd8478cde174c644100850013dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e3d3a57_0df695d9",
+        "filename": "helm-charts/gerrit/templates/gerrit.service.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-05-24T12:22:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "08723352_35c14c3f",
       "range": {
         "startLine": 38,
         "startChar": 1,
