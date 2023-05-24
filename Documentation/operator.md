@@ -153,6 +153,8 @@ the state between Gerrit instances. These additional resources include:
 Installing Gerrit with the GerritCluster resource is highly recommended over using
 the [Gerrit](#gerrit) CustomResource directly, even if only a single deployment is
 installed, since this reduces the requirements that have to be managed manually.
+The same holds true for the [Receiver](#receiver) CustomResource, which without
+a Gerrit instance using the same site provides little value.
 
 ### Gerrit
 
@@ -192,6 +194,12 @@ The Receiver-CustomResource installs a Deployment running Apache with a git-http
 backend that is meant to receive pushes performed by Gerrit's replication plugin.
 It is meant to be installed into a GerritCluster that does not include a primary
 Gerrit, but only Gerrit Replicas.
+
+The Receiver-CustomResource is mainly meant to be used by the GerritCluster-reconciler
+to install a Receiver-instance managed by a GerritCluster. Receiver-CustomResources
+can however also be applied separately. Note, that the Gerrit operator will then
+not create any storage resources or setup any network resources in addition to
+the service.
 
 ## Configuration of Gerrit
 
