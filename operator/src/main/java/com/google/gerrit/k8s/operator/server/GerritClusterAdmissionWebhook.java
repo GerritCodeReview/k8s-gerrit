@@ -29,6 +29,13 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
 
   @Override
   Status validate(HasMetadata resource) {
+    if (!(resource instanceof GerritCluster)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage("Invalid resource. Expected GerritCluster-resource for validation.")
+          .build();
+    }
+
     GerritCluster gerritCluster = (GerritCluster) resource;
 
     if (moreThanOnePrimaryGerritInCluster(gerritCluster)) {
