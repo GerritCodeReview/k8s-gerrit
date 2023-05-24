@@ -231,6 +231,7 @@ gitBackend:
     externalTrafficPolicy: Cluster
     http:
       port: 80
+    loadBalancerIP:
 
   credentials:
     # example: user: 'git'; password: 'secret'
@@ -330,6 +331,7 @@ gerritReplica:
     ssh:
       enabled: false
       port: 29418
+    loadBalancerIP:
 
   # `gerritReplica.keystore` expects a base64-encoded Java-keystore
   # Since Java keystores are binary files, adding the unencoded content and

@@ -320,6 +320,7 @@ future.
 | `gerrit.service.loadBalancerSourceRanges` | The list of allowed IPs for the Service | `[]` |
 | `gerrit.service.type` | Which kind of Service to deploy | `NodePort` |
 | `gerrit.service.externalTrafficPolicy` | Specify how traffic from external is handled | `Cluster` |
+| `gerrit.service.loadBalancerIP` | If service.type is LoadBalancer, this can be specified which IP address to use | `nil` |
 | `gerrit.service.http.port` | Port over which to expose HTTP | `80` |
 | `gerrit.service.ssh.enabled` | Whether to enable SSH | `false` |
 | `gerrit.service.ssh.port` | Port over which to expose SSH | `29418` |
