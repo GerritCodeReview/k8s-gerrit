@@ -177,6 +177,9 @@ gerrit:
     enabled: true
     size: 10Gi
 
+  # If no value for probeScheme, the probe will use the default HTTP
+  probeScheme:
+
   livenessProbe:
     initialDelaySeconds: 30
     periodSeconds: 5
