@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e9e7fc_6f160bff",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1159121
+      },
+      "writtenOn": "2023-06-01T11:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61b90c38_a73e117b",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 10
+      },
+      "revId": "dabbb0361e0d4771fa55e1cf684eaf95d364713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64f5bc03_78a3ff0d",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "Our main use case here is to place pods to a specific node type, managed by a custom controller. But I think it makes sense to add these labels to all resources managed by these charts. I will adjust my patch. Thanks",
       "parentUuid": "64f5bc03_78a3ff0d",
+      "revId": "dabbb0361e0d4771fa55e1cf684eaf95d364713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "799cfb75_865dc915",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1159121
+      },
+      "writtenOn": "2023-06-01T11:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8db1d204_47bd4b6d",
       "revId": "dabbb0361e0d4771fa55e1cf684eaf95d364713a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
