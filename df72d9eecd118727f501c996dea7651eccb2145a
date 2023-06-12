@@ -46,6 +46,30 @@
       },
       "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b1828d_14ecab98",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-12T13:38:43Z",
+      "side": 1,
+      "message": "I tested it on a primary Gerrit. I added an additional ConfigMap for the data directory, installed the helm chart and then removed the ConfigMap and updated the chart. Afterwards, the symlink still existed.",
+      "parentUuid": "108c0255_7dcbc952",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 39
+      },
+      "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
