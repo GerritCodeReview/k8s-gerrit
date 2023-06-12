@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d687bba1_8a03887c",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-12T13:47:38Z",
+      "side": 1,
+      "message": "This is the issue. A symlink of a directory is still not a directory. This should be removed.",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 134,
+        "endChar": 43
+      },
+      "revId": "81b49eb3cb4c32c431a85fdb607251c9c5715ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
