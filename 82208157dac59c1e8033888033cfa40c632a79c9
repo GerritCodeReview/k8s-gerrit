@@ -16,6 +16,23 @@
       "message": "Hi Thomas,\nI\u0027ve added a global parameter for labels and a specific ones for pod labels. Please have a look.",
       "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e7a0fad_efe23851",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1159121
+      },
+      "writtenOn": "2023-06-15T07:42:34Z",
+      "side": 1,
+      "message": "Hello team, is anything missing here to continue?",
+      "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
