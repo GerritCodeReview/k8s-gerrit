@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cbc67fb_203ec8fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-15T09:32:57Z",
+      "side": 1,
+      "message": "nit: line length should be limited to 80 chars",
+      "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "092ef25d_fc6de2a2",
@@ -31,6 +48,29 @@
       "writtenOn": "2023-06-15T07:42:34Z",
       "side": 1,
       "message": "Hello team, is anything missing here to continue?",
+      "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb5b782_3c9712b7",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-15T09:32:57Z",
+      "side": 1,
+      "message": "Do we need both of those (additionalLabels AND additionalPodLabels)? Wouldn\u0027t additionalLabels be enough?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 18
+      },
       "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
