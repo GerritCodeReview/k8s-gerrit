@@ -73,6 +73,30 @@
       },
       "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7456c96d_b6dffabc",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1159121
+      },
+      "writtenOn": "2023-06-15T14:33:50Z",
+      "side": 1,
+      "message": "I\u0027d like to separate those labels. In our case, we are using Spotinst controller, which requires some labels for pods (https://docs.spot.io/ocean/features/labels-and-taints) but we don\u0027t need them for Configmaps or Secrets, or any other resource.",
+      "parentUuid": "0cb5b782_3c9712b7",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "82208157dac59c1e8033888033cfa40c632a79c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
