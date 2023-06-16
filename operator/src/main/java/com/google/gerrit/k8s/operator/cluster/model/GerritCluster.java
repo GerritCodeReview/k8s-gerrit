@@ -211,4 +211,9 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .endValueFrom()
         .build();
   }
+
+  @JsonIgnore
+  public String getDependentResourceName(String nameSuffix) {
+    return String.format("%s-%s", getMetadata().getName(), nameSuffix);
+  }
 }

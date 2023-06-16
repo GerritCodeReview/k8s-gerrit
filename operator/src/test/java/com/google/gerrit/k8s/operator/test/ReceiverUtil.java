@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.test;
 
-import com.google.gerrit.k8s.operator.cluster.dependent.ReceiverIstioVirtualService;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
@@ -55,7 +54,12 @@ public class ReceiverUtil {
   public static URL getReceiverUrl(GerritCluster gerritCluster, String path) throws Exception {
     return new URIBuilder()
         .setScheme("https")
-        .setHost(ReceiverIstioVirtualService.getHostname(gerritCluster))
+        .setHost(
+            gerritCluster
+                .getSpec()
+                .getIngress()
+                .getFullHostnameForService(
+                    gerritCluster.getSpec().getReceiver().getMetadata().getName()))
         .setPath(path)
         .build()
         .toURL();

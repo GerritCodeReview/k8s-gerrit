@@ -30,15 +30,18 @@ import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@KubernetesDependent(resourceDiscriminator = GerritIstioVirtualServiceDiscriminator.class)
 public class GerritIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String UPLOAD_PACK_INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
   private static final String UPLOAD_PACK_URL_PATTERN = "^/(.*)/git-upload-pack$";
+  public static final String NAME_SUFFIX = "gerrit-http-virtual-service";
 
   public GerritIstioVirtualService() {
     super(VirtualService.class);
@@ -50,21 +53,19 @@ public class GerritIstioVirtualService
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(getName(gerritCluster))
+        .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
         .withNamespace(gerritCluster.getMetadata().getNamespace())
         .withLabels(
-            gerritCluster.getLabels(getName(gerritCluster), this.getClass().getSimpleName()))
+            gerritCluster.getLabels(
+                gerritCluster.getDependentResourceName(NAME_SUFFIX),
+                this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
         .withHosts(gerritClusterHost)
-        .withGateways(GerritIstioGateway.NAME)
+        .withGateways(GerritClusterIstioGateway.NAME)
         .withHttp(getHTTPRoutes(gerritCluster))
         .endSpec()
         .build();
-  }
-
-  public static String getName(GerritCluster gerritCluster) {
-    return String.format("%s-http-virtual-service", gerritCluster.getMetadata().getName());
   }
 
   private List<HTTPRoute> getHTTPRoutes(GerritCluster gerritCluster) {
