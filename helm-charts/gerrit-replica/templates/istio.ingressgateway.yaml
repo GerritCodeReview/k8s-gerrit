@@ -11,6 +11,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 type: kubernetes.io/tls
 data:
   {{ with .Values.istio.tls -}}
@@ -29,6 +32,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   selector:
     istio: ingressgateway
@@ -75,6 +81,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   hosts:
   - {{ .Values.istio.host }}
@@ -121,6 +130,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   host: {{ .Release.Name }}-gerrit-replica-service.{{ .Release.Namespace }}.svc.cluster.local
   trafficPolicy:

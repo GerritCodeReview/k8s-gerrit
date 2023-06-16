@@ -7,6 +7,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 provisioner: {{ .Values.storageClasses.default.provisioner }}
 reclaimPolicy: {{ .Values.storageClasses.default.reclaimPolicy }}
 {{ if .Values.storageClasses.shared.parameters -}}
@@ -26,6 +29,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 provisioner: {{ .Values.storageClasses.shared.provisioner }}
 reclaimPolicy: {{ .Values.storageClasses.shared.reclaimPolicy }}
 {{ if .Values.storageClasses.shared.parameters -}}

@@ -8,6 +8,9 @@ metadata:
     chart: {{ template "gerrit-replica.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.gitBackend.replicas }}
   strategy:
@@ -26,6 +29,12 @@ spec:
         chart: {{ template "gerrit-replica.chart" . }}
         heritage: {{ .Release.Service }}
         release: {{ .Release.Name }}
+        {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 8 }}
+        {{- end }}
+        {{- if .Values.gitBackend.additionalPodLabels }}
+{{ toYaml .Values.gitBackend.additionalPodLabels  | indent 8 }}
+        {{- end }}
       annotations:
         chartRevision: "{{ .Release.Revision }}"
     spec:
