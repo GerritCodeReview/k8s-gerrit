@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress.INGRESS_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.GerritClusterIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
@@ -71,7 +71,7 @@ public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
               assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
             });
 
-    GerritApi gerritApi = gerritCluster.getGerritApiClientForIngress(gerritTemplate);
+    GerritApi gerritApi = gerritCluster.getGerritApiClient(gerritTemplate);
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -86,12 +86,13 @@ public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
   @Test
   void testPrimaryGerritWithIstio() throws Exception {
     gerritCluster.setIngressType(IngressType.ISTIO);
-    TestGerrit gerrit =
-        new TestGerrit(client, testProps, GerritMode.PRIMARY, "gerrit", operator.getNamespace());
-    gerritCluster.addGerrit(gerrit.createGerritTemplate());
+    GerritTemplate gerrit =
+        new TestGerrit(client, testProps, GerritMode.PRIMARY, "gerrit", operator.getNamespace())
+            .createGerritTemplate();
+    gerritCluster.addGerrit(gerrit);
     gerritCluster.deploy();
 
-    GerritApi gerritApi = gerritCluster.getGerritApiClientForIstio();
+    GerritApi gerritApi = gerritCluster.getGerritApiClient(gerrit);
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
