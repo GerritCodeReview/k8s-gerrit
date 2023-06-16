@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit;
+package com.google.gerrit.k8s.operator.receiver;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplateSpec;
@@ -39,20 +40,20 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.io.TempDir;
 
-@TestInstance(Lifecycle.PER_CLASS)
 public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   private static final String GERRIT_NAME = "gerrit";
   private ReceiverTemplate receiver;
+  private GerritTemplate gerrit;
 
-  @BeforeAll
-  public void setupReceiver() {
+  @BeforeEach
+  public void setupComponents() throws Exception {
+    gerrit = TestGerrit.createGerritTemplate(GERRIT_NAME, GerritMode.REPLICA);
+    gerritCluster.addGerrit(gerrit);
+
     receiver = new ReceiverTemplate();
     ObjectMeta receiverMeta = new ObjectMetaBuilder().withName("receiver").build();
     receiver.setMetadata(receiverMeta);
@@ -60,20 +61,26 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
     receiverTemplateSpec.setReplicas(2);
     receiverTemplateSpec.setCredentialSecretRef(ReceiverUtil.CREDENTIALS_SECRET_NAME);
     receiver.setSpec(receiverTemplateSpec);
-  }
-
-  @BeforeEach
-  public void setupComponents() throws Exception {
-    gerritCluster.setIngressType(IngressType.INGRESS);
-
-    gerritCluster.addGerrit(TestGerrit.createGerritTemplate(GERRIT_NAME, GerritMode.REPLICA));
     gerritCluster.setReceiver(receiver);
+
     gerritCluster.deploy();
   }
 
   @Test
-  public void testProjectLifecycle(@TempDir Path tempDir) throws Exception {
+  public void testProjectLifecycleWithIngress(@TempDir Path tempDir) throws Exception {
+    gerritCluster.setIngressType(IngressType.INGRESS);
     GerritCluster cluster = gerritCluster.getGerritCluster();
+    assertProjectLifecycle(cluster, tempDir);
+  }
+
+  @Test
+  public void testProjectLifecycleWithIstio(@TempDir Path tempDir) throws Exception {
+    gerritCluster.setIngressType(IngressType.ISTIO);
+    GerritCluster cluster = gerritCluster.getGerritCluster();
+    assertProjectLifecycle(cluster, tempDir);
+  }
+
+  private void assertProjectLifecycle(GerritCluster cluster, Path tempDir) throws Exception {
     assertThat(
         ReceiverUtil.sendReceiverApiRequest(cluster, "GET", "/new/testLegacy.git"),
         is(equalTo(201)));
@@ -114,7 +121,7 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   private URL getGerritUrl(String path) throws Exception {
     return new URIBuilder()
         .setScheme("https")
-        .setHost(String.format("%s.%s", GERRIT_NAME, testProps.getIngressDomain()))
+        .setHost(gerritCluster.getGerritHostname(gerrit))
         .setPath(path)
         .build()
         .toURL();
