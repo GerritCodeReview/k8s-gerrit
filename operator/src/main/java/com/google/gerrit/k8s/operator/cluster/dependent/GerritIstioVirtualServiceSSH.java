@@ -26,12 +26,15 @@ import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@KubernetesDependent(resourceDiscriminator = GerritIstioVirtualServiceSSHDiscriminator.class)
 public class GerritIstioVirtualServiceSSH
     extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
+  public static final String NAME_SUFFIX = "gerrit-ssh-virtual-service";
 
   public GerritIstioVirtualServiceSSH() {
     super(VirtualService.class);
@@ -44,21 +47,19 @@ public class GerritIstioVirtualServiceSSH
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(getName(gerritCluster))
+        .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
         .withNamespace(gerritCluster.getMetadata().getNamespace())
         .withLabels(
-            gerritCluster.getLabels(getName(gerritCluster), this.getClass().getSimpleName()))
+            gerritCluster.getLabels(
+                gerritCluster.getDependentResourceName(NAME_SUFFIX),
+                this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
         .withHosts(collectHosts(gerrits, gerritClusterHost))
-        .withGateways(GerritIstioGateway.NAME)
+        .withGateways(GerritClusterIstioGateway.NAME)
         .withTcp(getTCPRoutes(gerrits, gerritCluster))
         .endSpec()
         .build();
-  }
-
-  public static String getName(GerritCluster gerritCluster) {
-    return String.format("%s-ssh-virtual-service", gerritCluster.getMetadata().getName());
   }
 
   private List<String> collectHosts(List<GerritTemplate> gerrits, String gerritClusterHost) {
