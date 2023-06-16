@@ -28,12 +28,15 @@ import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 
+@KubernetesDependent(resourceDiscriminator = ReceiverIstioVirtualServiceDiscriminator.class)
 public class ReceiverIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
   private static final String RECEIVER_INGRESS_SUBDOMAIN = "receiver";
+  public static final String NAME_SUFFIX = "receiver-virtual-service";
 
   public ReceiverIstioVirtualService() {
     super(VirtualService.class);
@@ -45,13 +48,16 @@ public class ReceiverIstioVirtualService
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(getName(receiver))
+        .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
         .withNamespace(receiver.getMetadata().getNamespace())
-        .withLabels(gerritCluster.getLabels(getName(receiver), this.getClass().getSimpleName()))
+        .withLabels(
+            gerritCluster.getLabels(
+                gerritCluster.getDependentResourceName(NAME_SUFFIX),
+                this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
         .withHosts(getHostname(gerritCluster))
-        .withGateways(GerritIstioGateway.NAME)
+        .withGateways(GerritClusterIstioGateway.NAME)
         .withHttp(getHTTPRoute(receiver))
         .endSpec()
         .build();
@@ -60,10 +66,6 @@ public class ReceiverIstioVirtualService
   public static String getHostname(GerritCluster gerritCluster) {
     String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
     return RECEIVER_INGRESS_SUBDOMAIN + "." + gerritClusterHost;
-  }
-
-  public static String getName(Receiver receiver) {
-    return receiver.getMetadata().getName();
   }
 
   public static String getName(GerritCluster gerritCluster) {
