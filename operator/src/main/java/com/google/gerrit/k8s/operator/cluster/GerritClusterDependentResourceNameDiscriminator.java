@@ -14,28 +14,34 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
+import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;
 import java.util.Optional;
 
-public class ResourceNameDiscriminator<R extends HasMetadata, P extends HasMetadata>
-    implements ResourceDiscriminator<R, P> {
+public class GerritClusterDependentResourceNameDiscriminator<R extends HasMetadata>
+    implements ResourceDiscriminator<R, GerritCluster> {
 
-  private final String name;
+  private final String nameSuffix;
 
-  public ResourceNameDiscriminator(String name) {
-    this.name = name;
+  public GerritClusterDependentResourceNameDiscriminator(String nameSuffix) {
+    this.nameSuffix = nameSuffix;
   }
 
   @Override
-  public Optional<R> distinguish(Class<R> resource, P primary, Context<P> context) {
+  public Optional<R> distinguish(
+      Class<R> resource, GerritCluster gerritCluster, Context<GerritCluster> context) {
 
     return context.getSecondaryResources(resource).stream()
         .filter(
             v ->
-                v.getMetadata().getNamespace().equals(primary.getMetadata().getNamespace())
-                    && v.getMetadata().getName().equals(name))
+                v.getMetadata().getNamespace().equals(gerritCluster.getMetadata().getNamespace())
+                    && v.getMetadata()
+                        .getName()
+                        .equals(
+                            String.format(
+                                "%s-%s", gerritCluster.getMetadata().getName(), nameSuffix)))
         .findFirst();
   }
 }
