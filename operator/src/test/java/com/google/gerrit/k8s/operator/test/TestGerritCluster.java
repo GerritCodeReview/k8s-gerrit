@@ -14,13 +14,11 @@
 
 package com.google.gerrit.k8s.operator.test;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -44,9 +42,6 @@ import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
-import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
-import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
-import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -83,6 +78,20 @@ public class TestGerritCluster {
 
   public String getHostname() {
     return hostname;
+  }
+
+  public String getGerritHostname(GerritTemplate gerrit) {
+    switch (cluster.getSpec().getIngress().getType()) {
+      case ISTIO:
+        return hostname;
+      case INGRESS:
+        return cluster
+            .getSpec()
+            .getIngress()
+            .getFullHostnameForService(gerrit.getMetadata().getName());
+      default:
+        throw new IllegalStateException("No ingress configured.");
+    }
   }
 
   public String getNamespace() {
@@ -135,16 +144,9 @@ public class TestGerritCluster {
     ingressConfig.setTls(ingressTlsConfig);
   }
 
-  public GerritApi getGerritApiClientForIngress(GerritTemplate gerrit) {
+  public GerritApi getGerritApiClient(GerritTemplate gerrit) {
     return new GerritRestApiFactory()
-        .create(
-            new GerritAuthData.Basic(
-                String.format("https://%s.%s", gerrit.getMetadata().getName(), hostname)));
-  }
-
-  public GerritApi getGerritApiClientForIstio() {
-    return new GerritRestApiFactory()
-        .create(new GerritAuthData.Basic(String.format("https://%s", hostname)));
+        .create(new GerritAuthData.Basic(String.format("https://%s", getGerritHostname(gerrit))));
   }
 
   public void setNfsEnabled(boolean isNfsEnabled) {
@@ -281,29 +283,11 @@ public class TestGerritCluster {
                       .inNamespace(namespace)
                       .withName(receiver.get().getMetadata().getName())
                       .isReady());
-            });
-
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              Ingress ingress =
-                  client
-                      .network()
-                      .v1()
-                      .ingresses()
-                      .inNamespace(namespace)
-                      .withName(INGRESS_NAME)
-                      .get();
-              assertThat(ingress, is(notNullValue()));
-              IngressStatus status = ingress.getStatus();
-              assertThat(status, is(notNullValue()));
-              List<IngressLoadBalancerIngress> lbIngresses = status.getLoadBalancer().getIngress();
-              assertThat(lbIngresses, hasSize(1));
-              assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
-              assertThat(
-                  ReceiverUtil.sendReceiverApiRequest(cluster, "GET", "/new/readycheck.git"),
-                  is(equalTo(201)));
+              if (cluster.getSpec().getIngress().isEnabled()) {
+                assertThat(
+                    ReceiverUtil.sendReceiverApiRequest(cluster, "GET", "/new/readycheck.git"),
+                    is(equalTo(201)));
+              }
             });
   }
 }
