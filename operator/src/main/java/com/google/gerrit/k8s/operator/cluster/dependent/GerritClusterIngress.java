@@ -38,10 +38,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @KubernetesDependent
-public class GerritIngress extends CRUDKubernetesDependentResource<Ingress, GerritCluster> {
+public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritCluster> {
   public static final String INGRESS_NAME = "gerrit-ingress";
 
-  public GerritIngress() {
+  public GerritClusterIngress() {
     super(Ingress.class);
   }
 

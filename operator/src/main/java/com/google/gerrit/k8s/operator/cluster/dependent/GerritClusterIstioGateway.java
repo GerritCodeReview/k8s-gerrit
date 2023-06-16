@@ -27,10 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GerritIstioGateway extends CRUDKubernetesDependentResource<Gateway, GerritCluster> {
+public class GerritClusterIstioGateway
+    extends CRUDKubernetesDependentResource<Gateway, GerritCluster> {
   public static final String NAME = "gerrit-istio-gateway";
 
-  public GerritIstioGateway() {
+  public GerritClusterIstioGateway() {
     super(Gateway.class);
   }
 
