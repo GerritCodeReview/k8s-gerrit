@@ -163,7 +163,7 @@ public class TestGerrit {
     }
     gerritSpec.setMode(mode);
     gerritSpec.setConfigFiles(Map.of("gerrit.config", config.toText()));
-    gerritSpec.setSecrets(Set.of(SECURE_CONFIG_SECRET_NAME));
+    gerritSpec.setSecretRef(SECURE_CONFIG_SECRET_NAME);
     template.setSpec(gerritSpec);
     return template;
   }
@@ -184,7 +184,7 @@ public class TestGerrit {
     }
     gerritSpec.setMode(mode);
     gerritSpec.setConfigFiles(Map.of("gerrit.config", config.toText()));
-    gerritSpec.setSecrets(Set.of(SECURE_CONFIG_SECRET_NAME));
+    gerritSpec.setSecretRef(SECURE_CONFIG_SECRET_NAME);
 
     SharedStorage repoStorage = new SharedStorage();
     repoStorage.setSize(Quantity.parse("1Gi"));
