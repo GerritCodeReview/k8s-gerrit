@@ -53,7 +53,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha2 \
+**Version**: v1alpha3 \
 **Kind**: GerritCluster
 
 ---
@@ -323,7 +323,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha2 \
+**Version**: v1alpha3 \
 **Kind**: Gerrit
 
 ---
@@ -519,7 +519,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha1 \
+**Version**: v1alpha2 \
 **Kind**: Receiver
 
 ---
@@ -838,7 +838,7 @@ spec:
 | `site` | [`GerritSite`](#gerritsite) | Configuration concerning the Gerrit site directory |
 | `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |
 | `configFiles` | `Map<String, String>` | Configuration files for Gerrit that will be mounted into the Gerrit site's etc-directory (gerrit.config is mandatory) |
-| `secrets` | `Set<String>` | Names of secrets containing configuration files, e.g. secure.config, that will be mounted into the Gerrit site's etc-directory (optional) |
+| `secretRef` | `String` | Names of secret containing configuration files, e.g. secure.config, that will be mounted into the Gerrit site's etc-directory (optional) |
 | `mode` | [`GerritMode`](#gerritmode) | In which mode Gerrit should be run. (default: PRIMARY) |
 
 ## GerritProbe
