@@ -90,7 +90,7 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
                 .getPrimaryCache()
                 .list(
                     gerrit ->
-                        gerrit.getSpec().getSecrets().contains(secret.getMetadata().getName()))
+                        gerrit.getSpec().getSecretRef().equals(secret.getMetadata().getName()))
                 .map(ResourceID::fromResource)
                 .collect(Collectors.toSet());
 
@@ -146,17 +146,15 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
     }
 
     Map<String, String> secretVersions = new HashMap<>();
-    for (String sec : gerrit.getSpec().getSecrets()) {
-      secretVersions.put(
-          sec,
-          client
-              .secrets()
-              .inNamespace(gerrit.getMetadata().getNamespace())
-              .withName(sec)
-              .get()
-              .getMetadata()
-              .getResourceVersion());
-    }
+    secretVersions.put(
+        gerrit.getSpec().getSecretRef(),
+        client
+            .secrets()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(gerrit.getSpec().getSecretRef())
+            .get()
+            .getMetadata()
+            .getResourceVersion());
     status.setAppliedSecretVersions(secretVersions);
 
     gerrit.setStatus(status);
@@ -180,21 +178,20 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
       }
     }
 
-    for (String sec : gerrit.getSpec().getSecrets()) {
-      String secVersion =
-          client
-              .secrets()
-              .inNamespace(gerrit.getMetadata().getNamespace())
-              .withName(sec)
-              .get()
-              .getMetadata()
-              .getResourceVersion();
-      if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(sec))) {
-        logger.atFine().log(
-            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
-            sec, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(sec));
-        return true;
-      }
+    String secretName = gerrit.getSpec().getSecretRef();
+    String secVersion =
+        client
+            .secrets()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(secretName)
+            .get()
+            .getMetadata()
+            .getResourceVersion();
+    if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
+      logger.atFine().log(
+          "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
+          secretName, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(secretName));
+      return true;
     }
     return false;
   }
