@@ -1,4 +1,4 @@
-apiVersion: "gerritoperator.google.com/v1alpha3"
+apiVersion: "gerritoperator.google.com/v1alpha4"
 kind: Gerrit
 metadata:
   name: gerrit
