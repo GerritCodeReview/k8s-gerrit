@@ -184,15 +184,13 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             .endConfigMap()
             .build());
 
-    for (String secretName : gerrit.getSpec().getSecrets()) {
-      volumes.add(
-          new VolumeBuilder()
-              .withName(secretName)
-              .withNewSecret()
-              .withSecretName(secretName)
-              .endSecret()
-              .build());
-    }
+    volumes.add(
+        new VolumeBuilder()
+            .withName(gerrit.getSpec().getSecretRef())
+            .withNewSecret()
+            .withSecretName(gerrit.getSpec().getSecretRef())
+            .endSecret()
+            .build());
 
     if (gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled()
         && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
@@ -226,13 +224,11 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             .withMountPath("/var/mnt/etc/config")
             .build());
 
-    for (String secretName : gerrit.getSpec().getSecrets()) {
-      volumeMounts.add(
-          new VolumeMountBuilder()
-              .withName(secretName)
-              .withMountPath("/var/mnt/etc/secret")
-              .build());
-    }
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(gerrit.getSpec().getSecretRef())
+            .withMountPath("/var/mnt/etc/secret")
+            .build());
 
     if (isInitContainer) {
       volumeMounts.add(

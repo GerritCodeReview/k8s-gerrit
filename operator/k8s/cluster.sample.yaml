@@ -38,5 +38,4 @@ spec:
             name = Gerrit Code Review
             email = gerrit@example.com
             anonymousCoward = Unnamed User
-      secrets:
-      - gerrit-secure-config
+      secretRef: gerrit-secure-config
