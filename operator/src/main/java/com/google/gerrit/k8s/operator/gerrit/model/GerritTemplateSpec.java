@@ -21,7 +21,6 @@ import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class GerritTemplateSpec {
   private List<Toleration> tolerations;
@@ -45,7 +44,7 @@ public class GerritTemplateSpec {
   private GerritSite site = new GerritSite();
   private List<GerritPlugin> plugins = List.of();
   private Map<String, String> configFiles = Map.of();
-  private Set<String> secrets = Set.of();
+  private String secretRef;
   private GerritMode mode = GerritMode.PRIMARY;
 
   public GerritTemplateSpec() {}
@@ -72,7 +71,7 @@ public class GerritTemplateSpec {
     this.site = templateSpec.site;
     this.plugins = templateSpec.plugins;
     this.configFiles = templateSpec.configFiles;
-    this.secrets = templateSpec.secrets;
+    this.secretRef = templateSpec.secretRef;
     this.mode = templateSpec.mode;
   }
 
@@ -197,12 +196,12 @@ public class GerritTemplateSpec {
     this.configFiles = configFiles;
   }
 
-  public Set<String> getSecrets() {
-    return secrets;
+  public String getSecretRef() {
+    return secretRef;
   }
 
-  public void setSecrets(Set<String> secrets) {
-    this.secrets = secrets;
+  public void setSecretRef(String secretRef) {
+    this.secretRef = secretRef;
   }
 
   public GerritMode getMode() {
