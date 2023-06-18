@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class GerritStatus {
   private boolean ready = false;
+  private Map<String, String> appliedConfigMapVersions = new HashMap<>();
   private Map<String, String> appliedSecretVersions = new HashMap<>();
 
   public boolean isReady() {
@@ -27,6 +28,14 @@ public class GerritStatus {
 
   public void setReady(boolean ready) {
     this.ready = ready;
+  }
+
+  public Map<String, String> getAppliedConfigMapVersions() {
+    return appliedConfigMapVersions;
+  }
+
+  public void setAppliedConfigMapVersions(Map<String, String> appliedConfigMapVersions) {
+    this.appliedConfigMapVersions = appliedConfigMapVersions;
   }
 
   public Map<String, String> getAppliedSecretVersions() {
