@@ -37,13 +37,9 @@ import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
-import io.javaoperatorsdk.operator.api.reconciler.dependent.ReconcileResult;
-import io.javaoperatorsdk.operator.api.reconciler.dependent.ReconcileResult.Operation;
-import io.javaoperatorsdk.operator.api.reconciler.dependent.managed.ManagedDependentResourceContext;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.WorkflowReconcileResult;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -126,6 +122,30 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
       status.setReady(false);
     }
 
+    Map<String, String> cmVersions = new HashMap<>();
+
+    cmVersions.put(
+        GerritConfigMap.getName(gerrit),
+        client
+            .configMaps()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(GerritConfigMap.getName(gerrit))
+            .get()
+            .getMetadata()
+            .getResourceVersion());
+
+    cmVersions.put(
+        GerritInitConfigMap.getName(gerrit),
+        client
+            .configMaps()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(GerritInitConfigMap.getName(gerrit))
+            .get()
+            .getMetadata()
+            .getResourceVersion());
+
+    status.setAppliedConfigMapVersions(cmVersions);
+
     Map<String, String> secretVersions = new HashMap<>();
     Optional<Secret> gerritSecret = context.getSecondaryResource(Secret.class);
     if (gerritSecret.isPresent()) {
@@ -138,21 +158,43 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
     return gerrit;
   }
 
-  @SuppressWarnings("rawtypes")
   private boolean isGerritRestartRequired(Gerrit gerrit, Context<Gerrit> context) {
-    ManagedDependentResourceContext managedResources = context.managedDependentResourceContext();
-    Optional<WorkflowReconcileResult> reconcileResults =
-        managedResources.getWorkflowReconcileResult();
-    if (reconcileResults.isPresent()) {
-      Collection<ReconcileResult> results = reconcileResults.get().getReconcileResults().values();
-      for (ReconcileResult r : results) {
-        if (r.getSingleResource().isPresent()
-            && r.getSingleResource().get() instanceof ConfigMap
-            && (r.getSingleOperation().equals(Operation.UPDATED)
-                || r.getSingleOperation().equals(Operation.CREATED))) {
-          return true;
-        }
-      }
+    String gerritConfigMapName = GerritConfigMap.getName(gerrit);
+    String gerritConfigMapVersion =
+        client
+            .configMaps()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(gerritConfigMapName)
+            .get()
+            .getMetadata()
+            .getResourceVersion();
+    if (!gerritConfigMapVersion.equals(
+        gerrit.getStatus().getAppliedConfigMapVersions().get(gerritConfigMapName))) {
+      logger.atInfo().log(
+          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
+          gerritConfigMapName,
+          gerritConfigMapVersion,
+          gerrit.getStatus().getAppliedConfigMapVersions().get(gerritConfigMapName));
+      return true;
+    }
+
+    String gerritInitConfigMapName = GerritInitConfigMap.getName(gerrit);
+    String gerritInitConfigMapVersion =
+        client
+            .configMaps()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(gerritInitConfigMapName)
+            .get()
+            .getMetadata()
+            .getResourceVersion();
+    if (!gerritInitConfigMapVersion.equals(
+        gerrit.getStatus().getAppliedConfigMapVersions().get(gerritInitConfigMapName))) {
+      logger.atInfo().log(
+          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
+          gerritInitConfigMapName,
+          gerritInitConfigMapVersion,
+          gerrit.getStatus().getAppliedConfigMapVersions().get(gerritInitConfigMapName));
+      return true;
     }
 
     String secretName = gerrit.getSpec().getSecretRef();
