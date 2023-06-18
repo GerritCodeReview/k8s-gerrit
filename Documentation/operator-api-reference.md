@@ -323,7 +323,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha3 \
+**Version**: v1alpha4 \
 **Kind**: Gerrit
 
 ---
@@ -893,6 +893,7 @@ compared to the parent object. All other options can still be configured.
 | Field | Type | Description |
 |---|---|---|
 | `ready` | `boolean` | Whether the Gerrit instance is ready |
+| `appliedConfigMapVersions` | `Map<String, String>` | Versions of each ConfigMap currently mounted into Gerrit pods |
 | `appliedSecretVersions` | `Map<String, String>` | Versions of each secret currently mounted into Gerrit pods |
 
 ## IngressConfig
