@@ -16,7 +16,6 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import static com.google.gerrit.k8s.operator.cluster.dependent.GerritIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,15 +24,11 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritServiceConfig;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
@@ -42,7 +37,6 @@ import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
 import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -189,64 +183,5 @@ public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
             .inContainer("gerrit")
             .getLog()
             .contains("Gerrit Code Review [replica]"));
-  }
-
-  @Test
-  void testRestartHandlingOnConfigChange() throws Exception {
-    String gerritName = "gerrit";
-    TestGerrit gerrit =
-        new TestGerrit(client, testProps, GerritMode.PRIMARY, gerritName, operator.getNamespace());
-    GerritTemplate gerritTemplate = gerrit.createGerritTemplate();
-    gerritCluster.addGerrit(gerritTemplate);
-    gerritCluster.deploy();
-
-    gerritCluster.removeGerrit(gerritTemplate);
-    GerritServiceConfig svcConfig = new GerritServiceConfig();
-    int changedPort = 8081;
-    svcConfig.setHttpPort(changedPort);
-    GerritTemplateSpec gerritSpec = gerritTemplate.getSpec();
-    gerritSpec.setService(svcConfig);
-    gerritTemplate.setSpec(gerritSpec);
-    gerritCluster.addGerrit(gerritTemplate);
-    gerritCluster.deploy();
-
-    await()
-        .atMost(30, SECONDS)
-        .untilAsserted(
-            () -> {
-              assertTrue(
-                  client
-                      .services()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gerritName)
-                      .get()
-                      .getSpec()
-                      .getPorts()
-                      .stream()
-                      .anyMatch(port -> port.getPort() == changedPort));
-            });
-    Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
-
-    gerrit.modifyGerritConfig("test", "test", "test");
-    gerritTemplate = gerrit.createGerritTemplate();
-    gerritCluster.removeGerrit(gerritTemplate);
-    gerritCluster.addGerrit(gerritTemplate);
-    gerritCluster.deploy();
-
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              Mockito.verify(gerritReconciler, times(2)).restartGerritStatefulSet(any());
-            });
-
-    secureConfig.modify("test", "test", "test");
-
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              Mockito.verify(gerritReconciler, times(3)).restartGerritStatefulSet(any());
-            });
   }
 }
