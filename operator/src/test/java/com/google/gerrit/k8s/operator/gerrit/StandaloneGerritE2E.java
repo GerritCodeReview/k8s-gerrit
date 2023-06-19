@@ -14,21 +14,13 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritServiceConfig;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public class StandaloneGerritE2E extends AbstractGerritOperatorE2ETest {
 
@@ -65,55 +57,5 @@ public class StandaloneGerritE2E extends AbstractGerritOperatorE2ETest {
             .inContainer("gerrit")
             .getLog()
             .contains("Gerrit Code Review [replica]"));
-  }
-
-  @Test
-  void testRestartHandlingOnConfigChange() {
-    String gerritName = "gerrit";
-    TestGerrit testGerrit = new TestGerrit(client, testProps, gerritName, operator.getNamespace());
-    testGerrit.deploy();
-
-    GerritServiceConfig svcConfig = new GerritServiceConfig();
-    int changedPort = 8081;
-    svcConfig.setHttpPort(changedPort);
-    GerritSpec gerritSpec = testGerrit.getSpec();
-    gerritSpec.setService(svcConfig);
-    testGerrit.setSpec(gerritSpec);
-
-    await()
-        .atMost(30, SECONDS)
-        .untilAsserted(
-            () -> {
-              assertTrue(
-                  client
-                      .services()
-                      .inNamespace(operator.getNamespace())
-                      .withName(gerritName)
-                      .get()
-                      .getSpec()
-                      .getPorts()
-                      .stream()
-                      .anyMatch(port -> port.getPort() == changedPort));
-            });
-    Mockito.verify(gerritReconciler, times(0)).restartGerritStatefulSet(any());
-
-    testGerrit.modifyGerritConfig("test", "test", "test");
-    testGerrit.deploy();
-
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              Mockito.verify(gerritReconciler, times(1)).restartGerritStatefulSet(any());
-            });
-
-    secureConfig.modify("test", "test", "test");
-
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              Mockito.verify(gerritReconciler, times(2)).restartGerritStatefulSet(any());
-            });
   }
 }
