@@ -14,6 +14,9 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
+
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -30,14 +33,21 @@ import io.fabric8.kubernetes.api.model.apps.StatefulSetBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @KubernetesDependent
 public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulSet, Gerrit> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final SimpleDateFormat RFC3339 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
   private static final String SITE_VOLUME_NAME = "gerrit-site";
   public static final int HTTP_PORT = 8080;
@@ -63,6 +73,23 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
               gerrit.getSpec().getContainerImages()));
     }
 
+    Map<String, String> replicaSetAnnotations = new HashMap<>();
+    if (gerrit.getStatus() != null && isGerritRestartRequired(gerrit, context)) {
+      replicaSetAnnotations.put(
+          "kubectl.kubernetes.io/restartedAt", RFC3339.format(Timestamp.from(Instant.now())));
+    } else {
+      Optional<StatefulSet> existingSts = context.getSecondaryResource(StatefulSet.class);
+      if (existingSts.isPresent()) {
+        Map<String, String> existingAnnotations =
+            existingSts.get().getSpec().getTemplate().getMetadata().getAnnotations();
+        if (existingAnnotations.containsKey("kubectl.kubernetes.io/restartedAt")) {
+          replicaSetAnnotations.put(
+              "kubectl.kubernetes.io/restartedAt",
+              existingAnnotations.get("kubectl.kubernetes.io/restartedAt"));
+        }
+      }
+    }
+
     stsBuilder
         .withApiVersion("apps/v1")
         .withNewMetadata()
@@ -83,6 +110,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .endSelector()
         .withNewTemplate()
         .withNewMetadata()
+        .withAnnotations(replicaSetAnnotations)
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
@@ -265,5 +293,46 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     }
 
     return containerPorts;
+  }
+
+  private boolean isGerritRestartRequired(Gerrit gerrit, Context<Gerrit> context) {
+    if (wasConfigMapUpdated(GerritInitConfigMap.getName(gerrit), gerrit)
+        || wasConfigMapUpdated(GerritConfigMap.getName(gerrit), gerrit)) {
+      return true;
+    }
+
+    String secretName = gerrit.getSpec().getSecretRef();
+    Optional<String> gerritSecret =
+        context.managedDependentResourceContext().get(CONTEXT_SECRET_VERSION_KEY, String.class);
+    if (gerritSecret.isPresent()) {
+      String secVersion = gerritSecret.get();
+      if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
+        logger.atFine().log(
+            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
+            secretName, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(secretName));
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean wasConfigMapUpdated(String configMapName, Gerrit gerrit) {
+    String configMapVersion =
+        client
+            .configMaps()
+            .inNamespace(gerrit.getMetadata().getNamespace())
+            .withName(configMapName)
+            .get()
+            .getMetadata()
+            .getResourceVersion();
+    String knownConfigMapVersion =
+        gerrit.getStatus().getAppliedConfigMapVersions().get(configMapName);
+    if (!configMapVersion.equals(knownConfigMapVersion)) {
+      logger.atInfo().log(
+          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
+          configMapName, configMapVersion, knownConfigMapVersion);
+      return true;
+    }
+    return false;
   }
 }
