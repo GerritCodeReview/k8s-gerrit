@@ -216,25 +216,27 @@ public class TestGerritCluster {
   public void deploy() {
     build();
     client.resource(cluster).inNamespace(namespace).createOrReplace();
-
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
-              GerritCluster updatedCluster =
+              assertThat(
                   client
                       .resources(GerritCluster.class)
                       .inNamespace(namespace)
                       .withName(CLUSTER_NAME)
-                      .get();
-              assertThat(updatedCluster, is(notNullValue()));
-              for (GerritTemplate gerrit : updatedCluster.getSpec().getGerrits()) {
-                waitForGerritReadiness(gerrit);
-              }
-              if (receiver.isPresent()) {
-                waitForReceiverReadiness();
-              }
+                      .get(),
+                  is(notNullValue()));
             });
+
+    GerritCluster updatedCluster =
+        client.resources(GerritCluster.class).inNamespace(namespace).withName(CLUSTER_NAME).get();
+    for (GerritTemplate gerrit : updatedCluster.getSpec().getGerrits()) {
+      waitForGerritReadiness(gerrit);
+    }
+    if (receiver.isPresent()) {
+      waitForReceiverReadiness();
+    }
   }
 
   private void waitForGerritReadiness(GerritTemplate gerrit) {
@@ -257,6 +259,12 @@ public class TestGerritCluster {
                       .statefulSets()
                       .inNamespace(namespace)
                       .withName(gerrit.getMetadata().getName())
+                      .isReady());
+              assertTrue(
+                  client
+                      .pods()
+                      .inNamespace(namespace)
+                      .withName(gerrit.getMetadata().getName() + "-0")
                       .isReady());
             });
   }

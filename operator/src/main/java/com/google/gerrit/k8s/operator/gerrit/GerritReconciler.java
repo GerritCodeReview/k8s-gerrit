@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
@@ -27,7 +28,6 @@ import com.google.gerrit.k8s.operator.gerrit.model.GerritStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
-import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -90,23 +90,7 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
   @Override
   public UpdateControl<Gerrit> reconcile(Gerrit gerrit, Context<Gerrit> context) throws Exception {
-    if (gerrit.getStatus() != null && isGerritRestartRequired(gerrit, context)) {
-      restartGerritStatefulSet(gerrit);
-    }
-
     return UpdateControl.patchStatus(updateStatus(gerrit, context));
-  }
-
-  void restartGerritStatefulSet(Gerrit gerrit) {
-    logger.atInfo().log(
-        "Restarting Gerrit %s due to configuration change.", gerrit.getMetadata().getName());
-    client
-        .apps()
-        .statefulSets()
-        .inNamespace(gerrit.getMetadata().getNamespace())
-        .withName(gerrit.getMetadata().getName())
-        .rolling()
-        .restart();
   }
 
   private Gerrit updateStatus(Gerrit gerrit, Context<Gerrit> context) {
@@ -144,70 +128,19 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
             .getMetadata()
             .getResourceVersion());
 
+    logger.atFine().log("Adding ConfigMap versions: %s", cmVersions);
     status.setAppliedConfigMapVersions(cmVersions);
 
     Map<String, String> secretVersions = new HashMap<>();
-    Optional<Secret> gerritSecret = context.getSecondaryResource(Secret.class);
+    Optional<String> gerritSecret =
+        context.managedDependentResourceContext().get(CONTEXT_SECRET_VERSION_KEY, String.class);
     if (gerritSecret.isPresent()) {
-      secretVersions.put(
-          gerrit.getSpec().getSecretRef(), gerritSecret.get().getMetadata().getResourceVersion());
+      secretVersions.put(gerrit.getSpec().getSecretRef(), gerritSecret.get());
     }
+    logger.atFine().log("Adding Secret versions: %s", secretVersions);
     status.setAppliedSecretVersions(secretVersions);
 
     gerrit.setStatus(status);
     return gerrit;
-  }
-
-  private boolean isGerritRestartRequired(Gerrit gerrit, Context<Gerrit> context) {
-    String gerritConfigMapName = GerritConfigMap.getName(gerrit);
-    String gerritConfigMapVersion =
-        client
-            .configMaps()
-            .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerritConfigMapName)
-            .get()
-            .getMetadata()
-            .getResourceVersion();
-    if (!gerritConfigMapVersion.equals(
-        gerrit.getStatus().getAppliedConfigMapVersions().get(gerritConfigMapName))) {
-      logger.atInfo().log(
-          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
-          gerritConfigMapName,
-          gerritConfigMapVersion,
-          gerrit.getStatus().getAppliedConfigMapVersions().get(gerritConfigMapName));
-      return true;
-    }
-
-    String gerritInitConfigMapName = GerritInitConfigMap.getName(gerrit);
-    String gerritInitConfigMapVersion =
-        client
-            .configMaps()
-            .inNamespace(gerrit.getMetadata().getNamespace())
-            .withName(gerritInitConfigMapName)
-            .get()
-            .getMetadata()
-            .getResourceVersion();
-    if (!gerritInitConfigMapVersion.equals(
-        gerrit.getStatus().getAppliedConfigMapVersions().get(gerritInitConfigMapName))) {
-      logger.atInfo().log(
-          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
-          gerritInitConfigMapName,
-          gerritInitConfigMapVersion,
-          gerrit.getStatus().getAppliedConfigMapVersions().get(gerritInitConfigMapName));
-      return true;
-    }
-
-    String secretName = gerrit.getSpec().getSecretRef();
-    Optional<Secret> gerritSecret = context.getSecondaryResource(Secret.class);
-    if (gerritSecret.isPresent()) {
-      String secVersion = gerritSecret.get().getMetadata().getResourceVersion();
-      if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
-        logger.atFine().log(
-            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
-            secretName, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(secretName));
-        return true;
-      }
-    }
-    return false;
   }
 }
