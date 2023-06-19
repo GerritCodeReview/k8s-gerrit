@@ -16,6 +16,8 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.fabric8.kubernetes.api.model.Secret;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.dependent.ReconcileResult;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.event.ResourceID;
@@ -26,6 +28,9 @@ import java.util.stream.Collectors;
 @KubernetesDependent
 public class GerritSecret extends KubernetesDependentResource<Secret, Gerrit>
     implements SecondaryToPrimaryMapper<Secret> {
+
+  public static final String CONTEXT_SECRET_VERSION_KEY = "gerrit-secret-version";
+
   public GerritSecret() {
     super(Secret.class);
   }
@@ -41,5 +46,22 @@ public class GerritSecret extends KubernetesDependentResource<Secret, Gerrit>
         .filter(g -> g.getSpec().getSecretRef().equals(secret.getMetadata().getName()))
         .map(g -> ResourceID.fromResource(g))
         .collect(Collectors.toSet());
+  }
+
+  @Override
+  protected ReconcileResult<Secret> reconcile(
+      Gerrit primary, Secret actualResource, Context<Gerrit> context) {
+    Secret sec =
+        client
+            .secrets()
+            .inNamespace(primary.getMetadata().getNamespace())
+            .withName(primary.getSpec().getSecretRef())
+            .get();
+    if (sec != null) {
+      context
+          .managedDependentResourceContext()
+          .put(CONTEXT_SECRET_VERSION_KEY, sec.getMetadata().getResourceVersion());
+    }
+    return ReconcileResult.noOperation(actualResource);
   }
 }
