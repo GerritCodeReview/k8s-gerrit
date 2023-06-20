@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this use healthcheck plugin from the master branch for Gerrit 3.8 ?\nSee https://gerrit.googlesource.com/gerrit-ci-scripts/+/refs/heads/master/jenkins/gerrit-bazel-plugin-healthcheck.yaml",
       "revId": "85ee70b4d6f63a94be900ca6e0a4d91726d089ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a5d8c8b_8dd733f1",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-20T13:44:52Z",
+      "side": 1,
+      "message": "True. Just noticed that it broke on 3.6 again. Will abandon this change, sicne the upgrade to 3.8 will also fix it",
+      "parentUuid": "3a7e312d_6bfeb356",
+      "revId": "85ee70b4d6f63a94be900ca6e0a4d91726d089ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
