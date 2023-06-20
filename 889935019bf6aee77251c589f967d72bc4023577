@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeb378bf_6804e6ac",
+        "filename": "project.config",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-06-20T08:38:21Z",
+      "side": 1,
+      "message": "I guess this should then read `label-Build-Approved`",
+      "range": {
+        "startLine": 22,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "889935019bf6aee77251c589f967d72bc4023577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
