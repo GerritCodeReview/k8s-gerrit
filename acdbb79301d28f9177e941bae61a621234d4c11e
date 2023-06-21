@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ded34a_b7a61b1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-21T12:28:46Z",
+      "side": 1,
+      "message": "Is why only the git-gc section was having issues with the nodeAffinity? Why is the indent the same for tolerations, nodeSelector, and affinity in other templates (i.e. https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/helm-charts/gerrit-replica/templates/gerrit-replica.stateful-set.yaml#47 - all are on the same indent level) but here the tolerations nindent is 10 while the nodeSelector and affinity will be 12?",
+      "revId": "acdbb79301d28f9177e941bae61a621234d4c11e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
