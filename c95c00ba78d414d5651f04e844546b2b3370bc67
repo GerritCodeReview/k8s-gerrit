@@ -16,6 +16,24 @@
       "message": "what does this fix ?",
       "revId": "c95c00ba78d414d5651f04e844546b2b3370bc67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95735756_90045143",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T13:11:47Z",
+      "side": 1,
+      "message": "In line 221ff I am selecting pods based on some criteria including the labels. The label names changed in a recent change, but this test wasn\u0027t adapted accordingly.",
+      "parentUuid": "b540a2c0_f647e82c",
+      "revId": "c95c00ba78d414d5651f04e844546b2b3370bc67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
