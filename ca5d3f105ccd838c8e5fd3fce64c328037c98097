@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c535b5_6798ca28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T09:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7c84532_2725b0b6",
+      "range": {
+        "startLine": 7,
+        "startChar": 59,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "ca5d3f105ccd838c8e5fd3fce64c328037c98097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c021d533_5db2804a",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5c51be_a0e7b84a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T09:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c021d533_5db2804a",
+      "revId": "ca5d3f105ccd838c8e5fd3fce64c328037c98097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bbec146_1a20683c",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-06-22T08:38:40Z",
       "side": 1,
       "message": "this seems unrelated to this change",
+      "revId": "ca5d3f105ccd838c8e5fd3fce64c328037c98097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "638f64c6_737ad091",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/validate_notedb.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T09:00:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bbec146_1a20683c",
       "revId": "ca5d3f105ccd838c8e5fd3fce64c328037c98097",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
