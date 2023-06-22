@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e32386a_aecd6b4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T07:44:25Z",
+      "side": 1,
+      "message": "What would be your use case for alias ports?\n\nI would like to avoid that the helm chart configuration in the end has more or less the same spec as the created Kubernetes resources. Configuring alias ports as it is done in this change would require internal knowledge (the targetPort). If alias-ports are the only things you need, I would suggest to change the .http.port and .ssh.port options to accept lists and then create the ports in the service via a loop.",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "11ec8dabc431bdc41df63967214a1c5e480802e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c71697b7_24344592",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T07:44:25Z",
+      "side": 1,
+      "message": "Other ports would just make sense, if the respective pods would also be configured to expose the port, which would currently not be the case.",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "11ec8dabc431bdc41df63967214a1c5e480802e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
