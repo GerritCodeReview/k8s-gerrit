@@ -34,6 +34,24 @@
       "parentUuid": "b540a2c0_f647e82c",
       "revId": "c95c00ba78d414d5651f04e844546b2b3370bc67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "480aff4b_6edaccdb",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-06-22T15:08:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "95735756_90045143",
+      "revId": "c95c00ba78d414d5651f04e844546b2b3370bc67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
