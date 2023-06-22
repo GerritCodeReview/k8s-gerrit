@@ -41,7 +41,7 @@ class NoteDbValidator:
             command.split(),
             stdout=subprocess.PIPE,
             universal_newlines=True,
-            check=True,
+            check=False,
         )
 
         return git_show_ref.returncode == 0
