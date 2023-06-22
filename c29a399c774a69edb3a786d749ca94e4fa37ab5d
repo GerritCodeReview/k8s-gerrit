@@ -16,6 +16,24 @@
       "message": "why do you switch the plugins used in the test ?",
       "revId": "c29a399c774a69edb3a786d749ca94e4fa37ab5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f52bf9a_a90c3318",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T13:08:34Z",
+      "side": 1,
+      "message": "Because the plugin build job names constantly change in the CI :-(, so I always choose those that have a job name that fits in the pattern in line 36.",
+      "parentUuid": "b4338ec8_78ac7c5f",
+      "revId": "c29a399c774a69edb3a786d749ca94e4fa37ab5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
