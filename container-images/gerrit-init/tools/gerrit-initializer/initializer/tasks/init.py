@@ -209,5 +209,4 @@ class GerritInit:
             if self.is_replica:
                 self._symlink_mounted_site_components()
 
-        if not self.is_replica:
-            get_reindexer(self.site, self.config).start(self.force_offline_reindex)
+        get_reindexer(self.site, self.config).start(self.force_offline_reindex)
