@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "317e55eb_70bf3fa1",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/AbstractValidationWebhookConfigApplier.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-23T14:28:43Z",
+      "side": 1,
+      "message": "nit: the order of declarations here should be the same as the order of assignments in the constructor",
+      "revId": "13128dd341d2391d8134b296028b86e4a3533091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92c1d581_c271a567",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhook.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-23T14:28:43Z",
+      "side": 1,
+      "message": "This doesn\u0027t change while filter-ing the stream: factor it out in a local variable",
+      "range": {
+        "startLine": 83,
+        "startChar": 60,
+        "endLine": 83,
+        "endChar": 88
+      },
+      "revId": "13128dd341d2391d8134b296028b86e4a3533091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77becb57_38eb6155",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhook.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-23T14:28:43Z",
+      "side": 1,
+      "message": "The above 3 statements compute set intersection, not intercept(ion)\n\nRename the local variable and the method name.",
+      "revId": "13128dd341d2391d8134b296028b86e4a3533091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
