@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17dbead1_f20fdbc6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-26T13:58:52Z",
+      "side": 1,
+      "message": "Reverse type check to first handle the error case, makes the code slightly better readable:\n\n```suggestion\n    if (!(resource instanceof Gerrit)) {\n      return new StatusBuilder()\n          .withCode(HttpServletResponse.SC_BAD_REQUEST)\n          .withMessage(\"Invalid resource. Expected Gerrit-resource for validation.\")\n          .build();\n    }\n    \n    Gerrit gerrit \u003d (Gerrit) resource;\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "bf4e735f74d5354c743a254a8a441859b9e35f42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
