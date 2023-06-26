@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d9ade2_cefd64b0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-26T10:32:01Z",
+      "side": 1,
+      "message": "It should be if we assume that the caller of the webhook behaves correctly. To be save I added a check.",
+      "parentUuid": "d31d52c5_343ae4c7",
+      "revId": "29e4e75fb2c1126ce8af2502879a8073b4df2505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f0f888e_1ca85ddf",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-06-23T14:54:51Z",
       "side": 1,
       "message": "It is easier to read method names which are not negated: name this one `clusterNameSet` or `isClusterNameSet` and use Java negation operator `!` at the line 42",
+      "range": {
+        "startLine": 59,
+        "startChar": 18,
+        "endLine": 59,
+        "endChar": 34
+      },
+      "revId": "29e4e75fb2c1126ce8af2502879a8073b4df2505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2289c75_ca3d7eae",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-26T10:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0f888e_1ca85ddf",
       "range": {
         "startLine": 59,
         "startChar": 18,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6449e903_470f3565",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-26T10:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ce8145c_4015b300",
+      "range": {
+        "startLine": 64,
+        "startChar": 18,
+        "endLine": 64,
+        "endChar": 29
+      },
+      "revId": "29e4e75fb2c1126ce8af2502879a8073b4df2505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "407d28ff_11fd0a06",
@@ -77,6 +143,24 @@
       "writtenOn": "2023-06-23T14:54:51Z",
       "side": 1,
       "message": "is this downcast safe?",
+      "revId": "29e4e75fb2c1126ce8af2502879a8073b4df2505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e740f0d_2be8c13e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhook.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-26T10:32:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "407d28ff_11fd0a06",
       "revId": "29e4e75fb2c1126ce8af2502879a8073b4df2505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
