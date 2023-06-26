@@ -23,8 +23,8 @@ import requests
 
 from kubernetes import client
 
-PLUGINS = ["code-owners", "account"]
-GERRIT_VERSION = "3.6"
+PLUGINS = ["avatars-gravatar", "readonly"]
+GERRIT_VERSION = "3.8"
 
 
 @pytest.fixture(scope="module")
@@ -33,7 +33,7 @@ def plugin_list():
     for plugin in PLUGINS:
         url = (
             f"https://gerrit-ci.gerritforge.com/view/Plugins-stable-{GERRIT_VERSION}/"
-            f"job/plugin-{plugin}-bazel-stable-{GERRIT_VERSION}/lastSuccessfulBuild/"
+            f"job/plugin-{plugin}-bazel-master-stable-{GERRIT_VERSION}/lastSuccessfulBuild/"
             f"artifact/bazel-bin/plugins/{plugin}/{plugin}.jar"
         )
         jar = requests.get(url, verify=False).content
@@ -214,9 +214,7 @@ class TestGerritChartOtherPluginInstall:
 def test_install_other_plugins_fails_wrong_sha(
     gerrit_deployment_with_other_plugin_wrong_sha,
 ):
-    pod_labels = (
-        f"app=gerrit,release={gerrit_deployment_with_other_plugin_wrong_sha.chart_name}"
-    )
+    pod_labels = f"app.kubernetes.io/component=gerrit,release={gerrit_deployment_with_other_plugin_wrong_sha.chart_name}"
     core_v1 = client.CoreV1Api()
     pod_name = ""
     while not pod_name:
@@ -227,7 +225,8 @@ def test_install_other_plugins_fails_wrong_sha(
         )
         if len(pod_list.items) > 1:
             raise RuntimeError("Too many gerrit pods with the same release name.")
-        pod_name = pod_list.items[0].metadata.name
+        elif len(pod_list.items) == 1:
+            pod_name = pod_list.items[0].metadata.name
 
     current_status = None
     while not current_status:
