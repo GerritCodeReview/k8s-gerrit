@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ff21b31_0715b20b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-26T10:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aa903ef_b1946268",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 2
+      },
+      "revId": "649211685bc6c6839bb92b1166b1a241c03fea8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c251aa9e_3dedd32f",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-06-23T15:04:53Z",
       "side": 1,
       "message": "This, and other, regexes should be put into a constant with a good name. Ideally, we shall also have a test coverage for regex matching.",
+      "revId": "649211685bc6c6839bb92b1166b1a241c03fea8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b85ab3b_5564fb57",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritIstioVirtualService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-26T10:32:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c251aa9e_3dedd32f",
       "revId": "649211685bc6c6839bb92b1166b1a241c03fea8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
