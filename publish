@@ -2,7 +2,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--update-latest] [--registry REGISTRY] [--org ORGANIZATION] [--no-push] --tag TAG [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--update-latest] [--registry REGISTRY] [--org ORGANIZATION] [--no-push] [--tag TAG] [IMAGE]"
     exit 1
 }
 
@@ -44,9 +44,7 @@ while test $# -gt 0 ; do
 done
 
 if test -z "$TAG"; then
-  echo "No tag was provided."
-  echo "Use either the --tag option or provide a TAG-environment variable."
-  usage
+  TAG=$(./get_version.sh)
 fi
 
 #Get list of images
