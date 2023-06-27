@@ -16,6 +16,24 @@
       "message": "How do you determine when the name format should just use gerrit.getMetadata().getName() vs. gerritCluster.getDependentResourceName(NAME_SUFFIX)? \n\nFor instance, in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/377260/5/operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ReceiverIstioVirtualService.java the change effectively replaces receiver.getMetadata().getName() with gerritCluster.getDependentResourceName(NAME_SUFFIX). Are they equivalent?",
       "revId": "e02f412fa93b800e36b6a678a76dfb0a93bf7777",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed4a47fe_992575ff",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritIstioVirtualService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-27T13:52:28Z",
+      "side": 0,
+      "message": "In this case they are not. `gerritCluster.getDependentResourceName(NAME_SUFFIX)` is meant to be used to get the name of a dependent resource. Here we name an `HTTPRoute` which is not a dependent resource, which would be the name of the VirtualService, where we already use `gerritCluster.getDependentResourceName(NAME_SUFFIX)`. For routes, of which a VirtualService can have many, we need a more fine grained naming scheme.\n\nAnyways, I should check whether `gerritCluster.getDependentResourceName(NAME_SUFFIX)` is used consistently everywhere.",
+      "parentUuid": "74c7e994_d6c82ad6",
+      "revId": "e02f412fa93b800e36b6a678a76dfb0a93bf7777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

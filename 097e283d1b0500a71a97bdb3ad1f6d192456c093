@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7499666_4b1b2456",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-27T13:52:28Z",
+      "side": 1,
+      "message": "Usually the DependentResource feature of the java-operator-sdk automatically creates an EventSource. This works as long as there is a single DependentResource of a given type. If there is more than one, an EventSource has to be created manually and assigned to all DependentResources of the given type. In such cases, you will also need to create a ResourceDiscriminator to tell the operator how to determine whether a resource is actually the DependentResource that it is looking for.\n\nIn the case of `gerrit-istio-gateway`, we create only a single `Gateway` for a given `GerritCluster` resource and thus can use the auto-created EventSource. If an operator instance would manage two GerritClusters, it would also not be an issue since the created DependentResources will have an OwnerReference in their metadata that links them to an instance of GerritCluster.",
+      "parentUuid": "fc082064_067d090a",
+      "revId": "097e283d1b0500a71a97bdb3ad1f6d192456c093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "448221d5_618b5e3d",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritClusterIngressCondition.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-27T13:32:40Z",
       "side": 1,
       "message": "[nit]\n```suggestion\n// Copyright (C) 2023 The Android Open Source Project\n```",
+      "revId": "097e283d1b0500a71a97bdb3ad1f6d192456c093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac16ddb7_ef6b6228",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritClusterIngressCondition.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-27T13:52:28Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "448221d5_618b5e3d",
       "revId": "097e283d1b0500a71a97bdb3ad1f6d192456c093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
