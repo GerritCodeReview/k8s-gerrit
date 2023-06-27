@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c7d52de_d6100b2e",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T14:17:21Z",
+      "side": 1,
+      "message": "```suggestion\n  ## The mode to run Gerrit in. Options: PRIMARY (default), REPLICA\n```",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05d709c3_abe4d95c",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T14:17:21Z",
+      "side": 1,
+      "message": "[nit] remove extra whitespace\n```suggestion\n      ## The registry from which to pull the \"busybox\u0027 image. (default: docker.io)\n```",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba14263d_d2749df6",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T14:17:21Z",
+      "side": 1,
+      "message": "[nit] I don\u0027t know what best practices are re: quotes for strings, but above in `gerritImages:` we have `registry: \"docker.io\"` and here we have `registry: docker.io`, so it is inconsistent.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "316a1177_534af2a6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/model/GerritCluster.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T14:17:21Z",
+      "side": 1,
+      "message": "Is this comment still applicable? Just a reminder from yourself.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b3e6d11_12e9596d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/IngressConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T14:17:21Z",
+      "side": 1,
+      "message": "This IngressConfig\u0027s `tls` is a boolean for whether or not it is enabled, but the GerritClusterIngressConfig\u0027s `tls` is a GerritIngressTlsConfig. Maybe they should be named differently? This one could be `tlsEnabled`.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
