@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e8ce561_7fcff72d",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "add default\n```suggestion\n| `enabled` | `boolean` | Whether to configure an ingress provider to manage the ingress traffic in the GerritCluster (default: `false`)|\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6ce79f_ffc74e9b",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "add default\n```suggestion\n| `type` | [`IngressType`](#ingresstype) | Which type of ingress provider to use (default: `IngressType.NONE`) |\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f237bf9d_c60724be",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "add default\n```suggestion\n| `enabled` | `boolean` | Whether to use TLS (default: `false`)|\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae8e5e48_7ac7a7bf",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "This default is 30 in the sample yaml but not in the operator code which doesn\u0027t seem to give a default (https://gerrit-review.googlesource.com/c/k8s-gerrit/+/374255/8/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/model/GerritTemplateSpec.java#41). Of course in practice it is what the yaml specifies, but it was a little confusing to trace.",
+      "range": {
+        "startLine": 721,
+        "startChar": 3,
+        "endLine": 721,
+        "endChar": 15
+      },
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59fc8974_a3111d29",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "add \u0027-Array\u0027\n```suggestion\n| `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59be52a7_91fc2bdd",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "[nit] missing period.\n```suggestion\n| `sshPort` | `Integer` | Port used for SSH requests (optional; if unset, SSH access is disabled). If Istio is used, the Gateway will be automatically configured to accept SSH requests. If an Ingress controller is used, SSH requests will only be served by the Service itself! |\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec6c87f0_d1cb8889",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T15:10:31Z",
+      "side": 1,
+      "message": "As of https://gerrit-review.googlesource.com/c/k8s-gerrit/+/374255 this `tls` is a boolean.",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
