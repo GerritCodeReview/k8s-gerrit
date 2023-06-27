@@ -29,15 +29,14 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   @Override
   Status validate(HasMetadata resource) {
-    Gerrit gerrit;
-    if (resource instanceof Gerrit) {
-      gerrit = (Gerrit) resource;
-    } else {
+    if (!(resource instanceof Gerrit)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage("Invalid resource. Expected Gerrit-resource for validation.")
           .build();
     }
+
+    Gerrit gerrit = (Gerrit) resource;
 
     try {
       invalidGerritConfiguration(gerrit);

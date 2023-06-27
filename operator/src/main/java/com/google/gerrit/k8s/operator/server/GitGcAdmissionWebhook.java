@@ -45,15 +45,14 @@ public class GitGcAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   @Override
   Status validate(HasMetadata resource) {
-    GitGarbageCollection gitGc;
-    if (resource instanceof GitGarbageCollection) {
-      gitGc = (GitGarbageCollection) resource;
-    } else {
+    if (!(resource instanceof GitGarbageCollection)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage("Invalid resource. Expected GitGarbageCollection-resource for validation.")
           .build();
     }
+
+    GitGarbageCollection gitGc = (GitGarbageCollection) resource;
 
     String gitGcUid = gitGc.getMetadata().getUid();
     List<GitGarbageCollection> gitGcs =
