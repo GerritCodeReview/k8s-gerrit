@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c7e994_d6c82ad6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritIstioVirtualService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T13:32:40Z",
+      "side": 0,
+      "message": "How do you determine when the name format should just use gerrit.getMetadata().getName() vs. gerritCluster.getDependentResourceName(NAME_SUFFIX)? \n\nFor instance, in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/377260/5/operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ReceiverIstioVirtualService.java the change effectively replaces receiver.getMetadata().getName() with gerritCluster.getDependentResourceName(NAME_SUFFIX). Are they equivalent?",
+      "revId": "e02f412fa93b800e36b6a678a76dfb0a93bf7777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

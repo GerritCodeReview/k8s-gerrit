@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc082064_067d090a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T13:32:40Z",
+      "side": 1,
+      "message": "Does the gerrit-istio-gateway not need a useEventSourceWithName \u0026 if not, why do some require it but others don\u0027t? I know it\u0027s to prevent conflict but I\u0027m not sure how to tell which might be problems.",
+      "revId": "097e283d1b0500a71a97bdb3ad1f6d192456c093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "448221d5_618b5e3d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritClusterIngressCondition.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-06-27T13:32:40Z",
+      "side": 1,
+      "message": "[nit]\n```suggestion\n// Copyright (C) 2023 The Android Open Source Project\n```",
+      "revId": "097e283d1b0500a71a97bdb3ad1f6d192456c093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
