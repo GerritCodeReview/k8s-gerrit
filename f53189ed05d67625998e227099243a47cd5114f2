@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ea0a8a1_06ce6428",
+        "filename": "operator/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-27T14:24:47Z",
+      "side": 1,
+      "message": "Gerrit custom resource\n\nuse the same style like in the line 116",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 26
+      },
+      "revId": "f53189ed05d67625998e227099243a47cd5114f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

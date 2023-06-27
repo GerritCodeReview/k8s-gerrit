@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba6ef3f1_f8f79035",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-27T14:24:47Z",
+      "side": 1,
+      "message": "Is it intended that from this line until the end of this block all lines are commented out?",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c7d52de_d6100b2e",
         "filename": "operator/README.md",
         "patchSetId": 8
@@ -54,6 +71,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ddb7515_b4c617b2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritCondition.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-27T14:24:47Z",
+      "side": 1,
+      "message": "2023?\n\ncheck also other newly added files in this change",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c0d945b_b1bdacde",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GitRepositoriesPVC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-27T14:24:47Z",
+      "side": 1,
+      "message": "there is a lot of repetition in lines 48, 51, 53 and 55. At least the `gerritCluster.getSpec().getStorage()` could be factored out",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71599187_70656183",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/PluginCachePVC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-27T14:24:47Z",
+      "side": 1,
+      "message": "same here, lines 47, 50, 52, 54",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "316a1177_534af2a6",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/model/GerritCluster.java",
         "patchSetId": 8
@@ -65,6 +139,29 @@
       "writtenOn": "2023-06-27T14:17:21Z",
       "side": 1,
       "message": "Is this comment still applicable? Just a reminder from yourself.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e01f4d_b9eee41e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-27T14:24:47Z",
+      "side": 1,
+      "message": "multiple?",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 19
+      },
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
