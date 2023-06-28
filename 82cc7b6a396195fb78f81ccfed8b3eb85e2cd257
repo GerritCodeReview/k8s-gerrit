@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15af18c7_7cd3a833",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Yes. The values set here should represent the defaults and by default no Gerrit will be installed with a GerritCluster. If an example is provided that is different to the default, it is commented out.\n\nNote, that this changes in the next change of the series, where I restructured the documentation.",
+      "parentUuid": "ba6ef3f1_f8f79035",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c7d52de_d6100b2e",
         "filename": "operator/README.md",
         "patchSetId": 8
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-27T14:17:21Z",
       "side": 1,
       "message": "```suggestion\n  ## The mode to run Gerrit in. Options: PRIMARY (default), REPLICA\n```",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cc82abf_78c15b63",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1c7d52de_d6100b2e",
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b44e9efe_8724e71c",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05d709c3_abe4d95c",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba14263d_d2749df6",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-06-27T14:17:21Z",
       "side": 1,
       "message": "[nit] I don\u0027t know what best practices are re: quotes for strings, but above in `gerritImages:` we have `registry: \"docker.io\"` and here we have `registry: docker.io`, so it is inconsistent.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f438a24_e9a4e92e",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Quotation is only necessary, if characters with special meaning in yaml are part of the String. Here it wouldn\u0027t be required. My usual style would be not to use quotes if not necessary.\n\nI have made it consistent in the next change, since that one anyway rewrites the documentation.",
+      "parentUuid": "ba14263d_d2749df6",
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96dbe83a_38639099",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritCondition.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddb7515_b4c617b2",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c0d945b_b1bdacde",
@@ -105,6 +201,24 @@
       "writtenOn": "2023-06-27T14:24:47Z",
       "side": 1,
       "message": "there is a lot of repetition in lines 48, 51, 53 and 55. At least the `gerritCluster.getSpec().getStorage()` could be factored out",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41be1f17_bbbf3253",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GitRepositoriesPVC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c0d945b_b1bdacde",
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -126,6 +240,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6aa54879_713844ce",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/PluginCachePVC.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71599187_70656183",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "316a1177_534af2a6",
@@ -139,6 +271,24 @@
       "writtenOn": "2023-06-27T14:17:21Z",
       "side": 1,
       "message": "Is this comment still applicable? Just a reminder from yourself.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "359d69f2_c6e5a4c4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/model/GerritCluster.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Yes, it is. It would however need another larger change. I will do it in a different change.",
+      "parentUuid": "316a1177_534af2a6",
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -166,6 +316,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b13c044d_fca7bbdb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46e01f4d_b9eee41e",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 19
+      },
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b3e6d11_12e9596d",
@@ -179,6 +353,47 @@
       "writtenOn": "2023-06-27T14:17:21Z",
       "side": 1,
       "message": "This IngressConfig\u0027s `tls` is a boolean for whether or not it is enabled, but the GerritClusterIngressConfig\u0027s `tls` is a GerritIngressTlsConfig. Maybe they should be named differently? This one could be `tlsEnabled`.",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec73115d_4c368f3d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/IngressConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b3e6d11_12e9596d",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b9f171_cee0a187",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/gerrit/StandaloneGerritE2E.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:25Z",
+      "side": 1,
+      "message": "This is meant as a direct successor of GerritE2E. Thus, it will stay 2022.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
