@@ -1,0 +1,92 @@
+storageClasses:
+  default:
+    name: standard
+  shared:
+    name: shared-storage
+
+nfsWorkaround:
+  enabled: true
+  chownOnStartup: true
+
+ingress:
+  enabled: true
+  host: replica.gerrit
+  maxBodySize: 50m
+  additionalAnnotations:
+    kubernetes.io/ingress.class: nginx
+  tls:
+    enabled: false
+
+gitBackend:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 50Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+  service:
+    type: NodePort
+
+gitGC:
+  schedule: "*/15 * * * *"
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 100Mi
+    limits:
+      cpu: 50m
+      memory: 100Mi
+
+gerritReplica:
+  resources:
+    requests:
+      cpu: 1
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
+
+  persistence:
+    enabled: false
+
+  etc:
+    config:
+      gerrit.config: |-
+        [gerrit]
+          basePath = git
+          serverId = gerrit-replica-1
+          canonicalWebUrl = http://replica.gerrit
+        [index]
+          type = LUCENE
+        [auth]
+          type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+        [httpd]
+          listenUrl = proxy-http://*:8080/
+        [sshd]
+          listenAddress = off
+        [transfer]
+          timeout = 120 s
+        [user]
+          name = Gerrit Code Review
+          email = gerrit@example.com
+          anonymousCoward = Unnamed User
+        [cache]
+          directory = cache
+        [container]
+          user = gerrit
+          replica = true
+          javaHome = /usr/lib/jvm/java-11-openjdk-amd64
+          javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+          javaOptions = -Xms1g
+          javaOptions = -Xmx1g
+
+      healthcheck.config: |-
+          [healthcheck "auth"]
+            enabled = false
+          [healthcheck "querychanges"]
+            enabled = false
+          [healthcheck "activeworkers"]
+            enabled = false
