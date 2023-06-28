@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e2e5e6b_a4dc3180",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e8ce561_7fcff72d",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a6ce79f_ffc74e9b",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6df9747b_1106d745",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a6ce79f_ffc74e9b",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f237bf9d_c60724be",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-06-27T15:10:31Z",
       "side": 1,
       "message": "add default\n```suggestion\n| `enabled` | `boolean` | Whether to use TLS (default: `false`)|\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff065694_9c62548f",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f237bf9d_c60724be",
       "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be6bec2a_d467b2c2",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "The default was actually null by mistake, i.e. no grace period.",
+      "parentUuid": "ae8e5e48_7ac7a7bf",
+      "range": {
+        "startLine": 721,
+        "startChar": 3,
+        "endLine": 721,
+        "endChar": 15
+      },
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59fc8974_a3111d29",
@@ -88,6 +166,24 @@
       "writtenOn": "2023-06-27T15:10:31Z",
       "side": 1,
       "message": "add \u0027-Array\u0027\n```suggestion\n| `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |\n```",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "169e0db3_238f4777",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59fc8974_a3111d29",
       "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +205,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7641b26d_e844319a",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59be52a7_91fc2bdd",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec6c87f0_d1cb8889",
@@ -122,6 +236,24 @@
       "writtenOn": "2023-06-27T15:10:31Z",
       "side": 1,
       "message": "As of https://gerrit-review.googlesource.com/c/k8s-gerrit/+/374255 this `tls` is a boolean.",
+      "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c48de030_a4f475f7",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-28T10:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec6c87f0_d1cb8889",
       "revId": "b431e1b5de16567f7e79f12ee4f8f32aeda4ca19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
