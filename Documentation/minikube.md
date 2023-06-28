@@ -55,7 +55,7 @@ are desired (e.g. to speed up deployment startup or for more resource intensive
 tests), configure the resource limits using:
 
 ```sh
-minikube config set memory 4096
+minikube config set memory 8192
 minikube config set cpus 4
 ```
 
@@ -94,7 +94,7 @@ file, adding a line containing the Minikube IP and a whitespace-delimited list
 of all the hostnames:
 
 ```sh
-echo "$(minikube ip) primary.gerrit backend.gerrit replica.gerrit" | sudo tee -a /etc/hosts
+echo "$(minikube ip) primary.gerrit replica.gerrit" | sudo tee -a /etc/hosts
 ```
 
 The host names (e.g. `primary.gerrit`) are the defaults, when using the values.yaml
@@ -135,8 +135,11 @@ provisioner-chart is provided in the supplements-directory. It can be installed
 by running:
 
 ```sh
+helm repo add \
+  nfs-ganesha-server-and-external-provisioner \
+  https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner/
 helm install nfs \
-  stable/nfs-server-provisioner \
+  nfs-ganesha-server-and-external-provisioner/nfs-server-provisioner \
   -f ./supplements/nfs.minikube.values.yaml
 ```
 
