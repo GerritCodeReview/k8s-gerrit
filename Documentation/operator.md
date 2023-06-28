@@ -144,7 +144,7 @@ The API reference for all CustomResources can be found [here](operator-api-refer
 
 ### GerritCluster
 
-The GerritCluster custom resource installs one or multiple Gerrit instances. The
+The GerritCluster CustomResource installs one or multiple Gerrit instances. The
 operator takes over managing the state of all Gerrit instances within the cluster
 and ensures that the state stays in sync. To this end it manages additional
 resources that are shared between Gerrit instances or are required to synchronize
