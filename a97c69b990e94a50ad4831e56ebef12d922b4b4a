@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac605634_bb1109c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-29T15:30:55Z",
+      "side": 1,
+      "message": "which issue is fixed with this change?",
+      "revId": "a97c69b990e94a50ad4831e56ebef12d922b4b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99488ab6_88168ef9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/NfsIdmapdConfigMapDiscriminator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-29T15:30:55Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a97c69b990e94a50ad4831e56ebef12d922b4b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
