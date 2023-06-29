@@ -34,6 +34,24 @@
       "parentUuid": "2881921e_04c17c77",
       "revId": "2f6b38a67bffbc963c4a1baca7bd2104342a5774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4403e4b4_2318eca4",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-29T08:50:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b2bc46e7_cb7a0d5d",
+      "revId": "2f6b38a67bffbc963c4a1baca7bd2104342a5774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
