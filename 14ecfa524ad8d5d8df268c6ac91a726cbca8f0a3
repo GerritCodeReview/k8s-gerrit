@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920b8922_2fa8fcc1",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-06-29T11:10:16Z",
+      "side": 1,
+      "message": "This block is very similar to the previous block. Only the two variable names (`gerritInitConfigMapName` and `gerritInitConfigMapVersion`) are different. Factor our this block in a method?",
+      "range": {
+        "startLine": 318,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 5
+      },
+      "revId": "14ecfa524ad8d5d8df268c6ac91a726cbca8f0a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
