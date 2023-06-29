@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CM_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.ISTIO_DESTINATION_RULE_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
@@ -50,6 +51,7 @@ import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.inject.Singleton;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -79,7 +81,8 @@ import java.util.stream.Collectors;
           useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           type = NfsIdmapdConfigMap.class,
-          reconcilePrecondition = NfsWorkaroundCondition.class),
+          reconcilePrecondition = NfsWorkaroundCondition.class,
+          useEventSourceWithName = CM_EVENT_SOURCE),
       @Dependent(
           type = PluginCachePVC.class,
           reconcilePrecondition = PluginCacheCondition.class,
@@ -131,6 +134,7 @@ import java.util.stream.Collectors;
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
+  public static final String CM_EVENT_SOURCE = "cm-event-source";
   public static final String PVC_EVENT_SOURCE = "pvc-event-source";
   public static final String CLUSTER_MANAGED_GERRIT_EVENT_SOURCE = "cluster-managed-gerrit";
   public static final String CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE = "cluster-managed-receiver";
@@ -141,6 +145,10 @@ public class GerritClusterReconciler
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
+    InformerEventSource<ConfigMap, GerritCluster> cmEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(ConfigMap.class, context).build(), context);
+
     InformerEventSource<PersistentVolumeClaim, GerritCluster> pvcEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(PersistentVolumeClaim.class, context).build(), context);
@@ -162,6 +170,7 @@ public class GerritClusterReconciler
             InformerConfiguration.from(DestinationRule.class, context).build(), context);
 
     Map<String, EventSource> eventSources = new HashMap<>();
+    eventSources.put(CM_EVENT_SOURCE, cmEventSource);
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
     eventSources.put(CLUSTER_MANAGED_GERRIT_EVENT_SOURCE, clusterManagedGerritEventSource);
     eventSources.put(CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE, clusterManagedReceiverEventSource);
