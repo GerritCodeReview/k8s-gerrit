@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4966d20d_617260f6",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-29T09:35:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "15af18c7_7cd3a833",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c7d52de_d6100b2e",
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "Quotation is only necessary, if characters with special meaning in yaml are part of the String. Here it wouldn\u0027t be required. My usual style would be not to use quotes if not necessary.\n\nI have made it consistent in the next change, since that one anyway rewrites the documentation.",
       "parentUuid": "ba14263d_d2749df6",
+      "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b22e496_9d911b78",
+        "filename": "operator/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-29T09:35:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f438a24_e9a4e92e",
       "revId": "82cc7b6a396195fb78f81ccfed8b3eb85e2cd257",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
