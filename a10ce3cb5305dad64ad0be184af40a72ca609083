@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f9ba4d7_e40d8fee",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-07-04T14:31:36Z",
+      "side": 1,
+      "message": "[nit] Name. Unless it can be multiple?",
+      "revId": "a10ce3cb5305dad64ad0be184af40a72ca609083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
