@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fcd6fff_c44ad7de",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-07-04T09:34:38Z",
+      "side": 1,
+      "message": "Irrelevant change?",
+      "revId": "bd840e4c9fdb3dd768d23a57d12686be4d49c606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
