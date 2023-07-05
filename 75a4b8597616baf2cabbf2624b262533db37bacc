@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95b5a4f8_841ebb0a",
+        "filename": "operator/k8s/cluster.sample.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-05T16:49:31Z",
+      "side": 1,
+      "message": "```\nShould add the Secret deployment to GerritCluster CustomResource (currently it\u0027s deployed as part of Gerrit CustomResource), given that the this version of the operator design doesn\u0027t require Gerrit CustomResource to be deployed.\n\n---\napiVersion: v1\nkind: Secret\nmetadata:\n  name:  gerrit-secure-config\n  labels:\n    app: gerrit\ndata:\n  keystore: \"\"\n  secure.config: \"\"\ntype: Opaque\n```",
+      "revId": "75a4b8597616baf2cabbf2624b262533db37bacc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
