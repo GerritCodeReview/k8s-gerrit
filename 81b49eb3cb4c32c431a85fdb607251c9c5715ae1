@@ -22,6 +22,30 @@
       },
       "revId": "81b49eb3cb4c32c431a85fdb607251c9c5715ae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48caa87a_95f3c3a0",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-09T04:24:20Z",
+      "side": 1,
+      "message": "Aha, yes. If the target directory exists, a symlink to it returns True here. But if that target directory doesn\u0027t exist any more, then it returns False.",
+      "parentUuid": "d687bba1_8a03887c",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 134,
+        "endChar": 43
+      },
+      "revId": "81b49eb3cb4c32c431a85fdb607251c9c5715ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

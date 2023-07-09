@@ -70,6 +70,30 @@
       },
       "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7af5e392_0707625d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-09T04:24:20Z",
+      "side": 1,
+      "message": "I\u0027ve upload a new PS. I also see this happens for configuration, i.e. files under etc/. Should this get fixed too?",
+      "parentUuid": "06b1828d_14ecab98",
+      "range": {
+        "startLine": 138,
+        "startChar": 20,
+        "endLine": 138,
+        "endChar": 39
+      },
+      "revId": "df72d9eecd118727f501c996dea7651eccb2145a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
