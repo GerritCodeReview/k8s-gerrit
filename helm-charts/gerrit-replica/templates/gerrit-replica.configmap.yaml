@@ -73,8 +73,8 @@ metadata:
     chart: {{ template "gerrit-replica.chart" $root }}
     heritage: {{ $root.Release.Service }}
     release: {{ $root.Release.Name }}
-    {{- if .Values.additionalLabels }}
-{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- if $root.Values.additionalLabels }}
+{{ toYaml $root.Values.additionalLabels  | indent 4 }}
     {{- end }}
 data:
 {{ toYaml .data | indent 2 }}
