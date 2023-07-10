@@ -355,8 +355,8 @@ intended with the chart:
 - `gerrit.basePath`
 
     Path to the directory containing the repositories. The chart mounts this
-    directory from a persistent volume to `/var/gerrit/git` in the container. For
-    Gerrit to find the correct directory, this has to be set to `git`.
+    directory from a persistent volume to `/var/gerrit/shared/git` in the container. For
+    Gerrit to find the correct directory, this has to be set to `shared/git`.
 
 - `gerrit.serverId`
 

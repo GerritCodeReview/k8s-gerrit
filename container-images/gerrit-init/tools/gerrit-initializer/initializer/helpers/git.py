@@ -74,3 +74,7 @@ class GitConfigParser:
             return value == "true"
         except subprocess.CalledProcessError:
             return default
+
+    def set(self, key, value):
+        command = f"git config -f {self.path} {key} {value}"
+        return self._execute_shell_command_and_get_output_lines(command)
