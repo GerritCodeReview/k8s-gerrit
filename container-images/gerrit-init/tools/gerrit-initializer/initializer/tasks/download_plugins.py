@@ -140,6 +140,11 @@ class AbstractPluginInstaller(ABC):
                     f"Could not find plugin {lib} to symlink to lib-directory."
                 )
 
+        try:
+            os.symlink("/var/libs/global-refdb.jar", os.path.join(self.lib_dir, "global-refdb.jar"))
+        except FileExistsError:
+            return
+
     def execute(self):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()

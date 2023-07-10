@@ -204,7 +204,7 @@ done
 
 test $# -eq 0 || usage
 
-TOP=/var/gerrit/git
+TOP=/var/gerrit/shared/git
 LOG=/var/log/git/gc.log
 
 OUT=$(date +"%D %r Started") && log "$OUT"

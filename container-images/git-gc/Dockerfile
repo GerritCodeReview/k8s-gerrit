@@ -8,6 +8,6 @@ RUN mkdir -p /var/log/git && \
 
 USER gerrit
 
-VOLUME ["/var/gerrit/git"]
+VOLUME ["/var/gerrit/shared/git"]
 
 ENTRYPOINT ["/var/tools/gc.sh"]

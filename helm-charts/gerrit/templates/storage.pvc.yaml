@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-git-repositories-pvc
+  name: {{ .Release.Name }}-ha-share-pvc
   labels:
     app.kubernetes.io/component: gerrit
     app.kubernetes.io/instance: {{ .Release.Name }}
