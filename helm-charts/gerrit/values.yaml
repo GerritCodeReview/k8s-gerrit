@@ -275,7 +275,7 @@ gerrit:
     config:
       gerrit.config: |-
         [gerrit]
-          basePath = git # FIXED
+          basePath = shared/git # FIXED
           serverId = gerrit-1
           # The canonical web URL has to be set to the Ingress host, if an Ingress
           # is used. If a LoadBalancer-service is used, this should be set to the

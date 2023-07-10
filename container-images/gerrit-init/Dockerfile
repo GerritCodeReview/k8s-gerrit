@@ -19,7 +19,7 @@ RUN apk update && \
 COPY tools /var/tools/
 COPY config/* /var/config/
 
-RUN mkdir -p /var/mnt/git \
+RUN mkdir -p /var/mnt/ha \
   && mkdir -p /var/mnt/logs \
   && chown -R gerrit:users /var/mnt
 
