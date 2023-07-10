@@ -15,7 +15,7 @@ metadata:
     {{- end }}
 spec:
   serviceName: {{ .Release.Name }}-gerrit-service
-  replicas: {{ .Values.gerrit.replicas }}
+  replicas: 2
   updateStrategy:
     rollingUpdate:
       partition: {{ .Values.gerrit.updatePartition }}
@@ -82,7 +82,7 @@ spec:
         args:
         - |
           chown 1000:100 /var/mnt/logs
-          chown 1000:100 /var/mnt/git
+          chown 1000:100 /var/mnt/ha
         env:
         - name: POD_NAME
           valueFrom:
@@ -92,8 +92,8 @@ spec:
         - name: logs
           subPathExpr: "gerrit-replica/$(POD_NAME)"
           mountPath: "/var/mnt/logs"
-        - name: git-repositories
-          mountPath: "/var/mnt/git"
+        - name: ha-share
+          mountPath: "/var/mnt/ha"
         {{- if .Values.nfsWorkaround.idDomain }}
         - name: nfs-config
           mountPath: "/etc/idmapd.conf"
@@ -108,11 +108,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: STS_DNS
+          value: {{ .Release.Name }}-gerrit-headless.{{ .Release.Namespace }}.svc.cluster.local
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: git-repositories
-          mountPath: "/var/mnt/git"
+        - name: ha-share
+          mountPath: "/var/mnt/ha"
         - name: logs
           subPathExpr: "gerrit/$(POD_NAME)"
           mountPath: "/var/mnt/logs"
@@ -154,6 +156,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: STS_DNS
+          value: {{ .Release.Name }}-gerrit-headless.{{ .Release.Namespace }}.svc.cluster.local
         lifecycle:
           preStop:
             exec:
@@ -171,8 +175,8 @@ spec:
         volumeMounts:
         - name: gerrit-site
           mountPath: "/var/gerrit"
-        - name: git-repositories
-          mountPath: "/var/mnt/git"
+        - name: ha-share
+          mountPath: "/var/mnt/ha"
         - name: logs
           subPathExpr: "gerrit/$(POD_NAME)"
           mountPath: "/var/mnt/logs"
@@ -220,12 +224,12 @@ spec:
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-plugin-cache-pvc
       {{- end }}
-      - name: git-repositories
+      - name: ha-share
         persistentVolumeClaim:
           {{- if .Values.gitRepositoryStorage.externalPVC.use }}
           claimName: {{ .Values.gitRepositoryStorage.externalPVC.name }}
           {{- else }}
-          claimName: {{ .Release.Name }}-git-repositories-pvc
+          claimName: {{ .Release.Name }}-ha-share-pvc
           {{- end }}
       - name: logs
         {{ if .Values.logStorage.enabled -}}

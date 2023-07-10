@@ -66,7 +66,7 @@ spec:
             args:
             - |
               chown 1000:100 /var/mnt/logs
-              chown 1000:100 /var/mnt/git
+              chown 1000:100 /var/mnt/ha
             env:
             - name: POD_NAME
               valueFrom:
@@ -76,8 +76,8 @@ spec:
             - name: logs
               subPathExpr: "git-gc/$(POD_NAME)"
               mountPath: "/var/mnt/logs"
-            - name: git-repositories
-              mountPath: "/var/mnt/git"
+            - name: ha-share
+              mountPath: "/var/mnt/ha"
             {{- if .Values.nfsWorkaround.idDomain }}
             - name: nfs-config
               mountPath: "/etc/idmapd.conf"
@@ -96,8 +96,8 @@ spec:
             resources:
 {{ toYaml .Values.gitGC.resources | indent 14 }}
             volumeMounts:
-            - name: git-repositories
-              mountPath: "/var/gerrit/git"
+            - name: ha-share
+              mountPath: "/var/gerrit/shared"
             - name: logs
               subPathExpr: "git-gc/$(POD_NAME)"
               mountPath: "/var/log/git"
@@ -107,12 +107,12 @@ spec:
               subPath: idmapd.conf
             {{- end }}
           volumes:
-          - name: git-repositories
+          - name: ha-share
             persistentVolumeClaim:
               {{- if .Values.gitRepositoryStorage.externalPVC.use }}
               claimName: {{ .Values.gitRepositoryStorage.externalPVC.name }}
               {{- else }}
-              claimName: {{ .Release.Name }}-git-repositories-pvc
+              claimName: {{ .Release.Name }}-ha-share-pvc
               {{- end }}
           - name: logs
             {{ if .Values.logStorage.enabled -}}

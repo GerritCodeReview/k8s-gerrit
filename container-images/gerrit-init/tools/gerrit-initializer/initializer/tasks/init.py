@@ -119,7 +119,7 @@ class GerritInit:
         os.symlink(src, target)
 
     def _symlink_mounted_site_components(self):
-        self._ensure_symlink(f"{MNT_PATH}/git", f"{self.site}/git")
+        self._ensure_symlink(f"{MNT_PATH}/ha", f"{self.site}/shared")
         self._ensure_symlink(f"{MNT_PATH}/logs", f"{self.site}/logs")
 
         index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
@@ -162,6 +162,35 @@ class GerritInit:
                             os.path.join(etc_dir, file_or_dir),
                         )
 
+    def _configure_ha_plugin(self):
+        ha_config_path = "/var/gerrit/etc/high-availability.config"
+        if not os.path.exists(ha_config_path):
+            open(ha_config_path, "x")
+        ha_config  = git.GitConfigParser(
+            ha_config_path
+        )
+        ha_config.set("main.sharedDirectory", "shared")
+        ha_config.set("peerInfo.strategy", "static")
+
+        pod_name = os.getenv("POD_NAME")
+        (sts_name, pod_id) = pod_name.rsplit("-", 1)
+        pod_id = 1 if pod_id == 0 else 0
+
+
+        sts_dns = os.getenv("STS_DNS")
+        ha_config.set("peerInfo.static.url", f"https://{sts_name}-{pod_id}.{sts_dns}")
+        ha_config.set("ref-database.enabled", "true")
+
+    def _configure_zk_plugin(self):
+        zk_config_path = "/var/gerrit/etc/zookeeper-refdb.config"
+        if not os.path.exists(zk_config_path):
+            open(zk_config_path, "x")
+        zk_config  = git.GitConfigParser(
+            zk_config_path
+        )
+
+        zk_config.set("ref-database.zookeeper.connectString", "zookeeper.zookeeper.svc.cluster.local:2181")
+
     def execute(self):
         if not self.is_replica:
             self._symlink_mounted_site_components()
@@ -169,6 +198,8 @@ class GerritInit:
             LOG.info("NoteDB not ready. Initializing repositories.")
             self._symlink_mounted_site_components()
         self._symlink_configuration()
+        self._configure_ha_plugin()
+        self._configure_zk_plugin()
 
         if os.path.exists(self.pid_file):
             os.remove(self.pid_file)

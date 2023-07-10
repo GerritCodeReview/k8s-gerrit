@@ -38,4 +38,34 @@ spec:
   selector:
     app.kubernetes.io/component: gerrit
     app.kubernetes.io/instance: {{ .Release.Name }}
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gerrit-headless
+  labels:
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    chart: {{ template "gerrit.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    {{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels  | indent 4 }}
+    {{- end }}
+spec:
+  {{ with .Values.gerrit.service }}
+  ports:
+  - name: http
+    port: {{ .http.port }}
+    targetPort: 8080
+  {{- if .ssh.enabled }}
+  - name: ssh
+    port: {{ .ssh.port }}
+    targetPort: 29418
+  {{- end }}
+  type: ClusterIP
+  clusterIP: None
+  {{- end }}
+  selector:
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ .Release.Name }}
