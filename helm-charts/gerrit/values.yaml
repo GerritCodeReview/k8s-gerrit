@@ -89,6 +89,32 @@ logStorage:
         cpu: 100m
         memory: 256Mi
 
+istio:
+  enabled: false
+  host:
+  tls:
+    enabled: false
+    secret:
+      # If using an external secret, make sure to name the keys `tls.crt`
+      # and `tls.key`, respectively.
+      create: true
+      # `name` will only be used, if `create` is set to false to bind an
+      # existing secret. Otherwise the name will be automatically generated to
+      # avoid conflicts between multiple chart installations.
+      name:
+    # `cert`and `key` will only be used, if the secret will be created by
+    # this chart.
+    cert: |-
+      -----BEGIN CERTIFICATE-----
+
+      -----END CERTIFICATE-----
+    key: |-
+      -----BEGIN RSA PRIVATE KEY-----
+
+      -----END RSA PRIVATE KEY-----
+  ssh:
+    enabled: false
+
 caCert:
 
 ingress:
