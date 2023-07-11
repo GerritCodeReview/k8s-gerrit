@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ad0482c_807daacb",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-07-11T08:42:08Z",
+      "side": 1,
+      "message": "I know there\u0027s a good reason to do it this way but I don\u0027t remember -- why not have the jars directly in var/gerrit/plugins, but rather in var/plugins and then symlinked?",
+      "revId": "0d2d393d31c25a8ed634dc63c628038f65d9842c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d27a3298_fe6b2bf7",
+        "filename": "helm-charts/gerrit/templates/gerrit.stateful-set.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-07-11T08:42:08Z",
+      "side": 1,
+      "message": "Why 2? \u0026 should this not be from values.yaml?",
+      "revId": "0d2d393d31c25a8ed634dc63c628038f65d9842c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
