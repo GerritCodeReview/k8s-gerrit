@@ -22,6 +22,30 @@
       },
       "revId": "84cf57df69294f06c4026815357d21f114071c8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac42edde_f3e11f1e",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T13:26:00Z",
+      "side": 1,
+      "message": "A single Kubernetes Secret can contain n files. So it can also contain SSH host keys for example.",
+      "parentUuid": "08fc67ba_5748fa57",
+      "range": {
+        "startLine": 841,
+        "startChar": 67,
+        "endLine": 841,
+        "endChar": 92
+      },
+      "revId": "84cf57df69294f06c4026815357d21f114071c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
