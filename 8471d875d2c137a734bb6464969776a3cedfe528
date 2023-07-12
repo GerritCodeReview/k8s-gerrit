@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc05545a_aeece099",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-12T06:52:31Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f308a828_6f6de6e4",
+      "range": {
+        "startLine": 427,
+        "startChar": 97,
+        "endLine": 427,
+        "endChar": 103
+      },
+      "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b481c254_d9ea7cac",
@@ -82,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29b190e5_b9341991",
+        "filename": "helm-charts/gerrit/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-12T06:52:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b481c254_d9ea7cac",
+      "range": {
+        "startLine": 330,
+        "startChar": 90,
+        "endLine": 330,
+        "endChar": 96
+      },
+      "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b00b85f_9f7cf5bd",
@@ -95,6 +143,30 @@
       "writtenOn": "2023-05-24T10:15:55Z",
       "side": 1,
       "message": "How would this data be decoded in the Container? Since this is a ConfigMap Kubernetes will not do so during mounting the file.",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 35
+      },
+      "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69c39b6e_8619f172",
+        "filename": "helm-charts/gerrit/templates/gerrit.configmap.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-12T06:52:31Z",
+      "side": 1,
+      "message": "The data field is designed to contain UTF-8 strings while the binaryData field is designed to contain binary data as base64-encoded strings.\n \nhttps://kubernetes.io/docs/concepts/configuration/configmap/#configmap-object",
+      "parentUuid": "9b00b85f_9f7cf5bd",
       "range": {
         "startLine": 73,
         "startChar": 14,
