@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51130aef_8096a026",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T09:55:12Z",
+      "side": 1,
+      "message": "The startupProbe does not send the request to the service, but to the container in the pod directly. Thus, the targetPort/containerPort is relevant and that is not configurable and hardcoded to be 8080.",
+      "parentUuid": "d5f0029f_2c2d4905",
+      "revId": "bd840e4c9fdb3dd768d23a57d12686be4d49c606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fcd6fff_c44ad7de",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-04T09:34:38Z",
       "side": 1,
       "message": "Irrelevant change?",
+      "revId": "bd840e4c9fdb3dd768d23a57d12686be4d49c606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54207e88_1399b7e3",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T09:55:12Z",
+      "side": 1,
+      "message": "That should have gone into the previous change.\nI created a separate change now.",
+      "parentUuid": "4fcd6fff_c44ad7de",
       "revId": "bd840e4c9fdb3dd768d23a57d12686be4d49c606",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
