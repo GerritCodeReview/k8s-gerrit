@@ -34,6 +34,24 @@
       "parentUuid": "74c7e994_d6c82ad6",
       "revId": "e02f412fa93b800e36b6a678a76dfb0a93bf7777",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fdb9a5f_09b732e5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritIstioVirtualService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T14:44:15Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "ed4a47fe_992575ff",
+      "revId": "e02f412fa93b800e36b6a678a76dfb0a93bf7777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

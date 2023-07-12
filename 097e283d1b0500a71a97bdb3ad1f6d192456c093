@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80c5461_8b455150",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T14:44:15Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b7499666_4b1b2456",
+      "revId": "097e283d1b0500a71a97bdb3ad1f6d192456c093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "448221d5_618b5e3d",
