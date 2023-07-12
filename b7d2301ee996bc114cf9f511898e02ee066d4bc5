@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52871d6f_0132160c",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-12T12:09:22Z",
+      "side": 1,
+      "message": "you mean a plugin included in the gerrit.war ?",
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f4a526d_75a14c19",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-12T12:09:22Z",
+      "side": 1,
+      "message": "plugin",
+      "range": {
+        "startLine": 361,
+        "startChar": 60,
+        "endLine": 361,
+        "endChar": 68
+      },
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c363d6_db6280ed",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-12T12:09:22Z",
+      "side": 1,
+      "message": "which repository is meant here ?",
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b175a09b_5b743c63",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-12T12:09:22Z",
+      "side": 1,
+      "message": "starting at the root of the repo you need to first move to the operator directory\n\ncd operator",
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
