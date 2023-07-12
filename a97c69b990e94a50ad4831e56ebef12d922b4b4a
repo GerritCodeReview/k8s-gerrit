@@ -39,6 +39,30 @@
       },
       "revId": "a97c69b990e94a50ad4831e56ebef12d922b4b4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f931c92f_7b49be79",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/NfsIdmapdConfigMapDiscriminator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T13:26:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99488ab6_88168ef9",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a97c69b990e94a50ad4831e56ebef12d922b4b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
