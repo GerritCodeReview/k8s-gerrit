@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e8990f_c97a3b03",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T13:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52871d6f_0132160c",
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f4a526d_75a14c19",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-07-12T12:09:22Z",
       "side": 1,
       "message": "plugin",
+      "range": {
+        "startLine": 361,
+        "startChar": 60,
+        "endLine": 361,
+        "endChar": 68
+      },
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c047a8c_1d89c9cb",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T13:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f4a526d_75a14c19",
       "range": {
         "startLine": 361,
         "startChar": 60,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c763995_8b697a7c",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T13:27:48Z",
+      "side": 1,
+      "message": "The repository containing all Gerrit-related container images. A better name would have been `GerritImages`. That would have to be changed in a separate change however.",
+      "parentUuid": "28c363d6_db6280ed",
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b175a09b_5b743c63",
         "filename": "Documentation/operator.md",
         "patchSetId": 8
@@ -71,6 +131,24 @@
       "writtenOn": "2023-07-12T12:09:22Z",
       "side": 1,
       "message": "starting at the root of the repo you need to first move to the operator directory\n\ncd operator",
+      "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2366b4e_ec357fd4",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-12T13:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b175a09b_5b743c63",
       "revId": "b7d2301ee996bc114cf9f511898e02ee066d4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
