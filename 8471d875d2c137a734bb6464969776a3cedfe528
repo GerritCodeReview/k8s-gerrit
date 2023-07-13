@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac86b7a7_7c912b20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-13T06:00:22Z",
+      "side": 1,
+      "message": "A keystore is a secret, so it should be deployed using a Kubernetes Secret. Since a Keystore is a binary file, just copying it as a String to `gerrit.etc.secret` wouldn\u0027t work well and the chart doesn\u0027t expect file contents in that map to already be encoded.\nYou could of course just use the main keystore of Gerrit and add a certificate with another alias to it. There is no need to have two different keystores.\nIf you don\u0027t want to do that I would suggest to add a way to reference existing Secrets to the chart, e.g. by referencing the name. Alternatively, you could go with a similar solution as `gerrit.additionalConfigMaps` just for secrets.",
+      "parentUuid": "1ad945a5_ed933ed2",
+      "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f308a828_6f6de6e4",
         "filename": "helm-charts/gerrit-replica/README.md",
         "patchSetId": 1

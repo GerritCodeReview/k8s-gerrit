@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dba084b_836a0a68",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.configmap.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-13T06:00:22Z",
+      "side": 1,
+      "message": "If this value is binary, how would you add it into the values.yaml. That would make it completely unreadable.",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 23
+      },
+      "revId": "6d95d3d9bae3bca951603ecbb0cee6bf9f2be1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
