@@ -175,6 +175,30 @@
       },
       "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e07f93f9_3987ace5",
+        "filename": "helm-charts/gerrit/templates/gerrit.configmap.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-13T03:33:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69c39b6e_8619f172",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 35
+      },
+      "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
