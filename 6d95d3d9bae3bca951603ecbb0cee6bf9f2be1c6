@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf1e2294_66cc6cd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-13T09:26:05Z",
+      "side": 1,
+      "message": "Some replies to the comments. Thanks a lot. Our issue is finally resolved and this change is no longer needed. Will close this soon.",
+      "revId": "6d95d3d9bae3bca951603ecbb0cee6bf9f2be1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dba084b_836a0a68",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-07-13T06:00:22Z",
       "side": 1,
       "message": "If this value is binary, how would you add it into the values.yaml. That would make it completely unreadable.",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 23
+      },
+      "revId": "6d95d3d9bae3bca951603ecbb0cee6bf9f2be1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03532907_7d342a47",
+        "filename": "helm-charts/gerrit-replica/templates/gerrit-replica.configmap.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-13T09:26:05Z",
+      "side": 1,
+      "message": "Seems that Helm provides a way `.Files.Get` to add a file to values.yaml\n\nhttps://helm.sh/docs/chart_template_guide/accessing_files/#basic-example",
+      "parentUuid": "4dba084b_836a0a68",
       "range": {
         "startLine": 82,
         "startChar": 17,

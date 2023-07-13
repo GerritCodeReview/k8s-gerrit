@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52f5c06e_aa9d2ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-13T09:26:05Z",
+      "side": 1,
+      "message": "Oh thanks for reminding of gerrit.etc.secret and it actually works in our case.\nWe finally manage to pass in the binary file running something like\n\n```\nhelm install \\\n... \n--set-file gerrit.etc.secret.mykey\u003d./mykey \\\n...\n```",
+      "parentUuid": "ac86b7a7_7c912b20",
+      "revId": "8471d875d2c137a734bb6464969776a3cedfe528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f308a828_6f6de6e4",
         "filename": "helm-charts/gerrit-replica/README.md",
         "patchSetId": 1
