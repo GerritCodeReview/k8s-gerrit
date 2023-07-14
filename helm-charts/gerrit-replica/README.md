@@ -128,11 +128,13 @@ For information of how a `StorageClass` is configured in Kubernetes, read the
 | `storageClasses.default.provisioner` | Provisioner of the StorageClass | `kubernetes.io/aws-ebs` |
 | `storageClasses.default.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete` |
 | `storageClasses.default.parameters` | Parameters for the provisioner | `parameters.type: gp2`, `parameters.fsType: ext4` |
+| `storageClasses.default.mountOptions` | The mount options of the default StorageClass | `[]` |
 | `storageClasses.shared.name` | The name of the shared StorageClass (RWM) | `shared-storage` |
 | `storageClasses.shared.create` | Whether to create the StorageClass | `false` |
 | `storageClasses.shared.provisioner` | Provisioner of the StorageClass | `nfs` |
 | `storageClasses.shared.reclaimPolicy` | Whether to `Retain` or `Delete` volumes, when they become unbound | `Delete` |
 | `storageClasses.shared.parameters` | Parameters for the provisioner | `parameters.mountOptions: vers=4.1` |
+| `storageClasses.shared.mountOptions` | The mount options of the shared StorageClass | `[]` |
 
 ### CA certificate
 

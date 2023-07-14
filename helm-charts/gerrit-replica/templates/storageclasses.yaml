@@ -17,6 +17,13 @@ parameters:
 {{- range $key, $value := .Values.storageClasses.default.parameters }}
   {{ $key }}: {{ $value }}
 {{- end }}
+{{ if .Values.storageClasses.default.mountOptions -}}
+mountOptions:
+{{- range .Values.storageClasses.default.mountOptions }}
+  - {{ . }}
+{{- end }}
+{{- end }}
+allowVolumeExpansion: {{ .Values.storageClasses.default.allowVolumeExpansion }}
 {{- end }}
 {{- end }}
 ---
@@ -39,5 +46,12 @@ parameters:
 {{- range $key, $value := .Values.storageClasses.shared.parameters }}
   {{ $key }}: {{ $value }}
 {{- end }}
+{{ if .Values.storageClasses.shared.mountOptions -}}
+mountOptions:
+{{- range .Values.storageClasses.shared.mountOptions }}
+  - {{ . }}
+{{- end }}
+{{- end }}
+allowVolumeExpansion: {{ .Values.storageClasses.shared.allowVolumeExpansion }}
 {{- end }}
 {{- end }}
