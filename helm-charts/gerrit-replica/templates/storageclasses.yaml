@@ -12,7 +12,7 @@ metadata:
     {{- end }}
 provisioner: {{ .Values.storageClasses.default.provisioner }}
 reclaimPolicy: {{ .Values.storageClasses.default.reclaimPolicy }}
-{{ if .Values.storageClasses.shared.parameters -}}
+{{ if .Values.storageClasses.default.parameters -}}
 parameters:
 {{- range $key, $value := .Values.storageClasses.default.parameters }}
   {{ $key }}: {{ $value }}
