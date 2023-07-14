@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f0c9d2f_e5a89783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086278
+      },
+      "writtenOn": "2023-07-14T07:14:48Z",
+      "side": 1,
+      "message": "Not sure whether this is an issue, but we found `shared` parameters in `default` volume.",
+      "revId": "069850f1a4694c87fcd8b6aa98f9c1718aa947d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
