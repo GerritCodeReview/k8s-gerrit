@@ -49,6 +49,8 @@ storageClasses:
     # Use the parameters key to set all parameters needed for the provisioner
     parameters:
       mountOptions: vers=4.1
+    mountOptions: []
+    allowVolumeExpansion: false
 
 
 nfsWorkaround:
