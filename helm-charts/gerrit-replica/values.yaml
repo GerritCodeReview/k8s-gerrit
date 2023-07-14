@@ -38,6 +38,8 @@ storageClasses:
     parameters:
       type: gp2
       fsType: ext4
+    mountOptions: []
+    allowVolumeExpansion: false
   # Storage class used for storing git repositories. Has to provide RWM access.
   shared:
     # If create is set to false, an existing StorageClass with RWM access
@@ -49,6 +51,8 @@ storageClasses:
     # Use the parameters key to set all parameters needed for the provisioner
     parameters:
       mountOptions: vers=4.1
+    mountOptions: []
+    allowVolumeExpansion: false
 
 nfsWorkaround:
   enabled: false
