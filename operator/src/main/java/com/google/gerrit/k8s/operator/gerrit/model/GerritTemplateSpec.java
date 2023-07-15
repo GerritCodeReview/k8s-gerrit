@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.shared.model.HttpSshServiceConfig;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
@@ -216,5 +218,12 @@ public class GerritTemplateSpec {
   public enum GerritMode {
     PRIMARY,
     REPLICA
+  }
+
+  @JsonIgnore
+  public boolean isHighlyAvailablePrimary() {
+    return getPlugins().stream().anyMatch(p -> p.getName().equals("high-availability"))
+        && getMode().equals(GerritMode.PRIMARY)
+        && getReplicas() > 1;
   }
 }
