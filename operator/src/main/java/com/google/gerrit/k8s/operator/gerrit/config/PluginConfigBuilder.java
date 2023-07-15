@@ -12,16 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.shared.model;
+package com.google.gerrit.k8s.operator.gerrit.config;
 
-public class GerritStorageConfig extends StorageConfig {
-  private SharedStorage sharedStorage;
+public abstract class PluginConfigBuilder extends ConfigBuilder {
 
-  public SharedStorage getSharedStorage() {
-    return sharedStorage;
-  }
-
-  public void setSharedStorage(SharedStorage sharedStorage) {
-    this.sharedStorage = sharedStorage;
+  public PluginConfigBuilder(String pluginName) {
+    super(pluginName + ".config");
   }
 }
