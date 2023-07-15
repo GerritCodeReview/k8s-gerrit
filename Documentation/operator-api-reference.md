@@ -10,38 +10,39 @@
    6. [GerritNetwork](#gerritnetwork)
    7. [GerritClusterSpec](#gerritclusterspec)
    8. [GerritClusterStatus](#gerritclusterstatus)
-   9. [GerritStorageConfig](#gerritstorageconfig)
-   10. [StorageClassConfig](#storageclassconfig)
-   11. [NfsWorkaroundConfig](#nfsworkaroundconfig)
-   12. [SharedStorage](#sharedstorage)
-   13. [OptionalSharedStorage](#optionalsharedstorage)
-   14. [ContainerImageConfig](#containerimageconfig)
-   15. [BusyBoxImage](#busyboximage)
-   16. [GerritRepositoryConfig](#gerritrepositoryconfig)
-   17. [GerritClusterIngressConfig](#gerritclusteringressconfig)
-   18. [GerritIngressTlsConfig](#gerritingresstlsconfig)
-   19. [GerritTemplate](#gerrittemplate)
-   20. [GerritTemplateSpec](#gerrittemplatespec)
-   21. [GerritProbe](#gerritprobe)
-   22. [GerritServiceConfig](#gerritserviceconfig)
-   23. [GerritSite](#gerritsite)
-   24. [GerritPlugin](#gerritplugin)
-   25. [GerritMode](#gerritmode)
-   26. [GerritSpec](#gerritspec)
-   27. [GerritStatus](#gerritstatus)
-   28. [IngressConfig](#ingressconfig)
-   29. [ReceiverTemplate](#receivertemplate)
-   30. [ReceiverTemplateSpec](#receivertemplatespec)
-   31. [ReceiverSpec](#receiverspec)
-   32. [ReceiverStatus](#receiverstatus)
-   33. [ReceiverProbe](#receiverprobe)
-   34. [ReceiverServiceConfig](#receiverserviceconfig)
-   35. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   36. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   37. [GitGcState](#gitgcstate)
-   38. [GerritNetworkSpec](#gerritnetworkspec)
-   39. [NetworkMember](#networkmember)
-   40. [NetworkMemberWithSsh](#networkmemberwithssh)
+   9. [StorageConfig](#storageconfig)
+   10. [GerritStorageConfig](#gerritstorageconfig)
+   11. [StorageClassConfig](#storageclassconfig)
+   12. [NfsWorkaroundConfig](#nfsworkaroundconfig)
+   13. [SharedStorage](#sharedstorage)
+   14. [OptionalSharedStorage](#optionalsharedstorage)
+   15. [ContainerImageConfig](#containerimageconfig)
+   16. [BusyBoxImage](#busyboximage)
+   17. [GerritRepositoryConfig](#gerritrepositoryconfig)
+   18. [GerritClusterIngressConfig](#gerritclusteringressconfig)
+   19. [GerritIngressTlsConfig](#gerritingresstlsconfig)
+   20. [GerritTemplate](#gerrittemplate)
+   21. [GerritTemplateSpec](#gerrittemplatespec)
+   22. [GerritProbe](#gerritprobe)
+   23. [GerritServiceConfig](#gerritserviceconfig)
+   24. [GerritSite](#gerritsite)
+   25. [GerritPlugin](#gerritplugin)
+   26. [GerritMode](#gerritmode)
+   27. [GerritSpec](#gerritspec)
+   28. [GerritStatus](#gerritstatus)
+   29. [IngressConfig](#ingressconfig)
+   30. [ReceiverTemplate](#receivertemplate)
+   31. [ReceiverTemplateSpec](#receivertemplatespec)
+   32. [ReceiverSpec](#receiverspec)
+   33. [ReceiverStatus](#receiverstatus)
+   34. [ReceiverProbe](#receiverprobe)
+   35. [ReceiverServiceConfig](#receiverserviceconfig)
+   36. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   37. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   38. [GitGcState](#gitgcstate)
+   39. [GerritNetworkSpec](#gerritnetworkspec)
+   40. [NetworkMember](#networkmember)
+   41. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -56,7 +57,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha4 \
+**Version**: v1alpha5 \
 **Kind**: GerritCluster
 
 ---
@@ -73,7 +74,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha4"
+apiVersion: "gerritoperator.google.com/v1alpha5"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -106,6 +107,14 @@ spec:
             Nobody-Group = nogroup
 
     gitRepositoryStorage:
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+    sharedStorage:
       size: 1Gi
       volumeName: ""
       selector:
@@ -324,7 +333,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha5 \
+**Version**: v1alpha6 \
 **Kind**: Gerrit
 
 ---
@@ -341,7 +350,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha5"
+apiVersion: "gerritoperator.google.com/v1alpha6"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -484,6 +493,14 @@ spec:
             Nobody-Group = nogroup
 
     gitRepositoryStorage:
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+    sharedStorage:
       size: 1Gi
       volumeName: ""
       selector:
@@ -766,14 +783,22 @@ spec:
 |---|---|---|
 | `members` | `Map<String, List<String>>` | A map listing all Gerrit and Receiver instances managed by the GerritCluster by name |
 
+## StorageConfig
+
+| Field                  | Type                                              | Description                                                                                             |
+|------------------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| `storageClasses`       | [`StorageClassConfig`](#storageclassconfig)       | StorageClasses used in the GerritCluster                                                                |
+| `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage)                 | Volume used for storing Git repositories                                                                |
+| `logsStorage`          | [`SharedStorage`](#sharedstorage)                 | Volume used for storing logs                                                                            |
+| `pluginCacheStorage`   | [`OptionalSharedStorage`](#optionalsharedstorage) | Volume used for caching downloaded plugin JAR-files (Only used by Gerrit resources. Otherwise ignored.) |
+
 ## GerritStorageConfig
+
+Extends [StorageConfig](#StorageConfig).
 
 | Field | Type | Description |
 |---|---|---|
-| `storageClasses` | [`StorageClassConfig`](#storageclassconfig) | StorageClasses used in the GerritCluster |
-| `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage) | Volume used for storing Git repositories |
-| `logsStorage` | [`SharedStorage`](#sharedstorage) | Volume used for storing logs |
-| `pluginCacheStorage` | [`OptionalSharedStorage`](#optionalsharedstorage) | Volume used for caching downloaded plugin JAR-files (Only used by Gerrit resources. Otherwise ignored.) |
+| `sharedStorage` | [`SharedStorage`](#sharedstorage) | Volume used for resources shared between Gerrit instances except git repositories |
 
 ## StorageClassConfig
 
@@ -968,7 +993,7 @@ compared to the parent object. All other options can still be configured.
 
 | Field | Type | Description |
 |---|---|---|
-| `storage` | [`GerritStorageConfig`](#gerritstorageconfig) | Storage used by Gerrit/Receiver instances |
+| `storage` | [`StorageConfig`](#storageconfig) | Storage used by Gerrit/Receiver instances |
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`IngressConfig`](#ingressconfig) | Ingress configuration for Gerrit |
 
