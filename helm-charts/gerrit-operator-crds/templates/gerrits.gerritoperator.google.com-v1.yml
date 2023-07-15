@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1alpha5
+  - name: v1alpha6
     schema:
       openAPIV3Schema:
         properties:
@@ -49,6 +49,36 @@ spec:
                 type: object
               storage:
                 properties:
+                  sharedStorage:
+                    properties:
+                      size:
+                        anyOf:
+                        - type: integer
+                        - type: string
+                        x-kubernetes-int-or-string: true
+                      volumeName:
+                        type: string
+                      selector:
+                        properties:
+                          matchExpressions:
+                            items:
+                              properties:
+                                key:
+                                  type: string
+                                operator:
+                                  type: string
+                                values:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            type: object
+                        type: object
+                    type: object
                   storageClasses:
                     properties:
                       readWriteOnce:
