@@ -51,8 +51,7 @@ public class GitGarbageCollectionCronJob
         gerritCluster.getLabels("GitGc", this.getClass().getSimpleName());
 
     List<Container> initContainers = new ArrayList<>();
-    List<Volume> volumes =
-        List.of(GerritCluster.getGitRepositoriesVolume(), GerritCluster.getLogsVolume());
+    List<Volume> volumes = List.of(GerritCluster.getSharedVolume(), GerritCluster.getLogsVolume());
 
     if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()) {
       if (gerritCluster

@@ -138,7 +138,7 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
 
   private Set<Volume> getVolumes(Receiver receiver) {
     Set<Volume> volumes = new HashSet<>();
-    volumes.add(GerritCluster.getGitRepositoriesVolume());
+    volumes.add(GerritCluster.getSharedVolume());
     volumes.add(GerritCluster.getLogsVolume());
 
     volumes.add(
