@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.shared.model;
+package com.google.gerrit.k8s.operator.gerrit.config;
 
-public class GerritStorageConfig extends StorageConfig {
-  private SharedStorage sharedStorage;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 
-  public SharedStorage getSharedStorage() {
-    return sharedStorage;
+public class HighAvailabilityPluginConfigBuilder extends PluginConfigBuilder {
+  public HighAvailabilityPluginConfigBuilder() {
+    super("high-availability");
   }
 
-  public void setSharedStorage(SharedStorage sharedStorage) {
-    this.sharedStorage = sharedStorage;
+  @Override
+  void addRequiredOptions(Gerrit gerrit) {
+    addRequiredOption(
+        new RequiredPluginOption<String>("high-availability", "main", "sharedDirectory", "shared"));
   }
 }
