@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
-public class GerritConfigValidator {
+public class ConfigValidator {
   @SuppressWarnings("rawtypes")
   private final List<RequiredOption> requiredOptions;
 
   @SuppressWarnings("rawtypes")
-  public GerritConfigValidator(List<RequiredOption> requiredOptions) {
+  public ConfigValidator(List<RequiredOption> requiredOptions) {
     this.requiredOptions = requiredOptions;
   }
 

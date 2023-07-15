@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.gerrit.config.ConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.fabric8.kubernetes.api.model.ConfigMap;
@@ -45,7 +46,7 @@ public class GerritConfigMap extends CRUDKubernetesDependentResource<ConfigMap, 
       configFiles.put("gerrit.config", "");
     }
 
-    GerritConfigBuilder gerritConfigBuilder = new GerritConfigBuilder().forGerrit(gerrit);
+    ConfigBuilder gerritConfigBuilder = new GerritConfigBuilder().forGerrit(gerrit);
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
 
