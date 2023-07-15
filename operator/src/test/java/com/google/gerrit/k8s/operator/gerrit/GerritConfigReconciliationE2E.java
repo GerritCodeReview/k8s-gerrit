@@ -20,6 +20,7 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.gerrit.k8s.operator.gerrit.model.GerritServiceConfig;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
@@ -53,7 +54,9 @@ public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest
 
     gerritCluster.removeGerrit(gerritTemplate);
     GerritTemplateSpec gerritSpec = gerritTemplate.getSpec();
-    gerritSpec.setGracefulStopTimeout(10);
+    GerritServiceConfig gerritServiceConfig = new GerritServiceConfig();
+    gerritServiceConfig.setHttpPort(48080);
+    gerritSpec.setService(gerritServiceConfig);
     gerritTemplate.setSpec(gerritSpec);
     gerritCluster.addGerrit(gerritTemplate);
     gerritCluster.deploy();
@@ -64,25 +67,14 @@ public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest
             () -> {
               assertTrue(
                   client
-                          .apps()
-                          .statefulSets()
-                          .inNamespace(operator.getNamespace())
-                          .withName(GERRIT_NAME)
-                          .get()
-                          .getSpec()
-                          .getTemplate()
-                          .getSpec()
-                          .getTerminationGracePeriodSeconds()
-                      == 10L);
-              assertTrue(
-                  client
-                          .pods()
-                          .inNamespace(operator.getNamespace())
-                          .withName(GERRIT_NAME + "-0")
-                          .get()
-                          .getSpec()
-                          .getTerminationGracePeriodSeconds()
-                      == 10L);
+                      .services()
+                      .inNamespace(operator.getNamespace())
+                      .withName(GERRIT_NAME)
+                      .get()
+                      .getSpec()
+                      .getPorts()
+                      .stream()
+                      .allMatch(p -> p.getPort() == 48080));
               assertFalse(getReplicaSetAnnotations().containsKey(RESTART_ANNOTATION));
             });
   }
@@ -108,21 +100,7 @@ public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest
     gerritCluster.addGerrit(gerritTemplate);
     gerritCluster.deploy();
 
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertTrue(getReplicaSetAnnotations().containsKey(RESTART_ANNOTATION));
-              assertFalse(
-                  podV1Uid.equals(
-                      client
-                          .pods()
-                          .inNamespace(operator.getNamespace())
-                          .withName(GERRIT_NAME + "-0")
-                          .get()
-                          .getMetadata()
-                          .getUid()));
-            });
+    assertGerritRestart(podV1Uid);
   }
 
   @Test
@@ -138,13 +116,23 @@ public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest
 
     secureConfig.modify("test", "test", "test");
 
+    assertGerritRestart(podV1Uid);
+  }
+
+  private void assertGerritRestart(String uidOld) {
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
+              assertTrue(
+                  client
+                      .pods()
+                      .inNamespace(operator.getNamespace())
+                      .withName(GERRIT_NAME + "-0")
+                      .isReady());
               assertTrue(getReplicaSetAnnotations().containsKey(RESTART_ANNOTATION));
               assertFalse(
-                  podV1Uid.equals(
+                  uidOld.equals(
                       client
                           .pods()
                           .inNamespace(operator.getNamespace())
@@ -170,6 +158,6 @@ public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest
 
   @Override
   protected IngressType getIngressType() {
-    return IngressType.NONE;
+    return IngressType.INGRESS;
   }
 }
