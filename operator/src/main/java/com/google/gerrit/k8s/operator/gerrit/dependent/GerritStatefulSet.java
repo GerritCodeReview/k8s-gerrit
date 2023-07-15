@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
@@ -66,11 +67,19 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.isChownOnStartup()) {
-      initContainers.add(
-          GerritCluster.createNfsInitContainer(
-              gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
-                  != null,
-              gerrit.getSpec().getContainerImages()));
+      boolean hasIdmapdConfig =
+          gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
+              != null;
+      ContainerImageConfig images = gerrit.getSpec().getContainerImages();
+
+      if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+
+        initContainers.add(
+            GerritCluster.createNfsInitContainer(
+                hasIdmapdConfig, images, List.of(GerritCluster.getSharedVolumeMount())));
+      } else {
+        initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
+      }
     }
 
     Map<String, String> replicaSetAnnotations = new HashMap<>();
@@ -193,6 +202,9 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
   private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      volumes.add(GerritCluster.getSharedVolume());
+    }
     volumes.add(GerritCluster.getGitRepositoriesVolume());
     volumes.add(GerritCluster.getLogsVolume());
 
@@ -244,6 +256,9 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     Set<VolumeMount> volumeMounts = new HashSet<>();
     volumeMounts.add(
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      volumeMounts.add(GerritCluster.getSharedVolumeMount());
+    }
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
     volumeMounts.add(GerritCluster.getLogsVolumeMount());
     volumeMounts.add(
