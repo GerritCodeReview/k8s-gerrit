@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.test;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -215,6 +216,7 @@ public class TestGerritCluster {
   private void waitForGerritReadiness(GerritTemplate gerrit) {
     logger.atInfo().log("Waiting max 2 minutes for the Gerrit StatefulSet to be ready.");
     await()
+        .pollDelay(15, SECONDS)
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
