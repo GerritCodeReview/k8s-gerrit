@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7a48ca_a5aa83b3",
+        "filename": "helm-charts/gerrit-replica/templates/storageclasses.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-15T07:01:20Z",
+      "side": 1,
+      "message": "Add this to the documentation as well.\n\nAlso add both with its default to the values.yaml.",
+      "range": {
+        "startLine": 26,
+        "startChar": 56,
+        "endLine": 26,
+        "endChar": 76
+      },
+      "revId": "df043a9e2c35486708779e685de4dcb5acf18fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
