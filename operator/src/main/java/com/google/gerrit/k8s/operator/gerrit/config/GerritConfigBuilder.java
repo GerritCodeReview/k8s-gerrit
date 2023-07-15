@@ -17,44 +17,34 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 
-@SuppressWarnings("rawtypes")
-public class GerritConfigBuilder {
+public class GerritConfigBuilder extends ConfigBuilder {
   private static final Pattern PROTOCOL_PATTERN = Pattern.compile("^(https?)://.+");
-  private List<RequiredOption> requiredOptions = new ArrayList<>(setupStaticRequiredOptions());
-  private Config cfg;
 
-  private static List<RequiredOption> setupStaticRequiredOptions() {
-    List<RequiredOption> requiredOptions = new ArrayList<>();
-    requiredOptions.add(
+  public GerritConfigBuilder() {
+    super("gerrit.config");
+  }
+
+  @Override
+  void addRequiredOptions(Gerrit gerrit) {
+    addRequiredOption(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
-    requiredOptions.add(
+    addRequiredOption(
         new RequiredOption<Set<String>>(
             "container",
             "javaOptions",
             Set.of("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore")));
-    requiredOptions.add(new RequiredOption<String>("container", "user", "gerrit"));
-    requiredOptions.add(new RequiredOption<String>("gerrit", "basepath", "git"));
-    requiredOptions.add(new RequiredOption<String>("cache", "directory", "cache"));
-    return requiredOptions;
-  }
-
-  public GerritConfigBuilder forGerrit(Gerrit gerrit) {
-    String gerritConfig = gerrit.getSpec().getConfigFiles().getOrDefault("gerrit.config", "");
-
-    withConfig(gerritConfig);
+    addRequiredOption(new RequiredOption<String>("container", "user", "gerrit"));
+    addRequiredOption(new RequiredOption<String>("gerrit", "basepath", "git"));
+    addRequiredOption(new RequiredOption<String>("cache", "directory", "cache"));
     useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
 
     withSshListenAddress(gerrit);
@@ -63,28 +53,11 @@ public class GerritConfigBuilder {
       withUrl(ingressConfig.getUrl());
       withSshAdvertisedAddress(gerrit);
     }
-
-    return this;
   }
 
-  public GerritConfigBuilder withConfig(String text) {
-    Config cfg = new Config();
-    try {
-      cfg.fromText(text);
-    } catch (ConfigInvalidException e) {
-      throw new IllegalStateException("The provided gerrit.config is invalid.");
-    }
-
-    return withConfig(cfg);
-  }
-
-  public GerritConfigBuilder withConfig(Config cfg) {
-    this.cfg = cfg;
-    return this;
-  }
-
-  public GerritConfigBuilder withUrl(String url) {
-    requiredOptions.add(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
+  @VisibleForTesting
+  GerritConfigBuilder withUrl(String url) {
+    addRequiredOption(new RequiredOption<String>("gerrit", "canonicalWebUrl", url));
 
     StringBuilder listenUrlBuilder = new StringBuilder();
     listenUrlBuilder.append("proxy-");
@@ -98,7 +71,7 @@ public class GerritConfigBuilder {
     listenUrlBuilder.append("://*:");
     listenUrlBuilder.append(HTTP_PORT);
     listenUrlBuilder.append("/");
-    requiredOptions.add(
+    addRequiredOption(
         new RequiredOption<String>("httpd", "listenUrl", listenUrlBuilder.toString()));
     return this;
   }
@@ -110,12 +83,12 @@ public class GerritConfigBuilder {
     } else {
       listenAddress = "off";
     }
-    requiredOptions.add(new RequiredOption<String>("sshd", "listenAddress", listenAddress));
+    addRequiredOption(new RequiredOption<String>("sshd", "listenAddress", listenAddress));
   }
 
   private void withSshAdvertisedAddress(Gerrit gerrit) {
     if (gerrit.isSshEnabled()) {
-      requiredOptions.add(
+      addRequiredOption(
           new RequiredOption<String>(
               "sshd",
               "advertisedAddress",
@@ -124,50 +97,8 @@ public class GerritConfigBuilder {
     }
   }
 
-  public GerritConfigBuilder useReplicaMode(boolean isReplica) {
-    requiredOptions.add(new RequiredOption<Boolean>("container", "replica", isReplica));
+  private GerritConfigBuilder useReplicaMode(boolean isReplica) {
+    addRequiredOption(new RequiredOption<Boolean>("container", "replica", isReplica));
     return this;
-  }
-
-  public Config build() {
-    GerritConfigValidator configValidator = new GerritConfigValidator(requiredOptions);
-    try {
-      configValidator.check(cfg);
-    } catch (InvalidGerritConfigException e) {
-      throw new IllegalStateException(e);
-    }
-    setRequiredOptions();
-    return cfg;
-  }
-
-  public void validate() throws InvalidGerritConfigException {
-    new GerritConfigValidator(requiredOptions).check(cfg);
-  }
-
-  @SuppressWarnings("unchecked")
-  private void setRequiredOptions() {
-    for (RequiredOption<?> opt : requiredOptions) {
-      if (opt.getExpected() instanceof String) {
-        cfg.setString(
-            opt.getSection(), opt.getSubSection(), opt.getKey(), (String) opt.getExpected());
-      } else if (opt.getExpected() instanceof Boolean) {
-        cfg.setBoolean(
-            opt.getSection(), opt.getSubSection(), opt.getKey(), (Boolean) opt.getExpected());
-      } else if (opt.getExpected() instanceof Set) {
-        List<String> values =
-            new ArrayList<String>(
-                Arrays.asList(
-                    cfg.getStringList(opt.getSection(), opt.getSubSection(), opt.getKey())));
-        List<String> expectedSet = new ArrayList<String>();
-        expectedSet.addAll((Set<String>) opt.getExpected());
-        expectedSet.removeAll(values);
-        values.addAll(expectedSet);
-        cfg.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
-      }
-    }
-  }
-
-  public List<RequiredOption> getRequiredOptions() {
-    return requiredOptions;
   }
 }
