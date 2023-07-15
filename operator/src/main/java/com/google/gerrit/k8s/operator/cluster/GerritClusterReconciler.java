@@ -32,6 +32,8 @@ import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCacheCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterStatus;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -63,6 +65,11 @@ import java.util.stream.Collectors;
       @Dependent(
           name = "git-repositories-pvc",
           type = GitRepositoriesPVC.class,
+          useEventSourceWithName = PVC_EVENT_SOURCE),
+      @Dependent(
+          name = "shared-pvc",
+          type = SharedPVC.class,
+          reconcilePrecondition = SharedPVCCondition.class,
           useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-logs-pvc",

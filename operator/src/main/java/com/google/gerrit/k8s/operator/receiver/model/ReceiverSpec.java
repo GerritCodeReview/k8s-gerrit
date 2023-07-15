@@ -15,12 +15,12 @@
 package com.google.gerrit.k8s.operator.receiver.model;
 
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
+import com.google.gerrit.k8s.operator.shared.model.StorageConfig;
 
 public class ReceiverSpec extends ReceiverTemplateSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
-  private GerritStorageConfig storage = new GerritStorageConfig();
+  private StorageConfig storage = new StorageConfig();
   private IngressConfig ingress = new IngressConfig();
 
   public ReceiverSpec() {}
@@ -37,11 +37,11 @@ public class ReceiverSpec extends ReceiverTemplateSpec {
     this.containerImages = containerImages;
   }
 
-  public GerritStorageConfig getStorage() {
+  public StorageConfig getStorage() {
     return storage;
   }
 
-  public void setStorage(GerritStorageConfig storage) {
+  public void setStorage(StorageConfig storage) {
     this.storage = storage;
   }
 
