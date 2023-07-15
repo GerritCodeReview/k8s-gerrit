@@ -57,6 +57,7 @@ public abstract class AbstractGerritOperatorE2ETest {
   @RegisterExtension
   protected LocallyRunOperatorExtension operator =
       LocallyRunOperatorExtension.builder()
+          .withNamespaceDeleteTimeout(120)
           .waitForNamespaceDeletion(true)
           .withReconciler(new GerritClusterReconciler())
           .withReconciler(gerritReconciler)
