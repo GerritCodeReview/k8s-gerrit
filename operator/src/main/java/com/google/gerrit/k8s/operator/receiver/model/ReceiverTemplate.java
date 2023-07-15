@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
+import com.google.gerrit.k8s.operator.shared.model.StorageConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -72,7 +73,7 @@ public class ReceiverTemplate implements KubernetesResource {
     receiver.setMetadata(getReceiverMetadata(gerritCluster));
     ReceiverSpec receiverSpec = new ReceiverSpec(spec);
     receiverSpec.setContainerImages(gerritCluster.getSpec().getContainerImages());
-    receiverSpec.setStorage(gerritCluster.getSpec().getStorage());
+    receiverSpec.setStorage(new StorageConfig(gerritCluster.getSpec().getStorage()));
     IngressConfig ingressConfig = new IngressConfig();
     ingressConfig.setHost(gerritCluster.getSpec().getIngress().getHost());
     ingressConfig.setType(gerritCluster.getSpec().getIngress().getType());

@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.cluster.model;
 import static com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC.LOGS_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
+import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
@@ -42,11 +43,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha3")
+@Version("v1alpha4")
 @ShortNames("gclus")
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
   private static final long serialVersionUID = 2L;
+  private static final String SHARED_VOLUME_NAME = "shared";
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
   private static final String LOGS_VOLUME_NAME = "logs";
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
@@ -102,6 +104,16 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
+  public static Volume getSharedVolume() {
+    return new VolumeBuilder()
+        .withName(SHARED_VOLUME_NAME)
+        .withNewPersistentVolumeClaim()
+        .withClaimName(SHARED_PVC_NAME)
+        .endPersistentVolumeClaim()
+        .build();
+  }
+
+  @JsonIgnore
   public static Volume getGitRepositoriesVolume() {
     return new VolumeBuilder()
         .withName(GIT_REPOSITORIES_VOLUME_NAME)
@@ -122,6 +134,16 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withName(GIT_REPOSITORIES_VOLUME_NAME)
         .withMountPath(mountPath)
         .build();
+  }
+
+  @JsonIgnore
+  public static VolumeMount getSharedVolumeMount() {
+    return getSharedVolumeMount("/var/mnt/shared");
+  }
+
+  @JsonIgnore
+  public static VolumeMount getSharedVolumeMount(String mountPath) {
+    return new VolumeMountBuilder().withName(SHARED_VOLUME_NAME).withMountPath(mountPath).build();
   }
 
   @JsonIgnore
@@ -179,12 +201,33 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   @JsonIgnore
   public static Container createNfsInitContainer(
       boolean configureIdmapd, ContainerImageConfig imageConfig) {
+    return createNfsInitContainer(configureIdmapd, imageConfig, List.of());
+  }
+
+  @JsonIgnore
+  public static Container createNfsInitContainer(
+      boolean configureIdmapd,
+      ContainerImageConfig imageConfig,
+      List<VolumeMount> additionalVolumeMounts) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
     volumeMounts.add(getLogsVolumeMount());
     volumeMounts.add(getGitRepositoriesVolumeMount());
 
+    volumeMounts.addAll(additionalVolumeMounts);
+
     if (configureIdmapd) {
       volumeMounts.add(getNfsImapdConfigVolumeMount());
+    }
+
+    StringBuilder args = new StringBuilder();
+    args.append("chown -R ");
+    args.append(GERRIT_FS_UID);
+    args.append(":");
+    args.append(GERRIT_FS_GID);
+    args.append(" ");
+    for (VolumeMount vm : volumeMounts) {
+      args.append(vm.getMountPath());
+      args.append(" ");
     }
 
     return new ContainerBuilder()
@@ -192,9 +235,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withImagePullPolicy(imageConfig.getImagePullPolicy())
         .withImage(imageConfig.getBusyBox().getBusyBoxImage())
         .withCommand(List.of("sh", "-c"))
-        .withArgs(
-            String.format(
-                "chown -R %d:%d /var/mnt/logs /var/mnt/git", GERRIT_FS_UID, GERRIT_FS_GID))
+        .withArgs(args.toString().trim())
         .withEnv(getPodNameEnvVar())
         .withVolumeMounts(volumeMounts)
         .build();
