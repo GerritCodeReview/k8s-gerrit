@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.config.ConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -49,6 +50,12 @@ public class GerritConfigMap extends CRUDKubernetesDependentResource<ConfigMap, 
     ConfigBuilder gerritConfigBuilder = new GerritConfigBuilder().forGerrit(gerrit);
 
     configFiles.put("gerrit.config", gerritConfigBuilder.build().toText());
+
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      configFiles.put(
+          "high-availability.config",
+          new HighAvailabilityPluginConfigBuilder().forGerrit(gerrit).build().toText());
+    }
 
     if (!configFiles.containsKey("healthcheck.config")) {
       configFiles.put("healthcheck.config", DEFAULT_HEALTHCHECK_CONFIG);
