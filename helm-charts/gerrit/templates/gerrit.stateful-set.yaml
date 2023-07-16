@@ -145,6 +145,10 @@ spec:
         - name: {{ .name }}
           mountPath: "/var/mnt/data/{{ .subDir }}"
         {{- end }}
+        {{- range .Values.gerrit.etc.extra }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/config/{{ .subDir }}"
+        {{- end }}
       containers:
       - name: gerrit
         image: {{ template "registry" . }}{{ .Values.gerrit.images.gerrit }}:{{ .Values.images.version }}
@@ -192,6 +196,10 @@ spec:
         {{- range .Values.gerrit.additionalConfigMaps }}
         - name: {{ .name }}
           mountPath: "/var/mnt/data/{{ .subDir }}"
+        {{- end }}
+        {{- range .Values.gerrit.etc.extra }}
+        - name: {{ .name }}
+          mountPath: "/var/mnt/etc/config/{{ .subDir }}"
         {{- end }}
         resources:
 {{ toYaml .Values.gerrit.resources | indent 10 }}
@@ -258,6 +266,11 @@ spec:
           secretName: {{ .Release.Name }}-tls-ca
       {{- end }}
       {{- range .Values.gerrit.additionalConfigMaps }}
+      - name: {{ .name }}
+        configMap:
+          name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}
+      {{- end }}
+      {{- range .Values.gerrit.etc.extra }}
       - name: {{ .name }}
         configMap:
           name: {{ if .data }}{{ $root.Release.Name }}-{{ .name }}{{ else }}{{ .name }}{{ end }}

@@ -336,6 +336,10 @@ future.
 | `gerrit.priorityClassName` | Name of the PriorityClass to apply to the master pod | `nil` |
 | `gerrit.etc.config` | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
 | `gerrit.etc.secret` | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret | `{secure.config: ...}` [see here](#Gerrit-config-files) |
+| `gerrit.etc.extra` | Allows to mount ConfigMaps into a subdirectory of `$SITE/etc` | [] |
+| `gerrit.etc.extra[*].name` | Name of the ConfigMap | `nil` |
+| `gerrit.etc.extra[*].subDir` | Subdirectory under `$SITE/etc` into which the files should be symlinked | `nil` |
+| `gerrit.etc.extra[*].data` | Data of the ConfigMap. If not set, ConfigMap has to be created manually | `nil` |
 | `gerrit.additionalConfigMaps` | Allows to mount additional ConfigMaps into a subdirectory of `$SITE/data` | `[]` |
 | `gerrit.additionalConfigMaps[*].name` | Name of the ConfigMap | `nil` |
 | `gerrit.additionalConfigMaps[*].subDir` | Subdirectory under `$SITE/data` into which the files should be symlinked | `nil` |

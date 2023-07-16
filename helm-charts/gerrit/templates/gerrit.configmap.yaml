@@ -80,3 +80,23 @@ data:
 {{ toYaml .data | indent 2 }}
 {{- end }}
 {{- end }}
+{{- range .Values.gerrit.etc.extra -}}
+{{- if .data }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  {{ $root.Release.Name }}-{{ .name }}
+  labels:
+    app.kubernetes.io/component: gerrit
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
+    chart: {{ template "gerrit.chart" $root }}
+    heritage: {{ $root.Release.Service }}
+    release: {{ $root.Release.Name }}
+    {{- if $root.Values.additionalLabels }}
+{{ toYaml $root.Values.additionalLabels | indent 4 }}
+    {{- end }}
+data:
+{{ toYaml .data | indent 2 }}
+{{- end }}
+{{- end }}

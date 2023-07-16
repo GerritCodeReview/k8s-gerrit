@@ -313,6 +313,12 @@ gerrit:
         # username = git
         # password = secret
 
+    extra:
+      # - name:
+      #   subDir:
+      #   data:
+      #     file.txt: test
+
       # ssh_host_ecdsa_key: |-
       #   -----BEGIN EC PRIVATE KEY-----
 

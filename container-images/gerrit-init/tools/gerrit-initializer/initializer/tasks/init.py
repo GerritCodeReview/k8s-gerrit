@@ -154,9 +154,7 @@ class GerritInit:
         for config_type in ["config", "secret"]:
             if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
                 for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
-                    if os.path.isfile(
-                        os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
-                    ):
+                    if not file_or_dir.startswith('..'):
                         self._ensure_symlink(
                             os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
                             os.path.join(etc_dir, file_or_dir),
