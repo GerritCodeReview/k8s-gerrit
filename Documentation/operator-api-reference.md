@@ -250,8 +250,7 @@ spec:
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
 
-      secrets:
-      - gerrit-secure-config
+      secretRef: gerrit-secure-config
 
   receiver:
     metadata:
@@ -453,8 +452,7 @@ spec:
             javaOptions = -Xms200m
             javaOptions = -Xmx4g
 
-    secrets:
-    - gerrit-secure-config
+    secretRef: gerrit-secure-config
 
   containerImages:
     imagePullSecrets: []
