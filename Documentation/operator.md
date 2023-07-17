@@ -15,12 +15,17 @@
 
 ## Build
 
+For this step, you need Java 11 and Maven installed.
+
 To build all components of the operator run:
 
 ```sh
 cd operator
 mvn clean install
 ```
+
+This step compiles the Java source code into `.class` bytecode files in a newly
+generated `target` folder.
 
 ## Versioning
 
@@ -34,7 +39,14 @@ this will change.
 
 ## Publish
 
-To publish the container image of the Gerrit Operator run:
+Currently, there does not exist a container image for the operator in the
+`docker.io/k8sgerrit` registry. You must build your own image in order to run
+the operator in your cluster. To publish the container image of the Gerrit
+Operator:
+
+1. Update the `docker.registry` and `docker.org` tags in the `pom.xml` file to
+point to your own Docker registry and org that you have permissions to push to.
+2. run the following commands
 
 ```sh
 cd operator
@@ -98,6 +110,8 @@ Note, that running the E2E tests will also involve pushing the container image
 to the repository configured in the properties file.
 
 ## Deploy
+You will need to have admin privileges for your k8s cluster in order to be able
+to deploy the following resources.
 
 First all CustomResourceDefinitions have to be deployed:
 
