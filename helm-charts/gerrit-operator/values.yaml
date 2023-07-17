@@ -1,0 +1,20 @@
+namespace: gerrit-operator
+
+imagePullSecrets: []
+  # - name: my-secret-1
+
+image:
+  registry: docker.io
+  org: k8sgerrit
+  name: gerrit-operator
+  tag: ""
+  imagePullPolicy: Always
+
+## Required to use an external/persistent keystore, otherwise a keystore using
+## self-signed certificates will be generated
+externalKeyStore:
+  enabled: false
+  # base64-encoded Java keystore
+  jks: ""
+  # base64-encoded Java keystore password
+  password: ""
