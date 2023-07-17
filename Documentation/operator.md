@@ -127,6 +127,60 @@ to the repository configured in the properties file.
 You will need to have admin privileges for your k8s cluster in order to be able
 to deploy the following resources.
 
+You may choose to deploy the operator resources using helm, or directly via
+`kubectl apply`.
+
+### Using helm charts
+Make sure you have [helm](https://helm.sh/) installed in your environment.
+
+There are two helm charts that you will need to install, in order.
+
+#### gerrit-operator-crds
+
+This chart installs the CRDs (k8s API extensions) to your k8s cluster. No chart
+values need to be modified. The CRDs installed are: GerritCluster, Gerrit,
+GitGarbageCollection, Receiver.
+
+run:
+```sh
+helm install gerrit-operator-crds helm-charts/gerrit-operator-crds/
+```
+
+The chart is installed in the default namespace.
+
+#### gerrit-operator
+
+This chart installs the `gerrit-operator-crds` chart as a dependency, and the
+following k8s resources:
+- Deployment
+- ServiceAccount
+- ClusterRole
+- ClusterRoleBinding
+
+The operator itself creates a Service resource and a
+ValidationWebhookConfigurations resource behind the scenes.
+
+You will need to modify the values in `helm-charts/gerrit-operator/values.yaml`
+to point the chart to the registry/org that is hosting the Docker container
+image for the operator (from the `Publish` step earlier). Now,
+
+run:
+```sh
+# Create a namespace for the gerrit-operator
+kubectl create ns gerrit-operator
+
+# Build the gerrit-operator-crds chart and store it in the charts/ subdirectory
+helm dependency build helm-charts/gerrit-operator/
+
+# Install the gerrit-operator-crds chart and the gerrit-operator chart
+helm -n gerrit-operator install gerrit-operator helm-charts/gerrit-operator/
+```
+
+The chart itself, and all the bundled namespaced resources, are installed in the
+`gerrit-operator` namespace, as per the `-n` option in the helm command.
+
+### Without the helm charts
+
 First all CustomResourceDefinitions have to be deployed:
 
 ```sh
