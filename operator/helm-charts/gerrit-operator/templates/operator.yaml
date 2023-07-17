@@ -1,0 +1,61 @@
+## Required to use an external/persistent keystore, otherwise a keystore using
+## self-signed certificates will be generated
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name:  gerrit-operator-ssl
+#   namespace: {{ .Values.namespace }}
+# data:
+#   keystore.jks: # base64-encoded Java keystore
+#   keystore.password: # base64-encoded Java keystore password
+# type: Opaque
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gerrit-operator
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: gerrit-operator
+  template:
+    metadata:
+      labels:
+        app: gerrit-operator
+    spec:
+      serviceAccountName: gerrit-operator
+      containers:
+      - name: operator
+        image: {{ .Values.image.registry }}/{{ .Values.image.org }}/{{ .Values.image.name }}:{{ .Values.image.tag | default "latest" }}
+        imagePullPolicy: {{ .Values.image.imagePullPolicy }}
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTPS
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTPS
+          initialDelaySeconds: 30
+      ## Only required, if an external/persistent keystore is being used.
+      #   volumeMounts:
+      #   - name: ssl
+      #     readOnly: true
+      #     mountPath: /operator
+      # volumes:
+      # - name: ssl
+      #   secret:
+      #     secretName: gerrit-operator-ssl
