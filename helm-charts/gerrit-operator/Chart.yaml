@@ -1,0 +1,12 @@
+apiVersion: v2
+name: gerrit-operator
+description: |
+  This helm chart creates a Deployment for the gerrit-operator. A corresponding
+  Service for the operator is implicitly created.
+sources:
+- https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/operator
+version : 0.1.0
+dependencies:
+- name: gerrit-operator-crds
+  version: 0.1.0
+  repository: "file://../gerrit-operator-crds"
