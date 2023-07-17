@@ -1,0 +1,8 @@
+namespace: gerrit-operator
+
+image:
+  registry: docker.io
+  org: k8sgerrit
+  name: gerrit-operator
+  tag: ""
+  imagePullPolicy: Always
