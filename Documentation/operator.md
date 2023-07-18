@@ -37,6 +37,12 @@ generated `operator/target` folder. A `gerrit-operator` image is also created
 locally. Moreover, the CRD helm chart is updated with the latest CRDs as part of
 this build step.
 
+The jar-version and container image tag can be set using the `revision` property:
+
+```sh
+mvn clean install -Drevision=$(git describe --always --dirty)
+```
+
 ## Versioning
 
 The Gerrit Operator is still in an early state of development. The operator is
