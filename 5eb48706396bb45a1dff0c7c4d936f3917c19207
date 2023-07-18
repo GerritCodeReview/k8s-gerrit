@@ -16,6 +16,24 @@
       "message": "I think we should put these charts next to the other charts in `$REPO_ROOT/helm-charts`. That way there is one directory for users to go to to install Gerrit in the way they want to.",
       "revId": "5eb48706396bb45a1dff0c7c4d936f3917c19207",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce4ab39_a3d923c3",
+        "filename": "operator/helm-charts/gerrit-operator-crds/.helmignore",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-18T17:00:14Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9917fadc_8b482b8f",
+      "revId": "5eb48706396bb45a1dff0c7c4d936f3917c19207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

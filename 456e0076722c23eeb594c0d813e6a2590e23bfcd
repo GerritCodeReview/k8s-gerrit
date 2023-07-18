@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5073bd75_fdc615f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-18T17:00:14Z",
+      "side": 1,
+      "message": "Of course, happy to contribute back (:",
+      "parentUuid": "0b8ffec0_9edb12db",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bae689e_35982e7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-18T17:00:14Z",
+      "side": 1,
+      "message": "1. yes, in entirety\n2. makes sense. done in new commit.",
+      "parentUuid": "9836b80b_0c49175e",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "743ac49a_6bbbf9c4",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-07-18T12:29:32Z",
       "side": 1,
       "message": "It could be more specifically stated that this is done by the operator itself. It will also create ValidationWebhookConfigurations.",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b35b863_5d64e615",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-18T17:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "743ac49a_6bbbf9c4",
       "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6412924e_b738e007",
+        "filename": "operator/helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-18T17:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c00de31c_8e096c58",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 73
+      },
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad825796_06317780",
@@ -88,6 +166,24 @@
       "writtenOn": "2023-07-18T12:29:32Z",
       "side": 1,
       "message": "An option for imagePullSecrets would also be helpful.",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dbf6b0d_f96f8bc0",
+        "filename": "operator/helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-18T17:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad825796_06317780",
       "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
