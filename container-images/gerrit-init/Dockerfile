@@ -14,7 +14,7 @@ RUN apk update && \
     rm -r /usr/lib/python*/ensurepip && \
     # follow https://til.simonwillison.net/python/pip-tools to update hashes
     pip3 install --require-hashes -r requirements.txt --no-cache --upgrade && \
-    pipenv install --python 3.9 --system
+    pipenv install --python 3.11 --system
 
 COPY tools /var/tools/
 COPY config/* /var/config/
