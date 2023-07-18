@@ -133,7 +133,7 @@ You may choose to deploy the operator resources using helm, or directly via
 ### Using helm charts
 Make sure you have [helm](https://helm.sh/) installed in your environment.
 
-There are two helm charts that you will need to install, in order.
+There are two relevant helm charts.
 
 #### gerrit-operator-crds
 
@@ -141,12 +141,9 @@ This chart installs the CRDs (k8s API extensions) to your k8s cluster. No chart
 values need to be modified. The CRDs installed are: GerritCluster, Gerrit,
 GitGarbageCollection, Receiver.
 
-run:
-```sh
-helm install gerrit-operator-crds helm-charts/gerrit-operator-crds/
-```
-
-The chart is installed in the default namespace.
+You do not need to manually `helm install` this chart; this chart is installed
+as a dependency of the second `gerrit-operator` helm chart as described in the
+next subheading.
 
 #### gerrit-operator
 
