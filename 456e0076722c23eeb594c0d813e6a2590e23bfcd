@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9836b80b_0c49175e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-07-18T05:41:29Z",
+      "side": 1,
+      "message": "1. Can the existing kubernetes templates be generated from this helm chart?\n2. Assuming it make sense to separate the CRDs, can the operator helm chart depend on the CRD helm chart?",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
