@@ -6,13 +6,15 @@
 
 	<groupId>com.google.gerrit.operator</groupId>
 	<artifactId>operator</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>${revision}</version>
 
 	<name>Gerrit Kubernetes Operator</name>
 	<description>Provisions and operates Gerrit instances in Kubernetes</description>
 	<packaging>jar</packaging>
 
 	<properties>
+		<revision>1.0.0-SNAPSHOT</revision>
+
 		<fabric8.version>6.6.2</fabric8.version>
 		<flogger.version>0.7.4</flogger.version>
 		<javaoperatorsdk.version>4.3.3</javaoperatorsdk.version>
@@ -278,6 +280,7 @@
 							</from>
 							<to>
 								<image>gerrit-operator</image>
+								<tags>${revision}</tags>
 							</to>
 						</configuration>
 					</execution>
