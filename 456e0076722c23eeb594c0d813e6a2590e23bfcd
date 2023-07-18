@@ -16,6 +16,80 @@
       "message": "1. Can the existing kubernetes templates be generated from this helm chart?\n2. Assuming it make sense to separate the CRDs, can the operator helm chart depend on the CRD helm chart?",
       "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b8ffec0_9edb12db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-18T12:29:32Z",
+      "side": 1,
+      "message": "Thanks for creating those helm charts. Much appreciated!",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "743ac49a_6bbbf9c4",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-18T12:29:32Z",
+      "side": 1,
+      "message": "It could be more specifically stated that this is done by the operator itself. It will also create ValidationWebhookConfigurations.",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00de31c_8e096c58",
+        "filename": "operator/helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-18T12:29:32Z",
+      "side": 1,
+      "message": "This could become an option in the helm chart.",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 73
+      },
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad825796_06317780",
+        "filename": "operator/helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-18T12:29:32Z",
+      "side": 1,
+      "message": "An option for imagePullSecrets would also be helpful.",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

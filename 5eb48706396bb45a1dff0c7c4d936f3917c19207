@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9917fadc_8b482b8f",
+        "filename": "operator/helm-charts/gerrit-operator-crds/.helmignore",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-18T12:29:32Z",
+      "side": 0,
+      "message": "I think we should put these charts next to the other charts in `$REPO_ROOT/helm-charts`. That way there is one directory for users to go to to install Gerrit in the way they want to.",
+      "revId": "5eb48706396bb45a1dff0c7c4d936f3917c19207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
