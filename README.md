@@ -279,6 +279,13 @@ for guidance on how to contribute changes.
 The contribution guidelines for this project can be found
 [here](Documentation/developer-guide.md).
 
+# Roadmap
+
+The roadmap of this project can be found [here](Documentation/roadmap.md).
+
+Feature requests can be made by pushing a change for the roadmap. This can also
+be done to announce/discuss features that you would like to provide.
+
 # Contact
 
 The [Gerrit Mailing List](https://groups.google.com/forum/#!forum/repo-discuss)
