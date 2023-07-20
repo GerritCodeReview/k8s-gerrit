@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "594f7d2a_580e044c",
+        "filename": "Documentation/roadmap.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-20T13:33:38Z",
+      "side": 1,
+      "message": "This section misses version 2.0, which would use the multisite setup. I will add a section about this later.",
+      "revId": "d77a2e73ba912f1142c147a3dad2b1b4267249f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
