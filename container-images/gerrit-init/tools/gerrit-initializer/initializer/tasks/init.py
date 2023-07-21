@@ -130,9 +130,8 @@ class GerritInit:
         if os.path.exists(data_dir):
             for file_or_dir in os.listdir(data_dir):
                 abs_path = os.path.join(data_dir, file_or_dir)
-                if (
-                    os.path.islink(abs_path)
-                    and not os.path.exists(os.path.realpath(abs_path))
+                if os.path.islink(abs_path) and not os.path.exists(
+                    os.path.realpath(abs_path)
                 ):
                     os.unlink(abs_path)
         else:
