@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4931c66e_8a367f77",
+        "filename": "Documentation/roadmap.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-21T11:47:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "594f7d2a_580e044c",
+      "revId": "d77a2e73ba912f1142c147a3dad2b1b4267249f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a85fb0c_5bbba58d",
