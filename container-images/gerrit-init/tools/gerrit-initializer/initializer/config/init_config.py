@@ -69,6 +69,9 @@ class InitConfig:
     def get_libs(self):
         return self.libs
 
+    def get_lib_names(self):
+        return set([p["name"] for p in self.libs])
+
     def get_packaged_plugins(self):
         return list(filter(lambda x: "url" not in x, self.plugins))
 

@@ -30,8 +30,16 @@ LOG = log.get_logger("init")
 MAX_LOCK_LIFETIME = 60
 MAX_CACHED_VERSIONS = 5
 
+REQUIRED_PLUGINS = ["healthcheck"]
+REQUIRED_HA_PLUGINS = ["high-availability"]
+REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
+
 
 class InvalidPluginException(Exception):
+    """Exception to be raised, if the downloaded plugin is not valid."""
+
+
+class MissingRequiredPluginException(Exception):
     """Exception to be raised, if the downloaded plugin is not valid."""
 
 
@@ -71,80 +79,84 @@ class AbstractPluginInstaller(ABC):
         return []
 
     def _get_required_plugins(self):
-        required = self._get_required_jars("/var/plugins", self.config.get_plugins())
+        required = REQUIRED_PLUGINS.copy()
         if self.config.is_ha:
-            required.extend(
-                self._get_required_jars("/var/plugins/ha", self.config.get_plugins())
-            )
+            required.extend(REQUIRED_HA_PLUGINS)
         if self.config.refdb:
-            refdb_path = f"/var/plugins/{self.config.refdb}"
-            if not os.path.exists(refdb_path):
-                raise FileNotFoundError(
-                    "Invalid refdb. Unable to find refdb plugin in container."
-                )
-            required.extend(
-                self._get_required_jars(
-                    f"/var/plugins/{self.config.refdb}", self.config.get_plugins()
-                )
-            )
+            required.append(f"{self.config.refdb}-refdb")
         LOG.info("Requiring plugins: %s", required)
         return required
 
     def _get_required_libs(self):
-        required = self._get_required_jars("/var/libs", self.config.get_libs())
+        required = []
         if self.config.is_ha:
-            required.extend(
-                self._get_required_jars("/var/libs/ha", self.config.get_libs())
-            )
+            required.extend(REQUIRED_HA_LIBS)
         LOG.info("Requiring libs: %s", required)
         return required
 
-    @staticmethod
-    def _get_required_jars(dir, configured_plugins):
-        required = [
-            {"name": os.path.splitext(f)[0], "source_path": os.path.join(dir, f)}
-            for f in os.listdir(dir)
-            if f.endswith(".jar")
-        ]
-        return list(filter(lambda x: x not in configured_plugins, required))
-
-    def _install_plugins_from_container(self):
-        self._install_jars_from_container(self.required_plugins, self.plugin_dir)
-
-    def _install_libs_from_container(self):
-        self._install_jars_from_container(self.required_libs, self.lib_dir)
-
-    def _install_jars_from_container(self, plugins, target_dir):
-        for plugin in plugins:
-            target_file = os.path.join(target_dir, plugin["name"] + ".jar")
-            LOG.info(
-                "Installing plugin %s from container to %s.",
-                plugin["name"],
-                target_file,
-            )
-            if not os.path.exists(plugin["source_path"]):
-                raise FileNotFoundError(
-                    "Unable to find required plugin in container: " + plugin["name"]
-                )
-            if os.path.exists(target_file) and self._get_file_sha(
-                plugin["source_path"]
-            ) == self._get_file_sha(target_file):
+    def _install_required_plugins(self):
+        for plugin in self.required_plugins:
+            if plugin in self.config.get_plugin_names():
                 continue
 
-            shutil.copyfile(plugin["source_path"], target_file)
-            self.plugins_changed = True
+            self._install_required_jar(plugin, self.plugin_dir)
+
+    def _install_required_libs(self):
+        for lib in self.required_libs:
+            if lib in self.config.get_lib_names():
+                continue
+
+            self._install_required_jar(lib, self.lib_dir)
+
+    def _install_required_jar(self, jar, target_dir):
+        with ZipFile("/var/war/gerrit.war", "r") as war:
+            # Lib modules can be packaged as a plugin. However, they could
+            # currently not be installed by the init pgm tool.
+            if f"WEB-INF/plugins/{jar}.jar" in war.namelist():
+                self._install_plugin_from_war(jar, target_dir)
+                return
+        try:
+            self._install_jar_from_container(jar, target_dir)
+        except FileNotFoundError:
+            raise MissingRequiredPluginException(f"Required jar {jar} was not found.")
+
+    def _install_jar_from_container(self, plugin, target_dir):
+        source_file = os.path.join("/var/plugins", plugin + ".jar")
+        target_file = os.path.join(target_dir, plugin + ".jar")
+        LOG.info(
+            "Installing plugin %s from container to %s.",
+            plugin,
+            target_file,
+        )
+        if not os.path.exists(source_file):
+            raise FileNotFoundError(
+                "Unable to find required plugin in container: " + plugin
+            )
+        if os.path.exists(target_file) and self._get_file_sha(
+            source_file
+        ) == self._get_file_sha(target_file):
+            return
+
+        shutil.copyfile(source_file, target_file)
+        self.plugins_changed = True
 
     def _install_plugins_from_war(self):
         for plugin in self.config.get_packaged_plugins():
-            plugin_name = plugin["name"]
-            LOG.info("Installing packaged plugin %s.", plugin_name)
-            with ZipFile("/var/war/gerrit.war", "r") as war:
-                war.extract(f"WEB-INF/plugins/{plugin_name}.jar", self.plugin_dir)
+            self._install_plugin_from_war(plugin["name"], self.plugin_dir)
 
-            os.rename(
-                f"{self.plugin_dir}/WEB-INF/plugins/{plugin_name}.jar",
-                os.path.join(self.plugin_dir, f"{plugin_name}.jar"),
-            )
+    def _install_plugin_from_war(self, plugin, target_dir):
+        LOG.info("Installing packaged plugin %s.", plugin)
+        with ZipFile("/var/war/gerrit.war", "r") as war:
+            war.extract(f"WEB-INF/plugins/{plugin}.jar", self.plugin_dir)
+
+        source_file = f"{self.plugin_dir}/WEB-INF/plugins/{plugin}.jar"
+        target_file = os.path.join(target_dir, f"{plugin}.jar")
+        if not os.path.exists(target_file) or self._get_file_sha(
+            source_file
+        ) != self._get_file_sha(target_file):
+            os.rename(source_file, target_file)
+            self.plugins_changed = True
+
         shutil.rmtree(os.path.join(self.plugin_dir, "WEB-INF"), ignore_errors=True)
 
     @staticmethod
@@ -213,8 +225,8 @@ class AbstractPluginInstaller(ABC):
         self._remove_unwanted_plugins()
         self._remove_unwanted_libs()
 
-        self._install_plugins_from_container()
-        self._install_libs_from_container()
+        self._install_required_plugins()
+        self._install_required_libs()
 
         self._install_plugins_from_war()
 
