@@ -30,8 +30,14 @@ LOG = log.get_logger("init")
 MAX_LOCK_LIFETIME = 60
 MAX_CACHED_VERSIONS = 5
 
+REQUIRED_PLUGINS = ["healthcheck"]
+
 
 class InvalidPluginException(Exception):
+    """Exception to be raised, if the downloaded plugin is not valid."""
+
+
+class MissingRequiredPluginException(Exception):
     """Exception to be raised, if the downloaded plugin is not valid."""
 
 
@@ -39,8 +45,6 @@ class AbstractPluginInstaller(ABC):
     def __init__(self, site, config):
         self.site = site
         self.config = config
-
-        self.required_plugins = self._get_required_plugins()
 
         self.plugin_dir = os.path.join(site, "plugins")
         self.lib_dir = os.path.join(site, "lib")
@@ -57,41 +61,52 @@ class AbstractPluginInstaller(ABC):
 
         return []
 
-    def _get_required_plugins(self):
-        required = [
-            os.path.splitext(f)[0]
-            for f in os.listdir("/var/plugins")
-            if f.endswith(".jar")
-        ]
-        return list(
-            filter(
-                lambda x: x not in self.config.get_all_configured_plugins(), required
-            )
-        )
-
-    def _install_plugins_from_container(self):
-        source_dir = "/var/plugins"
-        for plugin in self.required_plugins:
-            source_file = os.path.join(source_dir, plugin + ".jar")
-            target_file = os.path.join(self.plugin_dir, plugin + ".jar")
-            if os.path.exists(target_file) and self._get_file_sha(
-                source_file
-            ) == self._get_file_sha(target_file):
+    def _install_required_plugins(self):
+        for plugin in REQUIRED_PLUGINS:
+            if plugin in self.config.get_all_configured_plugins():
                 continue
 
-            shutil.copyfile(source_file, target_file)
-            self.plugins_changed = True
+            with ZipFile("/var/war/gerrit.war", "r") as war:
+                if f"WEB-INF/plugins/{plugin}.jar" in war.namelist():
+                    self._install_plugin_from_war(plugin)
+                    continue
+            try:
+                self._install_plugin_from_container(plugin)
+            except FileNotFoundError:
+                raise MissingRequiredPluginException(
+                    f"Required plugin {plugin} was not found."
+                )
+
+    def _install_plugin_from_container(self, plugin):
+        source_dir = "/var/plugins"
+        source_file = os.path.join(source_dir, plugin + ".jar")
+        if os.path.exists(source_file):
+            target_file = os.path.join(self.plugin_dir, plugin + ".jar")
+            if not os.path.exists(target_file) or self._get_file_sha(
+                source_file
+            ) != self._get_file_sha(target_file):
+                shutil.copyfile(source_file, target_file)
+                self.plugins_changed = True
+        else:
+            raise FileNotFoundError(f"Plugin {plugin} not found in container.")
 
     def _install_plugins_from_war(self):
         for plugin in self.config.packaged_plugins:
-            LOG.info("Installing packaged plugin %s.", plugin)
-            with ZipFile("/var/war/gerrit.war", "r") as war:
-                war.extract(f"WEB-INF/plugins/{plugin}.jar", self.plugin_dir)
+            self._install_plugin_from_war(plugin)
 
-            os.rename(
-                f"{self.plugin_dir}/WEB-INF/plugins/{plugin}.jar",
-                os.path.join(self.plugin_dir, f"{plugin}.jar"),
-            )
+    def _install_plugin_from_war(self, plugin):
+        LOG.info("Installing packaged plugin %s.", plugin)
+        with ZipFile("/var/war/gerrit.war", "r") as war:
+            war.extract(f"WEB-INF/plugins/{plugin}.jar", self.plugin_dir)
+
+        source_file = f"{self.plugin_dir}/WEB-INF/plugins/{plugin}.jar"
+        target_file = os.path.join(self.plugin_dir, f"{plugin}.jar")
+        if not os.path.exists(target_file) or self._get_file_sha(
+            source_file
+        ) != self._get_file_sha(target_file):
+            os.rename(source_file, target_file)
+            self.plugins_changed = True
+
         shutil.rmtree(os.path.join(self.plugin_dir, "WEB-INF"), ignore_errors=True)
 
     @staticmethod
@@ -110,7 +125,7 @@ class AbstractPluginInstaller(ABC):
 
     def _remove_unwanted_plugins(self):
         wanted_plugins = list(self.config.get_all_configured_plugins())
-        wanted_plugins.extend(self.required_plugins)
+        wanted_plugins.extend(REQUIRED_PLUGINS)
         for plugin in self._get_installed_plugins():
             if os.path.splitext(plugin)[0] not in wanted_plugins:
                 os.remove(os.path.join(self.plugin_dir, plugin))
@@ -143,7 +158,7 @@ class AbstractPluginInstaller(ABC):
     def execute(self):
         self._create_plugins_dir()
         self._remove_unwanted_plugins()
-        self._install_plugins_from_container()
+        self._install_required_plugins()
         self._install_plugins_from_war()
 
         for plugin in self.config.downloaded_plugins:
