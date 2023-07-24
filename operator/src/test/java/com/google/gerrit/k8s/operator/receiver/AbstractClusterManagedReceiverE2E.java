@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
@@ -44,7 +43,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
+public abstract class AbstractClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   private static final String GERRIT_NAME = "gerrit";
   private ReceiverTemplate receiver;
   private GerritTemplate gerrit;
@@ -65,15 +64,7 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   }
 
   @Test
-  public void testProjectLifecycleWithIngress(@TempDir Path tempDir) throws Exception {
-    gerritCluster.setIngressType(IngressType.INGRESS);
-    GerritCluster cluster = gerritCluster.getGerritCluster();
-    assertProjectLifecycle(cluster, tempDir);
-  }
-
-  @Test
-  public void testProjectLifecycleWithIstio(@TempDir Path tempDir) throws Exception {
-    gerritCluster.setIngressType(IngressType.ISTIO);
+  public void testProjectLifecycle(@TempDir Path tempDir) throws Exception {
     GerritCluster cluster = gerritCluster.getGerritCluster();
     assertProjectLifecycle(cluster, tempDir);
   }
