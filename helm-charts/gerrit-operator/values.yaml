@@ -7,6 +7,10 @@ image:
   imagePullSecrets: []
   # - name: my-secret-1
 
+ingress:
+  # Which ingress provider to use (options: NONE, INGRESS, ISTIO)
+  type: NONE
+
 ## Required to use an external/persistent keystore, otherwise a keystore using
 ## self-signed certificates will be generated
 externalKeyStore:

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
+import com.google.gerrit.k8s.operator.shared.model.HttpSshServiceConfig;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -39,7 +40,7 @@ public class GerritTemplateSpec {
 
   private long gracefulStopTimeout = 30L;
 
-  private GerritServiceConfig service = new GerritServiceConfig();
+  private HttpSshServiceConfig service = new HttpSshServiceConfig();
 
   private GerritSite site = new GerritSite();
   private List<GerritPlugin> plugins = List.of();
@@ -164,11 +165,11 @@ public class GerritTemplateSpec {
     this.gracefulStopTimeout = gracefulStopTimeout;
   }
 
-  public GerritServiceConfig getService() {
+  public HttpSshServiceConfig getService() {
     return service;
   }
 
-  public void setService(GerritServiceConfig service) {
+  public void setService(HttpSshServiceConfig service) {
     this.service = service;
   }
 

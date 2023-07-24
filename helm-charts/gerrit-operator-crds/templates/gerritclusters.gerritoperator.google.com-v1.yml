@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1alpha3
+  - name: v1alpha4
     schema:
       openAPIV3Schema:
         properties:
@@ -162,12 +162,6 @@ spec:
                 properties:
                   enabled:
                     type: boolean
-                  type:
-                    enum:
-                    - NONE
-                    - INGRESS
-                    - ISTIO
-                    type: string
                   host:
                     type: string
                   annotations:
@@ -180,6 +174,11 @@ spec:
                         type: boolean
                       secret:
                         type: string
+                    type: object
+                  ssh:
+                    properties:
+                      enabled:
+                        type: boolean
                     type: object
                 type: object
               gerrits:
@@ -830,11 +829,11 @@ spec:
                           type: integer
                         service:
                           properties:
+                            sshPort:
+                              type: integer
                             type:
                               type: string
                             httpPort:
-                              type: integer
-                            sshPort:
                               type: integer
                           type: object
                         site:

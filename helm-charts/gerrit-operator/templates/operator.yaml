@@ -41,6 +41,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: INGRESS
+          value: {{ .Values.ingress.type }}
         ports:
         - containerPort: 80
         readinessProbe:

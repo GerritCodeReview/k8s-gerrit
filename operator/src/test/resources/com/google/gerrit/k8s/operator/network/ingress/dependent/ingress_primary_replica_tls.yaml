@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gerrit-ingress
+  namespace: gerrit
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: true
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: |-
+      if ($args ~ service=git-upload-pack){
+        set $proxy_upstream_name "gerrit-replica-http";
+        set $proxy_host $proxy_upstream_name;
+        set $service_name "replica";
+      }
+spec:
+  tls:
+  - hosts:
+    - example.com
+    secretName: tls-secret
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/.*/git-upload-pack"
+        backend:
+          service:
+            name: replica
+            port:
+              name: http
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: primary
+            port:
+              name: http

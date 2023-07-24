@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.receiver.model;
 
+import com.google.gerrit.k8s.operator.shared.model.HttpServiceConfig;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
@@ -37,7 +38,7 @@ public class ReceiverTemplateSpec {
   private ReceiverProbe readinessProbe = new ReceiverProbe();
   private ReceiverProbe livenessProbe = new ReceiverProbe();
 
-  private ReceiverServiceConfig service = new ReceiverServiceConfig();
+  private HttpServiceConfig service = new HttpServiceConfig();
 
   private String credentialSecretRef;
 
@@ -144,11 +145,11 @@ public class ReceiverTemplateSpec {
     this.livenessProbe = livenessProbe;
   }
 
-  public ReceiverServiceConfig getService() {
+  public HttpServiceConfig getService() {
     return service;
   }
 
-  public void setService(ReceiverServiceConfig service) {
+  public void setService(HttpServiceConfig service) {
     this.service = service;
   }
 
