@@ -15,21 +15,19 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
-import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
-public class GerritIstioCondition implements Condition<VirtualService, GerritCluster> {
+public class ClusterManagedGerritNetworkCondition
+    implements Condition<GerritNetwork, GerritCluster> {
 
   @Override
   public boolean isMet(
-      DependentResource<VirtualService, GerritCluster> dependentResource,
+      DependentResource<GerritNetwork, GerritCluster> dependentResource,
       GerritCluster gerritCluster,
       Context<GerritCluster> context) {
-    return gerritCluster.getSpec().getIngress().isEnabled()
-        && gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO
-        && !gerritCluster.getSpec().getGerrits().isEmpty();
+    return gerritCluster.getSpec().getIngress().isEnabled();
   }
 }

@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import java.util.HashMap;
@@ -165,5 +166,10 @@ public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest
         .getTemplate()
         .getMetadata()
         .getAnnotations();
+  }
+
+  @Override
+  protected IngressType getIngressType() {
+    return IngressType.INGRESS;
   }
 }

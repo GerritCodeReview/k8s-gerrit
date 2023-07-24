@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.model;
+package com.google.gerrit.k8s.operator.network.model;
 
-public class GerritIngressTlsConfig {
+public class NetworkMember {
+  private String name;
+  private int httpPort = 8080;
 
-  private boolean enabled = false;
-  private String secret;
-
-  public boolean isEnabled() {
-    return enabled;
+  public String getName() {
+    return name;
   }
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public String getSecret() {
-    return secret;
+  public int getHttpPort() {
+    return httpPort;
   }
 
-  public void setSecret(String secret) {
-    this.secret = secret;
+  public void setHttpPort(int httpPort) {
+    this.httpPort = httpPort;
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,32 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit.model;
+package com.google.gerrit.k8s.operator.network.model;
 
-import java.io.Serializable;
-
-public class GerritServiceConfig implements Serializable {
-  private static final long serialVersionUID = 1L;
-
-  String type = "NodePort";
-  int httpPort = 80;
-  int sshPort = 0;
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public int getHttpPort() {
-    return httpPort;
-  }
-
-  public void setHttpPort(int httpPort) {
-    this.httpPort = httpPort;
-  }
+public class NetworkMemberWithSsh extends NetworkMember {
+  private int sshPort = 29418;
 
   public int getSshPort() {
     return sshPort;

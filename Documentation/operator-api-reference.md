@@ -7,18 +7,18 @@
    3. [Gerrit](#gerrit)
    4. [Receiver](#receiver)
    5. [GitGarbageCollection](#gitgarbagecollection)
-   6. [GerritClusterSpec](#gerritclusterspec)
-   7. [GerritClusterStatus](#gerritclusterstatus)
-   8. [GerritStorageConfig](#gerritstorageconfig)
-   9. [StorageClassConfig](#storageclassconfig)
-   10. [NfsWorkaroundConfig](#nfsworkaroundconfig)
-   11. [SharedStorage](#sharedstorage)
-   12. [OptionalSharedStorage](#optionalsharedstorage)
-   13. [ContainerImageConfig](#containerimageconfig)
-   14. [BusyBoxImage](#busyboximage)
-   15. [GerritRepositoryConfig](#gerritrepositoryconfig)
-   16. [GerritClusterIngressConfig](#gerritclusteringressconfig)
-   17. [IngressType](#ingresstype)
+   6. [GerritNetwork](#gerritnetwork)
+   7. [GerritClusterSpec](#gerritclusterspec)
+   8. [GerritClusterStatus](#gerritclusterstatus)
+   9. [GerritStorageConfig](#gerritstorageconfig)
+   10. [StorageClassConfig](#storageclassconfig)
+   11. [NfsWorkaroundConfig](#nfsworkaroundconfig)
+   12. [SharedStorage](#sharedstorage)
+   13. [OptionalSharedStorage](#optionalsharedstorage)
+   14. [ContainerImageConfig](#containerimageconfig)
+   15. [BusyBoxImage](#busyboximage)
+   16. [GerritRepositoryConfig](#gerritrepositoryconfig)
+   17. [GerritClusterIngressConfig](#gerritclusteringressconfig)
    18. [GerritIngressTlsConfig](#gerritingresstlsconfig)
    19. [GerritTemplate](#gerrittemplate)
    20. [GerritTemplateSpec](#gerrittemplatespec)
@@ -39,6 +39,7 @@
    35. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
    36. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
    37. [GitGcState](#gitgcstate)
+   38. [GerritNetworkSpec](#gerritnetworkspec)
 
 ## General Remarks
 
@@ -53,7 +54,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha3 \
+**Version**: v1alpha4 \
 **Kind**: GerritCluster
 
 ---
@@ -129,7 +130,6 @@ spec:
 
   ingress:
     enabled: true
-    type: INGRESS
     host: example.com
     annotations: {}
     tls:
@@ -322,7 +322,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha4 \
+**Version**: v1alpha5 \
 **Kind**: Gerrit
 
 ---
@@ -507,7 +507,6 @@ spec:
           aws-availability-zone: us-east-1
 
   ingress:
-    type: INGRESS
     host: example.com
     tlsEnabled: false
 ```
@@ -517,7 +516,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha2 \
+**Version**: v1alpha3 \
 **Kind**: Receiver
 
 ---
@@ -642,7 +641,6 @@ spec:
           aws-availability-zone: us-east-1
 
   ingress:
-    type: INGRESS
     host: example.com
     tlsEnabled: false
 ```
@@ -702,6 +700,44 @@ spec:
             operator: In
             values:
             - ssd
+```
+
+## GerritNetwork
+
+---
+
+**Group**: gerritoperator.google.com \
+**Version**: v1alpha1 \
+**Kind**: GerritNetwork
+
+---
+
+
+| Field        | Type                                                                                                    | Description                            |
+|--------------|---------------------------------------------------------------------------------------------------------|----------------------------------------|
+| `apiVersion` | `String`                                                                                                | APIVersion of this resource            |
+| `kind`       | `String`                                                                                                | Kind of this resource                  |
+| `metadata`   | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource               |
+| `spec`       | [`GerritNetworkSpec`](#gerritnetworkspec)                                                        | Specification for GitGarbageCollection |
+
+Example:
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GerritNetwork
+metadata:
+  name: gerrit-network
+spec:
+  ingress:
+    enabled: true
+    host: example.com
+    annotations: {}
+    tls:
+      enabled: false
+      secret: ""
+  receiver: receiver
+  gerrits:
+  - gerrit
 ```
 
 ## GerritClusterSpec
@@ -790,18 +826,9 @@ spec:
 | Field | Type | Description |
 |---|---|---|
 | `enabled` | `boolean` | Whether to configure an ingress provider to manage the ingress traffic in the GerritCluster (default: `false`) |
-| `type` | [`IngressType`](#ingresstype) | Which type of ingress provider to use (default: `NONE`) |
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
-
-## IngressType
-
-| Value | Description|
-|---|---|
-| `NONE` | No ingress provider will be configured |
-| `INGRESS` | An [`Ingress`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#ingress-v1-networking-k8s-io) will be provisioned. Only the [Nginx-Ingress-Controller](https://docs.nginx.com/nginx-ingress-controller/) is supported. |
-| `ISTIO` | [ISTIO](https://istio.io/latest/) will be configured to add the GerritCluster to the ServiceMesh |
 
 ## GerritIngressTlsConfig
 
@@ -898,7 +925,6 @@ compared to the parent object. All other options can still be configured.
 
 | Field | Type | Description |
 |---|---|---|
-| `type` | [`IngressType`](#ingresstype) | Which type of ingress provider is being used. |
 | `host` | `string` | Hostname that is being used by the ingress provider for this Gerrit instance. |
 | `tlsEnabled` | `boolean` | Whether the ingress provider enables TLS. (default: `false`) |
 
@@ -984,3 +1010,11 @@ compared to the parent object. All other options can still be configured.
 | `INACTIVE` | GitGarbageCollection is not scheduled |
 | `CONFLICT` | GitGarbageCollection conflicts with another GitGarbageCollection |
 | `ERROR` | Controller failed to schedule GitGarbageCollection |
+
+## GerritNetworkSpec
+
+| Field | Type | Description |
+|---|---|---|
+| `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
+| `gerrits` | String-Array | A list of names of Gerrit instances installed in the GerritCluster. |
+| `receiver` | String | The name of the Receiver instance installed in the GerritCluster. |

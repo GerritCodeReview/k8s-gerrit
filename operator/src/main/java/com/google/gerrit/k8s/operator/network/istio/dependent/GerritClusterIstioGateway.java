@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.GatewayBuilder;
 import io.fabric8.istio.api.networking.v1beta1.Server;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GerritClusterIstioGateway
-    extends CRUDKubernetesDependentResource<Gateway, GerritCluster> {
+    extends CRUDKubernetesDependentResource<Gateway, GerritNetwork> {
   public static final String NAME = "gerrit-istio-gateway";
 
   public GerritClusterIstioGateway() {
@@ -36,31 +36,33 @@ public class GerritClusterIstioGateway
   }
 
   @Override
-  protected Gateway desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
+  protected Gateway desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     return new GatewayBuilder()
         .withNewMetadata()
         .withName(NAME)
-        .withNamespace(gerritCluster.getMetadata().getNamespace())
-        .withLabels(gerritCluster.getLabels(NAME, this.getClass().getSimpleName()))
+        .withNamespace(gerritNetwork.getMetadata().getNamespace())
+        .withLabels(
+            GerritCluster.getLabels(
+                gerritNetwork.getMetadata().getName(), NAME, this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
         .withSelector(Map.of("istio", "ingressgateway"))
-        .withServers(configureServers(gerritCluster))
+        .withServers(configureServers(gerritNetwork))
         .endSpec()
         .build();
   }
 
-  private List<Server> configureServers(GerritCluster gerritCluster) {
+  private List<Server> configureServers(GerritNetwork gerritNetwork) {
     List<Server> servers = new ArrayList<>();
-    String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
+    String gerritClusterHost = gerritNetwork.getSpec().getIngress().getHost();
     List<String> httpHostnames = new ArrayList<>();
 
-    if (!gerritCluster.getSpec().getGerrits().isEmpty()) {
+    if (gerritNetwork.hasGerrits()) {
       httpHostnames.add(gerritClusterHost);
     }
 
-    if (gerritCluster.getSpec().getReceiver() != null) {
-      httpHostnames.add(ReceiverIstioVirtualService.getHostname(gerritCluster));
+    if (gerritNetwork.hasReceiver()) {
+      httpHostnames.add(ReceiverIstioVirtualService.getHostname(gerritNetwork));
     }
 
     servers.add(
@@ -72,11 +74,11 @@ public class GerritClusterIstioGateway
             .endPort()
             .withHosts(httpHostnames)
             .withNewTls()
-            .withHttpsRedirect(gerritCluster.getSpec().getIngress().getTls().isEnabled())
+            .withHttpsRedirect(gerritNetwork.getSpec().getIngress().getTls().isEnabled())
             .endTls()
             .build());
 
-    if (gerritCluster.getSpec().getIngress().getTls().isEnabled()) {
+    if (gerritNetwork.getSpec().getIngress().getTls().isEnabled()) {
       servers.add(
           new ServerBuilder()
               .withNewPort()
@@ -87,20 +89,25 @@ public class GerritClusterIstioGateway
               .withHosts(httpHostnames)
               .withNewTls()
               .withMode(ServerTLSSettingsTLSmode.SIMPLE)
-              .withCredentialName(gerritCluster.getSpec().getIngress().getTls().getSecret())
+              .withCredentialName(gerritNetwork.getSpec().getIngress().getTls().getSecret())
               .endTls()
               .build());
     }
 
-    List<Gerrit> gerrits = client.resources(Gerrit.class).list().getItems();
     List<String> sshHostnames = new ArrayList<>();
-    if (!gerrits.isEmpty()) {
+    if (gerritNetwork.getSpec().getIngress().getSsh().isEnabled() && gerritNetwork.hasGerrits()) {
       sshHostnames.add(gerritClusterHost);
-      for (Gerrit gerrit : gerrits) {
-        if (gerrit.getSpec().getService().isSshEnabled()) {
-          sshHostnames.add(gerrit.getMetadata().getName() + "." + gerritClusterHost);
-        }
+
+      if (gerritNetwork.hasPrimaryGerrit()) {
+        sshHostnames.add(
+            gerritNetwork.getSpec().getPrimaryGerrit().getName() + "." + gerritClusterHost);
       }
+
+      if (gerritNetwork.hasGerritReplica()) {
+        sshHostnames.add(
+            gerritNetwork.getSpec().getGerritReplica().getName() + "." + gerritClusterHost);
+      }
+
       servers.add(
           new ServerBuilder()
               .withNewPort()

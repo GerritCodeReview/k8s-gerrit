@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler.ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;
@@ -24,13 +24,13 @@ import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.Optional;
 
-public class GerritIstioVirtualServiceDiscriminator
-    implements ResourceDiscriminator<VirtualService, GerritCluster> {
+public class ReceiverIstioVirtualServiceDiscriminator
+    implements ResourceDiscriminator<VirtualService, GerritNetwork> {
   @Override
   public Optional<VirtualService> distinguish(
-      Class<VirtualService> resource, GerritCluster gerritCluster, Context<GerritCluster> context) {
-    InformerEventSource<VirtualService, GerritCluster> ies =
-        (InformerEventSource<VirtualService, GerritCluster>)
+      Class<VirtualService> resource, GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
+    InformerEventSource<VirtualService, GerritNetwork> ies =
+        (InformerEventSource<VirtualService, GerritNetwork>)
             context
                 .eventSourceRetriever()
                 .getResourceEventSourceFor(
@@ -38,7 +38,7 @@ public class GerritIstioVirtualServiceDiscriminator
 
     return ies.get(
         new ResourceID(
-            gerritCluster.getDependentResourceName(GerritIstioVirtualService.NAME_SUFFIX),
-            gerritCluster.getMetadata().getNamespace()));
+            gerritNetwork.getDependentResourceName(ReceiverIstioVirtualService.NAME_SUFFIX),
+            gerritNetwork.getMetadata().getNamespace()));
   }
 }

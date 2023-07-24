@@ -28,6 +28,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollectionSpec;
 import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollectionStatus;
+import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
@@ -224,5 +225,10 @@ public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
         client.batch().v1().jobs().inNamespace(operator.getNamespace()).list().getItems();
     assert (jobRuns.size() > 0);
     assert (jobRuns.get(0).getMetadata().getName().startsWith(gitGcName));
+  }
+
+  @Override
+  protected IngressType getIngressType() {
+    return IngressType.NONE;
   }
 }

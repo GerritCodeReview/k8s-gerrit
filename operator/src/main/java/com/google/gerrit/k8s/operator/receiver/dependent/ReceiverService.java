@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployme
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
-import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
@@ -60,8 +59,8 @@ public class ReceiverService extends CRUDKubernetesDependentResource<Service, Re
     return receiver.getMetadata().getName();
   }
 
-  public static String getName(ReceiverTemplate receiver) {
-    return receiver.getMetadata().getName();
+  public static String getName(String receiverName) {
+    return receiverName;
   }
 
   public static Map<String, String> getLabels(Receiver receiver) {
@@ -72,8 +71,11 @@ public class ReceiverService extends CRUDKubernetesDependentResource<Service, Re
   }
 
   public static String getHostname(Receiver receiver) {
-    return String.format(
-        "%s.%s.svc.cluster.local", getName(receiver), receiver.getMetadata().getNamespace());
+    return getHostname(receiver.getMetadata().getName(), receiver.getMetadata().getNamespace());
+  }
+
+  public static String getHostname(String receiverName, String namespace) {
+    return String.format("%s.%s.svc.cluster.local", getName(receiverName), namespace);
   }
 
   private static List<ServicePort> getServicePorts(Receiver receiver) {

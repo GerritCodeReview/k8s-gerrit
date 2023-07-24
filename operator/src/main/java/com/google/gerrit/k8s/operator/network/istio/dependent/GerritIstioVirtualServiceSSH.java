@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import com.google.gerrit.k8s.operator.network.model.NetworkMemberWithSsh;
 import io.fabric8.istio.api.networking.v1beta1.L4MatchAttributesBuilder;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestination;
 import io.fabric8.istio.api.networking.v1beta1.RouteDestinationBuilder;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 
 @KubernetesDependent(resourceDiscriminator = GerritIstioVirtualServiceSSHDiscriminator.class)
 public class GerritIstioVirtualServiceSSH
-    extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
+    extends CRUDKubernetesDependentResource<VirtualService, GerritNetwork> {
   public static final String NAME_SUFFIX = "gerrit-ssh-virtual-service";
 
   public GerritIstioVirtualServiceSSH() {
@@ -41,41 +42,40 @@ public class GerritIstioVirtualServiceSSH
   }
 
   @Override
-  protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
-    String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
-    List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
-
+  protected VirtualService desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
-        .withNamespace(gerritCluster.getMetadata().getNamespace())
+        .withName(gerritNetwork.getDependentResourceName(NAME_SUFFIX))
+        .withNamespace(gerritNetwork.getMetadata().getNamespace())
         .withLabels(
-            gerritCluster.getLabels(
-                gerritCluster.getDependentResourceName(NAME_SUFFIX),
+            GerritCluster.getLabels(
+                gerritNetwork.getMetadata().getName(),
+                gerritNetwork.getDependentResourceName(NAME_SUFFIX),
                 this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
-        .withHosts(collectHosts(gerrits, gerritClusterHost))
+        .withHosts(collectHosts(gerritNetwork))
         .withGateways(GerritClusterIstioGateway.NAME)
-        .withTcp(getTCPRoutes(gerrits, gerritCluster))
+        .withTcp(getTCPRoutes(gerritNetwork))
         .endSpec()
         .build();
   }
 
-  private List<String> collectHosts(List<GerritTemplate> gerrits, String gerritClusterHost) {
-    return gerrits.stream()
-        .map(g -> g.getMetadata().getName() + "." + gerritClusterHost)
+  private List<String> collectHosts(GerritNetwork gerritNetwork) {
+    return gerritNetwork.getSpec().getGerrits().stream()
+        .map(g -> g.getName() + "." + gerritNetwork.getSpec().getIngress().getHost())
         .collect(Collectors.toList());
   }
 
-  private List<TCPRoute> getTCPRoutes(List<GerritTemplate> gerrits, GerritCluster gerritCluster) {
+  private List<TCPRoute> getTCPRoutes(GerritNetwork gerritNetwork) {
     List<TCPRoute> routes = new ArrayList<>();
-    for (GerritTemplate gerrit : gerrits) {
-      if (gerrit.getSpec().getService().isSshEnabled()) {
+    for (NetworkMemberWithSsh gerrit : gerritNetwork.getSpec().getGerrits()) {
+      if (gerritNetwork.getSpec().getIngress().getSsh().isEnabled() && gerrit.getSshPort() > 0) {
         routes.add(
             new TCPRouteBuilder()
                 .withMatch(List.of(new L4MatchAttributesBuilder().withPort(29418).build()))
-                .withRoute(getGerritTCPDestination(gerrit, gerritCluster))
+                .withRoute(
+                    getGerritTCPDestination(gerrit, gerritNetwork.getMetadata().getNamespace()))
                 .build());
       }
     }
@@ -83,12 +83,12 @@ public class GerritIstioVirtualServiceSSH
   }
 
   private RouteDestination getGerritTCPDestination(
-      GerritTemplate gerrit, GerritCluster gerritCluster) {
+      NetworkMemberWithSsh networkMember, String namespace) {
     return new RouteDestinationBuilder()
         .withNewDestination()
-        .withHost(GerritService.getHostname(gerrit.toGerrit(gerritCluster)))
+        .withHost(GerritService.getHostname(networkMember.getName(), namespace))
         .withNewPort()
-        .withNumber(gerrit.getSpec().getService().getSshPort())
+        .withNumber(networkMember.getSshPort())
         .endPort()
         .endDestination()
         .build();

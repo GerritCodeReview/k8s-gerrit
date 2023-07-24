@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.receiver.model;
+package com.google.gerrit.k8s.operator.network.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha3")
-@ShortNames("grec")
-public class Receiver extends CustomResource<ReceiverSpec, ReceiverStatus> implements Namespaced {
+@Version("v1alpha1")
+@ShortNames("gn")
+public class GerritNetwork extends CustomResource<GerritNetworkSpec, Status> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
-  public String toString() {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  @JsonIgnore
+  public String getDependentResourceName(String nameSuffix) {
+    return String.format("%s-%s", getMetadata().getName(), nameSuffix);
+  }
+
+  @JsonIgnore
+  public boolean hasPrimaryGerrit() {
+    return getSpec().getPrimaryGerrit() != null;
+  }
+
+  @JsonIgnore
+  public boolean hasGerritReplica() {
+    return getSpec().getGerritReplica() != null;
+  }
+
+  @JsonIgnore
+  public boolean hasGerrits() {
+    return hasGerritReplica() || hasPrimaryGerrit();
+  }
+
+  @JsonIgnore
+  public boolean hasReceiver() {
+    return getSpec().getReceiver() != null;
   }
 }
