@@ -20,9 +20,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.network.GerritNetworkReconciler;
+import com.google.gerrit.k8s.operator.network.IngressType;
+import com.google.gerrit.k8s.operator.network.ingress.GerritIngressReconciler;
+import com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplateSpec;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
@@ -44,7 +47,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
+public abstract class AbstractClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   private static final String GERRIT_NAME = "gerrit";
   private ReceiverTemplate receiver;
   private GerritTemplate gerrit;
@@ -67,15 +70,7 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   }
 
   @Test
-  public void testProjectLifecycleWithIngress(@TempDir Path tempDir) throws Exception {
-    gerritCluster.setIngressType(IngressType.INGRESS);
-    GerritCluster cluster = gerritCluster.getGerritCluster();
-    assertProjectLifecycle(cluster, tempDir);
-  }
-
-  @Test
-  public void testProjectLifecycleWithIstio(@TempDir Path tempDir) throws Exception {
-    gerritCluster.setIngressType(IngressType.ISTIO);
+  public void testProjectLifecycle(@TempDir Path tempDir) throws Exception {
     GerritCluster cluster = gerritCluster.getGerritCluster();
     assertProjectLifecycle(cluster, tempDir);
   }
@@ -121,9 +116,21 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   private URL getGerritUrl(String path) throws Exception {
     return new URIBuilder()
         .setScheme("https")
-        .setHost(gerritCluster.getGerritHostname(gerrit))
+        .setHost(gerritCluster.getGerritHostname(gerrit, getIngressType()))
         .setPath(path)
         .build()
         .toURL();
+  }
+
+  abstract IngressType getIngressType();
+
+  @Override
+  public GerritNetworkReconciler getGerritNetworkReconciler() {
+    switch (getIngressType()) {
+      case ISTIO:
+        return new GerritIstioReconciler();
+      default:
+        return new GerritIngressReconciler();
+    }
   }
 }

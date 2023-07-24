@@ -16,8 +16,9 @@ package com.google.gerrit.k8s.operator.gerrit;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.network.GerritNetworkReconciler;
+import com.google.gerrit.k8s.operator.network.ingress.GerritIngressReconciler;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,6 @@ public class StandaloneGerritE2E extends AbstractGerritOperatorE2ETest {
 
   @Test
   void testPrimaryGerritIsCreated() throws Exception {
-    gerritCluster.setIngressType(IngressType.INGRESS);
-
     String gerritName = "gerrit";
     TestGerrit testGerrit = new TestGerrit(client, testProps, gerritName, operator.getNamespace());
     testGerrit.deploy();
@@ -57,5 +56,10 @@ public class StandaloneGerritE2E extends AbstractGerritOperatorE2ETest {
             .inContainer("gerrit")
             .getLog()
             .contains("Gerrit Code Review [replica]"));
+  }
+
+  @Override
+  public GerritNetworkReconciler getGerritNetworkReconciler() {
+    return new GerritIngressReconciler();
   }
 }

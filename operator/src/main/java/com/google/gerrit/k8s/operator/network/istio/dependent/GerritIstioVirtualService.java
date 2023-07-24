@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteBuilder;
@@ -37,7 +38,7 @@ import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GerritIstioVirtualServiceDiscriminator.class)
 public class GerritIstioVirtualService
-    extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
+    extends CRUDKubernetesDependentResource<VirtualService, GerritNetwork> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String UPLOAD_PACK_INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
   private static final String UPLOAD_PACK_URL_PATTERN = "^/(.*)/git-upload-pack$";
@@ -48,30 +49,37 @@ public class GerritIstioVirtualService
   }
 
   @Override
-  protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
-    String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
+  protected VirtualService desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
+    String gerritClusterHost = gerritNetwork.getSpec().getIngress().getHost();
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
-        .withNamespace(gerritCluster.getMetadata().getNamespace())
+        .withName(gerritNetwork.getDependentResourceName(NAME_SUFFIX))
+        .withNamespace(gerritNetwork.getMetadata().getNamespace())
         .withLabels(
-            gerritCluster.getLabels(
-                gerritCluster.getDependentResourceName(NAME_SUFFIX),
+            GerritCluster.getLabels(
+                gerritNetwork.getMetadata().getName(),
+                gerritNetwork.getDependentResourceName(NAME_SUFFIX),
                 this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
         .withHosts(gerritClusterHost)
         .withGateways(GerritClusterIstioGateway.NAME)
-        .withHttp(getHTTPRoutes(gerritCluster))
+        .withHttp(getHTTPRoutes(gerritNetwork))
         .endSpec()
         .build();
   }
 
-  private List<HTTPRoute> getHTTPRoutes(GerritCluster gerritCluster) {
-    List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
+  private List<HTTPRoute> getHTTPRoutes(GerritNetwork gerritNetwork) {
+    List<String> gerritNames = gerritNetwork.getSpec().getGerrits();
     ArrayListMultimap<GerritMode, HTTPRoute> routesByMode = ArrayListMultimap.create();
-    for (GerritTemplate gerrit : gerrits) {
+    for (String gerritName : gerritNames) {
+      Gerrit gerrit =
+          client
+              .resources(Gerrit.class)
+              .inNamespace(gerritNetwork.getMetadata().getNamespace())
+              .withName(gerritName)
+              .get();
       switch (gerrit.getSpec().getMode()) {
         case REPLICA:
           routesByMode.put(
@@ -111,7 +119,7 @@ public class GerritIstioVirtualService
                           .endStringMatchExactType()
                           .endMethod()
                           .build())
-                  .withRoute(getGerritHTTPDestinations(gerrit, gerritCluster))
+                  .withRoute(getGerritHTTPDestinations(gerrit, gerritNetwork))
                   .build());
           break;
         case PRIMARY:
@@ -119,7 +127,7 @@ public class GerritIstioVirtualService
               GerritMode.PRIMARY,
               new HTTPRouteBuilder()
                   .withName("gerrit-primary-" + gerrit.getMetadata().getName())
-                  .withRoute(getGerritHTTPDestinations(gerrit, gerritCluster))
+                  .withRoute(getGerritHTTPDestinations(gerrit, gerritNetwork))
                   .build());
           break;
         default:
@@ -136,10 +144,10 @@ public class GerritIstioVirtualService
   }
 
   private HTTPRouteDestination getGerritHTTPDestinations(
-      GerritTemplate gerrit, GerritCluster gerritCluster) {
+      Gerrit gerrit, GerritNetwork gerritNetwork) {
     return new HTTPRouteDestinationBuilder()
         .withNewDestination()
-        .withHost(GerritService.getHostname(gerrit.toGerrit(gerritCluster)))
+        .withHost(GerritService.getHostname(gerrit))
         .withNewPort()
         .withNumber(gerrit.getSpec().getService().getHttpPort())
         .endPort()

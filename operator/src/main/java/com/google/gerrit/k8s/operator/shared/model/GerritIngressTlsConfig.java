@@ -12,38 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit.model;
+package com.google.gerrit.k8s.operator.shared.model;
 
-import java.io.Serializable;
+public class GerritIngressTlsConfig {
 
-public class GerritServiceConfig implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private boolean enabled = false;
+  private String secret;
 
-  String type = "NodePort";
-  int httpPort = 80;
-  Integer sshPort = 29418;
-
-  public String getType() {
-    return type;
+  public boolean isEnabled() {
+    return enabled;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
-  public int getHttpPort() {
-    return httpPort;
+  public String getSecret() {
+    return secret;
   }
 
-  public void setHttpPort(int httpPort) {
-    this.httpPort = httpPort;
-  }
-
-  public Integer getSshPort() {
-    return sshPort;
-  }
-
-  public void setSshPort(int sshPort) {
-    this.sshPort = sshPort;
+  public void setSecret(String secret) {
+    this.secret = secret;
   }
 }

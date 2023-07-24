@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
-import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPathBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
@@ -35,10 +34,9 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @KubernetesDependent
-public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritCluster> {
+public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritNetwork> {
   public static final String INGRESS_NAME = "gerrit-ingress";
 
   public GerritClusterIngress() {
@@ -46,44 +44,38 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
   }
 
   @Override
-  protected Ingress desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
-    List<Gerrit> gerrits =
-        gerritCluster.getSpec().getGerrits().stream()
-            .map(g -> g.toGerrit(gerritCluster))
-            .collect(Collectors.toList());
-
+  protected Ingress desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     List<String> hosts = new ArrayList<>();
     List<IngressRule> ingressRules = new ArrayList<>();
 
-    if (gerritCluster.getSpec().getReceiver() != null) {
-      Receiver receiver = gerritCluster.getSpec().getReceiver().toReceiver(gerritCluster);
-      ingressRules.add(getReceiverIngressRule(gerritCluster, receiver));
+    if (!gerritNetwork.getSpec().getReceiver().isBlank()) {
+      ingressRules.add(getReceiverIngressRule(gerritNetwork));
       hosts.add(
-          gerritCluster
+          gerritNetwork
               .getSpec()
               .getIngress()
-              .getFullHostnameForService(receiver.getMetadata().getName()));
+              .getFullHostnameForService(gerritNetwork.getSpec().getReceiver()));
     }
 
-    ingressRules.addAll(getGerritIngressRules(gerritCluster, gerrits));
-    for (Gerrit gerrit : gerrits) {
-      hosts.add(
-          gerritCluster
-              .getSpec()
-              .getIngress()
-              .getFullHostnameForService(gerrit.getMetadata().getName()));
+    ingressRules.addAll(getGerritIngressRules(gerritNetwork));
+    for (String gerrit : gerritNetwork.getSpec().getGerrits()) {
+      hosts.add(gerritNetwork.getSpec().getIngress().getFullHostnameForService(gerrit));
     }
 
     Ingress gerritIngress =
         new IngressBuilder()
             .withNewMetadata()
             .withName("gerrit-ingress")
-            .withNamespace(gerritCluster.getMetadata().getNamespace())
-            .withLabels(gerritCluster.getLabels("gerrit-ingress", this.getClass().getSimpleName()))
-            .withAnnotations(gerritCluster.getSpec().getIngress().getAnnotations())
+            .withNamespace(gerritNetwork.getMetadata().getNamespace())
+            .withLabels(
+                GerritCluster.getLabels(
+                    gerritNetwork.getMetadata().getName(),
+                    "gerrit-ingress",
+                    this.getClass().getSimpleName()))
+            .withAnnotations(gerritNetwork.getSpec().getIngress().getAnnotations())
             .endMetadata()
             .withNewSpec()
-            .withTls(getIngressTLS(gerritCluster, hosts))
+            .withTls(getIngressTLS(gerritNetwork, hosts))
             .withRules(ingressRules)
             .endSpec()
             .build();
@@ -91,26 +83,25 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     return gerritIngress;
   }
 
-  private IngressTLS getIngressTLS(GerritCluster gerritCluster, List<String> hosts) {
-    if (gerritCluster.getSpec().getIngress().getTls().isEnabled()) {
+  private IngressTLS getIngressTLS(GerritNetwork gerritNetwork, List<String> hosts) {
+    if (gerritNetwork.getSpec().getIngress().getTls().isEnabled()) {
       return new IngressTLSBuilder()
           .withHosts(hosts)
-          .withSecretName(gerritCluster.getSpec().getIngress().getTls().getSecret())
+          .withSecretName(gerritNetwork.getSpec().getIngress().getTls().getSecret())
           .build();
     }
     return new IngressTLS();
   }
 
-  private List<IngressRule> getGerritIngressRules(
-      GerritCluster gerritCluster, List<Gerrit> gerrits) {
+  private List<IngressRule> getGerritIngressRules(GerritNetwork gerritNetwork) {
     List<IngressRule> ingressRules = new ArrayList<>();
 
-    for (Gerrit gerrit : gerrits) {
-      String gerritSvcName = GerritService.getName(gerrit);
+    for (String gerritName : gerritNetwork.getSpec().getGerrits()) {
+      String gerritSvcName = GerritService.getName(gerritName);
       ingressRules.add(
           new IngressRuleBuilder()
               .withHost(
-                  gerritCluster.getSpec().getIngress().getFullHostnameForService(gerritSvcName))
+                  gerritNetwork.getSpec().getIngress().getFullHostnameForService(gerritSvcName))
               .withNewHttp()
               .withPaths(getGerritHTTPIngressPath(gerritSvcName))
               .endHttp()
@@ -120,15 +111,12 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     return ingressRules;
   }
 
-  private IngressRule getReceiverIngressRule(GerritCluster gerritCluster, Receiver receiver) {
+  private IngressRule getReceiverIngressRule(GerritNetwork gerritNetwork) {
+    String receiverName = gerritNetwork.getSpec().getReceiver();
     return new IngressRuleBuilder()
-        .withHost(
-            gerritCluster
-                .getSpec()
-                .getIngress()
-                .getFullHostnameForService(receiver.getMetadata().getName()))
+        .withHost(gerritNetwork.getSpec().getIngress().getFullHostnameForService(receiverName))
         .withNewHttp()
-        .withPaths(getReceiverIngressPaths(ReceiverService.getName(receiver)))
+        .withPaths(getReceiverIngressPaths(ReceiverService.getName(receiverName)))
         .endHttp()
         .build();
   }

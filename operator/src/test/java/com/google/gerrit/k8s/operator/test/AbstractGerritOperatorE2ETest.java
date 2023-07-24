@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.network.GerritNetworkReconciler;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.api.model.Secret;
@@ -39,7 +40,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mockito;
 
-public class AbstractGerritOperatorE2ETest {
+public abstract class AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   protected static final KubernetesClient client = getKubernetesClient();
   public static final String IMAGE_PULL_SECRET_NAME = "image-pull-secret";
@@ -58,6 +59,7 @@ public class AbstractGerritOperatorE2ETest {
           .withReconciler(gerritReconciler)
           .withReconciler(new GitGarbageCollectionReconciler(client))
           .withReconciler(new ReceiverReconciler(client))
+          .withReconciler(getGerritNetworkReconciler())
           .build();
 
   @BeforeEach
@@ -124,4 +126,6 @@ public class AbstractGerritOperatorE2ETest {
             .build();
     client.resource(imagePullSecret).createOrReplace();
   }
+
+  public abstract GerritNetworkReconciler getGerritNetworkReconciler();
 }

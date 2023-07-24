@@ -60,11 +60,15 @@ public class GerritService extends CRUDKubernetesDependentResource<Service, Gerr
     return gerrit.getMetadata().getName();
   }
 
+  public static String getName(String gerritName) {
+    return gerritName;
+  }
+
   public static String getHostname(Gerrit gerrit) {
     return getHostname(gerrit.getMetadata().getName(), gerrit.getMetadata().getNamespace());
   }
 
-  private static String getHostname(String name, String namespace) {
+  public static String getHostname(String name, String namespace) {
     return String.format("%s.%s.svc.cluster.local", name, namespace);
   }
 
@@ -86,7 +90,7 @@ public class GerritService extends CRUDKubernetesDependentResource<Service, Gerr
             .withPort(gerrit.getSpec().getService().getHttpPort())
             .withNewTargetPort(HTTP_PORT)
             .build());
-    if (gerrit.getSpec().getService().isSshEnabled()) {
+    if (gerrit.getSpec().getIngress().getSsh().isEnabled()) {
       ports.add(
           new ServicePortBuilder()
               .withName("ssh")

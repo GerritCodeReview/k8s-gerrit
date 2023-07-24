@@ -59,6 +59,10 @@ public class ReceiverService extends CRUDKubernetesDependentResource<Service, Re
     return receiver.getMetadata().getName();
   }
 
+  public static String getName(String receiverName) {
+    return receiverName;
+  }
+
   public static Map<String, String> getLabels(Receiver receiver) {
     return GerritCluster.getLabels(
         receiver.getMetadata().getName(),

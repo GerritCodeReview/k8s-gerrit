@@ -17,7 +17,6 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
@@ -57,22 +56,18 @@ public class GerritConfigBuilder {
     withConfig(gerritConfig);
     useReplicaMode(gerrit.getSpec().getMode().equals(GerritMode.REPLICA));
 
-    boolean ingressEnabled = gerrit.getSpec().getIngress().getType() != IngressType.NONE;
+    boolean ingressEnabled = gerrit.getSpec().getIngress().isEnabled();
 
     if (ingressEnabled) {
       withUrl(gerrit.getSpec().getIngress().getUrl(GerritService.getName(gerrit)));
+      withSsh(
+          gerrit.getSpec().getIngress().getSsh().isEnabled(),
+          gerrit.getSpec().getIngress().getFullHostnameForService(GerritService.getName(gerrit))
+              + ":29418");
     } else {
       withUrl(GerritService.getUrl(gerrit));
     }
 
-    if (ingressEnabled && gerrit.getSpec().getIngress().getType() == IngressType.ISTIO) {
-      withSsh(
-          gerrit.getSpec().getService().isSshEnabled(),
-          gerrit.getSpec().getIngress().getFullHostnameForService(GerritService.getName(gerrit))
-              + ":29418");
-    } else {
-      withSsh(gerrit.getSpec().getService().isSshEnabled());
-    }
     return this;
   }
 

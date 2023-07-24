@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
-import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
-public class GerritIstioSshCondition implements Condition<VirtualService, GerritCluster> {
+public class GerritClusterIngressCondition implements Condition<Ingress, GerritNetwork> {
 
   @Override
   public boolean isMet(
-      DependentResource<VirtualService, GerritCluster> dependentResource,
-      GerritCluster gerritCluster,
-      Context<GerritCluster> context) {
-    return gerritCluster.getSpec().getIngress().isEnabled()
-        && gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO
-        && gerritCluster.getSpec().getGerrits().stream()
-            .anyMatch(g -> g.getSpec().getService().isSshEnabled());
+      DependentResource<Ingress, GerritNetwork> dependentResource,
+      GerritNetwork gerritNetwork,
+      Context<GerritNetwork> context) {
+    return gerritNetwork.getSpec().getIngress().isEnabled()
+        && (!gerritNetwork.getSpec().getGerrits().isEmpty()
+            || gerritNetwork.getSpec().getReceiver() != null);
   }
 }
