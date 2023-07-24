@@ -23,7 +23,6 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
@@ -216,7 +215,6 @@ public class TestGerrit {
 
     IngressConfig ingressConfig = new IngressConfig();
     ingressConfig.setHost(testProps.getIngressDomain());
-    ingressConfig.setType(IngressType.INGRESS);
     ingressConfig.setTlsEnabled(false);
     gerritSpec.setIngress(ingressConfig);
 
