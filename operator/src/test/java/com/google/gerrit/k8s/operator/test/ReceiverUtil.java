@@ -54,12 +54,7 @@ public class ReceiverUtil {
   public static URL getReceiverUrl(GerritCluster gerritCluster, String path) throws Exception {
     return new URIBuilder()
         .setScheme("https")
-        .setHost(
-            gerritCluster
-                .getSpec()
-                .getIngress()
-                .getFullHostnameForService(
-                    gerritCluster.getSpec().getReceiver().getMetadata().getName()))
+        .setHost(gerritCluster.getSpec().getIngress().getHost())
         .setPath(path)
         .build()
         .toURL();

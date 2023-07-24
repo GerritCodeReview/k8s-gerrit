@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 public class GerritServiceConfig implements Serializable {
@@ -22,7 +21,7 @@ public class GerritServiceConfig implements Serializable {
 
   String type = "NodePort";
   int httpPort = 80;
-  Integer sshPort;
+  int sshPort = 0;
 
   public String getType() {
     return type;
@@ -40,16 +39,11 @@ public class GerritServiceConfig implements Serializable {
     this.httpPort = httpPort;
   }
 
-  public Integer getSshPort() {
+  public int getSshPort() {
     return sshPort;
   }
 
   public void setSshPort(int sshPort) {
     this.sshPort = sshPort;
-  }
-
-  @JsonIgnore
-  public boolean isSshEnabled() {
-    return sshPort != null && sshPort > 0;
   }
 }
