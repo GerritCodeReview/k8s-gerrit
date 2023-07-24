@@ -14,12 +14,10 @@
 
 package com.google.gerrit.k8s.operator.gerrit;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.GerritClusterIngress.INGRESS_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -27,72 +25,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
-import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
-import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
-import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
+public class ClusterManagedGerritWithIstioE2E extends AbstractGerritOperatorE2ETest {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Test
-  void testPrimaryGerritIsCreated() throws Exception {
-    gerritCluster.setIngressType(IngressType.INGRESS);
-    TestGerrit gerrit =
-        new TestGerrit(client, testProps, GerritMode.PRIMARY, "gerrit", operator.getNamespace());
-    GerritTemplate gerritTemplate = gerrit.createGerritTemplate();
-    gerritCluster.addGerrit(gerritTemplate);
-    gerritCluster.deploy();
-
-    logger.atInfo().log("Waiting max 2 minutes for the Ingress to have an external IP.");
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              Ingress ingress =
-                  client
-                      .network()
-                      .v1()
-                      .ingresses()
-                      .inNamespace(operator.getNamespace())
-                      .withName(INGRESS_NAME)
-                      .get();
-              assertThat(ingress, is(notNullValue()));
-              IngressStatus status = ingress.getStatus();
-              assertThat(status, is(notNullValue()));
-              List<IngressLoadBalancerIngress> lbIngresses = status.getLoadBalancer().getIngress();
-              assertThat(lbIngresses, hasSize(1));
-              assertThat(lbIngresses.get(0).getIp(), is(notNullValue()));
-            });
-
-    GerritApi gerritApi = gerritCluster.getGerritApiClient(gerritTemplate);
-    await()
-        .atMost(2, MINUTES)
-        .untilAsserted(
-            () -> {
-              assertDoesNotThrow(() -> gerritApi.config().server().getVersion());
-              assertThat(gerritApi.config().server().getVersion(), notNullValue());
-              assertThat(gerritApi.config().server().getVersion(), not(is("<2.8")));
-              logger.atInfo().log("Gerrit version: %s", gerritApi.config().server().getVersion());
-            });
-  }
-
-  @Test
   void testPrimaryGerritWithIstio() throws Exception {
-    gerritCluster.setIngressType(IngressType.ISTIO);
     GerritTemplate gerrit =
         new TestGerrit(client, testProps, GerritMode.PRIMARY, "gerrit", operator.getNamespace())
             .createGerritTemplate();
     gerritCluster.addGerrit(gerrit);
     gerritCluster.deploy();
 
-    GerritApi gerritApi = gerritCluster.getGerritApiClient(gerrit);
+    GerritApi gerritApi = gerritCluster.getGerritApiClient(gerrit, IngressType.ISTIO);
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -117,6 +68,37 @@ public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
             .pods()
             .inNamespace(operator.getNamespace())
             .withName(gerritName + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review [replica]"));
+  }
+
+  @Test
+  void testMultipleGerritReplicaAreCreated() throws Exception {
+    String gerritName = "gerrit-replica-1";
+    TestGerrit gerrit =
+        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName, operator.getNamespace());
+    gerritCluster.addGerrit(gerrit.createGerritTemplate());
+    String gerritName2 = "gerrit-replica-2";
+    TestGerrit gerrit2 =
+        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName2, operator.getNamespace());
+    gerritCluster.addGerrit(gerrit2.createGerritTemplate());
+    gerritCluster.deploy();
+
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(gerritName + "-0")
+            .inContainer("gerrit")
+            .getLog()
+            .contains("Gerrit Code Review [replica]"));
+
+    assertTrue(
+        client
+            .pods()
+            .inNamespace(operator.getNamespace())
+            .withName(gerritName2 + "-0")
             .inContainer("gerrit")
             .getLog()
             .contains("Gerrit Code Review [replica]"));
@@ -153,5 +135,10 @@ public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
             .inContainer("gerrit")
             .getLog()
             .contains("Gerrit Code Review [replica]"));
+  }
+
+  @Override
+  protected IngressType getIngressType() {
+    return IngressType.ISTIO;
   }
 }

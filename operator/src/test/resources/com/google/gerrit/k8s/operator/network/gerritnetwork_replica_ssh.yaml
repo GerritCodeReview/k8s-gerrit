@@ -1,0 +1,17 @@
+apiVersion: "gerritoperator.google.com/v1alpha1"
+kind: GerritNetwork
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  ingress:
+    enabled: true
+    host: example.com
+    tls:
+      enabled: false
+    ssh:
+      enabled: true
+  gerritReplica:
+    name: replica
+    httpPort: 48080
+    sshPort: 49419
