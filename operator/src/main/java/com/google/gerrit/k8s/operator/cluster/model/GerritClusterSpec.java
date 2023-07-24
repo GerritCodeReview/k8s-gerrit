@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.cluster.model;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
 import java.util.ArrayList;
 import java.util.List;

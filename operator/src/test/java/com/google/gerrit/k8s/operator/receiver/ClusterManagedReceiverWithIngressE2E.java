@@ -12,26 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.model;
+package com.google.gerrit.k8s.operator.receiver;
 
-public class GerritIngressTlsConfig {
+import com.google.gerrit.k8s.operator.network.IngressType;
 
-  private boolean enabled = false;
-  private String secret;
+public class ClusterManagedReceiverWithIngressE2E extends AbstractClusterManagedReceiverE2E {
 
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
-
-  public String getSecret() {
-    return secret;
-  }
-
-  public void setSecret(String secret) {
-    this.secret = secret;
+  @Override
+  protected IngressType getIngressType() {
+    return IngressType.INGRESS;
   }
 }

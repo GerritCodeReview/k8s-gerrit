@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.model;
+package com.google.gerrit.k8s.operator.shared.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
 
 public class GerritClusterIngressConfig {
   private boolean enabled = false;
-  private IngressType type = IngressType.NONE;
   private String host;
   private Map<String, String> annotations;
   private GerritIngressTlsConfig tls = new GerritIngressTlsConfig();
+  private GerritIngressSshConfig ssh = new GerritIngressSshConfig();
 
   public boolean isEnabled() {
     return enabled;
@@ -30,14 +30,6 @@ public class GerritClusterIngressConfig {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
-  }
-
-  public IngressType getType() {
-    return type;
-  }
-
-  public void setType(IngressType type) {
-    this.type = type;
   }
 
   public String getHost() {
@@ -64,10 +56,12 @@ public class GerritClusterIngressConfig {
     this.tls = tls;
   }
 
-  public enum IngressType {
-    NONE,
-    INGRESS,
-    ISTIO
+  public GerritIngressSshConfig getSsh() {
+    return ssh;
+  }
+
+  public void setSsh(GerritIngressSshConfig ssh) {
+    this.ssh = ssh;
   }
 
   @JsonIgnore

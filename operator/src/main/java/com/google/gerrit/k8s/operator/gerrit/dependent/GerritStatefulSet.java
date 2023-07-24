@@ -289,7 +289,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     List<ContainerPort> containerPorts = new ArrayList<>();
     containerPorts.add(new ContainerPort(HTTP_PORT, null, null, "http", null));
 
-    if (gerrit.getSpec().getService().isSshEnabled()) {
+    if (gerrit.getSpec().getIngress().getSsh().isEnabled()) {
       containerPorts.add(new ContainerPort(SSH_PORT, null, null, "ssh", null));
     }
 

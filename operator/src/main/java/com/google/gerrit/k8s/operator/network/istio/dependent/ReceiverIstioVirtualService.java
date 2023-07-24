@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequest;
@@ -34,7 +35,7 @@ import java.util.List;
 
 @KubernetesDependent(resourceDiscriminator = ReceiverIstioVirtualServiceDiscriminator.class)
 public class ReceiverIstioVirtualService
-    extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
+    extends CRUDKubernetesDependentResource<VirtualService, GerritNetwork> {
   private static final String RECEIVER_INGRESS_SUBDOMAIN = "receiver";
   public static final String NAME_SUFFIX = "receiver-virtual-service";
 
@@ -43,33 +44,39 @@ public class ReceiverIstioVirtualService
   }
 
   @Override
-  protected VirtualService desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
-    Receiver receiver = gerritCluster.getSpec().getReceiver().toReceiver(gerritCluster);
+  protected VirtualService desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
+    Receiver receiver =
+        client
+            .resources(Receiver.class)
+            .inNamespace(gerritNetwork.getMetadata().getNamespace())
+            .withName(gerritNetwork.getSpec().getReceiver())
+            .get();
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
+        .withName(gerritNetwork.getDependentResourceName(NAME_SUFFIX))
         .withNamespace(receiver.getMetadata().getNamespace())
         .withLabels(
-            gerritCluster.getLabels(
-                gerritCluster.getDependentResourceName(NAME_SUFFIX),
+            GerritCluster.getLabels(
+                gerritNetwork.getMetadata().getName(),
+                gerritNetwork.getDependentResourceName(NAME_SUFFIX),
                 this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
-        .withHosts(getHostname(gerritCluster))
+        .withHosts(getHostname(gerritNetwork))
         .withGateways(GerritClusterIstioGateway.NAME)
         .withHttp(getHTTPRoute(receiver))
         .endSpec()
         .build();
   }
 
-  public static String getHostname(GerritCluster gerritCluster) {
-    String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
+  public static String getHostname(GerritNetwork gerritNetwork) {
+    String gerritClusterHost = gerritNetwork.getSpec().getIngress().getHost();
     return RECEIVER_INGRESS_SUBDOMAIN + "." + gerritClusterHost;
   }
 
-  public static String getName(GerritCluster gerritCluster) {
-    return gerritCluster.getSpec().getReceiver().getMetadata().getName();
+  public static String getName(GerritNetwork gerritNetwork) {
+    return gerritNetwork.getSpec().getReceiver();
   }
 
   private HTTPRoute getHTTPRoute(Receiver receiver) {

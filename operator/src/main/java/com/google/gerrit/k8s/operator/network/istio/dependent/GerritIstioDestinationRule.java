@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.cluster.dependent;
+package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
 import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsSimpleLB;
@@ -33,27 +34,31 @@ import java.util.Map;
 import java.util.Set;
 
 public class GerritIstioDestinationRule
-    extends KubernetesDependentResource<DestinationRule, GerritCluster>
-    implements Creator<DestinationRule, GerritCluster>,
-        Updater<DestinationRule, GerritCluster>,
-        Deleter<GerritCluster>,
-        BulkDependentResource<DestinationRule, GerritCluster>,
-        GarbageCollected<GerritCluster> {
+    extends KubernetesDependentResource<DestinationRule, GerritNetwork>
+    implements Creator<DestinationRule, GerritNetwork>,
+        Updater<DestinationRule, GerritNetwork>,
+        Deleter<GerritNetwork>,
+        BulkDependentResource<DestinationRule, GerritNetwork>,
+        GarbageCollected<GerritNetwork> {
 
   public GerritIstioDestinationRule() {
     super(DestinationRule.class);
   }
 
-  protected DestinationRule desired(GerritCluster gerritCluster, GerritTemplate gerrit) {
+  protected DestinationRule desired(GerritNetwork gerritNetwork, String gerritName) {
 
     return new DestinationRuleBuilder()
         .withNewMetadata()
-        .withName(getName(gerrit))
-        .withNamespace(gerritCluster.getMetadata().getNamespace())
-        .withLabels(gerritCluster.getLabels(getName(gerrit), this.getClass().getSimpleName()))
+        .withName(getName(gerritName))
+        .withNamespace(gerritNetwork.getMetadata().getNamespace())
+        .withLabels(
+            GerritCluster.getLabels(
+                gerritNetwork.getMetadata().getName(),
+                getName(gerritName),
+                this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
-        .withHost(GerritService.getHostname(gerrit.toGerrit(gerritCluster)))
+        .withHost(GerritService.getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
         .withTrafficPolicy(
             new TrafficPolicyBuilder()
                 .withNewLoadBalancer()
@@ -70,19 +75,23 @@ public class GerritIstioDestinationRule
     return gerrit.getMetadata().getName();
   }
 
+  public static String getName(String gerritName) {
+    return gerritName;
+  }
+
   @Override
   public Map<String, DestinationRule> desiredResources(
-      GerritCluster gerritCluster, Context<GerritCluster> context) {
+      GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     Map<String, DestinationRule> drs = new HashMap<>();
-    for (GerritTemplate template : gerritCluster.getSpec().getGerrits()) {
-      drs.put(template.getMetadata().getName(), desired(gerritCluster, template));
+    for (String gerritName : gerritNetwork.getSpec().getGerrits()) {
+      drs.put(gerritName, desired(gerritNetwork, gerritName));
     }
     return drs;
   }
 
   @Override
   public Map<String, DestinationRule> getSecondaryResources(
-      GerritCluster gerritCluster, Context<GerritCluster> context) {
+      GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     Set<DestinationRule> drs = context.getSecondaryResources(DestinationRule.class);
     Map<String, DestinationRule> result = new HashMap<>(drs.size());
     for (DestinationRule dr : drs) {
