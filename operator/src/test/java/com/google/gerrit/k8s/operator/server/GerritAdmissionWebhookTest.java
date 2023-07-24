@@ -20,12 +20,12 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.shared.model.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.HasMetadata;
