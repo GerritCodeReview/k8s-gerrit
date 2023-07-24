@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: gerrit-gerrit-http-virtual-service
+  namespace: gerrit
+spec:
+  hosts:
+  - example.com
+  gateways:
+  - gerrit/gerrit-istio-gateway
+  http:
+  - name: gerrit-replica-replica
+    match:
+    - uri:
+        regex: "^/(.*)/info/refs$"
+      queryParams:
+        service:
+          exact: git-upload-pack
+      ignoreUriCase: true
+      method:
+        exact: GET
+    - uri:
+        regex: "^/(.*)/git-upload-pack$"
+      ignoreUriCase: true
+      method:
+        exact: POST
+    route:
+    - destination:
+        port:
+          number: 48080
+        host: replica.gerrit.svc.cluster.local
+  - name: gerrit-primary-primary
+    route:
+    - destination:
+        port:
+          number: 48080
+        host: primary.gerrit.svc.cluster.local

@@ -25,13 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterSpec;
-import com.google.gerrit.k8s.operator.cluster.model.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritClusterIngressConfig;
+import com.google.gerrit.k8s.operator.shared.model.GerritIngressTlsConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritRepositoryConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
@@ -46,7 +46,6 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -80,20 +79,6 @@ public class TestGerritCluster {
     return hostname;
   }
 
-  public String getGerritHostname(GerritTemplate gerrit) {
-    switch (cluster.getSpec().getIngress().getType()) {
-      case ISTIO:
-        return hostname;
-      case INGRESS:
-        return cluster
-            .getSpec()
-            .getIngress()
-            .getFullHostnameForService(gerrit.getMetadata().getName());
-      default:
-        throw new IllegalStateException("No ingress configured.");
-    }
-  }
-
   public String getNamespace() {
     return cluster.getMetadata().getNamespace();
   }
@@ -101,52 +86,38 @@ public class TestGerritCluster {
   public void setIngressType(IngressType type) {
     switch (type) {
       case INGRESS:
+        hostname = testProps.getIngressDomain();
         enableIngress();
         break;
       case ISTIO:
-        enableIstio();
+        hostname = testProps.getIstioDomain();
+        enableIngress();
         break;
       default:
+        hostname = null;
         defaultIngressConfig();
     }
     deploy();
   }
 
   private void defaultIngressConfig() {
-    hostname = null;
     ingressConfig = new GerritClusterIngressConfig();
     ingressConfig.setEnabled(false);
   }
 
   private void enableIngress() {
-    hostname = testProps.getIngressDomain();
     ingressConfig = new GerritClusterIngressConfig();
     ingressConfig.setEnabled(true);
-    ingressConfig.setType(IngressType.INGRESS);
     ingressConfig.setHost(hostname);
-    ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
     GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
     ingressTlsConfig.setEnabled(true);
     ingressTlsConfig.setSecret("tls-secret");
     ingressConfig.setTls(ingressTlsConfig);
   }
 
-  private void enableIstio() {
-    hostname = testProps.getIstioDomain();
-    ingressConfig = new GerritClusterIngressConfig();
-    ingressConfig.setEnabled(true);
-    ingressConfig.setType(IngressType.ISTIO);
-    ingressConfig.setHost(hostname);
-    ingressConfig.setAnnotations(Map.of("kubernetes.io/ingress.class", "nginx"));
-    GerritIngressTlsConfig ingressTlsConfig = new GerritIngressTlsConfig();
-    ingressTlsConfig.setEnabled(true);
-    ingressTlsConfig.setSecret("tls-secret");
-    ingressConfig.setTls(ingressTlsConfig);
-  }
-
-  public GerritApi getGerritApiClient(GerritTemplate gerrit) {
+  public GerritApi getGerritApiClient(GerritTemplate gerrit, IngressType ingressType) {
     return new GerritRestApiFactory()
-        .create(new GerritAuthData.Basic(String.format("https://%s", getGerritHostname(gerrit))));
+        .create(new GerritAuthData.Basic(String.format("https://%s", hostname)));
   }
 
   public void setNfsEnabled(boolean isNfsEnabled) {
