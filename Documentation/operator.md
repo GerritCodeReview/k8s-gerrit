@@ -18,6 +18,7 @@
       2. [Gerrit](#gerrit)
       3. [GitGarbageCollection](#gitgarbagecollection)
       4. [Receiver](#receiver)
+      5. [GerritNetwork](#gerritnetwork)
    8. [Configuration of Gerrit](#configuration-of-gerrit)
 
 ## Build
@@ -159,6 +160,10 @@ can be configured for each
   The operator will install no Ingress components. Services will still be available.
   No prerequisites are required for this case.
 
+  If `spec.ingress.enabled` is set to `true` in GerritCluster, the operator will
+  still configure network related options like `http.listenUrl` in Gerrit based on
+  the other options in `spec.ingress`.
+
 - **INGRESS**
 
   The operator will install an Ingress. Currently only the
@@ -166,6 +171,9 @@ can be configured for each
   supported, which will have to be installed in the cluster and has to be configured
   to [allow snippet configurations](https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-snippets/).
   An example of a working deployment can be found [here](../supplements/test-cluster/ingress/).
+
+  SSH support is not fully managed by the operator, since it has to be enabled and
+  [configured in the nginx ingress controller itself](https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/).
 
 - **ISTIO**
 
@@ -259,11 +267,14 @@ and also add the base64-encoded password for the keystore to the secret.
 Then the operator and associated RBAC rules can be deployed:
 
 ```sh
+kubectl apply -f operator/k8s/rbac.yaml
 kubectl apply -f operator/k8s/operator.yaml
 ```
 
 `k8s/operator.yaml` contains a basic deployment of the operator. Resources,
-docker image name etc. might have to be adapted.
+docker image name etc. might have to be adapted. For example, the ingress
+provider has to be configured by setting the `INGRESS` environment variable
+in `operator/k8s/operator.yaml` to either `NONE`, `INGRESS` or `ISTIO`.
 
 ## CustomResources
 
@@ -339,6 +350,14 @@ to install a Receiver-instance managed by a GerritCluster. Receiver-CustomResour
 can however also be applied separately. Note, that the Gerrit operator will then
 not create any storage resources or setup any network resources in addition to
 the service.
+
+### GerritNetwork
+
+The GerritNetwork CustomResource deploys network components depending on the
+configured ingress provider to enable ingress traffic to GerritCluster components.
+
+The GerritNetwork CustomResource is not meant to be installed manually, but will
+be created by the Gerrit Operator based on the GerritCluster CustomResource.
 
 ## Configuration of Gerrit
 

@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1alpha4
+  - name: v1alpha5
     schema:
       openAPIV3Schema:
         properties:
@@ -160,16 +160,17 @@ spec:
                 type: object
               ingress:
                 properties:
-                  type:
-                    enum:
-                    - NONE
-                    - INGRESS
-                    - ISTIO
-                    type: string
+                  enabled:
+                    type: boolean
                   host:
                     type: string
                   tlsEnabled:
                     type: boolean
+                  ssh:
+                    properties:
+                      enabled:
+                        type: boolean
+                    type: object
                 type: object
               tolerations:
                 items:

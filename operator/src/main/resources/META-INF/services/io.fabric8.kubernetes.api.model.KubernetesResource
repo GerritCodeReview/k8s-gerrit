@@ -2,3 +2,4 @@ com.google.gerrit.k8s.operator.cluster.model.GerritCluster
 com.google.gerrit.k8s.operator.gerrit.model.Gerrit
 com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection
 com.google.gerrit.k8s.operator.receiver.model.Receiver
+com.google.gerrit.k8s.operator.network.model.GerritNetwork

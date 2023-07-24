@@ -75,7 +75,6 @@ public class ReceiverTemplate implements KubernetesResource {
     receiverSpec.setStorage(gerritCluster.getSpec().getStorage());
     IngressConfig ingressConfig = new IngressConfig();
     ingressConfig.setHost(gerritCluster.getSpec().getIngress().getHost());
-    ingressConfig.setType(gerritCluster.getSpec().getIngress().getType());
     ingressConfig.setTlsEnabled(gerritCluster.getSpec().getIngress().getTls().isEnabled());
     receiverSpec.setIngress(ingressConfig);
     receiver.setSpec(receiverSpec);
