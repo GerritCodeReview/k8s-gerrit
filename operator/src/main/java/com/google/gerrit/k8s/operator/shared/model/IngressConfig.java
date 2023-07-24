@@ -15,19 +15,19 @@
 package com.google.gerrit.k8s.operator.shared.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterIngressConfig.IngressType;
 
 public class IngressConfig {
-  private IngressType type = IngressType.NONE;
+  private boolean enabled;
   private String host;
   private boolean tlsEnabled;
+  private GerritIngressSshConfig ssh = new GerritIngressSshConfig();
 
-  public IngressType getType() {
-    return type;
+  public boolean isEnabled() {
+    return enabled;
   }
 
-  public void setType(IngressType type) {
-    this.type = type;
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   public String getHost() {
@@ -46,6 +46,14 @@ public class IngressConfig {
     this.tlsEnabled = tlsEnabled;
   }
 
+  public GerritIngressSshConfig getSsh() {
+    return ssh;
+  }
+
+  public void setSsh(GerritIngressSshConfig ssh) {
+    this.ssh = ssh;
+  }
+
   @JsonIgnore
   public String getFullHostnameForService(String svcName) {
     return String.format("%s.%s", svcName, getHost());
@@ -53,6 +61,13 @@ public class IngressConfig {
 
   @JsonIgnore
   public String getUrl() {
+    String protocol = isTlsEnabled() ? "https" : "http";
+    String hostname = getHost();
+    return String.format("%s://%s", protocol, hostname);
+  }
+
+  @JsonIgnore
+  public String getSshUrl() {
     String protocol = isTlsEnabled() ? "https" : "http";
     String hostname = getHost();
     return String.format("%s://%s", protocol, hostname);

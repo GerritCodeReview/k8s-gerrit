@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha2")
+@Version("v1alpha3")
 @ShortNames("grec")
 public class Receiver extends CustomResource<ReceiverSpec, ReceiverStatus> implements Namespaced {
   private static final long serialVersionUID = 1L;
