@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
@@ -23,12 +24,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha4")
+@Version("v1alpha5")
 @ShortNames("gcr")
 public class Gerrit extends CustomResource<GerritSpec, GerritStatus> implements Namespaced {
   private static final long serialVersionUID = 2L;
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+  }
+
+  @JsonIgnore
+  public boolean isSshEnabled() {
+    return getSpec().getService().getSshPort() > 0;
   }
 }
