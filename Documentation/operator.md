@@ -187,6 +187,12 @@ installed, since this reduces the requirements that have to be managed manually.
 The same holds true for the [Receiver](#receiver) CustomResource, which without
 a Gerrit instance using the same site provides little value.
 
+For now, only a single primary Gerrit together with a single Gerrit Replica can
+be deployed in a GerritCluster. The reason for that is, that there is currently
+no sharding implemented and thus multiple deployments don't bring any more value
+than just scaling the existing deployment. Instead of a primary Gerrit also a
+Receiver can be installed.
+
 ### Gerrit
 
 The Gerrit CustomResource deploys a Gerrit, which can run in multiple modes.
