@@ -52,10 +52,9 @@ public class IngressConfig {
   }
 
   @JsonIgnore
-  public String getUrl(String svcName) {
+  public String getUrl() {
     String protocol = isTlsEnabled() ? "https" : "http";
-    String hostname =
-        getType() == IngressType.ISTIO ? getHost() : getFullHostnameForService(svcName);
+    String hostname = getHost();
     return String.format("%s://%s", protocol, hostname);
   }
 }
