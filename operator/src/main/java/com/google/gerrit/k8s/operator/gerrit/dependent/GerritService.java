@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
@@ -57,6 +58,10 @@ public class GerritService extends CRUDKubernetesDependentResource<Service, Gerr
   }
 
   public static String getName(Gerrit gerrit) {
+    return gerrit.getMetadata().getName();
+  }
+
+  public static String getName(GerritTemplate gerrit) {
     return gerrit.getMetadata().getName();
   }
 

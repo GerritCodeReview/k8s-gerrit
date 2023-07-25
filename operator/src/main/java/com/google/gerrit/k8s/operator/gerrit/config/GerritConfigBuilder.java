@@ -60,7 +60,7 @@ public class GerritConfigBuilder {
     boolean ingressEnabled = gerrit.getSpec().getIngress().getType() != IngressType.NONE;
 
     if (ingressEnabled) {
-      withUrl(gerrit.getSpec().getIngress().getUrl(GerritService.getName(gerrit)));
+      withUrl(gerrit.getSpec().getIngress().getUrl());
     } else {
       withUrl(GerritService.getUrl(gerrit));
     }

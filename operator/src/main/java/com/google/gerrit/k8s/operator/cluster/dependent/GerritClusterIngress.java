@@ -14,11 +14,14 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
-import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPathBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
@@ -34,11 +37,15 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernete
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @KubernetesDependent
 public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritCluster> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final String UPLOAD_PACK_URL_PATTERN = "/.*/git-upload-pack";
   public static final String INGRESS_NAME = "gerrit-ingress";
 
   public GerritClusterIngress() {
@@ -47,109 +54,131 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
 
   @Override
   protected Ingress desired(GerritCluster gerritCluster, Context<GerritCluster> context) {
-    List<Gerrit> gerrits =
-        gerritCluster.getSpec().getGerrits().stream()
-            .map(g -> g.toGerrit(gerritCluster))
-            .collect(Collectors.toList());
-
-    List<String> hosts = new ArrayList<>();
-    List<IngressRule> ingressRules = new ArrayList<>();
-
-    if (gerritCluster.getSpec().getReceiver() != null) {
-      Receiver receiver = gerritCluster.getSpec().getReceiver().toReceiver(gerritCluster);
-      ingressRules.add(getReceiverIngressRule(gerritCluster, receiver));
-      hosts.add(
-          gerritCluster
-              .getSpec()
-              .getIngress()
-              .getFullHostnameForService(receiver.getMetadata().getName()));
-    }
-
-    ingressRules.addAll(getGerritIngressRules(gerritCluster, gerrits));
-    for (Gerrit gerrit : gerrits) {
-      hosts.add(
-          gerritCluster
-              .getSpec()
-              .getIngress()
-              .getFullHostnameForService(gerrit.getMetadata().getName()));
-    }
-
     Ingress gerritIngress =
         new IngressBuilder()
             .withNewMetadata()
             .withName("gerrit-ingress")
             .withNamespace(gerritCluster.getMetadata().getNamespace())
             .withLabels(gerritCluster.getLabels("gerrit-ingress", this.getClass().getSimpleName()))
-            .withAnnotations(gerritCluster.getSpec().getIngress().getAnnotations())
+            .withAnnotations(getAnnotations(gerritCluster))
             .endMetadata()
             .withNewSpec()
-            .withTls(getIngressTLS(gerritCluster, hosts))
-            .withRules(ingressRules)
+            .withTls(getIngressTLS(gerritCluster))
+            .withRules(getIngressRule(gerritCluster))
             .endSpec()
             .build();
 
     return gerritIngress;
   }
 
-  private IngressTLS getIngressTLS(GerritCluster gerritCluster, List<String> hosts) {
+  private Map<String, String> getAnnotations(GerritCluster gerritCluster) {
+    Map<String, String> annotations = gerritCluster.getSpec().getIngress().getAnnotations();
+    annotations.put("nginx.ingress.kubernetes.io/use-regex", "true");
+    annotations.put("kubernetes.io/ingress.class", "nginx");
+
+    Optional<GerritTemplate> gerritReplica =
+        gerritCluster.getSpec().getGerrits().stream()
+            .filter(g -> g.getSpec().getMode().equals(GerritMode.REPLICA))
+            .findFirst();
+    if (gerritReplica.isPresent()) {
+      String svcName = GerritService.getName(gerritReplica.get());
+      StringBuilder configSnippet = new StringBuilder();
+      configSnippet.append("if ($args ~ service=git-upload-pack){");
+      configSnippet.append("\n");
+      configSnippet.append("  set $proxy_upstream_name \"");
+      configSnippet.append(gerritCluster.getMetadata().getNamespace());
+      configSnippet.append("-");
+      configSnippet.append(svcName);
+      configSnippet.append("-");
+      configSnippet.append(GerritService.HTTP_PORT_NAME);
+      configSnippet.append("\";\n");
+      configSnippet.append("  set $proxy_host $proxy_upstream_name;");
+      configSnippet.append("\n");
+      configSnippet.append("  set $service_name \"");
+      configSnippet.append(svcName);
+      configSnippet.append("\";\n}");
+      annotations.put(
+          "nginx.ingress.kubernetes.io/configuration-snippet", configSnippet.toString());
+    }
+    return annotations;
+  }
+
+  private IngressTLS getIngressTLS(GerritCluster gerritCluster) {
     if (gerritCluster.getSpec().getIngress().getTls().isEnabled()) {
       return new IngressTLSBuilder()
-          .withHosts(hosts)
+          .withHosts(gerritCluster.getSpec().getIngress().getHost())
           .withSecretName(gerritCluster.getSpec().getIngress().getTls().getSecret())
           .build();
     }
     return new IngressTLS();
   }
 
-  private List<IngressRule> getGerritIngressRules(
-      GerritCluster gerritCluster, List<Gerrit> gerrits) {
-    List<IngressRule> ingressRules = new ArrayList<>();
+  private IngressRule getIngressRule(GerritCluster gerritCluster) {
+    List<HTTPIngressPath> ingressPaths = getGerritHTTPIngressPaths(gerritCluster);
+    ingressPaths.addAll(getReceiverIngressPaths(gerritCluster));
 
-    for (Gerrit gerrit : gerrits) {
-      String gerritSvcName = GerritService.getName(gerrit);
-      ingressRules.add(
-          new IngressRuleBuilder()
-              .withHost(
-                  gerritCluster.getSpec().getIngress().getFullHostnameForService(gerritSvcName))
-              .withNewHttp()
-              .withPaths(getGerritHTTPIngressPath(gerritSvcName))
-              .endHttp()
-              .build());
-    }
-
-    return ingressRules;
-  }
-
-  private IngressRule getReceiverIngressRule(GerritCluster gerritCluster, Receiver receiver) {
     return new IngressRuleBuilder()
-        .withHost(
-            gerritCluster
-                .getSpec()
-                .getIngress()
-                .getFullHostnameForService(receiver.getMetadata().getName()))
+        .withHost(gerritCluster.getSpec().getIngress().getHost())
         .withNewHttp()
-        .withPaths(getReceiverIngressPaths(ReceiverService.getName(receiver)))
+        .withPaths(ingressPaths)
         .endHttp()
         .build();
   }
 
-  public HTTPIngressPath getGerritHTTPIngressPath(String svcName) {
+  private List<HTTPIngressPath> getGerritHTTPIngressPaths(GerritCluster gerritCluster) {
     ServiceBackendPort port =
         new ServiceBackendPortBuilder().withName(GerritService.HTTP_PORT_NAME).build();
 
-    return new HTTPIngressPathBuilder()
-        .withPathType("Prefix")
-        .withPath("/")
-        .withNewBackend()
-        .withNewService()
-        .withName(svcName)
-        .withPort(port)
-        .endService()
-        .endBackend()
-        .build();
+    ArrayListMultimap<GerritMode, HTTPIngressPath> pathsByMode = ArrayListMultimap.create();
+    List<Gerrit> gerrits =
+        gerritCluster.getSpec().getGerrits().stream()
+            .map(g -> g.toGerrit(gerritCluster))
+            .collect(Collectors.toList());
+    for (Gerrit gerrit : gerrits) {
+      switch (gerrit.getSpec().getMode()) {
+        case REPLICA:
+          pathsByMode.put(
+              GerritMode.REPLICA,
+              new HTTPIngressPathBuilder()
+                  .withPathType("Prefix")
+                  .withPath(UPLOAD_PACK_URL_PATTERN)
+                  .withNewBackend()
+                  .withNewService()
+                  .withName(GerritService.getName(gerrit))
+                  .withPort(port)
+                  .endService()
+                  .endBackend()
+                  .build());
+          break;
+        case PRIMARY:
+          pathsByMode.put(
+              GerritMode.PRIMARY,
+              new HTTPIngressPathBuilder()
+                  .withPathType("Prefix")
+                  .withPath("/")
+                  .withNewBackend()
+                  .withNewService()
+                  .withName(GerritService.getName(gerrit))
+                  .withPort(port)
+                  .endService()
+                  .endBackend()
+                  .build());
+          break;
+        default:
+          logger.atFine().log(
+              "Encountered unknown Gerrit mode when reconciling Ingress: %s",
+              gerrit.getSpec().getMode());
+      }
+    }
+
+    List<HTTPIngressPath> paths = new ArrayList<>();
+    paths.addAll(pathsByMode.get(GerritMode.REPLICA));
+    paths.addAll(pathsByMode.get(GerritMode.PRIMARY));
+    return paths;
   }
 
-  public List<HTTPIngressPath> getReceiverIngressPaths(String svcName) {
+  private List<HTTPIngressPath> getReceiverIngressPaths(GerritCluster gerritCluster) {
+    String svcName = ReceiverService.getName(gerritCluster.getSpec().getReceiver());
     List<HTTPIngressPath> paths = new ArrayList<>();
     ServiceBackendPort port =
         new ServiceBackendPortBuilder().withName(ReceiverService.HTTP_PORT_NAME).build();

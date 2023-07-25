@@ -800,7 +800,7 @@ spec:
 | Value | Description|
 |---|---|
 | `NONE` | No ingress provider will be configured |
-| `INGRESS` | An [`Ingress`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#ingress-v1-networking-k8s-io) will be provisioned |
+| `INGRESS` | An [`Ingress`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#ingress-v1-networking-k8s-io) will be provisioned. Only the [Nginx-Ingress-Controller](https://docs.nginx.com/nginx-ingress-controller/) is supported. |
 | `ISTIO` | [ISTIO](https://istio.io/latest/) will be configured to add the GerritCluster to the ServiceMesh |
 
 ## GerritIngressTlsConfig

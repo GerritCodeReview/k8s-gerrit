@@ -19,6 +19,7 @@ import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployme
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
@@ -56,6 +57,10 @@ public class ReceiverService extends CRUDKubernetesDependentResource<Service, Re
   }
 
   public static String getName(Receiver receiver) {
+    return receiver.getMetadata().getName();
+  }
+
+  public static String getName(ReceiverTemplate receiver) {
     return receiver.getMetadata().getName();
   }
 
