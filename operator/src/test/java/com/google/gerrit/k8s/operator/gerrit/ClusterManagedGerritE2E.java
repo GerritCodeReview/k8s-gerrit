@@ -123,37 +123,6 @@ public class ClusterManagedGerritE2E extends AbstractGerritOperatorE2ETest {
   }
 
   @Test
-  void testMultipleGerritReplicaAreCreated() throws Exception {
-    String gerritName = "gerrit-replica-1";
-    TestGerrit gerrit =
-        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName, operator.getNamespace());
-    gerritCluster.addGerrit(gerrit.createGerritTemplate());
-    String gerritName2 = "gerrit-replica-2";
-    TestGerrit gerrit2 =
-        new TestGerrit(client, testProps, GerritMode.REPLICA, gerritName2, operator.getNamespace());
-    gerritCluster.addGerrit(gerrit2.createGerritTemplate());
-    gerritCluster.deploy();
-
-    assertTrue(
-        client
-            .pods()
-            .inNamespace(operator.getNamespace())
-            .withName(gerritName + "-0")
-            .inContainer("gerrit")
-            .getLog()
-            .contains("Gerrit Code Review [replica]"));
-
-    assertTrue(
-        client
-            .pods()
-            .inNamespace(operator.getNamespace())
-            .withName(gerritName2 + "-0")
-            .inContainer("gerrit")
-            .getLog()
-            .contains("Gerrit Code Review [replica]"));
-  }
-
-  @Test
   void testGerritReplicaAndPrimaryGerritAreCreated() throws Exception {
     String primaryGerritName = "gerrit";
     TestGerrit primaryGerrit =

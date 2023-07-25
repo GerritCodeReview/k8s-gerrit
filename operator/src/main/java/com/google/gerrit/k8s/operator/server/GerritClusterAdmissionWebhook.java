@@ -45,6 +45,13 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
           .build();
     }
 
+    if (multipleGerritReplicaInCluster(gerritCluster)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_CONFLICT)
+          .withMessage("Only a single Gerrit Replica is allowed per Gerrit Cluster.")
+          .build();
+    }
+
     GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
@@ -59,6 +66,13 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
   private boolean multiplePrimaryGerritInCluster(GerritCluster gerritCluster) {
     return gerritCluster.getSpec().getGerrits().stream()
             .filter(g -> g.getSpec().getMode() == GerritMode.PRIMARY)
+            .count()
+        > 1;
+  }
+
+  private boolean multipleGerritReplicaInCluster(GerritCluster gerritCluster) {
+    return gerritCluster.getSpec().getGerrits().stream()
+            .filter(g -> g.getSpec().getMode() == GerritMode.REPLICA)
             .count()
         > 1;
   }
