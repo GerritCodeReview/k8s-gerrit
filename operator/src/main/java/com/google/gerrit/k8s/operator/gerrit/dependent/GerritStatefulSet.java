@@ -125,6 +125,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .endSecurityContext()
         .addNewInitContainer()
         .withName("gerrit-init")
+        .withEnv(GerritCluster.getPodNameEnvVar())
         .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
             gerrit.getSpec().getContainerImages().getGerritImages().getFullImageName("gerrit-init"))

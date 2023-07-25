@@ -141,7 +141,11 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
   @JsonIgnore
   public static VolumeMount getLogsVolumeMount(String mountPath) {
-    return new VolumeMountBuilder().withName(LOGS_VOLUME_NAME).withMountPath(mountPath).build();
+    return new VolumeMountBuilder()
+        .withName(LOGS_VOLUME_NAME)
+        .withSubPathExpr("$(POD_NAME)")
+        .withMountPath(mountPath)
+        .build();
   }
 
   @JsonIgnore
