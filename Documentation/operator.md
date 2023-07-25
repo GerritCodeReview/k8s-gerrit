@@ -5,17 +5,20 @@
    2. [Versioning](#versioning)
    3. [Publish](#publish)
    4. [Tests](#tests)
-   5. [Deploy](#deploy)
+   5. [Prerequisites](#prerequisites)
+      1. [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
+      2. [Ingress provider](#ingress-provider)
+   6. [Deploy](#deploy)
       1. [Using helm charts](#using-helm-charts)
          1. [gerrit-operator-crds](#gerrit-operator-crds)
          2. [gerrit-operator](#gerrit-operator-1)
       2. [Without the helm charts](#without-the-helm-charts)
-   6. [CustomResources](#customresources)
+   7. [CustomResources](#customresources)
       1. [GerritCluster](#gerritcluster)
       2. [Gerrit](#gerrit)
       3. [GitGarbageCollection](#gitgarbagecollection)
       4. [Receiver](#receiver)
-   7. [Configuration of Gerrit](#configuration-of-gerrit)
+   8. [Configuration of Gerrit](#configuration-of-gerrit)
 
 ## Build
 
@@ -126,6 +129,47 @@ mvn clean install -P integration-test -Dproperties=<path to properties file>
 
 Note, that running the E2E tests will also involve pushing the container image
 to the repository configured in the properties file.
+
+## Prerequisites
+
+Deploying Gerrit using the operator requires some additional prerequisites to be
+fulfilled:
+
+### Shared Storage (ReadWriteMany)
+
+Gerrit instances share the repositories and other data using shared volumes. Thus,
+a StorageClass and a suitable provisioner have to be available in the cluster.
+An example for such a provisioner would be the
+[NFS-subdir-external-provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).
+
+### Ingress provider
+
+The Gerrit Operator will also set up network routing rules and an ingress point
+for the Gerrit instances it manages. The network routing rules ensure that requests
+will be routed to the intended GerritCluster component, e.g. in case a primary
+Gerrit and a Gerrit Replica exist in the cluster, git fetch/clone requests will
+be sent to the Gerrit Replica and all other requests to the primary Gerrit.
+The Gerrit Operator currently supports the following Ingress providers, which
+can be configured for each
+[GerritCluster](operator-api-reference.md#gerritclusteringressconfig):
+
+- **NONE**
+
+  The operator will install no Ingress components. Services will still be available.
+  No prerequisites are required for this case.
+
+- **INGRESS**
+
+  The operator will install an Ingress. Currently only the
+  [Nginx-Ingress-Controller](https://docs.nginx.com/nginx-ingress-controller/) is
+  supported, which will have to be installed in the cluster and has to be configured
+  to [allow snippet configurations](https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-snippets/).
+  An example of a working deployment can be found [here](../supplements/test-cluster/ingress/).
+
+- **ISTIO**
+
+  The operator supports the use of [Istio](https://istio.io/) as a service mesh.
+  An example on how to set up Istio can be found [here](../istio/gerrit.profile.yaml).
 
 ## Deploy
 You will need to have admin privileges for your k8s cluster in order to be able
