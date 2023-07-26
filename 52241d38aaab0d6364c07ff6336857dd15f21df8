@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b543b6e_ae7c3ae7",
+        "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-26T07:35:05Z",
+      "side": 0,
+      "message": "We could add a build step to the operator\u0027s pom.xml that copies the CRDs to this helm-chart\u0027s template-dir. This would basically update this chart on build.\n\nI have such a change in our internal fork and will provide it as soon as this change is submitted.",
+      "revId": "52241d38aaab0d6364c07ff6336857dd15f21df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
