@@ -79,20 +79,4 @@ public class GerritClusterIngressConfig {
   public static String getFullHostnameForService(String svcName, String ingressHost) {
     return String.format("%s.%s", svcName, ingressHost);
   }
-
-  @JsonIgnore
-  public String getUrl(String svcName) {
-    return getUrl(svcName, getTls().isEnabled(), getHost(), getType());
-  }
-
-  @JsonIgnore
-  public static String getUrl(
-      String svcName, boolean tlsEnabled, String ingressHost, IngressType ingressType) {
-    String protocol = tlsEnabled ? "https" : "http";
-    String hostname =
-        ingressType == IngressType.ISTIO
-            ? ingressHost
-            : getFullHostnameForService(svcName, ingressHost);
-    return String.format("%s://%s", protocol, hostname);
-  }
 }
