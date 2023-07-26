@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "948ee678_244350be",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-26T12:48:29Z",
+      "side": 1,
+      "message": "I think horizontal scalability for read load is desirable",
+      "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
