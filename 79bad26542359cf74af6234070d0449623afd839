@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7469a3_96e4fa77",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-26T12:54:03Z",
+      "side": 1,
+      "message": "Mention that this is an alternative for an Ingress Provider ?",
+      "revId": "79bad26542359cf74af6234070d0449623afd839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
