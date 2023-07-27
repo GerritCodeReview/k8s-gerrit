@@ -16,6 +16,24 @@
       "message": "I think horizontal scalability for read load is desirable",
       "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49e3c422_0f1291f9",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-27T08:44:33Z",
+      "side": 1,
+      "message": "And that is possible. If you install a single GerritReplica CustomResource a StatefulSet running n pods running a Gerrit Replica each can still be installed. But you can\u0027t have m Gerrit Replica CustomResources to create m StatefulSets with n pods each.",
+      "parentUuid": "948ee678_244350be",
+      "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
