@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4414aef9_a3c5c035",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "thomas: \"There is the crd directory that one can use in helm, which basically ensures crds are installed earlier than the other manifests, but according to the helm documentation having two charts is the preferred more flexible solution.\"",
+      "parentUuid": "8e8fd760_57bb8ebf",
+      "revId": "456e0076722c23eeb594c0d813e6a2590e23bfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "743ac49a_6bbbf9c4",

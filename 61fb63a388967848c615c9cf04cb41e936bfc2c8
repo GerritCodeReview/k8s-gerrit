@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f77ff00_48888c18",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c94923f_e63401cb",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 48
+      },
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ea2c44b_ed590427",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-07-26T07:35:05Z",
       "side": 1,
       "message": "helm doesn\u0027t guarantee an order in which the resources will be applied. Thus, the first installation might fail, since the namespace might be installed after the other resources.\nWe should rather not template the namespace, but rely on the user to create it manually.",
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "253dd671_46216168",
+        "filename": "helm-charts/gerrit-operator/templates/namespace.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ea2c44b_ed590427",
       "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c10319ce_dbcf10e4",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Out of curiosity, why do we have to manually base64-encode the keystore? Seems like we can do the same thing with keystore - paste in the keystore string and base64 encode using the helm function?",
+      "parentUuid": "e476774d_12b20791",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2159ec6_ac4c0671",
         "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
         "patchSetId": 11
@@ -77,6 +143,24 @@
       "writtenOn": "2023-07-26T07:35:05Z",
       "side": 1,
       "message": "nit: indentation",
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f22f2614_b99e9580",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2159ec6_ac4c0671",
       "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7137a9f9_7258a969",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc3a7a5e_4204ebc8",
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71fb548b_a4b95359",
@@ -115,6 +217,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d861086f_f41eef0f",
+        "filename": "helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71fb548b_a4b95359",
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddc1f2c7_cf2ee347",
@@ -128,6 +248,30 @@
       "writtenOn": "2023-07-26T07:35:05Z",
       "side": 1,
       "message": "`latest` to make it clear what the default is.",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c3fab6_21d38092",
+        "filename": "helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-28T15:22:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddc1f2c7_cf2ee347",
       "range": {
         "startLine": 10,
         "startChar": 7,
