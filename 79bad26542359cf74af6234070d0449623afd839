@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edd3c32f_40b16ec2",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-07-31T14:19:35Z",
+      "side": 1,
+      "message": "maybe add something along the lines of \n\n\"... for the Gerrit instances it manages. The network routing rules ensure that `git fetch/clone` requests are routed to the mode\u003dREPLICA Gerrit instance in the GerritCluster (if one is configured), while `git push` requests are routed to the mode\u003dPRIMARY Gerrit instance.\"",
+      "revId": "79bad26542359cf74af6234070d0449623afd839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d7469a3_96e4fa77",
         "filename": "Documentation/operator.md",
         "patchSetId": 1
