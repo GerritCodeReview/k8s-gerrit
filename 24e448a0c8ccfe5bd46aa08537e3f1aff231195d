@@ -16,6 +16,29 @@
       "message": "Not sure if this is the right way to implement this.",
       "revId": "24e448a0c8ccfe5bd46aa08537e3f1aff231195d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69844867_d2a5dd12",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-01T11:14:27Z",
+      "side": 1,
+      "message": "I would suggest to not add the `extra`-key but to allow to provide relative paths, e.g. `etc/its/jira.template`. You can use templating to extract the filename to be used as key in the configmap and also to compute the subDir to be set: https://stackoverflow.com/questions/53634583/go-template-split-string-by-delimiter",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 26
+      },
+      "revId": "24e448a0c8ccfe5bd46aa08537e3f1aff231195d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
