@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f53db852_424c519e",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-01T12:24:17Z",
+      "side": 1,
+      "message": "I would remove this sentence. It could be installed in any namespace. The only namespaced resources however would be the secret created by helm to store the release.",
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c40b6a_0a3edfca",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-01T12:24:17Z",
+      "side": 1,
+      "message": "use a link to the section",
+      "range": {
+        "startLine": 165,
+        "startChar": 33,
+        "endLine": 165,
+        "endChar": 42
+      },
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb42c07_23287f76",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-01T12:24:17Z",
+      "side": 1,
+      "message": "This will only be added by the followup change.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 70
+      },
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34859ad7_c1720915",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-01T12:24:17Z",
+      "side": 1,
+      "message": "Consider setting docker.io as the default, since this is usually the default if using docker.",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

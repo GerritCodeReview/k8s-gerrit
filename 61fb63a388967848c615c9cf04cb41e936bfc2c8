@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae28e3f2_ebb9db4e",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-01T12:24:17Z",
+      "side": 1,
+      "message": "That is because binary data can contain control characters and these are not allowed by helm. Thus, templating might fail.",
+      "parentUuid": "c10319ce_dbcf10e4",
+      "range": {
+        "startLine": 10,
+        "startChar": 21,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "61fb63a388967848c615c9cf04cb41e936bfc2c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2159ec6_ac4c0671",
