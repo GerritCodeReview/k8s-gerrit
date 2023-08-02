@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a15c0b2c_f31c01f9",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-08-02T17:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f53db852_424c519e",
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c40b6a_0a3edfca",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-01T12:24:17Z",
       "side": 1,
       "message": "use a link to the section",
+      "range": {
+        "startLine": 165,
+        "startChar": 33,
+        "endLine": 165,
+        "endChar": 42
+      },
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1e874d_939f4325",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-08-02T17:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0c40b6a_0a3edfca",
       "range": {
         "startLine": 165,
         "startChar": 33,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc6e54d1_9b2e5c3d",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-08-02T17:38:51Z",
+      "side": 1,
+      "message": "i\u0027m squashing the followup change into this one to resolve this incohesion",
+      "parentUuid": "9fb42c07_23287f76",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 70
+      },
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34859ad7_c1720915",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-08-01T12:24:17Z",
       "side": 1,
       "message": "Consider setting docker.io as the default, since this is usually the default if using docker.",
+      "range": {
+        "startLine": 37,
+        "startChar": 18,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "6334d3e3ff29e4d3b577ce873936728d19fab114",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "083f6552_c367d392",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-08-02T17:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34859ad7_c1720915",
       "range": {
         "startLine": 37,
         "startChar": 18,
