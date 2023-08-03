@@ -84,23 +84,20 @@ public class GerritClusterIstioGateway
     }
 
     List<Gerrit> gerrits = client.resources(Gerrit.class).list().getItems();
-    List<String> sshHostnames = new ArrayList<>();
     if (!gerrits.isEmpty()) {
-      sshHostnames.add(gerritClusterHost);
       for (Gerrit gerrit : gerrits) {
         if (gerrit.getSpec().getService().isSshEnabled()) {
-          sshHostnames.add(gerrit.getMetadata().getName() + "." + gerritClusterHost);
+          servers.add(
+              new ServerBuilder()
+                  .withNewPort()
+                  .withName("ssh-" + gerrit.getMetadata().getName())
+                  .withNumber(gerrit.getSpec().getService().getSshPort())
+                  .withProtocol("TCP")
+                  .endPort()
+                  .withHosts(gerritClusterHost)
+                  .build());
         }
       }
-      servers.add(
-          new ServerBuilder()
-              .withNewPort()
-              .withName("ssh")
-              .withNumber(29418)
-              .withProtocol("TCP")
-              .endPort()
-              .withHosts(sshHostnames)
-              .build());
     }
 
     return servers;

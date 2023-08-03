@@ -29,7 +29,12 @@ import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteDestination;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteDestinationBuilder;
+import io.fabric8.istio.api.networking.v1beta1.L4MatchAttributesBuilder;
+import io.fabric8.istio.api.networking.v1beta1.RouteDestination;
+import io.fabric8.istio.api.networking.v1beta1.RouteDestinationBuilder;
 import io.fabric8.istio.api.networking.v1beta1.StringMatchBuilder;
+import io.fabric8.istio.api.networking.v1beta1.TCPRoute;
+import io.fabric8.istio.api.networking.v1beta1.TCPRouteBuilder;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -39,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = GerritIstioVirtualServiceDiscriminator.class)
+@KubernetesDependent
 public class GerritIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritCluster> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -68,6 +73,7 @@ public class GerritIstioVirtualService
         .withHosts(gerritClusterHost)
         .withGateways(GerritClusterIstioGateway.NAME)
         .withHttp(getHTTPRoutes(gerritCluster))
+        .withTcp(getTCPRoutes(gerritCluster))
         .endSpec()
         .build();
   }
@@ -186,5 +192,35 @@ public class GerritIstioVirtualService
             .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/a/projects/").build())
             .build());
     return matches;
+  }
+
+  private List<TCPRoute> getTCPRoutes(GerritCluster gerritCluster) {
+    List<TCPRoute> routes = new ArrayList<>();
+    for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
+      if (gerrit.getSpec().getService().isSshEnabled()) {
+        routes.add(
+            new TCPRouteBuilder()
+                .withMatch(
+                    List.of(
+                        new L4MatchAttributesBuilder()
+                            .withPort(gerrit.getSpec().getService().getSshPort())
+                            .build()))
+                .withRoute(getGerritTCPDestination(gerrit, gerritCluster))
+                .build());
+      }
+    }
+    return routes;
+  }
+
+  private RouteDestination getGerritTCPDestination(
+      GerritTemplate gerrit, GerritCluster gerritCluster) {
+    return new RouteDestinationBuilder()
+        .withNewDestination()
+        .withHost(GerritService.getHostname(gerrit.toGerrit(gerritCluster)))
+        .withNewPort()
+        .withNumber(gerrit.getSpec().getService().getSshPort())
+        .endPort()
+        .endDestination()
+        .build();
   }
 }
