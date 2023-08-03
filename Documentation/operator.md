@@ -328,7 +328,7 @@ managing a primary Gerrit to avoid conflicts when writing into repositories.
 
 The Receiver-CustomResource installs a Deployment running Apache with a git-http-
 backend that is meant to receive pushes performed by Gerrit's replication plugin.
-It is meant to be installed into a GerritCluster that does not include a primary
+It can only be installed into a GerritCluster that does not include a primary
 Gerrit, but only Gerrit Replicas.
 
 The Receiver-CustomResource is mainly meant to be used by the GerritCluster-reconciler

@@ -24,9 +24,14 @@ import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplateSpec;
+import com.google.gerrit.k8s.operator.test.ReceiverUtil;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
@@ -90,6 +95,36 @@ public class GerritClusterAdmissionWebhookTest {
 
     GerritTemplate gerrit2 = TestGerrit.createGerritTemplate("gerrit2", GerritMode.PRIMARY, cfg);
     gerritCluster.addGerrit(gerrit2);
+    HttpURLConnection http2 = sendAdmissionRequest(gerritCluster.build());
+
+    AdmissionReview response2 =
+        new ObjectMapper().readValue(http2.getInputStream(), AdmissionReview.class);
+
+    assertThat(http2.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
+    assertThat(response2.getResponse().getAllowed(), is(false));
+    assertThat(
+        response2.getResponse().getStatus().getCode(),
+        is(equalTo(HttpServletResponse.SC_CONFLICT)));
+  }
+
+  @Test
+  public void testPrimaryGerritAndReceiverAreNotAcceptedInSameGerritCluster() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
+    GerritTemplate gerrit = TestGerrit.createGerritTemplate("gerrit1", GerritMode.PRIMARY, cfg);
+    TestGerritCluster gerritCluster =
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
+    gerritCluster.addGerrit(gerrit);
+
+    ReceiverTemplate receiver = new ReceiverTemplate();
+    ObjectMeta receiverMeta = new ObjectMetaBuilder().withName("receiver").build();
+    receiver.setMetadata(receiverMeta);
+    ReceiverTemplateSpec receiverTemplateSpec = new ReceiverTemplateSpec();
+    receiverTemplateSpec.setReplicas(2);
+    receiverTemplateSpec.setCredentialSecretRef(ReceiverUtil.CREDENTIALS_SECRET_NAME);
+    receiver.setSpec(receiverTemplateSpec);
+
+    gerritCluster.setReceiver(receiver);
     HttpURLConnection http2 = sendAdmissionRequest(gerritCluster.build());
 
     AdmissionReview response2 =
