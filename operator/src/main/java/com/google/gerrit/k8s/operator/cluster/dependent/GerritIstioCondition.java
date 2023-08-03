@@ -30,6 +30,7 @@ public class GerritIstioCondition implements Condition<VirtualService, GerritClu
       Context<GerritCluster> context) {
     return gerritCluster.getSpec().getIngress().isEnabled()
         && gerritCluster.getSpec().getIngress().getType() == IngressType.ISTIO
-        && !gerritCluster.getSpec().getGerrits().isEmpty();
+        && (!gerritCluster.getSpec().getGerrits().isEmpty()
+            || gerritCluster.getSpec().getReceiver() != null);
   }
 }

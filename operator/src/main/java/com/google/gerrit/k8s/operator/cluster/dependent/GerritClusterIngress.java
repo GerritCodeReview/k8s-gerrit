@@ -114,8 +114,18 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
   }
 
   private IngressRule getIngressRule(GerritCluster gerritCluster) {
-    List<HTTPIngressPath> ingressPaths = getGerritHTTPIngressPaths(gerritCluster);
-    ingressPaths.addAll(getReceiverIngressPaths(gerritCluster));
+    List<HTTPIngressPath> ingressPaths = new ArrayList<>();
+    if (!gerritCluster.getSpec().getGerrits().isEmpty()) {
+      ingressPaths.addAll(getGerritHTTPIngressPaths(gerritCluster));
+    }
+    if (gerritCluster.getSpec().getReceiver() != null) {
+      ingressPaths.addAll(getReceiverIngressPaths(gerritCluster));
+    }
+
+    if (ingressPaths.isEmpty()) {
+      throw new IllegalStateException(
+          "Failed to create Ingress: No Receiver or Gerrit in GerritCluster.");
+    }
 
     return new IngressRuleBuilder()
         .withHost(gerritCluster.getSpec().getIngress().getHost())

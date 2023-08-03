@@ -53,15 +53,6 @@ public class GerritClusterIstioGateway
   private List<Server> configureServers(GerritCluster gerritCluster) {
     List<Server> servers = new ArrayList<>();
     String gerritClusterHost = gerritCluster.getSpec().getIngress().getHost();
-    List<String> httpHostnames = new ArrayList<>();
-
-    if (!gerritCluster.getSpec().getGerrits().isEmpty()) {
-      httpHostnames.add(gerritClusterHost);
-    }
-
-    if (gerritCluster.getSpec().getReceiver() != null) {
-      httpHostnames.add(ReceiverIstioVirtualService.getHostname(gerritCluster));
-    }
 
     servers.add(
         new ServerBuilder()
@@ -70,7 +61,7 @@ public class GerritClusterIstioGateway
             .withNumber(80)
             .withProtocol("HTTP")
             .endPort()
-            .withHosts(httpHostnames)
+            .withHosts(gerritClusterHost)
             .withNewTls()
             .withHttpsRedirect(gerritCluster.getSpec().getIngress().getTls().isEnabled())
             .endTls()
@@ -84,7 +75,7 @@ public class GerritClusterIstioGateway
               .withNumber(443)
               .withProtocol("HTTPS")
               .endPort()
-              .withHosts(httpHostnames)
+              .withHosts(gerritClusterHost)
               .withNewTls()
               .withMode(ServerTLSSettingsTLSmode.SIMPLE)
               .withCredentialName(gerritCluster.getSpec().getIngress().getTls().getSecret())
