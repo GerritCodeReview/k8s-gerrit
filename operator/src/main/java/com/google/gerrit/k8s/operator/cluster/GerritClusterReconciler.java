@@ -31,9 +31,7 @@ import com.google.gerrit.k8s.operator.cluster.dependent.GerritClusterIstioCondit
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritClusterIstioGateway;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioDestinationRule;
-import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioSshCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioVirtualService;
-import com.google.gerrit.k8s.operator.cluster.dependent.GerritIstioVirtualServiceSSH;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
@@ -111,12 +109,6 @@ import java.util.stream.Collectors;
           name = "gerrit-istio-virtual-service",
           type = GerritIstioVirtualService.class,
           reconcilePrecondition = GerritIstioCondition.class,
-          dependsOn = {"gerrit-istio-gateway", "gerrits"},
-          useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE),
-      @Dependent(
-          name = "gerrit-istio-virtual-service-ssh",
-          type = GerritIstioVirtualServiceSSH.class,
-          reconcilePrecondition = GerritIstioSshCondition.class,
           dependsOn = {"gerrit-istio-gateway", "gerrits"},
           useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE),
       @Dependent(
