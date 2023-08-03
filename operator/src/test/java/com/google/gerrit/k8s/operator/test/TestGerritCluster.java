@@ -80,20 +80,6 @@ public class TestGerritCluster {
     return hostname;
   }
 
-  public String getGerritHostname(GerritTemplate gerrit) {
-    switch (cluster.getSpec().getIngress().getType()) {
-      case ISTIO:
-        return hostname;
-      case INGRESS:
-        return cluster
-            .getSpec()
-            .getIngress()
-            .getFullHostnameForService(gerrit.getMetadata().getName());
-      default:
-        throw new IllegalStateException("No ingress configured.");
-    }
-  }
-
   public String getNamespace() {
     return cluster.getMetadata().getNamespace();
   }
@@ -146,7 +132,7 @@ public class TestGerritCluster {
 
   public GerritApi getGerritApiClient(GerritTemplate gerrit) {
     return new GerritRestApiFactory()
-        .create(new GerritAuthData.Basic(String.format("https://%s", getGerritHostname(gerrit))));
+        .create(new GerritAuthData.Basic(String.format("https://%s", hostname)));
   }
 
   public void setNfsEnabled(boolean isNfsEnabled) {

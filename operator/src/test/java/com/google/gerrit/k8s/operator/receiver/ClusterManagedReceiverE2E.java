@@ -62,8 +62,6 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
     receiverTemplateSpec.setCredentialSecretRef(ReceiverUtil.CREDENTIALS_SECRET_NAME);
     receiver.setSpec(receiverTemplateSpec);
     gerritCluster.setReceiver(receiver);
-
-    gerritCluster.deploy();
   }
 
   @Test
@@ -121,7 +119,7 @@ public class ClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
   private URL getGerritUrl(String path) throws Exception {
     return new URIBuilder()
         .setScheme("https")
-        .setHost(gerritCluster.getGerritHostname(gerrit))
+        .setHost(gerritCluster.getHostname())
         .setPath(path)
         .build()
         .toURL();
