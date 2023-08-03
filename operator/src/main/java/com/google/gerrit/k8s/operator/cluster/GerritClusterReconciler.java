@@ -40,8 +40,6 @@ import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCacheCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
-import com.google.gerrit.k8s.operator.cluster.dependent.ReceiverIstioCondition;
-import com.google.gerrit.k8s.operator.cluster.dependent.ReceiverIstioVirtualService;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterStatus;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -120,12 +118,6 @@ import java.util.stream.Collectors;
           type = GerritIstioVirtualServiceSSH.class,
           reconcilePrecondition = GerritIstioSshCondition.class,
           dependsOn = {"gerrit-istio-gateway", "gerrits"},
-          useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE),
-      @Dependent(
-          name = "receiver-istio-virtual-service",
-          type = ReceiverIstioVirtualService.class,
-          reconcilePrecondition = ReceiverIstioCondition.class,
-          dependsOn = {"gerrit-istio-gateway", "receiver"},
           useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-ingress",
