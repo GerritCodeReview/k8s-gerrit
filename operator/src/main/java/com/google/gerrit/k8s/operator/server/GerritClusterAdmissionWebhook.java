@@ -45,6 +45,13 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
           .build();
     }
 
+    if (primaryGerritAndReceiverInCluster(gerritCluster)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_CONFLICT)
+          .withMessage("A primary Gerrit cannot be in the same Gerrit Cluster as a Receiver.")
+          .build();
+    }
+
     if (multipleGerritReplicaInCluster(gerritCluster)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_CONFLICT)
@@ -68,6 +75,12 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
             .filter(g -> g.getSpec().getMode() == GerritMode.PRIMARY)
             .count()
         > 1;
+  }
+
+  private boolean primaryGerritAndReceiverInCluster(GerritCluster gerritCluster) {
+    return gerritCluster.getSpec().getGerrits().stream()
+            .anyMatch(g -> g.getSpec().getMode() == GerritMode.PRIMARY)
+        && gerritCluster.getSpec().getReceiver() != null;
   }
 
   private boolean multipleGerritReplicaInCluster(GerritCluster gerritCluster) {
