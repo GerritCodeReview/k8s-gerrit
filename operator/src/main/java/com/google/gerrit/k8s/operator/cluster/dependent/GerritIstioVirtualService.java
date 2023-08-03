@@ -20,6 +20,10 @@ import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
+import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequest;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRouteBuilder;
@@ -70,6 +74,16 @@ public class GerritIstioVirtualService
 
   private List<HTTPRoute> getHTTPRoutes(GerritCluster gerritCluster) {
     List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
+    List<HTTPRoute> routes = new ArrayList<>();
+    ReceiverTemplate receiverTemplate = gerritCluster.getSpec().getReceiver();
+    if (receiverTemplate != null) {
+      routes.add(
+          new HTTPRouteBuilder()
+              .withName("receiver")
+              .withMatch(getReceiverMatches())
+              .withRoute(getReceiverHTTPDestination(receiverTemplate.toReceiver(gerritCluster)))
+              .build());
+    }
     ArrayListMultimap<GerritMode, HTTPRoute> routesByMode = ArrayListMultimap.create();
     for (GerritTemplate gerrit : gerrits) {
       switch (gerrit.getSpec().getMode()) {
@@ -129,7 +143,6 @@ public class GerritIstioVirtualService
       }
     }
 
-    List<HTTPRoute> routes = new ArrayList<>();
     routes.addAll(routesByMode.get(GerritMode.REPLICA));
     routes.addAll(routesByMode.get(GerritMode.PRIMARY));
     return routes;
@@ -145,5 +158,33 @@ public class GerritIstioVirtualService
         .endPort()
         .endDestination()
         .build();
+  }
+
+  private HTTPRouteDestination getReceiverHTTPDestination(Receiver receiver) {
+    return new HTTPRouteDestinationBuilder()
+        .withNewDestination()
+        .withHost(ReceiverService.getHostname(receiver))
+        .withNewPort()
+        .withNumber(receiver.getSpec().getService().getHttpPort())
+        .endPort()
+        .endDestination()
+        .build();
+  }
+
+  private List<HTTPMatchRequest> getReceiverMatches() {
+    List<HTTPMatchRequest> matches = new ArrayList<>();
+    matches.add(
+        new HTTPMatchRequestBuilder()
+            .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/git/").build())
+            .build());
+    matches.add(
+        new HTTPMatchRequestBuilder()
+            .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/new/").build())
+            .build());
+    matches.add(
+        new HTTPMatchRequestBuilder()
+            .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/a/projects/").build())
+            .build());
+    return matches;
   }
 }
