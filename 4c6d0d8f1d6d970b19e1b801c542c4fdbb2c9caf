@@ -34,6 +34,24 @@
       "parentUuid": "948ee678_244350be",
       "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fce19c4b_45b0079d",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-08-04T07:29:10Z",
+      "side": 1,
+      "message": "this isn\u0027t clear from this description, maybe mention stateful sets\n\n... only a single primary Gerrit together with a single Gerrit Replica stateful set (which can run n pods with the same configuration) ...",
+      "parentUuid": "49e3c422_0f1291f9",
+      "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
