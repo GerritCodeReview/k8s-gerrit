@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b986a0e_7aaf21d8",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-07T13:41:26Z",
+      "side": 1,
+      "message": "Added something along those lines. I will add more detailed documentation to how network routing is set up in a separate change.",
+      "parentUuid": "edd3c32f_40b16ec2",
+      "revId": "79bad26542359cf74af6234070d0449623afd839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d7469a3_96e4fa77",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-26T12:54:03Z",
       "side": 1,
       "message": "Mention that this is an alternative for an Ingress Provider ?",
+      "revId": "79bad26542359cf74af6234070d0449623afd839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "175b6995_a5bcd1dc",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-07T13:41:26Z",
+      "side": 1,
+      "message": "ISTIO is an ingress provider and an alternative to the Nginx Ingress Controller. I now use a list instead of headers to make this clearer.",
+      "parentUuid": "8d7469a3_96e4fa77",
       "revId": "79bad26542359cf74af6234070d0449623afd839",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
