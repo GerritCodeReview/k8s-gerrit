@@ -70,6 +70,24 @@
       "parentUuid": "fce19c4b_45b0079d",
       "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61b4c06d_36595137",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-08-07T14:07:34Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d0c614ad_65c2c29c",
+      "revId": "4c6d0d8f1d6d970b19e1b801c542c4fdbb2c9caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
