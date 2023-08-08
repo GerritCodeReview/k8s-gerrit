@@ -16,6 +16,24 @@
       "message": "nit: \"As part of build copy new CRDs into helm chart\"",
       "revId": "14c6e2b10f8752ce07ffa4880721e8e0c7f5a0ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "499ffe5c_3b6ddedb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-08T08:36:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1886aece_42b07481",
+      "revId": "14c6e2b10f8752ce07ffa4880721e8e0c7f5a0ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
