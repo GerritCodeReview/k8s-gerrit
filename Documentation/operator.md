@@ -33,7 +33,8 @@ mvn clean install
 
 This step compiles the Java source code into `.class` bytecode files in a newly
 generated `operator/target` folder. A `gerrit-operator` image is also created
-locally.
+locally. Moreover, the CRD helm chart is updated with the latest CRDs as part of
+this build step.
 
 ## Versioning
 
@@ -186,8 +187,10 @@ There are two relevant helm charts.
 #### gerrit-operator-crds
 
 This chart installs the CRDs (k8s API extensions) to your k8s cluster. No chart
-values need to be modified. The CRDs installed are: GerritCluster, Gerrit,
-GitGarbageCollection, Receiver.
+values need to be modified. The build initiated by the `mvn install` command
+from the [Publish](#publish) section includes a step that updates the CRDs in
+this helm chart to reflect any changes made to them in the operator source code.
+The CRDs installed are: GerritCluster, Gerrit, GitGarbageCollection, Receiver.
 
 You do not need to manually `helm install` this chart; this chart is installed
 as a dependency of the second `gerrit-operator` helm chart as described in the
