@@ -43,7 +43,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha6")
+@Version("v1alpha7")
 @ShortNames("gclus")
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
@@ -54,6 +54,8 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
   private static final int GERRIT_FS_UID = 1000;
   private static final int GERRIT_FS_GID = 100;
+  public static final String DEFAULT_SHARED_VOLUME_MOUN_PATH = "/var/mnt/shared";
+  public static final String PLUGIN_CACHE_SUB_DIR = "plugin_cache";
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
@@ -137,13 +139,22 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static VolumeMount getSharedVolumeMount() {
-    return getSharedVolumeMount("/var/mnt/shared");
+  public static VolumeMount getHAShareVolumeMount() {
+    return getSharedVolumeMount("shared", DEFAULT_SHARED_VOLUME_MOUN_PATH);
   }
 
   @JsonIgnore
-  public static VolumeMount getSharedVolumeMount(String mountPath) {
-    return new VolumeMountBuilder().withName(SHARED_VOLUME_NAME).withMountPath(mountPath).build();
+  public static VolumeMount getPluginCacheVolumeMount() {
+    return getSharedVolumeMount(PLUGIN_CACHE_SUB_DIR, DEFAULT_SHARED_VOLUME_MOUN_PATH);
+  }
+
+  @JsonIgnore
+  public static VolumeMount getSharedVolumeMount(String subPath, String mountPath) {
+    return new VolumeMountBuilder()
+        .withName(SHARED_VOLUME_NAME)
+        .withSubPath(subPath)
+        .withMountPath(mountPath)
+        .build();
   }
 
   @JsonIgnore

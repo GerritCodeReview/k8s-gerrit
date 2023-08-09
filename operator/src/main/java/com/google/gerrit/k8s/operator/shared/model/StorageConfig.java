@@ -19,7 +19,6 @@ public class StorageConfig {
   private StorageClassConfig storageClasses;
   private SharedStorage gitRepositoryStorage;
   private SharedStorage logsStorage;
-  private OptionalSharedStorage pluginCacheStorage = new OptionalSharedStorage();
 
   public StorageConfig() {}
 
@@ -27,7 +26,6 @@ public class StorageConfig {
     storageClasses = gerritStorageConfig.getStorageClasses();
     gitRepositoryStorage = gerritStorageConfig.getGitRepositoryStorage();
     logsStorage = gerritStorageConfig.getLogsStorage();
-    pluginCacheStorage = gerritStorageConfig.getPluginCacheStorage();
   }
 
   public StorageClassConfig getStorageClasses() {
@@ -52,13 +50,5 @@ public class StorageConfig {
 
   public void setLogsStorage(SharedStorage logsStorage) {
     this.logsStorage = logsStorage;
-  }
-
-  public OptionalSharedStorage getPluginCacheStorage() {
-    return pluginCacheStorage;
-  }
-
-  public void setPluginCacheStorage(OptionalSharedStorage pluginCacheStorage) {
-    this.pluginCacheStorage = pluginCacheStorage;
   }
 }
