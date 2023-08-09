@@ -28,6 +28,7 @@ public class SharedPVCCondition implements Condition<PersistentVolumeClaim, Gerr
       GerritCluster gerritCluster,
       Context<GerritCluster> context) {
     return gerritCluster.getSpec().getGerrits().stream()
-        .anyMatch(g -> g.getSpec().isHighlyAvailablePrimary());
+            .anyMatch(g -> g.getSpec().isHighlyAvailablePrimary())
+        || gerritCluster.getSpec().getStorage().getPluginCache().isEnabled();
   }
 }

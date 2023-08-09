@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
+import static com.google.gerrit.k8s.operator.cluster.model.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -66,7 +68,8 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
             .filter(p -> p.isPackagedPlugin())
             .map(p -> p.getName())
             .collect(Collectors.toSet()));
-    config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled());
+    config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCache().isEnabled());
+    config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
     config.setInstallAsLibrary(
         gerrit.getSpec().getPlugins().stream()
             .filter(p -> p.isInstallAsLibrary())

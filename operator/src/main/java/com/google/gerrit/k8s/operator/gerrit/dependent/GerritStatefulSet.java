@@ -17,7 +17,6 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.dependent.PluginCachePVC;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -76,7 +75,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
 
         initContainers.add(
             GerritCluster.createNfsInitContainer(
-                hasIdmapdConfig, images, List.of(GerritCluster.getSharedVolumeMount())));
+                hasIdmapdConfig, images, List.of(GerritCluster.getHAShareVolumeMount())));
       } else {
         initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
       }
@@ -203,7 +202,8 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
   private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (gerrit.getSpec().isHighlyAvailablePrimary()
+        || gerrit.getSpec().getStorage().getPluginCache().isEnabled()) {
       volumes.add(GerritCluster.getSharedVolume());
     }
     volumes.add(GerritCluster.getGitRepositoriesVolume());
@@ -233,17 +233,6 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             .endSecret()
             .build());
 
-    if (gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled()
-        && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
-      volumes.add(
-          new VolumeBuilder()
-              .withName("gerrit-plugin-cache")
-              .withNewPersistentVolumeClaim()
-              .withClaimName(PluginCachePVC.PLUGIN_CACHE_PVC_NAME)
-              .endPersistentVolumeClaim()
-              .build());
-    }
-
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
@@ -258,7 +247,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     volumeMounts.add(
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
-      volumeMounts.add(GerritCluster.getSharedVolumeMount());
+      volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
     volumeMounts.add(GerritCluster.getLogsVolumeMount());
@@ -281,13 +270,9 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
               .withMountPath("/var/config")
               .build());
 
-      if (gerrit.getSpec().getStorage().getPluginCacheStorage().isEnabled()
+      if (gerrit.getSpec().getStorage().getPluginCache().isEnabled()
           && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
-        volumeMounts.add(
-            new VolumeMountBuilder()
-                .withName("gerrit-plugin-cache")
-                .withMountPath("/var/mnt/plugins")
-                .build());
+        volumeMounts.add(GerritCluster.getPluginCacheVolumeMount());
       }
     }
 
