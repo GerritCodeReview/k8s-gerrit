@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.shared.model;
 
 public class GerritStorageConfig extends StorageConfig {
   private SharedStorage sharedStorage;
+  private PluginCacheConfig pluginCache;
 
   public SharedStorage getSharedStorage() {
     return sharedStorage;
@@ -23,5 +24,25 @@ public class GerritStorageConfig extends StorageConfig {
 
   public void setSharedStorage(SharedStorage sharedStorage) {
     this.sharedStorage = sharedStorage;
+  }
+
+  public PluginCacheConfig getPluginCache() {
+    return pluginCache;
+  }
+
+  public void setPluginCache(PluginCacheConfig pluginCache) {
+    this.pluginCache = pluginCache;
+  }
+
+  public class PluginCacheConfig {
+    private boolean enabled;
+
+    public boolean isEnabled() {
+      return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
+    }
   }
 }
