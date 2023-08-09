@@ -125,38 +125,6 @@ spec:
                             type: object
                         type: object
                     type: object
-                  pluginCacheStorage:
-                    properties:
-                      enabled:
-                        type: boolean
-                      size:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      volumeName:
-                        type: string
-                      selector:
-                        properties:
-                          matchExpressions:
-                            items:
-                              properties:
-                                key:
-                                  type: string
-                                operator:
-                                  type: string
-                                values:
-                                  items:
-                                    type: string
-                                  type: array
-                              type: object
-                            type: array
-                          matchLabels:
-                            additionalProperties:
-                              type: string
-                            type: object
-                        type: object
-                    type: object
                 type: object
               ingress:
                 properties:
