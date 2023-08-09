@@ -15,7 +15,7 @@
    11. [StorageClassConfig](#storageclassconfig)
    12. [NfsWorkaroundConfig](#nfsworkaroundconfig)
    13. [SharedStorage](#sharedstorage)
-   14. [OptionalSharedStorage](#optionalsharedstorage)
+   14. [PluginCacheConfig](#plugincacheconfig)
    15. [ContainerImageConfig](#containerimageconfig)
    16. [BusyBoxImage](#busyboximage)
    17. [GerritRepositoryConfig](#gerritrepositoryconfig)
@@ -57,7 +57,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha6 \
+**Version**: v1alpha7 \
 **Kind**: GerritCluster
 
 ---
@@ -74,7 +74,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha6"
+apiVersion: "gerritoperator.google.com/v1alpha7"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -130,14 +130,8 @@ spec:
           volume-type: ssd
           aws-availability-zone: us-east-1
 
-    pluginCacheStorage:
+    pluginCache:
       enabled: false
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
 
   ingress:
     enabled: true
@@ -333,7 +327,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha7 \
+**Version**: v1alpha8 \
 **Kind**: Gerrit
 
 ---
@@ -350,7 +344,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha7"
+apiVersion: "gerritoperator.google.com/v1alpha8"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -516,14 +510,8 @@ spec:
           volume-type: ssd
           aws-availability-zone: us-east-1
 
-    pluginCacheStorage:
+    pluginCache:
       enabled: false
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
 
   ingress:
     host: example.com
@@ -790,7 +778,6 @@ spec:
 | `storageClasses`       | [`StorageClassConfig`](#storageclassconfig)       | StorageClasses used in the GerritCluster                                                                |
 | `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage)                 | Volume used for storing Git repositories                                                                |
 | `logsStorage`          | [`SharedStorage`](#sharedstorage)                 | Volume used for storing logs                                                                            |
-| `pluginCacheStorage`   | [`OptionalSharedStorage`](#optionalsharedstorage) | Volume used for caching downloaded plugin JAR-files (Only used by Gerrit resources. Otherwise ignored.) |
 
 ## GerritStorageConfig
 
@@ -799,6 +786,7 @@ Extends [StorageConfig](#StorageConfig).
 | Field | Type | Description |
 |---|---|---|
 | `sharedStorage` | [`SharedStorage`](#sharedstorage) | Volume used for resources shared between Gerrit instances except git repositories |
+| `pluginCache` | [`PluginCacheConfig`](#plugincacheconfig) | Configuration of cache for downloaded plugins |
 
 ## StorageClassConfig
 
@@ -824,13 +812,11 @@ Extends [StorageConfig](#StorageConfig).
 | `volumeName` | `String` | Name of a specific persistent volume to claim (optional) |
 | `selector` | [`LabelSelector`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#labelselector-v1-meta) | Selector to select a specific persistent volume (optional) |
 
-## OptionalSharedStorage
-
-**Extends:** [`SharedStorage`](#sharedstorage)
+## PluginCacheConfig
 
 | Field | Type | Description |
 |---|---|---|
-| `enabled` | `boolean` | Whether to enable this storage. (default: `false`) |
+| `enabled` | `boolean` | If enabled, downloaded plugins will be cached. (default: `false`) |
 
 ## ContainerImageConfig
 
