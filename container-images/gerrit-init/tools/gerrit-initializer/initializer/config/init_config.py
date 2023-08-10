@@ -43,8 +43,11 @@ class InitConfig:
             self.packaged_plugins = set(config["packagedPlugins"])
         if "installAsLibrary" in config:
             self.install_as_library = set(config["installAsLibrary"])
+        #DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
         if "pluginCache" in config:
             self.plugin_cache_enabled = config["pluginCache"]
+        if "pluginCacheEnabled" in config:
+            self.plugin_cache_enabled = config["pluginCacheEnabled"]
         if "pluginCacheDir" in config and config["pluginCacheDir"]:
             self.plugin_cache_dir = config["pluginCacheDir"]
 
