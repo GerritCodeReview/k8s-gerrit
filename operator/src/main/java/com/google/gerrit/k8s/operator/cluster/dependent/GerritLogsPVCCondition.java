@@ -20,23 +20,13 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
-public class SharedPVCCondition implements Condition<PersistentVolumeClaim, GerritCluster> {
+public class GerritLogsPVCCondition implements Condition<PersistentVolumeClaim, GerritCluster> {
 
   @Override
   public boolean isMet(
       DependentResource<PersistentVolumeClaim, GerritCluster> dependentResource,
       GerritCluster gerritCluster,
       Context<GerritCluster> context) {
-    boolean isRequired =
-        gerritCluster.getSpec().getGerrits().stream()
-                .anyMatch(g -> g.getSpec().isHighlyAvailablePrimary())
-            || gerritCluster.getSpec().getStorage().getPluginCache().isEnabled();
-
-    if (isRequired && gerritCluster.getSpec().getStorage().getSharedStorage() == null) {
-      throw new IllegalStateException("A shared storgae volume is required but not configured.");
-    }
-
-    return isRequired
-        && !gerritCluster.getSpec().getStorage().getSharedStorage().getExternalPVC().isEnabled();
+    return !gerritCluster.getSpec().getStorage().getLogsStorage().getExternalPVC().isEnabled();
   }
 }
