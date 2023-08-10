@@ -188,15 +188,11 @@ public class TestGerrit {
     SharedStorage repoStorage = new SharedStorage();
     repoStorage.setSize(Quantity.parse("1Gi"));
 
-    SharedStorage logStorage = new SharedStorage();
-    logStorage.setSize(Quantity.parse("1Gi"));
-
     StorageClassConfig storageClassConfig = new StorageClassConfig();
     storageClassConfig.setReadWriteMany(testProps.getRWMStorageClass());
 
     GerritStorageConfig gerritStorageConfig = new GerritStorageConfig();
     gerritStorageConfig.setGitRepositoryStorage(repoStorage);
-    gerritStorageConfig.setLogsStorage(logStorage);
     gerritStorageConfig.setStorageClasses(storageClassConfig);
     gerritSpec.setStorage(gerritStorageConfig);
 
