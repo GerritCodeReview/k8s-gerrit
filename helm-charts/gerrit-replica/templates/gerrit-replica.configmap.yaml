@@ -46,7 +46,7 @@ data:
     {{ if .Values.caCert -}}
     caCertPath: /var/config/ca.crt
     {{- end }}
-    pluginCache: {{ .Values.gerritReplica.plugins.cache.enabled }}
+    pluginCacheEnabled: {{ .Values.gerritReplica.plugins.cache.enabled }}
     pluginCacheDir: /var/mnt/plugins
     {{- if .Values.gerritReplica.plugins.packaged }}
     packagedPlugins:
