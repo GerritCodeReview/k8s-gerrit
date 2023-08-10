@@ -24,7 +24,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha9")
+@Version("v1alpha10")
 @ShortNames("gcr")
 public class Gerrit extends CustomResource<GerritSpec, GerritStatus> implements Namespaced {
   private static final long serialVersionUID = 2L;

@@ -17,15 +17,15 @@ package com.google.gerrit.k8s.operator.shared.model;
 public class StorageConfig {
 
   private StorageClassConfig storageClasses;
+  private SharedStorage sharedStorage;
   private SharedStorage gitRepositoryStorage;
-  private SharedStorage logsStorage;
 
   public StorageConfig() {}
 
   public StorageConfig(GerritStorageConfig gerritStorageConfig) {
     storageClasses = gerritStorageConfig.getStorageClasses();
+    sharedStorage = gerritStorageConfig.getSharedStorage();
     gitRepositoryStorage = gerritStorageConfig.getGitRepositoryStorage();
-    logsStorage = gerritStorageConfig.getLogsStorage();
   }
 
   public StorageClassConfig getStorageClasses() {
@@ -36,19 +36,19 @@ public class StorageConfig {
     this.storageClasses = storageClasses;
   }
 
+  public SharedStorage getSharedStorage() {
+    return sharedStorage;
+  }
+
+  public void setSharedStorage(SharedStorage sharedStorage) {
+    this.sharedStorage = sharedStorage;
+  }
+
   public SharedStorage getGitRepositoryStorage() {
     return gitRepositoryStorage;
   }
 
   public void setGitRepositoryStorage(SharedStorage gitRepositoryStorage) {
     this.gitRepositoryStorage = gitRepositoryStorage;
-  }
-
-  public SharedStorage getLogsStorage() {
-    return logsStorage;
-  }
-
-  public void setLogsStorage(SharedStorage logsStorage) {
-    this.logsStorage = logsStorage;
   }
 }

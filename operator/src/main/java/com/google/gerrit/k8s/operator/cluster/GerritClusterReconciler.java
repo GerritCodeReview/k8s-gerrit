@@ -26,14 +26,11 @@ import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetw
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiver;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiverCondition;
-import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC;
-import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
-import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.cluster.model.GerritClusterStatus;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -70,12 +67,6 @@ import java.util.stream.Collectors;
       @Dependent(
           name = "shared-pvc",
           type = SharedPVC.class,
-          reconcilePrecondition = SharedPVCCondition.class,
-          useEventSourceWithName = PVC_EVENT_SOURCE),
-      @Dependent(
-          name = "gerrit-logs-pvc",
-          type = GerritLogsPVC.class,
-          reconcilePrecondition = GerritLogsPVCCondition.class,
           useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           type = NfsIdmapdConfigMap.class,
