@@ -28,3 +28,25 @@ The `main.py validate_notedb`-command
 `refs/meta/config`.
 * validates and waits for the repository `All-Users.git` with the ref
 `refs/meta/config`.
+
+## Configuration
+
+The configuration format looks as follows:
+
+```yaml
+downloadedPlugins: []
+# - name: saml
+#   url: "https://example.com/saml.jar"
+#   sha1: 1234
+packagedPlugins: []
+# - delete-projects
+installAsLibrary: []
+# - saml
+#DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
+# pluginCache: true
+pluginCacheEnabled: false
+pluginCacheDir: null
+# Can be either true to use default CA certificates, false to disable SSL
+# verification or a path to a custom CA certificate store.
+caCertPath: true
+```
