@@ -16,33 +16,34 @@
    12. [NfsWorkaroundConfig](#nfsworkaroundconfig)
    13. [SharedStorage](#sharedstorage)
    14. [PluginCacheConfig](#plugincacheconfig)
-   15. [ContainerImageConfig](#containerimageconfig)
-   16. [BusyBoxImage](#busyboximage)
-   17. [GerritRepositoryConfig](#gerritrepositoryconfig)
-   18. [GerritClusterIngressConfig](#gerritclusteringressconfig)
-   19. [GerritIngressTlsConfig](#gerritingresstlsconfig)
-   20. [GerritTemplate](#gerrittemplate)
-   21. [GerritTemplateSpec](#gerrittemplatespec)
-   22. [GerritProbe](#gerritprobe)
-   23. [GerritServiceConfig](#gerritserviceconfig)
-   24. [GerritSite](#gerritsite)
-   25. [GerritPlugin](#gerritplugin)
-   26. [GerritMode](#gerritmode)
-   27. [GerritSpec](#gerritspec)
-   28. [GerritStatus](#gerritstatus)
-   29. [IngressConfig](#ingressconfig)
-   30. [ReceiverTemplate](#receivertemplate)
-   31. [ReceiverTemplateSpec](#receivertemplatespec)
-   32. [ReceiverSpec](#receiverspec)
-   33. [ReceiverStatus](#receiverstatus)
-   34. [ReceiverProbe](#receiverprobe)
-   35. [ReceiverServiceConfig](#receiverserviceconfig)
-   36. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   37. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   38. [GitGcState](#gitgcstate)
-   39. [GerritNetworkSpec](#gerritnetworkspec)
-   40. [NetworkMember](#networkmember)
-   41. [NetworkMemberWithSsh](#networkmemberwithssh)
+   15. [ExternalPVCConfig](#externalpvcconfig)
+   16. [ContainerImageConfig](#containerimageconfig)
+   17. [BusyBoxImage](#busyboximage)
+   18. [GerritRepositoryConfig](#gerritrepositoryconfig)
+   19. [GerritClusterIngressConfig](#gerritclusteringressconfig)
+   20. [GerritIngressTlsConfig](#gerritingresstlsconfig)
+   21. [GerritTemplate](#gerrittemplate)
+   22. [GerritTemplateSpec](#gerrittemplatespec)
+   23. [GerritProbe](#gerritprobe)
+   24. [GerritServiceConfig](#gerritserviceconfig)
+   25. [GerritSite](#gerritsite)
+   26. [GerritPlugin](#gerritplugin)
+   27. [GerritMode](#gerritmode)
+   28. [GerritSpec](#gerritspec)
+   29. [GerritStatus](#gerritstatus)
+   30. [IngressConfig](#ingressconfig)
+   31. [ReceiverTemplate](#receivertemplate)
+   32. [ReceiverTemplateSpec](#receivertemplatespec)
+   33. [ReceiverSpec](#receiverspec)
+   34. [ReceiverStatus](#receiverstatus)
+   35. [ReceiverProbe](#receiverprobe)
+   36. [ReceiverServiceConfig](#receiverserviceconfig)
+   37. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   38. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   39. [GitGcState](#gitgcstate)
+   40. [GerritNetworkSpec](#gerritnetworkspec)
+   41. [NetworkMember](#networkmember)
+   42. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -57,7 +58,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha7 \
+**Version**: v1alpha8 \
 **Kind**: GerritCluster
 
 ---
@@ -107,6 +108,9 @@ spec:
             Nobody-Group = nogroup
 
     gitRepositoryStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -115,6 +119,9 @@ spec:
           aws-availability-zone: us-east-1
 
     sharedStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -123,6 +130,9 @@ spec:
           aws-availability-zone: us-east-1
 
     logsStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -327,7 +337,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha8 \
+**Version**: v1alpha9 \
 **Kind**: Gerrit
 
 ---
@@ -487,6 +497,9 @@ spec:
             Nobody-Group = nogroup
 
     gitRepositoryStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -495,6 +508,9 @@ spec:
           aws-availability-zone: us-east-1
 
     sharedStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -503,6 +519,9 @@ spec:
           aws-availability-zone: us-east-1
 
     logsStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -523,7 +542,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha3 \
+**Version**: v1alpha4 \
 **Kind**: Receiver
 
 ---
@@ -632,6 +651,9 @@ spec:
             Nobody-Group = nogroup
 
     gitRepositoryStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -640,6 +662,9 @@ spec:
           aws-availability-zone: us-east-1
 
     logsStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
       size: 1Gi
       volumeName: ""
       selector:
@@ -808,6 +833,7 @@ Extends [StorageConfig](#StorageConfig).
 
 | Field | Type | Description |
 |---|---|---|
+| `externalPVC` | [`ExternalPVCConfig`](#externalpvcconfig) | Configuration regarding the use of an external / manually created PVC |
 | `size` | [`Quantity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#quantity-resource-core) | Size of the volume (mandatory) |
 | `volumeName` | `String` | Name of a specific persistent volume to claim (optional) |
 | `selector` | [`LabelSelector`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#labelselector-v1-meta) | Selector to select a specific persistent volume (optional) |
@@ -817,6 +843,13 @@ Extends [StorageConfig](#StorageConfig).
 | Field | Type | Description |
 |---|---|---|
 | `enabled` | `boolean` | If enabled, downloaded plugins will be cached. (default: `false`) |
+
+## ExternalPVCConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `enabled` | `boolean` | If enabled, a provided PVC will be used instead of creating one. (default: `false`) |
+| `claimName` | `String` | Name of the PVC to be used. |
 
 ## ContainerImageConfig
 
