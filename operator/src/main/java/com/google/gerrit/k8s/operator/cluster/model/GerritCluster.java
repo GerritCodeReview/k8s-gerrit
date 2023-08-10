@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.cluster.model;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC.LOGS_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC.REPOSITORY_PVC_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
@@ -44,14 +43,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha8")
+@Version("v1alpha9")
 @ShortNames("gclus")
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
   private static final long serialVersionUID = 2L;
   private static final String SHARED_VOLUME_NAME = "shared";
   private static final String GIT_REPOSITORIES_VOLUME_NAME = "git-repositories";
-  private static final String LOGS_VOLUME_NAME = "logs";
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
   private static final int GERRIT_FS_UID = 1000;
   private static final int GERRIT_FS_GID = 100;
@@ -161,17 +159,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static Volume getLogsVolume(ExternalPVCConfig externalPVC) {
-    String claimName = externalPVC.isEnabled() ? externalPVC.getClaimName() : LOGS_PVC_NAME;
-    return new VolumeBuilder()
-        .withName(LOGS_VOLUME_NAME)
-        .withNewPersistentVolumeClaim()
-        .withClaimName(claimName)
-        .endPersistentVolumeClaim()
-        .build();
-  }
-
-  @JsonIgnore
   public static VolumeMount getLogsVolumeMount() {
     return getLogsVolumeMount("/var/mnt/logs");
   }
@@ -179,8 +166,8 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   @JsonIgnore
   public static VolumeMount getLogsVolumeMount(String mountPath) {
     return new VolumeMountBuilder()
-        .withName(LOGS_VOLUME_NAME)
-        .withSubPathExpr("$(POD_NAME)")
+        .withName(SHARED_VOLUME_NAME)
+        .withSubPathExpr("logs/$(POD_NAME)")
         .withMountPath(mountPath)
         .build();
   }
