@@ -18,10 +18,18 @@ import io.fabric8.kubernetes.api.model.LabelSelector;
 import io.fabric8.kubernetes.api.model.Quantity;
 
 public class SharedStorage {
-
+  private ExternalPVCConfig externalPVC = new ExternalPVCConfig();
   private Quantity size;
   private String volumeName;
   private LabelSelector selector;
+
+  public ExternalPVCConfig getExternalPVC() {
+    return externalPVC;
+  }
+
+  public void setExternalPVC(ExternalPVCConfig externalPVC) {
+    this.externalPVC = externalPVC;
+  }
 
   public Quantity getSize() {
     return size;
@@ -45,5 +53,26 @@ public class SharedStorage {
 
   public void setSelector(LabelSelector selector) {
     this.selector = selector;
+  }
+
+  public class ExternalPVCConfig {
+    private boolean enabled;
+    private String claimName = "";
+
+    public boolean isEnabled() {
+      return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+      this.enabled = enabled;
+    }
+
+    public String getClaimName() {
+      return claimName;
+    }
+
+    public void setClaimName(String claimName) {
+      this.claimName = claimName;
+    }
   }
 }

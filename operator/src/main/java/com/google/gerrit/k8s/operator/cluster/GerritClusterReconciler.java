@@ -27,7 +27,9 @@ import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetw
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiver;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiverCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC;
+import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
@@ -63,6 +65,7 @@ import java.util.stream.Collectors;
       @Dependent(
           name = "git-repositories-pvc",
           type = GitRepositoriesPVC.class,
+          reconcilePrecondition = GitRepositoriesPVCCondition.class,
           useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           name = "shared-pvc",
@@ -72,6 +75,7 @@ import java.util.stream.Collectors;
       @Dependent(
           name = "gerrit-logs-pvc",
           type = GerritLogsPVC.class,
+          reconcilePrecondition = GerritLogsPVCCondition.class,
           useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           type = NfsIdmapdConfigMap.class,
@@ -81,13 +85,11 @@ import java.util.stream.Collectors;
           name = "gerrits",
           type = ClusterManagedGerrit.class,
           reconcilePrecondition = ClusterManagedGerritCondition.class,
-          dependsOn = {"git-repositories-pvc", "gerrit-logs-pvc"},
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_EVENT_SOURCE),
       @Dependent(
           name = "receiver",
           type = ClusterManagedReceiver.class,
           reconcilePrecondition = ClusterManagedReceiverCondition.class,
-          dependsOn = {"git-repositories-pvc", "gerrit-logs-pvc"},
           useEventSourceWithName = CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE),
       @Dependent(
           type = ClusterManagedGerritNetwork.class,
