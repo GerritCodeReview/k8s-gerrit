@@ -202,20 +202,13 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
   private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
-    if (gerrit.getSpec().isHighlyAvailablePrimary()
-        || gerrit.getSpec().getStorage().getPluginCache().isEnabled()) {
-      volumes.add(
-          GerritCluster.getSharedVolume(
-              gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
-    }
+    volumes.add(
+        GerritCluster.getSharedVolume(
+            gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
     volumes.add(
         GerritCluster.getGitRepositoriesVolume(
             gerrit.getSpec().getStorage().getGitRepositoryStorage().getExternalPVC()));
-
-    volumes.add(
-        GerritCluster.getLogsVolume(
-            gerrit.getSpec().getStorage().getLogsStorage().getExternalPVC()));
 
     volumes.add(
         new VolumeBuilder()

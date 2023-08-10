@@ -21,7 +21,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.dependent.GerritLogsPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.network.IngressType;
@@ -45,23 +44,6 @@ public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
                       .persistentVolumeClaims()
                       .inNamespace(operator.getNamespace())
                       .withName(GitRepositoriesPVC.REPOSITORY_PVC_NAME)
-                      .get();
-              assertThat(pvc, is(notNullValue()));
-            });
-  }
-
-  @Test
-  void testGerritLogsPvcCreated() {
-    logger.atInfo().log("Waiting max 1 minutes for the gerrit logs pvc to be created.");
-    await()
-        .atMost(1, MINUTES)
-        .untilAsserted(
-            () -> {
-              PersistentVolumeClaim pvc =
-                  client
-                      .persistentVolumeClaims()
-                      .inNamespace(operator.getNamespace())
-                      .withName(GerritLogsPVC.LOGS_PVC_NAME)
                       .get();
               assertThat(pvc, is(notNullValue()));
             });
