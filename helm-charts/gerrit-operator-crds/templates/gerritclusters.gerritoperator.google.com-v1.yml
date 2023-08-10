@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1alpha5
+  - name: v1alpha6
     schema:
       openAPIV3Schema:
         properties:
@@ -880,63 +880,7 @@ spec:
                               name:
                                 type: string
                               url:
-                                properties:
-                                  protocol:
-                                    type: string
-                                  host:
-                                    type: string
-                                  port:
-                                    type: integer
-                                  file:
-                                    type: string
-                                  query:
-                                    type: string
-                                  authority:
-                                    type: string
-                                  path:
-                                    type: string
-                                  userInfo:
-                                    type: string
-                                  ref:
-                                    type: string
-                                  hostAddress:
-                                    properties:
-                                      holder:
-                                        properties:
-                                          originalHostName:
-                                            type: string
-                                          hostName:
-                                            type: string
-                                          address:
-                                            type: integer
-                                          family:
-                                            type: integer
-                                        type: object
-                                      canonicalHostName:
-                                        type: string
-                                    type: object
-                                  handler:
-                                    type: object
-                                  hashCode:
-                                    type: integer
-                                  tempState:
-                                    properties:
-                                      protocol:
-                                        type: string
-                                      host:
-                                        type: string
-                                      port:
-                                        type: integer
-                                      authority:
-                                        type: string
-                                      file:
-                                        type: string
-                                      ref:
-                                        type: string
-                                      hashCode:
-                                        type: integer
-                                    type: object
-                                type: object
+                                type: string
                               sha1:
                                 type: string
                               installAsLibrary:
