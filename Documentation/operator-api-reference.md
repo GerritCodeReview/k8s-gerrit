@@ -57,7 +57,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha5 \
+**Version**: v1alpha6 \
 **Kind**: GerritCluster
 
 ---
@@ -333,7 +333,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha6 \
+**Version**: v1alpha7 \
 **Kind**: Gerrit
 
 ---
@@ -927,7 +927,7 @@ compared to the parent object. All other options can still be configured.
 | Field | Type | Description |
 |---|---|---|
 | `name` | `String` | Name of the plugin |
-| `url` | `URL` | URL of the plugin, if it should be downloaded. If the URL is not set, the plugin is expected to be packaged in the war-file (optional) |
+| `url` | `String` | URL of the plugin, if it should be downloaded. If the URL is not set, the plugin is expected to be packaged in the war-file (optional) |
 | `sha1` | `String` | SHA1-checksum of the plugin JAR-file. (mandatory, if `url` is set) |
 | `installAsLibrary` | `boolean` | Some plugins also need to be installed as a library. If set to `true` the plugin JAR will be symlinked to the `lib`-directory in the Gerrit site. (default: `false`) |
 
