@@ -16,13 +16,12 @@ package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.net.URL;
 
 public class GerritPlugin implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String name;
-  private URL url;
+  private String url;
   private String sha1;
   private boolean installAsLibrary = false;
 
@@ -32,7 +31,7 @@ public class GerritPlugin implements Serializable {
     this.name = name;
   }
 
-  public GerritPlugin(String name, URL url, String sha1) {
+  public GerritPlugin(String name, String url, String sha1) {
     this.name = name;
     this.url = url;
     this.sha1 = sha1;
@@ -46,11 +45,11 @@ public class GerritPlugin implements Serializable {
     this.name = name;
   }
 
-  public URL getUrl() {
+  public String getUrl() {
     return url;
   }
 
-  public void setUrl(URL url) {
+  public void setUrl(String url) {
     this.url = url;
   }
 
