@@ -55,9 +55,6 @@ public class GitGarbageCollectionCronJob
     volumes.add(
         GerritCluster.getGitRepositoriesVolume(
             gerritCluster.getSpec().getStorage().getGitRepositoryStorage().getExternalPVC()));
-    volumes.add(
-        GerritCluster.getLogsVolume(
-            gerritCluster.getSpec().getStorage().getLogsStorage().getExternalPVC()));
 
     if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()) {
       if (gerritCluster

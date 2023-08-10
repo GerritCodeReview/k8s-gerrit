@@ -141,9 +141,6 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
     volumes.add(
         GerritCluster.getGitRepositoriesVolume(
             receiver.getSpec().getStorage().getGitRepositoryStorage().getExternalPVC()));
-    volumes.add(
-        GerritCluster.getLogsVolume(
-            receiver.getSpec().getStorage().getLogsStorage().getExternalPVC()));
 
     volumes.add(
         new VolumeBuilder()

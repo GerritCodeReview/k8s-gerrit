@@ -58,7 +58,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha8 \
+**Version**: v1alpha9 \
 **Kind**: GerritCluster
 
 ---
@@ -119,17 +119,6 @@ spec:
           aws-availability-zone: us-east-1
 
     sharedStorage:
-      externalPVC:
-        enabled: false
-        claimName: ""
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
-
-    logsStorage:
       externalPVC:
         enabled: false
         claimName: ""
@@ -337,7 +326,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha9 \
+**Version**: v1alpha10 \
 **Kind**: Gerrit
 
 ---
@@ -518,17 +507,6 @@ spec:
           volume-type: ssd
           aws-availability-zone: us-east-1
 
-    logsStorage:
-      externalPVC:
-        enabled: false
-        claimName: ""
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
-
     pluginCache:
       enabled: false
 
@@ -542,7 +520,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha4 \
+**Version**: v1alpha5 \
 **Kind**: Receiver
 
 ---
@@ -661,7 +639,7 @@ spec:
           volume-type: ssd
           aws-availability-zone: us-east-1
 
-    logsStorage:
+    sharedStorage:
       externalPVC:
         enabled: false
         claimName: ""
@@ -798,11 +776,11 @@ spec:
 
 ## StorageConfig
 
-| Field                  | Type                                              | Description                                                                                             |
-|------------------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| `storageClasses`       | [`StorageClassConfig`](#storageclassconfig)       | StorageClasses used in the GerritCluster                                                                |
-| `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage)                 | Volume used for storing Git repositories                                                                |
-| `logsStorage`          | [`SharedStorage`](#sharedstorage)                 | Volume used for storing logs                                                                            |
+| Field | Type | Description |
+|---|---|---|
+| `storageClasses` | [`StorageClassConfig`](#storageclassconfig) | StorageClasses used in the GerritCluster |
+| `sharedStorage` | [`SharedStorage`](#sharedstorage) | Volume used for resources shared between Gerrit instances except git repositories |
+| `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage) | Volume used for storing Git repositories |
 
 ## GerritStorageConfig
 
@@ -810,7 +788,6 @@ Extends [StorageConfig](#StorageConfig).
 
 | Field | Type | Description |
 |---|---|---|
-| `sharedStorage` | [`SharedStorage`](#sharedstorage) | Volume used for resources shared between Gerrit instances except git repositories |
 | `pluginCache` | [`PluginCacheConfig`](#plugincacheconfig) | Configuration of cache for downloaded plugins |
 
 ## StorageClassConfig

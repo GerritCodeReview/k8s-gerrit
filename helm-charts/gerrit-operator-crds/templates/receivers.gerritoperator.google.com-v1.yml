@@ -13,7 +13,7 @@ spec:
     singular: receiver
   scope: Namespaced
   versions:
-  - name: v1alpha4
+  - name: v1alpha5
     schema:
       openAPIV3Schema:
         properties:
@@ -66,43 +66,6 @@ spec:
                         type: object
                     type: object
                   gitRepositoryStorage:
-                    properties:
-                      externalPVC:
-                        properties:
-                          enabled:
-                            type: boolean
-                          claimName:
-                            type: string
-                        type: object
-                      size:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      volumeName:
-                        type: string
-                      selector:
-                        properties:
-                          matchExpressions:
-                            items:
-                              properties:
-                                key:
-                                  type: string
-                                operator:
-                                  type: string
-                                values:
-                                  items:
-                                    type: string
-                                  type: array
-                              type: object
-                            type: array
-                          matchLabels:
-                            additionalProperties:
-                              type: string
-                            type: object
-                        type: object
-                    type: object
-                  logsStorage:
                     properties:
                       externalPVC:
                         properties:
