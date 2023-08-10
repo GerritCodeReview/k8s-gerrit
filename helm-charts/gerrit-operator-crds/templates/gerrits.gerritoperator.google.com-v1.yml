@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1alpha8
+  - name: v1alpha9
     schema:
       openAPIV3Schema:
         properties:
@@ -51,6 +51,13 @@ spec:
                 properties:
                   sharedStorage:
                     properties:
+                      externalPVC:
+                        properties:
+                          enabled:
+                            type: boolean
+                          claimName:
+                            type: string
+                        type: object
                       size:
                         anyOf:
                         - type: integer
@@ -102,6 +109,13 @@ spec:
                     type: object
                   gitRepositoryStorage:
                     properties:
+                      externalPVC:
+                        properties:
+                          enabled:
+                            type: boolean
+                          claimName:
+                            type: string
+                        type: object
                       size:
                         anyOf:
                         - type: integer
@@ -132,6 +146,13 @@ spec:
                     type: object
                   logsStorage:
                     properties:
+                      externalPVC:
+                        properties:
+                          enabled:
+                            type: boolean
+                          claimName:
+                            type: string
+                        type: object
                       size:
                         anyOf:
                         - type: integer
