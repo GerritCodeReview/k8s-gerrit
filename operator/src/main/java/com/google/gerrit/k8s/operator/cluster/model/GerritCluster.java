@@ -22,6 +22,7 @@ import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.shared.model.SharedStorage.ExternalPVCConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -43,7 +44,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha7")
+@Version("v1alpha8")
 @ShortNames("gclus")
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
@@ -106,21 +107,23 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static Volume getSharedVolume() {
+  public static Volume getSharedVolume(ExternalPVCConfig externalPVC) {
+    String claimName = externalPVC.isEnabled() ? externalPVC.getClaimName() : SHARED_PVC_NAME;
     return new VolumeBuilder()
         .withName(SHARED_VOLUME_NAME)
         .withNewPersistentVolumeClaim()
-        .withClaimName(SHARED_PVC_NAME)
+        .withClaimName(claimName)
         .endPersistentVolumeClaim()
         .build();
   }
 
   @JsonIgnore
-  public static Volume getGitRepositoriesVolume() {
+  public static Volume getGitRepositoriesVolume(ExternalPVCConfig externalPVC) {
+    String claimName = externalPVC.isEnabled() ? externalPVC.getClaimName() : REPOSITORY_PVC_NAME;
     return new VolumeBuilder()
         .withName(GIT_REPOSITORIES_VOLUME_NAME)
         .withNewPersistentVolumeClaim()
-        .withClaimName(REPOSITORY_PVC_NAME)
+        .withClaimName(claimName)
         .endPersistentVolumeClaim()
         .build();
   }
@@ -158,11 +161,12 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static Volume getLogsVolume() {
+  public static Volume getLogsVolume(ExternalPVCConfig externalPVC) {
+    String claimName = externalPVC.isEnabled() ? externalPVC.getClaimName() : LOGS_PVC_NAME;
     return new VolumeBuilder()
         .withName(LOGS_VOLUME_NAME)
         .withNewPersistentVolumeClaim()
-        .withClaimName(LOGS_PVC_NAME)
+        .withClaimName(claimName)
         .endPersistentVolumeClaim()
         .build();
   }
