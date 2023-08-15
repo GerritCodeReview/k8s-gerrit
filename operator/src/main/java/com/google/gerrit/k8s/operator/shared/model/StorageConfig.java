@@ -18,14 +18,12 @@ public class StorageConfig {
 
   private StorageClassConfig storageClasses;
   private SharedStorage sharedStorage;
-  private SharedStorage gitRepositoryStorage;
 
   public StorageConfig() {}
 
   public StorageConfig(GerritStorageConfig gerritStorageConfig) {
     storageClasses = gerritStorageConfig.getStorageClasses();
     sharedStorage = gerritStorageConfig.getSharedStorage();
-    gitRepositoryStorage = gerritStorageConfig.getGitRepositoryStorage();
   }
 
   public StorageClassConfig getStorageClasses() {
@@ -42,13 +40,5 @@ public class StorageConfig {
 
   public void setSharedStorage(SharedStorage sharedStorage) {
     this.sharedStorage = sharedStorage;
-  }
-
-  public SharedStorage getGitRepositoryStorage() {
-    return gitRepositoryStorage;
-  }
-
-  public void setGitRepositoryStorage(SharedStorage gitRepositoryStorage) {
-    this.gitRepositoryStorage = gitRepositoryStorage;
   }
 }
