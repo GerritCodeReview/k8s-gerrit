@@ -143,10 +143,6 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
             receiver.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
     volumes.add(
-        GerritCluster.getGitRepositoriesVolume(
-            receiver.getSpec().getStorage().getGitRepositoryStorage().getExternalPVC()));
-
-    volumes.add(
         new VolumeBuilder()
             .withName(receiver.getSpec().getCredentialSecretRef())
             .withNewSecret()
