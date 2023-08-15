@@ -142,8 +142,8 @@ public class TestGerritCluster {
     cluster.setMetadata(
         new ObjectMetaBuilder().withName(CLUSTER_NAME).withNamespace(namespace).build());
 
-    SharedStorage repoStorage = new SharedStorage();
-    repoStorage.setSize(Quantity.parse("1Gi"));
+    SharedStorage sharedStorage = new SharedStorage();
+    sharedStorage.setSize(Quantity.parse("1Gi"));
 
     StorageClassConfig storageClassConfig = new StorageClassConfig();
     storageClassConfig.setReadWriteMany(testProps.getRWMStorageClass());
@@ -155,7 +155,7 @@ public class TestGerritCluster {
 
     GerritClusterSpec clusterSpec = new GerritClusterSpec();
     GerritStorageConfig gerritStorageConfig = new GerritStorageConfig();
-    gerritStorageConfig.setGitRepositoryStorage(repoStorage);
+    gerritStorageConfig.setSharedStorage(sharedStorage);
     gerritStorageConfig.setStorageClasses(storageClassConfig);
     clusterSpec.setStorage(gerritStorageConfig);
 

@@ -207,10 +207,6 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
     volumes.add(
-        GerritCluster.getGitRepositoriesVolume(
-            gerrit.getSpec().getStorage().getGitRepositoryStorage().getExternalPVC()));
-
-    volumes.add(
         new VolumeBuilder()
             .withName("gerrit-init-config")
             .withNewConfigMap()
