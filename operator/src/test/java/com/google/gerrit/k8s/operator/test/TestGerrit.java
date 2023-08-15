@@ -185,14 +185,14 @@ public class TestGerrit {
     gerritSpec.setConfigFiles(Map.of("gerrit.config", config.toText()));
     gerritSpec.setSecretRef(SECURE_CONFIG_SECRET_NAME);
 
-    SharedStorage repoStorage = new SharedStorage();
-    repoStorage.setSize(Quantity.parse("1Gi"));
+    SharedStorage sharedStorage = new SharedStorage();
+    sharedStorage.setSize(Quantity.parse("1Gi"));
 
     StorageClassConfig storageClassConfig = new StorageClassConfig();
     storageClassConfig.setReadWriteMany(testProps.getRWMStorageClass());
 
     GerritStorageConfig gerritStorageConfig = new GerritStorageConfig();
-    gerritStorageConfig.setGitRepositoryStorage(repoStorage);
+    gerritStorageConfig.setSharedStorage(sharedStorage);
     gerritStorageConfig.setStorageClasses(storageClassConfig);
     gerritSpec.setStorage(gerritStorageConfig);
 

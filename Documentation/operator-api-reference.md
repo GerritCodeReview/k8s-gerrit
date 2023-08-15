@@ -58,7 +58,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha9 \
+**Version**: v1alpha10 \
 **Kind**: GerritCluster
 
 ---
@@ -75,7 +75,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha9"
+apiVersion: "gerritoperator.google.com/v1alpha10"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -106,17 +106,6 @@ spec:
           [Mapping]
             Nobody-User = nobody
             Nobody-Group = nogroup
-
-    gitRepositoryStorage:
-      externalPVC:
-        enabled: false
-        claimName: ""
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
 
     sharedStorage:
       externalPVC:
@@ -326,7 +315,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha10 \
+**Version**: v1alpha11 \
 **Kind**: Gerrit
 
 ---
@@ -343,7 +332,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha10"
+apiVersion: "gerritoperator.google.com/v1alpha11"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -485,17 +474,6 @@ spec:
             Nobody-User = nobody
             Nobody-Group = nogroup
 
-    gitRepositoryStorage:
-      externalPVC:
-        enabled: false
-        claimName: ""
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
-
     sharedStorage:
       externalPVC:
         enabled: false
@@ -520,7 +498,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha5 \
+**Version**: v1alpha6 \
 **Kind**: Receiver
 
 ---
@@ -537,7 +515,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha5"
+apiVersion: "gerritoperator.google.com/v1alpha6"
 kind: Receiver
 metadata:
   name: receiver
@@ -627,17 +605,6 @@ spec:
           [Mapping]
             Nobody-User = nobody
             Nobody-Group = nogroup
-
-    gitRepositoryStorage:
-      externalPVC:
-        enabled: false
-        claimName: ""
-      size: 1Gi
-      volumeName: ""
-      selector:
-        matchLabels:
-          volume-type: ssd
-          aws-availability-zone: us-east-1
 
     sharedStorage:
       externalPVC:
@@ -780,7 +747,6 @@ spec:
 |---|---|---|
 | `storageClasses` | [`StorageClassConfig`](#storageclassconfig) | StorageClasses used in the GerritCluster |
 | `sharedStorage` | [`SharedStorage`](#sharedstorage) | Volume used for resources shared between Gerrit instances except git repositories |
-| `gitRepositoryStorage` | [`SharedStorage`](#sharedstorage) | Volume used for storing Git repositories |
 
 ## GerritStorageConfig
 
