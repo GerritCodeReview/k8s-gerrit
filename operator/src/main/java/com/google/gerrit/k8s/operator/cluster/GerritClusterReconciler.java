@@ -26,8 +26,6 @@ import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetw
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiver;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiverCondition;
-import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVC;
-import com.google.gerrit.k8s.operator.cluster.dependent.GitRepositoriesPVCCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
@@ -59,11 +57,6 @@ import java.util.stream.Collectors;
 @Singleton
 @ControllerConfiguration(
     dependents = {
-      @Dependent(
-          name = "git-repositories-pvc",
-          type = GitRepositoriesPVC.class,
-          reconcilePrecondition = GitRepositoriesPVCCondition.class,
-          useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           name = "shared-pvc",
           type = SharedPVC.class,
