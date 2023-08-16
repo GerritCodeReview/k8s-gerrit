@@ -44,6 +44,7 @@ public class GerritTemplateSpec {
 
   private GerritSite site = new GerritSite();
   private List<GerritPlugin> plugins = List.of();
+  private List<GerritModule> libs = List.of();
   private Map<String, String> configFiles = Map.of();
   private String secretRef;
   private GerritMode mode = GerritMode.PRIMARY;
@@ -71,6 +72,7 @@ public class GerritTemplateSpec {
 
     this.site = templateSpec.site;
     this.plugins = templateSpec.plugins;
+    this.libs = templateSpec.libs;
     this.configFiles = templateSpec.configFiles;
     this.secretRef = templateSpec.secretRef;
     this.mode = templateSpec.mode;
@@ -187,6 +189,14 @@ public class GerritTemplateSpec {
 
   public void setPlugins(List<GerritPlugin> plugins) {
     this.plugins = plugins;
+  }
+
+  public List<GerritModule> getLibs() {
+    return libs;
+  }
+
+  public void setLibs(List<GerritModule> libs) {
+    this.libs = libs;
   }
 
   public Map<String, String> getConfigFiles() {

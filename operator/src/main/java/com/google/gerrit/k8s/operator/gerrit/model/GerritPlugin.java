@@ -16,18 +16,9 @@ package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.io.Serializable;
 
-public class GerritPlugin implements Serializable {
+public class GerritPlugin extends GerritModule {
   private static final long serialVersionUID = 1L;
-
-  private String name;
-
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  private String url;
-
-  @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  private String sha1;
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private boolean installAsLibrary = false;
@@ -35,37 +26,11 @@ public class GerritPlugin implements Serializable {
   public GerritPlugin() {}
 
   public GerritPlugin(String name) {
-    this.name = name;
+    super(name);
   }
 
   public GerritPlugin(String name, String url, String sha1) {
-    this.name = name;
-    this.url = url;
-    this.sha1 = sha1;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  public String getSha1() {
-    return sha1;
-  }
-
-  public void setSha1(String sha1) {
-    this.sha1 = sha1;
+    super(name, url, sha1);
   }
 
   public boolean isInstallAsLibrary() {
@@ -78,6 +43,6 @@ public class GerritPlugin implements Serializable {
 
   @JsonIgnore
   public boolean isPackagedPlugin() {
-    return url == null;
+    return getUrl() == null;
   }
 }

@@ -354,6 +354,7 @@ gerritReplica:
 
     # Only downloaded plugins will be cached. This will be ignored, if no plugins
     # are downloaded.
+    libs: []
     cache:
       enabled: false
       size: 1Gi

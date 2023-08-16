@@ -12,6 +12,7 @@ RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
     mkdir -p /var/gerrit/plugins && \
     mkdir -p /var/plugins && \
+    mkdir -p /var/libs && \
     mkdir -p /var/war
 
 # Download Gerrit release

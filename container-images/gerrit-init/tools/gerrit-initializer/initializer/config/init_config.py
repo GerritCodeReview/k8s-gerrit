@@ -20,6 +20,7 @@ import yaml
 class InitConfig:
     def __init__(self):
         self.plugins = []
+        self.libs = []
         self.plugin_cache_enabled = False
         self.plugin_cache_dir = None
 
@@ -37,6 +38,8 @@ class InitConfig:
 
         if "plugins" in config:
             self.plugins = config["plugins"]
+        if "libs" in config:
+            self.libs = config["libs"]
         # DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
         if "pluginCache" in config:
             self.plugin_cache_enabled = config["pluginCache"]
@@ -55,6 +58,9 @@ class InitConfig:
 
     def get_plugin_names(self):
         return set([p["name"] for p in self.plugins])
+
+    def get_libs(self):
+        return self.libs
 
     def get_packaged_plugins(self):
         return list(filter(lambda x: "url" not in x, self.plugins))
