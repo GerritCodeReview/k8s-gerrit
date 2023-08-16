@@ -62,6 +62,7 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
     config.setLibs(gerrit.getSpec().getLibs());
     config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCache().isEnabled());
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
+    config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));

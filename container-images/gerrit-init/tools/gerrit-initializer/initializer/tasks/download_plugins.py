@@ -74,35 +74,47 @@ class AbstractPluginInstaller(ABC):
         return self._get_required_jars("/var/plugins", self.config.get_plugins())
 
     def _get_required_libs(self):
-        return self._get_required_jars("/var/libs", self.config.get_libs())
+        required = self._get_required_jars("/var/libs", self.config.get_libs())
+        if self.config.is_ha:
+            required.extend(
+                self._get_required_jars("/var/libs/ha", self.config.get_libs())
+            )
+        LOG.info("Requiring libs: %s", required)
+        return required
 
     @staticmethod
     def _get_required_jars(dir, configured_plugins):
         required = [
-            os.path.splitext(f)[0] for f in os.listdir(dir) if f.endswith(".jar")
+            {"name": os.path.splitext(f)[0], "source_path": os.path.join(dir, f)}
+            for f in os.listdir(dir)
+            if f.endswith(".jar")
         ]
         return list(filter(lambda x: x not in configured_plugins, required))
 
     def _install_plugins_from_container(self):
-        source_dir = "/var/plugins"
-        self._install_jars_from_container(
-            self.required_plugins, source_dir, self.plugin_dir
-        )
+        self._install_jars_from_container(self.required_plugins, self.plugin_dir)
 
     def _install_libs_from_container(self):
-        source_dir = "/var/libs"
-        self._install_jars_from_container(self.required_libs, source_dir, self.lib_dir)
+        self._install_jars_from_container(self.required_libs, self.lib_dir)
 
-    def _install_jars_from_container(self, plugins, source_dir, target_dir):
+    def _install_jars_from_container(self, plugins, target_dir):
         for plugin in plugins:
-            source_file = os.path.join(source_dir, plugin + ".jar")
-            target_file = os.path.join(target_dir, plugin + ".jar")
+            target_file = os.path.join(target_dir, plugin["name"] + ".jar")
+            LOG.info(
+                "Installing plugin %s from container to %s.",
+                plugin["name"],
+                target_file,
+            )
+            if not os.path.exists(plugin["source_path"]):
+                raise FileNotFoundError(
+                    "Unable to find required plugin in container: " + plugin["name"]
+                )
             if os.path.exists(target_file) and self._get_file_sha(
-                source_file
+                plugin["source_path"]
             ) == self._get_file_sha(target_file):
                 continue
 
-            shutil.copyfile(source_file, target_file)
+            shutil.copyfile(plugin["source_path"], target_file)
             self.plugins_changed = True
 
     def _install_plugins_from_war(self):

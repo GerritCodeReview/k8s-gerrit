@@ -60,4 +60,5 @@ pluginCacheDir: null
 # Can be either true to use default CA certificates, false to disable SSL
 # verification or a path to a custom CA certificate store.
 caCertPath: true
+highAvailability: false
 ```
