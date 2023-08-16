@@ -34,14 +34,20 @@ The `main.py validate_notedb`-command
 The configuration format looks as follows:
 
 ```yaml
-downloadedPlugins: []
-# - name: saml
-#   url: "https://example.com/saml.jar"
-#   sha1: 1234
-packagedPlugins: []
-# - delete-projects
-installAsLibrary: []
-# - saml
+plugins: []
+# A plugin packaged in the gerrit.war-file
+# - name: download-commands
+
+# A plugin packaged in the gerrit.war-file that will also be installed as a
+# lib
+# - name: replication
+#   installAsLibrary: true
+
+# A plugin that will be downloaded on startup
+# - name: delete-project
+#   url: https://example.com/gerrit-plugins/delete-project.jar
+#   sha1:
+#   installAsLibrary: false
 #DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
 # pluginCache: true
 pluginCacheEnabled: false

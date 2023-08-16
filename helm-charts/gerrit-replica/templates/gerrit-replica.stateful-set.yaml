@@ -124,7 +124,7 @@ spec:
           mountPath: "/etc/idmapd.conf"
           subPath: idmapd.conf
         {{- end }}
-        {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
+        {{- if and .Values.gerritReplica.pluginManagement.cache.enabled }}
         - name: gerrit-plugin-cache
           mountPath: "/var/mnt/plugins"
         {{- end }}
@@ -259,7 +259,7 @@ spec:
       - name: gerrit-site
         emptyDir: {}
       {{- end }}
-      {{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
+      {{- if and .Values.gerritReplica.pluginManagement.cache.enabled }}
       - name: gerrit-plugin-cache
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-plugin-cache-pvc
