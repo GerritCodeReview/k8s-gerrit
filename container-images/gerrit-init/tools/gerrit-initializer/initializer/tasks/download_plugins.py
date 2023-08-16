@@ -74,7 +74,12 @@ class AbstractPluginInstaller(ABC):
         return self._get_required_jars("/var/plugins", self.config.get_plugins())
 
     def _get_required_libs(self):
-        return self._get_required_jars("/var/libs", self.config.get_libs())
+        required = self._get_required_jars("/var/libs", self.config.get_libs())
+        if self.config.is_ha:
+            required.addAll(
+                self._get_required_jars("/var/libs/ha", self.config.get_libs())
+            )
+        return required
 
     @staticmethod
     def _get_required_jars(dir, configured_plugins):

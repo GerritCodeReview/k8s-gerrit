@@ -22,6 +22,7 @@ public class GerritInitConfig {
   private String pluginCacheDir = "/var/mnt/plugins";
   private List<GerritPlugin> plugins;
   private List<GerritModule> libs;
+  private boolean isHighlyAvailable;
 
   public String getCaCertPath() {
     return caCertPath;
@@ -61,5 +62,13 @@ public class GerritInitConfig {
 
   public void setLibs(List<GerritModule> libs) {
     this.libs = libs;
+  }
+
+  public boolean isHighlyAvailable() {
+    return isHighlyAvailable;
+  }
+
+  public void setHighlyAvailable(boolean isHighlyAvailable) {
+    this.isHighlyAvailable = isHighlyAvailable;
   }
 }
