@@ -41,6 +41,7 @@ class AbstractPluginInstaller(ABC):
         self.config = config
 
         self.required_plugins = self._get_required_plugins()
+        self.required_libs = self._get_required_libs()
 
         self.plugin_dir = os.path.join(site, "plugins")
         self.lib_dir = os.path.join(site, "lib")
@@ -51,25 +52,51 @@ class AbstractPluginInstaller(ABC):
             os.makedirs(self.plugin_dir)
             LOG.info("Created plugin installation directory: %s", self.plugin_dir)
 
+    def _create_lib_dir(self):
+        if not os.path.exists(self.lib_dir):
+            os.makedirs(self.lib_dir)
+            LOG.info("Created lib installation directory: %s", self.lib_dir)
+
     def _get_installed_plugins(self):
-        if os.path.exists(self.plugin_dir):
-            return [f for f in os.listdir(self.plugin_dir) if f.endswith(".jar")]
+        return self._get_installed_jars(self.plugin_dir)
+
+    def _get_installed_libs(self):
+        return self._get_installed_jars(self.lib_dir)
+
+    @staticmethod
+    def _get_installed_jars(dir):
+        if os.path.exists(dir):
+            return [f for f in os.listdir(dir) if f.endswith(".jar")]
 
         return []
 
     def _get_required_plugins(self):
+        return self._get_required_jars("/var/plugins", self.config.get_plugins())
+
+    def _get_required_libs(self):
+        return self._get_required_jars("/var/libs", self.config.get_libs())
+
+    @staticmethod
+    def _get_required_jars(dir, configured_plugins):
         required = [
-            os.path.splitext(f)[0]
-            for f in os.listdir("/var/plugins")
-            if f.endswith(".jar")
+            os.path.splitext(f)[0] for f in os.listdir(dir) if f.endswith(".jar")
         ]
-        return list(filter(lambda x: x not in self.config.get_plugins(), required))
+        return list(filter(lambda x: x not in configured_plugins, required))
 
     def _install_plugins_from_container(self):
         source_dir = "/var/plugins"
-        for plugin in self.required_plugins:
+        self._install_jars_from_container(
+            self.required_plugins, source_dir, self.plugin_dir
+        )
+
+    def _install_libs_from_container(self):
+        source_dir = "/var/libs"
+        self._install_jars_from_container(self.required_libs, source_dir, self.lib_dir)
+
+    def _install_jars_from_container(self, plugins, source_dir, target_dir):
+        for plugin in plugins:
             source_file = os.path.join(source_dir, plugin + ".jar")
-            target_file = os.path.join(self.plugin_dir, plugin + ".jar")
+            target_file = os.path.join(target_dir, plugin + ".jar")
             if os.path.exists(target_file) and self._get_file_sha(
                 source_file
             ) == self._get_file_sha(target_file):
@@ -108,9 +135,21 @@ class AbstractPluginInstaller(ABC):
     def _remove_unwanted_plugins(self):
         wanted_plugins = list(self.config.get_plugins())
         wanted_plugins.extend(self.required_plugins)
-        for plugin in self._get_installed_plugins():
-            if os.path.splitext(plugin)[0] not in wanted_plugins:
-                os.remove(os.path.join(self.plugin_dir, plugin))
+        self._remove_unwanted(
+            wanted_plugins, self._get_installed_plugins(), self.plugin_dir
+        )
+
+    def _remove_unwanted_libs(self):
+        wanted_libs = list(self.config.get_libs())
+        wanted_libs.extend(self.required_libs)
+        wanted_libs.extend(self.config.get_plugins_installed_as_lib())
+        self._remove_unwanted(wanted_libs, self._get_installed_libs(), self.lib_dir)
+
+    @staticmethod
+    def _remove_unwanted(wanted, installed, dir):
+        for plugin in installed:
+            if os.path.splitext(plugin)[0] not in wanted:
+                os.remove(os.path.join(dir, plugin))
                 LOG.info("Removed plugin %s", plugin)
 
     def _symlink_plugins_to_lib(self):
@@ -140,12 +179,21 @@ class AbstractPluginInstaller(ABC):
 
     def execute(self):
         self._create_plugins_dir()
+        self._create_lib_dir()
+
         self._remove_unwanted_plugins()
+        self._remove_unwanted_libs()
+
         self._install_plugins_from_container()
+        self._install_libs_from_container()
+
         self._install_plugins_from_war()
 
         for plugin in self.config.get_downloaded_plugins():
             self._install_plugin(plugin)
+
+        for plugin in self.config.get_libs():
+            self._install_lib(plugin)
 
         self._symlink_plugins_to_lib()
 
@@ -171,14 +219,20 @@ class AbstractPluginInstaller(ABC):
                 )
             )
 
-    @abstractmethod
     def _install_plugin(self, plugin):
+        self._install_jar(plugin, self.plugin_dir)
+
+    def _install_lib(self, lib):
+        self._install_jar(lib, self.lib_dir)
+
+    @abstractmethod
+    def _install_jar(self, plugin, target_dir):
         pass
 
 
 class PluginInstaller(AbstractPluginInstaller):
-    def _install_plugin(self, plugin):
-        target = os.path.join(self.plugin_dir, f"{plugin['name']}.jar")
+    def _install_jar(self, plugin, target_dir):
+        target = os.path.join(target_dir, f"{plugin['name']}.jar")
         if os.path.exists(target) and self._get_file_sha(target) == plugin["sha1"]:
             return
 
@@ -253,8 +307,8 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         shutil.copy(cached_plugin_path, target)
         self._cleanup_cache(os.path.dirname(cached_plugin_path))
 
-    def _install_plugin(self, plugin):
-        install_path = os.path.join(self.plugin_dir, f"{plugin['name']}.jar")
+    def _install_jar(self, plugin, target_dir):
+        install_path = os.path.join(target_dir, f"{plugin['name']}.jar")
         if (
             os.path.exists(install_path)
             and self._get_file_sha(install_path) == plugin["sha1"]

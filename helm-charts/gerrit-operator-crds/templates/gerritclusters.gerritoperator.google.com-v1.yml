@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1alpha10
+  - name: v1alpha11
     schema:
       openAPIV3Schema:
         properties:
@@ -797,14 +797,25 @@ spec:
                         plugins:
                           items:
                             properties:
+                              installAsLibrary:
+                                type: boolean
                               name:
                                 type: string
                               url:
                                 type: string
                               sha1:
                                 type: string
-                              installAsLibrary:
-                                type: boolean
+                            type: object
+                          type: array
+                        libs:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              url:
+                                type: string
+                              sha1:
+                                type: string
                             type: object
                           type: array
                         configFiles:

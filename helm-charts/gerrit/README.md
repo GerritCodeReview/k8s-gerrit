@@ -330,6 +330,10 @@ future.
 | `gerrit.pluginManagement.plugins[0].url` | Download url of plugin. If given the plugin will be downloaded, otherwise it will be installed from the gerrit.war-file. | `nil` |
 | `gerrit.pluginManagement.plugins[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version (optional) | `nil` |
 | `gerrit.pluginManagement.plugins[0].installAsLibrary` | Whether the plugin should be symlinked to the lib-dir in the Gerrit site. | `nil` |
+| `gerrit.pluginManagement.libs` | List of Gerrit library modules to install | `[]` |
+| `gerrit.pluginManagement.libs[0].name` | Name of the lib module | `nil` |
+| `gerrit.pluginManagement.libs[0].url` | Download url of lib module. | `nil` |
+| `gerrit.pluginManagement.libs[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version | `nil` |
 | `gerrit.pluginManagement.cache.enabled` | Whether to cache downloaded plugins | `false` |
 | `gerrit.pluginManagement.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
 | `gerrit.priorityClassName` | Name of the PriorityClass to apply to the master pod | `nil` |

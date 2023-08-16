@@ -16,14 +16,17 @@
 
 import hashlib
 import json
+import os.path
 import time
 
 import pytest
 import requests
 
 from kubernetes import client
+from kubernetes.stream import stream
 
 PLUGINS = ["avatars-gravatar", "readonly"]
+LIBS = ["global-refdb"]
 GERRIT_VERSION = "3.8"
 
 
@@ -41,6 +44,22 @@ def plugin_list():
             {"name": plugin, "url": url, "sha1": hashlib.sha1(jar).hexdigest()}
         )
     return plugin_list
+
+
+@pytest.fixture(scope="module")
+def lib_list():
+    lib_list = []
+    for lib in LIBS:
+        url = (
+            f"https://gerrit-ci.gerritforge.com/view/Plugins-stable-{GERRIT_VERSION}/"
+            f"job/module-{lib}-bazel-stable-{GERRIT_VERSION}/lastSuccessfulBuild/"
+            f"artifact/bazel-bin/plugins/{lib}/{lib}.jar"
+        )
+        jar = requests.get(url, verify=False).content
+        lib_list.append(
+            {"name": lib, "url": url, "sha1": hashlib.sha1(jar).hexdigest()}
+        )
+    return lib_list
 
 
 @pytest.fixture(
@@ -80,6 +99,20 @@ def gerrit_deployment_with_other_plugins(
 
 
 @pytest.fixture(scope="class")
+def gerrit_deployment_with_libs(
+    request,
+    lib_list,
+    gerrit_deployment,
+):
+    gerrit_deployment.set_helm_value("gerrit.pluginManagement.libs", lib_list)
+
+    gerrit_deployment.install()
+    gerrit_deployment.create_admin_account()
+
+    yield gerrit_deployment, lib_list
+
+
+@pytest.fixture(scope="class")
 def gerrit_deployment_with_other_plugin_wrong_sha(plugin_list, gerrit_deployment):
     plugin = plugin_list[0]
     plugin["sha1"] = "notAValidSha"
@@ -97,6 +130,21 @@ def get_gerrit_plugin_list(gerrit_url, user="admin", password="secret"):
         return None
     body = response.text
     return json.loads(body[body.index("\n") + 1 :])
+
+
+def get_gerrit_lib_list(gerrit_deployment):
+    response = (
+        stream(
+            client.CoreV1Api().connect_get_namespaced_pod_exec,
+            gerrit_deployment.chart_name + "-gerrit-stateful-set-0",
+            gerrit_deployment.namespace,
+            command=["/bin/ash", "-c", "ls /var/gerrit/lib"],
+            stdout=True,
+        )
+        .strip()
+        .split()
+    )
+    return [os.path.splitext(r)[0] for r in response]
 
 
 @pytest.mark.slow
@@ -216,6 +264,43 @@ class TestGerritChartOtherPluginInstall:
 
         assert removed_plugin["name"] not in response
         self._assert_installed_plugins(installed_plugins, response)
+
+
+@pytest.mark.slow
+@pytest.mark.incremental
+@pytest.mark.integration
+@pytest.mark.kubernetes
+class TestGerritChartLibModuleInstall:
+    def _assert_installed_libs(self, expected_libs, installed_libs):
+        for lib in expected_libs:
+            assert lib["name"] in installed_libs
+
+    @pytest.mark.timeout(300)
+    def test_install_libs(self, gerrit_deployment_with_libs):
+        gerrit_deployment, expected_libs = gerrit_deployment_with_libs
+        response = get_gerrit_lib_list(gerrit_deployment)
+        self._assert_installed_libs(expected_libs, response)
+
+    @pytest.mark.timeout(300)
+    def test_install_other_plugins_are_removed_with_update(
+        self, gerrit_deployment_with_libs
+    ):
+        gerrit_deployment, installed_libs = gerrit_deployment_with_libs
+        removed_lib = installed_libs.pop()
+        gerrit_deployment.set_helm_value("gerrit.pluginManagement.libs", installed_libs)
+        gerrit_deployment.update()
+
+        response = None
+        while True:
+            try:
+                response = get_gerrit_lib_list(gerrit_deployment)
+                if response is not None and removed_lib["name"] not in response:
+                    break
+            except requests.exceptions.ConnectionError:
+                time.sleep(1)
+
+        assert removed_lib["name"] not in response
+        self._assert_installed_libs(installed_libs, response)
 
 
 @pytest.mark.integration
