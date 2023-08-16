@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
+import static com.google.gerrit.k8s.operator.cluster.model.GerritCluster.ANNOTATION_GERRIT_CLUSTER_NAME;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +27,7 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.sundr.builder.annotations.Buildable;
+import java.util.Map;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -88,6 +91,8 @@ public class GerritTemplate implements KubernetesResource {
     return new ObjectMetaBuilder()
         .withName(metadata.getName())
         .withLabels(metadata.getLabels())
+        .withAnnotations(
+            Map.of(ANNOTATION_GERRIT_CLUSTER_NAME, gerritCluster.getMetadata().getName()))
         .withNamespace(gerritCluster.getMetadata().getNamespace())
         .build();
   }

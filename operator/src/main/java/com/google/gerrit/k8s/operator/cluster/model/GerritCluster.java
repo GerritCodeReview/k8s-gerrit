@@ -53,6 +53,8 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   private static final int GERRIT_FS_GID = 100;
   public static final String PLUGIN_CACHE_MOUNT_PATH = "/var/mnt/plugin_cache";
   public static final String PLUGIN_CACHE_SUB_DIR = "plugin_cache";
+  public static final String ANNOTATION_GERRIT_CLUSTER_NAME =
+      "gerritoperator.google.com/gerrit-cluster";
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
