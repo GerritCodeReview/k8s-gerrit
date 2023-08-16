@@ -12,7 +12,7 @@ RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
     mkdir -p /var/gerrit/plugins && \
     mkdir -p /var/plugins && \
-    mkdir -p /var/libs && \
+    mkdir -p /var/libs/ha && \
     mkdir -p /var/war
 
 # Download Gerrit release
@@ -24,6 +24,10 @@ RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
 ARG HEALTHCHECK_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/plugin-healthcheck-bazel-master-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar
 RUN curl -k -o /var/plugins/healthcheck.jar ${HEALTHCHECK_JAR_URL} && \
     ln -s /var/plugins/healthcheck.jar /var/gerrit/plugins/healthcheck.jar
+
+# Download global-refdb lib
+ARG GLOBAL_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/module-global-refdb-bazel-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/global-refdb/global-refdb.jar
+RUN curl -k -o /var/libs/ha/global-refdb.jar ${GLOBAL_REFDB_URL}
 
 # Allow incoming traffic
 EXPOSE 29418 8080
