@@ -45,11 +45,14 @@ def plugin_list():
 
 @pytest.fixture(
     scope="class",
-    params=[["replication"], ["replication", "download-commands"]],
+    params=[
+        [{"name": "replication"}],
+        [{"name": "replication"}, {"name": "download-commands"}],
+    ],
     ids=["single-packaged-plugin", "multiple-packaged-plugins"],
 )
 def gerrit_deployment_with_packaged_plugins(request, gerrit_deployment):
-    gerrit_deployment.set_helm_value("gerrit.plugins.packaged", request.param)
+    gerrit_deployment.set_helm_value("gerrit.pluginManagement.plugins", request.param)
     gerrit_deployment.install()
     gerrit_deployment.create_admin_account()
 
@@ -66,7 +69,9 @@ def gerrit_deployment_with_other_plugins(
 ):
     selected_plugins = plugin_list[: request.param]
 
-    gerrit_deployment.set_helm_value("gerrit.plugins.downloaded", selected_plugins)
+    gerrit_deployment.set_helm_value(
+        "gerrit.pluginManagement.plugins", selected_plugins
+    )
 
     gerrit_deployment.install()
     gerrit_deployment.create_admin_account()
@@ -78,7 +83,7 @@ def gerrit_deployment_with_other_plugins(
 def gerrit_deployment_with_other_plugin_wrong_sha(plugin_list, gerrit_deployment):
     plugin = plugin_list[0]
     plugin["sha1"] = "notAValidSha"
-    gerrit_deployment.set_helm_value("gerrit.plugins.downloaded", [plugin])
+    gerrit_deployment.set_helm_value("gerrit.pluginManagement.plugins", [plugin])
 
     gerrit_deployment.install(wait=False)
 
@@ -101,8 +106,9 @@ def get_gerrit_plugin_list(gerrit_url, user="admin", password="secret"):
 class TestgerritChartPackagedPluginInstall:
     def _assert_installed_plugins(self, expected_plugins, installed_plugins):
         for plugin in expected_plugins:
-            assert plugin in installed_plugins
-            assert installed_plugins[plugin]["filename"] == f"{plugin}.jar"
+            plugin_name = plugin["name"]
+            assert plugin_name in installed_plugins
+            assert installed_plugins[plugin_name]["filename"] == f"{plugin_name}.jar"
 
     @pytest.mark.timeout(300)
     def test_install_packaged_plugins(
@@ -133,7 +139,9 @@ class TestgerritChartPackagedPluginInstall:
         gerrit_deployment, expected_plugins = gerrit_deployment_with_packaged_plugins
         removed_plugin = expected_plugins.pop()
 
-        gerrit_deployment.set_helm_value("gerrit.plugins.packaged", expected_plugins)
+        gerrit_deployment.set_helm_value(
+            "gerrit.pluginManagement.plugins", expected_plugins
+        )
         gerrit_deployment.update()
 
         response = None
@@ -144,12 +152,12 @@ class TestgerritChartPackagedPluginInstall:
                     "gerrit-admin",
                     ldap_credentials["gerrit-admin"],
                 )
-                if response is not None and removed_plugin not in response:
+                if response is not None and removed_plugin["name"] not in response:
                     break
             except requests.exceptions.ConnectionError:
                 time.sleep(1)
 
-        assert removed_plugin not in response
+        assert removed_plugin["name"] not in response
         self._assert_installed_plugins(expected_plugins, response)
 
 
@@ -188,7 +196,9 @@ class TestGerritChartOtherPluginInstall:
     ):
         gerrit_deployment, installed_plugins = gerrit_deployment_with_other_plugins
         removed_plugin = installed_plugins.pop()
-        gerrit_deployment.set_helm_value("gerrit.plugins.downloaded", installed_plugins)
+        gerrit_deployment.set_helm_value(
+            "gerrit.pluginManagement.plugins", installed_plugins
+        )
         gerrit_deployment.update()
 
         response = None

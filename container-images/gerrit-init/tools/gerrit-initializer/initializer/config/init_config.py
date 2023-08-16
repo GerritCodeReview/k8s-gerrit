@@ -19,10 +19,8 @@ import yaml
 
 class InitConfig:
     def __init__(self):
-        self.downloaded_plugins = []
+        self.plugins = []
         self.plugin_cache_enabled = False
-        self.packaged_plugins = set()
-        self.install_as_library = set()
         self.plugin_cache_dir = None
 
         self.ca_cert_path = True
@@ -37,13 +35,9 @@ class InitConfig:
         if config is None:
             raise ValueError(f"Invalid config-file: {config_file}")
 
-        if "downloadedPlugins" in config:
-            self.downloaded_plugins = config["downloadedPlugins"]
-        if "packagedPlugins" in config:
-            self.packaged_plugins = set(config["packagedPlugins"])
-        if "installAsLibrary" in config:
-            self.install_as_library = set(config["installAsLibrary"])
-        #DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
+        if "plugins" in config:
+            self.plugins = config["plugins"]
+        # DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
         if "pluginCache" in config:
             self.plugin_cache_enabled = config["pluginCache"]
         if "pluginCacheEnabled" in config:
@@ -56,7 +50,25 @@ class InitConfig:
 
         return self
 
-    def get_all_configured_plugins(self):
-        plugins = set(self.packaged_plugins)
-        plugins.update([p["name"] for p in self.downloaded_plugins])
-        return plugins
+    def get_plugins(self):
+        return self.plugins
+
+    def get_plugin_names(self):
+        return set([p["name"] for p in self.plugins])
+
+    def get_packaged_plugins(self):
+        return list(filter(lambda x: "url" not in x, self.plugins))
+
+    def get_downloaded_plugins(self):
+        return list(filter(lambda x: "url" in x, self.plugins))
+
+    def get_plugins_installed_as_lib(self):
+        return [
+            lib["name"]
+            for lib in list(
+                filter(
+                    lambda x: "installAsLibrary" in x and x["installAsLibrary"],
+                    self.plugins,
+                )
+            )
+        ]

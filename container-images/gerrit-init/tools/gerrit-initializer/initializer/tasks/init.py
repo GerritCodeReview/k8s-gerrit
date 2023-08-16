@@ -96,7 +96,7 @@ class GerritInit:
             LOG.info("Plugins were installed or updated. Initializing.")
             return True
 
-        if self.config.packaged_plugins.difference(self.installed_plugins):
+        if self.config.get_plugin_names().difference(self.installed_plugins):
             LOG.info("Reininitializing site to install additional plugins.")
             return True
 
@@ -134,9 +134,8 @@ class GerritInit:
         if os.path.exists(data_dir):
             for file_or_dir in os.listdir(data_dir):
                 abs_path = os.path.join(data_dir, file_or_dir)
-                if (
-                    os.path.islink(abs_path)
-                    and not os.path.exists(os.path.realpath(abs_path))
+                if os.path.islink(abs_path) and not os.path.exists(
+                    os.path.realpath(abs_path)
                 ):
                     os.unlink(abs_path)
         else:
