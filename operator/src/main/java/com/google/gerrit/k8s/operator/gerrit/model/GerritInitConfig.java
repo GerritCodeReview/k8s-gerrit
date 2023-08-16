@@ -21,6 +21,7 @@ public class GerritInitConfig {
   private boolean pluginCacheEnabled;
   private String pluginCacheDir = "/var/mnt/plugins";
   private List<GerritPlugin> plugins;
+  private List<GerritModule> libs;
 
   public String getCaCertPath() {
     return caCertPath;
@@ -52,5 +53,13 @@ public class GerritInitConfig {
 
   public void setPlugins(List<GerritPlugin> plugins) {
     this.plugins = plugins;
+  }
+
+  public List<GerritModule> getLibs() {
+    return libs;
+  }
+
+  public void setLibs(List<GerritModule> libs) {
+    this.libs = libs;
   }
 }

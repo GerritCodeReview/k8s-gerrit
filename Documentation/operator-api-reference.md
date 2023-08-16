@@ -27,23 +27,24 @@
    23. [GerritProbe](#gerritprobe)
    24. [GerritServiceConfig](#gerritserviceconfig)
    25. [GerritSite](#gerritsite)
-   26. [GerritPlugin](#gerritplugin)
-   27. [GerritMode](#gerritmode)
-   28. [GerritSpec](#gerritspec)
-   29. [GerritStatus](#gerritstatus)
-   30. [IngressConfig](#ingressconfig)
-   31. [ReceiverTemplate](#receivertemplate)
-   32. [ReceiverTemplateSpec](#receivertemplatespec)
-   33. [ReceiverSpec](#receiverspec)
-   34. [ReceiverStatus](#receiverstatus)
-   35. [ReceiverProbe](#receiverprobe)
-   36. [ReceiverServiceConfig](#receiverserviceconfig)
-   37. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   38. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   39. [GitGcState](#gitgcstate)
-   40. [GerritNetworkSpec](#gerritnetworkspec)
-   41. [NetworkMember](#networkmember)
-   42. [NetworkMemberWithSsh](#networkmemberwithssh)
+   26. [GerritModule](#gerritmodule)
+   27. [GerritPlugin](#gerritplugin)
+   28. [GerritMode](#gerritmode)
+   29. [GerritSpec](#gerritspec)
+   30. [GerritStatus](#gerritstatus)
+   31. [IngressConfig](#ingressconfig)
+   32. [ReceiverTemplate](#receivertemplate)
+   33. [ReceiverTemplateSpec](#receivertemplatespec)
+   34. [ReceiverSpec](#receiverspec)
+   35. [ReceiverStatus](#receiverstatus)
+   36. [ReceiverProbe](#receiverprobe)
+   37. [ReceiverServiceConfig](#receiverserviceconfig)
+   38. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   39. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   40. [GitGcState](#gitgcstate)
+   41. [GerritNetworkSpec](#gerritnetworkspec)
+   42. [NetworkMember](#networkmember)
+   43. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -58,7 +59,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha10 \
+**Version**: v1alpha11 \
 **Kind**: GerritCluster
 
 ---
@@ -75,7 +76,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha10"
+apiVersion: "gerritoperator.google.com/v1alpha11"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -221,6 +222,11 @@ spec:
         sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
         installAsLibrary: true
 
+      libs:
+      - name: global-refdb
+        url: https://example.com/global-refdb.jar
+        sha1: 3d533a536b0d4e0184f824478c24bc8dfe896d06
+
       configFiles:
         gerrit.config: |-
             [gerrit]
@@ -315,7 +321,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha11 \
+**Version**: v1alpha12 \
 **Kind**: Gerrit
 
 ---
@@ -332,7 +338,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha11"
+apiVersion: "gerritoperator.google.com/v1alpha12"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -422,6 +428,11 @@ spec:
       url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-saml-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/saml/saml.jar
       sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
       installAsLibrary: true
+
+    libs:
+    - name: global-refdb
+      url: https://example.com/global-refdb.jar
+      sha1: 3d533a536b0d4e0184f824478c24bc8dfe896d06
 
     configFiles:
       gerrit.config: |-
@@ -859,6 +870,7 @@ Extends [StorageConfig](#StorageConfig).
 | `service` | [`GerritServiceConfig`](#gerritserviceconfig) | Configuration for the service used to manage network access to the StatefulSet |
 | `site` | [`GerritSite`](#gerritsite) | Configuration concerning the Gerrit site directory |
 | `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |
+| `libs` | [`GerritModule`](#gerritmodule)-Array | List of Gerrit library modules to install. These lib modules will be downloaded. (optional) |
 | `configFiles` | `Map<String, String>` | Configuration files for Gerrit that will be mounted into the Gerrit site's etc-directory (gerrit.config is mandatory) |
 | `secretRef` | `String` | Name of secret containing configuration files, e.g. secure.config, that will be mounted into the Gerrit site's etc-directory (optional) |
 | `mode` | [`GerritMode`](#gerritmode) | In which mode Gerrit should be run. (default: PRIMARY) |
@@ -884,13 +896,20 @@ compared to the parent object. All other options can still be configured.
 |---|---|---|
 | `size` | [`Quantity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#quantity-resource-core) | Size of the volume used to persist not otherwise persisted site components (e.g. git repositories are persisted in a dedicated volume) (mandatory) |
 
-## GerritPlugin
+## GerritModule
 
 | Field | Type | Description |
 |---|---|---|
-| `name` | `String` | Name of the plugin |
-| `url` | `String` | URL of the plugin, if it should be downloaded. If the URL is not set, the plugin is expected to be packaged in the war-file (optional) |
-| `sha1` | `String` | SHA1-checksum of the plugin JAR-file. (mandatory, if `url` is set) |
+| `name` | `String` | Name of the module/plugin |
+| `url` | `String` | URL of the module/plugin, if it should be downloaded. If the URL is not set, the plugin is expected to be packaged in the war-file (not possible for lib-modules). (optional) |
+| `sha1` | `String` | SHA1-checksum of the module/plugin JAR-file. (mandatory, if `url` is set) |
+
+## GerritPlugin
+
+**Extends:** [`GerritModule`](#gerritmodule)
+
+| Field | Type | Description |
+|---|---|---|
 | `installAsLibrary` | `boolean` | Some plugins also need to be installed as a library. If set to `true` the plugin JAR will be symlinked to the `lib`-directory in the Gerrit site. (default: `false`) |
 
 ## GerritMode
