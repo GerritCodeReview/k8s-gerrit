@@ -52,6 +52,10 @@ data:
     plugins:
 {{ toYaml .Values.gerrit.pluginManagement.plugins | indent 6}}
     {{- end }}
+    {{- if .Values.gerrit.pluginManagement.libs }}
+    libs:
+{{ toYaml .Values.gerrit.pluginManagement.libs | indent 6}}
+    {{- end }}
 {{- range .Values.gerrit.additionalConfigMaps -}}
 {{- if .data }}
 ---
