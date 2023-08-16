@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class GerritInitConfig {
@@ -22,6 +23,9 @@ public class GerritInitConfig {
   private String pluginCacheDir = "/var/mnt/plugins";
   private List<GerritPlugin> plugins;
   private List<GerritModule> libs;
+
+  @JsonProperty("highAvailability")
+  private boolean isHighlyAvailable;
 
   public String getCaCertPath() {
     return caCertPath;
@@ -61,5 +65,15 @@ public class GerritInitConfig {
 
   public void setLibs(List<GerritModule> libs) {
     this.libs = libs;
+  }
+
+  @JsonProperty("highAvailability")
+  public boolean isHighlyAvailable() {
+    return isHighlyAvailable;
+  }
+
+  @JsonProperty("highAvailability")
+  public void setHighlyAvailable(boolean isHighlyAvailable) {
+    this.isHighlyAvailable = isHighlyAvailable;
   }
 }
