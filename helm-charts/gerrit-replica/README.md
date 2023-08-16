@@ -428,6 +428,10 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.pluginManagement.plugins[0].url` | Download url of plugin. If given the plugin will be downloaded, otherwise it will be installed from the gerrit.war-file. | `nil` |
 | `gerritReplica.pluginManagement.plugins[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version (optional) | `nil` |
 | `gerritReplica.pluginManagement.plugins[0].installAsLibrary` | Whether the plugin should be symlinked to the lib-dir in the Gerrit site. | `nil` |
+| `gerritReplica.pluginManagement.libs` | List of Gerrit library modules to install | `[]` |
+| `gerritReplica.pluginManagement.libs[0].name` | Name of the lib module | `nil` |
+| `gerritReplica.pluginManagement.libs[0].url` | Download url of lib module. | `nil` |
+| `gerritReplica.pluginManagement.libs[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version | `nil` |
 | `gerritReplica.pluginManagement.cache.enabled` | Whether to cache downloaded plugins | `false` |
 | `gerritReplica.pluginManagement.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
 | `gerritReplica.priorityClassName` | Name of the PriorityClass to apply to replica pods | `nil` |

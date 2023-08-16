@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1alpha11
+  - name: v1alpha12
     schema:
       openAPIV3Schema:
         properties:
@@ -712,14 +712,25 @@ spec:
               plugins:
                 items:
                   properties:
+                    installAsLibrary:
+                      type: boolean
                     name:
                       type: string
                     url:
                       type: string
                     sha1:
                       type: string
-                    installAsLibrary:
-                      type: boolean
+                  type: object
+                type: array
+              libs:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    url:
+                      type: string
+                    sha1:
+                      type: string
                   type: object
                 type: array
               configFiles:

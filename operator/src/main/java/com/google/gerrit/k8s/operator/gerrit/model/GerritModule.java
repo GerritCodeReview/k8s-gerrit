@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,35 +14,53 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serializable;
 
-public class GerritPlugin extends GerritModule {
+public class GerritModule implements Serializable {
   private static final long serialVersionUID = 1L;
 
+  private String name;
+
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  private boolean installAsLibrary = false;
+  private String url;
 
-  public GerritPlugin() {}
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
+  private String sha1;
 
-  public GerritPlugin(String name) {
-    super(name);
+  public GerritModule() {}
+
+  public GerritModule(String name) {
+    this.name = name;
   }
 
-  public GerritPlugin(String name, String url, String sha1) {
-    super(name, url, sha1);
+  public GerritModule(String name, String url, String sha1) {
+    this.name = name;
+    this.url = url;
+    this.sha1 = sha1;
   }
 
-  public boolean isInstallAsLibrary() {
-    return installAsLibrary;
+  public String getName() {
+    return name;
   }
 
-  public void setInstallAsLibrary(boolean installAsLibrary) {
-    this.installAsLibrary = installAsLibrary;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  @JsonIgnore
-  public boolean isPackagedPlugin() {
-    return getUrl() == null;
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getSha1() {
+    return sha1;
+  }
+
+  public void setSha1(String sha1) {
+    this.sha1 = sha1;
   }
 }

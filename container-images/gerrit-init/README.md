@@ -48,6 +48,11 @@ plugins: []
 #   url: https://example.com/gerrit-plugins/delete-project.jar
 #   sha1:
 #   installAsLibrary: false
+libs: []
+# A lib that will be downloaded on startup
+# - name: global-refdb
+#   url: https://example.com/gerrit-plugins/global-refdb.jar
+#   sha1:
 #DEPRECATED: `pluginCache` was deprecated in favor of `pluginCacheEnabled`
 # pluginCache: true
 pluginCacheEnabled: false
