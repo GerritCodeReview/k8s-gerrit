@@ -63,11 +63,7 @@ class AbstractPluginInstaller(ABC):
             for f in os.listdir("/var/plugins")
             if f.endswith(".jar")
         ]
-        return list(
-            filter(
-                lambda x: x not in self.config.get_all_configured_plugins(), required
-            )
-        )
+        return list(filter(lambda x: x not in self.config.get_plugins(), required))
 
     def _install_plugins_from_container(self):
         source_dir = "/var/plugins"
@@ -83,14 +79,15 @@ class AbstractPluginInstaller(ABC):
             self.plugins_changed = True
 
     def _install_plugins_from_war(self):
-        for plugin in self.config.packaged_plugins:
-            LOG.info("Installing packaged plugin %s.", plugin)
+        for plugin in self.config.get_packaged_plugins():
+            plugin_name = plugin["name"]
+            LOG.info("Installing packaged plugin %s.", plugin_name)
             with ZipFile("/var/war/gerrit.war", "r") as war:
-                war.extract(f"WEB-INF/plugins/{plugin}.jar", self.plugin_dir)
+                war.extract(f"WEB-INF/plugins/{plugin_name}.jar", self.plugin_dir)
 
             os.rename(
-                f"{self.plugin_dir}/WEB-INF/plugins/{plugin}.jar",
-                os.path.join(self.plugin_dir, f"{plugin}.jar"),
+                f"{self.plugin_dir}/WEB-INF/plugins/{plugin_name}.jar",
+                os.path.join(self.plugin_dir, f"{plugin_name}.jar"),
             )
         shutil.rmtree(os.path.join(self.plugin_dir, "WEB-INF"), ignore_errors=True)
 
@@ -109,7 +106,7 @@ class AbstractPluginInstaller(ABC):
         return file_hash.hexdigest()
 
     def _remove_unwanted_plugins(self):
-        wanted_plugins = list(self.config.get_all_configured_plugins())
+        wanted_plugins = list(self.config.get_plugins())
         wanted_plugins.extend(self.required_plugins)
         for plugin in self._get_installed_plugins():
             if os.path.splitext(plugin)[0] not in wanted_plugins:
@@ -124,11 +121,12 @@ class AbstractPluginInstaller(ABC):
                 path = os.path.join(self.lib_dir, f)
                 if (
                     os.path.islink(path)
-                    and os.path.splitext(f)[0] not in self.config.install_as_library
+                    and os.path.splitext(f)[0]
+                    not in self.config.get_plugins_installed_as_lib()
                 ):
                     os.unlink(path)
                     LOG.info("Removed symlink %s", f)
-        for lib in self.config.install_as_library:
+        for lib in self.config.get_plugins_installed_as_lib():
             plugin_path = os.path.join(self.plugin_dir, f"{lib}.jar")
             if os.path.exists(plugin_path):
                 try:
@@ -146,7 +144,7 @@ class AbstractPluginInstaller(ABC):
         self._install_plugins_from_container()
         self._install_plugins_from_war()
 
-        for plugin in self.config.downloaded_plugins:
+        for plugin in self.config.get_downloaded_plugins():
             self._install_plugin(plugin)
 
         self._symlink_plugins_to_lib()
