@@ -15,14 +15,21 @@
 package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
 public class GerritPlugin implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private String name;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String url;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String sha1;
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private boolean installAsLibrary = false;
 
   public GerritPlugin() {}

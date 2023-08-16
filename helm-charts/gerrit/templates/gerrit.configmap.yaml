@@ -46,19 +46,11 @@ data:
     {{ if .Values.caCert -}}
     caCertPath: /var/config/ca.crt
     {{- end }}
-    pluginCacheEnabled: {{ .Values.gerrit.plugins.cache.enabled }}
+    pluginCacheEnabled: {{ .Values.gerrit.pluginManagement.cache.enabled }}
     pluginCacheDir: /var/mnt/plugins
-    {{- if .Values.gerrit.plugins.packaged }}
-    packagedPlugins:
-{{ toYaml .Values.gerrit.plugins.packaged | indent 6}}
-    {{- end }}
-    {{- if .Values.gerrit.plugins.downloaded }}
-    downloadedPlugins:
-{{ toYaml .Values.gerrit.plugins.downloaded | indent 6 }}
-    {{- end }}
-    {{- if .Values.gerrit.plugins.installAsLibrary }}
-    installAsLibrary:
-{{ toYaml .Values.gerrit.plugins.installAsLibrary | indent 6 }}
+    {{- if .Values.gerrit.pluginManagement.plugins }}
+    plugins:
+{{ toYaml .Values.gerrit.pluginManagement.plugins | indent 6}}
     {{- end }}
 {{- range .Values.gerrit.additionalConfigMaps -}}
 {{- if .data }}

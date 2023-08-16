@@ -423,14 +423,13 @@ is mandatory, if access to the Gerrit replica is required!
 | `gerritReplica.service.ssh.enabled` | Whether to enable SSH for the Gerrit replica | `false` |
 | `gerritReplica.service.ssh.port` | Port for SSH | `29418` |
 | `gerritReplica.keystore` | base64-encoded Java keystore (`cat keystore.jks \| base64`) to be used by Gerrit, when using SSL | `nil` |
-| `gerritReplica.plugins.packaged` | List of Gerrit plugins that are packaged into the Gerrit-war-file to install | `["commit-message-length-validator", "download-commands", "replication", "reviewnotes"]` |
-| `gerritReplica.plugins.downloaded` | List of Gerrit plugins that will be downloaded | `nil` |
-| `gerritReplica.plugins.downloaded[0].name` | Name of plugin | `nil` |
-| `gerritReplica.plugins.downloaded[0].url` | Download url of plugin | `nil` |
-| `gerritReplica.plugins.downloaded[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version (optional) | `nil` |
-| `gerritReplica.plugins.installAsLibrary` | List of plugins, which should be symlinked to the lib-dir in the Gerrit site (have to be in either `..downloaded` or `..packaged`) | `[]` |
-| `gerritReplica.plugins.cache.enabled` | Whether to cache downloaded plugins | `false` |
-| `gerritReplica.plugins.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
+| `gerritReplica.pluginManagement.plugins` | List of Gerrit plugins to install | `[]` |
+| `gerritReplica.pluginManagement.plugins[0].name` | Name of plugin | `nil` |
+| `gerritReplica.pluginManagement.plugins[0].url` | Download url of plugin. If given the plugin will be downloaded, otherwise it will be installed from the gerrit.war-file. | `nil` |
+| `gerritReplica.pluginManagement.plugins[0].sha1` | SHA1 sum of plugin jar used to ensure file integrity and version (optional) | `nil` |
+| `gerritReplica.pluginManagement.plugins[0].installAsLibrary` | Whether the plugin should be symlinked to the lib-dir in the Gerrit site. | `nil` |
+| `gerritReplica.pluginManagement.cache.enabled` | Whether to cache downloaded plugins | `false` |
+| `gerritReplica.pluginManagement.cache.size` | Size of the volume used to store cached plugins | `1Gi` |
 | `gerritReplica.priorityClassName` | Name of the PriorityClass to apply to replica pods | `nil` |
 | `gerritReplica.etc.config` | Map of config files (e.g. `gerrit.config`) that will be mounted to `$GERRIT_SITE/etc`by a ConfigMap | `{gerrit.config: ..., replication.config: ...}`[see here](#Gerrit-config-files) |
 | `gerritReplica.etc.secret` | Map of config files (e.g. `secure.config`) that will be mounted to `$GERRIT_SITE/etc`by a Secret | `{secure.config: ...}` [see here](#Gerrit-config-files) |

@@ -227,17 +227,22 @@ gerrit:
     # Either `lucene` or `elasticsearch`
     type: lucene
 
-  plugins:
-    packaged:
-    - commit-message-length-validator
-    - download-commands
-    - replication
-    - reviewnotes
-    downloaded:
+  pluginManagement:
+    plugins: []
+    # A plugin packaged in the gerrit.war-file
+    # - name: download-commands
+
+    # A plugin packaged in the gerrit.war-file that will also be installed as a
+    # lib
+    # - name: replication
+    #   installAsLibrary: true
+
+    # A plugin that will be downloaded on startup
     # - name: delete-project
     #   url: https://example.com/gerrit-plugins/delete-project.jar
     #   sha1:
-    installAsLibrary: []
+    #   installAsLibrary: false
+
     # Only downloaded plugins will be cached. This will be ignored, if no plugins
     # are downloaded.
     cache:

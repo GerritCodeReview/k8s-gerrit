@@ -14,15 +14,13 @@
 
 package com.google.gerrit.k8s.operator.gerrit.model;
 
-import java.util.Set;
+import java.util.List;
 
 public class GerritInitConfig {
   private String caCertPath = "/var/config/ca.crt";
   private boolean pluginCacheEnabled;
   private String pluginCacheDir = "/var/mnt/plugins";
-  private Set<String> packagedPlugins;
-  private Set<GerritPlugin> downloadedPlugins;
-  private Set<String> installAsLibrary;
+  private List<GerritPlugin> plugins;
 
   public String getCaCertPath() {
     return caCertPath;
@@ -48,27 +46,11 @@ public class GerritInitConfig {
     this.pluginCacheDir = pluginCacheDir;
   }
 
-  public Set<String> getPackagedPlugins() {
-    return packagedPlugins;
+  public List<GerritPlugin> getPlugins() {
+    return plugins;
   }
 
-  public void setPackagedPlugins(Set<String> packagedPlugins) {
-    this.packagedPlugins = packagedPlugins;
-  }
-
-  public Set<GerritPlugin> getDownloadedPlugins() {
-    return downloadedPlugins;
-  }
-
-  public void setDownloadedPlugins(Set<GerritPlugin> downloadedPlugins) {
-    this.downloadedPlugins = downloadedPlugins;
-  }
-
-  public Set<String> getInstallAsLibrary() {
-    return installAsLibrary;
-  }
-
-  public void setInstallAsLibrary(Set<String> installAsLibrary) {
-    this.installAsLibrary = installAsLibrary;
+  public void setPlugins(List<GerritPlugin> plugins) {
+    this.plugins = plugins;
   }
 }
