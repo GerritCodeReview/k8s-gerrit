@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
+import static com.google.gerrit.k8s.operator.cluster.model.GerritCluster.ANNOTATION_GERRIT_CLUSTER_NAME;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
@@ -100,5 +101,10 @@ public class GerritConfigBuilder extends ConfigBuilder {
   private GerritConfigBuilder useReplicaMode(boolean isReplica) {
     addRequiredOption(new RequiredOption<Boolean>("container", "replica", isReplica));
     return this;
+  }
+
+  private String getServerId(Gerrit gerrit) {
+    String serverId = gerrit.getMetadata().getAnnotations().get(ANNOTATION_GERRIT_CLUSTER_NAME);
+    return serverId == null ? gerrit.getMetadata().getName() : serverId;
   }
 }

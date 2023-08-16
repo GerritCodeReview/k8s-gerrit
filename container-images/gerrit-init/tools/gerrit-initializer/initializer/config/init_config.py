@@ -26,6 +26,8 @@ class InitConfig:
 
         self.ca_cert_path = True
 
+        self.is_ha = False
+
     def parse(self, config_file):
         if not os.path.exists(config_file):
             raise FileNotFoundError(f"Could not find config file: {config_file}")
@@ -50,6 +52,8 @@ class InitConfig:
 
         if "caCertPath" in config:
             self.ca_cert_path = config["caCertPath"]
+
+        self.is_ha = "highAvailability" in config
 
         return self
 
