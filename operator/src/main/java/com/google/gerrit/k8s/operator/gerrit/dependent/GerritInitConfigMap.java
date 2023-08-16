@@ -59,6 +59,7 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
   private String getGerritInitConfig(Gerrit gerrit) {
     GerritInitConfig config = new GerritInitConfig();
     config.setPlugins(gerrit.getSpec().getPlugins());
+    config.setLibs(gerrit.getSpec().getLibs());
     config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCache().isEnabled());
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
 
