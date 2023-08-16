@@ -162,11 +162,9 @@ class GerritDeployment(AbstractDeployment):
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--ignore-certificate-errors")
-        capabilities = webdriver.DesiredCapabilities.CHROME.copy()
-        capabilities["acceptInsecureCerts"] = True
+        options.set_capability("acceptInsecureCerts", True)
         driver = webdriver.Chrome(
-            chrome_options=options,
-            desired_capabilities=capabilities,
+            options=options,
         )
         driver.get(f"http://{self.hostname}/login")
         user_input = driver.find_element(By.ID, "f_user")
