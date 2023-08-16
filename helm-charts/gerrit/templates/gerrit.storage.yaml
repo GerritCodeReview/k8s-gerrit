@@ -1,4 +1,4 @@
-{{- if and .Values.gerrit.plugins.cache.enabled .Values.gerrit.plugins.downloaded }}
+{{- if and .Values.gerrit.pluginManagement.cache.enabled }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -17,7 +17,7 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.gerrit.plugins.cache.size }}
+      storage: {{ .Values.gerrit.pluginManagement.cache.size }}
   storageClassName: {{ .Values.storageClasses.shared.name }}
 {{- end }}
 {{ if eq .Values.gerrit.index.type "elasticsearch" -}}

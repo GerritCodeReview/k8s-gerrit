@@ -30,7 +30,6 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
 public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
@@ -59,22 +58,9 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
 
   private String getGerritInitConfig(Gerrit gerrit) {
     GerritInitConfig config = new GerritInitConfig();
-    config.setDownloadedPlugins(
-        gerrit.getSpec().getPlugins().stream()
-            .filter(p -> !p.isPackagedPlugin())
-            .collect(Collectors.toSet()));
-    config.setPackagedPlugins(
-        gerrit.getSpec().getPlugins().stream()
-            .filter(p -> p.isPackagedPlugin())
-            .map(p -> p.getName())
-            .collect(Collectors.toSet()));
+    config.setPlugins(gerrit.getSpec().getPlugins());
     config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCache().isEnabled());
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
-    config.setInstallAsLibrary(
-        gerrit.getSpec().getPlugins().stream()
-            .filter(p -> p.isInstallAsLibrary())
-            .map(p -> p.getName())
-            .collect(Collectors.toSet()));
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));

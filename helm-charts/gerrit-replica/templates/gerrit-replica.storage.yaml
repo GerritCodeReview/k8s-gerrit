@@ -1,4 +1,4 @@
-{{- if and .Values.gerritReplica.plugins.cache.enabled .Values.gerritReplica.plugins.downloaded }}
+{{- if and .Values.gerritReplica.pluginManagement.cache.enabled }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -17,6 +17,6 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.gerritReplica.plugins.cache.size }}
+      storage: {{ .Values.gerritReplica.pluginManagement.cache.size }}
   storageClassName: {{ .Values.storageClasses.shared.name }}
 {{- end }}
