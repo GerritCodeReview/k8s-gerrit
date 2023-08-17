@@ -25,5 +25,23 @@ public class HighAvailabilityPluginConfigBuilder extends PluginConfigBuilder {
   void addRequiredOptions(Gerrit gerrit) {
     addRequiredOption(
         new RequiredPluginOption<String>("high-availability", "main", "sharedDirectory", "shared"));
+    addRequiredOption(
+        new RequiredPluginOption<String>("high-availability", "peerInfo", "strategy", "jgroups"));
+    addRequiredOption(
+        new RequiredPluginOption<String>(
+            "high-availability", "peerInfo", "jgroups", "myUrl", null));
+    addRequiredOption(
+        new RequiredPluginOption<String>(
+            "high-availability", "jgroups", "clusterName", gerrit.getMetadata().getName()));
+    addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "cache", "synchronize", true));
+    addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "event", "synchronize", true));
+    addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "index", "synchronize", true));
+    addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "index", "synchronizeForced", true));
+    addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "healthcheck", "enable", true));
   }
 }
