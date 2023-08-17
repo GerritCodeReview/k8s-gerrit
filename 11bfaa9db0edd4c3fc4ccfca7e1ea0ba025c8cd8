@@ -16,6 +16,24 @@
       "message": "Is this a separate change?",
       "revId": "11bfaa9db0edd4c3fc4ccfca7e1ea0ba025c8cd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d39aaa5_49bc1051",
+        "filename": "tests/fixtures/helm/gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-08-17T09:38:40Z",
+      "side": 1,
+      "message": "(No; due to Selenium dependency update)",
+      "parentUuid": "0e543a66_6e8cb6a4",
+      "revId": "11bfaa9db0edd4c3fc4ccfca7e1ea0ba025c8cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
