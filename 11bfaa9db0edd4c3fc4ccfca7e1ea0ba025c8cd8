@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e543a66_6e8cb6a4",
+        "filename": "tests/fixtures/helm/gerrit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-08-17T09:04:15Z",
+      "side": 1,
+      "message": "Is this a separate change?",
+      "revId": "11bfaa9db0edd4c3fc4ccfca7e1ea0ba025c8cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
