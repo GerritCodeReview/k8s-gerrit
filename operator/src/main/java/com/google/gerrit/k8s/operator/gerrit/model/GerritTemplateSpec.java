@@ -231,8 +231,6 @@ public class GerritTemplateSpec {
 
   @JsonIgnore
   public boolean isHighlyAvailablePrimary() {
-    return getPlugins().stream().anyMatch(p -> p.getName().equals("high-availability"))
-        && getMode().equals(GerritMode.PRIMARY)
-        && getReplicas() > 1;
+    return getMode().equals(GerritMode.PRIMARY) && getReplicas() > 1;
   }
 }

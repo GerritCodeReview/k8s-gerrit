@@ -35,6 +35,7 @@ public class GerritConfigBuilder extends ConfigBuilder {
 
   @Override
   void addRequiredOptions(Gerrit gerrit) {
+    addRequiredOption(new RequiredOption<String>("gerrit", "instanceId", "$POD_NAME"));
     addRequiredOption(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
     addRequiredOption(
