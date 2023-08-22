@@ -59,7 +59,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha11 \
+**Version**: v1alpha12 \
 **Kind**: GerritCluster
 
 ---
@@ -76,7 +76,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha11"
+apiVersion: "gerritoperator.google.com/v1alpha12"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -136,6 +136,8 @@ spec:
       labels:
         app: gerrit
     spec:
+      serviceAccount: gerrit
+
       tolerations:
       - key: key1
         operator: Equal
@@ -321,7 +323,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha12 \
+**Version**: v1alpha13 \
 **Kind**: Gerrit
 
 ---
@@ -338,11 +340,13 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha12"
+apiVersion: "gerritoperator.google.com/v1alpha13"
 kind: Gerrit
 metadata:
   name: gerrit
 spec:
+  serviceAccount: gerrit
+
   tolerations:
     - key: key1
       operator: Equal
@@ -856,6 +860,7 @@ Extends [StorageConfig](#StorageConfig).
 
 | Field | Type | Description |
 |---|---|---|
+| `serviceAccount` | `String` | ServiceAccount to be used by Gerrit. Required for service discovery when using the high-availability plugin |
 | `tolerations` | [`Toleration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core)-Array | Pod tolerations (optional) |
 | `affinity` | [`Affinity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core) | Pod affinity (optional) |
 | `topologySpreadConstraints` | [`TopologySpreadConstraint`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#topologyspreadconstraint-v1-core)-Array | Pod topology spread constraints (optional) |

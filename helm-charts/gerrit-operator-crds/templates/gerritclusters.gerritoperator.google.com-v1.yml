@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1alpha11
+  - name: v1alpha12
     schema:
       openAPIV3Schema:
         properties:
@@ -207,6 +207,8 @@ spec:
                       type: object
                     spec:
                       properties:
+                        serviceAccount:
+                          type: string
                         tolerations:
                           items:
                             properties:
