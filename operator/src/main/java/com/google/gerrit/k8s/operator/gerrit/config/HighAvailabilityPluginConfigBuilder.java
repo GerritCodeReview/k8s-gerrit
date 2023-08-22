@@ -14,7 +14,11 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class HighAvailabilityPluginConfigBuilder extends PluginConfigBuilder {
   public HighAvailabilityPluginConfigBuilder() {
@@ -34,6 +38,18 @@ public class HighAvailabilityPluginConfigBuilder extends PluginConfigBuilder {
         new RequiredPluginOption<String>(
             "high-availability", "jgroups", "clusterName", gerrit.getMetadata().getName()));
     addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "jgroups", "kubernetes", true));
+    addRequiredOption(
+        new RequiredPluginOption<String>(
+            "high-availability",
+            "jgroups",
+            "kubernetes",
+            "namespace",
+            gerrit.getMetadata().getNamespace()));
+    addRequiredOption(
+        new RequiredPluginOption<Set<String>>(
+            "high-availability", "jgroups", "kubernetes", "label", getLabels(gerrit)));
+    addRequiredOption(
         new RequiredPluginOption<Boolean>("high-availability", "cache", "synchronize", true));
     addRequiredOption(
         new RequiredPluginOption<Boolean>("high-availability", "event", "synchronize", true));
@@ -43,5 +59,14 @@ public class HighAvailabilityPluginConfigBuilder extends PluginConfigBuilder {
         new RequiredPluginOption<Boolean>("high-availability", "index", "synchronizeForced", true));
     addRequiredOption(
         new RequiredPluginOption<Boolean>("high-availability", "healthcheck", "enable", true));
+  }
+
+  private static Set<String> getLabels(Gerrit gerrit) {
+    Map<String, String> selectorLabels = GerritStatefulSet.getSelectorLabels(gerrit);
+    Set<String> labels = new HashSet<>();
+    for (Map.Entry<String, String> label : selectorLabels.entrySet()) {
+      labels.add(label.getKey() + "=" + label.getValue());
+    }
+    return labels;
   }
 }
