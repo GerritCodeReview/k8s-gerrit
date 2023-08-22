@@ -17,9 +17,10 @@ RUN mkdir -p /var/gerrit/bin && \
 
 # Download Gerrit release
 # TODO: Include this change: https://gerrit-review.googlesource.com/c/gerrit/+/383095
-ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.8.0.war
-RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
-    ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
+# ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.8.0.war
+# RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
+#     ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
+ADD ./release.war /var/war/gerrit.war
 
 # Download healthcheck plugin
 ARG HEALTHCHECK_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/plugin-healthcheck-bazel-master-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar
@@ -31,9 +32,12 @@ ARG GLOBAL_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/j
 RUN curl -k -o /var/libs/ha/global-refdb.jar ${GLOBAL_REFDB_URL}
 
 # Download high-availability plugin
-ARG HA_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/plugin-high-availability-bazel-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar
-RUN curl -k -o /var/plugins/ha/high-availability.jar ${HA_JAR_URL} && \
-    cp /var/plugins/ha/high-availability.jar var/libs/ha/high-availability.jar
+# ARG HA_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/plugin-high-availability-bazel-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar
+# RUN curl -k -o /var/plugins/ha/high-availability.jar ${HA_JAR_URL} && \
+#     cp /var/plugins/ha/high-availability.jar var/libs/ha/high-availability.jar
+
+ADD ./high-availability.jar /var/plugins/ha/high-availability.jar
+RUN cp /var/plugins/ha/high-availability.jar var/libs/ha/high-availability.jar
 
 # Allow incoming traffic
 EXPOSE 29418 8080
@@ -43,9 +47,9 @@ RUN chown -R gerrit:users /var/gerrit && \
     chown -R gerrit:users /var/war
 USER gerrit
 
-RUN java -jar /var/gerrit/bin/gerrit.war init \
-      --batch \
-      --no-auto-start \
-      -d /var/gerrit
+# RUN java -jar /var/gerrit/bin/gerrit.war init \
+#       --batch \
+#       --no-auto-start \
+#       -d /var/gerrit
 
 ENTRYPOINT ["ash", "/var/tools/start"]
