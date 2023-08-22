@@ -30,21 +30,22 @@
    26. [GerritModule](#gerritmodule)
    27. [GerritPlugin](#gerritplugin)
    28. [GerritMode](#gerritmode)
-   29. [GerritSpec](#gerritspec)
-   30. [GerritStatus](#gerritstatus)
-   31. [IngressConfig](#ingressconfig)
-   32. [ReceiverTemplate](#receivertemplate)
-   33. [ReceiverTemplateSpec](#receivertemplatespec)
-   34. [ReceiverSpec](#receiverspec)
-   35. [ReceiverStatus](#receiverstatus)
-   36. [ReceiverProbe](#receiverprobe)
-   37. [ReceiverServiceConfig](#receiverserviceconfig)
-   38. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   39. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   40. [GitGcState](#gitgcstate)
-   41. [GerritNetworkSpec](#gerritnetworkspec)
-   42. [NetworkMember](#networkmember)
-   43. [NetworkMemberWithSsh](#networkmemberwithssh)
+   29. [GerritDebugConfig](#gerritdebugconfig)
+   30. [GerritSpec](#gerritspec)
+   31. [GerritStatus](#gerritstatus)
+   32. [IngressConfig](#ingressconfig)
+   33. [ReceiverTemplate](#receivertemplate)
+   34. [ReceiverTemplateSpec](#receivertemplatespec)
+   35. [ReceiverSpec](#receiverspec)
+   36. [ReceiverStatus](#receiverstatus)
+   37. [ReceiverProbe](#receiverprobe)
+   38. [ReceiverServiceConfig](#receiverserviceconfig)
+   39. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   40. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   41. [GitGcState](#gitgcstate)
+   42. [GerritNetworkSpec](#gerritnetworkspec)
+   43. [NetworkMember](#networkmember)
+   44. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -59,7 +60,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha12 \
+**Version**: v1alpha13 \
 **Kind**: GerritCluster
 
 ---
@@ -76,7 +77,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha12"
+apiVersion: "gerritoperator.google.com/v1alpha13"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -205,6 +206,10 @@ spec:
 
       mode: REPLICA
 
+      debug:
+        enabled: false
+        suspend: false
+
       site:
         size: 1Gi
 
@@ -323,7 +328,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha13 \
+**Version**: v1alpha14 \
 **Kind**: Gerrit
 
 ---
@@ -340,7 +345,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha13"
+apiVersion: "gerritoperator.google.com/v1alpha14"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -413,6 +418,10 @@ spec:
       sshPort: 29418
 
     mode: PRIMARY
+
+    debug:
+      enabled: false
+      suspend: false
 
     site:
       size: 1Gi
@@ -879,6 +888,7 @@ Extends [StorageConfig](#StorageConfig).
 | `configFiles` | `Map<String, String>` | Configuration files for Gerrit that will be mounted into the Gerrit site's etc-directory (gerrit.config is mandatory) |
 | `secretRef` | `String` | Name of secret containing configuration files, e.g. secure.config, that will be mounted into the Gerrit site's etc-directory (optional) |
 | `mode` | [`GerritMode`](#gerritmode) | In which mode Gerrit should be run. (default: PRIMARY) |
+| `debug` | [`GerritDebugConfig`](#gerritdebugconfig) | Enable the debug-mode for Gerrit |
 
 ## GerritProbe
 
@@ -923,6 +933,20 @@ compared to the parent object. All other options can still be configured.
 |---|---|
 | `PRIMARY` | A primary Gerrit |
 | `REPLICA` | A Gerrit Replica, which only serves git fetch/clone requests |
+
+## GerritDebugConfig
+
+These options allow to debug Gerrit. It will enable debugging in all pods and
+expose the port 8000 in the container. Port-forwarding is required to connect the
+debugger.
+Note, that all pods will be restarted to enable the debugger. Also, if `suspend`
+is enabled, ensure that the lifecycle probes are configured accordingly to prevent
+pod restarts before Gerrit is ready.
+
+| Field | Type | Description |
+|---|---|---|
+| `enabled` | `boolean` | Whether to enable debugging. (default: `false`) |
+| `suspend` | `boolean` | Whether to suspend Gerrit on startup. (default: `false`) |
 
 ## GerritSpec
 
