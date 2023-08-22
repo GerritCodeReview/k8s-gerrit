@@ -24,6 +24,8 @@ import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
+import io.fabric8.kubernetes.api.model.EnvVar;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -52,6 +54,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
   private static final String SITE_VOLUME_NAME = "gerrit-site";
   public static final int HTTP_PORT = 8080;
   public static final int SSH_PORT = 29418;
+  public static final int JGROUPS_PORT = 7800;
 
   public GerritStatefulSet() {
     super(StatefulSet.class);
@@ -122,6 +125,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
+        .withServiceAccount(gerrit.getSpec().getServiceAccount())
         .withTolerations(gerrit.getSpec().getTolerations())
         .withTopologySpreadConstraints(gerrit.getSpec().getTopologySpreadConstraints())
         .withAffinity(gerrit.getSpec().getAffinity())
@@ -133,7 +137,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .endSecurityContext()
         .addNewInitContainer()
         .withName("gerrit-init")
-        .withEnv(GerritCluster.getPodNameEnvVar())
+        .withEnv(getEnvVars(gerrit))
         .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
             gerrit.getSpec().getContainerImages().getGerritImages().getFullImageName("gerrit-init"))
@@ -154,7 +158,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .endExec()
         .endPreStop()
         .endLifecycle()
-        .withEnv(GerritCluster.getPodNameEnvVar())
+        .withEnv(getEnvVars(gerrit))
         .withPorts(getContainerPorts(gerrit))
         .withResources(gerrit.getSpec().getResources())
         .withStartupProbe(gerrit.getSpec().getStartupProbe())
@@ -290,7 +294,26 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
       containerPorts.add(new ContainerPort(SSH_PORT, null, null, "ssh", null));
     }
 
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      containerPorts.add(new ContainerPort(JGROUPS_PORT, null, null, "jgroups", null));
+    }
+
     return containerPorts;
+  }
+
+  private List<EnvVar> getEnvVars(Gerrit gerrit) {
+    List<EnvVar> envVars = new ArrayList<>();
+    envVars.add(GerritCluster.getPodNameEnvVar());
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      envVars.add(
+          new EnvVarBuilder()
+              .withName("GERRIT_URL")
+              .withValue(
+                  String.format(
+                      "http://$(POD_NAME).%s:%s", GerritService.getHostname(gerrit), HTTP_PORT))
+              .build());
+    }
+    return envVars;
   }
 
   private boolean isGerritRestartRequired(Gerrit gerrit, Context<Gerrit> context) {

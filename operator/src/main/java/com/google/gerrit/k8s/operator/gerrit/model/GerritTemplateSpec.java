@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GerritTemplateSpec {
+  private String serviceAccount;
+
   private List<Toleration> tolerations;
   private Affinity affinity;
   private List<TopologySpreadConstraint> topologySpreadConstraints = new ArrayList<>();
@@ -53,6 +55,7 @@ public class GerritTemplateSpec {
   public GerritTemplateSpec() {}
 
   public GerritTemplateSpec(GerritTemplateSpec templateSpec) {
+    this.serviceAccount = templateSpec.serviceAccount;
     this.tolerations = templateSpec.tolerations;
     this.affinity = templateSpec.affinity;
     this.topologySpreadConstraints = templateSpec.topologySpreadConstraints;
@@ -77,6 +80,14 @@ public class GerritTemplateSpec {
     this.configFiles = templateSpec.configFiles;
     this.secretRef = templateSpec.secretRef;
     this.mode = templateSpec.mode;
+  }
+
+  public String getServiceAccount() {
+    return serviceAccount;
+  }
+
+  public void setServiceAccount(String serviceAccount) {
+    this.serviceAccount = serviceAccount;
   }
 
   public List<Toleration> getTolerations() {

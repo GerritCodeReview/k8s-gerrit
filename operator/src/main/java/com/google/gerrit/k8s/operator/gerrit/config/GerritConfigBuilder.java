@@ -22,6 +22,7 @@ import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,11 +38,14 @@ public class GerritConfigBuilder extends ConfigBuilder {
   void addRequiredOptions(Gerrit gerrit) {
     addRequiredOption(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
-    addRequiredOption(
-        new RequiredOption<Set<String>>(
-            "container",
-            "javaOptions",
-            Set.of("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore")));
+
+    Set<String> javaOptions = new HashSet<>();
+    javaOptions.add("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore");
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      javaOptions.add("-Djava.net.preferIPv4Stack=true");
+    }
+    addRequiredOption(new RequiredOption<Set<String>>("container", "javaOptions", javaOptions));
+
     addRequiredOption(new RequiredOption<String>("container", "user", "gerrit"));
     addRequiredOption(new RequiredOption<String>("gerrit", "basepath", "git"));
     addRequiredOption(new RequiredOption<String>("cache", "directory", "cache"));
