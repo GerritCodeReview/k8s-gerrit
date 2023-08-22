@@ -16,8 +16,8 @@ RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/war
 
 # Download Gerrit release
-# TODO: Include this change: https://gerrit-review.googlesource.com/c/gerrit/+/383095
-ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.8.0.war
+# TODO: Revert back to use release versions as soon as change 383095 has been released
+ARG GERRIT_WAR_URL=https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-stable-3.8/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war
 RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
     ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
