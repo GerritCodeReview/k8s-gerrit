@@ -51,6 +51,8 @@ public class GerritTemplateSpec {
   private String secretRef;
   private GerritMode mode = GerritMode.PRIMARY;
 
+  private GerritDebugConfig debug = new GerritDebugConfig();
+
   public GerritTemplateSpec() {}
 
   public GerritTemplateSpec(GerritTemplateSpec templateSpec) {
@@ -79,6 +81,8 @@ public class GerritTemplateSpec {
     this.configFiles = templateSpec.configFiles;
     this.secretRef = templateSpec.secretRef;
     this.mode = templateSpec.mode;
+
+    this.debug = templateSpec.debug;
   }
 
   public String getServiceAccount() {
@@ -232,6 +236,14 @@ public class GerritTemplateSpec {
 
   public void setMode(GerritMode mode) {
     this.mode = mode;
+  }
+
+  public GerritDebugConfig getDebug() {
+    return debug;
+  }
+
+  public void setDebug(GerritDebugConfig debug) {
+    this.debug = debug;
   }
 
   public enum GerritMode {
