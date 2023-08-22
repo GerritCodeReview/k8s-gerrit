@@ -55,6 +55,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
   public static final int HTTP_PORT = 8080;
   public static final int SSH_PORT = 29418;
   public static final int JGROUPS_PORT = 7800;
+  public static final int DEBUG_PORT = 8000;
 
   public GerritStatefulSet() {
     super(StatefulSet.class);
@@ -296,6 +297,10 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
 
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       containerPorts.add(new ContainerPort(JGROUPS_PORT, null, null, "jgroups", null));
+    }
+
+    if (gerrit.getSpec().getDebug().isEnabled()) {
+      containerPorts.add(new ContainerPort(DEBUG_PORT, null, null, "debug", null));
     }
 
     return containerPorts;

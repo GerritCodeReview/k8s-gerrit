@@ -44,6 +44,16 @@ public class GerritConfigBuilder extends ConfigBuilder {
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       javaOptions.add("-Djava.net.preferIPv4Stack=true");
     }
+    if (gerrit.getSpec().getDebug().isEnabled()) {
+      javaOptions.add("-Xdebug");
+      String debugServerCfg = "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000";
+      if (gerrit.getSpec().getDebug().isSuspend()) {
+        debugServerCfg = debugServerCfg + ",suspend=y";
+      } else {
+        debugServerCfg = debugServerCfg + ",suspend=n";
+      }
+      javaOptions.add(debugServerCfg);
+    }
     addRequiredOption(new RequiredOption<Set<String>>("container", "javaOptions", javaOptions));
 
     addRequiredOption(new RequiredOption<String>("container", "user", "gerrit"));
