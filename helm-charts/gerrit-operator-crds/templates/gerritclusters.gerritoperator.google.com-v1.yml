@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1alpha12
+  - name: v1alpha13
     schema:
       openAPIV3Schema:
         properties:
@@ -831,6 +831,13 @@ spec:
                           - PRIMARY
                           - REPLICA
                           type: string
+                        debug:
+                          properties:
+                            enabled:
+                              type: boolean
+                            suspend:
+                              type: boolean
+                          type: object
                       type: object
                   type: object
                 type: array
