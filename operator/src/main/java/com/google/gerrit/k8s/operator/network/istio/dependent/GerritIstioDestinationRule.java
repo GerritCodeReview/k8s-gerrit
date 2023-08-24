@@ -14,6 +14,9 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
+import static com.google.gerrit.k8s.operator.network.model.GerritNetwork.SESSION_COOKIE_NAME;
+import static com.google.gerrit.k8s.operator.network.model.GerritNetwork.SESSION_COOKIE_TTL;
+
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
@@ -21,6 +24,7 @@ import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
 import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsSimpleLB;
+import io.fabric8.istio.api.networking.v1beta1.TrafficPolicy;
 import io.fabric8.istio.api.networking.v1beta1.TrafficPolicyBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
@@ -45,7 +49,8 @@ public class GerritIstioDestinationRule
     super(DestinationRule.class);
   }
 
-  protected DestinationRule desired(GerritNetwork gerritNetwork, String gerritName) {
+  protected DestinationRule desired(
+      GerritNetwork gerritNetwork, String gerritName, boolean isReplica) {
 
     return new DestinationRuleBuilder()
         .withNewMetadata()
@@ -59,15 +64,34 @@ public class GerritIstioDestinationRule
         .endMetadata()
         .withNewSpec()
         .withHost(GerritService.getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
-        .withTrafficPolicy(
-            new TrafficPolicyBuilder()
-                .withNewLoadBalancer()
-                .withNewLoadBalancerSettingsSimpleLbPolicy()
-                .withSimple(LoadBalancerSettingsSimpleLB.LEAST_CONN)
-                .endLoadBalancerSettingsSimpleLbPolicy()
-                .endLoadBalancer()
-                .build())
+        .withTrafficPolicy(getTrafficPolicy(isReplica))
         .endSpec()
+        .build();
+  }
+
+  private TrafficPolicy getTrafficPolicy(boolean isReplica) {
+    if (isReplica) {
+      return new TrafficPolicyBuilder()
+          .withNewLoadBalancer()
+          .withNewLoadBalancerSettingsSimpleLbPolicy()
+          .withSimple(LoadBalancerSettingsSimpleLB.LEAST_CONN)
+          .endLoadBalancerSettingsSimpleLbPolicy()
+          .endLoadBalancer()
+          .build();
+    }
+    return new TrafficPolicyBuilder()
+        .withNewLoadBalancer()
+        .withNewLoadBalancerSettingsConsistentHashLbPolicy()
+        .withNewConsistentHash()
+        .withNewLoadBalancerSettingsConsistentHashLBHttpCookieKey()
+        .withNewHttpCookie()
+        .withName(SESSION_COOKIE_NAME)
+        .withTtl(SESSION_COOKIE_TTL)
+        .endHttpCookie()
+        .endLoadBalancerSettingsConsistentHashLBHttpCookieKey()
+        .endConsistentHash()
+        .endLoadBalancerSettingsConsistentHashLbPolicy()
+        .endLoadBalancer()
         .build();
   }
 
@@ -85,11 +109,11 @@ public class GerritIstioDestinationRule
     Map<String, DestinationRule> drs = new HashMap<>();
     if (gerritNetwork.hasPrimaryGerrit()) {
       String primaryGerritName = gerritNetwork.getSpec().getPrimaryGerrit().getName();
-      drs.put(primaryGerritName, desired(gerritNetwork, primaryGerritName));
+      drs.put(primaryGerritName, desired(gerritNetwork, primaryGerritName, true));
     }
     if (gerritNetwork.hasGerritReplica()) {
       String gerritReplicaName = gerritNetwork.getSpec().getGerritReplica().getName();
-      drs.put(gerritReplicaName, desired(gerritNetwork, gerritReplicaName));
+      drs.put(gerritReplicaName, desired(gerritNetwork, gerritReplicaName, false));
     }
     return drs;
   }
