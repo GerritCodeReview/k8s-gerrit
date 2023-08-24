@@ -28,6 +28,9 @@ import io.fabric8.kubernetes.model.annotation.Version;
 public class GerritNetwork extends CustomResource<GerritNetworkSpec, Status> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
+  public static final String SESSION_COOKIE_NAME = "Gerrit_Session";
+  public static final String SESSION_COOKIE_TTL = "60s";
+
   @JsonIgnore
   public String getDependentResourceName(String nameSuffix) {
     return String.format("%s-%s", getMetadata().getName(), nameSuffix);
