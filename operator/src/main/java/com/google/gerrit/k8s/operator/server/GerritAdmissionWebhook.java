@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.server;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
@@ -47,11 +48,36 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
+    if (noRefDbConfiguredForHA(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage(
+              "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE")
+          .build();
+    }
+
+    if (missingZookeeperConfig(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage("Missing zookeeper configuration (.spec.refdb.zookeeper).")
+          .build();
+    }
+
     return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
   }
 
   private void invalidGerritConfiguration(Gerrit gerrit) throws InvalidGerritConfigException {
     new GerritConfigBuilder().forGerrit(gerrit).validate();
+  }
+
+  private boolean noRefDbConfiguredForHA(Gerrit gerrit) {
+    return gerrit.getSpec().isHighlyAvailablePrimary()
+        && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
+  }
+
+  private boolean missingZookeeperConfig(Gerrit gerrit) {
+    return gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)
+        && gerrit.getSpec().getRefdb().getZookeeper() == null;
   }
 
   @Override
