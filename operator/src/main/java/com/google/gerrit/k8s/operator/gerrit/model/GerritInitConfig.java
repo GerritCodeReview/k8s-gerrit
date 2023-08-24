@@ -27,6 +27,8 @@ public class GerritInitConfig {
   @JsonProperty("highAvailability")
   private boolean isHighlyAvailable;
 
+  private String refdb;
+
   public String getCaCertPath() {
     return caCertPath;
   }
@@ -75,5 +77,13 @@ public class GerritInitConfig {
   @JsonProperty("highAvailability")
   public void setHighlyAvailable(boolean isHighlyAvailable) {
     this.isHighlyAvailable = isHighlyAvailable;
+  }
+
+  public String getRefdb() {
+    return refdb;
+  }
+
+  public void setRefdb(String refdb) {
+    this.refdb = refdb;
   }
 }

@@ -18,7 +18,9 @@ import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.config.ConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -55,6 +57,12 @@ public class GerritConfigMap extends CRUDKubernetesDependentResource<ConfigMap, 
       configFiles.put(
           "high-availability.config",
           new HighAvailabilityPluginConfigBuilder().forGerrit(gerrit).build().toText());
+    }
+
+    if (gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)) {
+      configFiles.put(
+          "zookeeper-refdb.config",
+          new ZookeeperRefDbPluginConfigBuilder().forGerrit(gerrit).build().toText());
     }
 
     if (!configFiles.containsKey("healthcheck.config")) {
