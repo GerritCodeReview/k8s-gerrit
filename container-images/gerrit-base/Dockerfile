@@ -12,6 +12,7 @@ RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
     mkdir -p /var/gerrit/plugins && \
     mkdir -p /var/plugins/ha && \
+    mkdir -p /var/plugins/zookeeper && \
     mkdir -p /var/libs/ha && \
     mkdir -p /var/war
 
@@ -38,6 +39,11 @@ RUN curl -k -o /var/libs/ha/global-refdb.jar ${GLOBAL_REFDB_URL}
 
 ADD ./high-availability.jar /var/plugins/ha/high-availability.jar
 RUN cp /var/plugins/ha/high-availability.jar var/libs/ha/high-availability.jar
+
+# Download zookeeper-refdb plugin
+#ARG ZOOKEEPER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/plugin-zookeeper-refdb-bazel-master-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar
+ARG ZOOKEEPER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.7/job/plugin-zookeeper-refdb-bazel-stable-3.7/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar
+RUN curl -k -o /var/plugins/zookeeper/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
 
 # Allow incoming traffic
 EXPOSE 29418 8080
