@@ -76,6 +76,11 @@ class AbstractPluginInstaller(ABC):
             required.extend(
                 self._get_required_jars("/var/plugins/ha", self.config.get_plugins())
             )
+        if self.config.refdb:
+            refdb_path = f"/var/plugins/{self.config.refdb}"
+            if not os.path.exists(refdb_path):
+                raise FileNotFoundError("Invalid refdb. Unable to find refdb plugin in container.")
+            required.extend(self._get_required_jars(f"/var/plugins/{self.config.refdb}", self.config.get_plugins()))
         LOG.info("Requiring plugins: %s", required)
         return required
 

@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1alpha14
+  - name: v1alpha15
     schema:
       openAPIV3Schema:
         properties:
@@ -120,6 +120,21 @@ spec:
                     properties:
                       enabled:
                         type: boolean
+                    type: object
+                type: object
+              refdb:
+                properties:
+                  database:
+                    enum:
+                    - NONE
+                    - ZOOKEEPER
+                    type: string
+                  zookeeper:
+                    properties:
+                      connectString:
+                        type: string
+                      rootNode:
+                        type: string
                     type: object
                 type: object
               serviceAccount:

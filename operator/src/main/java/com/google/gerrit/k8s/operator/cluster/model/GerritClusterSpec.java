@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class GerritClusterSpec {
   private GerritStorageConfig storage = new GerritStorageConfig();
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
+  private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
 
@@ -52,6 +54,14 @@ public class GerritClusterSpec {
 
   public void setIngress(GerritClusterIngressConfig ingress) {
     this.ingress = ingress;
+  }
+
+  public GlobalRefDbConfig getRefdb() {
+    return refdb;
+  }
+
+  public void setRefdb(GlobalRefDbConfig refdb) {
+    this.refdb = refdb;
   }
 
   public List<GerritTemplate> getGerrits() {
