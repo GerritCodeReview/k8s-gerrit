@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -79,6 +80,18 @@ public class GerritTemplate implements KubernetesResource {
     ingressConfig.setTlsEnabled(gerritCluster.getSpec().getIngress().getTls().isEnabled());
     ingressConfig.setSsh(gerritCluster.getSpec().getIngress().getSsh());
     gerritSpec.setIngress(ingressConfig);
+    if (getSpec().isHighlyAvailablePrimary()) {
+      GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
+      if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
+        refdb
+            .getZookeeper()
+            .setRootNode(
+                gerritCluster.getMetadata().getNamespace()
+                    + "/"
+                    + gerritCluster.getMetadata().getName());
+      }
+      gerritSpec.setRefdb(gerritCluster.getSpec().getRefdb());
+    }
     gerrit.setSpec(gerritSpec);
     return gerrit;
   }

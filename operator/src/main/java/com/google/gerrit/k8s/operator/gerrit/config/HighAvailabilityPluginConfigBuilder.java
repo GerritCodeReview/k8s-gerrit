@@ -59,6 +59,8 @@ public class HighAvailabilityPluginConfigBuilder extends PluginConfigBuilder {
         new RequiredPluginOption<Boolean>("high-availability", "index", "synchronizeForced", true));
     addRequiredOption(
         new RequiredPluginOption<Boolean>("high-availability", "healthcheck", "enable", true));
+    addRequiredOption(
+        new RequiredPluginOption<Boolean>("high-availability", "ref-database", "enabled", true));
   }
 
   private static Set<String> getLabels(Gerrit gerrit) {
