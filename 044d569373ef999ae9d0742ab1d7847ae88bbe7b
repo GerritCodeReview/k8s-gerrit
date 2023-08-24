@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaa1fc1d_0620da6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-08-24T08:18:02Z",
+      "side": 1,
+      "message": "exit -\u003e exist?",
+      "revId": "044d569373ef999ae9d0742ab1d7847ae88bbe7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
