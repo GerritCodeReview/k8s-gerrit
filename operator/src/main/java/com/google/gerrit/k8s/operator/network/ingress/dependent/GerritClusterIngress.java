@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
+import static com.google.gerrit.k8s.operator.network.model.GerritNetwork.SESSION_COOKIE_NAME;
+
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
@@ -86,6 +88,13 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
           "nginx.ingress.kubernetes.io/configuration-snippet",
           createNginxConfigSnippet(gerritNetwork.getMetadata().getNamespace(), svcName));
     }
+
+    annotations.put("nginx.ingress.kubernetes.io/affinity", "cookie");
+    annotations.put("nginx.ingress.kubernetes.io/session-cookie-name", SESSION_COOKIE_NAME);
+    annotations.put("nginx.ingress.kubernetes.io/session-cookie-path", "/");
+    annotations.put("nginx.ingress.kubernetes.io/session-cookie-max-age", "60");
+    annotations.put("nginx.ingress.kubernetes.io/session-cookie-expires", "60");
+
     return annotations;
   }
 
