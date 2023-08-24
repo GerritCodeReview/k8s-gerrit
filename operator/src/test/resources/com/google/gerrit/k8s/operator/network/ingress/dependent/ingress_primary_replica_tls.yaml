@@ -12,6 +12,11 @@ metadata:
         set $proxy_host $proxy_upstream_name;
         set $service_name "replica";
       }
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-name: Gerrit_Session
+    nginx.ingress.kubernetes.io/session-cookie-path: /
+    nginx.ingress.kubernetes.io/session-cookie-max-age: 60
+    nginx.ingress.kubernetes.io/session-cookie-expires: 60
 spec:
   tls:
   - hosts:
