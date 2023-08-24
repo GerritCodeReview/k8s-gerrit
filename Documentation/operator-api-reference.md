@@ -22,30 +22,33 @@
    18. [GerritRepositoryConfig](#gerritrepositoryconfig)
    19. [GerritClusterIngressConfig](#gerritclusteringressconfig)
    20. [GerritIngressTlsConfig](#gerritingresstlsconfig)
-   21. [GerritTemplate](#gerrittemplate)
-   22. [GerritTemplateSpec](#gerrittemplatespec)
-   23. [GerritProbe](#gerritprobe)
-   24. [GerritServiceConfig](#gerritserviceconfig)
-   25. [GerritSite](#gerritsite)
-   26. [GerritModule](#gerritmodule)
-   27. [GerritPlugin](#gerritplugin)
-   28. [GerritMode](#gerritmode)
-   29. [GerritDebugConfig](#gerritdebugconfig)
-   30. [GerritSpec](#gerritspec)
-   31. [GerritStatus](#gerritstatus)
-   32. [IngressConfig](#ingressconfig)
-   33. [ReceiverTemplate](#receivertemplate)
-   34. [ReceiverTemplateSpec](#receivertemplatespec)
-   35. [ReceiverSpec](#receiverspec)
-   36. [ReceiverStatus](#receiverstatus)
-   37. [ReceiverProbe](#receiverprobe)
-   38. [ReceiverServiceConfig](#receiverserviceconfig)
-   39. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   40. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   41. [GitGcState](#gitgcstate)
-   42. [GerritNetworkSpec](#gerritnetworkspec)
-   43. [NetworkMember](#networkmember)
-   44. [NetworkMemberWithSsh](#networkmemberwithssh)
+   21. [GlobalRefDbConfig](#globalrefdbconfig)
+   22. [RefDatabase](#refdatabase)
+   23. [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+   24. [GerritTemplate](#gerrittemplate)
+   25. [GerritTemplateSpec](#gerrittemplatespec)
+   26. [GerritProbe](#gerritprobe)
+   27. [GerritServiceConfig](#gerritserviceconfig)
+   28. [GerritSite](#gerritsite)
+   29. [GerritModule](#gerritmodule)
+   30. [GerritPlugin](#gerritplugin)
+   31. [GerritMode](#gerritmode)
+   32. [GerritDebugConfig](#gerritdebugconfig)
+   33. [GerritSpec](#gerritspec)
+   34. [GerritStatus](#gerritstatus)
+   35. [IngressConfig](#ingressconfig)
+   36. [ReceiverTemplate](#receivertemplate)
+   37. [ReceiverTemplateSpec](#receivertemplatespec)
+   38. [ReceiverSpec](#receiverspec)
+   39. [ReceiverStatus](#receiverstatus)
+   40. [ReceiverProbe](#receiverprobe)
+   41. [ReceiverServiceConfig](#receiverserviceconfig)
+   42. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   43. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   44. [GitGcState](#gitgcstate)
+   45. [GerritNetworkSpec](#gerritnetworkspec)
+   46. [NetworkMember](#networkmember)
+   47. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -60,7 +63,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha13 \
+**Version**: v1alpha14 \
 **Kind**: GerritCluster
 
 ---
@@ -77,7 +80,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha13"
+apiVersion: "gerritoperator.google.com/v1alpha14"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -130,6 +133,12 @@ spec:
     tls:
       enabled: false
       secret: ""
+
+  refdb:
+    database: NONE
+    zookeeper:
+      connectString: ""
+      rootNode: ""
 
   gerrits:
   - metadata:
@@ -328,7 +337,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha14 \
+**Version**: v1alpha15 \
 **Kind**: Gerrit
 
 ---
@@ -345,7 +354,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha14"
+apiVersion: "gerritoperator.google.com/v1alpha15"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -515,6 +524,12 @@ spec:
   ingress:
     host: example.com
     tlsEnabled: false
+
+  refdb:
+    database: NONE
+    zookeeper:
+      connectString: ""
+      rootNode: ""
 ```
 
 ## Receiver
@@ -756,6 +771,7 @@ spec:
 | `storage` | [`GerritStorageConfig`](#gerritstorageconfig) | Storage used by Gerrit instances |
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
+| `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
 | `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
 
@@ -858,6 +874,31 @@ Extends [StorageConfig](#StorageConfig).
 | `enabled` | `boolean` | Whether to use TLS (default: `false`) |
 | `secret` | `String` | Name of the secret containing the TLS key pair. The certificate should be a wildcard certificate allowing for all subdomains under the given host. |
 
+## GlobalRefDbConfig
+
+Note, that the operator will not deploy or operate the database used for the
+global refdb. It will only configure Gerrit to use it.
+
+| Field | Type | Description |
+|---|---|---|
+| `database` | [`RefDatabase`](#refdatabase) | Which database to use for the global refdb. Choices: `NONE`, `ZOOKEEPER`. (default: `NONE`) |
+| `zookeeper` | [`ZookeeperRefDbConfig`](#zookeeperrefdbconfig) | Configuration of zookeeper. Only used, if zookeeper was configured to be used for the global refdb. |
+
+## RefDatabase
+
+| Value | Description|
+|---|---|
+| `NONE` | No global refdb will be used. Not allowed, if a primary Gerrit with 2 or more instances will be installed. |
+| `ZOOKEEPER` | Zookeeper will be used as a global refdb |
+
+## ZookeeperRefDbConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
+| `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if using the `GerritCluster` is being used. |
+
+
 ## GerritTemplate
 
 | Field | Type | Description |
@@ -957,6 +998,7 @@ pod restarts before Gerrit is ready.
 | `storage` | [`GerritStorageConfig`](#gerritstorageconfig) | Storage used by Gerrit instances |
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`IngressConfig`](#ingressconfig) | Ingress configuration for Gerrit |
+| `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
 
 ## GerritStatus
 

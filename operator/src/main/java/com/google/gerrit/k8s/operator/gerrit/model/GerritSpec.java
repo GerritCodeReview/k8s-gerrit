@@ -16,12 +16,14 @@ package com.google.gerrit.k8s.operator.gerrit.model;
 
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
 
 public class GerritSpec extends GerritTemplateSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private GerritStorageConfig storage = new GerritStorageConfig();
   private IngressConfig ingress = new IngressConfig();
+  private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
 
   public GerritSpec() {}
 
@@ -51,5 +53,13 @@ public class GerritSpec extends GerritTemplateSpec {
 
   public void setIngress(IngressConfig ingress) {
     this.ingress = ingress;
+  }
+
+  public GlobalRefDbConfig getRefdb() {
+    return refdb;
+  }
+
+  public void setRefdb(GlobalRefDbConfig refdb) {
+    this.refdb = refdb;
   }
 }
