@@ -24,11 +24,13 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritInitConfig;
+import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
+import java.util.Locale;
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
@@ -63,6 +65,10 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
     config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCache().isEnabled());
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
     config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
+
+    if (gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)) {
+      config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
+    }
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));
