@@ -146,6 +146,8 @@ spec:
                         type: string
                     type: object
                 type: object
+              serverId:
+                type: string
               gerrits:
                 items:
                   properties:

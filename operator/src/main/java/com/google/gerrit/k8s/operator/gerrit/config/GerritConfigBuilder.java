@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate.ANNOTATION_GERRIT_SERVER_ID;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
@@ -23,6 +24,7 @@ import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,6 +38,13 @@ public class GerritConfigBuilder extends ConfigBuilder {
 
   @Override
   void addRequiredOptions(Gerrit gerrit) {
+    Map<String, String> annotations = gerrit.getMetadata().getAnnotations();
+    if (annotations.containsKey(ANNOTATION_GERRIT_SERVER_ID)) {
+      addRequiredOption(
+          new RequiredOption<String>(
+              "gerrit", "serverId", annotations.get(ANNOTATION_GERRIT_SERVER_ID)));
+    }
+
     addRequiredOption(new RequiredOption<String>("gerrit", "instanceId", "$POD_NAME"));
     addRequiredOption(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
