@@ -29,6 +29,7 @@ public class GerritClusterSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
+  private String serverId = "";
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
 
@@ -62,6 +63,14 @@ public class GerritClusterSpec {
 
   public void setRefdb(GlobalRefDbConfig refdb) {
     this.refdb = refdb;
+  }
+
+  public String getServerId() {
+    return serverId;
+  }
+
+  public void setServerId(String serverId) {
+    this.serverId = serverId;
   }
 
   public List<GerritTemplate> getGerrits() {
