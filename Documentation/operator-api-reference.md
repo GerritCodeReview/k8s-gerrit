@@ -63,7 +63,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha14 \
+**Version**: v1alpha15 \
 **Kind**: GerritCluster
 
 ---
@@ -80,7 +80,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha14"
+apiVersion: "gerritoperator.google.com/v1alpha15"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -139,6 +139,8 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+
+  serverId: ""
 
   gerrits:
   - metadata:
@@ -772,6 +774,7 @@ spec:
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
+| `serverId` | `String` | The serverId to be used for all Gerrit instances (default: `<namespace>/<name>`) |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
 | `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
 
