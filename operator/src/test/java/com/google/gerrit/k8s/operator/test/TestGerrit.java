@@ -54,9 +54,7 @@ public class TestGerrit {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final TestProperties testProps = new TestProperties();
   public static final String DEFAULT_GERRIT_CONFIG =
-      "[gerrit]\n"
-          + "  serverId = gerrit-1\n"
-          + "[index]\n"
+      "[index]\n"
           + "  type = LUCENE\n"
           + "[auth]\n"
           + "  type = LDAP\n"
@@ -176,6 +174,7 @@ public class TestGerrit {
       GerritSite site = new GerritSite();
       site.setSize(new Quantity("1Gi"));
       gerritSpec.setSite(site);
+      gerritSpec.setServerId("gerrit-1234");
       gerritSpec.setResources(
           new ResourceRequirementsBuilder()
               .withRequests(Map.of("cpu", new Quantity("1"), "memory", new Quantity("5Gi")))

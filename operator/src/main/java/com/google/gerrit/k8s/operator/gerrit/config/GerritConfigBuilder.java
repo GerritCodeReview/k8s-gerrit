@@ -36,6 +36,11 @@ public class GerritConfigBuilder extends ConfigBuilder {
 
   @Override
   void addRequiredOptions(Gerrit gerrit) {
+    String serverId = gerrit.getSpec().getServerId();
+    if (serverId != null && !serverId.isBlank()) {
+      addRequiredOption(new RequiredOption<String>("gerrit", "serverId", serverId));
+    }
+
     addRequiredOption(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
 

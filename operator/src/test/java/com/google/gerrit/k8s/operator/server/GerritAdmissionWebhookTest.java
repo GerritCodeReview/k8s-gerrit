@@ -125,6 +125,7 @@ public class GerritAdmissionWebhookTest {
     GerritClusterIngressConfig ingressConfig = new GerritClusterIngressConfig();
     ingressConfig.setEnabled(false);
     clusterSpec.setIngress(ingressConfig);
+    clusterSpec.setServerId("test");
     cluster.setSpec(clusterSpec);
 
     kubernetesServer

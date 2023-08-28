@@ -80,6 +80,7 @@ public class GerritTemplate implements KubernetesResource {
     ingressConfig.setTlsEnabled(gerritCluster.getSpec().getIngress().getTls().isEnabled());
     ingressConfig.setSsh(gerritCluster.getSpec().getIngress().getSsh());
     gerritSpec.setIngress(ingressConfig);
+    gerritSpec.setServerId(getServerId(gerritCluster));
     if (getSpec().isHighlyAvailablePrimary()) {
       GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
       if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
@@ -103,5 +104,12 @@ public class GerritTemplate implements KubernetesResource {
         .withLabels(metadata.getLabels())
         .withNamespace(gerritCluster.getMetadata().getNamespace())
         .build();
+  }
+
+  private String getServerId(GerritCluster gerritCluster) {
+    String serverId = gerritCluster.getSpec().getServerId();
+    return serverId.isBlank()
+        ? gerritCluster.getMetadata().getNamespace() + "/" + gerritCluster.getMetadata().getName()
+        : serverId;
   }
 }
