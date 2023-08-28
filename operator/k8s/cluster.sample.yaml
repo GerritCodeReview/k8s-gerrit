@@ -23,6 +23,7 @@ spec:
       site:
         size: 5Gi
       plugins: []
+      serverId: gerrit
       configFiles:
         gerrit.config: |-
           [auth]
@@ -30,8 +31,6 @@ spec:
           [container]
             javaOptions = -Xms200m
             javaOptions = -Xmx4g
-          [gerrit]
-            serverId = gerrit-1
           [transfer]
             timeout = 120 s
           [user]

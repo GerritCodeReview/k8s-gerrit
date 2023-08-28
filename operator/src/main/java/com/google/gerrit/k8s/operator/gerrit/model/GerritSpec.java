@@ -24,6 +24,7 @@ public class GerritSpec extends GerritTemplateSpec {
   private GerritStorageConfig storage = new GerritStorageConfig();
   private IngressConfig ingress = new IngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
+  private String serverId = "";
 
   public GerritSpec() {}
 
@@ -61,5 +62,13 @@ public class GerritSpec extends GerritTemplateSpec {
 
   public void setRefdb(GlobalRefDbConfig refdb) {
     this.refdb = refdb;
+  }
+
+  public String getServerId() {
+    return serverId;
+  }
+
+  public void setServerId(String serverId) {
+    this.serverId = serverId;
   }
 }
