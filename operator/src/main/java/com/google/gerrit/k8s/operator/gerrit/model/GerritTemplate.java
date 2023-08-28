@@ -26,6 +26,7 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.sundr.builder.annotations.Buildable;
+import java.util.Map;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -38,6 +39,7 @@ import io.sundr.builder.annotations.Buildable;
     builderPackage = "io.fabric8.kubernetes.api.builder")
 public class GerritTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
+  public static final String ANNOTATION_GERRIT_SERVER_ID = "gerritoperator.google.com/server-id";
 
   @JsonProperty("metadata")
   private ObjectMeta metadata;
@@ -101,7 +103,15 @@ public class GerritTemplate implements KubernetesResource {
     return new ObjectMetaBuilder()
         .withName(metadata.getName())
         .withLabels(metadata.getLabels())
+        .withAnnotations(Map.of(ANNOTATION_GERRIT_SERVER_ID, getServerId(gerritCluster)))
         .withNamespace(gerritCluster.getMetadata().getNamespace())
         .build();
+  }
+
+  private String getServerId(GerritCluster gerritCluster) {
+    String serverId = gerritCluster.getSpec().getServerId();
+    return serverId.isBlank()
+        ? gerritCluster.getMetadata().getNamespace() + "/" + gerritCluster.getMetadata().getName()
+        : serverId;
   }
 }
