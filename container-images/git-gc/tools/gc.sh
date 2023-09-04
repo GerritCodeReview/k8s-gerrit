@@ -93,9 +93,9 @@ log()
 
 gc_all_projects()
 {
-  for d in $(cd $TOP && find . -type d -path "*.git" -prune -o -name "*.git" | cut -c3- -)
+  find $TOP -type d -path "*.git" -prune -o -name "*.git" | while IFS= read d
   do
-    gc_project "$d"
+    gc_project "${d#$TOP/}"
   done
 }
 
@@ -109,15 +109,15 @@ gc_specified_projects()
 
 gc_project()
 {
-  PROJECT_NAME=$1
-  PROJECT_DIR=$TOP/$PROJECT_NAME
+  PROJECT_NAME="$@"
+  PROJECT_DIR="$TOP/$PROJECT_NAME"
 
-  if [[ ! -d $PROJECT_DIR ]]; then
+  if [[ ! -d "$PROJECT_DIR" ]]; then
     OUT=$(date +"%D %r Failed: Directory does not exist: $PROJECT_DIR") && log "$OUT"
     return 1
   fi
 
-  OPTS=$(gc_options $PROJECT_DIR)
+  OPTS=$(gc_options "$PROJECT_DIR")
   LOG_OPTS=$(log_opts $OPTS)
 
   # Check if git-gc for this project has to be skipped
