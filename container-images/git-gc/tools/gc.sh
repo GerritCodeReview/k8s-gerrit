@@ -93,7 +93,7 @@ log()
 
 gc_all_projects()
 {
-  for d in $(cd $TOP && find . -type d -name "*.git" | cut -c3- -)
+  for d in $(cd $TOP && find . -type d -path "*.git" -prune -o -name "*.git" | cut -c3- -)
   do
     gc_project "$d"
   done
