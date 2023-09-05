@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8248de94_b9ec6137",
+        "filename": "operator/k8s/operator/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-05T09:15:58Z",
+      "side": 1,
+      "message": "From https://sdk.operatorframework.io/docs/best-practices/best-practices/\n\n\u003e If user input is required to change the configuration of the Operator itself, a Configuration CRD should be used. Init-containers as part of the Operator deployments can be used to create a default instance of those CRs and then the Operator manages their lifecycle.\n\nProbably not worth creating a configuration CRD just for one configuration option currently (\"INGRESS\"), but just putting this thought out there in case there happen to be more operator-level configurations in the future.",
+      "revId": "69d4e9700210e3b8920a66685bcae5f53cde8c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
