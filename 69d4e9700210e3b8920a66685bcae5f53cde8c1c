@@ -16,6 +16,41 @@
       "message": "From https://sdk.operatorframework.io/docs/best-practices/best-practices/\n\n\u003e If user input is required to change the configuration of the Operator itself, a Configuration CRD should be used. Init-containers as part of the Operator deployments can be used to create a default instance of those CRs and then the Operator manages their lifecycle.\n\nProbably not worth creating a configuration CRD just for one configuration option currently (\"INGRESS\"), but just putting this thought out there in case there happen to be more operator-level configurations in the future.",
       "revId": "69d4e9700210e3b8920a66685bcae5f53cde8c1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "780c2921_27556f3e",
+        "filename": "operator/k8s/operator/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-08T09:50:25Z",
+      "side": 1,
+      "message": "This should be added to the helm chart as well",
+      "revId": "69d4e9700210e3b8920a66685bcae5f53cde8c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8195ccaf_f3e4b014",
+        "filename": "operator/k8s/operator/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-08T09:50:25Z",
+      "side": 1,
+      "message": "Yes, I have also read this and think this is a valid option, but had the same thought as you. I have it in my backlog and might work on it either if we get more options or when I find time.",
+      "parentUuid": "8248de94_b9ec6137",
+      "revId": "69d4e9700210e3b8920a66685bcae5f53cde8c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
