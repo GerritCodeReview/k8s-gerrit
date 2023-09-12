@@ -51,5 +51,11 @@ public class OperatorModule extends AbstractModule {
   private KubernetesClient getKubernetesClient() {
     Config config = new ConfigBuilder().withNamespace(null).build();
     return new KubernetesClientBuilder().withConfig(config).build();
+
+    // Config kubeConfig = new ConfigBuilder()
+    //         .withAuthProvider(null)
+    //         .withMasterUrl("https://k8sapi.dev-infra.corp.arista.io")
+    //
+    // return new KubernetesClientBuilder().build();
   }
 }
