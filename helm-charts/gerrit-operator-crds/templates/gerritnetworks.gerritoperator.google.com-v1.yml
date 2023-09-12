@@ -104,7 +104,7 @@ spec:
                 type: string
               metadata:
                 properties:
-                  continue:
+                  _continue:
                     type: string
                   remainingItemCount:
                     type: integer
