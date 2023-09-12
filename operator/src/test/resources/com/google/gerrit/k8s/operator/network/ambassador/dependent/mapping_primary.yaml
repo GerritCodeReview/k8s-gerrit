@@ -1,0 +1,11 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: gerrit-mapping
+  namespace: gerrit
+spec:
+  bypass_auth: true
+  rewrite: ""
+  host: example.com
+  prefix: /
+  service: primary:48080
