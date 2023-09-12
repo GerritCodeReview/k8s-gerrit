@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5156227f_08c6132e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritClusterIstioGateway.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-12T12:52:05Z",
+      "side": 1,
+      "message": "Port names have to be unique",
+      "range": {
+        "startLine": 93,
+        "startChar": 18,
+        "endLine": 93,
+        "endChar": 34
+      },
+      "revId": "412d83bc9e0c4a7d959b0de00ee43e41b136c20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
