@@ -17,5 +17,6 @@ package com.google.gerrit.k8s.operator.network;
 public enum IngressType {
   NONE,
   INGRESS,
-  ISTIO
+  ISTIO,
+  AMBASSADOR
 }
