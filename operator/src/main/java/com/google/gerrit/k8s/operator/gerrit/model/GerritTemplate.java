@@ -33,7 +33,7 @@ import io.sundr.builder.annotations.Buildable;
 @Buildable(
     editableEnabled = false,
     validationEnabled = false,
-    generateBuilderPackage = true,
+    generateBuilderPackage = false,
     lazyCollectionInitEnabled = false,
     builderPackage = "io.fabric8.kubernetes.api.builder")
 public class GerritTemplate implements KubernetesResource {
