@@ -19,6 +19,7 @@
 		<flogger.version>0.7.4</flogger.version>
 		<javaoperatorsdk.version>4.3.3</javaoperatorsdk.version>
 		<jetty.version>11.0.15</jetty.version>
+		<lombok.version>1.18.28</lombok.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
 		<docker.registry>docker.io</docker.registry>
@@ -172,6 +173,17 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>generator-annotations</artifactId>
+			<version>${fabric8.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+			<version>${lombok.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jetty.version}</version>
@@ -244,6 +256,23 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>java-generator-maven-plugin</artifactId>
+				<version>${fabric8.version}</version>
+				<configuration>
+					<source>${project.basedir}/src/main/resources/crd/emissary-crds.yaml</source>
+					<!-- Generate sundrio @Buildable annotations that generate Builder classes-->
+					<extraAnnotations>true</extraAnnotations>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.spotify.fmt</groupId>
 				<artifactId>fmt-maven-plugin</artifactId>

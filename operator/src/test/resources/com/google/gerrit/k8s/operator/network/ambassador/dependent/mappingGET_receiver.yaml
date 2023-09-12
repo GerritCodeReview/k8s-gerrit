@@ -1,0 +1,15 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: gerrit-mapping-receiver-get
+  namespace: gerrit
+spec:
+  bypass_auth: true
+  rewrite: ""
+  host: example.com
+  method: GET
+  prefix: /.*/info/refs
+  prefix_regex: true
+  query_parameters:
+    service: git-receive-pack
+  service: receiver:48081
