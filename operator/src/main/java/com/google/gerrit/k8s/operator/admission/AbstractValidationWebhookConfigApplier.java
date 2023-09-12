@@ -99,8 +99,8 @@ public abstract class AbstractValidationWebhookConfigApplier
   public void apply()
       throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException,
           CertificateException {
-    logger.atInfo().log("Applying webhook config %s", cfg);
-    client.resource(cfg).createOrReplace();
+    // logger.atInfo().log("Applying webhook config %s", cfg);
+    // client.resource(cfg).createOrReplace();
   }
 
   @Override

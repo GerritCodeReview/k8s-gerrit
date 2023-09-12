@@ -6,7 +6,7 @@
 
 	<groupId>com.google.gerrit.operator</groupId>
 	<artifactId>operator</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>9.8-operator-upgrade-e47ae93</version>
 
 	<name>Gerrit Kubernetes Operator</name>
 	<description>Provisions and operates Gerrit instances in Kubernetes</description>
@@ -19,8 +19,8 @@
 		<jetty.version>11.0.15</jetty.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<docker.registry>docker.io</docker.registry>
-		<docker.org>k8sgerrit</docker.org>
+		<docker.registry>docker.corp.arista.io</docker.registry>
+		<docker.org>mskeel</docker.org>
 
 		<test.docker.registry>docker.io</test.docker.registry>
 		<test.docker.org>k8sgerritdev</test.docker.org>
