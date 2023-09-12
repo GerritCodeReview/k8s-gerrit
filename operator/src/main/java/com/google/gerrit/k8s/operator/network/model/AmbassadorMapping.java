@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.network;
+package com.google.gerrit.k8s.operator.network.model;
 
-public enum IngressType {
-  NONE,
-  INGRESS,
-  ISTIO,
-  AMBASSADOR
-}
+import io.fabric8.kubernetes.api.model.GenericKubernetesResource;
+import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
+
+@Group("getambassador.io")
+@Version("v2")
+public class AmbassadorMapping extends GenericKubernetesResource implements Namespaced {}
