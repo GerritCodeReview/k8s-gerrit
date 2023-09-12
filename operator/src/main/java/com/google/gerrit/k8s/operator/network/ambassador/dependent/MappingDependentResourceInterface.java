@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.network;
+package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-public enum IngressType {
-  NONE,
-  INGRESS,
-  ISTIO,
-  AMBASSADOR
+import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import io.getambassador.v2.Mapping;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+
+public interface MappingDependentResourceInterface {
+  public Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context);
 }

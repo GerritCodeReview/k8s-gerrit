@@ -1,0 +1,17 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: gerrit-mapping-post-replica
+  namespace: gerrit
+spec:
+  # ambassador_id:
+  #   - my-id-1
+  #   - my-id-2
+  #   - my-id-3
+  bypass_auth: true
+  rewrite: ""
+  host: example.com
+  method: POST
+  prefix: /.*/git-upload-pack
+  prefix_regex: true
+  service: replica:48080
