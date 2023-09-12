@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16994901_c2252af6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/model/GerritCluster.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-12T09:22:25Z",
+      "side": 0,
+      "message": "Is removing ANNOTATION_GERRIT_CLUSTER_NAME meant to be part of this change? I can\u0027t tell how it relates. Probably fine but add a sentence to the commit message for recordkeeping/informational purposes?",
+      "revId": "0424de69b362eba9954e2211685670f0acbfd18d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
