@@ -19,10 +19,22 @@ import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
+// import io.getambassador.v3alpha1.MappingBuilder;
 
 public class Main {
 
   public static void main(String[] args) throws Exception {
+    //    Mapping m =
+    //        new MappingBuilder()
+    //            .withApiVersion(null)
+    //            .withNewMetadata()
+    //            .endMetadata()
+    //            .withNewSpec()
+    //            .withBypassAuth(true)
+    //            .withAmbassadorId(Arrays.asList("ambassador_id"))
+    //            .endSpec()
+    //            .build();
+
     Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
     injector.getInstance(HttpServer.class).start();
     injector.getInstance(ValidationWebhookConfigs.class).apply();
