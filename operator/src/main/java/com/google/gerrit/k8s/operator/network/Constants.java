@@ -10,13 +10,12 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.
+// limitations under the License.package com.google.gerrit.k8s.operator.network;
 
 package com.google.gerrit.k8s.operator.network;
 
-public enum IngressType {
-  NONE,
-  INGRESS,
-  ISTIO,
-  AMBASSADOR
+public class Constants {
+  public static String UPLOAD_PACK_URL_PATTERN = "/.*/git-upload-pack";
+  public static String INFO_REFS_PATTERN = "/.*/info/refs";
+  public static String RECEIVE_PACK_URL_PATTERN = "/.*/git-receive-pack";
 }
