@@ -107,5 +107,6 @@ public class GerritOperator {
 
     logger.atInfo().log(String.format("Applying Service for Gerrit Operator: %s", svc.toString()));
     client.resource(svc).createOrReplace();
+    logger.atInfo().log("Done applying service");
   }
 }
