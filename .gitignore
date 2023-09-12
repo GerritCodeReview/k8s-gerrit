@@ -6,3 +6,7 @@
 __pycache__
 .pytest_cache
 *.pyc
+
+*bin/
+.DS_Store
+.vscode/
