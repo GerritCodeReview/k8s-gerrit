@@ -1,0 +1,14 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: gerrit-mapping-primary
+  namespace: gerrit
+spec:
+  # ambassador_id:
+  #   - my-id-1
+  #   - my-id-2
+  #   - my-id-3
+  bypass_auth: false
+  host: example.com
+  prefix: /
+  service: primary:48080

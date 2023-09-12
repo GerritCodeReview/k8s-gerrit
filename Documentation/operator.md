@@ -151,9 +151,14 @@ for the Gerrit instances it manages. The network routing rules ensure that reque
 will be routed to the intended GerritCluster component, e.g. in case a primary
 Gerrit and a Gerrit Replica exist in the cluster, git fetch/clone requests will
 be sent to the Gerrit Replica and all other requests to the primary Gerrit.
-The Gerrit Operator currently supports the following Ingress providers, which
-can be configured for each
-[GerritCluster](operator-api-reference.md#gerritclusteringressconfig):
+
+You may specify the ingress provider by setting the `INGRESS` environment
+variable in the operator Deployment manifest. That is, the choice of an ingress
+provider is an operator-level setting. However, you may specify some ingress
+configuration options (host, tls, etc) at the `GerritCluster` level, via
+[GerritClusterIngressConfig](operator-api-reference.md#gerritclusteringressconfig).
+
+The Gerrit Operator currently supports the following Ingress providers:
 
 - **NONE**
 
@@ -179,6 +184,14 @@ can be configured for each
 
   The operator supports the use of [Istio](https://istio.io/) as a service mesh.
   An example on how to set up Istio can be found [here](../istio/gerrit.profile.yaml).
+
+- **AMBASSADOR**
+
+  The operator also supports [Ambassador](https://www.getambassador.io/) for
+  setting up ingress to the Gerrits deployed by the operator. If you use
+  Ambassador's "Edge Stack" or "Emissary Ingress" to provide ingress to your k8s
+  services, you should set INGRESS=AMBASSADOR.
+
 
 ## Deploy
 You will need to have admin privileges for your k8s cluster in order to be able
@@ -274,7 +287,8 @@ kubectl apply -f operator/k8s/operator.yaml
 `k8s/operator.yaml` contains a basic deployment of the operator. Resources,
 docker image name etc. might have to be adapted. For example, the ingress
 provider has to be configured by setting the `INGRESS` environment variable
-in `operator/k8s/operator.yaml` to either `NONE`, `INGRESS` or `ISTIO`.
+in `operator/k8s/operator.yaml` to either `NONE`, `INGRESS`, `ISTIO`, or
+`AMBASSADOR`.
 
 ## CustomResources
 
