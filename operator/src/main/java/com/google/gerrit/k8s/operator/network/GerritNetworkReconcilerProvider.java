@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network;
 
+import com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler;
 import com.google.gerrit.k8s.operator.network.ingress.GerritIngressReconciler;
 import com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler;
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
@@ -38,6 +39,8 @@ public class GerritNetworkReconcilerProvider implements Provider<Reconciler<Gerr
         return new GerritIngressReconciler();
       case ISTIO:
         return new GerritIstioReconciler();
+      case AMBASSADOR:
+        return new GerritAmbassadorReconciler();
       default:
         return new GerritNoIngressReconciler();
     }

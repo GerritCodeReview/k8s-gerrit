@@ -170,6 +170,17 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>generator-annotations</artifactId>
+			<version>${fabric8.version}</version>
+		</dependency>
+		<dependency> 
+			<groupId>org.projectlombok</groupId> 
+			<artifactId>lombok</artifactId> 
+			<scope>provided</scope> 
+			<version>1.18.24</version>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jetty.version}</version>
@@ -242,6 +253,24 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>java-generator-maven-plugin</artifactId>
+				<version>${fabric8.version}</version>
+				<configuration>
+					<!-- 1 -->
+					<source>${project.basedir}/src/main/resources/crd/emissary-crds.yaml</source>
+					<!-- 2 -->
+					<extraAnnotations>true</extraAnnotations>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>com.spotify.fmt</groupId>
 				<artifactId>fmt-maven-plugin</artifactId>
