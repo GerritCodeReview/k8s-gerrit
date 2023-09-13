@@ -82,8 +82,7 @@ spec:
             memory: 6Gi
 
         readinessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: 80
           initialDelaySeconds: 0
           periodSeconds: 10
@@ -92,8 +91,7 @@ spec:
           failureThreshold: 3
 
         livenessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: 80
           initialDelaySeconds: 0
           periodSeconds: 10

@@ -11,6 +11,12 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-path: /
     nginx.ingress.kubernetes.io/session-cookie-max-age: 60
     nginx.ingress.kubernetes.io/session-cookie-expires: 60
+    nginx.ingress.kubernetes.io/configuration-snippet: |-
+      if ($args ~ service=git-receive-pack){
+        set $proxy_upstream_name "gerrit-receiver-http";
+        set $proxy_host $proxy_upstream_name;
+        set $service_name "receiver";
+      }
 spec:
   tls:
   - hosts:
@@ -28,14 +34,7 @@ spec:
             port:
               name: http
       - pathType: Prefix
-        path: "/new"
-        backend:
-          service:
-            name: receiver
-            port:
-              name: http
-      - pathType: Prefix
-        path: "/git"
+        path: "/.*/git-receive-pack"
         backend:
           service:
             name: receiver

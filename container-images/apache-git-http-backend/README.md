@@ -9,8 +9,6 @@ from a Gerrit to a Gerrit replica.
 * Apache webserver
 * Apache configurations for http
 * git (via base image) and git-deamon for git-http-backend
-* `tools/create_repo.sh`: cgi script to enable remote creation of new git
- repository over http. (deprecated)
 * `tools/project_admin.sh`: cgi script to enable remote creation/deletion/HEAD update
   of git repositories. Compatible with replication plugin.
 * `tools/start`: start script, configures and starts Apache
