@@ -40,6 +40,7 @@ import java.util.Map;
 @KubernetesDependent
 public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritNetwork> {
   private static final String UPLOAD_PACK_URL_PATTERN = "/.*/git-upload-pack";
+  private static final String RECEIVE_PACK_URL_PATTERN = "/.*/git-receive-pack";
   public static final String INGRESS_NAME = "gerrit-ingress";
 
   public GerritClusterIngress() {
@@ -80,27 +81,45 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     annotations.put("nginx.ingress.kubernetes.io/use-regex", "true");
     annotations.put("kubernetes.io/ingress.class", "nginx");
 
+    String configSnippet = "";
     if (gerritNetwork.hasPrimaryGerrit() && gerritNetwork.hasGerritReplica()) {
       String svcName = GerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName());
-      StringBuilder configSnippet = new StringBuilder();
-      configSnippet.append("if ($args ~ service=git-upload-pack){");
-      configSnippet.append("\n");
-      configSnippet.append("  set $proxy_upstream_name \"");
-      configSnippet.append(gerritNetwork.getMetadata().getNamespace());
-      configSnippet.append("-");
-      configSnippet.append(svcName);
-      configSnippet.append("-");
-      configSnippet.append(GerritService.HTTP_PORT_NAME);
-      configSnippet.append("\";\n");
-      configSnippet.append("  set $proxy_host $proxy_upstream_name;");
-      configSnippet.append("\n");
-      configSnippet.append("  set $service_name \"");
-      configSnippet.append(svcName);
-      configSnippet.append("\";\n}");
+      configSnippet =
+          createNginxConfigSnippet(
+              "service=git-upload-pack", gerritNetwork.getMetadata().getNamespace(), svcName);
+    }
+    if (gerritNetwork.hasReceiver()) {
+      String svcName = ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName());
+      configSnippet =
+          createNginxConfigSnippet(
+              "service=git-receive-pack", gerritNetwork.getMetadata().getNamespace(), svcName);
+    }
+    if (!configSnippet.isBlank()) {
       annotations.put(
           "nginx.ingress.kubernetes.io/configuration-snippet", configSnippet.toString());
     }
     return annotations;
+  }
+
+  private String createNginxConfigSnippet(String queryParam, String namespace, String svcName) {
+    StringBuilder configSnippet = new StringBuilder();
+    configSnippet.append("if ($args ~ ");
+    configSnippet.append(queryParam);
+    configSnippet.append("){");
+    configSnippet.append("\n");
+    configSnippet.append("  set $proxy_upstream_name \"");
+    configSnippet.append(namespace);
+    configSnippet.append("-");
+    configSnippet.append(svcName);
+    configSnippet.append("-");
+    configSnippet.append(GerritService.HTTP_PORT_NAME);
+    configSnippet.append("\";\n");
+    configSnippet.append("  set $proxy_host $proxy_upstream_name;");
+    configSnippet.append("\n");
+    configSnippet.append("  set $service_name \"");
+    configSnippet.append(svcName);
+    configSnippet.append("\";\n}");
+    return configSnippet.toString();
   }
 
   private IngressTLS getIngressTLS(GerritNetwork gerritNetwork) {
@@ -190,7 +209,7 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     ServiceBackendPort port =
         new ServiceBackendPortBuilder().withName(ReceiverService.HTTP_PORT_NAME).build();
 
-    for (String path : List.of("/a/projects", "/new", "/git")) {
+    for (String path : List.of("/a/projects", RECEIVE_PACK_URL_PATTERN)) {
       paths.add(
           new HTTPIngressPathBuilder()
               .withPathType("Prefix")
