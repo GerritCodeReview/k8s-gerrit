@@ -44,8 +44,9 @@ import java.util.Map;
 @KubernetesDependent
 public class GerritIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritNetwork> {
-  private static final String UPLOAD_PACK_INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
+  private static final String INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
   private static final String UPLOAD_PACK_URL_PATTERN = "^/(.*)/git-upload-pack$";
+  private static final String RECEIVE_PACK_URL_PATTERN = "^/(.*)/git-receive-pack$";
   public static final String NAME_SUFFIX = "gerrit-http-virtual-service";
 
   public GerritIstioVirtualService() {
@@ -131,7 +132,7 @@ public class GerritIstioVirtualService
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(UPLOAD_PACK_INFO_REF_URL_PATTERN)
+            .withRegex(INFO_REF_URL_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .withQueryParams(
@@ -180,15 +181,29 @@ public class GerritIstioVirtualService
     List<HTTPMatchRequest> matches = new ArrayList<>();
     matches.add(
         new HTTPMatchRequestBuilder()
-            .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/git/").build())
-            .build());
-    matches.add(
-        new HTTPMatchRequestBuilder()
             .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/a/projects/").build())
             .build());
     matches.add(
         new HTTPMatchRequestBuilder()
-            .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/new/").build())
+            .withNewUri()
+            .withNewStringMatchRegexType()
+            .withRegex(RECEIVE_PACK_URL_PATTERN)
+            .endStringMatchRegexType()
+            .endUri()
+            .build());
+    matches.add(
+        new HTTPMatchRequestBuilder()
+            .withNewUri()
+            .withNewStringMatchRegexType()
+            .withRegex(INFO_REF_URL_PATTERN)
+            .endStringMatchRegexType()
+            .endUri()
+            .withQueryParams(
+                Map.of(
+                    "service",
+                    new StringMatchBuilder()
+                        .withNewStringMatchExactType("git-receive-pack")
+                        .build()))
             .build());
     return matches;
   }

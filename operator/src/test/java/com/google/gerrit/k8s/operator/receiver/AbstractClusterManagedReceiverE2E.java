@@ -37,7 +37,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,9 +71,6 @@ public abstract class AbstractClusterManagedReceiverE2E extends AbstractGerritOp
 
   private void assertProjectLifecycle(GerritCluster cluster, Path tempDir) throws Exception {
     assertThat(
-        ReceiverUtil.sendReceiverApiRequest(cluster, "GET", "/new/testLegacy.git"),
-        is(equalTo(201)));
-    assertThat(
         ReceiverUtil.sendReceiverApiRequest(cluster, "PUT", "/a/projects/test.git"),
         is(equalTo(201)));
     CredentialsProvider gerritCredentials =
@@ -82,22 +78,17 @@ public abstract class AbstractClusterManagedReceiverE2E extends AbstractGerritOp
             testProps.getGerritUser(), testProps.getGerritPwd());
     Git git =
         Git.cloneRepository()
-            .setURI(getGerritUrl("/a/test.git").toString())
+            .setURI(getGerritUrl("/test.git").toString())
             .setCredentialsProvider(gerritCredentials)
             .setDirectory(tempDir.toFile())
             .call();
     new File("test.txt").createNewFile();
     git.add().addFilepattern(".").call();
     RevCommit commit = git.commit().setMessage("test commit").call();
-    git.remoteAdd()
-        .setName("receiver")
-        .setUri(new URIish(ReceiverUtil.getReceiverUrl(cluster, "/git/test.git").toString()))
-        .call();
     git.push()
         .setCredentialsProvider(
             new UsernamePasswordCredentialsProvider(
                 ReceiverUtil.RECEIVER_TEST_USER, ReceiverUtil.RECEIVER_TEST_PASSWORD))
-        .setRemote("receiver")
         .setRefSpecs(new RefSpec("refs/heads/master"))
         .call();
     assertTrue(

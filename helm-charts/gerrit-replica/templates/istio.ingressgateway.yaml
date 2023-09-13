@@ -93,11 +93,14 @@ spec:
   - name: apache-git-http-backend
     match:
     - uri:
-        prefix: /git/
+        prefix: "/a/projects/"
     - uri:
-        prefix: /new/
+        regex: "^/(.*)/git-receive-pack$"
     - uri:
-        prefix: /a/projects/
+        regex: "^/(.*)/info/refs$"
+      queryParams:
+        service:
+          exact: git-receive-pack
     route:
     - destination:
         host: {{ .Release.Name }}-git-backend-service.{{ .Release.Namespace }}.svc.cluster.local

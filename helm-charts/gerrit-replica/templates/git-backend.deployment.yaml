@@ -106,13 +106,11 @@ spec:
         resources:
 {{ toYaml .Values.gitBackend.resources | indent 10 }}
         livenessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: http-port
 {{ toYaml .Values.gitBackend.livenessProbe | indent 10 }}
         readinessProbe:
-          httpGet:
-            path: /
+          tcpSocket:
             port: http-port
 {{ toYaml .Values.gitBackend.readinessProbe | indent 10 }}
         volumeMounts:

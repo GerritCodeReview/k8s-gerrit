@@ -19,7 +19,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -252,11 +251,6 @@ public class TestGerritCluster {
                       .inNamespace(namespace)
                       .withName(receiver.get().getMetadata().getName())
                       .isReady());
-              if (cluster.getSpec().getIngress().isEnabled()) {
-                assertThat(
-                    ReceiverUtil.sendReceiverApiRequest(cluster, "GET", "/new/readycheck.git"),
-                    is(equalTo(201)));
-              }
             });
   }
 }

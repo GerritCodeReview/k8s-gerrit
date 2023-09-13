@@ -6,18 +6,20 @@ primary Gerrit. Please configure the replication plugin of the primary Gerrit to
 push the repositories to:
 
 {{ if .Values.istio.enabled -}}
-  http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /git/${name}.git
+  http {{- if .Values.istio.tls.enabled -}} s {{- end -}} :// {{- .Values.istio.host -}} /${name}.git
 {{ else if .Values.ingress.enabled -}}
-  http {{- if .Values.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.ingress.host -}} /git/${name}.git
+  http {{- if .Values.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.ingress.host -}} /${name}.git
 {{- else }}
-  http://<EXTERNAL-IP>: {{- .Values.gitBackend.service.http.port -}} /git/${name}.git
+  http://<EXTERNAL-IP>: {{- .Values.gitBackend.service.http.port -}} /${name}.git
   The external IP of the service can be found by running:
   kubectl get svc git-backend-service
 {{- end }}
 
-Requests to create new repositories have to be directed to the route /new/${name}.git
-over HTTP(S). A detailed guide of how to configure Gerrit's replication plugin
-can be found here:
+Project creation, project deletion and HEAD update can also be replicated. To enable
+this feature configure the replication plugin to use an adminUrl using the format
+`gerrit+http {{- if .Values.ingress.tls.enabled -}} s {{- end -}} :// {{- .Values.ingress.host -}}`.
+
+A detailed guide of how to configure Gerrit's replication plugin can be found here:
 
 https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md
 

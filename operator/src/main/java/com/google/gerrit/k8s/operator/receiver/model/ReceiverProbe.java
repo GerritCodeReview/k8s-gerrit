@@ -19,19 +19,16 @@ import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
 import io.fabric8.kubernetes.api.model.ExecAction;
 import io.fabric8.kubernetes.api.model.GRPCAction;
 import io.fabric8.kubernetes.api.model.HTTPGetAction;
-import io.fabric8.kubernetes.api.model.HTTPGetActionBuilder;
 import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.Probe;
 import io.fabric8.kubernetes.api.model.TCPSocketAction;
+import io.fabric8.kubernetes.api.model.TCPSocketActionBuilder;
 
 public class ReceiverProbe extends Probe {
   private static final long serialVersionUID = 1L;
 
-  private static final HTTPGetAction HTTP_GET_ACTION =
-      new HTTPGetActionBuilder()
-          .withPath("/")
-          .withPort(new IntOrString(ReceiverDeployment.HTTP_PORT))
-          .build();
+  private static final TCPSocketAction TCP_SOCKET_ACTION =
+      new TCPSocketActionBuilder().withPort(new IntOrString(ReceiverDeployment.HTTP_PORT)).build();
 
   @JsonIgnore private ExecAction exec;
 
@@ -51,12 +48,12 @@ public class ReceiverProbe extends Probe {
 
   @Override
   public void setHttpGet(HTTPGetAction httpGet) {
-    super.setHttpGet(HTTP_GET_ACTION);
+    super.setHttpGet(null);
   }
 
   @Override
   public void setTcpSocket(TCPSocketAction tcpSocket) {
-    super.setTcpSocket(null);
+    super.setTcpSocket(TCP_SOCKET_ACTION);
   }
 
   @Override
@@ -71,11 +68,11 @@ public class ReceiverProbe extends Probe {
 
   @Override
   public HTTPGetAction getHttpGet() {
-    return HTTP_GET_ACTION;
+    return null;
   }
 
   @Override
   public TCPSocketAction getTcpSocket() {
-    return null;
+    return TCP_SOCKET_ACTION;
   }
 }
