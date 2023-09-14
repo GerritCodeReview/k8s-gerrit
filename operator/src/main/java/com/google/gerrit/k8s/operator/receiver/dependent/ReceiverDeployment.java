@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
@@ -133,7 +133,7 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
     return GerritCluster.getLabels(
         receiver.getMetadata().getName(),
         getComponentName(receiver),
-        GerritReconciler.class.getSimpleName());
+        ReceiverReconciler.class.getSimpleName());
   }
 
   private Set<Volume> getVolumes(Receiver receiver) {

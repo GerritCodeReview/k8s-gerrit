@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMa
 import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.SharedStorage.ExternalPVCConfig;
@@ -47,6 +48,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
   private static final long serialVersionUID = 2L;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String SHARED_VOLUME_NAME = "shared";
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
   private static final int GERRIT_FS_UID = 1000;
@@ -60,13 +62,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
   @JsonIgnore
   public Map<String, String> getLabels(String component, String createdBy) {
-    Map<String, String> labels = new HashMap<>();
-
-    labels.putAll(getSelectorLabels(component));
-    labels.put("app.kubernetes.io/version", getClass().getPackage().getImplementationVersion());
-    labels.put("app.kubernetes.io/created-by", createdBy);
-
-    return labels;
+    return getLabels(getMetadata().getName(), component, createdBy);
   }
 
   // TODO(Thomas): Having so many string parameters is bad. The only parameter should be the
@@ -77,16 +73,15 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
     Map<String, String> labels = new HashMap<>();
 
     labels.putAll(getSelectorLabels(instance, component));
-    labels.put(
-        "app.kubernetes.io/version", GerritCluster.class.getPackage().getImplementationVersion());
+    String version = GerritCluster.class.getPackage().getImplementationVersion();
+    if (version == null || version.isBlank()) {
+      logger.atWarning().log("Unable to read Gerrit Operator version from jar.");
+      version = "unknown";
+    }
+    labels.put("app.kubernetes.io/version", version);
     labels.put("app.kubernetes.io/created-by", createdBy);
 
     return labels;
-  }
-
-  @JsonIgnore
-  public Map<String, String> getSelectorLabels(String component) {
-    return getSelectorLabels(getMetadata().getName(), component);
   }
 
   @JsonIgnore

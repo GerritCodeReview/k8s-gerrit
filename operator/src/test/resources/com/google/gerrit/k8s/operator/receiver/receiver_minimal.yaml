@@ -1,0 +1,15 @@
+apiVersion: "gerritoperator.google.com/v1alpha6"
+kind: Receiver
+metadata:
+  name: receiver
+  namespace: gerrit
+spec:
+  credentialSecretRef: apache-credentials
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+
+    sharedStorage:
+      size: 1Gi
