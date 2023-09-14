@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c9f708e_ea88a734",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "```suggestion\n| `spec`       | [`GerritNetworkSpec`](#gerritnetworkspec)                                                        | Specification for GerritNetwork |\n```",
+      "range": {
+        "startLine": 723,
+        "startChar": 134,
+        "endLine": 723,
+        "endChar": 154
+      },
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23945e93_96894380",
+        "filename": "helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "```suggestion\n  # Which ingress provider to use (options: NONE, INGRESS, ISTIO)\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaa0bc0a_2878f59c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritNetwork.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "what happens if there is more than one primary Gerrit specified ?",
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b81db7d4_4cca9e69",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritNetwork.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "Can we add a constructor NetworkMemberWithSsh(GerritTemplate) to reduce boilerplate, maybe put an interface beneath to avoid that NetworkMemberWithSsh depends on GerritTemplate implementation:\n\n\n```suggestion\n      gerritNetworkSpec.setPrimaryGerrit(new NetworkMemberWithSsh(primaryGerrit));\n```",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 69
+      },
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9af2fff_311b483c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritNetwork.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "```suggestion\n      gerritNetworkSpec.setGerritReplica(new NetworkMemberWithSsh(gerritReplica));\n```",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 69
+      },
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a824ef_6254263d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritNetwork.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "```suggestion\n      gerritNetworkSpec.setReceiver(new NetworkMember(receiver));\n```",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 59
+      },
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f324a6df_4e1f3157",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/model/GerritClusterSpec.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "how did that compile earlier ?",
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85504690_e81dacef",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:04:34Z",
+      "side": 1,
+      "message": "add comment that this constructs configuration snippet for nginx routing rules",
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
