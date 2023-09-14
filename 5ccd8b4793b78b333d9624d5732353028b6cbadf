@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "825a166c_2cba9f6e",
+        "filename": "helm-charts/gerrit-replica/templates/NOTES.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T12:12:46Z",
+      "side": 1,
+      "message": "```suggestion\nProject creation, project deletion and HEAD update can also be replicated. To enable\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 59
+      },
+      "revId": "5ccd8b4793b78b333d9624d5732353028b6cbadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
