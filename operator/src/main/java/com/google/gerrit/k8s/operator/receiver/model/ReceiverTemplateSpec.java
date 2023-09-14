@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReceiverTemplateSpec {
-  private List<Toleration> tolerations;
+  private List<Toleration> tolerations = new ArrayList<>();
   private Affinity affinity;
   private List<TopologySpreadConstraint> topologySpreadConstraints = new ArrayList<>();
   private String priorityClassName;

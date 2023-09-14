@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiver
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: receiver
+    app.kubernetes.io/created-by: ReceiverReconciler
+    app.kubernetes.io/instance: receiver
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: receiver-deployment-receiver
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: gerrit-operator
+      app.kubernetes.io/name: gerrit
+      app.kubernetes.io/part-of: receiver
+      app.kubernetes.io/instance: receiver
+      app.kubernetes.io/component: receiver-deployment-receiver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: receiver
+        app.kubernetes.io/created-by: ReceiverReconciler
+        app.kubernetes.io/instance: receiver
+        app.kubernetes.io/version: unknown
+        app.kubernetes.io/component: receiver-deployment-receiver
+    spec:
+      tolerations:
+      - key: key1
+        operator: Equal
+        value: value1
+        effect: NoSchedule
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            foo: bar
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disktype
+                operator: In
+                values:
+                - ssd
+      priorityClassName: prio
+      securityContext:
+        fsGroup: 100
+      imagePullSecrets: []
+      initContainers: []
+      containers:
+      - name: apache-git-http-backend
+        imagePullPolicy: Always
+        image: docker.io/k8sgerrit/apache-git-http-backend:latest
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - name: http
+          containerPort: 80
+        resources:
+          requests:
+            cpu: 1
+            memory: 5Gi
+          limits:
+            cpu: 1
+            memory: 6Gi
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+
+        volumeMounts:
+        - name: shared
+          subPathExpr: "logs/$(POD_NAME)"
+          mountPath: /var/log/apache2
+        - name: apache-credentials
+          mountPath: /var/apache/credentials/.htpasswd
+          subPath: .htpasswd
+        - name: shared
+          subPath: git
+          mountPath: /var/gerrit/git
+      volumes:
+      - name: shared
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      - name: apache-credentials
+        secret:
+          secretName: apache-credentials
