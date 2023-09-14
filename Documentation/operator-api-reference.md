@@ -369,8 +369,8 @@ spec:
       value: value1
       effect: NoSchedule
 
-    affinity:
-      nodeAffinity:
+  affinity:
+    nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
         - matchExpressions:
@@ -379,108 +379,108 @@ spec:
             values:
             - ssd
 
-    topologySpreadConstraints: []
-    - maxSkew: 1
-      topologyKey: zone
-      whenUnsatisfiable: DoNotSchedule
-      labelSelector:
-        matchLabels:
-          foo: bar
+  topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        foo: bar
 
-    priorityClassName: ""
+  priorityClassName: ""
 
-    replicas: 1
-    updatePartition: 0
+  replicas: 1
+  updatePartition: 0
 
-    resources:
-      requests:
-        cpu: 1
-        memory: 5Gi
-      limits:
-        cpu: 1
-        memory: 6Gi
+  resources:
+    requests:
+      cpu: 1
+      memory: 5Gi
+    limits:
+      cpu: 1
+      memory: 6Gi
 
-    startupProbe:
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      successThreshold: 1
-      failureThreshold: 3
+  startupProbe:
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
 
-    readinessProbe:
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      successThreshold: 1
-      failureThreshold: 3
+  readinessProbe:
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
 
-    livenessProbe:
-      initialDelaySeconds: 0
-      periodSeconds: 10
-      timeoutSeconds: 1
-      successThreshold: 1
-      failureThreshold: 3
+  livenessProbe:
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
 
-    gracefulStopTimeout: 30
+  gracefulStopTimeout: 30
 
-    service:
-      type: NodePort
-      httpPort: 80
-      sshPort: 29418
+  service:
+    type: NodePort
+    httpPort: 80
+    sshPort: 29418
 
-    mode: PRIMARY
+  mode: PRIMARY
 
-    debug:
-      enabled: false
-      suspend: false
+  debug:
+    enabled: false
+    suspend: false
 
-    site:
-      size: 1Gi
+  site:
+    size: 1Gi
 
-    plugins:
-    # Installs a plugin packaged into the gerrit.war file
-    - name: delete-project
+  plugins:
+  # Installs a plugin packaged into the gerrit.war file
+  - name: delete-project
 
-    # Downloads and installs a plugin
-    - name: javamelody
-      url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-javamelody-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/javamelody/javamelody.jar
-      sha1: 40ffcd00263171e373a24eb6a311791b2924707c
+  # Downloads and installs a plugin
+  - name: javamelody
+    url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-javamelody-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/javamelody/javamelody.jar
+    sha1: 40ffcd00263171e373a24eb6a311791b2924707c
 
-    # If the `installAsLibrary` option is set to `true` the plugin jar-file will
-    # be symlinked to the lib directory and thus installed as a library as well.
-    - name: saml
-      url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-saml-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/saml/saml.jar
-      sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
-      installAsLibrary: true
+  # If the `installAsLibrary` option is set to `true` the plugin jar-file will
+  # be symlinked to the lib directory and thus installed as a library as well.
+  - name: saml
+    url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-saml-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/saml/saml.jar
+    sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
+    installAsLibrary: true
 
-    libs:
-    - name: global-refdb
-      url: https://example.com/global-refdb.jar
-      sha1: 3d533a536b0d4e0184f824478c24bc8dfe896d06
+  libs:
+  - name: global-refdb
+    url: https://example.com/global-refdb.jar
+    sha1: 3d533a536b0d4e0184f824478c24bc8dfe896d06
 
-    configFiles:
-      gerrit.config: |-
-          [gerrit]
-            serverId = gerrit-1
-            disableReverseDnsLookup = true
-          [index]
-            type = LUCENE
-          [auth]
-            type = DEVELOPMENT_BECOME_ANY_ACCOUNT
-          [httpd]
-            requestLog = true
-            gracefulStopTimeout = 1m
-          [transfer]
-            timeout = 120 s
-          [user]
-            name = Gerrit Code Review
-            email = gerrit@example.com
-            anonymousCoward = Unnamed User
-          [container]
-            javaOptions = -Xms200m
-            javaOptions = -Xmx4g
+  configFiles:
+    gerrit.config: |-
+        [gerrit]
+          serverId = gerrit-1
+          disableReverseDnsLookup = true
+        [index]
+          type = LUCENE
+        [auth]
+          type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+        [httpd]
+          requestLog = true
+          gracefulStopTimeout = 1m
+        [transfer]
+          timeout = 120 s
+        [user]
+          name = Gerrit Code Review
+          email = gerrit@example.com
+          anonymousCoward = Unnamed User
+        [container]
+          javaOptions = -Xms200m
+          javaOptions = -Xmx4g
 
-    secretRef: gerrit-secure-config
+  secretRef: gerrit-secure-config
 
   serverId: ""
 
