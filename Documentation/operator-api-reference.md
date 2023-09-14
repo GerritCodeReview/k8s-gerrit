@@ -563,7 +563,6 @@ kind: Receiver
 metadata:
   name: receiver
 spec:
-  cluster: gerrit
   tolerations:
   - key: key1
     operator: Equal
@@ -594,7 +593,7 @@ spec:
   maxSurge: 1
   maxUnavailable: 1
 
-  resources: {}
+  resources:
     requests:
       cpu: 1
       memory: 5Gi
