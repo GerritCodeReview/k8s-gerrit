@@ -51,6 +51,24 @@
       "parentUuid": "8248de94_b9ec6137",
       "revId": "69d4e9700210e3b8920a66685bcae5f53cde8c1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d004a535_f98e46df",
+        "filename": "operator/k8s/operator/operator.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-14T08:05:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "780c2921_27556f3e",
+      "revId": "69d4e9700210e3b8920a66685bcae5f53cde8c1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
