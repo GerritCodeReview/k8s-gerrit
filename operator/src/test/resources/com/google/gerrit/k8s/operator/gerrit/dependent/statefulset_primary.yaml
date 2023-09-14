@@ -1,0 +1,193 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: primary
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: primary
+    app.kubernetes.io/created-by: GerritReconciler
+    app.kubernetes.io/instance: primary
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-statefulset-primary
+spec:
+  serviceName: primary
+  replicas: 1
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: gerrit-operator
+      app.kubernetes.io/name: gerrit
+      app.kubernetes.io/part-of: primary
+      app.kubernetes.io/instance: primary
+      app.kubernetes.io/component: gerrit-statefulset-primary
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: primary
+        app.kubernetes.io/created-by: GerritReconciler
+        app.kubernetes.io/instance: primary
+        app.kubernetes.io/version: unknown
+        app.kubernetes.io/component: gerrit-statefulset-primary
+    spec:
+      serviceAccount: gerrit
+      tolerations:
+      - key: key1
+        operator: Equal
+        value: value1
+        effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disktype
+                operator: In
+                values:
+                - ssd
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            foo: bar
+      priorityClassName: ""
+      terminationGracePeriodSeconds: 30
+      imagePullSecrets: []
+      securityContext:
+        fsGroup: 100
+      initContainers:
+      - name: gerrit-init
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        imagePullPolicy: Always
+        image: docker.io/k8sgerrit/gerrit-init:latest
+        resources:
+          requests:
+            cpu: 1
+            memory: 5Gi
+          limits:
+            cpu: 1
+            memory: 6Gi
+        volumeMounts:
+        - name: gerrit-config
+          mountPath: /var/mnt/etc/config
+        - name: gerrit-init-config
+          mountPath: /var/config
+        - name: gerrit-site
+          mountPath: /var/gerrit
+        - name: shared
+          subPath: git
+          mountPath: /var/mnt/git
+        - name: shared
+          subPathExpr: "logs/$(POD_NAME)"
+          mountPath: /var/mnt/logs
+        - name: gerrit-secure-config
+          mountPath: /var/mnt/etc/secret
+      containers:
+      - name: gerrit
+        imagePullPolicy: Always
+        image: docker.io/k8sgerrit/gerrit:latest
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - "/bin/ash/"
+              - "-c"
+              - "kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null"
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: ssh
+          containerPort: 29418
+        resources:
+          requests:
+            cpu: 1
+            memory: 5Gi
+          limits:
+            cpu: 1
+            memory: 6Gi
+        startupProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: 8080
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: 8080
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: 8080
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: gerrit-config
+          mountPath: /var/mnt/etc/config
+        - name: gerrit-site
+          mountPath: /var/gerrit
+        - name: shared
+          subPath: git
+          mountPath: /var/mnt/git
+        - name: shared
+          subPathExpr: "logs/$(POD_NAME)"
+          mountPath: /var/mnt/logs
+        - name: gerrit-secure-config
+          mountPath: /var/mnt/etc/secret
+      volumes:
+      - name: shared
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      - name: gerrit-init-config
+        configMap:
+          name: primary-init-configmap
+      - name: gerrit-config
+        configMap:
+          name: primary-configmap
+      - name: gerrit-secure-config
+        secret:
+          secretName: gerrit-secure-config
+  volumeClaimTemplates:
+  - metadata:
+      name: gerrit-site
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: primary
+        app.kubernetes.io/instance: primary
+        app.kubernetes.io/component: gerrit-statefulset-primary
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: default
