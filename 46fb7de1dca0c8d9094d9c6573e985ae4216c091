@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5545da2_2e84b5b4",
+        "filename": "helm-charts/gerrit-operator-crds/templates/receivers.gerritoperator.google.com-v1.yml",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-14T14:44:37Z",
+      "side": 0,
+      "message": "pluginCacheStorage is removed here but no pluginCache/pluginCacheConfig is added to replace it, is that correct?",
+      "revId": "46fb7de1dca0c8d9094d9c6573e985ae4216c091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
