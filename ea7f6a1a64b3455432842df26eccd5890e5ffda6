@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d271fc46_46a13072",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T13:07:05Z",
+      "side": 1,
+      "message": "I think this should be rather mentioned as a dependency in the commit message than put as a todo comment",
+      "revId": "ea7f6a1a64b3455432842df26eccd5890e5ffda6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
