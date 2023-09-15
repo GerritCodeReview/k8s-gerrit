@@ -24,31 +24,32 @@
    20. [GerritIngressTlsConfig](#gerritingresstlsconfig)
    21. [GlobalRefDbConfig](#globalrefdbconfig)
    22. [RefDatabase](#refdatabase)
-   23. [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
-   24. [GerritTemplate](#gerrittemplate)
-   25. [GerritTemplateSpec](#gerrittemplatespec)
-   26. [GerritProbe](#gerritprobe)
-   27. [GerritServiceConfig](#gerritserviceconfig)
-   28. [GerritSite](#gerritsite)
-   29. [GerritModule](#gerritmodule)
-   30. [GerritPlugin](#gerritplugin)
-   31. [GerritMode](#gerritmode)
-   32. [GerritDebugConfig](#gerritdebugconfig)
-   33. [GerritSpec](#gerritspec)
-   34. [GerritStatus](#gerritstatus)
-   35. [IngressConfig](#ingressconfig)
-   36. [ReceiverTemplate](#receivertemplate)
-   37. [ReceiverTemplateSpec](#receivertemplatespec)
-   38. [ReceiverSpec](#receiverspec)
-   39. [ReceiverStatus](#receiverstatus)
-   40. [ReceiverProbe](#receiverprobe)
-   41. [ReceiverServiceConfig](#receiverserviceconfig)
-   42. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   43. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   44. [GitGcState](#gitgcstate)
-   45. [GerritNetworkSpec](#gerritnetworkspec)
-   46. [NetworkMember](#networkmember)
-   47. [NetworkMemberWithSsh](#networkmemberwithssh)
+   23. [SpannerRefDbConfig](#spannerrefdbconfig)
+   24. [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+   25. [GerritTemplate](#gerrittemplate)
+   26. [GerritTemplateSpec](#gerrittemplatespec)
+   27. [GerritProbe](#gerritprobe)
+   28. [GerritServiceConfig](#gerritserviceconfig)
+   29. [GerritSite](#gerritsite)
+   30. [GerritModule](#gerritmodule)
+   31. [GerritPlugin](#gerritplugin)
+   32. [GerritMode](#gerritmode)
+   33. [GerritDebugConfig](#gerritdebugconfig)
+   34. [GerritSpec](#gerritspec)
+   35. [GerritStatus](#gerritstatus)
+   36. [IngressConfig](#ingressconfig)
+   37. [ReceiverTemplate](#receivertemplate)
+   38. [ReceiverTemplateSpec](#receivertemplatespec)
+   39. [ReceiverSpec](#receiverspec)
+   40. [ReceiverStatus](#receiverstatus)
+   41. [ReceiverProbe](#receiverprobe)
+   42. [ReceiverServiceConfig](#receiverserviceconfig)
+   43. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   44. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   45. [GitGcState](#gitgcstate)
+   46. [GerritNetworkSpec](#gerritnetworkspec)
+   47. [NetworkMember](#networkmember)
+   48. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -63,7 +64,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha15 \
+**Version**: v1alpha16 \
 **Kind**: GerritCluster
 
 ---
@@ -80,7 +81,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha15"
+apiVersion: "gerritoperator.google.com/v1alpha16"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -136,6 +137,10 @@ spec:
 
   refdb:
     database: NONE
+    spanner:
+      projectName: ""
+      instance: ""
+      database: ""
     zookeeper:
       connectString: ""
       rootNode: ""
@@ -339,7 +344,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha16 \
+**Version**: v1alpha17 \
 **Kind**: Gerrit
 
 ---
@@ -356,7 +361,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha16"
+apiVersion: "gerritoperator.google.com/v1alpha17"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -531,6 +536,10 @@ spec:
 
   refdb:
     database: NONE
+    spanner:
+      projectName: ""
+      instance: ""
+      database: ""
     zookeeper:
       connectString: ""
       rootNode: ""
@@ -885,7 +894,8 @@ global refdb. It will only configure Gerrit to use it.
 
 | Field | Type | Description |
 |---|---|---|
-| `database` | [`RefDatabase`](#refdatabase) | Which database to use for the global refdb. Choices: `NONE`, `ZOOKEEPER`. (default: `NONE`) |
+| `database` | [`RefDatabase`](#refdatabase) | Which database to use for the global refdb. Choices: `NONE`, `SPANNER`, `ZOOKEEPER`. (default: `NONE`) |
+| `spanner` | [`SpannerRefDbConfig`](#spannerrefdbconfig) | Configuration of spanner. Only used if spanner was configured to be used for the global refdb. |
 | `zookeeper` | [`ZookeeperRefDbConfig`](#zookeeperrefdbconfig) | Configuration of zookeeper. Only used, if zookeeper was configured to be used for the global refdb. |
 
 ## RefDatabase
@@ -893,7 +903,18 @@ global refdb. It will only configure Gerrit to use it.
 | Value | Description|
 |---|---|
 | `NONE` | No global refdb will be used. Not allowed, if a primary Gerrit with 2 or more instances will be installed. |
+| `SPANNER` | Spanner will be used as a global refdb |
 | `ZOOKEEPER` | Zookeeper will be used as a global refdb |
+
+## SpannerRefDbConfig
+
+Note that the spanner ref-db plugin requires google credentials to be mounted to /var/gerrit/etc/gcp-credentials.json. Instructions for generating those credentials can be found [here](https://developers.google.com/workspace/guides/create-credentials) and may be provided in the optional secretRef in [`GerritTemplateSpec`](#gerrittemplatespec).
+
+| Field | Type | Description |
+|---|---|---|
+| `projectName` | `String` | Spanner project name to be used |
+| `instance` | `String` | Spanner instance name to be used |
+| `database` | `String` | Spanner database name to be used |
 
 ## ZookeeperRefDbConfig
 
