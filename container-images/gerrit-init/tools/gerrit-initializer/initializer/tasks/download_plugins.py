@@ -30,7 +30,7 @@ LOG = log.get_logger("init")
 MAX_LOCK_LIFETIME = 60
 MAX_CACHED_VERSIONS = 5
 
-REQUIRED_PLUGINS = ["healthcheck"]
+REQUIRED_PLUGINS = ["healthcheck", "spanner-refdb"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
 
