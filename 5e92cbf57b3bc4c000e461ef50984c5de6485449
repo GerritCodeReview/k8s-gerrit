@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "918fc39f_113c3a48",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/GerritStorageConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-15T08:48:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0d5ee76f_94829e77",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 41
+      },
+      "revId": "5e92cbf57b3bc4c000e461ef50984c5de6485449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d292811c_0bed8778",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "See my reply above.",
       "parentUuid": "d292811c_0bed8778",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 28
+      },
+      "revId": "5e92cbf57b3bc4c000e461ef50984c5de6485449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e8a96bb_0dd09565",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/GerritStorageConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-15T08:48:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d991790a_d57df956",
       "range": {
         "startLine": 33,
         "startChar": 14,
