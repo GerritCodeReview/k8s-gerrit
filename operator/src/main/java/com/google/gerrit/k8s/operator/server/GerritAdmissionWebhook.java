@@ -14,6 +14,9 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.SPANNER;
+import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
+
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
@@ -23,6 +26,7 @@ import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.StatusBuilder;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 @Singleton
 public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
@@ -56,10 +60,22 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
-    if (missingZookeeperConfig(gerrit)) {
+    if (missingRefdbConfig(gerrit)) {
+      String refDbName = "";
+      switch (gerrit.getSpec().getRefdb().getDatabase()) {
+        case ZOOKEEPER:
+          refDbName = ZOOKEEPER.toString().toLowerCase(Locale.US);
+          break;
+        case SPANNER:
+          refDbName = SPANNER.toString().toLowerCase(Locale.US);
+          break;
+        default:
+          break;
+      }
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage("Missing zookeeper configuration (.spec.refdb.zookeeper).")
+          .withMessage(
+              String.format("Missing %s configuration (.spec.refdb.%s)", refDbName, refDbName))
           .build();
     }
 
@@ -75,9 +91,16 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
-  private boolean missingZookeeperConfig(Gerrit gerrit) {
-    return gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)
-        && gerrit.getSpec().getRefdb().getZookeeper() == null;
+  private boolean missingRefdbConfig(Gerrit gerrit) {
+    GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
+    switch (refDbConfig.getDatabase()) {
+      case ZOOKEEPER:
+        return refDbConfig.getZookeeper() == null;
+      case SPANNER:
+        return refDbConfig.getSpanner() == null;
+      default:
+        return false;
+    }
   }
 
   @Override
