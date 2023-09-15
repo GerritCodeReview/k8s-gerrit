@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad76ad66_2a57bb71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "The spanner-refdb plugin should also be automatically installed on startup, if it has been configured.",
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14703c2d_7db684cd",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbConfigBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "Should we support the emulator in a Kubernetes cluster? Would that even work?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 72
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d3336d_36f9a643",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbConfigBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "This would be given by the operator, since the secret would be mounted to a fixed path. Thus, this shouldn\u0027t be configurable.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b5bf875_091a7f6a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "We could use a switch statement here now.",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8212f0d_2120ecac",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritInitConfigMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "We could use a switch statement here now.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 5
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "943c29de_97c75dec",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "unrelated change",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d62f5be8_afc70867",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "This might be merged into a single method using a switch statement.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc30cb91_e5523199",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/GlobalRefDbConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T14:11:16Z",
+      "side": 1,
+      "message": "This updates the GerritCluster and Gerrit CustomResources. Please don\u0027t forget to update the API reference and version of the CRs",
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
