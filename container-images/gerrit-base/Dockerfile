@@ -11,7 +11,14 @@ RUN apk update && \
 RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
     mkdir -p /var/gerrit/plugins && \
+<<<<<<< PATCH SET (e4c5c5 [Operator] Support spanner-refdb configuration)
+    mkdir -p /var/plugins/ha && \
+    mkdir -p /var/plugins/zookeeper && \
+    mkdir -p /var/plugins/spanner && \
+    mkdir -p /var/libs/ha && \
+=======
     mkdir -p /var/plugins && \
+>>>>>>> BASE      (3d47cb [Operator] Allow to set the version of the Gerrit Operator)
     mkdir -p /var/war
 
 # Download Gerrit release
@@ -36,6 +43,10 @@ RUN curl -k -o /var/plugins/high-availability.jar ${HA_JAR_URL}
 # Download zookeeper-refdb plugin
 ARG ZOOKEEPER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.8/job/plugin-zookeeper-refdb-bazel-stable-3.8/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar
 RUN curl -k -o /var/plugins/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
+
+# Download spanner-refdb plugin
+ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.7/job/plugin-spanner-refdb-bazel-master-stable-3.7/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
+RUN curl -k -o /var/plugins/spanner/spanner-refdb.jar ${SPANNER_REFDB_URL}
 
 # Allow incoming traffic
 EXPOSE 29418 8080
