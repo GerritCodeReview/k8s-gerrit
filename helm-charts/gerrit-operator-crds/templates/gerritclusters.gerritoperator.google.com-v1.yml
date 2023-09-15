@@ -136,8 +136,18 @@ spec:
                   database:
                     enum:
                     - NONE
+                    - SPANNER
                     - ZOOKEEPER
                     type: string
+                  spanner:
+                    properties:
+                      projectName:
+                        type: string
+                      instance:
+                        type: string
+                      database:
+                        type: string
+                    type: object
                   zookeeper:
                     properties:
                       connectString:

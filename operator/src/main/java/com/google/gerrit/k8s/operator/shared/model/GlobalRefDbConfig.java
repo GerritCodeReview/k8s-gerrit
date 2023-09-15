@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.shared.model;
 public class GlobalRefDbConfig {
   private RefDatabase database = RefDatabase.NONE;
   private ZookeeperRefDbConfig zookeeper;
+  private SpannerRefDbConfig spanner;
 
   public RefDatabase getDatabase() {
     return database;
@@ -34,8 +35,17 @@ public class GlobalRefDbConfig {
     this.zookeeper = zookeeper;
   }
 
+  public SpannerRefDbConfig getSpanner() {
+    return spanner;
+  }
+
+  public void setSpanner(SpannerRefDbConfig spanner) {
+    this.spanner = spanner;
+  }
+
   public enum RefDatabase {
     NONE,
     ZOOKEEPER,
+    SPANNER,
   }
 }
