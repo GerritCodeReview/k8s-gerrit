@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b455feba_928cdad7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T12:21:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13642b82_0f2b79b8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "faca9151539778291687f8df2d0078e6303b6865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d46db01a_48639ad9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-14T12:31:09Z",
       "side": 1,
       "message": "replicas, see https://www.britannica.com/dictionary/replica",
+      "range": {
+        "startLine": 16,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 40
+      },
+      "revId": "faca9151539778291687f8df2d0078e6303b6865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "156f7baa_43b9354f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T12:21:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d46db01a_48639ad9",
       "range": {
         "startLine": 16,
         "startChar": 33,
