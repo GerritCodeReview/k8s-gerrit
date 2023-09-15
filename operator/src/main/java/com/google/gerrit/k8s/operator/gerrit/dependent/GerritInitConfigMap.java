@@ -22,6 +22,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritInitConfig;
 import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
@@ -66,9 +67,11 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
     config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
 
-    if (gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)) {
-      config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
-    }
+    switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      case GlobalRefDbConfig.RefDatabase.ZOOKEEPER:
+         config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
+      case GlobalRefDbConfig.RefDatabase.SPANNER:
+         config.setRefdb(GlobalRefDbConfig.RefDatabase.SPANNER.toString().toLowerCase(Locale.US));
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));
