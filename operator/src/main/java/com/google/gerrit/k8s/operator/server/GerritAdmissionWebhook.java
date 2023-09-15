@@ -63,6 +63,13 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
+    if (missingSpannerConfig(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage("Missing spanner configuration (.spec.refdb.spanner).")
+          .build();
+    }
+
     return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
   }
 
@@ -75,9 +82,15 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
-  private boolean missingZookeeperConfig(Gerrit gerrit) {
-    return gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)
-        && gerrit.getSpec().getRefdb().getZookeeper() == null;
+  private boolean missingRefdbConfig(Gerrit gerrit) {
+    switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      case GlobalRefDbConfig.RefDatabase.ZOOKEEPER:
+        return gerrit.getSpec().getRefdb().getZookeeper() == null;
+      case GlobalRefDbConfig.RefDatabase.SPANNER:
+        return gerrit.getSpec().getRefdb().getSpanner() == null;
+      default:
+        return true;
+    }
   }
 
   @Override
