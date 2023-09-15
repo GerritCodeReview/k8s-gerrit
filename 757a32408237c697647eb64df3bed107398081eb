@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "747cfb7f_49cb2ea7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerritNetwork.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-15T12:46:24Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4af43df2_ad38ffb3",
+      "revId": "757a32408237c697647eb64df3bed107398081eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b81db7d4_4cca9e69",
