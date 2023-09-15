@@ -14,38 +14,32 @@
 
 package com.google.gerrit.k8s.operator.shared.model;
 
-public class GlobalRefDbConfig {
-  private RefDatabase database = RefDatabase.NONE;
-  private ZookeeperRefDbConfig zookeeper;
-  private SpannerRefDbConfig spanner;
+public class SpannerRefDbConfig {
+  private String projectName;
+  private String instance;
+  private String database;
 
-  public RefDatabase getDatabase() {
+  public String getProjectName() {
+    return projectName;
+  }
+
+  public void setProjectName(String projectName) {
+    this.projectName = projectName;
+  }
+
+  public String getInstance() {
+    return instance;
+  }
+
+  public void setInstance(String instance) {
+    this.instance = instance;
+  }
+
+  public String getDatabase() {
     return database;
   }
 
-  public void setDatabase(RefDatabase database) {
+  public void setDatabase(String database) {
     this.database = database;
-  }
-
-  public ZookeeperRefDbConfig getZookeeper() {
-    return zookeeper;
-  }
-
-  public void setZookeeper(ZookeeperRefDbConfig zookeeper) {
-    this.zookeeper = zookeeper;
-  }
-
-  public SpannerRefDbConfig getSpanner() {
-    return spanner;
-  }
-
-  public void setSpanner(SpannerRefDbConfig spanner) {
-    this.spanner = spanner;
-  }
-
-  public enum RefDatabase {
-    NONE,
-    ZOOKEEPER,
-    SPANNER,
   }
 }
