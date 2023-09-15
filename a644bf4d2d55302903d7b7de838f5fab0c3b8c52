@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226aa26e_22a42006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-15T13:08:30Z",
+      "side": 1,
+      "message": "To",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "a644bf4d2d55302903d7b7de838f5fab0c3b8c52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50991993_6b43bade",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-15T13:08:30Z",
+      "side": 1,
+      "message": "either remove \"using\" or \"is being used\" ?",
+      "range": {
+        "startLine": 899,
+        "startChar": 113,
+        "endLine": 899,
+        "endChar": 156
+      },
+      "revId": "a644bf4d2d55302903d7b7de838f5fab0c3b8c52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
