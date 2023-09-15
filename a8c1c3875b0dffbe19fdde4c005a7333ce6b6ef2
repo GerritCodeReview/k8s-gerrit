@@ -16,6 +16,24 @@
       "message": "git/jgit can also be configured (on client side) to use cookies\n\nsee\nhttps://git-scm.com/docs/git-config#Documentation/git-config.txt-httpcookieFile\nhttps://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/refs/heads/master/Documentation/config-options.md#http-options\n\nUsing sticky sessions could also be beneficial for git requests to ensure the 2 requests of a fetch/push are processed by the same Gerrit.\n\nThough I am not sure if this really helps since it requires client-side configuration.",
       "revId": "a8c1c3875b0dffbe19fdde4c005a7333ce6b6ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe4d09b7_a8b0f668",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T13:37:11Z",
+      "side": 1,
+      "message": "Yes, we shouldn\u0027t load that onto the user. But thinking of it, there might indeed be issues for push requests, if they do not end up on the same instance, and both instances are in a different state for the requested push,e.g.:\n\nclient: master branch consists of commits 1-2-3.\ngerrit-1: master branch consists of commits 1-2\ngerrit-2: master branch consists of commits 1 (because client has just pushed commit 2 and NFS latency is high atm)\n\nclient pushes to oriigin/master. The negotiation request ends up on gerrit-1. Client gets the answer to just send commit 3. The receive-pack request reaches gerrit-2 and fails because commit 2 is missing.\n\nWe could also use a different method: https://istio.io/latest/docs/reference/config/networking/destination-rule/#LoadBalancerSettings-ConsistentHashLB",
+      "parentUuid": "fe33ee02_78c47115",
+      "revId": "a8c1c3875b0dffbe19fdde4c005a7333ce6b6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
