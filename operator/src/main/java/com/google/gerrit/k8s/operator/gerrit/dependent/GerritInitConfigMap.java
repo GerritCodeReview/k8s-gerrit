@@ -66,8 +66,15 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
     config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
 
-    if (gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)) {
-      config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
+    switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      case ZOOKEEPER:
+        config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
+        break;
+      case SPANNER:
+        config.setRefdb(GlobalRefDbConfig.RefDatabase.SPANNER.toString().toLowerCase(Locale.US));
+        break;
+      default:
+        break;
     }
 
     ObjectMapper mapper =
