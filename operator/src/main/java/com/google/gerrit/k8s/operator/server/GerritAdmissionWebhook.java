@@ -52,7 +52,8 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage(
-              "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE")
+              "A Ref-Database is required to horizontally scale a primary Gerrit:"
+                  + " .spec.refdb.database != NONE")
           .build();
     }
 
@@ -60,6 +61,13 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage("Missing zookeeper configuration (.spec.refdb.zookeeper).")
+          .build();
+    }
+
+    if (missingSpannerConfig(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage("Missing spanner configuration (.spec.refdb.spanner).")
           .build();
     }
 
@@ -78,6 +86,11 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private boolean missingZookeeperConfig(Gerrit gerrit) {
     return gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)
         && gerrit.getSpec().getRefdb().getZookeeper() == null;
+  }
+
+  private boolean missingSpannerConfig(Gerrit gerrit) {
+    return gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.SPANNER)
+        && gerrit.getSpec().getRefdb().getSpanner() == null;
   }
 
   @Override

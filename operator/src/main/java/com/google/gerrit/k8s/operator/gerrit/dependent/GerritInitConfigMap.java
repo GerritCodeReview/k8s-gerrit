@@ -70,6 +70,10 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
       config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
     }
 
+    if (gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.SPANNER)) {
+      config.setRefdb(GlobalRefDbConfig.RefDatabase.SPANNER.toString().toLowerCase(Locale.US));
+    }
+
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));
     try {
