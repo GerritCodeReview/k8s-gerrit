@@ -16,6 +16,24 @@
       "message": "To run two",
       "revId": "b6058ac019ff36c78d931f065821dbe6aca497e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec8f1c5d_ce904e29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-15T13:21:38Z",
+      "side": 1,
+      "message": "Just saw you had new patch sets.",
+      "parentUuid": "e5e54a8f_0fa13b56",
+      "revId": "b6058ac019ff36c78d931f065821dbe6aca497e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
