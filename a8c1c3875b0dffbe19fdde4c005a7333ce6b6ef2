@@ -34,6 +34,24 @@
       "parentUuid": "fe33ee02_78c47115",
       "revId": "a8c1c3875b0dffbe19fdde4c005a7333ce6b6ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1df557f_7ba1a862",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T13:46:54Z",
+      "side": 1,
+      "message": "Although I think this even works for git. At least a quick test seems to indicate so. The cookie is set by istio and git",
+      "parentUuid": "fe4d09b7_a8b0f668",
+      "revId": "a8c1c3875b0dffbe19fdde4c005a7333ce6b6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

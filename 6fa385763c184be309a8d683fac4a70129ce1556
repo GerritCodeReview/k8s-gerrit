@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b7e639_e82516e5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T13:46:54Z",
+      "side": 1,
+      "message": "Should be false",
+      "range": {
+        "startLine": 112,
+        "startChar": 73,
+        "endLine": 112,
+        "endChar": 79
+      },
+      "revId": "6fa385763c184be309a8d683fac4a70129ce1556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a8b89b_989212a2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T13:46:54Z",
+      "side": 1,
+      "message": "Should be true",
+      "range": {
+        "startLine": 116,
+        "startChar": 73,
+        "endLine": 116,
+        "endChar": 80
+      },
+      "revId": "6fa385763c184be309a8d683fac4a70129ce1556",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
