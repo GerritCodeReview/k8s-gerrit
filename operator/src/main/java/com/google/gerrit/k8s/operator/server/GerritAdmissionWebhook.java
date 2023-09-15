@@ -56,10 +56,25 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
-    if (missingZookeeperConfig(gerrit)) {
+    if (missingRefdbConfig(gerrit)) {
+      String refDbName = "";
+      switch (gerrit.getSpec().getRefdb().getDatabase()) {
+        case GlobalRefDbConfig.RefDatabase.ZOOKEEPER:
+          refDbName = GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US);
+        case GlobalRefDbConfig.RefDatabase.SPANNER:
+          refDbName = GlobalRefDbConfig.RefDatabase.SPANNER.toString().toLowerCase(Locale.US);
+      }
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage("Missing zookeeper configuration (.spec.refdb.zookeeper).")
+          .withMessage(
+              String.format("Missing %s configuration (.spec.refdb.%s)", refDbName, refDbName))
+          .build();
+    }
+
+    if (missingSpannerConfig(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage("Missing spanner configuration (.spec.refdb.spanner).")
           .build();
     }
 
@@ -75,9 +90,15 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
-  private boolean missingZookeeperConfig(Gerrit gerrit) {
-    return gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)
-        && gerrit.getSpec().getRefdb().getZookeeper() == null;
+  private boolean missingRefdbConfig(Gerrit gerrit) {
+    switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      case GlobalRefDbConfig.RefDatabase.ZOOKEEPER:
+        return gerrit.getSpec().getRefdb().getZookeeper() == null;
+      case GlobalRefDbConfig.RefDatabase.SPANNER:
+        return gerrit.getSpec().getRefdb().getSpanner() == null;
+      default:
+        return false;
+    }
   }
 
   @Override
