@@ -64,7 +64,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha16 \
+**Version**: v1alpha17 \
 **Kind**: GerritCluster
 
 ---
@@ -81,7 +81,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha16"
+apiVersion: "gerritoperator.google.com/v1alpha17"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -134,6 +134,9 @@ spec:
     tls:
       enabled: false
       secret: ""
+    ambassador:
+      id: []
+      createHost: false
 
   refdb:
     database: NONE
@@ -735,7 +738,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha1 \
+**Version**: v1alpha2 \
 **Kind**: GerritNetwork
 
 ---
@@ -751,7 +754,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha1"
+apiVersion: "gerritoperator.google.com/v1alpha2"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -879,6 +882,7 @@ Extends [StorageConfig](#StorageConfig).
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
+| `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
 
 ## GerritIngressTlsConfig
 
@@ -923,6 +927,11 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
 
+## GerritIngressAmbassadorConfig
+| Field | Type | Description |
+|---|---|---|
+| `id` | `List<String>` | The operator uses the ids specified in `ambassadorId` to set the [ambassador_id](https://www.getambassador.io/docs/edge-stack/1.14/topics/running/running#ambassador_id) spec field in the Ambassador CustomResources it creates (`Mapping`, `TLSContext`). (optional) |
+| `createHost`| `boolean` | Specify whether you want the operator to create a `Host` resource. This will be required if you don't have a wildcard host set up in your cluster. Default is `false`. (optional) |
 
 ## GerritTemplate
 

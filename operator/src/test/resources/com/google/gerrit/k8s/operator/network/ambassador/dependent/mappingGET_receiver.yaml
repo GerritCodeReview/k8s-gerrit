@@ -4,6 +4,9 @@ metadata:
   name: gerrit-mapping-receiver-get
   namespace: gerrit
 spec:
+  ambassador_id:
+    - my-id-1
+    - my-id-2
   bypass_auth: true
   rewrite: ""
   host: example.com

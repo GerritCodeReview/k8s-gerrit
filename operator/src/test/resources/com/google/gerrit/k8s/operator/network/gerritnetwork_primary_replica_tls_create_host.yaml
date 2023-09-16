@@ -12,6 +12,7 @@ spec:
       secret: tls-secret
     ambassador:
       id: ["my-id-1", "my-id-2"]
+      createHost: true
   primaryGerrit:
     name: primary
     httpPort: 48080
