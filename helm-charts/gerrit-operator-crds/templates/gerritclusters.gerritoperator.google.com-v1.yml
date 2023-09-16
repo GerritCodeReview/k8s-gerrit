@@ -130,6 +130,17 @@ spec:
                       enabled:
                         type: boolean
                     type: object
+                  ambassador:
+                    properties:
+                      id:
+                        items:
+                          type: string
+                        type: array
+                      bypassAuth:
+                        type: boolean
+                      createHost:
+                        type: boolean
+                    type: object
                 type: object
               refdb:
                 properties:

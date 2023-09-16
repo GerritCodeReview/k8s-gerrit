@@ -23,6 +23,7 @@ public class GerritClusterIngressConfig {
   private Map<String, String> annotations;
   private GerritIngressTlsConfig tls = new GerritIngressTlsConfig();
   private GerritIngressSshConfig ssh = new GerritIngressSshConfig();
+  private GerritIngressAmbassadorConfig ambassador = new GerritIngressAmbassadorConfig();
 
   public boolean isEnabled() {
     return enabled;
@@ -62,6 +63,14 @@ public class GerritClusterIngressConfig {
 
   public void setSsh(GerritIngressSshConfig ssh) {
     this.ssh = ssh;
+  }
+
+  public GerritIngressAmbassadorConfig getAmbassador() {
+    return ambassador;
+  }
+
+  public void setAmbassador(GerritIngressAmbassadorConfig ambassador) {
+    this.ambassador = ambassador;
   }
 
   @JsonIgnore

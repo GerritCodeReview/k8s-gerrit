@@ -15,20 +15,26 @@
 package com.google.gerrit.k8s.operator.network.ambassador;
 
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterHost.GERRIT_HOST;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping.GERRIT_MAPPING;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica.GERRIT_MAPPING_GET_REPLICA;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica.GERRIT_MAPPING_POST_REPLICA;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary.GERRIT_MAPPING_PRIMARY;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver.GERRIT_MAPPING_RECEIVER;
+import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext.GERRIT_TLS_CONTEXT;
 
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.CreateHostCondition;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterHost;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.LoadBalanceCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMappingCondition;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
@@ -112,7 +118,15 @@ import java.util.Map;
           name = GERRIT_MAPPING_RECEIVER,
           type = GerritClusterMappingReceiver.class,
           reconcilePrecondition = ReceiverMappingCondition.class,
-          useEventSourceWithName = MAPPING_EVENT_SOURCE)
+          useEventSourceWithName = MAPPING_EVENT_SOURCE),
+      @Dependent(
+          name = GERRIT_TLS_CONTEXT,
+          type = GerritClusterTLSContext.class,
+          reconcilePrecondition = TLSContextCondition.class),
+      @Dependent(
+          name = GERRIT_HOST,
+          type = GerritClusterHost.class,
+          reconcilePrecondition = CreateHostCondition.class),
     })
 public class GerritAmbassadorReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
