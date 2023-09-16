@@ -10,6 +10,8 @@ spec:
     tls:
       enabled: true
       secret: tls-secret
+    ambassador:
+      id: ["my-id-1", "my-id-2"]
   primaryGerrit:
     name: primary
     httpPort: 48080

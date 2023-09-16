@@ -4,10 +4,9 @@ metadata:
   name: gerrit-mapping-get-replica
   namespace: gerrit
 spec:
-  # ambassador_id:
-  #   - my-id-1
-  #   - my-id-2
-  #   - my-id-3
+  ambassador_id:
+    - my-id-1
+    - my-id-2
   bypass_auth: false
   host: example.com
   method: GET
