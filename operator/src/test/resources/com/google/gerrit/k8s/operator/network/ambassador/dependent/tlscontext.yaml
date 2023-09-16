@@ -1,0 +1,13 @@
+apiVersion: getambassador.io/v2
+kind: TLSContext
+metadata:
+  name: gerrit-tls-context
+  namespace: gerrit
+spec:
+  ambassador_id:
+    - my-id-1
+    - my-id-2
+  secret: tls-secret
+  secret_namespacing: true
+  hosts:
+    - example.com
