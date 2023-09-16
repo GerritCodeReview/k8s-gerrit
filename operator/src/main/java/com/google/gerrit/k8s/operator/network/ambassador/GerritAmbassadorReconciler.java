@@ -20,15 +20,18 @@ import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassador
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_PRIMARY;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_RECEIVER;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_TLS_CONTEXT;
 
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.LoadBalanceCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMappingCondition;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
@@ -96,6 +99,18 @@ import java.util.Map;
   prefix_regex: false
   service: gerrit.gerrit-operator:8080
 
+  ---
+  apiVersion: getambassador.io/v2
+  kind: TLSContext
+  ambassador_id:
+  - internal_proxy
+  name: my-name
+  secret: example.certs
+  hosts:
+    - my-name
+  secret_namespacing: true
+
+
 */
 
 // If only one Gerrit instance in GerritCluster, send all git-over-https requests to it.
@@ -136,7 +151,12 @@ import java.util.Map;
           name = GERRIT_MAPPING_RECEIVER,
           type = GerritClusterMappingReceiver.class,
           reconcilePrecondition = ReceiverMappingCondition.class,
-          useEventSourceWithName = MAPPING_EVENT_SOURCE)
+          useEventSourceWithName = MAPPING_EVENT_SOURCE),
+      @Dependent(
+          name = GERRIT_TLS_CONTEXT,
+          type = GerritClusterTLSContext.class,
+          reconcilePrecondition = TLSContextCondition.class),
+
     })
 public class GerritAmbassadorReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
@@ -147,6 +167,7 @@ public class GerritAmbassadorReconciler
   public static final String GERRIT_MAPPING_GET_REPLICA = "gerrit-mapping-get-replica";
   public static final String GERRIT_MAPPING_PRIMARY = "gerrit-mapping-primary";
   public static final String GERRIT_MAPPING_RECEIVER = "gerrit-mapping-receiver";
+  public static final String GERRIT_TLS_CONTEXT = "gerrit-tls-context";
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritNetwork> context) {
@@ -162,11 +183,6 @@ public class GerritAmbassadorReconciler
   @Override
   public UpdateControl<GerritNetwork> reconcile(
       GerritNetwork resource, Context<GerritNetwork> context) throws Exception {
-
-    if (resource.getSpec().getIngress().getTls().isEnabled()) {
-      // TODO: Also create a TLSContext ambassador CR
-      System.out.println("TODO");
-    }
 
     return UpdateControl.noUpdate();
   }
