@@ -13,7 +13,7 @@ spec:
     singular: gerritnetwork
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - name: v1alpha2
     schema:
       openAPIV3Schema:
         properties:
@@ -40,6 +40,13 @@ spec:
                     properties:
                       enabled:
                         type: boolean
+                    type: object
+                  ambassador:
+                    properties:
+                      id:
+                        items:
+                          type: string
+                        type: array
                     type: object
                 type: object
               receiver:
