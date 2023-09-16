@@ -17,7 +17,9 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import io.getambassador.v2.Host;
 import io.getambassador.v2.Mapping;
+import io.getambassador.v2.TLSContext;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -51,6 +53,17 @@ public class GerritClusterAmbassadorTest {
         Mapping expected =
             ReconcilerUtils.loadYaml(Mapping.class, this.getClass(), expectedOutputFile);
         assertThat(result.getSpec()).isEqualTo(expected.getSpec());
+      } else if (dependentObject instanceof GerritClusterTLSContext) {
+        GerritClusterTLSContext dependent = (GerritClusterTLSContext) dependentObject;
+        TLSContext result = dependent.desired(gerritNetwork, null);
+        TLSContext expected =
+            ReconcilerUtils.loadYaml(TLSContext.class, this.getClass(), expectedOutputFile);
+        assertThat(result.getSpec()).isEqualTo(expected.getSpec());
+      } else if (dependentObject instanceof GerritClusterHost) {
+        GerritClusterHost dependent = (GerritClusterHost) dependentObject;
+        Host result = dependent.desired(gerritNetwork, null);
+        Host expected = ReconcilerUtils.loadYaml(Host.class, this.getClass(), expectedOutputFile);
+        assertThat(result.getSpec()).isEqualTo(expected.getSpec());
       }
     }
   }
@@ -64,9 +77,18 @@ public class GerritClusterAmbassadorTest {
                     "mappingGETReplica_primary_replica.yaml",
                 GerritClusterMappingPOSTReplica.class.getName(),
                     "mappingPOSTReplica_primary_replica.yaml",
-                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml"
-                // TODO: add tls
-                )),
+                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
+                GerritClusterTLSContext.class.getName(), "tlscontext.yaml")),
+        Arguments.of(
+            "../../gerritnetwork_primary_replica_tls_create_host.yaml",
+            Map.of(
+                GerritClusterMappingGETReplica.class.getName(),
+                    "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingPOSTReplica.class.getName(),
+                    "mappingPOSTReplica_primary_replica.yaml",
+                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
+                GerritClusterTLSContext.class.getName(), "tlscontext.yaml",
+                GerritClusterHost.class.getName(), "host_with_tls.yaml")),
         Arguments.of(
             "../../gerritnetwork_primary_replica.yaml",
             Map.of(
@@ -76,6 +98,15 @@ public class GerritClusterAmbassadorTest {
                     "mappingPOSTReplica_primary_replica.yaml",
                 GerritClusterMappingPrimary.class.getName(),
                     "mappingPrimary_primary_replica.yaml")),
+        Arguments.of(
+            "../../gerritnetwork_primary_replica_create_host.yaml",
+            Map.of(
+                GerritClusterMappingGETReplica.class.getName(),
+                    "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingPOSTReplica.class.getName(),
+                    "mappingPOSTReplica_primary_replica.yaml",
+                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
+                GerritClusterHost.class.getName(), "host.yaml")),
         Arguments.of(
             "../../gerritnetwork_primary.yaml",
             Map.of(GerritClusterMapping.class.getName(), "mapping_primary.yaml")),
@@ -91,8 +122,7 @@ public class GerritClusterAmbassadorTest {
             "../../gerritnetwork_receiver_replica_tls.yaml",
             Map.of(
                 GerritClusterMapping.class.getName(), "mapping_replica.yaml",
-                GerritClusterMappingReceiver.class.getName(), "mapping_receiver.yaml"
-                // TODO: add tls
-                )));
+                GerritClusterMappingReceiver.class.getName(), "mapping_receiver.yaml",
+                GerritClusterTLSContext.class.getName(), "tlscontext.yaml")));
   }
 }

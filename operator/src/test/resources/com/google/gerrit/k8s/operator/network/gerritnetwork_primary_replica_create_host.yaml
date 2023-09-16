@@ -12,10 +12,12 @@ spec:
     ambassador:
       id: ["my-id-1", "my-id-2"]
       bypassAuth: true
+      createHost: true
+  primaryGerrit:
+    name: primary
+    httpPort: 48080
+    sshPort: 49418
   gerritReplica:
     name: replica
     httpPort: 48080
     sshPort: 49418
-  receiver:
-    name: receiver
-    httpPort: 48081

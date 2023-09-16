@@ -49,14 +49,13 @@ public abstract class AbstractAmbassadorDependentResource<T extends HasMetadata>
             .withHost(gerritnetwork.getSpec().getIngress().getHost())
             .withPrefix("/")
             .withService(serviceName)
-            .withBypassAuth(true)
+            .withBypassAuth(gerritnetwork.getSpec().getIngress().getAmbassador().getBypassAuth())
             .withRewrite("") // important - so the prefix doesn't get overwritten to "/"
             .build();
     return spec;
   }
 
   public List<String> getAmbassadorIds(GerritNetwork gerritnetwork) {
-    // TODO: Allow users to configure ambassador_id
-    return null;
+    return gerritnetwork.getSpec().getIngress().getAmbassador().getId();
   }
 }

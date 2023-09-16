@@ -133,6 +133,10 @@ spec:
     tls:
       enabled: false
       secret: ""
+    ambassador:
+      id: []
+      bypassAuth: false
+      createHost: false
 
   refdb:
     database: NONE
@@ -871,6 +875,7 @@ Extends [StorageConfig](#StorageConfig).
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
+| `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
 
 ## GerritIngressTlsConfig
 
@@ -903,6 +908,12 @@ global refdb. It will only configure Gerrit to use it.
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
 
+## GerritIngressAmbassadorConfig
+| Field | Type | Description |
+|---|---|---|
+| `id` | `List<String>` | The operator uses the ids specified in `ambassadorId` to set the [ambassador_id](https://www.getambassador.io/docs/edge-stack/1.14/topics/running/running#ambassador_id) spec field in the Ambassador CustomResources it creates (`Mapping`, `TLSContext`). (optional) |
+| `bypassAuth`| `boolean` | Sets the `bypass_auth` spec field in the created Mappings. Default is `false`. (optional) |
+| `createHost`| `boolean` | Specify whether you want the operator to create a `Host` resource. This will be required if you don't have a wildcard host set up in your cluster. Default is `false`. (optional) |
 
 ## GerritTemplate
 
