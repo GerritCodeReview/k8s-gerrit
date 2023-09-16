@@ -9,6 +9,9 @@ spec:
     host: example.com
     tls:
       enabled: false
+    ambassador:
+      id: ["my-id-1", "my-id-2"]
+      bypassAuth: true
   primaryGerrit:
     name: primary
     httpPort: 48080
