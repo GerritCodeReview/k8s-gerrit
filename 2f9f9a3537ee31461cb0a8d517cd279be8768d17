@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abbcf850_8afe0c84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-16T18:59:56Z",
+      "side": 1,
+      "message": "wip at the moment b/c TODO:\n- tidy up commit message\n- add \"ambassador\" config field to [GerritClusterIngressConfig](https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/Documentation/operator-api-reference.md#gerritclusteringressconfig); need this so user can specify \"ambassador_id\"\n- add tls support for ambassador changes\n- write tests",
+      "revId": "2f9f9a3537ee31461cb0a8d517cd279be8768d17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
