@@ -1,0 +1,9 @@
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: gerrit-ambassador-host
+spec:
+  ambassador_id:
+    - my-id-1
+    - my-id-2
+  hostname: example.com

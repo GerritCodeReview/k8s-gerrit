@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1alpha14
+  - name: v1alpha15
     schema:
       openAPIV3Schema:
         properties:
@@ -128,6 +128,15 @@ spec:
                   ssh:
                     properties:
                       enabled:
+                        type: boolean
+                    type: object
+                  ambassador:
+                    properties:
+                      id:
+                        items:
+                          type: string
+                        type: array
+                      createHost:
                         type: boolean
                     type: object
                 type: object
