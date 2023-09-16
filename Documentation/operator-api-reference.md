@@ -1,55 +1,56 @@
 # Gerrit Operator - API Reference
 
-1. [Gerrit Operator - API Reference](#gerrit-operator---api-reference)
-   1. [General Remarks](#general-remarks)
-      1. [Inheritance](#inheritance)
-   2. [GerritCluster](#gerritcluster)
-   3. [Gerrit](#gerrit)
-   4. [Receiver](#receiver)
-   5. [GitGarbageCollection](#gitgarbagecollection)
-   6. [GerritNetwork](#gerritnetwork)
-   7. [GerritClusterSpec](#gerritclusterspec)
-   8. [GerritClusterStatus](#gerritclusterstatus)
-   9. [StorageConfig](#storageconfig)
-   10. [GerritStorageConfig](#gerritstorageconfig)
-   11. [StorageClassConfig](#storageclassconfig)
-   12. [NfsWorkaroundConfig](#nfsworkaroundconfig)
-   13. [SharedStorage](#sharedstorage)
-   14. [PluginCacheConfig](#plugincacheconfig)
-   15. [ExternalPVCConfig](#externalpvcconfig)
-   16. [ContainerImageConfig](#containerimageconfig)
-   17. [BusyBoxImage](#busyboximage)
-   18. [GerritRepositoryConfig](#gerritrepositoryconfig)
-   19. [GerritClusterIngressConfig](#gerritclusteringressconfig)
-   20. [GerritIngressTlsConfig](#gerritingresstlsconfig)
-   21. [GlobalRefDbConfig](#globalrefdbconfig)
-   22. [RefDatabase](#refdatabase)
-   23. [SpannerRefDbConfig](#spannerrefdbconfig)
-   24. [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
-   25. [GerritTemplate](#gerrittemplate)
-   26. [GerritTemplateSpec](#gerrittemplatespec)
-   27. [GerritProbe](#gerritprobe)
-   28. [GerritServiceConfig](#gerritserviceconfig)
-   29. [GerritSite](#gerritsite)
-   30. [GerritModule](#gerritmodule)
-   31. [GerritPlugin](#gerritplugin)
-   32. [GerritMode](#gerritmode)
-   33. [GerritDebugConfig](#gerritdebugconfig)
-   34. [GerritSpec](#gerritspec)
-   35. [GerritStatus](#gerritstatus)
-   36. [IngressConfig](#ingressconfig)
-   37. [ReceiverTemplate](#receivertemplate)
-   38. [ReceiverTemplateSpec](#receivertemplatespec)
-   39. [ReceiverSpec](#receiverspec)
-   40. [ReceiverStatus](#receiverstatus)
-   41. [ReceiverProbe](#receiverprobe)
-   42. [ReceiverServiceConfig](#receiverserviceconfig)
-   43. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   44. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   45. [GitGcState](#gitgcstate)
-   46. [GerritNetworkSpec](#gerritnetworkspec)
-   47. [NetworkMember](#networkmember)
-   48. [NetworkMemberWithSsh](#networkmemberwithssh)
+- [Gerrit Operator - API Reference](#gerrit-operator---api-reference)
+  - [General Remarks](#general-remarks)
+    - [Inheritance](#inheritance)
+  - [GerritCluster](#gerritcluster)
+  - [Gerrit](#gerrit)
+  - [Receiver](#receiver)
+  - [GitGarbageCollection](#gitgarbagecollection)
+  - [GerritNetwork](#gerritnetwork)
+  - [GerritClusterSpec](#gerritclusterspec)
+  - [GerritClusterStatus](#gerritclusterstatus)
+  - [StorageConfig](#storageconfig)
+  - [GerritStorageConfig](#gerritstorageconfig)
+  - [StorageClassConfig](#storageclassconfig)
+  - [NfsWorkaroundConfig](#nfsworkaroundconfig)
+  - [SharedStorage](#sharedstorage)
+  - [PluginCacheConfig](#plugincacheconfig)
+  - [ExternalPVCConfig](#externalpvcconfig)
+  - [ContainerImageConfig](#containerimageconfig)
+  - [BusyBoxImage](#busyboximage)
+  - [GerritRepositoryConfig](#gerritrepositoryconfig)
+  - [GerritClusterIngressConfig](#gerritclusteringressconfig)
+  - [GerritIngressTlsConfig](#gerritingresstlsconfig)
+  - [GerritIngressAmbassadorConfig](#gerritingressambassadorconfig)
+  - [GlobalRefDbConfig](#globalrefdbconfig)
+  - [RefDatabase](#refdatabase)
+  - [SpannerRefDbConfig](#spannerrefdbconfig)
+  - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+  - [GerritTemplate](#gerrittemplate)
+  - [GerritTemplateSpec](#gerrittemplatespec)
+  - [GerritProbe](#gerritprobe)
+  - [GerritServiceConfig](#gerritserviceconfig)
+  - [GerritSite](#gerritsite)
+  - [GerritModule](#gerritmodule)
+  - [GerritPlugin](#gerritplugin)
+  - [GerritMode](#gerritmode)
+  - [GerritDebugConfig](#gerritdebugconfig)
+  - [GerritSpec](#gerritspec)
+  - [GerritStatus](#gerritstatus)
+  - [IngressConfig](#ingressconfig)
+  - [ReceiverTemplate](#receivertemplate)
+  - [ReceiverTemplateSpec](#receivertemplatespec)
+  - [ReceiverSpec](#receiverspec)
+  - [ReceiverStatus](#receiverstatus)
+  - [ReceiverProbe](#receiverprobe)
+  - [ReceiverServiceConfig](#receiverserviceconfig)
+  - [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+  - [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+  - [GitGcState](#gitgcstate)
+  - [GerritNetworkSpec](#gerritnetworkspec)
+  - [NetworkMember](#networkmember)
+  - [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -64,7 +65,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha16 \
+**Version**: v1alpha17 \
 **Kind**: GerritCluster
 
 ---
@@ -81,7 +82,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha16"
+apiVersion: "gerritoperator.google.com/v1alpha17"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -134,6 +135,9 @@ spec:
     tls:
       enabled: false
       secret: ""
+    ambassador:
+      id: []
+      createHost: false
 
   refdb:
     database: NONE
@@ -735,7 +739,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1alpha1 \
+**Version**: v1alpha2 \
 **Kind**: GerritNetwork
 
 ---
@@ -751,7 +755,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1alpha1"
+apiVersion: "gerritoperator.google.com/v1alpha2"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -879,6 +883,7 @@ Extends [StorageConfig](#StorageConfig).
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
+| `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
 
 ## GerritIngressTlsConfig
 
@@ -886,6 +891,12 @@ Extends [StorageConfig](#StorageConfig).
 |---|---|---|
 | `enabled` | `boolean` | Whether to use TLS (default: `false`) |
 | `secret` | `String` | Name of the secret containing the TLS key pair. The certificate should be a wildcard certificate allowing for all subdomains under the given host. |
+
+## GerritIngressAmbassadorConfig
+| Field | Type | Description |
+|---|---|---|
+| `id` | `List<String>` | The operator uses the ids specified in `ambassadorId` to set the [ambassador_id](https://www.getambassador.io/docs/edge-stack/1.14/topics/running/running#ambassador_id) spec field in the Ambassador CustomResources it creates (`Mapping`, `TLSContext`). (optional) |
+| `createHost`| `boolean` | Specify whether you want the operator to create a `Host` resource. This will be required if you don't have a wildcard host set up in your cluster. Default is `false`. (optional) |
 
 ## GlobalRefDbConfig
 
@@ -922,7 +933,6 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 |---|---|---|
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
-
 
 ## GerritTemplate
 
