@@ -133,6 +133,8 @@ spec:
     tls:
       enabled: false
       secret: ""
+    ambassador:
+      id: []
 
   refdb:
     database: NONE
@@ -871,6 +873,7 @@ Extends [StorageConfig](#StorageConfig).
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
+| `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
 
 ## GerritIngressTlsConfig
 
@@ -879,6 +882,7 @@ Extends [StorageConfig](#StorageConfig).
 | `enabled` | `boolean` | Whether to use TLS (default: `false`) |
 | `secret` | `String` | Name of the secret containing the TLS key pair. The certificate should be a wildcard certificate allowing for all subdomains under the given host. |
 
+<<<<<<< HEAD
 ## GlobalRefDbConfig
 
 Note, that the operator will not deploy or operate the database used for the
@@ -903,6 +907,12 @@ global refdb. It will only configure Gerrit to use it.
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
 
+=======
+## GerritIngressAmbassadorConfig
+| Field | Type | Description |
+|---|---|---|
+| `id` | `List<String>` | The operator uses the ids specified in `ambassadorId` to set the [ambassador_id](https://www.getambassador.io/docs/edge-stack/1.14/topics/running/running#ambassador_id) spec field in the Ambassador CustomResources it creates (`Mapping`, `TLSContext`). (optional) |
+>>>>>>> eee6bbe ([Operator] Add Ambassador config to GerritClusterIngressConfig)
 
 ## GerritTemplate
 

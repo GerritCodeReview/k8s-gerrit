@@ -55,6 +55,6 @@ public abstract class AbstractAmbassadorDependentResource<T extends HasMetadata>
   }
 
   public List<String> getAmbassadorIds(GerritNetwork gerritnetwork) {
-    return null;
+    return gerritnetwork.getSpec().getIngress().getAmbassador().getId();
   }
 }

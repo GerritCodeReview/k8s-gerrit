@@ -130,6 +130,13 @@ spec:
                       enabled:
                         type: boolean
                     type: object
+                  ambassador:
+                    properties:
+                      id:
+                        items:
+                          type: string
+                        type: array
+                    type: object
                 type: object
               refdb:
                 properties:
