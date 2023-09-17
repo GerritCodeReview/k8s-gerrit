@@ -35,8 +35,9 @@ public class GerritClusterMappingPrimary
   protected Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
     String primaryServiceName =
-        gerritNetwork.getSpec().getPrimaryGerrit().getName() + ":" + 
-        gerritNetwork.getSpec().getPrimaryGerrit().getHttpPort();
+        gerritNetwork.getSpec().getPrimaryGerrit().getName()
+            + ":"
+            + gerritNetwork.getSpec().getPrimaryGerrit().getHttpPort();
 
     // Send all other requests to primary.
     // Emissary evaluates more constrained Mappings first.

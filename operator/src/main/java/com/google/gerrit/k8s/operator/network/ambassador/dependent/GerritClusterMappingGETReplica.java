@@ -36,8 +36,9 @@ public class GerritClusterMappingGETReplica
   protected Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
     String replicaServiceName =
-        gerritNetwork.getSpec().getGerritReplica().getName() + ":" + 
-        gerritNetwork.getSpec().getGerritReplica().getHttpPort();
+        gerritNetwork.getSpec().getGerritReplica().getName()
+            + ":"
+            + gerritNetwork.getSpec().getGerritReplica().getHttpPort();
 
     // Send fetch/clone GET requests to replica
     Mapping mapping =

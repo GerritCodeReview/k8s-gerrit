@@ -35,9 +35,9 @@ public class GerritClusterMappingReceiver
   @Override
   protected Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
-    String receiverServiceName = 
-      ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName()) + 
-        gerritNetwork.getSpec().getReceiver().getHttpPort();
+    String receiverServiceName =
+        ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName())
+            + gerritNetwork.getSpec().getReceiver().getHttpPort();
 
     Mapping mapping =
         new MappingBuilder()

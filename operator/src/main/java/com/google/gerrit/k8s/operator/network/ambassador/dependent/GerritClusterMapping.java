@@ -18,7 +18,6 @@ import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassador
 
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.model.NetworkMemberWithSsh;
-
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.MappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -36,9 +35,10 @@ public class GerritClusterMapping extends CRUDKubernetesDependentResource<Mappin
   protected Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
     // If only one Gerrit instance in GerritCluster, send all git-over-https requests to it
-    NetworkMemberWithSsh gerrit = gerritNetwork.hasGerritReplica() 
-                                    ? gerritNetwork.getSpec().getGerritReplica() 
-                                    : gerritNetwork.getSpec().getPrimaryGerrit(); 
+    NetworkMemberWithSsh gerrit =
+        gerritNetwork.hasGerritReplica()
+            ? gerritNetwork.getSpec().getGerritReplica()
+            : gerritNetwork.getSpec().getPrimaryGerrit();
     String serviceName = gerrit.getName() + ":" + gerrit.getHttpPort();
     Mapping mapping =
         new MappingBuilder()

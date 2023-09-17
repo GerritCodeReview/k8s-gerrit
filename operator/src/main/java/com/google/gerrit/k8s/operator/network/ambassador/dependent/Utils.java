@@ -1,13 +1,12 @@
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-import java.util.List;
-
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.getambassador.v2.MappingSpec;
 import io.getambassador.v2.MappingSpecBuilder;
+import java.util.List;
 
 public class Utils {
 
@@ -37,6 +36,6 @@ public class Utils {
   }
 
   static List<String> getAmbassadorIds(GerritNetwork gerritnetwork) {
-    return List.of("default");
+    return gerritnetwork.getSpec().getIngress().getAmbassadorId();
   }
 }

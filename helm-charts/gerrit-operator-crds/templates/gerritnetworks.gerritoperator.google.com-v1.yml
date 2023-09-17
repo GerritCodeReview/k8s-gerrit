@@ -13,12 +13,21 @@ spec:
     singular: gerritnetwork
   scope: Namespaced
   versions:
-  - name: v1alpha1
+  - name: v1alpha2
     schema:
       openAPIV3Schema:
         properties:
           spec:
             properties:
+              gerritReplica:
+                properties:
+                  sshPort:
+                    type: integer
+                  httpPort:
+                    type: integer
+                  name:
+                    type: string
+                type: object
               ingress:
                 properties:
                   enabled:
@@ -41,31 +50,26 @@ spec:
                       enabled:
                         type: boolean
                     type: object
-                type: object
-              receiver:
-                properties:
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
+                  ambassadorId:
+                    items:
+                      type: string
+                    type: array
                 type: object
               primaryGerrit:
                 properties:
                   sshPort:
                     type: integer
-                  name:
-                    type: string
                   httpPort:
                     type: integer
+                  name:
+                    type: string
                 type: object
-              gerritReplica:
+              receiver:
                 properties:
-                  sshPort:
+                  httpPort:
                     type: integer
                   name:
                     type: string
-                  httpPort:
-                    type: integer
                 type: object
             type: object
           status:
