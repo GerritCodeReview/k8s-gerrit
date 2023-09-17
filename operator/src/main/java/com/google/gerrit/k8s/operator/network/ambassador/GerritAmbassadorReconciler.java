@@ -19,8 +19,8 @@ import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassador
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_POST_REPLICA;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_PRIMARY;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_RECEIVER;
-import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_TLS_CONTEXT;
+import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
 
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
@@ -120,7 +120,6 @@ import java.util.Map;
           name = GERRIT_TLS_CONTEXT,
           type = GerritClusterTLSContext.class,
           reconcilePrecondition = TLSContextCondition.class),
-
     })
 public class GerritAmbassadorReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
