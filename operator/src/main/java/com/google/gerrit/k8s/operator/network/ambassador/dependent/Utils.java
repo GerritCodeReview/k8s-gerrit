@@ -48,7 +48,6 @@ public class Utils {
   }
 
   static List<String> getAmbassadorIds(GerritNetwork gerritnetwork) {
-    // TODO: Allow users to configure ambassador_id
-    return null;
+    return gerritnetwork.getSpec().getIngress().getAmbassador().getId();
   }
 }
