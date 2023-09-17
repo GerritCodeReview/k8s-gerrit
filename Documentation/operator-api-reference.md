@@ -22,30 +22,31 @@
    18. [GerritRepositoryConfig](#gerritrepositoryconfig)
    19. [GerritClusterIngressConfig](#gerritclusteringressconfig)
    20. [GerritIngressTlsConfig](#gerritingresstlsconfig)
-   21. [GerritTemplate](#gerrittemplate)
-   22. [GerritTemplateSpec](#gerrittemplatespec)
-   23. [GerritProbe](#gerritprobe)
-   24. [GerritServiceConfig](#gerritserviceconfig)
-   25. [GerritSite](#gerritsite)
-   26. [GerritModule](#gerritmodule)
-   27. [GerritPlugin](#gerritplugin)
-   28. [GerritMode](#gerritmode)
-   29. [GerritDebugConfig](#gerritdebugconfig)
-   30. [GerritSpec](#gerritspec)
-   31. [GerritStatus](#gerritstatus)
-   32. [IngressConfig](#ingressconfig)
-   33. [ReceiverTemplate](#receivertemplate)
-   34. [ReceiverTemplateSpec](#receivertemplatespec)
-   35. [ReceiverSpec](#receiverspec)
-   36. [ReceiverStatus](#receiverstatus)
-   37. [ReceiverProbe](#receiverprobe)
-   38. [ReceiverServiceConfig](#receiverserviceconfig)
-   39. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-   40. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-   41. [GitGcState](#gitgcstate)
-   42. [GerritNetworkSpec](#gerritnetworkspec)
-   43. [NetworkMember](#networkmember)
-   44. [NetworkMemberWithSsh](#networkmemberwithssh)
+   21. [GerritIngressAmbassadorConfig](#gerritingressambassadorconfig)
+   22. [GerritTemplate](#gerrittemplate)
+   23. [GerritTemplateSpec](#gerrittemplatespec)
+   24. [GerritProbe](#gerritprobe)
+   25. [GerritServiceConfig](#gerritserviceconfig)
+   26. [GerritSite](#gerritsite)
+   27. [GerritModule](#gerritmodule)
+   28. [GerritPlugin](#gerritplugin)
+   29. [GerritMode](#gerritmode)
+   30. [GerritDebugConfig](#gerritdebugconfig)
+   31. [GerritSpec](#gerritspec)
+   32. [GerritStatus](#gerritstatus)
+   33. [IngressConfig](#ingressconfig)
+   34. [ReceiverTemplate](#receivertemplate)
+   35. [ReceiverTemplateSpec](#receivertemplatespec)
+   36. [ReceiverSpec](#receiverspec)
+   37. [ReceiverStatus](#receiverstatus)
+   38. [ReceiverProbe](#receiverprobe)
+   39. [ReceiverServiceConfig](#receiverserviceconfig)
+   40. [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
+   41. [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
+   42. [GitGcState](#gitgcstate)
+   43. [GerritNetworkSpec](#gerritnetworkspec)
+   44. [NetworkMember](#networkmember)
+   45. [NetworkMemberWithSsh](#networkmemberwithssh)
 
 ## General Remarks
 
@@ -130,6 +131,8 @@ spec:
     tls:
       enabled: false
       secret: ""
+    ambassador:
+      id: []
 
   gerrits:
   - metadata:
@@ -850,6 +853,7 @@ Extends [StorageConfig](#StorageConfig).
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
+| `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
 
 ## GerritIngressTlsConfig
 
@@ -857,6 +861,11 @@ Extends [StorageConfig](#StorageConfig).
 |---|---|---|
 | `enabled` | `boolean` | Whether to use TLS (default: `false`) |
 | `secret` | `String` | Name of the secret containing the TLS key pair. The certificate should be a wildcard certificate allowing for all subdomains under the given host. |
+
+## GerritIngressAmbassadorConfig
+| Field | Type | Description |
+|---|---|---|
+| `id` | `List<String>` | The operator uses the ids specified in `ambassadorId` to set the [ambassador_id](https://www.getambassador.io/docs/edge-stack/1.14/topics/running/running#ambassador_id) spec field in the Ambassador CustomResources it creates (`Mapping`, `TLSContext`). (optional) |
 
 ## GerritTemplate
 
