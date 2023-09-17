@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.shared.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import java.util.Map;
 
 public class GerritClusterIngressConfig {
@@ -23,6 +24,7 @@ public class GerritClusterIngressConfig {
   private Map<String, String> annotations;
   private GerritIngressTlsConfig tls = new GerritIngressTlsConfig();
   private GerritIngressSshConfig ssh = new GerritIngressSshConfig();
+  private List<String> ambassadorId;
 
   public boolean isEnabled() {
     return enabled;
@@ -62,6 +64,14 @@ public class GerritClusterIngressConfig {
 
   public void setSsh(GerritIngressSshConfig ssh) {
     this.ssh = ssh;
+  }
+
+  public List<String> getAmbassadorId() {
+    return ambassadorId;
+  }
+
+  public void setAmbassadorId(List<String> ambassadorId) {
+    this.ambassadorId = ambassadorId;
   }
 
   @JsonIgnore

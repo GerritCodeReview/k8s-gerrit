@@ -16,16 +16,15 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_TLS_CONTEXT;
 
-import java.util.List;
-
 import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
-
 import io.getambassador.v2.TLSContext;
 import io.getambassador.v2.TLSContextBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
+import java.util.List;
 
-public class GerritClusterTLSContext extends CRUDKubernetesDependentResource<TLSContext, GerritNetwork> {
+public class GerritClusterTLSContext
+    extends CRUDKubernetesDependentResource<TLSContext, GerritNetwork> {
 
   public GerritClusterTLSContext() {
     super(TLSContext.class);
