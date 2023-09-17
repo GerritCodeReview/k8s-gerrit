@@ -16,6 +16,24 @@
       "message": "Exception\n```\nException in thread \"main\" java.lang.IllegalArgumentException: Should provide non-null group. Is io.fabric8.kubernetes.api.model.GenericKubernetesResource properly annotated with @Group and/or @Version?\n        at io.fabric8.kubernetes.api.model.HasMetadata.getFullResourceName(HasMetadata.java:167)\n        at io.javaoperatorsdk.operator.ReconcilerUtils.getResourceTypeName(ReconcilerUtils.java:45)\n        at io.javaoperatorsdk.operator.api.config.DefaultResourceConfiguration.\u003cinit\u003e(DefaultResourceConfiguration.java:29)\n        at io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration$DefaultInformerConfiguration.\u003cinit\u003e(InformerConfiguration.java:44)\n        at io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration$InformerConfigurationBuilder.build(InformerConfiguration.java:228)\n        at io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource.configureWith(KubernetesDependentResource.java:80)\n        at io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource.createEventSource(KubernetesDependentResource.java:194)\n        at io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource.createEventSource(KubernetesDependentResource.java:32)\n        at io.javaoperatorsdk.operator.processing.dependent.AbstractEventSourceHolderDependentResource.eventSource(AbstractEventSourceHolderDependentResource.java:45)\n        at io.javaoperatorsdk.operator.processing.Controller.lambda$initAndRegisterEventSources$1(Controller.java:234)\n        at java.base/java.util.HashMap.forEach(HashMap.java:1337)\n        at io.javaoperatorsdk.operator.processing.Controller.initAndRegisterEventSources(Controller.java:228)\n        at io.javaoperatorsdk.operator.processing.Controller.\u003cinit\u003e(Controller.java:89)\n        at io.javaoperatorsdk.operator.Operator.register(Operator.java:216)\n        at io.javaoperatorsdk.operator.Operator.register(Operator.java:184)\n        at com.google.gerrit.k8s.operator.GerritOperator.start(GerritOperator.java:68)\n        at com.google.gerrit.k8s.operator.Main.main(Main.java:29)\n```",
       "revId": "0d0987f3210e103c5abe89af3583237510f0695c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "512a45c4_6cfc58f7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterAmbassadorMapping.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-17T23:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ecfee87_1285c9d8",
+      "revId": "0d0987f3210e103c5abe89af3583237510f0695c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
