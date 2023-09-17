@@ -22,7 +22,6 @@ import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
 
 public class TLSContextCondition implements Condition<Mapping, GerritNetwork> {
 
-
   @Override
   public boolean isMet(
       DependentResource<Mapping, GerritNetwork> dependentResource,
