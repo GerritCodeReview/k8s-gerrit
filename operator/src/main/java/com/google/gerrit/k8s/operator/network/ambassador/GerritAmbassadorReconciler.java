@@ -19,8 +19,8 @@ import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassador
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_POST_REPLICA;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_PRIMARY;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_MAPPING_RECEIVER;
-import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.GERRIT_TLS_CONTEXT;
+import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
 
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
@@ -113,6 +113,19 @@ import java.util.Map;
 
 */
 
+/*
+ingress:
+  enabled: true
+  host: example.com
+  annotations: {}
+  tls:
+    enabled: false
+    secret: ""
+  ambassador_id:
+    - internal_proxy
+    - another_id
+*/
+
 // If only one Gerrit instance in GerritCluster, send all git-over-https requests to it.
 // Otherwise, send git `fetch/clone` requests to the replica and `push` requests to the primary
 // instance.
@@ -156,7 +169,6 @@ import java.util.Map;
           name = GERRIT_TLS_CONTEXT,
           type = GerritClusterTLSContext.class,
           reconcilePrecondition = TLSContextCondition.class),
-
     })
 public class GerritAmbassadorReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {

@@ -42,7 +42,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha13")
+@Version("v1alpha14")
 @ShortNames("gclus")
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
