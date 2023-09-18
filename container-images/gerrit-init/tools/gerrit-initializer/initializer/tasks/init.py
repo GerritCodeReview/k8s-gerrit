@@ -165,6 +165,16 @@ class GerritInit:
                             os.path.join(etc_dir, file_or_dir),
                         )
 
+    def _remove_auto_generated_ssh_keys(self):
+        etc_dir = f"{self.site}/etc"
+        if not os.path.exists(etc_dir):
+            return
+
+        for file_or_dir in os.listdir(etc_dir):
+            full_path = os.path.join(etc_dir, file_or_dir)
+            if os.path.isfile(full_path) and file_or_dir.startswith("ssh_host_"):
+                os.remove(full_path)
+
     def execute(self):
         if not self.is_replica:
             self._symlink_mounted_site_components()
@@ -208,6 +218,7 @@ class GerritInit:
                 )
                 sys.exit(1)
 
+            self._remove_auto_generated_ssh_keys()
             self._symlink_configuration()
 
             if self.is_replica:
