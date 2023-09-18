@@ -33,6 +33,286 @@
       "message": "TODO: write tests",
       "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be045aef_67836d02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "Are you also planning to add a `Host` resource? As far as I understood the Ambassador architecture (by just quickly skimming through it), this would basically be the equivalent of the the istio gateway or the host-part of the Kubernetes Ingress and since we provide it for the other options, it would be nice to have it for Ambassador as well.\nI assume that this might be unwanted in situations where the same `Host` is used for multiple applications in the same cluster, but then it would still be nice to have the option to create a `Host`.",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08178641_d1dac922",
+        "filename": "operator/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "Why not 1.18.28?",
+      "range": {
+        "startLine": 20,
+        "startChar": 18,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a452193b_951ffd2e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/GerritOperator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "nit: Unrelated change",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71bc136e_73b69abc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/GerritAmbassadorReconciler.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "It might be more convenient to use the BulkDependentResource interface [1-2] to create all the mappings. Then you would only have a single dependent resource here, but could create all mappings. I think that would not match the intended use case completely, since BulkDependentResources are more intended to be factories and not builders, but it would remove quite a bit of code duplication.\n\nI am leaving that up to your preference.\n\n[1] https://javaoperatorsdk.io/docs/dependent-resources#bulk-dependent-resources\n[2] https://gerrit.googlesource.com/k8s-gerrit/+/096ad435477647f78e6d60fca965f50f5a21f21c/operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerrit.java",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 6
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4c5524b_6465e022",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/GerritAmbassadorReconciler.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "Wouldn\u0027t those constants better belong to the respective dependent resource classes?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 81
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91479407_0867da38",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingGETReplica.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "Could you also specify the request path in addition?",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10769130_8441ee57",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "I am not familiar with Ambassador, but don\u0027t we need something like `/.*` at the end to capture the full path as in [1]?\n\n[1] https://www.getambassador.io/docs/edge-stack/latest/topics/using/prefix-regex",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 47
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80f9eb50_6646f0cc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/LoadBalanceCondition.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "This would mean that these resources would be reconciled, even if the ingress was disabled in the GerritCluster CR.",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18350275_bd63b4ef",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/ReceiverMappingCondition.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "nit: unnecessary braces",
+      "range": {
+        "startLine": 31,
+        "startChar": 63,
+        "endLine": 31,
+        "endChar": 64
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bb138c_cabbcd5b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/SingleMappingCondition.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "The logger is not being used and should be removed.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 78
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d0d04a8_44f96a76",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/Utils.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c6c0b0_5974bc18",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/Utils.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "If not already available, should we put that in the `com.google.gerrit.k8s.operator.network` package and reference it from all implementations?",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54501ad5_c925773d",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "What license is ambassador using? Do we have to add some license header or reference?",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db82feed_96e77f16",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "How is this generated?\nI guess, this was just copied from the ambassador project ,right?\nInstead of checking in the yaml file, could we just download it as part of the build, e.g. using the maven-download-plugin [1]?\n\n[1] https://github.com/maven-download-plugin/maven-download-plugin",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

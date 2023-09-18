@@ -16,6 +16,24 @@
       "message": "same comment as in GerritTemplate.java",
       "revId": "a347edd7c03d77db21ff5f9dd18694c7446e6017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2611ec96_035cc8af",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/receiver/model/ReceiverTemplate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:41:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "202e4ca0_e3fc9603",
+      "revId": "a347edd7c03d77db21ff5f9dd18694c7446e6017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
