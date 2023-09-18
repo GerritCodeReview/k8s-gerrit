@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc041cb_bff9da2f",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T13:00:41Z",
+      "side": 1,
+      "message": "I rebased it and with that these parts were removed.",
+      "parentUuid": "34f5bfc3_ef0f99a9",
+      "revId": "55c0d95f30f3655d4bf4cffbeb5561240f76bfe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a43ccff1_cc427ad4",
