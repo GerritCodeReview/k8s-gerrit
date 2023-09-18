@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "202e4ca0_e3fc9603",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/receiver/model/ReceiverTemplate.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-18T03:10:46Z",
+      "side": 1,
+      "message": "same comment as in GerritTemplate.java",
+      "revId": "a347edd7c03d77db21ff5f9dd18694c7446e6017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
