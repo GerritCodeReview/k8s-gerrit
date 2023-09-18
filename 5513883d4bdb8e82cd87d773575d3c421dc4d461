@@ -16,6 +16,52 @@
       "message": "Remaining TODO: write tests",
       "revId": "5513883d4bdb8e82cd87d773575d3c421dc4d461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e4a568c_c79c3af2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/GerritAmbassadorReconciler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:46:24Z",
+      "side": 1,
+      "message": "I think this should go into `GerritClusterTLSContext`",
+      "range": {
+        "startLine": 133,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 71
+      },
+      "revId": "5513883d4bdb8e82cd87d773575d3c421dc4d461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4b5b51_f403efaf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterTLSContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:46:24Z",
+      "side": 1,
+      "message": "This would return null for now. Would this work? Otherwise, I would prefer that you reorder the changes.",
+      "range": {
+        "startLine": 42,
+        "startChar": 30,
+        "endLine": 42,
+        "endChar": 67
+      },
+      "revId": "5513883d4bdb8e82cd87d773575d3c421dc4d461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
