@@ -16,6 +16,24 @@
       "message": "Could we instead generate them into the shared volume so that all instances see the same keys ?",
       "revId": "be01ec9c8deec0d98b7aa4da2d68d964eb7d261e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abd13eb3_70c73996",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T09:28:00Z",
+      "side": 1,
+      "message": "In theory, yes.\nWe could mount an NFS share to $SITE/etc. Then symlink all config files into the volume from the configmaps and secrets.\nI would prefer not to do that, because it further binds us to a shared filesystem and that for files that are basically used in read-only mode. Kubernetes Secrets are the resources meant to be used for something like that. This also has an advantage: The host keys can be managed in Vault and can with thus be easily rotated if required.\n\nTo decrease the entry barriers, I could adapt this change to only delete the generated host keys, if at leas tone has been provided via a secret.",
+      "parentUuid": "1bc1043f_28672fef",
+      "revId": "be01ec9c8deec0d98b7aa4da2d68d964eb7d261e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
