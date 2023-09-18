@@ -260,6 +260,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e16b0f6_1b683b09",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/Utils.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T07:45:49Z",
+      "side": 1,
+      "message": "Instead of using a Utils-class you could create an abstract class being used by all dependent resources managed by the GerritAmbassadorReconciler.",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06c6c0b0_5974bc18",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/Utils.java",
         "patchSetId": 14
