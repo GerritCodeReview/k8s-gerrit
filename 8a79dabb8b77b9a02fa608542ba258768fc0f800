@@ -188,6 +188,24 @@
       "message": "Is construction via no-arg Constructor and setters imposed by the Java operator framework ?\nOtherwise I would prefer to mark fields final and provide an appropriate constructor initialising the fields.",
       "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef326be3_968d5b4c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/SpannerRefDbConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T09:38:22Z",
+      "side": 1,
+      "message": "I believe so. The fabric8 kubernetes client uses json (de-)serialization to convert yaml to POJOs and the other way around. It can\u0027t use constructors to do so, but requires getters and setters.",
+      "parentUuid": "f82f6648_2e7eb06e",
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
