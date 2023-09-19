@@ -19,7 +19,6 @@ COPY config/httpd.conf /etc/apache2/httpd.conf
 COPY config/logrotation /etc/logrotate.d/apache2
 
 COPY tools/start /var/tools/start
-COPY tools/create_repo.sh /var/cgi/create_repo.sh
 COPY tools/project_admin.sh /var/cgi/project_admin.sh
 
 RUN mkdir -p /var/gerrit/git && \

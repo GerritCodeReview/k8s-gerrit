@@ -11,12 +11,15 @@ spec:
   http:
   - name: receiver-receiver
     match:
-      - uri:
-          prefix: "/git/"
-      - uri:
-          prefix: "/a/projects/"
-      - uri:
-          prefix: "/new/"
+    - uri:
+        prefix: "/a/projects/"
+    - uri:
+        regex: "^/(.*)/git-receive-pack$"
+    - uri:
+        regex: "^/(.*)/info/refs$"
+      queryParams:
+        service:
+          exact: git-receive-pack
     route:
     - destination:
         port:

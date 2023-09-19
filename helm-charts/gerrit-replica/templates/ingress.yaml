@@ -13,7 +13,15 @@ metadata:
 {{ toYaml .Values.additionalLabels  | indent 4 }}
     {{- end }}
   annotations:
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.maxBodySize | default "50m" }}
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |-
+      if ($args ~ service=git-receive-pack){
+        set $proxy_upstream_name "{{ .Release.Namespace }}-{{ .Release.Name }}-git-backend-service-http";
+        set $proxy_host $proxy_upstream_name;
+        set $service_name "{{ .Release.Name }}-git-backend-service";
+      }
     {{- if .Values.ingress.additionalAnnotations }}
 {{ toYaml .Values.ingress.additionalAnnotations  | indent 4 }}
     {{- end }}
@@ -40,14 +48,7 @@ spec:
             port:
               number: {{ .Values.gitBackend.service.http.port }}
       - pathType: Prefix
-        path: /new
-        backend:
-          service:
-            name: {{ .Release.Name }}-git-backend-service
-            port:
-              number: {{ .Values.gitBackend.service.http.port }}
-      - pathType: Prefix
-        path: /git
+        path: "/.*/git-receive-pack"
         backend:
           service:
             name: {{ .Release.Name }}-git-backend-service
