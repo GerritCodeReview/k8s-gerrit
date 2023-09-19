@@ -114,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd47f94f_7b817388",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbConfigBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T13:35:56Z",
+      "side": 1,
+      "message": "Secrets have to be manually created by the user. The reason for that is, that otherwise secrets would be exposed via the uploaded CR, which isn\u0027t protected by the same safeguards as Secrets.\nThus, the Gerrit CR provides the `secretRef` option [1] to provide a name of an existing secret. Whatever files are provided in there will be mounted to the `etc`-directory of the Gerrit site. E.g. if you provide a `secure.config` in that secret, it will end up under `/var/gerrit/etc/secure.config` and can be used by Gerrit. I would suggest to expect the same for the GCP credentials file, i.e. it should be provided by the referenced secret and thus end up under `/var/gerrit/etc`. Since we have to use a fixed filename, we should jus thardcode one and expect it to be used, e.g. `gcp-credentials.json`.\n\nTo make this more obvious to users, I would suggest the following additional things:\n- Document that we expect the credentials file in the secret and under the correct name.\n- Provide an example Secret\n- Add a validation webhook, which checks for the file in the referenced secret, if spanner is being used.\n\n[1] https://gerrit.googlesource.com/k8s-gerrit/+/refs/changes/76/386576/1/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/model/GerritTemplateSpec.java#52",
+      "parentUuid": "5793d21c_b28d337f",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b5bf875_091a7f6a",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
         "patchSetId": 1
