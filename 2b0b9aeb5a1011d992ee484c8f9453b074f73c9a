@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9280a7_9734de8b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-19T11:11:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6feee86e_e2271291",
+      "revId": "2b0b9aeb5a1011d992ee484c8f9453b074f73c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a66f4aa4_51e2e90e",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-19T11:09:23Z",
       "side": 1,
       "message": "```suggestion\n            new SpannerRefDbPluginConfigBuilder().forGerrit(gerrit).build().toText());\nbreak;\n```",
+      "revId": "2b0b9aeb5a1011d992ee484c8f9453b074f73c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf2d39e_364be189",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-19T11:11:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a66f4aa4_51e2e90e",
       "revId": "2b0b9aeb5a1011d992ee484c8f9453b074f73c9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
