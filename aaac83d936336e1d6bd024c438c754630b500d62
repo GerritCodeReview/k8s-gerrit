@@ -103,6 +103,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "927102cd_16dc683d",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T12:31:02Z",
+      "side": 1,
+      "message": "Nope. Seems like you also might have done a rebase, which brought in a new version.",
+      "parentUuid": "591bf696_476fe6e8",
+      "range": {
+        "startLine": 67,
+        "startChar": 13,
+        "endLine": 67,
+        "endChar": 22
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b98c7d5_d14f8720",
         "filename": "Documentation/operator-api-reference.md",
         "patchSetId": 8
@@ -138,6 +162,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "5b98c7d5_d14f8720",
+      "range": {
+        "startLine": 84,
+        "startChar": 39,
+        "endLine": 84,
+        "endChar": 48
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42deea8b_fdf5577b",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T12:31:02Z",
+      "side": 1,
+      "message": "There is also no diff here",
+      "parentUuid": "8253ad99_81e4875e",
       "range": {
         "startLine": 84,
         "startChar": 39,
@@ -197,6 +245,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4c9573b_26a6e2ff",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T12:31:02Z",
+      "side": 1,
+      "message": "There is also no diff here",
+      "parentUuid": "2e3d5ce9_86a79be6",
+      "range": {
+        "startLine": 345,
+        "startChar": 13,
+        "endLine": 345,
+        "endChar": 22
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24f1863a_d3c70138",
         "filename": "Documentation/operator-api-reference.md",
         "patchSetId": 8
@@ -232,6 +304,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "24f1863a_d3c70138",
+      "range": {
+        "startLine": 362,
+        "startChar": 39,
+        "endLine": 362,
+        "endChar": 48
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c4bc7c_ee8a6297",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T12:31:02Z",
+      "side": 1,
+      "message": "There is also no diff here",
+      "parentUuid": "d91c2126_8ec6b503",
       "range": {
         "startLine": 362,
         "startChar": 39,
