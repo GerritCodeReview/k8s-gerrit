@@ -3,6 +3,115 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb3b7bcc_5252e47e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "You will also have to install the plugin automatically, similar to how it is done for the zookeeper-refdb plugin, i.e. build it into the gerrit-base container image (only needed in open source, since there it is not built into the war-file), and modify the download_plugins.py script in the gerrit-init container image to install it.",
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "562c89aa_8b7496ba",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Update version",
+      "range": {
+        "startLine": 67,
+        "startChar": 13,
+        "endLine": 67,
+        "endChar": 22
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b98c7d5_d14f8720",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Update version",
+      "range": {
+        "startLine": 84,
+        "startChar": 39,
+        "endLine": 84,
+        "endChar": 48
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc5343fa_d8f08083",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Update version",
+      "range": {
+        "startLine": 345,
+        "startChar": 13,
+        "endLine": 345,
+        "endChar": 22
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f1863a_d3c70138",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Update version",
+      "range": {
+        "startLine": 362,
+        "startChar": 39,
+        "endLine": 362,
+        "endChar": 48
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76b3ffdf_43a4e7a8",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbConfigBuilder.java",
         "patchSetId": 8
@@ -42,6 +151,29 @@
         "startChar": 11,
         "endLine": 64,
         "endChar": 50
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fde7f36_e420ae7b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Add `break;` at the end of the statement to explicitly prohibit fall-through, which could become an issue in case we add a default block, e.g. to log some statement.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 86
       },
       "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -95,6 +227,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "851c9b94_9022b255",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritInitConfigMap.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Before a recent change the string was used as part of a path in the download_plugins.py script during initialization, where we needed it to be lowercase. Would likely have been better to have done the conversion there from the start.",
+      "parentUuid": "cb3f4348_a4bc0938",
+      "range": {
+        "startLine": 72,
+        "startChar": 75,
+        "endLine": 72,
+        "endChar": 98
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aacb1909_df21b5f9",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
         "patchSetId": 8
@@ -118,6 +274,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82f13ff4_0b3b19cf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "This is now handled by the previous block",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 5
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67377c51_01ac95af",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
         "patchSetId": 8
@@ -134,6 +313,69 @@
         "startChar": 0,
         "endLine": 98,
         "endChar": 64
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dd7f7ba_05311782",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/GlobalRefDbConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Since this updates the GerritCluster and Gerrit CR spec, you will have to bump their versions.",
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df8a5366_287cdc06",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/SpannerRefDbConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "This can\u0027t be used anymore and should be removed",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67cd4cfb_6c59f681",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/SpannerRefDbConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T09:53:57Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 3
       },
       "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
