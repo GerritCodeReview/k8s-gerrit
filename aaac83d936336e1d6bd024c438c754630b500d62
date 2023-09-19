@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76b3ffdf_43a4e7a8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbConfigBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T09:31:11Z",
+      "side": 1,
+      "message": "this is (too) long and should not include sap, how about `gcp-credentials.json` or `spanner-credentials.json` ?",
+      "range": {
+        "startLine": 42,
+        "startChar": 29,
+        "endLine": 42,
+        "endChar": 59
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25906c9c_77c423da",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T09:31:11Z",
+      "side": 1,
+      "message": "add a static import then this can be shortened to ZOOKEEPER",
+      "range": {
+        "startLine": 64,
+        "startChar": 11,
+        "endLine": 64,
+        "endChar": 50
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ead9b1_9f77d224",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T09:31:11Z",
+      "side": 1,
+      "message": "add static import and shorten this to SPANNER",
+      "range": {
+        "startLine": 68,
+        "startChar": 11,
+        "endLine": 68,
+        "endChar": 48
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3f4348_a4bc0938",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritInitConfigMap.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T09:31:11Z",
+      "side": 1,
+      "message": "Why do we need to convert this to lowercase ?",
+      "range": {
+        "startLine": 72,
+        "startChar": 75,
+        "endLine": 72,
+        "endChar": 98
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aacb1909_df21b5f9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T09:31:11Z",
+      "side": 1,
+      "message": "static import and shorten this to ZOOKEEPER ?",
+      "range": {
+        "startLine": 62,
+        "startChar": 13,
+        "endLine": 62,
+        "endChar": 52
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67377c51_01ac95af",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T09:31:11Z",
+      "side": 1,
+      "message": "assign refdb to a local variable to avoid the redundant gerrit.getSpec().getRefdb() calls ?",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 64
+      },
+      "revId": "aaac83d936336e1d6bd024c438c754630b500d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
