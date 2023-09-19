@@ -22,6 +22,30 @@
       },
       "revId": "5ccd8b4793b78b333d9624d5732353028b6cbadf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38743611_59908472",
+        "filename": "helm-charts/gerrit-replica/templates/NOTES.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T06:45:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "825a166c_2cba9f6e",
+      "range": {
+        "startLine": 18,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 59
+      },
+      "revId": "5ccd8b4793b78b333d9624d5732353028b6cbadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
