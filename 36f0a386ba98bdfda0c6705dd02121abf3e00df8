@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5019b9a_76cafde6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T12:48:32Z",
+      "side": 1,
+      "message": "Otherwise, it looks good now. Could you test it with a real spanner instance in your cluster to verify it?",
+      "revId": "36f0a386ba98bdfda0c6705dd02121abf3e00df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbb25fdf_efb79c4a",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-19T12:48:32Z",
+      "side": 1,
+      "message": "wrong version. Upstream k8s-gerrit uses Gerrit 3.8",
+      "range": {
+        "startLine": 41,
+        "startChar": 76,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "36f0a386ba98bdfda0c6705dd02121abf3e00df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
