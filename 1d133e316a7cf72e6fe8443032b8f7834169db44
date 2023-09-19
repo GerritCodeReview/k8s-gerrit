@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd8360e_fff2a708",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T08:22:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b055556d_13ad1146",
+      "revId": "1d133e316a7cf72e6fe8443032b8f7834169db44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee595025_b5b8a800",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "See previous response",
       "parentUuid": "ee595025_b5b8a800",
+      "revId": "1d133e316a7cf72e6fe8443032b8f7834169db44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be01285f_6b3dd971",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_receiver_replica_tls.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-19T08:22:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8ba1fd54_2615f93b",
       "revId": "1d133e316a7cf72e6fe8443032b8f7834169db44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
