@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86b52970_30c52aa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-20T02:59:32Z",
+      "side": 1,
+      "message": "hmm. Often, clusters will set up a wildcard host so each time a mapping is created, an associated host resource doesn\u0027t have to be created. But to maintain symmetry with the other options, and to facilitate generic-ambassador usage, I can add option for creating a Host. Okay to do it as a separate change?",
+      "parentUuid": "be045aef_67836d02",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08178641_d1dac922",
         "filename": "operator/pom.xml",
         "patchSetId": 14
@@ -211,6 +229,30 @@
       "writtenOn": "2023-09-18T07:41:20Z",
       "side": 1,
       "message": "It might be more convenient to use the BulkDependentResource interface [1-2] to create all the mappings. Then you would only have a single dependent resource here, but could create all mappings. I think that would not match the intended use case completely, since BulkDependentResources are more intended to be factories and not builders, but it would remove quite a bit of code duplication.\n\nI am leaving that up to your preference.\n\n[1] https://javaoperatorsdk.io/docs/dependent-resources#bulk-dependent-resources\n[2] https://gerrit.googlesource.com/k8s-gerrit/+/096ad435477647f78e6d60fca965f50f5a21f21c/operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedGerrit.java",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 6
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f35c5992_db9765c6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/GerritAmbassadorReconciler.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-20T02:59:32Z",
+      "side": 1,
+      "message": "Investigating this approach and deciding. Thanks for bringing it up. There is definitely a lot of duplicated code.",
+      "parentUuid": "71bc136e_73b69abc",
       "range": {
         "startLine": 88,
         "startChar": 0,
