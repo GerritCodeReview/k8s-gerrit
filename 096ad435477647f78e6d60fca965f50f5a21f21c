@@ -327,6 +327,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d6d9f4_86a971c2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingGETReplica.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-20T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91479407_0867da38",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10769130_8441ee57",
@@ -608,6 +626,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "feeb7264_90c10e66",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/Utils.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-20T07:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c6c0b0_5974bc18",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 39
+      },
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54501ad5_c925773d",
@@ -656,6 +698,24 @@
       "side": 1,
       "message": "\u003e copy/pasted\n\nYes\n\n\u003e download it as part of build\n\nEmissary CRDs versions are not self-contained. v2 Mapping does not have a `ambassador_id` field defined, but it is possible for clients to create Mappings using `getambassador.io/v2` apiVersion. This is because the Emissary service, deployed as part of the Emissary deployment setup, does some webhook magic where when it sees someone deploying a `getambassador.io/v2` Mapping with `ambassador_id`, it adds it on-the-fly. I think they did this to maintain backwards compatibility with v1 or something (where ambassador_id was a String, not List\u003cString\u003e).\n\nTo be able to generate Mappings that contain `ambassador_id` via the operator I need a Mapping POJO that contain `ambassador_id` field. To do this, I need to manually copy `ambassador_id` field from v3alpha1 Mapping (defined in same file) to v2 Mapping.\n\nDownloading file as part of build would not be feasible for this reason (unless we also added this manual addition step of ambassador_id field to v2 via a script run by the build).\n\nAdditionally, the CRD yaml contains a bunch of other CRD definitions that are not relevant to the operator. Auto-generating their POJOs would unnecessarily increase the build artifact/image size. I guess we could also remove these via a script run as part of the build process.\n\nAt the moment, the options are to either check in this slightly edited CRD file, or to add an additional build step that runs a \"process-crd\" script, in addition to \"download-crd\" build step. \n\nWhat do you think?\n\nThe ambassador_id problem goes away if we just use v3alpha1 API to create the mapping but does it make sense to use an alpha version?",
       "parentUuid": "db82feed_96e77f16",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3e8538_e0500bd8",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-20T07:21:07Z",
+      "side": 1,
+      "message": "Ok. I guess the copy/paste method is fine for now. It can still be changed, if the old version becomes obsolete. However, please add a static link to the original file (e.g. in github) and list modifications that you did.",
+      "parentUuid": "1a14e4fd_c9789a24",
       "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
