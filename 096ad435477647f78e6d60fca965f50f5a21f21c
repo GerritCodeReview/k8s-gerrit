@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39c61b1b_70096317",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-20T17:57:38Z",
+      "side": 1,
+      "message": "\u003e Is it also a Host resource that uses a wildcard for subdomains and is used by multiple applications\n\nyes\n\n\n\u003e Remember than Emissary-ingress does not make sure that a wildcard Host exists! If the wildcard behavior is needed, a Host with a hostname of \"*\"must be defined by the user.\n\nhttps://www.getambassador.io/docs/emissary/latest/topics/running/host-crd\n\nWill create a new commit with an ambassador option:\n\n```\ningress:\n  enabled: true\n  tls:\n    enabled: true\n    secret: my-secret\n  host: my-host-name.com\n  ambassador:\n    id: []\n    createHost: true | false\n```\n\n, where setting `createHost\u003dtrue` will result in an accompanying Host being created:\n\n```\napiVersion: getambassador.io/v2\nkind: Host\nmetadata:\n  name: gerrit-ambassador-host\nspec:\n  hostname: my-host-name.com\n  tlsSecret:\n    name: my-secret\n```",
+      "parentUuid": "6fa3aac1_99074f2a",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08178641_d1dac922",
         "filename": "operator/pom.xml",
         "patchSetId": 14
@@ -734,6 +752,24 @@
       "side": 1,
       "message": "Ok. I guess the copy/paste method is fine for now. It can still be changed, if the old version becomes obsolete. However, please add a static link to the original file (e.g. in github) and list modifications that you did.",
       "parentUuid": "1a14e4fd_c9789a24",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d95d8cd1_12d81988",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-20T17:57:38Z",
+      "side": 1,
+      "message": "I previously included the GH link + modifications in the commit message. Would you like me to include them as a comment in the yaml as well?",
+      "parentUuid": "7e3e8538_e0500bd8",
       "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
