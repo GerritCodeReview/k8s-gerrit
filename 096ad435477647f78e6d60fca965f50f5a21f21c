@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6fa3aac1_99074f2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-20T07:24:20Z",
+      "side": 1,
+      "message": "Sure, doing that in a separate change is fine.\nCould you elaborate on what you mean with `wildcard host`, just for my understanding? Is it also a `Host` resource that uses a wildcard for subdomains and is used by multiple applications?",
+      "parentUuid": "86b52970_30c52aa8",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08178641_d1dac922",
         "filename": "operator/pom.xml",
         "patchSetId": 14
