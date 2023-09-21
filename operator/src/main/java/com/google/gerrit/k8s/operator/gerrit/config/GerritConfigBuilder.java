@@ -60,6 +60,16 @@ public class GerritConfigBuilder extends ConfigBuilder {
       javaOptions.add(debugServerCfg);
     }
     addRequiredOption(new RequiredOption<Set<String>>("container", "javaOptions", javaOptions));
+    addRequiredOption(
+        new RequiredOption<Set<String>>(
+            "gerrit",
+            "installModule",
+            Set.of("com.gerritforge.gerrit.globalrefdb.validation.LibModule")));
+    addRequiredOption(
+        new RequiredOption<Set<String>>(
+            "gerrit",
+            "installDbModule",
+            Set.of("com.ericsson.gerrit.plugins.highavailability.ValidationModule")));
 
     addRequiredOption(new RequiredOption<String>("container", "user", "gerrit"));
     addRequiredOption(new RequiredOption<String>("gerrit", "basepath", "git"));
