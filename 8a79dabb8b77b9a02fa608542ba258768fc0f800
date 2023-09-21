@@ -136,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "745c1d7c_f686c3dc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbConfigBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-21T15:06:44Z",
+      "side": 1,
+      "message": "Acknowledged; added the documentation to operator-api-reference.md, will add validation webhook in upcoming change.",
+      "parentUuid": "cd47f94f_7b817388",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "8a79dabb8b77b9a02fa608542ba258768fc0f800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b5bf875_091a7f6a",

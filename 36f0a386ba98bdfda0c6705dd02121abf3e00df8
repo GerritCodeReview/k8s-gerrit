@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83fc77c0_381fda0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-21T15:06:44Z",
+      "side": 1,
+      "message": "Verified!",
+      "parentUuid": "e5019b9a_76cafde6",
+      "revId": "36f0a386ba98bdfda0c6705dd02121abf3e00df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbb25fdf_efb79c4a",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-19T12:48:32Z",
       "side": 1,
       "message": "wrong version. Upstream k8s-gerrit uses Gerrit 3.8",
+      "range": {
+        "startLine": 41,
+        "startChar": 76,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "36f0a386ba98bdfda0c6705dd02121abf3e00df8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860e99a0_60249666",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 22
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-21T15:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbb25fdf_efb79c4a",
       "range": {
         "startLine": 41,
         "startChar": 76,
