@@ -15,6 +15,8 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.gerrit.k8s.operator.cluster.model.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
+import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.SPANNER;
+import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +26,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritInitConfig;
-import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -66,8 +67,15 @@ public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigM
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
     config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
 
-    if (gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.ZOOKEEPER)) {
-      config.setRefdb(GlobalRefDbConfig.RefDatabase.ZOOKEEPER.toString().toLowerCase(Locale.US));
+    switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      case ZOOKEEPER:
+        config.setRefdb(ZOOKEEPER.toString().toLowerCase(Locale.US));
+        break;
+      case SPANNER:
+        config.setRefdb(SPANNER.toString().toLowerCase(Locale.US));
+        break;
+      default:
+        break;
     }
 
     ObjectMapper mapper =
