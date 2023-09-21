@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab01c484_e31d7adc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/Constants.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-21T14:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "156e199a_cc20ff74",
+      "revId": "cbc4789ba7ccf1b5266afc3433ed1e6f848013bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e3f5c1b_76049a45",
@@ -76,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d5dfc85_dfc6f994",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/Constants.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-21T14:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e3f5c1b_76049a45",
+      "range": {
+        "startLine": 6,
+        "startChar": 23,
+        "endLine": 6,
+        "endChar": 39
+      },
+      "revId": "cbc4789ba7ccf1b5266afc3433ed1e6f848013bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7bef2a0_f804997e",
@@ -89,6 +131,30 @@
       "writtenOn": "2023-09-20T07:21:07Z",
       "side": 1,
       "message": "Change Id5a88263589263ace12bc6b5bc7084917a6130da was submitted. Could you rebase this change and adapt the routing here?",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 52
+      },
+      "revId": "cbc4789ba7ccf1b5266afc3433ed1e6f848013bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63ae5e9f_ac446ef2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-21T14:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7bef2a0_f804997e",
       "range": {
         "startLine": 49,
         "startChar": 24,
