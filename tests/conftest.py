@@ -33,6 +33,7 @@ pytest_plugins = ["fixtures.credentials", "fixtures.cluster", "fixtures.helm.ger
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
 
+
 # pylint: disable=W0622
 class PasswordPromptAction(argparse.Action):
     def __init__(
@@ -46,7 +47,6 @@ class PasswordPromptAction(argparse.Action):
         metavar=None,
         help=None,
     ):
-
         super().__init__(
             option_strings=option_strings,
             dest=dest,
@@ -224,7 +224,6 @@ def docker_build(
     docker_tag,
 ):
     def docker_build(image, name):
-
         if name in BASE_IMGS:
             image_name = f"{name}:latest"
         else:
