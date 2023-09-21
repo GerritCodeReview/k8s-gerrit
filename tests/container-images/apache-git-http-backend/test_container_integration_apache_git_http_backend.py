@@ -46,17 +46,10 @@ def mock_repo(repo_dir):
 
 @pytest.mark.docker
 @pytest.mark.integration
-def test_apache_git_http_backend_apache_running(container_run, base_url):
-    request = requests.get(base_url)
-    assert request.status_code == 200
-
-
-@pytest.mark.docker
-@pytest.mark.integration
 def test_apache_git_http_backend_repo_creation(
     container_run, htpasswd, repo_creation_url
 ):
-    request = requests.get(
+    request = requests.put(
         repo_creation_url,
         auth=requests.auth.HTTPBasicAuth(htpasswd["user"], htpasswd["password"]),
     )
@@ -68,7 +61,7 @@ def test_apache_git_http_backend_repo_creation(
 def test_apache_git_http_backend_repo_creation_fails_without_credentials(
     container_run, repo_creation_url
 ):
-    request = requests.get(repo_creation_url)
+    request = requests.put(repo_creation_url)
     assert request.status_code == 401
 
 
@@ -78,7 +71,7 @@ def test_apache_git_http_backend_repo_creation_fails_wrong_fs_permissions(
     container_run, htpasswd, repo_creation_url
 ):
     container_run.container.exec_run("chown -R root:root /var/gerrit/git")
-    request = requests.get(
+    request = requests.put(
         repo_creation_url,
         auth=requests.auth.HTTPBasicAuth(htpasswd["user"], htpasswd["password"]),
     )
@@ -94,7 +87,7 @@ def test_apache_git_http_backend_repo_creation_push_repo(
     container_run.container.exec_run(
         f"su -c 'git init --bare /var/gerrit/git/{random_repo_name}.git' gerrit"
     )
-    url = f"{base_url}/git/{random_repo_name}.git"
+    url = f"{base_url}/{random_repo_name}.git"
     url = url.replace("//", f"//{htpasswd['user']}:{htpasswd['password']}@")
     origin = mock_repo.remotes.create("origin", url)
     origin.push(["refs/heads/master:refs/heads/master"])

@@ -50,7 +50,7 @@ def test_apache_git_http_backend_contains_start_script(container_run):
 @pytest.mark.docker
 @pytest.mark.structure
 def test_apache_git_http_backend_contains_repo_creation_cgi_script(container_run):
-    exit_code, _ = container_run.container.exec_run("test -f /var/cgi/create_repo.sh")
+    exit_code, _ = container_run.container.exec_run("test -f /var/cgi/project_admin.sh")
     assert exit_code == 0
 
 
