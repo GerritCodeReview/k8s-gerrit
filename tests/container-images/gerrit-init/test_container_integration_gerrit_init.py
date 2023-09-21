@@ -115,7 +115,9 @@ def plugins_to_install(request):
 class TestGerritInitPluginInstallation:
     def _configure_packaged_plugins(self, file_path, plugins):
         with open(file_path, "w", encoding="utf-8") as f:
-            yaml.dump({"packagedPlugins": plugins}, f, default_flow_style=False)
+            yaml.dump(
+                {"plugins": [{"name": p} for p in plugins]}, f, default_flow_style=False
+            )
 
     def test_gerrit_init_plugins_are_installed(
         self,
@@ -168,7 +170,7 @@ class TestGerritInitPluginInstallation:
             os.path.join(init_config_dir, "init.yaml"), "w", encoding="utf-8"
         ) as f:
             yaml.dump(
-                {"packagedPlugins": ["hooks"], "installAsLibrary": ["hooks"]},
+                {"plugins": [{"name": "hooks", "installAsLibrary": True}]},
                 f,
                 default_flow_style=False,
             )
@@ -186,27 +188,3 @@ class TestGerritInitPluginInstallation:
         )
         assert exit_code == 0
         assert output.decode("utf-8").strip() == "/var/gerrit/plugins/hooks.jar"
-
-    def test_library_symlink_fails_without_plugin(
-        self, container_run_endless, init_config_dir
-    ):
-        with open(
-            os.path.join(init_config_dir, "init.yaml"), "w", encoding="utf-8"
-        ) as f:
-            yaml.dump(
-                {"packagedPlugins": ["hooks"], "installAsLibrary": ["saml"]},
-                f,
-                default_flow_style=False,
-            )
-
-        exit_code, output = container_run_endless.exec_run(
-            "python3 /var/tools/gerrit-initializer -s /var/gerrit -c /var/config/init.yaml init"
-        )
-        assert exit_code == 1
-        assert (
-            output.decode("utf-8")
-            .strip()
-            .endswith(
-                "FileNotFoundError: Could not find plugin saml to symlink to lib-directory."
-            )
-        )
