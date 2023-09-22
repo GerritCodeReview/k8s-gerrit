@@ -22,6 +22,30 @@
       },
       "revId": "1070469211db726c22ecdc70195be45d54a37340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4e1a1c_071995a8",
+        "filename": "Documentation/roadmap.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-22T11:34:48Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "c75452d5_1ccdbac4",
+      "range": {
+        "startLine": 181,
+        "startChar": 22,
+        "endLine": 181,
+        "endChar": 33
+      },
+      "revId": "1070469211db726c22ecdc70195be45d54a37340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
