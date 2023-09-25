@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c8d9aed_fd934838",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-25T09:18:48Z",
+      "side": 1,
+      "message": "This feature already exists. Check my inline comment.",
+      "revId": "04b952fbce4e6a9fa26de27da28bb280d0ecf15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c851f3_8dc098f5",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-25T09:18:48Z",
+      "side": 1,
+      "message": "There is already one at line 271",
+      "revId": "04b952fbce4e6a9fa26de27da28bb280d0ecf15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
