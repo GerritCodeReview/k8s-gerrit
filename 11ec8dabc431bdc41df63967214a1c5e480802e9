@@ -45,6 +45,23 @@
       },
       "revId": "11ec8dabc431bdc41df63967214a1c5e480802e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c36471c_d5fd023d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-09-25T09:21:53Z",
+      "side": 1,
+      "message": "Ok, I can create a separate service selecting the pod completely outside the helm deployment. The reason I needed it was that we moved the service from one old server answering on 8080 and now we use ingress and normal 80/443. Ill abandon this.",
+      "revId": "11ec8dabc431bdc41df63967214a1c5e480802e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
