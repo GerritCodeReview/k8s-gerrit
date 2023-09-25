@@ -16,6 +16,24 @@
       "message": "Is there a reason why there would be different schemes for the different probes? Otherwise, I would merge those three options.",
       "revId": "5c0076319a1e277a84613de55737f2c776e8baa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7588a21e_647a8cc8",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-09-25T10:11:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a25fd5fc_cf01b425",
+      "revId": "5c0076319a1e277a84613de55737f2c776e8baa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
