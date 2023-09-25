@@ -266,6 +266,7 @@ gerritReplica:
     gerritReplica: k8sgerrit/gerrit
 
   tolerations: []
+  nodeSelector: {}
   topologySpreadConstraints: {}
   nodeSelector: {}
   affinity:
