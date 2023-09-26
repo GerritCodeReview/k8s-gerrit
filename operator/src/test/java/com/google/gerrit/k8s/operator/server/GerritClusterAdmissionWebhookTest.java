@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import static com.google.gerrit.k8s.operator.test.TestSecureConfig.SECURE_CONFIG_SECRET_NAME;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -32,6 +33,7 @@ import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
@@ -70,8 +72,16 @@ public class GerritClusterAdmissionWebhookTest {
 
     kubernetesServer.before();
 
-    server.registerWebhook(new GerritClusterAdmissionWebhook());
-    server.registerWebhook(new GerritAdmissionWebhook());
+    kubernetesServer
+        .expect()
+        .get()
+        .withPath(
+            String.format("/api/v1/namespaces/%s/secrets/%s", NAMESPACE, SECURE_CONFIG_SECRET_NAME))
+        .andReturn(200, new Secret())
+        .always();
+
+    server.registerWebhook(new GerritClusterAdmissionWebhook(kubernetesServer.getClient()));
+    server.registerWebhook(new GerritAdmissionWebhook(kubernetesServer.getClient()));
     server.start();
   }
 
