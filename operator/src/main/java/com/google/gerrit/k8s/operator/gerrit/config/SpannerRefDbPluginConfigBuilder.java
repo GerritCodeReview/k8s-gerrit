@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.gerrit.config;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 
 public class SpannerRefDbPluginConfigBuilder extends PluginConfigBuilder {
+  public static final String SPANNER_CREDENTIALS_FILE = "gcp-credentials.json";
+
   public SpannerRefDbPluginConfigBuilder() {
     super("spanner-refdb");
   }
@@ -39,7 +41,7 @@ public class SpannerRefDbPluginConfigBuilder extends PluginConfigBuilder {
             "ref-database",
             "spanner",
             "credentialsPath",
-            "/var/gerrit/etc/gcp-credentials.json"));
+            SPANNER_CREDENTIALS_FILE));
     addRequiredOption(
         new RequiredPluginOption<String>(
             "spanner-refdb",
