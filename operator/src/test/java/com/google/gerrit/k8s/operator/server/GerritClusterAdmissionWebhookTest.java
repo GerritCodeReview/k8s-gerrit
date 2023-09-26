@@ -70,8 +70,8 @@ public class GerritClusterAdmissionWebhookTest {
 
     kubernetesServer.before();
 
-    server.registerWebhook(new GerritClusterAdmissionWebhook());
-    server.registerWebhook(new GerritAdmissionWebhook());
+    server.registerWebhook(new GerritClusterAdmissionWebhook(kubernetesServer.getClient()));
+    server.registerWebhook(new GerritAdmissionWebhook(kubernetesServer.getClient()));
     server.start();
   }
 
