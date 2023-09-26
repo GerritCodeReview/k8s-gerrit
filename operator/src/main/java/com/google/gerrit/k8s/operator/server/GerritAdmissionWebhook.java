@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import static com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder.SPANNER_CREDENTIALS_PATH;
 import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
@@ -26,6 +27,7 @@ import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.StatusBuilder;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.Locale;
 
 @Singleton
@@ -56,13 +58,16 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage(
-              "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE")
+              "A Ref-Database is required to horizontally scale a primary Gerrit:"
+                  + " .spec.refdb.database != NONE")
           .build();
     }
 
-    if (missingRefdbConfig(gerrit)) {
+    GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
+
+    if (missingRefdbConfig(refDbConfig)) {
       String refDbName = "";
-      switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      switch (refDbConfig.getDatabase()) {
         case ZOOKEEPER:
           refDbName = ZOOKEEPER.toString().toLowerCase(Locale.US);
           break;
@@ -79,6 +84,16 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
+    if (refDbConfig.getDatabase().equals(SPANNER)) {
+      if (missingSpannerRefdbCredentialsFile()) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_BAD_REQUEST)
+            .withMessage(
+                String.format("Missing spanner credentials in %s", SPANNER_CREDENTIALS_PATH))
+            .build();
+      }
+    }
+
     return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
   }
 
@@ -91,8 +106,7 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
-  private boolean missingRefdbConfig(Gerrit gerrit) {
-    GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
+  private boolean missingRefdbConfig(GlobalRefDbConfig refDbConfig) {
     switch (refDbConfig.getDatabase()) {
       case ZOOKEEPER:
         return refDbConfig.getZookeeper() == null;
@@ -101,6 +115,14 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
       default:
         return false;
     }
+  }
+
+  private boolean missingSpannerRefdbCredentialsFile() {
+    File credentials = new File(SPANNER_CREDENTIALS_PATH);
+    if (credentials.exists() && credentials.isFile()) {
+      return true;
+    }
+    return false;
   }
 
   @Override
