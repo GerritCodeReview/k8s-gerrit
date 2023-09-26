@@ -819,6 +819,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03116f44_6bcadb44",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T20:47:16Z",
+      "side": 1,
+      "message": "Clarifying question - in an earlier comment you mentioned I should not include the modifications in the file header comment. Do you mean to suggest now that I should?",
+      "parentUuid": "bf4ae1cb_5a872313",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db82feed_96e77f16",
         "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
         "patchSetId": 14
