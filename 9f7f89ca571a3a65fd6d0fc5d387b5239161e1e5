@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b87f5d_19178446",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-26T06:34:49Z",
+      "side": 1,
+      "message": "As we saw in the demo, you will also have to map `(.*)/info/refs?service\u003dgit-receive-pack` here",
+      "revId": "9f7f89ca571a3a65fd6d0fc5d387b5239161e1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
