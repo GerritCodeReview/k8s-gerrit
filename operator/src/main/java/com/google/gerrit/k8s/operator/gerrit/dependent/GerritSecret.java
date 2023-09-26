@@ -22,6 +22,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -63,5 +64,10 @@ public class GerritSecret extends KubernetesDependentResource<Secret, Gerrit>
           .put(CONTEXT_SECRET_VERSION_KEY, sec.getMetadata().getResourceVersion());
     }
     return ReconcileResult.noOperation(actualResource);
+  }
+
+  public Map<String, String> getSecretMap(String namespace, String secretRef) {
+    Secret sec = client.secrets().inNamespace(namespace).withName(secretRef).get();
+    return sec.getData();
   }
 }
