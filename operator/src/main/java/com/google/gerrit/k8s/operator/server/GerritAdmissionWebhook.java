@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import static com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder.SPANNER_CREDENTIALS_FILE;
 import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
@@ -21,16 +22,26 @@ import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
 import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.StatusBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 @Singleton
 public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
+
+  private final KubernetesClient client;
+
+  @Inject
+  public GerritAdmissionWebhook(KubernetesClient client) {
+    this.client = client;
+  }
 
   @Override
   Status validate(HasMetadata resource) {
@@ -60,9 +71,11 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
-    if (missingRefdbConfig(gerrit)) {
+    GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
+
+    if (missingRefdbConfig(refDbConfig)) {
       String refDbName = "";
-      switch (gerrit.getSpec().getRefdb().getDatabase()) {
+      switch (refDbConfig.getDatabase()) {
         case ZOOKEEPER:
           refDbName = ZOOKEEPER.toString().toLowerCase(Locale.US);
           break;
@@ -79,6 +92,45 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
+    String secretRef = gerrit.getSpec().getSecretRef();
+    Secret secret = null;
+    if (secretRef != null && !secretRef.isBlank()) {
+      secret =
+          client
+              .secrets()
+              .inNamespace(gerrit.getMetadata().getNamespace())
+              .withName(secretRef)
+              .get();
+
+      if (secret == null) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_BAD_REQUEST)
+            .withMessage(
+                String.format("Secret %s in spec but not found (.spec.secretRef)", secretRef))
+            .build();
+      }
+    }
+
+    if (refDbConfig.getDatabase() == SPANNER) {
+      if (secret == null) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_BAD_REQUEST)
+            .withMessage(
+                String.format(
+                    "A secretRef with the name of a secret containing gcp-credentials.json is required to configure spanner credentials (.spec.secretRef)"))
+            .build();
+      }
+      if (missingSpannerRefdbCredentialsFile(gerrit, secret)) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_BAD_REQUEST)
+            .withMessage(
+                String.format(
+                    "Missing spanner credentials %s in secret %s",
+                    SPANNER_CREDENTIALS_FILE, secretRef))
+            .build();
+      }
+    }
+
     return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
   }
 
@@ -91,8 +143,7 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
-  private boolean missingRefdbConfig(Gerrit gerrit) {
-    GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
+  private boolean missingRefdbConfig(GlobalRefDbConfig refDbConfig) {
     switch (refDbConfig.getDatabase()) {
       case ZOOKEEPER:
         return refDbConfig.getZookeeper() == null;
@@ -101,6 +152,13 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
       default:
         return false;
     }
+  }
+
+  private boolean missingSpannerRefdbCredentialsFile(Gerrit gerrit, Secret secret) {
+    if (secret.getData().containsKey(SPANNER_CREDENTIALS_FILE)) {
+      return false;
+    }
+    return true;
   }
 
   @Override
