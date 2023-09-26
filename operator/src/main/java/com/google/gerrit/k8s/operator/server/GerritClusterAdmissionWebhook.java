@@ -17,15 +17,24 @@ package com.google.gerrit.k8s.operator.server;
 import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.StatusBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Singleton
 public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
+
+  private final KubernetesClient client;
+
+  @Inject
+  public GerritClusterAdmissionWebhook(KubernetesClient client) {
+    this.client = client;
+  }
 
   @Override
   Status validate(HasMetadata resource) {
@@ -59,7 +68,7 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
           .build();
     }
 
-    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
+    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook(client);
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
       if (status.getCode() != HttpServletResponse.SC_OK) {
