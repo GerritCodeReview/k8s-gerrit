@@ -159,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540361f6_fdb8ff78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T15:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "768513f9_e0cb208a",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08178641_d1dac922",
@@ -884,6 +902,24 @@
       "side": 1,
       "message": "No that will be fine. It is less likely then that we end up with stale comments",
       "parentUuid": "d95d8cd1_12d81988",
+      "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57067ca9_06da13cf",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T15:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27685725_a9115bbd",
       "revId": "096ad435477647f78e6d60fca965f50f5a21f21c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

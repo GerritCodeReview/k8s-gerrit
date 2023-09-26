@@ -16,6 +16,24 @@
       "message": "As we saw in the demo, you will also have to map `(.*)/info/refs?service\u003dgit-receive-pack` here",
       "revId": "9f7f89ca571a3a65fd6d0fc5d387b5239161e1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d19aa98_dc1f5589",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T15:28:51Z",
+      "side": 1,
+      "message": "I see now - all `git push` + `project creation` requests should go to Receiver. The current mapping routes `project creation` requests and `POST /$PROJECT/git-receive-pack` requests to Receiver, but not `GET /$PROJECT/info/refs?service\u003dgit-receive-pack`. Will fix. \n\nQuestion though - does this need to be fixed in GerritClusterIngress.java too? I don\u0027t see how getReceiverIngressPaths() sets up a route for the GET request to go to the Receiver? \n\n```\nprivate List\u003cHTTPIngressPath\u003e getReceiverIngressPaths(GerritNetwork gerritNetwork) {\n    String svcName \u003d ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName());\n    List\u003cHTTPIngressPath\u003e paths \u003d new ArrayList\u003c\u003e();\n    ServiceBackendPort port \u003d\n        new ServiceBackendPortBuilder().withName(ReceiverService.HTTP_PORT_NAME).build();\n    for (String path : List.of(\"/a/projects\", RECEIVE_PACK_URL_PATTERN)) {\n      paths.add(\n          new HTTPIngressPathBuilder()\n              .withPathType(\"Prefix\")\n              .withPath(path)\n              .withNewBackend()\n              .withNewService()\n              .withName(svcName)\n              .withPort(port)\n              .endService()\n              .endBackend()\n              .build());\n    }\n    return paths;\n```\n\nhttps://gerrit.googlesource.com/k8s-gerrit/+/master/operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java#232",
+      "parentUuid": "a7b87f5d_19178446",
+      "revId": "9f7f89ca571a3a65fd6d0fc5d387b5239161e1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
