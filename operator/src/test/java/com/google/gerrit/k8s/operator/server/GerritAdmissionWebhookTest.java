@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import static com.google.gerrit.k8s.operator.test.TestSecureConfig.SECURE_CONFIG_SECRET_NAME;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,10 +28,12 @@ import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode
 import com.google.gerrit.k8s.operator.receiver.model.Receiver;
 import com.google.gerrit.k8s.operator.shared.model.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
+import com.google.gerrit.k8s.operator.test.TestGerrit;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
@@ -55,6 +58,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 @TestInstance(Lifecycle.PER_CLASS)
 public class GerritAdmissionWebhookTest {
   private static final String NAMESPACE = "test";
+  private static final String CLUSTERNAME = "gerrit";
   private static final String LIST_GERRITS_PATH =
       String.format(
           "/apis/%s/namespaces/%s/%s",
@@ -79,25 +83,33 @@ public class GerritAdmissionWebhookTest {
 
     kubernetesServer.before();
 
-    GerritAdmissionWebhook webhook = new GerritAdmissionWebhook();
-    server.registerWebhook(webhook);
-    server.start();
-  }
-
-  @Test
-  public void testInvalidGerritConfigRejected() throws Exception {
-    String clusterName = "gerrit";
-    Config gerritConfig = new Config();
-    gerritConfig.setString("container", null, "user", "gerrit");
-    Gerrit gerrit = createGerrit(clusterName, gerritConfig);
     kubernetesServer
         .expect()
         .get()
         .withPath(LIST_GERRITS_PATH)
         .andReturn(HttpURLConnection.HTTP_OK, new DefaultKubernetesResourceList<Gerrit>())
-        .times(2);
+        .always();
 
-    mockGerritCluster(clusterName);
+    GerritAdmissionWebhook webhook = new GerritAdmissionWebhook(kubernetesServer.getClient());
+    server.registerWebhook(webhook);
+    server.start();
+  }
+
+  @Test
+  public void testValidGerritConfigAccepted() throws Exception {
+    Config gerritConfig = new Config();
+    gerritConfig.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
+    Gerrit gerrit = createGerrit(CLUSTERNAME, gerritConfig);
+
+    kubernetesServer
+        .expect()
+        .get()
+        .withPath(
+            String.format("/api/v1/namespaces/%s/secrets/%s", NAMESPACE, SECURE_CONFIG_SECRET_NAME))
+        .andReturn(200, new Secret())
+        .once();
+
+    mockGerritCluster(CLUSTERNAME);
 
     HttpURLConnection http = sendAdmissionRequest(gerrit);
 
@@ -106,16 +118,23 @@ public class GerritAdmissionWebhookTest {
 
     assertThat(http.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
     assertThat(response.getResponse().getAllowed(), is(true));
+  }
 
+  @Test
+  public void testInvalidGerritConfigRejected() throws Exception {
+    Config gerritConfig = new Config();
     gerritConfig.setString("container", null, "user", "invalid");
-    Gerrit gerrit2 = createGerrit(clusterName, gerritConfig);
-    HttpURLConnection http2 = sendAdmissionRequest(gerrit2);
+    Gerrit gerrit = createGerrit(CLUSTERNAME, gerritConfig);
 
-    AdmissionReview response2 =
-        new ObjectMapper().readValue(http2.getInputStream(), AdmissionReview.class);
+    mockGerritCluster(CLUSTERNAME);
 
-    assertThat(http2.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
-    assertThat(response2.getResponse().getAllowed(), is(false));
+    HttpURLConnection http = sendAdmissionRequest(gerrit);
+
+    AdmissionReview response =
+        new ObjectMapper().readValue(http.getInputStream(), AdmissionReview.class);
+
+    assertThat(http.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
+    assertThat(response.getResponse().getAllowed(), is(false));
   }
 
   private void mockGerritCluster(String name) {
@@ -147,6 +166,7 @@ public class GerritAdmissionWebhookTest {
     if (gerritConfig != null) {
       gerritSpec.setConfigFiles(Map.of("gerrit.config", gerritConfig.toText()));
     }
+    gerritSpec.setSecretRef(SECURE_CONFIG_SECRET_NAME);
     Gerrit gerrit = new Gerrit();
     gerrit.setMetadata(meta);
     gerrit.setSpec(gerritSpec);
