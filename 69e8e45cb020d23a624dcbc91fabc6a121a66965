@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5980a2f5_1d88f9ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T20:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "183cdf73_ad21db10",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 4
+      },
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "add23c54_83a5e6ce",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-26T06:53:55Z",
       "side": 1,
       "message": "nit: inconsistent indentation compared to below",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 29
+      },
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7328cdd_97844be7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T20:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "add23c54_83a5e6ce",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -87,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "536b2b38_769951b6",
+        "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 20
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T20:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17932e7_8d983364",
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89d2a341_66063b84",
@@ -110,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22c7f202_7d187534",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/shared/model/GerritIngressAmbassadorConfig.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T20:57:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89d2a341_66063b84",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 36
+      },
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7296b4dd_35ed3f89",
@@ -123,6 +213,24 @@
       "writtenOn": "2023-09-26T06:53:55Z",
       "side": 1,
       "message": "Just to make sure:\n- Is the source of the added content the same file as the rest? Otehrwise, also add links to the other source files.\n- Are there any modifications?",
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8286bc4_5a30de84",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 20
+      },
+      "lineNbr": 1941,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-26T20:57:03Z",
+      "side": 1,
+      "message": "Same source. Modifications added to commit message.",
+      "parentUuid": "7296b4dd_35ed3f89",
       "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
