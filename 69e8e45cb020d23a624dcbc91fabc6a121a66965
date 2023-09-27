@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ee046fb_8edb6578",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-27T17:40:55Z",
+      "side": 1,
+      "message": "Thinking about this more, I\u0027ll just remove this option from the configuration (i.e. do not let users specify this). I\u0027ll hard-code bypass_auth to be true. This is because there\u0027s no point really in 2 layers of authentication for Gerrit, right? That is, Gerrit itself has an authentication mechanism (auth.type), so no point in using an external authentication service, on top of Gerrit authentication?",
+      "parentUuid": "cec587d2_09d7b982",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 119
+      },
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c17932e7_8d983364",
         "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
         "patchSetId": 20
@@ -231,6 +255,24 @@
       "side": 1,
       "message": "Same source. Modifications added to commit message.",
       "parentUuid": "7296b4dd_35ed3f89",
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "113ea496_ac5adb9a",
+        "filename": "operator/src/main/resources/crd/emissary-crds.yaml",
+        "patchSetId": 20
+      },
+      "lineNbr": 1941,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-27T17:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8286bc4_5a30de84",
       "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
