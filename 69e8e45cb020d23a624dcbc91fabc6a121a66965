@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f14e24c_6e5d79a9",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-28T15:40:22Z",
+      "side": 1,
+      "message": "I see. Thanks for the note elaborating the distinction between the sources of authentication (at proxy level vs Gerrit calling an external IDP for authentication). Will keep bypass_auth hardcoded to true for now to disable proxy level authentication.",
+      "parentUuid": "134478e6_0dec7473",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 119
+      },
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c17932e7_8d983364",
