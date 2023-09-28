@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "134478e6_0dec7473",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-28T07:36:59Z",
+      "side": 1,
+      "message": "It depends. Gerrit itself does not provide any authentication service. If you use LDAP, OAUTH, OPENID or SAML, authentication requests will be send to the configured IDP by Gerrit, i.e. the ingress itself is not involved. But there are also the `HTTP` and `HTTP_LDAP` auth types. If those are chosen, Gerrit expects the loadbalancer/proxy to perform the authentication and to set a header providing the username. It will then trust all requests and will not perform any further authentication. In this case, the authentication would have to be done in Ambassador.\nIn istio doing authentication in the proxy just requires configuring an authentication provider in the core istio CRD and to apply a AuthenticationPolicy that references the gateway/host that this policy applies to. Thus, no specific configuration in the components set up by the operator is required.\nFor the Nginx Ingress Controller, this would be done using annotations, which can be provided in the GerritCluster CRD.\nHowever, I believe that this would still not work as expected, since currently there is no differentiation between git and other requests in the request routing, i.e. the ingress would also try to authenticate git requests, which will most likely not be supported by the git client.\nThus, using the ingress also to authenticate requests is not fully supported. Thus, I guess hard-coding bypass_auth to true should be fine for now.",
+      "parentUuid": "9ee046fb_8edb6578",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 915,
+        "endChar": 119
+      },
+      "revId": "69e8e45cb020d23a624dcbc91fabc6a121a66965",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c17932e7_8d983364",
         "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
         "patchSetId": 20
