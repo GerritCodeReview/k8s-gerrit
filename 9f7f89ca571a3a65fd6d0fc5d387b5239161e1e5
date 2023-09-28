@@ -52,6 +52,24 @@
       "parentUuid": "5d19aa98_dc1f5589",
       "revId": "9f7f89ca571a3a65fd6d0fc5d387b5239161e1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8b8c2d_4d816847",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-28T13:29:04Z",
+      "side": 1,
+      "message": "Ah, got it.",
+      "parentUuid": "d1400e79_98f14d66",
+      "revId": "9f7f89ca571a3a65fd6d0fc5d387b5239161e1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
