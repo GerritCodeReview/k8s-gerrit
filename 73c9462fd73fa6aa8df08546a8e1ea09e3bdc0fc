@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee84057c_0a9e9381",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/GerritAmbassadorReconciler.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-28T16:01:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28bb4b14_d0a9a647",
+      "range": {
+        "startLine": 90,
+        "startChar": 21,
+        "endLine": 90,
+        "endChar": 37
+      },
+      "revId": "73c9462fd73fa6aa8df08546a8e1ea09e3bdc0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38d704ed_0268f9e6",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-28T07:16:54Z",
       "side": 1,
       "message": "it can also be `PUT` (HEAD update) or `DELETE` (repo deletion). Since the Gerrit Replica will anyway not serve the project REST API, I would suggest to not specifically select for the request method here.",
+      "range": {
+        "startLine": 53,
+        "startChar": 25,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "73c9462fd73fa6aa8df08546a8e1ea09e3bdc0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66de19cc_24fa97b0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingPOSTReplica.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-09-28T16:01:49Z",
+      "side": 1,
+      "message": "I\u0027m unclear on this - this Mapping is intended to route requests of the form\n`POST /TEST_REPO/git-upload-pack`, originating from a `git fetch/clone`, to the Replica. Where to `PUT` and `DELETE` come in? Those are relevant for the `/projects` endpoints (served by Receiver), right? What does removing `POST` method selector accomplish here? Thanks!",
+      "parentUuid": "38d704ed_0268f9e6",
       "range": {
         "startLine": 53,
         "startChar": 25,
