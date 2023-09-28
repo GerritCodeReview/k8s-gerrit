@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5308ecdc_072c5fbb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-28T07:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12e39b68_e31cd7f1",
+      "range": {
+        "startLine": 51,
+        "startChar": 24,
+        "endLine": 51,
+        "endChar": 40
+      },
+      "revId": "63f71fcee766de56af1da1cf4dc8c9a8a6680428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "833b9613_e3495ed4",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-26T06:34:49Z",
       "side": 1,
       "message": "Please remove the commented out code.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "63f71fcee766de56af1da1cf4dc8c9a8a6680428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cbeea7f_12536c5a",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ambassador/dependent/mapping_primary.yaml",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-28T07:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833b9613_e3495ed4",
       "range": {
         "startLine": 7,
         "startChar": 0,
