@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6060e721_e4694a55",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbPluginConfigBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-29T11:15:02Z",
+      "side": 1,
+      "message": "For more detail: `etc/gcp-credentials.json` works fine as the `credentialsPath` in my local gerrit site, but on the cluster with the same setup I see:\n```\n[main] INFO  com.googlesource.gerrit.plugins.spannerrefdb.Module : Configuring Cloud Spanner for global refdb.     \n[main] WARN  com.google.gerrit.server.plugins.PluginLoader : Cannot load plugin spanner-refdb\ncom.google.inject.ProvisionException: Unable to provision, see the following errors:\n1) [Guice/ErrorInCustomProvider]: FileNotFoundException: etc/gcp-credentials.json (No such file or directory)\n```\n(while gcp-credentials.json is present in var/gerrit/etc).\n\nThe change that ought to fix this: https://gerrit-review.googlesource.com/c/plugins/spanner-refdb/+/387996",
+      "parentUuid": "87ab061d_f109727f",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "87d2829b2ea5ded471d6e90bfd5471a075374217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d2409ae_62af1d41",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
         "patchSetId": 3
