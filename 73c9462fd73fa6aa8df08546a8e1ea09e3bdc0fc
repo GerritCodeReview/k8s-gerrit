@@ -93,6 +93,30 @@
       },
       "revId": "73c9462fd73fa6aa8df08546a8e1ea09e3bdc0fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79afb4f1_a0bbe2da",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingPOSTReplica.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:02:01Z",
+      "side": 1,
+      "message": "You are right of course :facepalm:. Got mixed up in the files. Sorry for the confusion.",
+      "parentUuid": "66de19cc_24fa97b0",
+      "range": {
+        "startLine": 53,
+        "startChar": 25,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "73c9462fd73fa6aa8df08546a8e1ea09e3bdc0fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
