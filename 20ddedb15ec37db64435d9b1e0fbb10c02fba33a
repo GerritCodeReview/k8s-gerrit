@@ -22,6 +22,30 @@
       },
       "revId": "20ddedb15ec37db64435d9b1e0fbb10c02fba33a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "615eeabb_84e7f57a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-29T10:24:03Z",
+      "side": 1,
+      "message": "Had the wrong google-java-format version and it was doing this.",
+      "parentUuid": "9ee97b1d_05f3af00",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 52
+      },
+      "revId": "20ddedb15ec37db64435d9b1e0fbb10c02fba33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "87ab061d_f109727f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbPluginConfigBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-29T10:24:03Z",
+      "side": 1,
+      "message": "It doesn\u0027t, unfortunately; I will make that change separately so we can do that though.\n\nCurrently: https://gerrit.googlesource.com/plugins/spanner-refdb/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/spannerrefdb/Module.java#80",
+      "parentUuid": "7cb0cec6_a2e080e1",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "87d2829b2ea5ded471d6e90bfd5471a075374217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9d2409ae_62af1d41",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
         "patchSetId": 3
@@ -54,6 +78,30 @@
       "writtenOn": "2023-09-29T06:38:55Z",
       "side": 1,
       "message": "Mentioning the filesystem path doesn\u0027t make sense here, since admins usually won\u0027t necessarily know it, since it is an implementation detail of k8s-gerrit. You should rather use the secret name here.",
+      "range": {
+        "startLine": 106,
+        "startChar": 59,
+        "endLine": 106,
+        "endChar": 71
+      },
+      "revId": "87d2829b2ea5ded471d6e90bfd5471a075374217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d644c394_f856c33c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-29T10:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d2409ae_62af1d41",
       "range": {
         "startLine": 106,
         "startChar": 59,
@@ -77,6 +125,30 @@
       "writtenOn": "2023-09-29T06:38:55Z",
       "side": 1,
       "message": "What if this is not set, i.e. `null`? There should be a check for that first.",
+      "range": {
+        "startLine": 139,
+        "startChar": 22,
+        "endLine": 139,
+        "endChar": 53
+      },
+      "revId": "87d2829b2ea5ded471d6e90bfd5471a075374217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25b8092_3724a59b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-29T10:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c19ac7be_49d450f3",
       "range": {
         "startLine": 139,
         "startChar": 22,
