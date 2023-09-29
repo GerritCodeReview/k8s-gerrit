@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7a37ee2_82c04db2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:14:12Z",
+      "side": 1,
+      "message": "This is now hardcoded",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4242f7f_53b195b9",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:14:12Z",
+      "side": 1,
+      "message": "Please update the CRD version and example",
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e80702e_579eebb8",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:14:12Z",
+      "side": 1,
+      "message": "Please update the CRD version and example",
+      "range": {
+        "startLine": 733,
+        "startChar": 0,
+        "endLine": 733,
+        "endChar": 21
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19a691b_7fe9eb78",
+        "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 24
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:14:12Z",
+      "side": 1,
+      "message": "Please rebase this change, since the version was already updated on master",
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65628e6d_7dbc9cc2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterHost.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:14:12Z",
+      "side": 1,
+      "message": "Is this assignment required? `null` should be the default.",
+      "range": {
+        "startLine": 37,
+        "startChar": 23,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7f4e046_596bca21",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/TLSContextCondition.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-29T07:14:12Z",
+      "side": 1,
+      "message": "Also only if the ingress is enabled at all.",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
