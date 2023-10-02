@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
-import com.google.gerrit.k8s.operator.receiver.model.Receiver;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource;

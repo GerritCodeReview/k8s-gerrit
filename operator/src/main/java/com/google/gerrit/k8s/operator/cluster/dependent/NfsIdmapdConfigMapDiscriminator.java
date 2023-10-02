@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CM_EVENT_SOURCE;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;

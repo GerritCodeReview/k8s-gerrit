@@ -14,13 +14,13 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.SPANNER;
-import static com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
+import static com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
+import static com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.shared.model.GlobalRefDbConfig;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;

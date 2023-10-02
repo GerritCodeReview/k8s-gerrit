@@ -17,11 +17,11 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.shared.model.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
