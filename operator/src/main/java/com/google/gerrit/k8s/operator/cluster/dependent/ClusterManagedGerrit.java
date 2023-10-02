@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.GarbageCollected;
