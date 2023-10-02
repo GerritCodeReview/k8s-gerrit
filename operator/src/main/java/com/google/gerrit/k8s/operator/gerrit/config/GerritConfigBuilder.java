@@ -19,9 +19,9 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
-import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.IngressConfig;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;

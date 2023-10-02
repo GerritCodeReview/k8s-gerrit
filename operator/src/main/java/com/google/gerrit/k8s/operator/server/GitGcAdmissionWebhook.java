@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.server;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;

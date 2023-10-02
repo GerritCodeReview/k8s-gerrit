@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.none;
 
-import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;

@@ -19,9 +19,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
-import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollectionSpec;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollectionSpec;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
