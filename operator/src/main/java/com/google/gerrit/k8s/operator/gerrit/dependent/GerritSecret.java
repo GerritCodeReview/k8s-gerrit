@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.ReconcileResult;

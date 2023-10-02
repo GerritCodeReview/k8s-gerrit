@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;

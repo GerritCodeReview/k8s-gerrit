@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.config;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
