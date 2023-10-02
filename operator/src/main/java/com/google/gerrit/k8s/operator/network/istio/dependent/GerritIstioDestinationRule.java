@@ -14,13 +14,13 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import static com.google.gerrit.k8s.operator.network.model.GerritNetwork.SESSION_COOKIE_NAME;
-import static com.google.gerrit.k8s.operator.network.model.GerritNetwork.SESSION_COOKIE_TTL;
+import static com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
+import static com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork.SESSION_COOKIE_TTL;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
-import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
 import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsSimpleLB;
