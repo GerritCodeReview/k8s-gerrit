@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary.GERRIT_MAPPING_PRIMARY;
 
-import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
 import io.getambassador.v2.Mapping;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;
