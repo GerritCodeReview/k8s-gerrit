@@ -14,14 +14,14 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
-import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
-import com.google.gerrit.k8s.operator.network.model.GerritNetworkSpec;
-import com.google.gerrit.k8s.operator.network.model.NetworkMember;
-import com.google.gerrit.k8s.operator.network.model.NetworkMemberWithSsh;
-import com.google.gerrit.k8s.operator.receiver.model.ReceiverTemplate;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetworkSpec;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.NetworkMember;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.NetworkMemberWithSsh;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.receiver.ReceiverTemplate;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;

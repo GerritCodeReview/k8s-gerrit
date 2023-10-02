@@ -14,12 +14,12 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.network.model.GerritNetwork;
-import com.google.gerrit.k8s.operator.network.model.NetworkMember;
-import com.google.gerrit.k8s.operator.network.model.NetworkMemberWithSsh;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.NetworkMember;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.network.NetworkMemberWithSsh;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequest;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;

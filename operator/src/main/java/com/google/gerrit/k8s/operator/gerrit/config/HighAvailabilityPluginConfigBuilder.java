@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.config;
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

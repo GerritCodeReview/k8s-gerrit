@@ -20,13 +20,13 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplate;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.network.IngressType;
-import com.google.gerrit.k8s.operator.shared.model.HttpSshServiceConfig;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.HttpSshServiceConfig;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
