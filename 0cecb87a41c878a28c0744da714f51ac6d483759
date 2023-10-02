@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc792a08_a88f2a45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-02T01:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7a37ee2_82c04db2",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4242f7f_53b195b9",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-29T07:14:12Z",
       "side": 1,
       "message": "Please update the CRD version and example",
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41684b6b_ae4815f4",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-02T01:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4242f7f_53b195b9",
       "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e1f600_fd472b39",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 24
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-02T01:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e80702e_579eebb8",
+      "range": {
+        "startLine": 733,
+        "startChar": 0,
+        "endLine": 733,
+        "endChar": 21
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b19a691b_7fe9eb78",
@@ -77,6 +143,24 @@
       "writtenOn": "2023-09-29T07:14:12Z",
       "side": 1,
       "message": "Please rebase this change, since the version was already updated on master",
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82a3d0a1_0a464bc5",
+        "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 24
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-02T01:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b19a691b_7fe9eb78",
       "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -106,6 +190,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39d5680d_bbbe3ffe",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterHost.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-02T01:57:30Z",
+      "side": 1,
+      "message": "Seems like the Java compiler does not implicitly initialize local variables, unlike instance variables which are initialized to default values (false, 0, null, etc).\n\nhttps://www.baeldung.com/java-error-variable-initialized",
+      "parentUuid": "65628e6d_7dbc9cc2",
+      "range": {
+        "startLine": 37,
+        "startChar": 23,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f7f4e046_596bca21",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/TLSContextCondition.java",
         "patchSetId": 24
@@ -117,6 +225,30 @@
       "writtenOn": "2023-09-29T07:14:12Z",
       "side": 1,
       "message": "Also only if the ingress is enabled at all.",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 47
+      },
+      "revId": "0cecb87a41c878a28c0744da714f51ac6d483759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9825b08b_1062846d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/TLSContextCondition.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-02T01:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7f4e046_596bca21",
       "range": {
         "startLine": 31,
         "startChar": 11,
