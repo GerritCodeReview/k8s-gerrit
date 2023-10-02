@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 
 public class ZookeeperRefDbPluginConfigBuilder extends PluginConfigBuilder {
   public ZookeeperRefDbPluginConfigBuilder() {
