@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d0b8b6_b9509039",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/SpannerRefDbPluginConfigBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-10-04T09:48:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6060e721_e4694a55",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 26
+      },
+      "revId": "87d2829b2ea5ded471d6e90bfd5471a075374217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d2409ae_62af1d41",
