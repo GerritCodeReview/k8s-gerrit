@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f6ca3a8_125bb1cf",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 26
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-04T15:01:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66c42c12_36d28743",
+      "revId": "71867b5ed627bdfa406de1cb567de9d936b344ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1dd10d1_8d14375f",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-04T14:21:42Z",
       "side": 1,
       "message": "The build on my machine reverts this changed line. Did you manually change that?\nSeems like an unrelated change.",
+      "range": {
+        "startLine": 116,
+        "startChar": 18,
+        "endLine": 116,
+        "endChar": 28
+      },
+      "revId": "71867b5ed627bdfa406de1cb567de9d936b344ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62f443d7_2bd87b44",
+        "filename": "helm-charts/gerrit-operator-crds/templates/gerritnetworks.gerritoperator.google.com-v1.yml",
+        "patchSetId": 26
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-10-04T15:01:20Z",
+      "side": 1,
+      "message": "Did not manually change it, something in my workspace keeps automatically changing this property. Ran a fresh build right before pushing a new patchset, to fix this.",
+      "parentUuid": "d1dd10d1_8d14375f",
       "range": {
         "startLine": 116,
         "startChar": 18,
