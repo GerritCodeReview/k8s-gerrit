@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f5f3236_bbb51fcd",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-04T12:52:09Z",
+      "side": 1,
+      "message": "```suggestion\n            .withMessage(String.format(\"Secret %s not found (.spec.secretRef)\", secretRef))\n```",
+      "range": {
+        "startLine": 115,
+        "startChar": 40,
+        "endLine": 115,
+        "endChar": 80
+      },
+      "revId": "affe077753c3aec95534996a20fbd81cbb4a696a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea228027_dcc79652",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-04T12:52:09Z",
+      "side": 1,
+      "message": "This check should not be dependent on Spanner, but always run, if .spec.secretRef is set.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 7
+      },
+      "revId": "affe077753c3aec95534996a20fbd81cbb4a696a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f0d6ba9_c0d746be",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-04T12:52:09Z",
+      "side": 1,
+      "message": "why not use `secret.getData().containsKey(SPANNER_CREDENTIALS_FILE)`?",
+      "range": {
+        "startLine": 153,
+        "startChar": 55,
+        "endLine": 157,
+        "endChar": 5
+      },
+      "revId": "affe077753c3aec95534996a20fbd81cbb4a696a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
