@@ -12,16 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
+package com.google.gerrit.k8s.operator;
 
-import jakarta.servlet.http.HttpServlet;
+import com.google.inject.AbstractModule;
 
-public abstract class AdmissionWebhookServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
-
-  public abstract String getName();
-
-  public abstract String getVersion();
-
-  public abstract String getURI();
+public class Constants extends AbstractModule {
+  public static final String[] VERSIONS = new String[] {"v1alpha"};
+  public static final String[] CUSTOM_RESOURCES =
+      new String[] {"GerritCluster", "Gerrit", "Receiver", "GerritNetwork", "GitGarbageCollection"};
 }

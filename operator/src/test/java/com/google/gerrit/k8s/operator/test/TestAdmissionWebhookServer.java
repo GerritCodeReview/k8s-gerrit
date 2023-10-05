@@ -43,7 +43,7 @@ public class TestAdmissionWebhookServer {
 
   public void registerWebhook(AdmissionWebhookServlet webhook) {
     servletHandler.addServletWithMapping(
-        new ServletHolder(webhook), "/admission/" + webhook.getName());
+        new ServletHolder(webhook), "/admission/" + webhook.getVersion() + "/" + webhook.getName());
   }
 
   public void stop() throws Exception {
