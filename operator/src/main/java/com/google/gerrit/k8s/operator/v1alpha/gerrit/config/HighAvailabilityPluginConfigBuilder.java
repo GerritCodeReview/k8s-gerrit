@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public class HighAvailabilityPluginConfigBuilder extends ConfigBuilder {
   public HighAvailabilityPluginConfigBuilder(Gerrit gerrit) {
     super(
@@ -55,7 +56,8 @@ public class HighAvailabilityPluginConfigBuilder extends ConfigBuilder {
   }
 
   private static Set<String> getLabels(Gerrit gerrit) {
-    Map<String, String> selectorLabels = GerritStatefulSet.getSelectorLabels(gerrit);
+    Map<String, String> selectorLabels =
+        GerritStatefulSet.getSelectorLabels(gerrit.getMetadata().getName());
     Set<String> labels = new HashSet<>();
     for (Map.Entry<String, String> label : selectorLabels.entrySet()) {
       labels.add(label.getKey() + "=" + label.getValue());
