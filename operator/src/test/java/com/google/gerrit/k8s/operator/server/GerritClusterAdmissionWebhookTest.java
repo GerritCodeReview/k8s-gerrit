@@ -23,6 +23,8 @@ import com.google.gerrit.k8s.operator.test.ReceiverUtil;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.admission.servlet.GerritAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1alpha.admission.servlet.GerritClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
@@ -169,7 +171,7 @@ public class GerritClusterAdmissionWebhookTest {
       throws MalformedURLException, IOException {
     HttpURLConnection http =
         (HttpURLConnection)
-            new URL("http://localhost:8080/admission/gerritcluster").openConnection();
+            new URL("http://localhost:8080/admission/v1alpha/gerritcluster").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);
