@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.admission;
+package com.google.gerrit.k8s.operator.v1alpha.admission;
 
+import com.google.gerrit.k8s.operator.admission.AbstractValidationWebhookConfigApplier;
 import com.google.gerrit.k8s.operator.server.KeyStoreProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -24,10 +25,10 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 import java.util.List;
 
 @Singleton
-public class GerritValidationWebhookConfigApplier extends AbstractValidationWebhookConfigApplier {
+public class GitGcValidationWebhookConfigApplier extends AbstractValidationWebhookConfigApplier {
 
   @Inject
-  public GerritValidationWebhookConfigApplier(
+  public GitGcValidationWebhookConfigApplier(
       KubernetesClient client,
       @Named("Namespace") String namespace,
       KeyStoreProvider keyStoreProvider) {
@@ -35,23 +36,23 @@ public class GerritValidationWebhookConfigApplier extends AbstractValidationWebh
   }
 
   @Override
-  String name() {
-    return "gerrit";
+  public String name() {
+    return "gitgc";
   }
 
   @Override
-  String webhookPath() {
-    return "/admission/gerrit";
+  public String webhookPath() {
+    return "/admission/v1alpha/gitgc";
   }
 
   @Override
-  List<RuleWithOperations> rules() {
+  public List<RuleWithOperations> rules() {
     return List.of(
         new RuleWithOperationsBuilder()
             .withApiGroups("gerritoperator.google.com")
-            .withApiVersions("*")
+            .withApiVersions("v1alpha1")
             .withOperations("CREATE", "UPDATE")
-            .withResources("gerrits")
+            .withResources("gitgcs")
             .withScope("*")
             .build());
   }

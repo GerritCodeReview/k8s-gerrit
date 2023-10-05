@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
+package com.google.gerrit.k8s.operator.v1alpha.admission.servlet;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -44,7 +45,7 @@ public class GitGcAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   }
 
   @Override
-  Status validate(HasMetadata resource) {
+  public Status validate(HasMetadata resource) {
     if (!(resource instanceof GitGarbageCollection)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
@@ -104,5 +105,10 @@ public class GitGcAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   @Override
   public String getName() {
     return "gitgc";
+  }
+
+  @Override
+  public String getVersion() {
+    return "v1alpha";
   }
 }

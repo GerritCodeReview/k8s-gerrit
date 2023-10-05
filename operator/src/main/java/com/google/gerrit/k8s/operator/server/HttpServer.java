@@ -62,8 +62,7 @@ public class HttpServer {
 
     ServletHandler servletHandler = new ServletHandler();
     for (AdmissionWebhookServlet servlet : admissionWebhookServlets) {
-      servletHandler.addServletWithMapping(
-          new ServletHolder(servlet), "/admission/" + servlet.getName());
+      servletHandler.addServletWithMapping(new ServletHolder(servlet), servlet.getURI());
     }
     servletHandler.addServletWithMapping(HealthcheckServlet.class, "/health");
     server.setHandler(servletHandler);
