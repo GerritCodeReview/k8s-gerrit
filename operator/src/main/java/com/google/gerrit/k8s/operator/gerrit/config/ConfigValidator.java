@@ -19,11 +19,9 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 public class ConfigValidator {
-  @SuppressWarnings("rawtypes")
-  private final List<RequiredOption> requiredOptions;
+  private final List<RequiredOption<?>> requiredOptions;
 
-  @SuppressWarnings("rawtypes")
-  public ConfigValidator(List<RequiredOption> requiredOptions) {
+  public ConfigValidator(List<RequiredOption<?>> requiredOptions) {
     this.requiredOptions = requiredOptions;
   }
 
