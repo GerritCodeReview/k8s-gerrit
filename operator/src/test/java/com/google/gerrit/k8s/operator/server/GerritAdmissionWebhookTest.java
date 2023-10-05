@@ -20,14 +20,14 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
-import com.google.gerrit.k8s.operator.v1alpha.admission.servlet.GerritAdmissionWebhook;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritClusterSpec;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritSpec;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.receiver.Receiver;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GerritClusterIngressConfig;
+import com.google.gerrit.k8s.operator.v1beta1.admission.servlet.GerritAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritClusterSpec;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.GerritSpec;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GerritClusterIngressConfig;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -73,9 +73,9 @@ public class GerritAdmissionWebhookTest {
   @BeforeAll
   public void setup() throws Exception {
     KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1alpha2", "Gerrit", Gerrit.class);
+        "gerritoperator.google.com/v1beta1", "Gerrit", Gerrit.class);
     KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1alpha1", "Receiver", Receiver.class);
+        "gerritoperator.google.com/v1beta1", "Receiver", Receiver.class);
     server = new TestAdmissionWebhookServer();
 
     kubernetesServer.before();
@@ -158,7 +158,7 @@ public class GerritAdmissionWebhookTest {
       throws MalformedURLException, IOException {
     HttpURLConnection http =
         (HttpURLConnection)
-            new URL("http://localhost:8080/admission/v1alpha/gerrit").openConnection();
+            new URL("http://localhost:8080/admission/v1beta1/gerrit").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);
