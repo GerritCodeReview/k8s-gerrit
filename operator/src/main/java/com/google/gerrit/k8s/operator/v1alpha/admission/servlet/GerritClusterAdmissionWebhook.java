@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
+package com.google.gerrit.k8s.operator.v1alpha.admission.servlet;
 
+import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -28,7 +29,7 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
   private static final long serialVersionUID = 1L;
 
   @Override
-  Status validate(HasMetadata resource) {
+  public Status validate(HasMetadata resource) {
     if (!(resource instanceof GerritCluster)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
@@ -93,5 +94,10 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
   @Override
   public String getName() {
     return "gerritcluster";
+  }
+
+  @Override
+  public String getVersion() {
+    return "v1alpha";
   }
 }
