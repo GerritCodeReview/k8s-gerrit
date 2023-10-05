@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
 import io.getambassador.v2.TLSContext;
 import io.getambassador.v2.TLSContextBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
