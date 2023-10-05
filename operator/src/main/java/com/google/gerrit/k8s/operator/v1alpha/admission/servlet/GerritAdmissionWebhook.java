@@ -17,11 +17,11 @@ package com.google.gerrit.k8s.operator.v1alpha.admission.servlet;
 import static com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
-import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig;
+import com.google.gerrit.k8s.operator.v1alpha.gerrit.config.GerritConfigBuilder;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
@@ -84,7 +84,7 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   }
 
   private void invalidGerritConfiguration(Gerrit gerrit) throws InvalidGerritConfigException {
-    new GerritConfigBuilder().forGerrit(gerrit).validate();
+    new GerritConfigBuilder(gerrit).validate();
   }
 
   private boolean noRefDbConfiguredForHA(Gerrit gerrit) {
