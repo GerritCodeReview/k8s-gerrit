@@ -18,10 +18,10 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTE
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -188,20 +188,22 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     return stsBuilder.build();
   }
 
-  private static String getComponentName(Gerrit gerrit) {
-    return String.format("gerrit-statefulset-%s", gerrit.getMetadata().getName());
+  private static String getComponentName(String gerritName) {
+    return String.format("gerrit-statefulset-%s", gerritName);
   }
 
   public static Map<String, String> getSelectorLabels(Gerrit gerrit) {
-    return GerritCluster.getSelectorLabels(
-        gerrit.getMetadata().getName(), getComponentName(gerrit));
+    return getSelectorLabels(gerrit.getMetadata().getName());
+  }
+
+  public static Map<String, String> getSelectorLabels(String gerritName) {
+    return GerritCluster.getSelectorLabels(gerritName, getComponentName(gerritName));
   }
 
   private static Map<String, String> getLabels(Gerrit gerrit) {
+    String name = gerrit.getMetadata().getName();
     return GerritCluster.getLabels(
-        gerrit.getMetadata().getName(),
-        getComponentName(gerrit),
-        GerritReconciler.class.getSimpleName());
+        name, getComponentName(name), GerritReconciler.class.getSimpleName());
   }
 
   private Set<Volume> getVolumes(Gerrit gerrit) {
