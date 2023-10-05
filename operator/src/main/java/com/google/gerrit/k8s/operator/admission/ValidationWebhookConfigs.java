@@ -14,18 +14,28 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
+import static com.google.gerrit.k8s.operator.Constants.CUSTOM_RESOURCES;
+import static com.google.gerrit.k8s.operator.Constants.VERSIONS;
+
 import com.google.gerrit.k8s.operator.LifecycleManager;
 import com.google.inject.Inject;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ValidationWebhookConfigs {
 
-  private final Set<ValidationWebhookConfigApplier> configAppliers;
+  private final List<ValidationWebhookConfigApplier> configAppliers;
 
   @Inject
   public ValidationWebhookConfigs(
-      LifecycleManager lifecycleManager, Set<ValidationWebhookConfigApplier> configAppliers) {
-    this.configAppliers = configAppliers;
+      LifecycleManager lifecycleManager,
+      ValidationWebhookConfigApplier.Factory configApplierFactory) {
+    this.configAppliers = new ArrayList<>();
+
+    for (String customResourceName : CUSTOM_RESOURCES) {
+      this.configAppliers.add(configApplierFactory.create(customResourceName, VERSIONS));
+    }
+
     lifecycleManager.addShutdownHook(
         new Runnable() {
 
