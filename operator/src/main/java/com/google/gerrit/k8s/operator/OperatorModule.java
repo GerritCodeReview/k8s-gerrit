@@ -35,11 +35,13 @@ public class OperatorModule extends AbstractModule {
   protected void configure() {
     install(new EnvModule());
     install(new ServerModule());
-    install(new AdmissionWebhookModule());
 
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
     bind(LifecycleManager.class);
     bind(GerritOperator.class);
+
+    install(new AdmissionWebhookModule());
+
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
     reconcilers.addBinding().to(GerritClusterReconciler.class);
     reconcilers.addBinding().to(GerritReconciler.class);
