@@ -14,13 +14,129 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
-import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
+import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_NAME;
+import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_PORT;
 
-public interface ValidationWebhookConfigApplier {
-  /** Builds the ValidatingWebhookConfiguration */
-  ValidatingWebhookConfiguration build() throws Exception;
-  /** Applies the ValidatingWebhookConfiguration to the cluster */
-  void apply() throws Exception;
-  /** Deletes the ValidatingWebhookConfiguration to the cluster */
-  void delete();
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.server.KeyStoreProvider;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.RuleWithOperations;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.RuleWithOperationsBuilder;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhook;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookBuilder;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfigurationBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+public class ValidationWebhookConfigApplier {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final KubernetesClient client;
+  private final String namespace;
+  private final KeyStoreProvider keyStoreProvider;
+  private final ValidatingWebhookConfiguration cfg;
+  private final String customResourceName;
+  private final String[] customResourceVersions;
+
+  public interface Factory {
+    ValidationWebhookConfigApplier create(
+        String customResourceName, String[] customResourceVersions);
+  }
+
+  @AssistedInject
+  ValidationWebhookConfigApplier(
+      KubernetesClient client,
+      String namespace,
+      KeyStoreProvider keyStoreProvider,
+      @Assisted String customResourceName,
+      @Assisted String[] customResourceVersions) {
+    this.client = client;
+    this.namespace = namespace;
+    this.keyStoreProvider = keyStoreProvider;
+    this.customResourceName = customResourceName;
+    this.customResourceVersions = customResourceVersions;
+
+    this.cfg = build();
+  }
+
+  public List<RuleWithOperations> rules(String version) {
+    return List.of(
+        new RuleWithOperationsBuilder()
+            .withApiGroups("gerritoperator.google.com")
+            .withApiVersions(version)
+            .withOperations("CREATE", "UPDATE")
+            .withResources(customResourceName)
+            .withScope("*")
+            .build());
+  }
+
+  public List<ValidatingWebhook> webhooks()
+      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
+          CertificateException, IOException {
+    List<ValidatingWebhook> webhooks = new ArrayList<>();
+    for (String version : customResourceVersions) {
+      webhooks.add(
+          new ValidatingWebhookBuilder()
+              .withName(customResourceName + ".validator.google.com")
+              .withAdmissionReviewVersions("v1", "v1beta1")
+              .withNewClientConfig()
+              .withCaBundle(caBundle())
+              .withNewService()
+              .withName(SERVICE_NAME)
+              .withNamespace(namespace)
+              .withPath(String.format("/admission/%s/%s", version, customResourceName))
+              .withPort(SERVICE_PORT)
+              .endService()
+              .endClientConfig()
+              .withFailurePolicy("Fail")
+              .withMatchPolicy("Equivalent")
+              .withRules(rules(version))
+              .withTimeoutSeconds(10)
+              .withSideEffects("None")
+              .build());
+    }
+    return webhooks;
+  }
+
+  private String caBundle()
+      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
+          CertificateException, IOException {
+    return Base64.getEncoder().encodeToString(keyStoreProvider.getCertificate().getBytes());
+  }
+
+  public ValidatingWebhookConfiguration build() {
+    try {
+      return new ValidatingWebhookConfigurationBuilder()
+          .withNewMetadata()
+          .withName(customResourceName)
+          .endMetadata()
+          .withWebhooks(webhooks())
+          .build();
+    } catch (CertificateException | IOException | KeyStoreException | NoSuchAlgorithmException e) {
+      throw new RuntimeException(
+          "Failed to deploy ValidationWebhookConfiguration " + customResourceName, e);
+    }
+  }
+
+  public void apply()
+      throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException,
+          CertificateException {
+    logger.atInfo().log("Applying webhook config %s", cfg);
+    client.resource(cfg).createOrReplace();
+  }
+
+  public void delete() {
+    logger.atInfo().log("Deleting webhook config %s", cfg);
+    client.resource(cfg).delete();
+  }
 }
