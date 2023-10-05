@@ -20,6 +20,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
+import com.google.gerrit.k8s.operator.v1alpha.admission.servlet.GitGcAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollectionSpec;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
@@ -62,6 +64,8 @@ public class GitGcAdmissionWebhookTest {
 
   @BeforeAll
   public void setup() throws Exception {
+    KubernetesDeserializer.registerCustomKind(
+        "gerritoperator.google.com/v1alpha16", "GerritCluster", GerritCluster.class);
     KubernetesDeserializer.registerCustomKind(
         "gerritoperator.google.com/v1alpha1", "GitGarbageCollection", GitGarbageCollection.class);
     server = new TestAdmissionWebhookServer();
@@ -227,7 +231,8 @@ public class GitGcAdmissionWebhookTest {
   private HttpURLConnection sendAdmissionRequest(GitGarbageCollection gitGc)
       throws MalformedURLException, IOException {
     HttpURLConnection http =
-        (HttpURLConnection) new URL("http://localhost:8080/admission/gitgc").openConnection();
+        (HttpURLConnection)
+            new URL("http://localhost:8080/admission/v1alpha/gitgc").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);

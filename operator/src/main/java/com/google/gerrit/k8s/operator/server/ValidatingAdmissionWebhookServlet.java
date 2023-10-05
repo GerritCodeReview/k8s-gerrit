@@ -28,7 +28,7 @@ public abstract class ValidatingAdmissionWebhookServlet extends AdmissionWebhook
   private static final long serialVersionUID = 1L;
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  abstract Status validate(HasMetadata resource);
+  public abstract Status validate(HasMetadata resource);
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -52,5 +52,10 @@ public abstract class ValidatingAdmissionWebhookServlet extends AdmissionWebhook
     objectMapper.writeValue(response.getWriter(), admissionReq);
     logger.atFine().log(
         "Admission request responded with %s", admissionReq.getResponse().toString());
+  }
+
+  @Override
+  public String getURI() {
+    return String.format("/admission/%s/%s", getVersion(), getName());
   }
 }

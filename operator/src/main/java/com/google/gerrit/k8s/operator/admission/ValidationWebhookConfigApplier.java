@@ -18,9 +18,9 @@ import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhoo
 
 public interface ValidationWebhookConfigApplier {
   /** Builds the ValidatingWebhookConfiguration */
-  ValidatingWebhookConfiguration build() throws Exception;
+  public ValidatingWebhookConfiguration build() throws Exception;
   /** Applies the ValidatingWebhookConfiguration to the cluster */
-  void apply() throws Exception;
+  public void apply() throws Exception;
   /** Deletes the ValidatingWebhookConfiguration to the cluster */
-  void delete();
+  public void delete();
 }

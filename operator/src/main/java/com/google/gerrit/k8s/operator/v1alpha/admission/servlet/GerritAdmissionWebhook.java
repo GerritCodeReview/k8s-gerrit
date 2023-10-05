@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.server;
+package com.google.gerrit.k8s.operator.v1alpha.admission.servlet;
 
 import static com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
+import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GlobalRefDbConfig;
 import com.google.inject.Singleton;
@@ -33,7 +34,7 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
 
   @Override
-  Status validate(HasMetadata resource) {
+  public Status validate(HasMetadata resource) {
     if (!(resource instanceof Gerrit)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
@@ -106,5 +107,10 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   @Override
   public String getName() {
     return "gerrit";
+  }
+
+  @Override
+  public String getVersion() {
+    return "v1alpha";
   }
 }
