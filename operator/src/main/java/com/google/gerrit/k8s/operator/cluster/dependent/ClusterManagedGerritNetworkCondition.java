@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
-import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.Condition;
