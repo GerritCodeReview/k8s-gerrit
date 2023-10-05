@@ -12,30 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.gerrit.config;
+package com.google.gerrit.k8s.operator.v1alpha.gerrit.config;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.k8s.operator.gerrit.config.ConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.RequiredOption;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ZookeeperRefDbPluginConfigBuilder extends PluginConfigBuilder {
-  public ZookeeperRefDbPluginConfigBuilder() {
-    super("zookeeper-refdb");
+public class ZookeeperRefDbPluginConfigBuilder extends ConfigBuilder {
+  public ZookeeperRefDbPluginConfigBuilder(Gerrit gerrit) {
+    super(
+        gerrit.getSpec().getConfigFiles().getOrDefault("zookeeper-refdb.config", ""),
+        ImmutableList.copyOf(collectRequiredOptions(gerrit)));
   }
 
-  @Override
-  void addRequiredOptions(Gerrit gerrit) {
-    addRequiredOption(
-        new RequiredPluginOption<String>(
-            "zookeeper-refdb",
+  private static List<RequiredOption<?>> collectRequiredOptions(Gerrit gerrit) {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    requiredOptions.add(
+        new RequiredOption<String>(
             "ref-database",
             "zookeeper",
             "connectString",
             gerrit.getSpec().getRefdb().getZookeeper().getConnectString()));
-    addRequiredOption(
-        new RequiredPluginOption<String>(
-            "zookeeper-refdb",
+    requiredOptions.add(
+        new RequiredOption<String>(
             "ref-database",
             "zookeeper",
             "rootNode",
             gerrit.getSpec().getRefdb().getZookeeper().getRootNode()));
+    return requiredOptions;
   }
 }
