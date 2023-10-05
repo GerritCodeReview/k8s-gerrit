@@ -12,18 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator.admission;
+package com.google.gerrit.k8s.operator;
 
-import com.google.gerrit.k8s.operator.v1alpha.admission.GerritClusterValidationWebhookConfigApplier;
-import com.google.gerrit.k8s.operator.v1alpha.admission.GerritValidationWebhookConfigApplier;
-import com.google.gerrit.k8s.operator.v1alpha.admission.GitGcValidationWebhookConfigApplier;
 import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 
-public class AdmissionWebhookModule extends AbstractModule {
-  public void configure() {
-    install(new FactoryModuleBuilder().build(ValidationWebhookConfigApplier.Factory.class));
-
-    bind(ValidationWebhookConfigs.class);
-  }
+public class Constants extends AbstractModule {
+  public static final String[] VERSIONS = new String[] {"v1alpha"};
+  public static final String[] CUSTOM_RESOURCES =
+      new String[] {"GerritCluster", "Gerrit", "Receiver", "GerritNetwork", "GitGarbageCollection"};
 }
