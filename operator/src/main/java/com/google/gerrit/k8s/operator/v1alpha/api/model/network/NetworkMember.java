@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1alpha.api.model.network;
 
 import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.HttpServiceConfig;
 
+@Deprecated
 public class NetworkMember {
   private String name;
   private int httpPort = 8080;

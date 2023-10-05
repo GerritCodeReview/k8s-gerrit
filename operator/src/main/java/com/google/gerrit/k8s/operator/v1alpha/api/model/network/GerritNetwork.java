@@ -23,8 +23,9 @@ import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
 
 @Group("gerritoperator.google.com")
-@Version("v1alpha2")
+@Version(value = "v1alpha2", storage = false)
 @ShortNames("gn")
+@Deprecated
 public class GerritNetwork extends CustomResource<GerritNetworkSpec, Status> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
