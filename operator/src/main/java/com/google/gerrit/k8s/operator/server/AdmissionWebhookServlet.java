@@ -20,4 +20,8 @@ public abstract class AdmissionWebhookServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   public abstract String getName();
+
+  public abstract String getVersion();
+
+  public abstract String getURI();
 }

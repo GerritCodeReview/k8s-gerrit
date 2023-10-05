@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
+import com.google.gerrit.k8s.operator.v1alpha.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritClusterSpec;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
@@ -156,7 +157,8 @@ public class GerritAdmissionWebhookTest {
   private HttpURLConnection sendAdmissionRequest(Gerrit gerrit)
       throws MalformedURLException, IOException {
     HttpURLConnection http =
-        (HttpURLConnection) new URL("http://localhost:8080/admission/gerrit").openConnection();
+        (HttpURLConnection)
+            new URL("http://localhost:8080/admission/v1alpha/gerrit").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);
