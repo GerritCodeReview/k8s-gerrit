@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Deprecated
 public class GitGarbageCollectionSpec implements GerritClusterMemberSpec {
   private String cluster;
   private String schedule;

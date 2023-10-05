@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit;
 
+@Deprecated
 public class GerritDebugConfig {
   private boolean enabled;
   private boolean suspend;

@@ -36,6 +36,7 @@ import io.sundr.builder.annotations.Buildable;
     generateBuilderPackage = true,
     lazyCollectionInitEnabled = false,
     builderPackage = "io.fabric8.kubernetes.api.builder")
+@Deprecated
 public class GerritTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
 

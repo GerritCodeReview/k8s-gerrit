@@ -25,6 +25,7 @@ import io.fabric8.kubernetes.api.model.StatusBuilder;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Singleton
+@Deprecated
 public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
 
