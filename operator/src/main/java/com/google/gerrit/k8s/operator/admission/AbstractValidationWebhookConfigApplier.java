@@ -51,11 +51,11 @@ public abstract class AbstractValidationWebhookConfigApplier
     this.cfg = build();
   }
 
-  abstract String name();
+  public abstract String name();
 
-  abstract String webhookPath();
+  public abstract String webhookPath();
 
-  abstract List<RuleWithOperations> rules();
+  public abstract List<RuleWithOperations> rules();
 
   private String caBundle()
       throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
