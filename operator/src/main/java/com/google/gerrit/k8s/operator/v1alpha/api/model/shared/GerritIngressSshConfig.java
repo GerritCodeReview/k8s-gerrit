@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.v1alpha.api.model.shared;
 
+@Deprecated
 public class GerritIngressSshConfig {
   private boolean enabled = false;
 

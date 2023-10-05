@@ -30,6 +30,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 @Singleton
+@Deprecated
 public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
 

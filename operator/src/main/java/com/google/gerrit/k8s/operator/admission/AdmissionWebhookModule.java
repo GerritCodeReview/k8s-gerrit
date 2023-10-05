@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
-import com.google.gerrit.k8s.operator.v1alpha.admission.GerritClusterValidationWebhookConfigApplier;
-import com.google.gerrit.k8s.operator.v1alpha.admission.GerritValidationWebhookConfigApplier;
-import com.google.gerrit.k8s.operator.v1alpha.admission.GitGcValidationWebhookConfigApplier;
+import com.google.gerrit.k8s.operator.v1beta1.admission.GerritClusterValidationWebhookConfigApplier;
+import com.google.gerrit.k8s.operator.v1beta1.admission.GerritValidationWebhookConfigApplier;
+import com.google.gerrit.k8s.operator.v1beta1.admission.GitGcValidationWebhookConfigApplier;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 

@@ -18,7 +18,7 @@ import com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconci
 import com.google.gerrit.k8s.operator.network.ingress.GerritIngressReconciler;
 import com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler;
 import com.google.gerrit.k8s.operator.network.none.GerritNoIngressReconciler;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;

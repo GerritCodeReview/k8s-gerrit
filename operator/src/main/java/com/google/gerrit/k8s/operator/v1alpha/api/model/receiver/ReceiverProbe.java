@@ -24,6 +24,7 @@ import io.fabric8.kubernetes.api.model.Probe;
 import io.fabric8.kubernetes.api.model.TCPSocketAction;
 import io.fabric8.kubernetes.api.model.TCPSocketActionBuilder;
 
+@Deprecated
 public class ReceiverProbe extends Probe {
   private static final long serialVersionUID = 1L;
 

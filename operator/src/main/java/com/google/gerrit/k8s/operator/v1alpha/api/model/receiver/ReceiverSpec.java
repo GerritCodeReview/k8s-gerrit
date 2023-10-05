@@ -18,6 +18,7 @@ import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.ContainerImageCon
 import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.IngressConfig;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.StorageConfig;
 
+@Deprecated
 public class ReceiverSpec extends ReceiverTemplateSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private StorageConfig storage = new StorageConfig();
