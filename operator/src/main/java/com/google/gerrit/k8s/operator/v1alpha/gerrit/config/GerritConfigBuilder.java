@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Deprecated
 public class GerritConfigBuilder extends ConfigBuilder {
   private static final Pattern PROTOCOL_PATTERN = Pattern.compile("^(https?)://.+");
 
@@ -166,7 +167,10 @@ public class GerritConfigBuilder extends ConfigBuilder {
     return new RequiredOption<String>(
         "sshd",
         "advertisedAddress",
-        gerrit.getSpec().getIngress().getFullHostnameForService(GerritService.getName(gerrit))
+        gerrit
+                .getSpec()
+                .getIngress()
+                .getFullHostnameForService(GerritService.getName(gerrit.getMetadata().getName()))
             + ":29418");
   }
 }

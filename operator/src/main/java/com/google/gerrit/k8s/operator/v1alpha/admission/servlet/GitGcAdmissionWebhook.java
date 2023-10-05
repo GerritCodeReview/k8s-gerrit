@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
+@Deprecated
 public class GitGcAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final long serialVersionUID = 1L;

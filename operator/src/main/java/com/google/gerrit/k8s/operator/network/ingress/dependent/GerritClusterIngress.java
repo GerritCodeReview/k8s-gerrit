@@ -14,12 +14,12 @@
 
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
-import static com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
+import static com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPathBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;

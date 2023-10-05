@@ -15,9 +15,9 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GerritStorageConfig;
-import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.SharedStorage;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GerritStorageConfig;
+import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.SharedStorage;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;

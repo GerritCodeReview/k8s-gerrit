@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1alpha.api.model.shared;
 
 import java.io.Serializable;
 
+@Deprecated
 public class HttpServiceConfig implements Serializable {
   private static final long serialVersionUID = 1L;
 
