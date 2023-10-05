@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1alpha.api.model.shared;
 import io.fabric8.kubernetes.api.model.LabelSelector;
 import io.fabric8.kubernetes.api.model.Quantity;
 
+@Deprecated
 public class SharedStorage {
   private ExternalPVCConfig externalPVC = new ExternalPVCConfig();
   private Quantity size;
