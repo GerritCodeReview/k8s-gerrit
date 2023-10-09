@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import com.google.gerrit.k8s.operator.shared.model.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.shared.model.SharedStorage.ExternalPVCConfig;
 import io.fabric8.kubernetes.api.model.Container;
@@ -172,12 +171,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withMountPath("/etc/idmapd.conf")
         .withSubPath("idmapd.conf")
         .build();
-  }
-
-  @JsonIgnore
-  public static boolean isMemberPartOfCluster(
-      GerritClusterMemberSpec memberSpec, GerritCluster cluster) {
-    return memberSpec.getCluster().equals(cluster.getMetadata().getName());
   }
 
   @JsonIgnore
