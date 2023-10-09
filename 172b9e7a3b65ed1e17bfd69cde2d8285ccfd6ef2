@@ -39,6 +39,30 @@
       },
       "revId": "172b9e7a3b65ed1e17bfd69cde2d8285ccfd6ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf8ddd7_7a136669",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-10-09T08:48:43Z",
+      "side": 1,
+      "message": "I guess because the only test originally in GerritAdmissionWebhookTest is testInvalidGerritConfigRejected so it \u0027passes\u0027 with a negative result anyway because it is meant to fail. I will add new tests today to check for additional cases.",
+      "parentUuid": "eaf3f0ba_bbd7519b",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "172b9e7a3b65ed1e17bfd69cde2d8285ccfd6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
