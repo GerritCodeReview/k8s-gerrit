@@ -63,6 +63,30 @@
       },
       "revId": "172b9e7a3b65ed1e17bfd69cde2d8285ccfd6ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c432ea4c_a2fa52b0",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-10-09T12:15:37Z",
+      "side": 1,
+      "message": "On second look, it\u0027s because the secretRef isn\u0027t set at any point in these tests, so it is not checked for. If I add `gerritSpec.setSecretRef(SECURE_CONFIG_SECRET_NAME);` to createGerrit() in GerritAdmissionWebhookTest, it works as expected and requires the additional expect().",
+      "parentUuid": "faf8ddd7_7a136669",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "172b9e7a3b65ed1e17bfd69cde2d8285ccfd6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
