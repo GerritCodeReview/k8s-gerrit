@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac42babb_e5a3992e",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhookTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-09T05:54:34Z",
+      "side": 1,
+      "message": "Could you also add some tests for the webhook?",
+      "revId": "172b9e7a3b65ed1e17bfd69cde2d8285ccfd6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaf3f0ba_bbd7519b",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-09T05:54:34Z",
+      "side": 1,
+      "message": "Why is this only required here and not in the GerritAdmissionWebhookTest?",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 18
+      },
+      "revId": "172b9e7a3b65ed1e17bfd69cde2d8285ccfd6ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
