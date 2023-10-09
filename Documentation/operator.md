@@ -1,142 +1,27 @@
 # Gerrit Operator
 
 1. [Gerrit Operator](#gerrit-operator)
-   1. [Build](#build)
-   2. [Versioning](#versioning)
-   3. [Publish](#publish)
-   4. [Tests](#tests)
-   5. [Prerequisites](#prerequisites)
+   1. [Development](#development)
+   2. [Prerequisites](#prerequisites)
       1. [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
       2. [Ingress provider](#ingress-provider)
-   6. [Deploy](#deploy)
+   3. [Deploy](#deploy)
       1. [Using helm charts](#using-helm-charts)
          1. [gerrit-operator-crds](#gerrit-operator-crds)
          2. [gerrit-operator](#gerrit-operator-1)
       2. [Without the helm charts](#without-the-helm-charts)
-   7. [CustomResources](#customresources)
+      3. [Updating](#updating)
+   4. [CustomResources](#customresources)
       1. [GerritCluster](#gerritcluster)
       2. [Gerrit](#gerrit)
       3. [GitGarbageCollection](#gitgarbagecollection)
       4. [Receiver](#receiver)
       5. [GerritNetwork](#gerritnetwork)
-   8. [Configuration of Gerrit](#configuration-of-gerrit)
+   5. [Configuration of Gerrit](#configuration-of-gerrit)
 
-## Build
+## Development
 
-For this step, you need Java 11 and Maven installed.
-
-To build all components of the operator run:
-
-```sh
-cd operator
-mvn clean install
-```
-
-This step compiles the Java source code into `.class` bytecode files in a newly
-generated `operator/target` folder. A `gerrit-operator` image is also created
-locally. Moreover, the CRD helm chart is updated with the latest CRDs as part of
-this build step.
-
-The jar-version and container image tag can be set using the `revision` property:
-
-```sh
-mvn clean install -Drevision=$(git describe --always --dirty)
-```
-
-## Versioning
-
-The Gerrit Operator is still in an early state of development. The operator is
-thus at the moment not semantically versioned. The CustomResources are as of now
-independently versioned, i.e. the `GerritCluster` resource can have a different
-version than the `GitGarbageCollection` resource, although they are in the same
-group. At the moment, only the current version will be supported by the operator,
-i.e. there won't be a migration path. As soon as the API reaches some stability,
-this will change.
-
-## Publish
-
-Currently, there does not exist a container image for the operator in the
-`docker.io/k8sgerrit` registry. You must build your own image in order to run
-the operator in your cluster. To publish the container image of the Gerrit
-Operator:
-
-1. Update the `docker.registry` and `docker.org` tags in the `operator/pom.xml`
-file to point to your own Docker registry and org that you have permissions to
-push to.
-
-```xml
-<docker.registry>my-registry</docker.registry>
-<docker.org>my-org</docker.org>
-```
-
-2. run the following commands:
-
-```sh
-cd operator
-mvn clean install -P publish
-```
-
-This will build the operator source code, create an image out of the
-built artifacts, and publish this image to the registry specified in the
-`pom.xml` file. The built image is multi-platform - it will run on both `amd64`
-and `arm64` architectures. It is okay to run this build command from an ARM
-Mac.
-
-## Tests
-
-Executing the E2E tests has a few infrastructure requirements that have to be
-provided:
-
-- An (unused) Kubernetes cluster
-- The 'default' StorageClass that supports ReadWriteOnce access. It has to be
-  possible to provision volumes using this StorageClass.
-- A StorageClass that supports ReadWriteMany access. It has to be possible to
-  provision volumes using this StorageClass. Such a StorageClass could be provided
-  by the [NFS-subdir-provisioner chart](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).
-- An [Nginx Ingress Controller](https://github.com/kubernetes/ingress-nginx)
-- An installation of [OpenLDAP](../supplements/test-cluster/ldap/openldap.yaml)
-  with at least one user.
-- Istio installed with the [profile](../istio/gerrit.profile.yaml) provided by
-  this project
-- A secret containing valid certificates for the given hostnames. For istio this
-  secret has to be named `tls-secret` and be present in the `istio-system` namespace.
-  For the Ingress controller, the secret has to be either set as the default
-  secret to be used or somehow automatically be provided in the namespaces created
-  by the tests and named `tls-secret`, e.g. by using Gardener to manage DNS and
-  certificates.
-
-A sample setup for components required in the cluster is provided under
-`$REPO_ROOT/supplements/test-cluster`. Some configuration has to be done manually
-(marked by `#TODO`) and the `deploy.sh`-script can be used to install/update all
-components.
-
-In addition, some properties have to be set to configure the tests:
-
-- `rwmStorageClass`: Name of the StorageClass providing RWM-access (default:nfs-client)
-- `registry`: Registry to pull container images from
-- `RegistryOrg`: Organization of the container images
-- `tag`: Container tag
-- `registryUser`: User for the container registry
-- `registryPwd`: Password for the container registry
-- `ingressDomain`: Domain to be used for the ingress
-- `istioDomain`: Domain to be used for istio
-- `ldapAdminPwd`: Admin password for LDAP server
-- `gerritUser`: Username of a user in LDAP
-- `gerritPwd`: The password of `gerritUser`
-
-The properties should be set in the `test.properties` file. Alternatively, a
-path of a properties file can be configured by using the
-`-Dproperties=<path to properties file>`-option.
-
-To run all E2E tests, use:
-
-```sh
-cd operator
-mvn clean install -P integration-test -Dproperties=<path to properties file>
-```
-
-Note, that running the E2E tests will also involve pushing the container image
-to the repository configured in the properties file.
+Development processes are documented [here](./operator-dev.md).
 
 ## Prerequisites
 
@@ -296,6 +181,27 @@ docker image name etc. might have to be adapted. For example, the ingress
 provider has to be configured by setting the `INGRESS` environment variable
 in `operator/k8s/operator.yaml` to either `NONE`, `INGRESS`, `ISTIO`, or
 `AMBASSADOR`.
+
+### Updating
+
+The Gerrit Operator helm chart can be updated by running:
+
+```sh
+# Rebuild the gerrit-operator-crds chart and store it in the charts/ subdirectory
+helm dependency build helm-charts/gerrit-operator/
+
+# Install the gerrit-operator-crds chart and the gerrit-operator chart
+helm -n gerrit-operator upgrade gerrit-operator helm-charts/gerrit-operator/
+```
+
+The Gerrit Operator will automatically reconcile all CustomResources in the cluster
+on startup.
+
+The GerritOperator will always only support two versions of the CRDs. The newer
+version will always be the one that will be stored in ETCD. Conversion will happen
+automatically during the update. Note, that this means that updates over multiple
+versions will not work, but updates that include CRD version updates have to be
+done in sequence.
 
 ## CustomResources
 
