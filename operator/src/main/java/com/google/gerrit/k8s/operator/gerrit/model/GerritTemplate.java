@@ -25,17 +25,10 @@ import com.google.gerrit.k8s.operator.shared.model.IngressConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import io.sundr.builder.annotations.Buildable;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"metadata", "spec"})
-@Buildable(
-    editableEnabled = false,
-    validationEnabled = false,
-    generateBuilderPackage = false,
-    lazyCollectionInitEnabled = false,
-    builderPackage = "io.fabric8.kubernetes.api.builder")
 public class GerritTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
 
