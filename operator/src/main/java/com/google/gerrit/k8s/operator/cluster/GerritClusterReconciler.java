@@ -26,8 +26,6 @@ import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetw
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiver;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiverCondition;
-import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
-import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVCCondition;
 import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
@@ -63,10 +61,6 @@ import java.util.stream.Collectors;
           type = SharedPVC.class,
           reconcilePrecondition = SharedPVCCondition.class,
           useEventSourceWithName = PVC_EVENT_SOURCE),
-      @Dependent(
-          type = NfsIdmapdConfigMap.class,
-          reconcilePrecondition = NfsWorkaroundCondition.class,
-          useEventSourceWithName = CM_EVENT_SOURCE),
       @Dependent(
           name = "gerrits",
           type = ClusterManagedGerrit.class,
