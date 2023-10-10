@@ -124,17 +124,6 @@ public class GitGarbageCollectionCronJob
             GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"),
             GerritCluster.getLogsVolumeMount("/var/log/git"));
 
-    if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()
-        && gerritCluster
-                .getSpec()
-                .getStorage()
-                .getStorageClasses()
-                .getNfsWorkaround()
-                .getIdmapdConfig()
-            != null) {
-      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
-    }
-
     ContainerBuilder gitGcContainerBuilder =
         new ContainerBuilder()
             .withName("git-gc")
@@ -170,17 +159,6 @@ public class GitGarbageCollectionCronJob
         GerritCluster.getSharedVolume(
             gerritCluster.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
-    if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()) {
-      if (gerritCluster
-              .getSpec()
-              .getStorage()
-              .getStorageClasses()
-              .getNfsWorkaround()
-              .getIdmapdConfig()
-          != null) {
-        volumes.add(GerritCluster.getNfsImapdConfigVolume());
-      }
-    }
     return volumes;
   }
 }

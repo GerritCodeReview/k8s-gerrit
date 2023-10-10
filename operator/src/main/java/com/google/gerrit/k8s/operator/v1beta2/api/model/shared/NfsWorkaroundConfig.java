@@ -18,7 +18,6 @@ public class NfsWorkaroundConfig {
 
   private boolean enabled = false;
   private boolean chownOnStartup = false;
-  private String idmapdConfig;
 
   public boolean isEnabled() {
     return enabled;
@@ -34,13 +33,5 @@ public class NfsWorkaroundConfig {
 
   public void setChownOnStartup(boolean chownOnStartup) {
     this.chownOnStartup = chownOnStartup;
-  }
-
-  public String getIdmapdConfig() {
-    return idmapdConfig;
-  }
-
-  public void setIdmapdConfig(String idmapdConfig) {
-    this.idmapdConfig = idmapdConfig;
   }
 }
