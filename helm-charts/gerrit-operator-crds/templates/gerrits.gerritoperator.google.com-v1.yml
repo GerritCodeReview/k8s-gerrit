@@ -915,6 +915,7 @@ spec:
                     - NONE
                     - ZOOKEEPER
                     - SPANNER
+                    - DYNAMODB
                     type: string
                   zookeeper:
                     properties:
@@ -930,6 +931,13 @@ spec:
                       instance:
                         type: string
                       database:
+                        type: string
+                    type: object
+                  dynamoDB:
+                    properties:
+                      region:
+                        type: string
+                      endpoint:
                         type: string
                     type: object
                 type: object
@@ -1535,6 +1543,8 @@ spec:
                       type: string
                     sha1:
                       type: string
+                    mandatory:
+                      type: boolean
                   type: object
                 type: array
               libs:
@@ -1546,6 +1556,8 @@ spec:
                       type: string
                     sha1:
                       type: string
+                    mandatory:
+                      type: boolean
                   type: object
                 type: array
               configFiles:

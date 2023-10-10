@@ -18,6 +18,7 @@ public class GlobalRefDbConfig {
   private RefDatabase database = RefDatabase.NONE;
   private ZookeeperRefDbConfig zookeeper;
   private SpannerRefDbConfig spanner;
+  private AWSDynamoDbRefDbConfig dynamoDB;
 
   public RefDatabase getDatabase() {
     return database;
@@ -43,9 +44,18 @@ public class GlobalRefDbConfig {
     this.spanner = spanner;
   }
 
+  public AWSDynamoDbRefDbConfig getDynamoDB() {
+    return dynamoDB;
+  }
+
+  public void setDynamoDB(AWSDynamoDbRefDbConfig dynamoDB) {
+    this.dynamoDB = dynamoDB;
+  }
+
   public enum RefDatabase {
     NONE,
     ZOOKEEPER,
     SPANNER,
+    DYNAMODB
   }
 }

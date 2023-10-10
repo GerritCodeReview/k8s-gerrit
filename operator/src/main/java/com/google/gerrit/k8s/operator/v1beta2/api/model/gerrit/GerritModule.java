@@ -28,6 +28,8 @@ public class GerritModule implements Serializable {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String sha1;
 
+  private boolean mandatory;
+
   public GerritModule() {}
 
   public GerritModule(String name) {
@@ -62,5 +64,13 @@ public class GerritModule implements Serializable {
 
   public void setSha1(String sha1) {
     this.sha1 = sha1;
+  }
+
+  public boolean isMandatory() {
+    return mandatory;
+  }
+
+  public void setMandatory(boolean mandatory) {
+    this.mandatory = mandatory;
   }
 }
