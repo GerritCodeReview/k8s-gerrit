@@ -25,6 +25,7 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 import java.util.List;
 
 @Singleton
+@Deprecated
 public class GerritClusterValidationWebhookConfigApplier
     extends AbstractValidationWebhookConfigApplier {
 

@@ -29,6 +29,7 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"metadata", "spec"})
+@Deprecated
 public class ReceiverTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
 
