@@ -70,18 +70,15 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.isChownOnStartup()) {
-      boolean hasIdmapdConfig =
-          gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig()
-              != null;
       ContainerImageConfig images = gerrit.getSpec().getContainerImages();
 
       if (gerrit.getSpec().isHighlyAvailablePrimary()) {
 
         initContainers.add(
             GerritCluster.createNfsInitContainer(
-                hasIdmapdConfig, images, List.of(GerritCluster.getHAShareVolumeMount())));
+                images, List.of(GerritCluster.getHAShareVolumeMount())));
       } else {
-        initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
+        initContainers.add(GerritCluster.createNfsInitContainer(images));
       }
     }
 
@@ -114,7 +111,6 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate()
-        .withPartition(gerrit.getSpec().getUpdatePartition())
         .endRollingUpdate()
         .endUpdateStrategy()
         .withNewSelector()
@@ -162,7 +158,6 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
         .withEnv(getEnvVars(gerrit))
         .withPorts(getContainerPorts(gerrit))
         .withResources(gerrit.getSpec().getResources())
-        .withStartupProbe(gerrit.getSpec().getStartupProbe())
         .withReadinessProbe(gerrit.getSpec().getReadinessProbe())
         .withLivenessProbe(gerrit.getSpec().getLivenessProbe())
         .addAllToVolumeMounts(getVolumeMounts(gerrit, false))
@@ -237,12 +232,6 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             .endSecret()
             .build());
 
-    NfsWorkaroundConfig nfsWorkaround =
-        gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
-    if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumes.add(GerritCluster.getNfsImapdConfigVolume());
-    }
-
     return volumes;
   }
 
@@ -278,12 +267,6 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
           && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
         volumeMounts.add(GerritCluster.getPluginCacheVolumeMount());
       }
-    }
-
-    NfsWorkaroundConfig nfsWorkaround =
-        gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
-    if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
 
     return volumeMounts;

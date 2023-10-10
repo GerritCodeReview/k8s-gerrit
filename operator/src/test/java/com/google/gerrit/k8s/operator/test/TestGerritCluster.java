@@ -149,7 +149,6 @@ public class TestGerritCluster {
 
     NfsWorkaroundConfig nfsWorkaround = new NfsWorkaroundConfig();
     nfsWorkaround.setEnabled(isNfsEnabled);
-    nfsWorkaround.setIdmapdConfig("[General]\nDomain = localdomain.com");
     storageClassConfig.setNfsWorkaround(nfsWorkaround);
 
     GerritClusterSpec clusterSpec = new GerritClusterSpec();
