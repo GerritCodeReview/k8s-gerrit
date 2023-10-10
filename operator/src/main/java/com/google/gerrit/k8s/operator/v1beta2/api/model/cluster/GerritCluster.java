@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.v1beta2.api.model.cluster;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -155,51 +154,23 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static Volume getNfsImapdConfigVolume() {
-    return new VolumeBuilder()
-        .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
-        .withNewConfigMap()
-        .withName(NFS_IDMAPD_CM_NAME)
-        .endConfigMap()
-        .build();
-  }
-
-  @JsonIgnore
-  public static VolumeMount getNfsImapdConfigVolumeMount() {
-    return new VolumeMountBuilder()
-        .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
-        .withMountPath("/etc/idmapd.conf")
-        .withSubPath("idmapd.conf")
-        .build();
-  }
-
-  @JsonIgnore
   public Container createNfsInitContainer() {
-    return createNfsInitContainer(
-        getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig() != null,
-        getSpec().getContainerImages());
+    return createNfsInitContainer(getSpec().getContainerImages());
+  }
+
+  @JsonIgnore
+  public static Container createNfsInitContainer(ContainerImageConfig imageConfig) {
+    return createNfsInitContainer(imageConfig, List.of());
   }
 
   @JsonIgnore
   public static Container createNfsInitContainer(
-      boolean configureIdmapd, ContainerImageConfig imageConfig) {
-    return createNfsInitContainer(configureIdmapd, imageConfig, List.of());
-  }
-
-  @JsonIgnore
-  public static Container createNfsInitContainer(
-      boolean configureIdmapd,
-      ContainerImageConfig imageConfig,
-      List<VolumeMount> additionalVolumeMounts) {
+      ContainerImageConfig imageConfig, List<VolumeMount> additionalVolumeMounts) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
     volumeMounts.add(getLogsVolumeMount());
     volumeMounts.add(getGitRepositoriesVolumeMount());
 
     volumeMounts.addAll(additionalVolumeMounts);
-
-    if (configureIdmapd) {
-      volumeMounts.add(getNfsImapdConfigVolumeMount());
-    }
 
     StringBuilder args = new StringBuilder();
     args.append("chown -R ");
