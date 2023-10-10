@@ -53,15 +53,7 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
         receiver.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.isChownOnStartup()) {
       initContainers.add(
-          GerritCluster.createNfsInitContainer(
-              receiver
-                      .getSpec()
-                      .getStorage()
-                      .getStorageClasses()
-                      .getNfsWorkaround()
-                      .getIdmapdConfig()
-                  != null,
-              receiver.getSpec().getContainerImages()));
+          GerritCluster.createNfsInitContainer(receiver.getSpec().getContainerImages()));
     }
 
     deploymentBuilder
@@ -150,12 +142,6 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
             .endSecret()
             .build());
 
-    NfsWorkaroundConfig nfsWorkaround =
-        receiver.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
-    if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumes.add(GerritCluster.getNfsImapdConfigVolume());
-    }
-
     return volumes;
   }
 
@@ -170,12 +156,6 @@ public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployme
             .withMountPath("/var/apache/credentials/.htpasswd")
             .withSubPath(".htpasswd")
             .build());
-
-    NfsWorkaroundConfig nfsWorkaround =
-        receiver.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
-    if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
-    }
 
     return volumeMounts;
   }

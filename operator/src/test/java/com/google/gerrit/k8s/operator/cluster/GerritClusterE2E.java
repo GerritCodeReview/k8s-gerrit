@@ -21,11 +21,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
-import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import org.junit.jupiter.api.Test;
 
@@ -46,24 +44,6 @@ public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
                       .withName(SharedPVC.SHARED_PVC_NAME)
                       .get();
               assertThat(pvc, is(notNullValue()));
-            });
-  }
-
-  @Test
-  void testNfsIdmapdConfigMapCreated() {
-    gerritCluster.setNfsEnabled(true);
-    logger.atInfo().log("Waiting max 1 minutes for the nfs idmapd configmap to be created.");
-    await()
-        .atMost(1, MINUTES)
-        .untilAsserted(
-            () -> {
-              ConfigMap cm =
-                  client
-                      .configMaps()
-                      .inNamespace(operator.getNamespace())
-                      .withName(NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME)
-                      .get();
-              assertThat(cm, is(notNullValue()));
             });
   }
 
