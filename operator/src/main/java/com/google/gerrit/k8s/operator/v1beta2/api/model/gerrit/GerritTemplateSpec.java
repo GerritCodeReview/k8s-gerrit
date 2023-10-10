@@ -33,11 +33,9 @@ public class GerritTemplateSpec {
   private String priorityClassName;
 
   private int replicas = 1;
-  private int updatePartition = 0;
 
   private ResourceRequirements resources;
 
-  private GerritProbe startupProbe = new GerritProbe();
   private GerritProbe readinessProbe = new GerritProbe();
   private GerritProbe livenessProbe = new GerritProbe();
 
@@ -64,11 +62,9 @@ public class GerritTemplateSpec {
     this.priorityClassName = templateSpec.priorityClassName;
 
     this.replicas = templateSpec.replicas;
-    this.updatePartition = templateSpec.updatePartition;
 
     this.resources = templateSpec.resources;
 
-    this.startupProbe = templateSpec.startupProbe;
     this.readinessProbe = templateSpec.readinessProbe;
     this.livenessProbe = templateSpec.livenessProbe;
 
@@ -135,28 +131,12 @@ public class GerritTemplateSpec {
     this.replicas = replicas;
   }
 
-  public int getUpdatePartition() {
-    return updatePartition;
-  }
-
-  public void setUpdatePartition(int updatePartition) {
-    this.updatePartition = updatePartition;
-  }
-
   public ResourceRequirements getResources() {
     return resources;
   }
 
   public void setResources(ResourceRequirements resources) {
     this.resources = resources;
-  }
-
-  public GerritProbe getStartupProbe() {
-    return startupProbe;
-  }
-
-  public void setStartupProbe(GerritProbe startupProbe) {
-    this.startupProbe = startupProbe;
   }
 
   public GerritProbe getReadinessProbe() {
