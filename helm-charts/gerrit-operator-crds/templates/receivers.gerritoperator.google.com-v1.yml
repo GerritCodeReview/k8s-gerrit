@@ -61,8 +61,6 @@ spec:
                             type: boolean
                           chownOnStartup:
                             type: boolean
-                          idmapdConfig:
-                            type: string
                         type: object
                     type: object
                   sharedStorage:
