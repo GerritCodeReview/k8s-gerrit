@@ -1517,8 +1517,6 @@ spec:
                             type: boolean
                           chownOnStartup:
                             type: boolean
-                          idmapdConfig:
-                            type: string
                         type: object
                     type: object
                   sharedStorage:
@@ -2080,8 +2078,6 @@ spec:
                           type: string
                         replicas:
                           type: integer
-                        updatePartition:
-                          type: integer
                         resources:
                           properties:
                             claims:
@@ -2105,68 +2101,6 @@ spec:
                                 - type: string
                                 x-kubernetes-int-or-string: true
                               type: object
-                          type: object
-                        startupProbe:
-                          properties:
-                            exec:
-                              properties:
-                                command:
-                                  items:
-                                    type: string
-                                  type: array
-                              type: object
-                            failureThreshold:
-                              type: integer
-                            grpc:
-                              properties:
-                                port:
-                                  type: integer
-                                service:
-                                  type: string
-                              type: object
-                            httpGet:
-                              properties:
-                                host:
-                                  type: string
-                                httpHeaders:
-                                  items:
-                                    properties:
-                                      name:
-                                        type: string
-                                      value:
-                                        type: string
-                                    type: object
-                                  type: array
-                                path:
-                                  type: string
-                                port:
-                                  anyOf:
-                                  - type: integer
-                                  - type: string
-                                  x-kubernetes-int-or-string: true
-                                scheme:
-                                  type: string
-                              type: object
-                            initialDelaySeconds:
-                              type: integer
-                            periodSeconds:
-                              type: integer
-                            successThreshold:
-                              type: integer
-                            tcpSocket:
-                              properties:
-                                host:
-                                  type: string
-                                port:
-                                  anyOf:
-                                  - type: integer
-                                  - type: string
-                                  x-kubernetes-int-or-string: true
-                              type: object
-                            terminationGracePeriodSeconds:
-                              type: integer
-                            timeoutSeconds:
-                              type: integer
                           type: object
                         readinessProbe:
                           properties:

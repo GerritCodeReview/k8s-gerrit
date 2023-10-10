@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.v1beta1.api.model.cluster;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -160,7 +159,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
     return new VolumeBuilder()
         .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
         .withNewConfigMap()
-        .withName(NFS_IDMAPD_CM_NAME)
+        .withName("nfs-idmapd-config")
         .endConfigMap()
         .build();
   }
