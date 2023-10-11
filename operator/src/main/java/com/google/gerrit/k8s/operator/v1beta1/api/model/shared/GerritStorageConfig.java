@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.v1beta1.api.model.shared;
 
+@Deprecated
 public class GerritStorageConfig extends StorageConfig {
   private PluginCacheConfig pluginCache = new PluginCacheConfig();
 
@@ -25,6 +26,7 @@ public class GerritStorageConfig extends StorageConfig {
     this.pluginCache = pluginCache;
   }
 
+  @Deprecated
   public class PluginCacheConfig {
     private boolean enabled;
 

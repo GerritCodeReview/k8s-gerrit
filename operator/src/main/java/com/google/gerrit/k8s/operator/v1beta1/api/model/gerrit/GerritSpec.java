@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GerritStorageConf
 import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.IngressConfig;
 
+@Deprecated
 public class GerritSpec extends GerritTemplateSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private GerritStorageConfig storage = new GerritStorageConfig();

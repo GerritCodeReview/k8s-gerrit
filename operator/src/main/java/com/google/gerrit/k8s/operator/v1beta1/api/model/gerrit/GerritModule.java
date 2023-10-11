@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 
+@Deprecated
 public class GerritModule implements Serializable {
   private static final long serialVersionUID = 1L;
 
