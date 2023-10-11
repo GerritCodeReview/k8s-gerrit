@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Deprecated
 public class GerritConfigBuilder extends ConfigBuilder {
   private static final Pattern PROTOCOL_PATTERN = Pattern.compile("^(https?)://.+");
 

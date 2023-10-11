@@ -18,9 +18,9 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritTemplate;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
