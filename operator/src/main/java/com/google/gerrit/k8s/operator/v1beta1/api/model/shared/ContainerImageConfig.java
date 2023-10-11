@@ -18,6 +18,7 @@ import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class ContainerImageConfig {
   private String imagePullPolicy = "Always";
   private Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
