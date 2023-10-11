@@ -14,18 +14,18 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import static com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
-import static com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
-import static com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
+import static com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
+import static com.google.gerrit.k8s.operator.v1beta2.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
+import static com.google.gerrit.k8s.operator.v1beta2.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.GerritInitConfig;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritInitConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;

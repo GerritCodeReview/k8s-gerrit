@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.k8s.operator.v1beta1.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
