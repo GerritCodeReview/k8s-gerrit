@@ -28,8 +28,8 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.GerritTemplate;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import org.junit.jupiter.api.Test;
 
 public class ClusterManagedGerritWithIstioE2E extends AbstractGerritOperatorE2ETest {

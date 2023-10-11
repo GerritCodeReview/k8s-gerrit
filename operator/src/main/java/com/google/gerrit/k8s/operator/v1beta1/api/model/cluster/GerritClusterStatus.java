@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta1.api.model.cluster;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class GerritClusterStatus {
   private Map<String, List<String>> members;
 
