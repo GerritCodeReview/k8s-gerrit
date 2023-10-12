@@ -27,6 +27,8 @@ spec:
       labels:
         app: gerrit-operator
     spec:
+      strategy:
+        type: Recreate
       serviceAccountName: gerrit-operator
       {{- with .Values.image.imagePullSecrets }}
       imagePullSecrets:
