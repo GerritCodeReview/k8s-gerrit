@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09f64301_f3b53e48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-12T07:36:37Z",
+      "side": 1,
+      "message": "can you split the move from the other changes ?",
+      "revId": "c2068dd7b56669facc8d756d5880c8c9e1d88e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
