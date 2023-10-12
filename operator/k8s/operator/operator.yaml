@@ -26,6 +26,8 @@ spec:
       labels:
         app: gerrit-operator
     spec:
+      strategy:
+        type: Recreate
       serviceAccountName: gerrit-operator
       containers:
       - name: operator
