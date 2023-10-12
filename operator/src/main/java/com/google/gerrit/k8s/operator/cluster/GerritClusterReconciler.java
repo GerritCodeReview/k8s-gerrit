@@ -61,6 +61,7 @@ import java.util.stream.Collectors;
       @Dependent(
           name = "shared-pvc",
           type = SharedPVC.class,
+          reconcilePrecondition = SharedPVCCondition.class,
           useEventSourceWithName = PVC_EVENT_SOURCE),
       @Dependent(
           type = NfsIdmapdConfigMap.class,
