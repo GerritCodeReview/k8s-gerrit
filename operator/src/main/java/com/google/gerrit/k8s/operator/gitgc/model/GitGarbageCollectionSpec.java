@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gitgc.model;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberSpec;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class GitGarbageCollectionSpec implements GerritClusterMemberSpec {
+public class GitGarbageCollectionSpec {
   private String cluster;
   private String schedule;
   private Set<String> projects;

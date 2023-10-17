@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gitgc.model;
 
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMember;
 import io.fabric8.kubernetes.api.model.Namespaced;
+import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.Plural;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
@@ -28,7 +28,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @ShortNames("gitgc")
 @Plural("gitgcs")
 public class GitGarbageCollection
-    extends GerritClusterMember<GitGarbageCollectionSpec, GitGarbageCollectionStatus>
+    extends CustomResource<GitGarbageCollectionSpec, GitGarbageCollectionStatus>
     implements Namespaced {
   private static final long serialVersionUID = 1L;
 
