@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d461df2a_04f95eda",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-10-19T09:19:11Z",
+      "side": 1,
+      "message": "[nit] documented",
+      "revId": "985b19e7fc61c5eeaa94caa54e22e3a5a92ad3fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
