@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fab6b75b_950df631",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/v1alpha/admission/GerritValidationWebhookConfigApplier.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T15:56:32Z",
+      "side": 1,
+      "message": "why is this version different than the one above in operator/src/main/java/com/google/gerrit/k8s/operator/admission/GerritClusterValidationWebhookConfigApplier.java \nwhich is \"v1alpha16\" ?",
+      "range": {
+        "startLine": 53,
+        "startChar": 30,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "368717d74aabb2312d242b2768422a7cb983b66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
