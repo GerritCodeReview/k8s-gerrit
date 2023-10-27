@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfefcf8c_55cae908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1169369
+      },
+      "writtenOn": "2023-10-27T02:15:33Z",
+      "side": 1,
+      "message": "0197046574",
+      "revId": "1b801411080ae25bb223e6a47895f8db16d4efe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "9330577d_0f202c43",
         "filename": "Pipfile",
@@ -20,8 +38,7 @@
         "endChar": 23
       },
       "revId": "1b801411080ae25bb223e6a47895f8db16d4efe7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
