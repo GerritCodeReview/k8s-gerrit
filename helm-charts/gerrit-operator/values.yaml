@@ -1,14 +1,12 @@
 image:
-  registry: docker.io
-  org: k8sgerrit
-  name: gerrit-operator
+  repository: docker.io/k8sgerrit/gerrit-operator
   tag: latest
   imagePullPolicy: Always
   imagePullSecrets: []
   # - name: my-secret-1
 
 ingress:
-  # Which ingress provider to use (options: NONE, INGRESS, ISTIO)
+  # Which ingress provider to use (options: NONE, INGRESS, ISTIO, AMBASSADOR)
   type: NONE
 
 ## Required to use an external/persistent keystore, otherwise a keystore using

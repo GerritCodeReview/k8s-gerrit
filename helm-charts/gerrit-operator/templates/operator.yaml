@@ -34,7 +34,7 @@ spec:
       {{- end }}
       containers:
       - name: operator
-        image: {{ .Values.image.registry | default "docker.io" }}/{{ .Values.image.org }}/{{ .Values.image.name }}:{{ .Values.image.tag | default "latest" }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy }}
         env:
         - name: NAMESPACE

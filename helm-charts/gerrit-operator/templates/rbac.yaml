@@ -85,3 +85,11 @@ rules:
   - 'validatingwebhookconfigurations'
   verbs:
   - '*'
+- apiGroups:
+  - "getambassador.io"
+  resources:
+  - "mappings"
+  - "hosts"
+  - "tlscontexts"
+  verbs:
+  - '*'
