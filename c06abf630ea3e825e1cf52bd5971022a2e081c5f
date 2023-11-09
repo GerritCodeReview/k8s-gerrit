@@ -22,6 +22,29 @@
       },
       "revId": "c06abf630ea3e825e1cf52bd5971022a2e081c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f62da886_893057d6",
+        "filename": "helm-charts/gerrit-operator/templates/rbac.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-09T07:47:10Z",
+      "side": 1,
+      "message": "Could you add a condition based on the ingress type that was configured?",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "c06abf630ea3e825e1cf52bd5971022a2e081c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
