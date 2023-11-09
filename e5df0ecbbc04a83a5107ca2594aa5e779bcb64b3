@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a385017_d8b4f2c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-09T15:48:58Z",
+      "side": 1,
+      "message": "Starting from a clean working tree running the Maven build on this version unexpectedly modifies sources:\n\n$ git checkout change-388520\n$ git reset --hard\n$ git clean -xffd\n$ mvn clean install\n$ git status\nOn branch change-388520\nChanges not staged for commit:\n  (use \"git add \u003cfile\u003e...\" to update what will be committed)\n  (use \"git restore \u003cfile\u003e...\" to discard changes in working directory)\n\tmodified:   ../helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml\n\tmodified:   ../helm-charts/gerrit-operator-crds/templates/gerritnetworks.gerritoperator.google.com-v1.yml\n\tmodified:   ../helm-charts/gerrit-operator-crds/templates/gerrits.gerritoperator.google.com-v1.yml\n\tmodified:   ../helm-charts/gerrit-operator-crds/templates/receivers.gerritoperator.google.com-v1.yml\n\tmodified:   src/main/java/com/google/gerrit/k8s/operator/admission/AdmissionWebhookModule.java\n\tmodified:   src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+      "revId": "e5df0ecbbc04a83a5107ca2594aa5e779bcb64b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
