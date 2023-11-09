@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3f51ba4_553e086a",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-09T15:39:57Z",
+      "side": 1,
+      "message": "document what\u0027s the purpose of and how to use --delete DELETE_VERSION ?",
+      "revId": "01763d21822635e3c169d3ca6cb6bb1eeb81da7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88bb2f33_544436b5",
         "filename": "operator/tools/newCRDVersion",
         "patchSetId": 17
