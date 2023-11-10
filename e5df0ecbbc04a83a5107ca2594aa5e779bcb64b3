@@ -34,6 +34,24 @@
       "parentUuid": "7a385017_d8b4f2c9",
       "revId": "e5df0ecbbc04a83a5107ca2594aa5e779bcb64b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d692287f_011de7cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-11-10T09:46:33Z",
+      "side": 1,
+      "message": "Oh I see your comments on https://gerrit-review.googlesource.com/c/k8s-gerrit/+/388675/17/operator/tools/newCRDVersion now, nevermind.",
+      "parentUuid": "90cc01ff_64734c6f",
+      "revId": "e5df0ecbbc04a83a5107ca2594aa5e779bcb64b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
