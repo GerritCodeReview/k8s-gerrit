@@ -14,8 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.config;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,46 +22,19 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-@SuppressWarnings("rawtypes")
 public abstract class ConfigBuilder {
-  private final String configFileName;
 
-  private List<RequiredOption> requiredOptions = new ArrayList<>();
-  private Config config = new Config();
+  private final ImmutableList<RequiredOption<?>> requiredOptions;
+  private final Config config;
 
-  public ConfigBuilder(String configFileName) {
-    this.configFileName = configFileName;
+  ConfigBuilder(Config baseConfig, ImmutableList<RequiredOption<?>> requiredOptions) {
+    this.config = baseConfig;
+    this.requiredOptions = requiredOptions;
   }
 
-  abstract void addRequiredOptions(Gerrit gerrit);
-
-  public ConfigBuilder forGerrit(Gerrit gerrit) {
-    String configText = gerrit.getSpec().getConfigFiles().getOrDefault(configFileName, "");
-    this.config = parseConfig(configText);
-
-    addRequiredOptions(gerrit);
-
-    return this;
-  }
-
-  @VisibleForTesting
-  ConfigBuilder withConfig(String configText) {
-    this.config = parseConfig(configText);
-    return this;
-  }
-
-  void addRequiredOption(RequiredOption opt) {
-    requiredOptions.add(opt);
-  }
-
-  private Config parseConfig(String text) {
-    Config cfg = new Config();
-    try {
-      cfg.fromText(text);
-    } catch (ConfigInvalidException e) {
-      throw new IllegalStateException("Invalid configuration: " + text, e);
-    }
-    return cfg;
+  protected ConfigBuilder(String baseConfig, ImmutableList<RequiredOption<?>> requiredOptions) {
+    this.config = parseConfig(baseConfig);
+    this.requiredOptions = requiredOptions;
   }
 
   public Config build() {
@@ -78,6 +50,20 @@ public abstract class ConfigBuilder {
 
   public void validate() throws InvalidGerritConfigException {
     new ConfigValidator(requiredOptions).check(config);
+  }
+
+  public List<RequiredOption<?>> getRequiredOptions() {
+    return this.requiredOptions;
+  }
+
+  protected Config parseConfig(String text) {
+    Config cfg = new Config();
+    try {
+      cfg.fromText(text);
+    } catch (ConfigInvalidException e) {
+      throw new IllegalStateException("Invalid configuration: " + text, e);
+    }
+    return cfg;
   }
 
   @SuppressWarnings("unchecked")
@@ -101,9 +87,5 @@ public abstract class ConfigBuilder {
         config.setStringList(opt.getSection(), opt.getSubSection(), opt.getKey(), values);
       }
     }
-  }
-
-  public List<RequiredOption> getRequiredOptions() {
-    return requiredOptions;
   }
 }

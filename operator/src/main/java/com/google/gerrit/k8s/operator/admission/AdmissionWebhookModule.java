@@ -14,16 +14,15 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
+import com.google.gerrit.k8s.operator.v1alpha.admission.GerritClusterValidationWebhookConfigApplier;
+import com.google.gerrit.k8s.operator.v1alpha.admission.GerritValidationWebhookConfigApplier;
+import com.google.gerrit.k8s.operator.v1alpha.admission.GitGcValidationWebhookConfigApplier;
 import com.google.inject.AbstractModule;
-import com.google.inject.multibindings.Multibinder;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class AdmissionWebhookModule extends AbstractModule {
   public void configure() {
-    Multibinder<ValidationWebhookConfigApplier> vwcAppliers =
-        Multibinder.newSetBinder(binder(), ValidationWebhookConfigApplier.class);
-    vwcAppliers.addBinding().to(GerritClusterValidationWebhookConfigApplier.class);
-    vwcAppliers.addBinding().to(GitGcValidationWebhookConfigApplier.class);
-    vwcAppliers.addBinding().to(GerritValidationWebhookConfigApplier.class);
+    install(new FactoryModuleBuilder().build(ValidationWebhookConfigApplier.Factory.class));
 
     bind(ValidationWebhookConfigs.class);
   }

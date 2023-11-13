@@ -19,14 +19,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.cluster.model.GerritClusterSpec;
-import com.google.gerrit.k8s.operator.gerrit.model.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritSpec;
-import com.google.gerrit.k8s.operator.gerrit.model.GerritTemplateSpec.GerritMode;
-import com.google.gerrit.k8s.operator.receiver.model.Receiver;
-import com.google.gerrit.k8s.operator.shared.model.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
+import com.google.gerrit.k8s.operator.v1alpha.admission.servlet.GerritAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritClusterSpec;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritSpec;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.GerritClusterIngressConfig;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -156,7 +157,8 @@ public class GerritAdmissionWebhookTest {
   private HttpURLConnection sendAdmissionRequest(Gerrit gerrit)
       throws MalformedURLException, IOException {
     HttpURLConnection http =
-        (HttpURLConnection) new URL("http://localhost:8080/admission/gerrit").openConnection();
+        (HttpURLConnection)
+            new URL("http://localhost:8080/admission/v1alpha/gerrit").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);

@@ -15,9 +15,8 @@
 package com.google.gerrit.k8s.operator.gitgc.dependent;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterMemberDependentResource;
-import com.google.gerrit.k8s.operator.cluster.model.GerritCluster;
-import com.google.gerrit.k8s.operator.gitgc.model.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1alpha.api.model.gitgc.GitGarbageCollection;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.Volume;
@@ -27,13 +26,14 @@ import io.fabric8.kubernetes.api.model.batch.v1.CronJobBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.JobTemplateSpec;
 import io.fabric8.kubernetes.api.model.batch.v1.JobTemplateSpecBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class GitGarbageCollectionCronJob
-    extends GerritClusterMemberDependentResource<CronJob, GitGarbageCollection> {
+    extends CRUDKubernetesDependentResource<CronJob, GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GitGarbageCollectionCronJob() {
@@ -44,7 +44,12 @@ public class GitGarbageCollectionCronJob
   protected CronJob desired(GitGarbageCollection gitGc, Context<GitGarbageCollection> context) {
     String ns = gitGc.getMetadata().getNamespace();
     String name = gitGc.getMetadata().getName();
-    GerritCluster gerritCluster = getGerritCluster(gitGc);
+    GerritCluster gerritCluster =
+        client
+            .resources(GerritCluster.class)
+            .inNamespace(ns)
+            .withName(gitGc.getSpec().getCluster())
+            .get();
     logger.atInfo().log("Reconciling GitGc with name: %s/%s", ns, name);
 
     Map<String, String> gitGcLabels =
