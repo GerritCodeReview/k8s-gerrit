@@ -1,7 +1,5 @@
 image:
-  registry: docker.io
-  org: k8sgerrit
-  name: gerrit-operator
+  repository: docker.io/k8sgerrit/gerrit-operator
   tag: latest
   imagePullPolicy: Always
   imagePullSecrets: []
