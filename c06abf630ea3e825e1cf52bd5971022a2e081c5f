@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d352bb47_9ad4dadd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-11-19T21:37:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91c0430d_df1b70f3",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "c06abf630ea3e825e1cf52bd5971022a2e081c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f62da886_893057d6",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-09T07:47:10Z",
       "side": 1,
       "message": "Could you add a condition based on the ingress type that was configured?",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "c06abf630ea3e825e1cf52bd5971022a2e081c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d298c5_a9af4894",
+        "filename": "helm-charts/gerrit-operator/templates/rbac.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2023-11-19T21:37:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62da886_893057d6",
       "range": {
         "startLine": 88,
         "startChar": 0,
