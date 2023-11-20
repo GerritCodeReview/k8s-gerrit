@@ -16,6 +16,24 @@
       "message": "missing license header",
       "revId": "b0e5fb83c261bf84c69529050c26da59192c6e7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c69f56f2_e179d653",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-20T14:37:25Z",
+      "side": 1,
+      "message": "We also don\u0027t have license headers on other bash files in this project. This should be added in a separate change.",
+      "parentUuid": "6d777263_8979531a",
+      "revId": "b0e5fb83c261bf84c69529050c26da59192c6e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

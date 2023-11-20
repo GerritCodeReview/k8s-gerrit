@@ -16,6 +16,24 @@
       "message": "[nit] documented",
       "revId": "985b19e7fc61c5eeaa94caa54e22e3a5a92ad3fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea91d0cb_e382b1c4",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-20T14:37:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d461df2a_04f95eda",
+      "revId": "985b19e7fc61c5eeaa94caa54e22e3a5a92ad3fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

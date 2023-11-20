@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e461112_cc1806d6",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-20T14:37:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f51ba4_553e086a",
+      "revId": "01763d21822635e3c169d3ca6cb6bb1eeb81da7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88bb2f33_544436b5",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-09T15:33:43Z",
       "side": 1,
       "message": "I have gnu tools including gnu-sed installed on MacOS and they don\u0027t expect this additional argument.\n\nWith this additional argument all sed calls fail with the error:\n\n```\nsed: can\u0027t read s/\u003cfile path\u003e/g: No such file or directory\n```\n\nRemoving this empty argument fixes the issue. Then the generated sources LGTM",
+      "range": {
+        "startLine": 46,
+        "startChar": 17,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "01763d21822635e3c169d3ca6cb6bb1eeb81da7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bf81857_1b7a8920",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 17
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-20T14:37:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88bb2f33_544436b5",
       "range": {
         "startLine": 46,
         "startChar": 17,
