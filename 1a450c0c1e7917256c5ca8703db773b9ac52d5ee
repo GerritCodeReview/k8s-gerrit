@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c89c7f3c_aa325300",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-11-21T10:41:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3795e2d7_7ad5e629",
+      "range": {
+        "startLine": 409,
+        "startChar": 55,
+        "endLine": 409,
+        "endChar": 63
+      },
+      "revId": "1a450c0c1e7917256c5ca8703db773b9ac52d5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d39dbf4_f5d2e751",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-21T09:51:06Z",
       "side": 1,
       "message": "Just to make it easier to see what is supposed to be added here, could you provide a default?",
+      "range": {
+        "startLine": 289,
+        "startChar": 2,
+        "endLine": 289,
+        "endChar": 14
+      },
+      "revId": "1a450c0c1e7917256c5ca8703db773b9ac52d5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a135849_36ab5696",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-11-21T10:41:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5d39dbf4_f5d2e751",
       "range": {
         "startLine": 289,
         "startChar": 2,
