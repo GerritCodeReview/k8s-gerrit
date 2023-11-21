@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3795e2d7_7ad5e629",
+        "filename": "helm-charts/gerrit-replica/README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-21T09:51:06Z",
+      "side": 1,
+      "message": "nit: `instance` has multiple meanings which is confusing in this context. Better might be `example`.",
+      "range": {
+        "startLine": 409,
+        "startChar": 55,
+        "endLine": 409,
+        "endChar": 63
+      },
+      "revId": "1a450c0c1e7917256c5ca8703db773b9ac52d5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d39dbf4_f5d2e751",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-21T09:51:06Z",
+      "side": 1,
+      "message": "Just to make it easier to see what is supposed to be added here, could you provide a default?",
+      "range": {
+        "startLine": 289,
+        "startChar": 2,
+        "endLine": 289,
+        "endChar": 14
+      },
+      "revId": "1a450c0c1e7917256c5ca8703db773b9ac52d5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
