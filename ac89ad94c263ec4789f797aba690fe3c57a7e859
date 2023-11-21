@@ -22,6 +22,30 @@
       },
       "revId": "ac89ad94c263ec4789f797aba690fe3c57a7e859",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67faca7b_97a25581",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-11-21T16:25:38Z",
+      "side": 1,
+      "message": "Ops, sorry. Fixed in new patch",
+      "parentUuid": "640cbe14_b9b9774f",
+      "range": {
+        "startLine": 290,
+        "startChar": 15,
+        "endLine": 290,
+        "endChar": 17
+      },
+      "revId": "ac89ad94c263ec4789f797aba690fe3c57a7e859",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
