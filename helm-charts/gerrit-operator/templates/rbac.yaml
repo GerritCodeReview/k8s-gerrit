@@ -59,10 +59,6 @@ rules:
   - customresourcedefinitions
   verbs:
   - '*'
-- apiGroups:
-  - "networking.k8s.io"
-  resources:
-  - ingresses
   verbs:
   - '*'
 - apiGroups:
@@ -71,12 +67,6 @@ rules:
   - '*'
   verbs:
   - '*'
-- apiGroups:
-  - "networking.istio.io"
-  resources:
-  - "gateways"
-  - "virtualservices"
-  - "destinationrules"
   verbs:
   - '*'
 - apiGroups:
@@ -85,3 +75,29 @@ rules:
   - 'validatingwebhookconfigurations'
   verbs:
   - '*'
+{{- if eq .Values.ingress.type "INGRESS" }}
+- apiGroups:
+  - "networking.k8s.io"
+  resources:
+  - ingresses
+  verbs:
+  - '*'
+{{- else if eq .Values.ingress.type "ISTIO" }}
+- apiGroups:
+  - "networking.istio.io"
+  resources:
+  - "gateways"
+  - "virtualservices"
+  - "destinationrules"
+  verbs:
+  - '*'
+{{- else if eq .Values.ingress.type "AMBASSADOR" }}
+- apiGroups:
+  - "getambassador.io"
+  resources:
+  - "mappings"
+  - "hosts"
+  - "tlscontexts"
+  verbs:
+  - '*'
+{{- end }}
