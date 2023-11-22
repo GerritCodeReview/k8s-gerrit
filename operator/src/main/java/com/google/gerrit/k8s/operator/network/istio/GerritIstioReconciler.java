@@ -56,7 +56,7 @@ import java.util.Map;
           type = GerritIstioVirtualService.class,
           reconcilePrecondition = GerritIstioCondition.class,
           dependsOn = {"gerrit-istio-gateway"},
-          useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE),
+          useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE)
     })
 public class GerritIstioReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {

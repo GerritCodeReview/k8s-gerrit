@@ -29,6 +29,20 @@ spec:
         port:
           number: 48080
         host: replica.gerrit.svc.cluster.local
+  - name: forbidden-routes-primary
+    route:
+    - destination:
+        port:
+          number: 48080
+        host: primary.gerrit.svc.cluster.local
+    match:
+    - uri:
+        regex: "^(/a)?/plugins/high-availability/.*$"
+    fault:
+      abort:
+        percentage:
+          value: 100.0
+        httpStatus: 403
   - name: gerrit-primary-primary
     route:
     - destination:

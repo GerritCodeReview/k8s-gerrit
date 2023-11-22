@@ -91,6 +91,12 @@ rules:
   - "destinationrules"
   verbs:
   - '*'
+- apiGroups:
+  - "security.istio.io"
+  resources:
+  - "authorizationpolicies"
+  verbs:
+  - '*'
 {{- else if eq .Values.ingress.type "AMBASSADOR" }}
 - apiGroups:
   - "getambassador.io"

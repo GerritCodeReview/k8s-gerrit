@@ -47,6 +47,7 @@ public class GerritIstioVirtualService
   private static final String INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
   private static final String UPLOAD_PACK_URL_PATTERN = "^/(.*)/git-upload-pack$";
   private static final String RECEIVE_PACK_URL_PATTERN = "^/(.*)/git-receive-pack$";
+  private static final String GERRIT_FORBIDDEN_URL_PATTERN = "^(/a)?/plugins/high-availability/.*$";
   public static final String NAME_SUFFIX = "gerrit-http-virtual-service";
 
   public GerritIstioVirtualService() {
@@ -105,6 +106,23 @@ public class GerritIstioVirtualService
     if (gerritNetwork.hasPrimaryGerrit()) {
       routes.add(
           new HTTPRouteBuilder()
+              .withName("forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
+              .withRoute(
+                  getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace))
+              .withMatch(getGerritForbiddenMatches())
+              .withNewFault()
+              .withNewAbort()
+              .withNewHTTPFaultInjectionAbortHttpStatusErrorType()
+              .withHttpStatus(403)
+              .endHTTPFaultInjectionAbortHttpStatusErrorType()
+              .withNewPercentage()
+              .withValue(100D)
+              .endPercentage()
+              .endAbort()
+              .endFault()
+              .build());
+      routes.add(
+          new HTTPRouteBuilder()
               .withName("gerrit-primary-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
               .withRoute(
                   getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace))
@@ -124,6 +142,19 @@ public class GerritIstioVirtualService
         .endPort()
         .endDestination()
         .build();
+  }
+
+  private List<HTTPMatchRequest> getGerritForbiddenMatches() {
+    List<HTTPMatchRequest> matches = new ArrayList<>();
+    matches.add(
+        new HTTPMatchRequestBuilder()
+            .withNewUri()
+            .withNewStringMatchRegexType()
+            .withRegex(GERRIT_FORBIDDEN_URL_PATTERN)
+            .endStringMatchRegexType()
+            .endUri()
+            .build());
+    return matches;
   }
 
   private List<HTTPMatchRequest> getGerritReplicaMatches() {
