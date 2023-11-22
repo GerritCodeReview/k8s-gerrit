@@ -19,8 +19,10 @@ import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler
 
 import com.google.gerrit.k8s.operator.network.GerritClusterIngressCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritClusterIstioGateway;
+import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioAndPrimaryGerritCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioDestinationRule;
+import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioHAAuthorizationPolicy;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioVirtualService;
 import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
@@ -57,6 +59,11 @@ import java.util.Map;
           reconcilePrecondition = GerritIstioCondition.class,
           dependsOn = {"gerrit-istio-gateway"},
           useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE),
+      @Dependent(
+          name = "gerrit-istio-ha-authorization-policy",
+          type = GerritIstioHAAuthorizationPolicy.class,
+          reconcilePrecondition = GerritIstioAndPrimaryGerritCondition.class,
+          dependsOn = {"gerrit-istio-gateway"})
     })
 public class GerritIstioReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {

@@ -80,6 +80,12 @@ rules:
   verbs:
   - '*'
 - apiGroups:
+  - "security.istio.io"
+  resources:
+  - "authorizationpolicies"
+  verbs:
+  - '*'
+- apiGroups:
   - "admissionregistration.k8s.io"
   resources:
   - 'validatingwebhookconfigurations'
