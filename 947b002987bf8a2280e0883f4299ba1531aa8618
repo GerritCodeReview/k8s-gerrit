@@ -22,6 +22,30 @@
       },
       "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be92196f_3c51fcd2",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-22T10:40:51Z",
+      "side": 1,
+      "message": "Yes, but then this would fail for people like you that have gnu sed installed on osx.",
+      "parentUuid": "6fb5d177_4577eff7",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
