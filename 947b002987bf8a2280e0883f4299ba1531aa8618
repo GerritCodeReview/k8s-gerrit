@@ -46,6 +46,53 @@
       },
       "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c421d01e_683b67a1",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-22T13:12:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "be92196f_3c51fcd2",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c18201_04f733c2",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 19
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-22T13:12:45Z",
+      "side": 1,
+      "message": "remove this `a`",
+      "range": {
+        "startLine": 62,
+        "startChar": 63,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
