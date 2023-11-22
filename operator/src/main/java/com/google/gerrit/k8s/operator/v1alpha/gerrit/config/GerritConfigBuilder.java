@@ -20,7 +20,6 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.k8s.operator.gerrit.config.ConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.RequiredOption;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.v1alpha.api.model.shared.IngressConfig;
@@ -167,10 +166,6 @@ public class GerritConfigBuilder extends ConfigBuilder {
     return new RequiredOption<String>(
         "sshd",
         "advertisedAddress",
-        gerrit
-                .getSpec()
-                .getIngress()
-                .getFullHostnameForService(GerritService.getName(gerrit.getMetadata().getName()))
-            + ":29418");
+        gerrit.getSpec().getIngress().getHost() + ":" + gerrit.getSpec().getService().getSshPort());
   }
 }
