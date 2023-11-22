@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fb5d177_4577eff7",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-22T10:38:58Z",
+      "side": 1,
+      "message": "I think we could automate this using something like\n\n```\nif [ \"$(uname)\" \u003d\u003d \"Darwin\" ]; then\n  export BACKUP_EXT\u003d\"\u0027\u0027\"\nfi\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
