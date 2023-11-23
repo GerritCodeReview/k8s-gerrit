@@ -15,6 +15,10 @@
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import static com.google.gerrit.k8s.operator.network.Constants.GERRIT_FORBIDDEN_URL_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.INFO_REFS_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
@@ -46,9 +50,6 @@ import java.util.Map;
 @KubernetesDependent
 public class GerritIstioVirtualService
     extends CRUDKubernetesDependentResource<VirtualService, GerritNetwork> {
-  private static final String INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
-  private static final String UPLOAD_PACK_URL_PATTERN = "^/(.*)/git-upload-pack$";
-  private static final String RECEIVE_PACK_URL_PATTERN = "^/(.*)/git-receive-pack$";
   public static final String NAME_SUFFIX = "gerrit-http-virtual-service";
 
   public GerritIstioVirtualService() {
@@ -105,11 +106,12 @@ public class GerritIstioVirtualService
               .build());
     }
     if (gerritNetwork.hasPrimaryGerrit()) {
+      HTTPRouteDestination dest =
+          getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace);
       routes.add(
           new HTTPRouteBuilder()
               .withName("forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
-              .withRoute(
-                  getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace))
+              .withRoute(dest)
               .withMatch(getGerritForbiddenMatches())
               .withNewFault()
               .withNewAbort()
@@ -125,8 +127,7 @@ public class GerritIstioVirtualService
       routes.add(
           new HTTPRouteBuilder()
               .withName("gerrit-primary-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
-              .withRoute(
-                  getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace))
+              .withRoute(dest)
               .build());
     }
 
@@ -164,7 +165,7 @@ public class GerritIstioVirtualService
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(INFO_REF_URL_PATTERN)
+            .withRegex(INFO_REFS_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .withQueryParams(
@@ -213,7 +214,8 @@ public class GerritIstioVirtualService
     List<HTTPMatchRequest> matches = new ArrayList<>();
     matches.add(
         new HTTPMatchRequestBuilder()
-            .withUri(new StringMatchBuilder().withNewStringMatchPrefixType("/a/projects/").build())
+            .withUri(
+                new StringMatchBuilder().withNewStringMatchRegexType(PROJECTS_URL_PATTERN).build())
             .build());
     matches.add(
         new HTTPMatchRequestBuilder()
@@ -227,7 +229,7 @@ public class GerritIstioVirtualService
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(INFO_REF_URL_PATTERN)
+            .withRegex(INFO_REFS_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .withQueryParams(

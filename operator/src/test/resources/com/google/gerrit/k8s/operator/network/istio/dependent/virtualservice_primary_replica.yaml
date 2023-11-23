@@ -12,7 +12,7 @@ spec:
   - name: gerrit-replica-replica
     match:
     - uri:
-        regex: "^/(.*)/info/refs$"
+        regex: "/.*/info/refs"
       queryParams:
         service:
           exact: git-upload-pack
@@ -20,7 +20,7 @@ spec:
       method:
         exact: GET
     - uri:
-        regex: "^/(.*)/git-upload-pack$"
+        regex: "/.*/git-upload-pack"
       ignoreUriCase: true
       method:
         exact: POST

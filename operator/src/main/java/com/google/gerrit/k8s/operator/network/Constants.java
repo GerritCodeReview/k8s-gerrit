@@ -15,9 +15,9 @@
 package com.google.gerrit.k8s.operator.network;
 
 public class Constants {
-  public static String UPLOAD_PACK_URL_PATTERN = "/.*/git-upload-pack";
-  public static String INFO_REFS_PATTERN = "/.*/info/refs";
-  public static String RECEIVE_PACK_URL_PATTERN = "/.*/git-receive-pack";
-  public static String PROJECTS_URL_PATTERN = "/a/projects/.*";
+  public static final String UPLOAD_PACK_URL_PATTERN = "/.*/git-upload-pack";
+  public static final String INFO_REFS_PATTERN = "/.*/info/refs";
+  public static final String RECEIVE_PACK_URL_PATTERN = "/.*/git-receive-pack";
+  public static final String PROJECTS_URL_PATTERN = "/a/projects/.*";
   public static final String GERRIT_FORBIDDEN_URL_PATTERN = "^(/a)?/plugins/high-availability/.*$";
 }

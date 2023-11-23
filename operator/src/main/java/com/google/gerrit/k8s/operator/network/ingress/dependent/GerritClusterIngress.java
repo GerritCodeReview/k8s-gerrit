@@ -15,6 +15,9 @@
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
 import static com.google.gerrit.k8s.operator.network.Constants.GERRIT_FORBIDDEN_URL_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
+import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
@@ -42,8 +45,6 @@ import java.util.Map;
 
 @KubernetesDependent
 public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritNetwork> {
-  private static final String UPLOAD_PACK_URL_PATTERN = "/.*/git-upload-pack";
-  private static final String RECEIVE_PACK_URL_PATTERN = "/.*/git-receive-pack";
   public static final String INGRESS_NAME = "gerrit-ingress";
 
   public GerritClusterIngress() {
@@ -251,7 +252,7 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     ServiceBackendPort port =
         new ServiceBackendPortBuilder().withName(ReceiverService.HTTP_PORT_NAME).build();
 
-    for (String path : List.of("/a/projects", RECEIVE_PACK_URL_PATTERN)) {
+    for (String path : List.of(PROJECTS_URL_PATTERN, RECEIVE_PACK_URL_PATTERN)) {
       paths.add(
           new HTTPIngressPathBuilder()
               .withPathType("Prefix")

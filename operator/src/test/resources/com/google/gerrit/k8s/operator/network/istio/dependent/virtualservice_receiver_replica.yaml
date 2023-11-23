@@ -12,11 +12,11 @@ spec:
   - name: receiver-receiver
     match:
     - uri:
-        prefix: "/a/projects/"
+        regex: "/a/projects/.*"
     - uri:
-        regex: "^/(.*)/git-receive-pack$"
+        regex: "/.*/git-receive-pack"
     - uri:
-        regex: "^/(.*)/info/refs$"
+        regex: "/.*/info/refs"
       queryParams:
         service:
           exact: git-receive-pack

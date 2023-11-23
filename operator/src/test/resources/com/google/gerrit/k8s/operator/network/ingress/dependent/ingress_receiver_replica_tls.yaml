@@ -27,7 +27,7 @@ spec:
     http:
       paths:
       - pathType: Prefix
-        path: "/a/projects"
+        path: "/a/projects/.*"
         backend:
           service:
             name: receiver
