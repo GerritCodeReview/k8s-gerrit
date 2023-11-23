@@ -93,6 +93,30 @@
       },
       "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5675233c_2e48fdb1",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 19
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-23T14:13:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47c18201_04f733c2",
+      "range": {
+        "startLine": 62,
+        "startChar": 63,
+        "endLine": 62,
+        "endChar": 64
+      },
+      "revId": "947b002987bf8a2280e0883f4299ba1531aa8618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
