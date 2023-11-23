@@ -7,6 +7,10 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: true
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/configuration-snippet: |-
+      location ~ ^(/a)?/plugins/high-availability/.*$ {
+        deny all;
+        return 403;
+      }
       if ($args ~ service=git-upload-pack){
         set $proxy_upstream_name "gerrit-replica-http";
         set $proxy_host $proxy_upstream_name;

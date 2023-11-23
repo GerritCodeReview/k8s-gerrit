@@ -19,4 +19,5 @@ public class Constants {
   public static String INFO_REFS_PATTERN = "/.*/info/refs";
   public static String RECEIVE_PACK_URL_PATTERN = "/.*/git-receive-pack";
   public static String PROJECTS_URL_PATTERN = "/a/projects/.*";
+  public static final String GERRIT_FORBIDDEN_URL_PATTERN = "^(/a)?/plugins/high-availability/.*$";
 }

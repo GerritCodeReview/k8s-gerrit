@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
+import static com.google.gerrit.k8s.operator.network.Constants.GERRIT_FORBIDDEN_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
@@ -83,21 +84,32 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     annotations.put("nginx.ingress.kubernetes.io/use-regex", "true");
     annotations.put("kubernetes.io/ingress.class", "nginx");
 
-    String configSnippet = "";
+    StringBuilder configSnippet = new StringBuilder();
+    if (gerritNetwork.hasPrimaryGerrit()) {
+      configSnippet = createNginxConfigSnippetForbidHARoutes(configSnippet);
+    }
+
     if (gerritNetwork.hasPrimaryGerrit() && gerritNetwork.hasGerritReplica()) {
       String svcName = GerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName());
       configSnippet =
-          createNginxConfigSnippet(
-              "service=git-upload-pack", gerritNetwork.getMetadata().getNamespace(), svcName);
+          createNginxConfigSnippetGerritReplicaRouting(
+              configSnippet,
+              "service=git-upload-pack",
+              gerritNetwork.getMetadata().getNamespace(),
+              svcName);
     }
     if (gerritNetwork.hasReceiver()) {
       String svcName = ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName());
       configSnippet =
-          createNginxConfigSnippet(
-              "service=git-receive-pack", gerritNetwork.getMetadata().getNamespace(), svcName);
+          createNginxConfigSnippetGerritReplicaRouting(
+              configSnippet,
+              "service=git-receive-pack",
+              gerritNetwork.getMetadata().getNamespace(),
+              svcName);
     }
-    if (!configSnippet.isBlank()) {
-      annotations.put("nginx.ingress.kubernetes.io/configuration-snippet", configSnippet);
+    if (configSnippet.length() > 0) {
+      annotations.put(
+          "nginx.ingress.kubernetes.io/configuration-snippet", configSnippet.toString().trim());
     }
 
     annotations.put("nginx.ingress.kubernetes.io/affinity", "cookie");
@@ -121,8 +133,8 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
    * @param svcName Name of the destination service.
    * @return configuration snippet
    */
-  private String createNginxConfigSnippet(String queryParam, String namespace, String svcName) {
-    StringBuilder configSnippet = new StringBuilder();
+  private StringBuilder createNginxConfigSnippetGerritReplicaRouting(
+      StringBuilder configSnippet, String queryParam, String namespace, String svcName) {
     configSnippet.append("if ($args ~ ");
     configSnippet.append(queryParam);
     configSnippet.append("){");
@@ -138,8 +150,18 @@ public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingres
     configSnippet.append("\n");
     configSnippet.append("  set $service_name \"");
     configSnippet.append(svcName);
-    configSnippet.append("\";\n}");
-    return configSnippet.toString();
+    configSnippet.append("\";\n}\n");
+    return configSnippet;
+  }
+
+  private StringBuilder createNginxConfigSnippetForbidHARoutes(StringBuilder configSnippet) {
+    configSnippet.append("location ~ ");
+    configSnippet.append(GERRIT_FORBIDDEN_URL_PATTERN);
+    configSnippet.append(" {\n");
+    configSnippet.append("  deny all;\n");
+    configSnippet.append("  return 403;\n");
+    configSnippet.append("}\n");
+    return configSnippet;
   }
 
   private IngressTLS getIngressTLS(GerritNetwork gerritNetwork) {

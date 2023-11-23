@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
+import static com.google.gerrit.k8s.operator.network.Constants.GERRIT_FORBIDDEN_URL_PATTERN;
+
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
@@ -47,7 +49,6 @@ public class GerritIstioVirtualService
   private static final String INFO_REF_URL_PATTERN = "^/(.*)/info/refs$";
   private static final String UPLOAD_PACK_URL_PATTERN = "^/(.*)/git-upload-pack$";
   private static final String RECEIVE_PACK_URL_PATTERN = "^/(.*)/git-receive-pack$";
-  private static final String GERRIT_FORBIDDEN_URL_PATTERN = "^(/a)?/plugins/high-availability/.*$";
   public static final String NAME_SUFFIX = "gerrit-http-virtual-service";
 
   public GerritIstioVirtualService() {
