@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d56d97_7b3eafff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-23T14:35:16Z",
+      "side": 1,
+      "message": "@mskeel@arista.com Could you do the same for the amabassador implementation?",
+      "revId": "ce0ab9f72bc0e67a64d3cd3ab676400d2a22478e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
