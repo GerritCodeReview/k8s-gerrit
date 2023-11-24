@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8617f071_5d6085b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T14:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25078601_ff59e2a1",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "bd5ae54a382e36e8c0fc307753c8b485037c0b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4f23988f_3cf10187",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a92dabf_10fd95f9",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T14:40:17Z",
+      "side": 1,
+      "message": "Yes, that is what I mentioned in the commit message. This does not allow us to select projects with spaces in the name, but at least it allows us to select something. I would thus leave it as is for now and further improve the script in another iteration.",
+      "parentUuid": "1c5dab8f_e891e496",
+      "revId": "bd5ae54a382e36e8c0fc307753c8b485037c0b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d3504c7_9a4eff20",
@@ -71,6 +113,24 @@
       "writtenOn": "2023-11-24T13:50:29Z",
       "side": 1,
       "message": "shellcheck raises\n\nIn container-images/git-gc/tools/gc.sh line 137:\n      if [ $BITMAP_PROJECT \u003d\u003d \"$PROJECT_NAME\" ] ; then\n           ^-------------^ SC2086 (info): Double quote to prevent globbing and word splitting.\n                           ^-- SC3014 (error): In dash, \u003d\u003d in place of \u003d is not supported.",
+      "revId": "bd5ae54a382e36e8c0fc307753c8b485037c0b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43e61322_b8516390",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T14:40:17Z",
+      "side": 1,
+      "message": "see comment above",
+      "parentUuid": "1d3504c7_9a4eff20",
       "revId": "bd5ae54a382e36e8c0fc307753c8b485037c0b45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
