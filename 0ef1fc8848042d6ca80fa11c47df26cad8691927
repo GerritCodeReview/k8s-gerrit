@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "085878a1_27803ba8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-24T12:19:28Z",
+      "side": 1,
+      "message": "Explain what exactly needed to be fixed.",
+      "revId": "0ef1fc8848042d6ca80fa11c47df26cad8691927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
