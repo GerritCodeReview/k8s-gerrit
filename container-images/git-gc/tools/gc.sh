@@ -196,13 +196,14 @@ do
       DONOT_WRITE_BITMAPS="${DONOT_WRITE_BITMAPS} ${OPTARG}.git"
       DONOT_WRITE_BITMAPS_OPT=1
       ;;
-    h|?)
+    h|?|*)
       usage
       ;;
   esac
 done
 
-test $# -eq 0 || usage
+shift $(($OPTIND - 1))
+test $# -gt 0 && usage
 
 TOP=/var/gerrit/git
 LOG=/var/log/git/gc.log
