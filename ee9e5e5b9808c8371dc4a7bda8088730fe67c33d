@@ -1,5 +1,74 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "940c423f_c4430e78",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-24T15:13:19Z",
+      "side": 1,
+      "message": "actually a more neutral name which is also compatible with the other constant names preceding this one would be `HA_PLUGIN_URL_PATTERN`\n\nThe fact that this will be forbidden has nothing to do with the constant name",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fe7cda_a4292004",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_primary.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-24T15:13:19Z",
+      "side": 1,
+      "message": "unfortunately, this is a repetition of the same pattern: means double maintenance",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc6a9d2e_251c12fa",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_primary_replica.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-24T15:13:19Z",
+      "side": 1,
+      "message": "one more repetition",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb91c435_9ae82ca5",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_primary_replica_tls.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-24T15:13:19Z",
+      "side": 1,
+      "message": "stop commenting here :-)",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
