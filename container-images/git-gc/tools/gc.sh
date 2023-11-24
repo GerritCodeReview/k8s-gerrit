@@ -202,7 +202,7 @@ do
   esac
 done
 
-test $# -eq 0 || usage
+test $# -gt 0 || usage
 
 TOP=/var/gerrit/git
 LOG=/var/log/git/gc.log
