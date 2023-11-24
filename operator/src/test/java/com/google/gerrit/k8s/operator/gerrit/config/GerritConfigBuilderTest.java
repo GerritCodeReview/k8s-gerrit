@@ -72,7 +72,7 @@ public class GerritConfigBuilderTest {
     gerrit.setSpec(gerritSpec);
     Config cfg = new GerritConfigBuilder(gerrit).build();
     assertTrue(
-        cfg.getString("gerrit", null, "canonicalWebUrl").equals("http://gerrit.example.com"));
+        cfg.getString("gerrit", null, "canonicalWebUrl").equals("http://gerrit.example.com/"));
   }
 
   private Gerrit createGerrit(String configText) {
