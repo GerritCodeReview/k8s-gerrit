@@ -59,7 +59,7 @@ public class IngressConfig {
   public String getUrl() {
     String protocol = isTlsEnabled() ? "https" : "http";
     String hostname = getHost();
-    return String.format("%s://%s", protocol, hostname);
+    return String.format("%s://%s/", protocol, hostname);
   }
 
   @JsonIgnore
