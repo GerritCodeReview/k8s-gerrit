@@ -23,16 +23,6 @@ public class GerritPlugin extends GerritModule {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private boolean installAsLibrary = false;
 
-  public GerritPlugin() {}
-
-  public GerritPlugin(String name) {
-    super(name);
-  }
-
-  public GerritPlugin(String name, String url, String sha1) {
-    super(name, url, sha1);
-  }
-
   public boolean isInstallAsLibrary() {
     return installAsLibrary;
   }

@@ -28,6 +28,7 @@ import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -38,11 +39,15 @@ import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.WorkflowReconcileResult;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Singleton
 @ControllerConfiguration(
@@ -67,6 +72,7 @@ import java.util.Optional;
     })
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
   public static final String CONFIG_MAP_EVENT_SOURCE = "configmap-event-source";
+  public static final String MODULE_METADATA_EVENT_SOURCE = "module-metadata-event-source";
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -85,6 +91,32 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
     Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
+
+    SecondaryToPrimaryMapper<Secret> moduleDataMapper =
+        (Secret moduleDataSecret) ->
+            context
+                .getPrimaryCache()
+                .list(
+                    gerrit ->
+                        gerrit.getSpec().getAllGerritModules().stream()
+                            .anyMatch(
+                                gerritModule ->
+                                    Objects.nonNull(gerritModule.getModuleData())
+                                        && Objects.nonNull(
+                                            gerritModule.getModuleData().getSecretRef())
+                                        && gerritModule
+                                            .getModuleData()
+                                            .getSecretRef()
+                                            .equals(moduleDataSecret.getMetadata().getName())))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+    InformerEventSource<Secret, Gerrit> moduleMetaDataEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Secret.class, context)
+                .withSecondaryToPrimaryMapper(moduleDataMapper)
+                .build(),
+            context);
+    eventSources.put(MODULE_METADATA_EVENT_SOURCE, moduleMetaDataEventSource);
     return eventSources;
   }
 

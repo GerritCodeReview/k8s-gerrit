@@ -843,6 +843,11 @@ spec:
                                 type: string
                               sha1:
                                 type: string
+                              data:
+                                properties:
+                                  secretRef:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         libs:
@@ -854,6 +859,11 @@ spec:
                                 type: string
                               sha1:
                                 type: string
+                              data:
+                                properties:
+                                  secretRef:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         configFiles:
