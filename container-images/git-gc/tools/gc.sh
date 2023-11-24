@@ -122,8 +122,8 @@ gc_project()
 
   # Check if git-gc for this project has to be skipped
   if [ $SKIP_PROJECTS_OPT -eq 1 ]; then
-    for SKIP_PROJECT in "${SKIP_PROJECTS}"; do
-      if [ "$SKIP_PROJECT" == "$PROJECT_NAME" ] ; then
+    for SKIP_PROJECT in ${SKIP_PROJECTS}; do
+      if [ $SKIP_PROJECT == "$PROJECT_NAME" ] ; then
         OUT=$(date +"%D %r Skipped: $PROJECT_NAME") && log "$OUT"
         return 0
       fi
@@ -133,8 +133,8 @@ gc_project()
   # Check if writing bitmaps for this project has to be disabled
   WRITEBITMAPS='true';
   if [ $DONOT_WRITE_BITMAPS_OPT -eq 1 ]; then
-    for BITMAP_PROJECT in "${DONOT_WRITE_BITMAPS}"; do
-      if [ "$BITMAP_PROJECT" == "$PROJECT_NAME" ] ; then
+    for BITMAP_PROJECT in ${DONOT_WRITE_BITMAPS}; do
+      if [ $BITMAP_PROJECT == "$PROJECT_NAME" ] ; then
         WRITEBITMAPS='false';
       fi
     done
