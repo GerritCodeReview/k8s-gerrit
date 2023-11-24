@@ -33,6 +33,7 @@
   - [GerritServiceConfig](#gerritserviceconfig)
   - [GerritSite](#gerritsite)
   - [GerritModule](#gerritmodule)
+  - [GerritModuleData](#gerritmoduledata)
   - [GerritPlugin](#gerritplugin)
   - [GerritMode](#gerritmode)
   - [GerritDebugConfig](#gerritdebugconfig)
@@ -461,6 +462,12 @@ spec:
     url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-saml-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/saml/saml.jar
     sha1: 6dfe8292d46b179638586e6acf671206f4e0a88b
     installAsLibrary: true
+    data:
+      secretRef: sp-metadata.xml
+      configFiles:
+        saml.config: |-
+          [saml]
+            foo = bar
 
   libs:
   - name: global-refdb
@@ -995,6 +1002,13 @@ compared to the parent object. All other options can still be configured.
 | `name` | `String` | Name of the module/plugin |
 | `url` | `String` | URL of the module/plugin, if it should be downloaded. If the URL is not set, the plugin is expected to be packaged in the war-file (not possible for lib-modules). (optional) |
 | `sha1` | `String` | SHA1-checksum of the module/plugin JAR-file. (mandatory, if `url` is set) |
+| `data` | [`GerritModuleData`](#gerritmoduledata) | Plugin data mounted under the gerrit site's `data/$name` directory |
+
+## GerritModuleData
+
+| Field | Type | Description |
+|---|---|---|
+| `secretRef` | `String` | Name of a secretRef. The secret will be mounted under the gerrit site's `data/$module_name` directory|
 
 ## GerritPlugin
 

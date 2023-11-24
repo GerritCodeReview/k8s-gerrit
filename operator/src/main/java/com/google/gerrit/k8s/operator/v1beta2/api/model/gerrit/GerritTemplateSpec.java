@@ -23,6 +23,8 @@ import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GerritTemplateSpec {
   private String serviceAccount;
@@ -209,6 +211,16 @@ public class GerritTemplateSpec {
 
   public List<GerritModule> getLibs() {
     return libs;
+  }
+
+  /**
+   * Gets list of all GerritModules including plugins and lib modules.
+   *
+   * @return list of all GerritModules including plugins and lib modules
+   */
+  @JsonIgnore
+  public List<GerritModule> getAllGerritModules() {
+    return Stream.concat(plugins.stream(), libs.stream()).collect(Collectors.toList());
   }
 
   public void setLibs(List<GerritModule> libs) {

@@ -20,6 +20,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritModule;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.v1beta2.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.v1beta2.api.model.shared.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
@@ -237,6 +239,20 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             .endSecret()
             .build());
 
+    for (GerritModule module : gerrit.getSpec().getAllGerritModules()) {
+      GerritModuleData md = module.getModuleData();
+      if (md == null) {
+        continue;
+      }
+      volumes.add(
+          new VolumeBuilder()
+              .withName(md.getSecretRef())
+              .withNewSecret()
+              .withSecretName(md.getSecretRef())
+              .endSecret()
+              .build());
+    }
+
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
@@ -277,6 +293,17 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
       if (gerrit.getSpec().getStorage().getPluginCache().isEnabled()
           && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
         volumeMounts.add(GerritCluster.getPluginCacheVolumeMount());
+      }
+      for (GerritModule module : gerrit.getSpec().getAllGerritModules()) {
+        GerritModuleData md = module.getModuleData();
+        if (md == null) {
+          continue;
+        }
+        volumeMounts.add(
+            new VolumeMountBuilder()
+                .withName(md.getSecretRef())
+                .withMountPath("/var/mnt/data/" + module.getName())
+                .build());
       }
     }
 
