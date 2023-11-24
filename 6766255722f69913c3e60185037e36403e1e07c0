@@ -22,6 +22,30 @@
       },
       "revId": "6766255722f69913c3e60185037e36403e1e07c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62b02b48_61d635dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T12:40:52Z",
+      "side": 1,
+      "message": "The onprem script is different. In the container we use ash instead of bash, since it is alpine linux. There are some differences between those shells.",
+      "parentUuid": "655b0093_f8b646dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "6766255722f69913c3e60185037e36403e1e07c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
