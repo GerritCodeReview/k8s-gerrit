@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf377d1d_f16a8d15",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T08:03:38Z",
+      "side": 1,
+      "message": "Please use:\n\n```suggestion\n  probeScheme: HTTP\n```\n\nThis will make the default clear.",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 14
+      },
+      "revId": "0296ebafc4742c08bec9edae078577999e3f9d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb6de73_946f6839",
+        "filename": "helm-charts/gerrit/values.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T08:03:38Z",
+      "side": 1,
+      "message": "```suggestion\n  probeScheme: HTTP\n```",
+      "range": {
+        "startLine": 181,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 14
+      },
+      "revId": "0296ebafc4742c08bec9edae078577999e3f9d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
