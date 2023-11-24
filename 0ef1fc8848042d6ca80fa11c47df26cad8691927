@@ -16,6 +16,24 @@
       "message": "Explain what exactly needed to be fixed.",
       "revId": "0ef1fc8848042d6ca80fa11c47df26cad8691927",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cda394cb_9729dc06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-24T12:23:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "085878a1_27803ba8",
+      "revId": "0ef1fc8848042d6ca80fa11c47df26cad8691927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
