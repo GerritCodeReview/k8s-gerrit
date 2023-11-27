@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf87080d_71f2d8a6",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1090485
+      },
+      "writtenOn": "2023-11-27T13:29:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "80068c39_73accbd6",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 14
+      },
+      "revId": "0296ebafc4742c08bec9edae078577999e3f9d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fb6de73_946f6839",
