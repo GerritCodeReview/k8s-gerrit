@@ -16,6 +16,24 @@
       "message": "I don\u0027t know why this change is needed, I uninstalled gsed so that I can try with macos sed, tried with and without this change and the generated result is identical",
       "revId": "9e371f583d38c4cdebe346628e2535dc7d54121b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "048639d1_418cc77d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-27T15:58:34Z",
+      "side": 1,
+      "message": "In my initial test this was also the case, but when I tried today, the script didn\u0027t modify the file in place when using sed, but also saved a backup with appending `\u0027\u0027` to the filepath. With this fix, it worked as expected.",
+      "parentUuid": "fb7ef25f_717b2193",
+      "revId": "9e371f583d38c4cdebe346628e2535dc7d54121b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
