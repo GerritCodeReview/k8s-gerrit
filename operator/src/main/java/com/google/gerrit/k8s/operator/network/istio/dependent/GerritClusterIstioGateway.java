@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import com.google.gerrit.k8s.operator.v1beta1.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.network.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.GatewayBuilder;
 import io.fabric8.istio.api.networking.v1beta1.Server;
@@ -25,7 +25,6 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GerritClusterIstioGateway
     extends CRUDKubernetesDependentResource<Gateway, GerritNetwork> {
@@ -46,7 +45,7 @@ public class GerritClusterIstioGateway
                 gerritNetwork.getMetadata().getName(), NAME, this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
-        .withSelector(Map.of("istio", "ingressgateway"))
+        .withSelector(gerritNetwork.getSpec().getIngress().getIstio().getGatewaySelector())
         .withServers(configureServers(gerritNetwork))
         .endSpec()
         .build();

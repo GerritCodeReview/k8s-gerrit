@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import com.google.gerrit.k8s.operator.v1beta1.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta2.api.model.network.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;

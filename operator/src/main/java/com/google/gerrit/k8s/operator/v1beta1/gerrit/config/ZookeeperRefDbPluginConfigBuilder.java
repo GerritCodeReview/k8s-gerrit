@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.v1beta1.api.model.gerrit.Gerrit;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class ZookeeperRefDbPluginConfigBuilder extends ConfigBuilder {
   public ZookeeperRefDbPluginConfigBuilder(Gerrit gerrit) {
     super(

@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1beta1.api.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Deprecated
 public class IngressConfig {
   private boolean enabled;
   private String host;
