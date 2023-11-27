@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77b19572_7d43e0f2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-27T08:46:36Z",
+      "side": 1,
+      "message": "Yes, currently it is only the ha-plugin, but the way it is used, it would allow other paths as well. Thus, this pattern is not limited to the ha-plugin but could be used for other paths as well, without changing the code that uses this constant. To reflect it, I chose the name as it is.",
+      "parentUuid": "940c423f_c4430e78",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "15fe7cda_a4292004",
         "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_primary.yaml",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-24T15:13:19Z",
       "side": 1,
       "message": "unfortunately, this is a repetition of the same pattern: means double maintenance",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87ec3e4e_69ffa8c5",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_primary.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-27T08:46:36Z",
+      "side": 1,
+      "message": "This is test code in yaml. First of all, I can\u0027t use Java constants here, second I don\u0027t want to, since this is supposed to give the expected result. If the location pattern changes, this test should fail if not adapted.",
+      "parentUuid": "15fe7cda_a4292004",
       "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2023-11-24T15:13:19Z",
       "side": 1,
       "message": "stop commenting here :-)",
+      "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a6a6ff4_1e15dc78",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/network/ingress/dependent/ingress_primary_replica_tls.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-27T08:46:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cb91c435_9ae82ca5",
       "revId": "ee9e5e5b9808c8371dc4a7bda8088730fe67c33d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
