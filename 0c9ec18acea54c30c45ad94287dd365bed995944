@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3320ec00_dfab9dad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-27T15:47:29Z",
+      "side": 1,
+      "message": "Patchset 1 is just the result of the newCRDVersion script, i.e. the noop update. Thus, I would suggest to compare against PS1 instead of base while reviewing",
+      "revId": "0c9ec18acea54c30c45ad94287dd365bed995944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
