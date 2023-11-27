@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80068c39_73accbd6",
+        "filename": "helm-charts/gerrit-replica/values.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-27T08:52:50Z",
+      "side": 1,
+      "message": "I am aware of this. But adding a specific value first of all makes it easier to understand and more importantly, if Kubernetes changes the default, e.g. to HTTPS, this change would likely break an existing setup, which would be bad. By setting a default on this level, we ensure that this doesn\u0027t happen. We also use `proxy-http://` by default in the `gerrit.config`, i.e. other parts of the default configuration rely on it to be HTTP. Thus, we should ensure consistency here.",
+      "parentUuid": "cf4fefa2_d7a2ad5f",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 14
+      },
+      "revId": "0296ebafc4742c08bec9edae078577999e3f9d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fb6de73_946f6839",
         "filename": "helm-charts/gerrit/values.yaml",
         "patchSetId": 8
