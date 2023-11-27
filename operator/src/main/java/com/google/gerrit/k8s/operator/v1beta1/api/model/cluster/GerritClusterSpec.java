@@ -23,6 +23,7 @@ import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GlobalRefDbConfig
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class GerritClusterSpec {
 
   private GerritStorageConfig storage = new GerritStorageConfig();

@@ -23,6 +23,7 @@
   - [GerritClusterIngressConfig](#gerritclusteringressconfig)
   - [GerritIngressTlsConfig](#gerritingresstlsconfig)
   - [GerritIngressAmbassadorConfig](#gerritingressambassadorconfig)
+  - [GerritIstioConfig](#gerritistioconfig)
   - [GlobalRefDbConfig](#globalrefdbconfig)
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
@@ -65,7 +66,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta1 \
+**Version**: v1beta2 \
 **Kind**: GerritCluster
 
 ---
@@ -82,7 +83,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta1"
+apiVersion: "gerritoperator.google.com/v1beta2"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -138,6 +139,9 @@ spec:
     ambassador:
       id: []
       createHost: false
+    istio:
+      gatewaySelector:
+        istio: ingressgateway
 
   refdb:
     database: NONE
@@ -348,7 +352,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta1 \
+**Version**: v1beta2 \
 **Kind**: Gerrit
 
 ---
@@ -365,7 +369,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta1"
+apiVersion: "gerritoperator.google.com/v1beta2"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -554,7 +558,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta1 \
+**Version**: v1beta2 \
 **Kind**: Receiver
 
 ---
@@ -571,7 +575,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta1"
+apiVersion: "gerritoperator.google.com/v1beta2"
 kind: Receiver
 metadata:
   name: receiver
@@ -682,7 +686,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta1 \
+**Version**: v1beta2 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -699,7 +703,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta1"
+apiVersion: "gerritoperator.google.com/v1beta2"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -739,7 +743,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta1 \
+**Version**: v1beta2 \
 **Kind**: GerritNetwork
 
 ---
@@ -755,7 +759,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta1"
+apiVersion: "gerritoperator.google.com/v1beta2"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -767,6 +771,9 @@ spec:
     tls:
       enabled: false
       secret: ""
+    istio:
+      gatewaySelector:
+        istio: ingressgateway
   receiver:
     name: receiver
     httpPort: 80
@@ -884,6 +891,7 @@ Extends [StorageConfig](#StorageConfig).
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
 | `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
+| `istio` | [`GerritIstioConfig`](#gerritistioconfig) | Istio configuration. Only relevant when the INGRESS environment variable is set to "istio" in the operator |
 
 ## GerritIngressTlsConfig
 
@@ -898,6 +906,12 @@ Extends [StorageConfig](#StorageConfig).
 |---|---|---|
 | `id` | `List<String>` | The operator uses the ids specified in `ambassadorId` to set the [ambassador_id](https://www.getambassador.io/docs/edge-stack/1.14/topics/running/running#ambassador_id) spec field in the Ambassador CustomResources it creates (`Mapping`, `TLSContext`). (optional) |
 | `createHost`| `boolean` | Specify whether you want the operator to create a `Host` resource. This will be required if you don't have a wildcard host set up in your cluster. Default is `false`. (optional) |
+
+## GerritIstioConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `gatewaySelector` | `Map<String, String>` | Labels used to select the Istio Ingressgateway Deployment to use (default: `istio: ingressgateway`) |
 
 ## GlobalRefDbConfig
 
