@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Deprecated
 public class GitGarbageCollectionSpec {
   private String cluster;
   private String schedule;

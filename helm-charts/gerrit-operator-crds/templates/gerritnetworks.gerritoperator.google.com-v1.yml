@@ -13,7 +13,7 @@ spec:
     singular: gerritnetwork
   scope: Namespaced
   versions:
-  - name: v1beta1
+  - name: v1beta2
     schema:
       openAPIV3Schema:
         properties:
@@ -132,7 +132,7 @@ spec:
     storage: true
     subresources:
       status: {}
-  - name: v1alpha2
+  - name: v1beta1
     schema:
       openAPIV3Schema:
         properties:

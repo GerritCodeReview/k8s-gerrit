@@ -18,6 +18,7 @@ import com.google.gerrit.k8s.operator.v1beta1.api.model.shared.GerritClusterIngr
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class GerritNetworkSpec {
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
   private NetworkMember receiver;
