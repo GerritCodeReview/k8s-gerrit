@@ -21,8 +21,8 @@
 		<javaoperatorsdk.version>4.3.3</javaoperatorsdk.version>
 		<jetty.version>11.0.15</jetty.version>
 		<lombok.version>1.18.28</lombok.version>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<docker.registry>docker.io</docker.registry>
 		<docker.org>k8sgerrit</docker.org>
 
@@ -51,7 +51,7 @@
 									</container>
 									<containerizingMode>packaged</containerizingMode>
 									<from>
-										<image>gcr.io/distroless/java11-debian11</image>
+										<image>gcr.io/distroless/java17-debian12</image>
 									</from>
 									<to>
 										<image>${docker.registry}/${docker.org}/gerrit-operator</image>
@@ -322,7 +322,7 @@
 							</container>
 							<containerizingMode>packaged</containerizingMode>
 							<from>
-								<image>gcr.io/distroless/java11-debian11</image>
+								<image>gcr.io/distroless/java17-debian12</image>
 							</from>
 							<to>
 								<image>gerrit-operator</image>
