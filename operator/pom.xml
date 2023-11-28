@@ -322,7 +322,7 @@
 							</container>
 							<containerizingMode>packaged</containerizingMode>
 							<from>
-								<image>gcr.io/distroless/java:11</image>
+								<image>gcr.io/distroless/java11-debian11</image>
 							</from>
 							<to>
 								<image>gerrit-operator</image>
