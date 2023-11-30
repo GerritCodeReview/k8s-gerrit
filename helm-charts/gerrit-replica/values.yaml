@@ -286,6 +286,9 @@ gerritReplica:
   additionalAnnotations: {}
   additionalPodLabels: {}
 
+  # If no value for probeScheme, the probe will use the default HTTP
+  probeScheme: HTTP
+
   livenessProbe:
     initialDelaySeconds: 60
     periodSeconds: 5

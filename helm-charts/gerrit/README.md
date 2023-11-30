@@ -310,6 +310,7 @@ future.
 |                    |                                                               | `limits.memory: 6Gi` |
 | `gerrit.persistence.enabled` | Whether to persist the Gerrit site | `true` |
 | `gerrit.persistence.size` | Storage size for persisted Gerrit site | `10Gi` |
+| `gerrit.probeScheme` | Scheme for probes, for example HTTPS | `nil` |
 | `gerrit.livenessProbe` | Configuration of the liveness probe timings | `{initialDelaySeconds: 30, periodSeconds: 5}` |
 | `gerrit.readinessProbe` | Configuration of the readiness probe timings | `{initialDelaySeconds: 5, periodSeconds: 1}` |
 | `gerrit.startupProbe` | Configuration of the startup probe timings | `{initialDelaySeconds: 10, periodSeconds: 5}` |
