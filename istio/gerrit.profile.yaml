@@ -67,7 +67,7 @@ spec:
                 type: Utilization
                 averageUtilization: 80
             type: Resource
-          minReplicas: 5
+          minReplicas: 3
           scaleTargetRef:
             apiVersion: apps/v1
             kind: Deployment
@@ -167,7 +167,7 @@ spec:
       proxyMetadata: {}
     enablePrometheusMerge: true
   profile: default
-  tag: 1.16.0
+  tag: 1.19.4
   values:
     base:
       enableCRDTemplates: false
