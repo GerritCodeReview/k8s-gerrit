@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.v1beta2.api.model.shared;
 
+@Deprecated
 public class StorageConfig {
 
   private StorageClassConfig storageClasses;
