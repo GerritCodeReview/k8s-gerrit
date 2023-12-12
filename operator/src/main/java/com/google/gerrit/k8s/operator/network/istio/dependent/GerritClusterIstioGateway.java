@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.GatewayBuilder;
 import io.fabric8.istio.api.networking.v1beta1.Server;

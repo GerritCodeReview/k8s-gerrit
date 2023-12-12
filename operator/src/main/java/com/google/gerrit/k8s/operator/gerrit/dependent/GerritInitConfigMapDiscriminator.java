@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;

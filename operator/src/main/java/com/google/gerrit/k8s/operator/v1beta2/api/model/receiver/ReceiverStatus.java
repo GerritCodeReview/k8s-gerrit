@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.v1beta2.api.model.receiver;
 
+@Deprecated
 public class ReceiverStatus {
   private boolean ready;
   private String appliedCredentialSecretVersion = "";

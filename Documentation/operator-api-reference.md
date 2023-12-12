@@ -66,7 +66,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta2 \
+**Version**: v1beta3 \
 **Kind**: GerritCluster
 
 ---
@@ -83,7 +83,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta2"
+apiVersion: "gerritoperator.google.com/v1beta3"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -352,7 +352,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta2 \
+**Version**: v1beta3 \
 **Kind**: Gerrit
 
 ---
@@ -369,7 +369,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta2"
+apiVersion: "gerritoperator.google.com/v1beta3"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -558,7 +558,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta2 \
+**Version**: v1beta3 \
 **Kind**: Receiver
 
 ---
@@ -575,7 +575,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta2"
+apiVersion: "gerritoperator.google.com/v1beta3"
 kind: Receiver
 metadata:
   name: receiver
@@ -686,7 +686,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta2 \
+**Version**: v1beta3 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -703,7 +703,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta2"
+apiVersion: "gerritoperator.google.com/v1beta3"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -743,7 +743,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta2 \
+**Version**: v1beta3 \
 **Kind**: GerritNetwork
 
 ---
@@ -759,7 +759,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta2"
+apiVersion: "gerritoperator.google.com/v1beta3"
 kind: GerritNetwork
 metadata:
   name: gerrit-network

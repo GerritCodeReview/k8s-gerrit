@@ -23,8 +23,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1beta2")
+@Version(value = "v1beta2", storage = false)
 @ShortNames("grec")
+@Deprecated
 public class Receiver extends CustomResource<ReceiverSpec, ReceiverStatus> implements Namespaced {
   private static final long serialVersionUID = 1L;
 
