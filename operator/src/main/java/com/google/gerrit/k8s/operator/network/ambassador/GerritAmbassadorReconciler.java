@@ -37,7 +37,7 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.LoadBalanceCo
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;

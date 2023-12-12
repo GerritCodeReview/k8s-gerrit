@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.ReconcileResult;
@@ -25,7 +25,7 @@ import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMap
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = GerritSecretDiscriminator.class)
 public class GerritSecret extends KubernetesDependentResource<Secret, Gerrit>
     implements SecondaryToPrimaryMapper<Secret> {
 
