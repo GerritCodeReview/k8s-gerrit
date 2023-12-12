@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.GERRIT_SECRET_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
@@ -23,11 +24,12 @@ import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.GerritStatus;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -38,16 +40,23 @@ import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.dependent.workflow.WorkflowReconcileResult;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Singleton
 @ControllerConfiguration(
     dependents = {
-      @Dependent(name = "gerrit-secret", type = GerritSecret.class),
+      @Dependent(
+          name = "gerrit-secret",
+          type = GerritSecret.class,
+          useEventSourceWithName = GERRIT_SECRET_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-configmap",
           type = GerritConfigMap.class,
@@ -66,7 +75,9 @@ import java.util.Optional;
           dependsOn = {"gerrit-statefulset"})
     })
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
+  public static final String GERRIT_SECRET_EVENT_SOURCE = "gerrit-secret-event-source";
   public static final String CONFIG_MAP_EVENT_SOURCE = "configmap-event-source";
+  public static final String MODULE_METADATA_EVENT_SOURCE = "module-metadata-event-source";
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -79,12 +90,43 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<Gerrit> context) {
+    Map<String, EventSource> eventSources = new HashMap<>();
+
+    InformerEventSource<Secret, Gerrit> gerritSecretEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Secret.class, context).build(), context);
+    eventSources.put(GERRIT_SECRET_EVENT_SOURCE, gerritSecretEventSource);
+
     InformerEventSource<ConfigMap, Gerrit> configmapEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
-
-    Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
+
+    SecondaryToPrimaryMapper<Secret> moduleDataMapper =
+        (Secret moduleDataSecret) ->
+            context
+                .getPrimaryCache()
+                .list(
+                    gerrit ->
+                        gerrit.getSpec().getAllGerritModules().stream()
+                            .anyMatch(
+                                gerritModule ->
+                                    Objects.nonNull(gerritModule.getModuleData())
+                                        && Objects.nonNull(
+                                            gerritModule.getModuleData().getSecretRef())
+                                        && gerritModule
+                                            .getModuleData()
+                                            .getSecretRef()
+                                            .equals(moduleDataSecret.getMetadata().getName())))
+                .map(ResourceID::fromResource)
+                .collect(Collectors.toSet());
+    InformerEventSource<Secret, Gerrit> moduleMetaDataEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Secret.class, context)
+                .withSecondaryToPrimaryMapper(moduleDataMapper)
+                .build(),
+            context);
+    eventSources.put(MODULE_METADATA_EVENT_SOURCE, moduleMetaDataEventSource);
     return eventSources;
   }
 
