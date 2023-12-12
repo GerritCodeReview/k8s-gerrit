@@ -24,9 +24,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Group("gerritoperator.google.com")
-@Version("v1beta2")
+@Version(value = "v1beta2", storage = false)
 @ShortNames("gitgc")
 @Plural("gitgcs")
+@Deprecated
 public class GitGarbageCollection
     extends CustomResource<GitGarbageCollectionSpec, GitGarbageCollectionStatus>
     implements Namespaced {

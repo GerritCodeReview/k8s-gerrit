@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1beta2.api.model.network;
 
 import com.google.gerrit.k8s.operator.v1beta2.api.model.shared.HttpSshServiceConfig;
 
+@Deprecated
 public class NetworkMemberWithSsh extends NetworkMember {
   private int sshPort = 29418;
 

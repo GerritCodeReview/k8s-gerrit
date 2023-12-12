@@ -23,6 +23,7 @@ import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class ReceiverTemplateSpec {
   private List<Toleration> tolerations = new ArrayList<>();
   private Affinity affinity;

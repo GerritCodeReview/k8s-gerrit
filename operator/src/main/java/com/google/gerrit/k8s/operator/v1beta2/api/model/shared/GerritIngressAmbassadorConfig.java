@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1beta2.api.model.shared;
 
 import java.util.List;
 
+@Deprecated
 public class GerritIngressAmbassadorConfig {
   private List<String> id;
   private boolean createHost;

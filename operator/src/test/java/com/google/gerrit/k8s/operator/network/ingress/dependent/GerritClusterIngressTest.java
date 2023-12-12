@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.k8s.operator.v1beta2.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.util.stream.Stream;

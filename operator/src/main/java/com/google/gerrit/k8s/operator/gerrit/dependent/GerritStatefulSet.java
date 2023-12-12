@@ -18,10 +18,12 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTE
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.shared.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.v1beta2.api.model.shared.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritModule;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritModuleData;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.shared.NfsWorkaroundConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
@@ -237,6 +239,20 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
             .endSecret()
             .build());
 
+    for (GerritModule module : gerrit.getSpec().getAllGerritModules()) {
+      GerritModuleData md = module.getModuleData();
+      if (md == null) {
+        continue;
+      }
+      volumes.add(
+          new VolumeBuilder()
+              .withName(md.getSecretRef())
+              .withNewSecret()
+              .withSecretName(md.getSecretRef())
+              .endSecret()
+              .build());
+    }
+
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
@@ -278,6 +294,18 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
           && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
         volumeMounts.add(GerritCluster.getPluginCacheVolumeMount());
       }
+    }
+
+    for (GerritModule module : gerrit.getSpec().getAllGerritModules()) {
+      GerritModuleData md = module.getModuleData();
+      if (md == null) {
+        continue;
+      }
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(md.getSecretRef())
+              .withMountPath("/var/mnt/data/" + module.getName())
+              .build());
     }
 
     NfsWorkaroundConfig nfsWorkaround =
@@ -329,19 +357,7 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
       return true;
     }
 
-    String secretName = gerrit.getSpec().getSecretRef();
-    Optional<String> gerritSecret =
-        context.managedDependentResourceContext().get(CONTEXT_SECRET_VERSION_KEY, String.class);
-    if (gerritSecret.isPresent()) {
-      String secVersion = gerritSecret.get();
-      if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
-        logger.atFine().log(
-            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
-            secretName, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(secretName));
-        return true;
-      }
-    }
-    return false;
+    return wasSecretUpdated(gerrit, context);
   }
 
   private boolean wasConfigMapUpdated(String configMapName, Gerrit gerrit) {
@@ -360,6 +376,41 @@ public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulS
           "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
           configMapName, configMapVersion, knownConfigMapVersion);
       return true;
+    }
+    return false;
+  }
+
+  public boolean wasSecretUpdated(Gerrit gerrit, Context<Gerrit> context) {
+    String secretName = gerrit.getSpec().getSecretRef();
+    Optional<String> gerritSecret =
+        context.managedDependentResourceContext().get(CONTEXT_SECRET_VERSION_KEY, String.class);
+    if (gerritSecret.isPresent()) {
+      String secVersion = gerritSecret.get();
+      if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
+        logger.atFine().log(
+            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
+            secretName, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(secretName));
+        return true;
+      }
+    }
+
+    return wasModuleDataSecretUpdated(gerrit, context);
+  }
+
+  public boolean wasModuleDataSecretUpdated(Gerrit gerrit, Context<Gerrit> context) {
+    for (String secretName : gerrit.getModuleDataSecretNames()) {
+      String appliedVersion = gerrit.getStatus().getAppliedSecretVersions().get(secretName);
+      String actualVersion =
+          client
+              .secrets()
+              .inNamespace(gerrit.getMetadata().getNamespace())
+              .withName(secretName)
+              .get()
+              .getMetadata()
+              .getResourceVersion();
+      if (!actualVersion.equals(appliedVersion)) {
+        return true;
+      }
     }
     return false;
   }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network;
 
-import com.google.gerrit.k8s.operator.v1beta2.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.DependentResource;
