@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9be3c20a_af1d2baa",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-15T07:50:01Z",
+      "side": 1,
+      "message": "Not implemented as part of this change",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 21
+      },
+      "revId": "36f4362f47f46bffbd06a1f0d3033d23e86d21e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d1bc7f5_8470f06b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritReconciler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-15T07:50:01Z",
+      "side": 1,
+      "message": "```suggestion\n  public static final String GERRIT_SECRET_EVENT_SOURCE \u003d \"gerrit-secret-event-source\";\n```",
+      "range": {
+        "startLine": 78,
+        "startChar": 58,
+        "endLine": 78,
+        "endChar": 85
+      },
+      "revId": "36f4362f47f46bffbd06a1f0d3033d23e86d21e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0ab3a9f_712f9ad9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritSecretDiscriminator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-15T07:50:01Z",
+      "side": 1,
+      "message": "nit: 2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "36f4362f47f46bffbd06a1f0d3033d23e86d21e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
