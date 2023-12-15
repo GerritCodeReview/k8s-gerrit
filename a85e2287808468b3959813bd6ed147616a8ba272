@@ -16,6 +16,24 @@
       "message": "minReplicas should always be equal maxReplicas, since a scaling event breaks existing connections.\nAlso unrelated change.",
       "revId": "a85e2287808468b3959813bd6ed147616a8ba272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "549ad522_c61592aa",
+        "filename": "istio/gerrit.profile.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-15T09:15:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93e273c2_1b05d583",
+      "revId": "a85e2287808468b3959813bd6ed147616a8ba272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
