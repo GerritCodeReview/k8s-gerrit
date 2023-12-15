@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93e273c2_1b05d583",
+        "filename": "istio/gerrit.profile.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-15T07:51:12Z",
+      "side": 1,
+      "message": "minReplicas should always be equal maxReplicas, since a scaling event breaks existing connections.\nAlso unrelated change.",
+      "revId": "a85e2287808468b3959813bd6ed147616a8ba272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
