@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -21,11 +22,10 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.getambassador.v2.MappingSpec;
 import io.getambassador.v2.MappingSpecBuilder;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import java.util.List;
 
 public abstract class AbstractAmbassadorDependentResource<T extends HasMetadata>
-    extends CRUDKubernetesDependentResource<T, GerritNetwork> {
+    extends CRUDReconcileAddKubernetesDependentResource<T, GerritNetwork> {
 
   public AbstractAmbassadorDependentResource(Class<T> dependentResourceClass) {
     super(dependentResourceClass);

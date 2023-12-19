@@ -19,10 +19,9 @@ import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimSpec;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 
 public abstract class CRUDKubernetesDependentPVCResource<P extends HasMetadata>
-    extends CRUDKubernetesDependentResource<PersistentVolumeClaim, P> {
+    extends CRUDReconcileAddKubernetesDependentResource<PersistentVolumeClaim, P> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public CRUDKubernetesDependentPVCResource() {

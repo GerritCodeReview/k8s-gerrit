@@ -23,19 +23,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritInitConfig;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Locale;
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
-public class GerritInitConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
+public class GerritInitConfigMap
+    extends CRUDReconcileAddKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GerritInitConfigMap() {

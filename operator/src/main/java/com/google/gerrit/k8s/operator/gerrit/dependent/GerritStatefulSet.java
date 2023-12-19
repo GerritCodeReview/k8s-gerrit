@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTE
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritModule;
@@ -35,7 +36,6 @@ import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.apps.StatefulSetBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -49,7 +49,8 @@ import java.util.Optional;
 import java.util.Set;
 
 @KubernetesDependent
-public class GerritStatefulSet extends CRUDKubernetesDependentResource<StatefulSet, Gerrit> {
+public class GerritStatefulSet
+    extends CRUDReconcileAddKubernetesDependentResource<StatefulSet, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final SimpleDateFormat RFC3339 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 

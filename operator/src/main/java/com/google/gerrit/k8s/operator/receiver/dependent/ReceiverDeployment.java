@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.shared.NfsWorkaroundConfig;
@@ -27,7 +28,6 @@ import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,7 +36,8 @@ import java.util.Map;
 import java.util.Set;
 
 @KubernetesDependent
-public class ReceiverDeployment extends CRUDKubernetesDependentResource<Deployment, Receiver> {
+public class ReceiverDeployment
+    extends CRUDReconcileAddKubernetesDependentResource<Deployment, Receiver> {
   public static final int HTTP_PORT = 80;
 
   public ReceiverDeployment() {

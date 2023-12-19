@@ -22,6 +22,7 @@ import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_P
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.network.NetworkMember;
@@ -41,7 +42,6 @@ import io.fabric8.istio.api.networking.v1beta1.TCPRouteBuilder;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.istio.api.networking.v1beta1.VirtualServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ import java.util.Map;
 
 @KubernetesDependent
 public class GerritIstioVirtualService
-    extends CRUDKubernetesDependentResource<VirtualService, GerritNetwork> {
+    extends CRUDReconcileAddKubernetesDependentResource<VirtualService, GerritNetwork> {
   public static final String NAME_SUFFIX = "gerrit-http-virtual-service";
 
   public GerritIstioVirtualService() {

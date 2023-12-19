@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNet
 import static com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork.SESSION_COOKIE_TTL;
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
@@ -28,22 +29,14 @@ import io.fabric8.istio.api.networking.v1beta1.TrafficPolicy;
 import io.fabric8.istio.api.networking.v1beta1.TrafficPolicyBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
-import io.javaoperatorsdk.operator.api.reconciler.dependent.GarbageCollected;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
-import io.javaoperatorsdk.operator.processing.dependent.Creator;
-import io.javaoperatorsdk.operator.processing.dependent.Updater;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class GerritIstioDestinationRule
-    extends KubernetesDependentResource<DestinationRule, GerritNetwork>
-    implements Creator<DestinationRule, GerritNetwork>,
-        Updater<DestinationRule, GerritNetwork>,
-        Deleter<GerritNetwork>,
-        BulkDependentResource<DestinationRule, GerritNetwork>,
-        GarbageCollected<GerritNetwork> {
+    extends CRUDReconcileAddKubernetesDependentResource<DestinationRule, GerritNetwork>
+    implements Deleter<GerritNetwork>, BulkDependentResource<DestinationRule, GerritNetwork> {
 
   public GerritIstioDestinationRule() {
     super(DestinationRule.class);

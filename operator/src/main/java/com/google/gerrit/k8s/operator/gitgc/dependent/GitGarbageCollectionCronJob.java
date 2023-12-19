@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gitgc.dependent;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gitgc.GitGarbageCollection;
 import io.fabric8.kubernetes.api.model.Container;
@@ -26,14 +27,13 @@ import io.fabric8.kubernetes.api.model.batch.v1.CronJobBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.JobTemplateSpec;
 import io.fabric8.kubernetes.api.model.batch.v1.JobTemplateSpecBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class GitGarbageCollectionCronJob
-    extends CRUDKubernetesDependentResource<CronJob, GitGarbageCollection> {
+    extends CRUDReconcileAddKubernetesDependentResource<CronJob, GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GitGarbageCollectionCronJob() {

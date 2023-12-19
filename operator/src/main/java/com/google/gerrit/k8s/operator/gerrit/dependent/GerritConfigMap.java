@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1beta3.gerrit.config.GerritConfigBuilder;
@@ -23,12 +24,12 @@ import com.google.gerrit.k8s.operator.v1beta3.gerrit.config.ZookeeperRefDbPlugin
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = GerritConfigMapDiscriminator.class)
-public class GerritConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
+public class GerritConfigMap
+    extends CRUDReconcileAddKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final String DEFAULT_HEALTHCHECK_CONFIG =
       "[healthcheck \"auth\"]\nenabled = false\n[healthcheck \"querychanges\"]\nenabled = false";
 

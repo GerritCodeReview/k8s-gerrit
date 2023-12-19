@@ -22,6 +22,7 @@ import static com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNet
 
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
@@ -36,7 +37,6 @@ import io.fabric8.kubernetes.api.model.networking.v1.IngressTLSBuilder;
 import io.fabric8.kubernetes.api.model.networking.v1.ServiceBackendPort;
 import io.fabric8.kubernetes.api.model.networking.v1.ServiceBackendPortBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,8 @@ import java.util.List;
 import java.util.Map;
 
 @KubernetesDependent
-public class GerritClusterIngress extends CRUDKubernetesDependentResource<Ingress, GerritNetwork> {
+public class GerritClusterIngress
+    extends CRUDReconcileAddKubernetesDependentResource<Ingress, GerritNetwork> {
   public static final String INGRESS_NAME = "gerrit-ingress";
 
   public GerritClusterIngress() {

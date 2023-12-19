@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritTemplate;
@@ -26,14 +27,13 @@ import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @KubernetesDependent
-public class GerritService extends CRUDKubernetesDependentResource<Service, Gerrit> {
+public class GerritService extends CRUDReconcileAddKubernetesDependentResource<Service, Gerrit> {
   public static final String HTTP_PORT_NAME = "http";
 
   public GerritService() {

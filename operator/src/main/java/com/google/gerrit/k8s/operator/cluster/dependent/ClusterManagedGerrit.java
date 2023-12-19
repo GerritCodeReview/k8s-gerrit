@@ -14,26 +14,20 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritTemplate;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
-import io.javaoperatorsdk.operator.api.reconciler.dependent.GarbageCollected;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
-import io.javaoperatorsdk.operator.processing.dependent.Creator;
-import io.javaoperatorsdk.operator.processing.dependent.Updater;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ClusterManagedGerrit extends KubernetesDependentResource<Gerrit, GerritCluster>
-    implements Creator<Gerrit, GerritCluster>,
-        Updater<Gerrit, GerritCluster>,
-        Deleter<GerritCluster>,
-        BulkDependentResource<Gerrit, GerritCluster>,
-        GarbageCollected<GerritCluster> {
+public class ClusterManagedGerrit
+    extends CRUDReconcileAddKubernetesDependentResource<Gerrit, GerritCluster>
+    implements Deleter<GerritCluster>, BulkDependentResource<Gerrit, GerritCluster> {
 
   public ClusterManagedGerrit() {
     super(Gerrit.class);

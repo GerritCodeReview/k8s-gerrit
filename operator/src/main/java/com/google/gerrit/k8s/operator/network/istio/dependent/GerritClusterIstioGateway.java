@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
@@ -22,12 +23,11 @@ import io.fabric8.istio.api.networking.v1beta1.Server;
 import io.fabric8.istio.api.networking.v1beta1.ServerBuilder;
 import io.fabric8.istio.api.networking.v1beta1.ServerTLSSettingsTLSmode;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GerritClusterIstioGateway
-    extends CRUDKubernetesDependentResource<Gateway, GerritNetwork> {
+    extends CRUDReconcileAddKubernetesDependentResource<Gateway, GerritNetwork> {
   public static final String NAME = "gerrit-istio-gateway";
 
   public GerritClusterIstioGateway() {

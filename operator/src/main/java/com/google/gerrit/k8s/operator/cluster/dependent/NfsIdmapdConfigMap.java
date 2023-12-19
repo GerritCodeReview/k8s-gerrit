@@ -14,16 +14,17 @@
 
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
 @KubernetesDependent(resourceDiscriminator = NfsIdmapdConfigMapDiscriminator.class)
-public class NfsIdmapdConfigMap extends CRUDKubernetesDependentResource<ConfigMap, GerritCluster> {
+public class NfsIdmapdConfigMap
+    extends CRUDReconcileAddKubernetesDependentResource<ConfigMap, GerritCluster> {
   public static final String NFS_IDMAPD_CM_NAME = "nfs-idmapd-config";
 
   public NfsIdmapdConfigMap() {

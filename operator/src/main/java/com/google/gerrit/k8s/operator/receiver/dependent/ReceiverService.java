@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment.HTTP_PORT;
 
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.v1beta3.api.model.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.Service;
@@ -24,14 +25,14 @@ import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @KubernetesDependent
-public class ReceiverService extends CRUDKubernetesDependentResource<Service, Receiver> {
+public class ReceiverService
+    extends CRUDReconcileAddKubernetesDependentResource<Service, Receiver> {
   public static final String HTTP_PORT_NAME = "http";
 
   public ReceiverService() {
