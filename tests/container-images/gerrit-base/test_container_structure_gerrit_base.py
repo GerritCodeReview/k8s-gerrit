@@ -19,7 +19,7 @@ import pytest
 import utils
 
 
-JAVA_VER = 11
+JAVA_VER = 17
 
 
 @pytest.fixture(scope="module")

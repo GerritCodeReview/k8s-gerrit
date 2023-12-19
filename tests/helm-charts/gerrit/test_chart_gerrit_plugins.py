@@ -25,9 +25,9 @@ import requests
 from kubernetes import client
 from kubernetes.stream import stream
 
-PLUGINS = ["avatars-gravatar", "readonly"]
+PLUGINS = ["avatars-gravatar", "uploadvalidator"]
 LIBS = ["global-refdb"]
-GERRIT_VERSION = "3.8"
+GERRIT_VERSION = "3.9"
 
 
 @pytest.fixture(scope="module")
