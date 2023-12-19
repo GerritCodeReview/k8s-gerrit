@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "689d81e9_abe44b48",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-19T15:04:32Z",
+      "side": 1,
+      "message": "how is this change in the PLUGINS list related to the update of JDK and Gerrit version?",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "14c94e56abc5a035f46e0f9b6532a8a6c1f4c4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
