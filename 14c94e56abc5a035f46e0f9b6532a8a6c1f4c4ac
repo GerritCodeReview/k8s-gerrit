@@ -70,6 +70,30 @@
       },
       "revId": "14c94e56abc5a035f46e0f9b6532a8a6c1f4c4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0cfc95_3fd29a96",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-20T14:00:37Z",
+      "side": 1,
+      "message": "As part of the tests, plugins are installed from a remote URL, which is a function supported by the helm chart. The URLs are built in the `plugin_list` fixture. The `PLUGINS` constant is a list of plugins that is being used for those tests and their names in teh lis tare used during building the URL.",
+      "parentUuid": "ef5fda09_a9ce566f",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "14c94e56abc5a035f46e0f9b6532a8a6c1f4c4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
