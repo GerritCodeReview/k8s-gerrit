@@ -22,6 +22,30 @@
       },
       "revId": "14c94e56abc5a035f46e0f9b6532a8a6c1f4c4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fca6a4a7_7960f7e8",
+        "filename": "tests/helm-charts/gerrit/test_chart_gerrit_plugins.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-20T08:02:44Z",
+      "side": 1,
+      "message": "As always the CI URLs are not stable, i.e. when updating to a new version the CI URLs do not work anymore, since for example the new version still uses the master branch of the plugin. Thus, I am always checking which plugins still have a CI URL matching the template in L38ff and have to adapt the list. This would be fixed by having stable links to plugin artifacts.",
+      "parentUuid": "689d81e9_abe44b48",
+      "range": {
+        "startLine": 28,
+        "startChar": 32,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "14c94e56abc5a035f46e0f9b6532a8a6c1f4c4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
