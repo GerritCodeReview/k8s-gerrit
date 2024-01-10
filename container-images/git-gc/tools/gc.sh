@@ -18,7 +18,7 @@ usage()
   echo "Usage: $0 [ -s ProjectName ] [ -p ProjectName ] [ -b ProjectName ]"
   echo "-s ProjectName     : skip this project"
   echo "-p ProjectName     : run git-gc for this project"
-  echo "-b ProjectName     : do not write bitmaps for this project"
+  echo "-B                 : do not write bitmaps"
   echo ""
   echo "By default the script will run git-gc for all projects unless \"-p\" option is provided"
   echo
@@ -133,11 +133,7 @@ gc_project()
   # Check if writing bitmaps for this project has to be disabled
   WRITEBITMAPS='true';
   if [ $DONOT_WRITE_BITMAPS_OPT -eq 1 ]; then
-    for BITMAP_PROJECT in ${DONOT_WRITE_BITMAPS}; do
-      if [ $BITMAP_PROJECT == "$PROJECT_NAME" ] ; then
-        WRITEBITMAPS='false';
-      fi
-    done
+    WRITEBITMAPS='false';
   fi
 
   OUT=$(date +"%D %r Started: $PROJECT_NAME$LOG_OPTS") && log "$OUT"
@@ -176,12 +172,11 @@ gc_project()
 
 SKIP_PROJECTS=
 GC_PROJECTS=
-DONOT_WRITE_BITMAPS=
 SKIP_PROJECTS_OPT=0
 GC_PROJECTS_OPT=0
 DONOT_WRITE_BITMAPS_OPT=0
 
-while getopts 's:p:b:?h' c
+while getopts 's:p:B:?h' c
 do
   case $c in
     s)
@@ -192,8 +187,7 @@ do
       GC_PROJECTS="${GC_PROJECTS} ${OPTARG}.git"
       GC_PROJECTS_OPT=1
       ;;
-    b)
-      DONOT_WRITE_BITMAPS="${DONOT_WRITE_BITMAPS} ${OPTARG}.git"
+    B)
       DONOT_WRITE_BITMAPS_OPT=1
       ;;
     h|?|*)
