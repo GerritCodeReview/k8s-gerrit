@@ -15,9 +15,9 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.GerritTemplate;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;

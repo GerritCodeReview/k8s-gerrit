@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1beta3
+  - name: v1beta4
     schema:
       openAPIV3Schema:
         properties:
@@ -1509,7 +1509,7 @@ spec:
     storage: true
     subresources:
       status: {}
-  - name: v1beta2
+  - name: v1beta3
     schema:
       openAPIV3Schema:
         properties:
@@ -2346,6 +2346,11 @@ spec:
                                 type: string
                               sha1:
                                 type: string
+                              data:
+                                properties:
+                                  secretRef:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         libs:
@@ -2357,6 +2362,11 @@ spec:
                                 type: string
                               sha1:
                                 type: string
+                              data:
+                                properties:
+                                  secretRef:
+                                    type: string
+                                type: object
                             type: object
                           type: array
                         configFiles:

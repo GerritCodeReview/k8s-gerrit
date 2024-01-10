@@ -23,10 +23,10 @@ import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_P
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.NetworkMember;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.NetworkMemberWithSsh;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.NetworkMember;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.NetworkMemberWithSsh;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequest;
 import io.fabric8.istio.api.networking.v1beta1.HTTPMatchRequestBuilder;
 import io.fabric8.istio.api.networking.v1beta1.HTTPRoute;

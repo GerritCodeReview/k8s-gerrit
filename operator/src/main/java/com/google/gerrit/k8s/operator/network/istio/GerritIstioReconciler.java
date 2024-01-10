@@ -22,7 +22,7 @@ import com.google.gerrit.k8s.operator.network.istio.dependent.GerritClusterIstio
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioDestinationRule;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioVirtualService;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;

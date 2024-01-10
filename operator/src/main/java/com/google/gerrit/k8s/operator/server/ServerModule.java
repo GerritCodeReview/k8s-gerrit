@@ -16,9 +16,9 @@ package com.google.gerrit.k8s.operator.server;
 
 import static com.google.gerrit.k8s.operator.server.FileSystemKeyStoreProvider.KEYSTORE_PATH;
 
-import com.google.gerrit.k8s.operator.v1beta3.admission.servlet.GerritAdmissionWebhook;
-import com.google.gerrit.k8s.operator.v1beta3.admission.servlet.GerritClusterAdmissionWebhook;
-import com.google.gerrit.k8s.operator.v1beta3.admission.servlet.GitGcAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1beta4.admission.servlet.GerritAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1beta4.admission.servlet.GerritClusterAdmissionWebhook;
+import com.google.gerrit.k8s.operator.v1beta4.admission.servlet.GitGcAdmissionWebhook;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import java.io.File;

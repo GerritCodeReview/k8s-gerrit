@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.shared;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
 
+@Deprecated
 public class GerritClusterIngressConfig {
   private boolean enabled = false;
   private String host;

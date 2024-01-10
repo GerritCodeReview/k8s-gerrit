@@ -18,7 +18,7 @@ import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATT
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
 
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.MappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;

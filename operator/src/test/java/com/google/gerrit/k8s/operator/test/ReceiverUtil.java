@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.test;
 
-import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import java.net.HttpURLConnection;
