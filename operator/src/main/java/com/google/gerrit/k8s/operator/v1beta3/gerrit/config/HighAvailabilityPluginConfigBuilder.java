@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public class HighAvailabilityPluginConfigBuilder extends ConfigBuilder {
   public HighAvailabilityPluginConfigBuilder(Gerrit gerrit) {
     super(

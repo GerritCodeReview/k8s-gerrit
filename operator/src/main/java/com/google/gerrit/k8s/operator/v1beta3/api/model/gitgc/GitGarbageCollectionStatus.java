@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Deprecated
 public class GitGarbageCollectionStatus {
   private boolean replicateAll = false;
   private Set<String> excludedProjects = new HashSet<>();

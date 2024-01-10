@@ -1,0 +1,41 @@
+apiVersion: "gerritoperator.google.com/v1beta4"
+kind: GitGarbageCollection
+metadata:
+  name: gitgc
+  namespace: gerrit
+  uid: abcd1234
+spec:
+  cluster: gerrit
+  schedule: "*/5 * * * *"
+
+  projects:
+  - test
+  - example
+
+  disableBitmapIndex: true
+  disablePackRefs: true
+  preservePacks: true
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
+
+  tolerations:
+  - key: key1
+    operator: Equal
+    value: value1
+    effect: NoSchedule
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
