@@ -19,6 +19,9 @@ usage()
   echo "-s ProjectName     : skip this project"
   echo "-p ProjectName     : run git-gc for this project"
   echo "-B                 : do not write bitmaps"
+  echo "-R                 : skip packing refs, use this to reduce lock contention"
+  echo "                     on packed-refs which is frequently locked by Gerrit"
+  echo "                     packed-refs updates on busy repos"
   echo ""
   echo "By default the script will run git-gc for all projects unless \"-p\" option is provided"
   echo
@@ -156,12 +159,22 @@ gc_project()
   git --git-dir="$PROJECT_DIR" config pack.window 250
   git --git-dir="$PROJECT_DIR" config pack.depth 50
 
-  OUT=$(git -c gc.auto=6700 -c gc.autoPackLimit=4 --git-dir="$PROJECT_DIR" gc --auto --prune $OPTS || date +"%D %r Failed: $PROJECT_NAME") \
+  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" gc --auto --prune $OPTS \
+        || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
   (find "$PROJECT_DIR/refs/changes" -type d | xargs rmdir;
    find "$PROJECT_DIR/refs/changes" -type d | xargs rmdir
   ) 2>/dev/null
+
+  if [ $DONOT_PACK_REFS_OPT -eq 0 ] ; then
+    local looseRefCount
+    looseRefCount=$(find "$PROJECT_DIR/refs/" -type f | wc -l)
+    if [ $looseRefCount -gt 10 ] ; then
+      OUT=$(git --git-dir="$PROJECT_DIR" pack-refs --all) && \
+          log "Found $looseRefCount loose refs -> pack all refs"
+    fi
+  fi
 
   OUT=$(date +"%D %r Finished: $PROJECT_NAME$LOG_OPTS") && log "$OUT"
 }
@@ -175,8 +188,11 @@ GC_PROJECTS=
 SKIP_PROJECTS_OPT=0
 GC_PROJECTS_OPT=0
 DONOT_WRITE_BITMAPS_OPT=0
+DONOT_PACK_REFS_OPT=0
+# set auto gc options on the fly when git gc is triggered by cron
+GC_CONFIG="-c gc.auto=6700 -c gc.autoPackLimit=4"
 
-while getopts 's:p:B:?h' c
+while getopts 's:p:BR?h' c
 do
   case $c in
     s)
@@ -189,6 +205,10 @@ do
       ;;
     B)
       DONOT_WRITE_BITMAPS_OPT=1
+      ;;
+    R)
+      GC_CONFIG="$GC_CONFIG -c gc.packRefs=false"
+      DONOT_PACK_REFS_OPT=1
       ;;
     h|?|*)
       usage
