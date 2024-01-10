@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext.GERRIT_TLS_CONTEXT;
 
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import io.getambassador.v2.Host;
 import io.getambassador.v2.HostBuilder;
 import io.getambassador.v2.hostspec.TlsContext;

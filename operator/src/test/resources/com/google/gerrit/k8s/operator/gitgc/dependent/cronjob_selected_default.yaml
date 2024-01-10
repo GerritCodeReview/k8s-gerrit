@@ -1,0 +1,88 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitgc
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit
+    app.kubernetes.io/created-by: GitGarbageCollectionCronJob
+    app.kubernetes.io/instance: gerrit
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: GitGc
+  annotations:
+    app.kubernetes.io/managed-by: gerrit-operator
+  ownerReferences:
+  - apiVersion: gerritoperator.google.com/v1beta4
+    kind: GitGarbageCollection
+    name: gitgc
+    uid: abcd1234
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: false
+            sidecar.istio.io/inject: false
+          labels:
+            app.kubernetes.io/managed-by: gerrit-operator
+            app.kubernetes.io/name: gerrit
+            app.kubernetes.io/part-of: gerrit
+            app.kubernetes.io/created-by: GitGarbageCollectionCronJob
+            app.kubernetes.io/instance: gerrit
+            app.kubernetes.io/version: unknown
+            app.kubernetes.io/component: GitGc
+        spec:
+          tolerations:
+          - key: key1
+            operator: Equal
+            value: value1
+            effect: NoSchedule
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: disktype
+                    operator: In
+                    values:
+                    - ssd
+          restartPolicy: OnFailure
+          securityContext:
+            fsGroup: 100
+          containers:
+          - name: git-gc
+            imagePullPolicy: Always
+            image: docker.io/k8sgerrit/git-gc:latest
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: 100m
+                memory: 256Mi
+            args:
+            - -p
+            - test
+            - -p
+            - example
+            env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            volumeMounts:
+            - name: shared
+              subPath: git
+              mountPath: /var/gerrit/git
+            - name: shared
+              subPathExpr: "logs/$(POD_NAME)"
+              mountPath: /var/log/git
+          volumes:
+          - name: shared
+            persistentVolumeClaim:
+              claimName: shared-pvc

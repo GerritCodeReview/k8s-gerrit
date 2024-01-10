@@ -15,8 +15,8 @@
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;

@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit.Gerrit;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class SpannerRefDbPluginConfigBuilder extends ConfigBuilder {
   public SpannerRefDbPluginConfigBuilder(Gerrit gerrit) {
     super(

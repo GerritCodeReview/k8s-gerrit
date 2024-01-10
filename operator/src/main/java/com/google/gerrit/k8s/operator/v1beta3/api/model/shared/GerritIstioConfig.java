@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.shared;
 
 import java.util.Map;
 
+@Deprecated
 public class GerritIstioConfig {
   private Map<String, String> gatewaySelector = Map.of("istio", "ingressgateway");
 

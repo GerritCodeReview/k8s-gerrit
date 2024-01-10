@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+@Deprecated
 public class GerritPlugin extends GerritModule {
   private static final long serialVersionUID = 1L;
 

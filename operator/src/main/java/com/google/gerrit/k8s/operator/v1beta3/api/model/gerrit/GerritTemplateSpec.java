@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Deprecated
 public class GerritTemplateSpec {
   private String serviceAccount;
 

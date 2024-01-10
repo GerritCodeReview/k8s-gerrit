@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit;
 import io.fabric8.kubernetes.api.model.Quantity;
 import java.io.Serializable;
 
+@Deprecated
 public class GerritSite implements Serializable {
   private static final long serialVersionUID = 1L;
   Quantity size;

@@ -67,7 +67,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta3 \
+**Version**: v1beta4 \
 **Kind**: GerritCluster
 
 ---
@@ -84,7 +84,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta3"
+apiVersion: "gerritoperator.google.com/v1beta4"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -353,7 +353,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta3 \
+**Version**: v1beta4 \
 **Kind**: Gerrit
 
 ---
@@ -370,7 +370,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta3"
+apiVersion: "gerritoperator.google.com/v1beta4"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -561,7 +561,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta3 \
+**Version**: v1beta4 \
 **Kind**: Receiver
 
 ---
@@ -578,7 +578,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta3"
+apiVersion: "gerritoperator.google.com/v1beta4"
 kind: Receiver
 metadata:
   name: receiver
@@ -689,7 +689,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta3 \
+**Version**: v1beta4 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -706,7 +706,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta3"
+apiVersion: "gerritoperator.google.com/v1beta4"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -715,6 +715,10 @@ spec:
   schedule: "*/5 * * * *"
 
   projects: []
+
+  disableBitmapIndex: false
+  disablePackRefs: false
+  preservePacks: false
 
   resources:
     requests:
@@ -746,7 +750,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta3 \
+**Version**: v1beta4 \
 **Kind**: GerritNetwork
 
 ---
@@ -762,7 +766,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta3"
+apiVersion: "gerritoperator.google.com/v1beta4"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -1140,6 +1144,9 @@ compared to the parent object. All other options can still be configured.
 | `affinity` | [`Affinity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core) | Pod affinity (optional) |
 | `schedule` | `string` | Cron schedule defining when to run git gc (mandatory) |
 | `projects` | `Set<String>` | List of projects to gc. If omitted, all projects not handled by other Git GC jobs will be gc'ed. Only one job gc'ing all projects can exist. (default: `[]`) |
+| `disableBitmapIndex` | `Boolean` | Whether to disable bitmap index creation. This will increase push performance but decrease performance when serving fetches (default: `false`) |
+| `disablePackRefs` | `Boolean` | Whether to disable packing refs. Packing refs might interfere with pushes due to locking packed-refs (default: `false`) |
+| `preservePacks` | `Boolean` | Whether to preserve existing packs. Requires additional storage, but prevents failing fetches due to deleted packs (default: `false`) |
 | `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GitGarbageCollection container |
 
 ## GitGarbageCollectionStatus
