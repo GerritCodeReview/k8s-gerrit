@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class GerritStatus {
   private boolean ready = false;
   private Map<String, String> appliedConfigMapVersions = new HashMap<>();

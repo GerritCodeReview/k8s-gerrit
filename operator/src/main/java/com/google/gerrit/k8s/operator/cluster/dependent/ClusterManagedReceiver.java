@@ -15,8 +15,8 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta3.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.receiver.Receiver;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 
 public class ClusterManagedReceiver

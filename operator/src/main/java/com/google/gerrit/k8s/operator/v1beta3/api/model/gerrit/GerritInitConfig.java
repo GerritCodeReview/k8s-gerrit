@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.gerrit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+@Deprecated
 public class GerritInitConfig {
   private String caCertPath = "/var/config/ca.crt";
   private boolean pluginCacheEnabled;

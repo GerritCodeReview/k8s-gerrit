@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.v1beta3.api.model.shared;
 
+@Deprecated
 public class StorageClassConfig {
 
   String readWriteOnce = "default";

@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.v1beta3.api.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Deprecated
 public class BusyBoxImage {
   private String registry;
   private String tag;

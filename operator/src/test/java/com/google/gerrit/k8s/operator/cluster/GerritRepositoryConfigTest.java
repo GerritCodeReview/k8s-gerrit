@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.google.gerrit.k8s.operator.v1beta3.api.model.shared.GerritRepositoryConfig;
+import com.google.gerrit.k8s.operator.v1beta4.api.model.shared.GerritRepositoryConfig;
 import org.junit.jupiter.api.Test;
 
 public class GerritRepositoryConfigTest {
