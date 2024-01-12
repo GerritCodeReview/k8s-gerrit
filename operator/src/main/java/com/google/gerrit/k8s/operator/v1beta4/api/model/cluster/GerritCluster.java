@@ -197,10 +197,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
     volumeMounts.addAll(additionalVolumeMounts);
 
-    if (configureIdmapd) {
-      volumeMounts.add(getNfsImapdConfigVolumeMount());
-    }
-
     StringBuilder args = new StringBuilder();
     args.append("chown -R ");
     args.append(GERRIT_FS_UID);
@@ -210,6 +206,10 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
     for (VolumeMount vm : volumeMounts) {
       args.append(vm.getMountPath());
       args.append(" ");
+    }
+
+    if (configureIdmapd) {
+      volumeMounts.add(getNfsImapdConfigVolumeMount());
     }
 
     return new ContainerBuilder()

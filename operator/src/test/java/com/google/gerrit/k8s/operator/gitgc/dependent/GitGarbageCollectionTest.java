@@ -90,6 +90,10 @@ public class GitGarbageCollectionTest {
         Arguments.of(
             "../gitgc_selected_options_enabled.yaml",
             "../gerritcluster_minimal.yaml",
-            "cronjob_selected_options_enabled.yaml"));
+            "cronjob_selected_options_enabled.yaml"),
+        Arguments.of(
+            "../gitgc_all_default.yaml",
+            "../gerritcluster_nfs_workaround.yaml",
+            "cronjob_all_nfs_workaround.yaml"));
   }
 }
