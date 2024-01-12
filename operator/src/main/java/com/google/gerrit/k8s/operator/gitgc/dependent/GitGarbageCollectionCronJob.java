@@ -88,6 +88,7 @@ public class GitGarbageCollectionCronJob
             .withNewSecurityContext()
             .withFsGroup(100L)
             .endSecurityContext()
+            .addAllToInitContainers(initContainers)
             .addToContainers(buildGitGcContainer(gitGc, gerritCluster))
             .withVolumes(getVolumes(gerritCluster))
             .endSpec()
@@ -119,10 +120,9 @@ public class GitGarbageCollectionCronJob
   }
 
   private Container buildGitGcContainer(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
-    List<VolumeMount> volumeMounts =
-        List.of(
-            GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"),
-            GerritCluster.getLogsVolumeMount("/var/log/git"));
+    List<VolumeMount> volumeMounts = new ArrayList<>();
+    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
+    volumeMounts.add(GerritCluster.getLogsVolumeMount("/var/log/git"));
 
     if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()
         && gerritCluster
