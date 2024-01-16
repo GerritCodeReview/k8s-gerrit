@@ -14,13 +14,13 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
+import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta4.gerrit.config.GerritConfigBuilder;
-import com.google.gerrit.k8s.operator.v1beta4.gerrit.config.HighAvailabilityPluginConfigBuilder;
-import com.google.gerrit.k8s.operator.v1beta4.gerrit.config.SpannerRefDbPluginConfigBuilder;
-import com.google.gerrit.k8s.operator.v1beta4.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
