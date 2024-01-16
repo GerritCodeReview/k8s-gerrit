@@ -9,259 +9,259 @@ spec:
     kind: GerritNetwork
     plural: gerritnetworks
     shortNames:
-    - gn
+      - gn
     singular: gerritnetwork
   scope: Namespaced
   versions:
-  - name: v1beta4
-    schema:
-      openAPIV3Schema:
-        properties:
-          spec:
-            properties:
-              ingress:
-                properties:
-                  enabled:
-                    type: boolean
-                  host:
-                    type: string
-                  annotations:
-                    additionalProperties:
+    - name: v1beta4
+      schema:
+        openAPIV3Schema:
+          properties:
+            spec:
+              properties:
+                ingress:
+                  properties:
+                    enabled:
+                      type: boolean
+                    host:
                       type: string
-                    type: object
-                  tls:
-                    properties:
-                      enabled:
-                        type: boolean
-                      secret:
+                    annotations:
+                      additionalProperties:
                         type: string
-                    type: object
-                  ssh:
-                    properties:
-                      enabled:
-                        type: boolean
-                    type: object
-                  ambassador:
-                    properties:
-                      id:
-                        items:
-                          type: string
-                        type: array
-                      createHost:
-                        type: boolean
-                    type: object
-                  istio:
-                    properties:
-                      gatewaySelector:
-                        additionalProperties:
-                          type: string
-                        type: object
-                    type: object
-                type: object
-              receiver:
-                properties:
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-              primaryGerrit:
-                properties:
-                  sshPort:
-                    type: integer
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-              gerritReplica:
-                properties:
-                  sshPort:
-                    type: integer
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-            type: object
-          status:
-            properties:
-              apiVersion:
-                type: string
-              code:
-                type: integer
-              details:
-                properties:
-                  causes:
-                    items:
+                      type: object
+                    tls:
                       properties:
-                        field:
-                          type: string
-                        message:
-                          type: string
-                        reason:
+                        enabled:
+                          type: boolean
+                        secret:
                           type: string
                       type: object
-                    type: array
-                  group:
-                    type: string
-                  kind:
-                    type: string
-                  name:
-                    type: string
-                  retryAfterSeconds:
-                    type: integer
-                  uid:
-                    type: string
-                type: object
-              kind:
-                type: string
-              message:
-                type: string
-              metadata:
-                properties:
-                  continue:
-                    type: string
-                  remainingItemCount:
-                    type: integer
-                  resourceVersion:
-                    type: string
-                  selfLink:
-                    type: string
-                type: object
-              reason:
-                type: string
-              status:
-                type: string
-            type: object
-        type: object
-    served: true
-    storage: true
-    subresources:
-      status: {}
-  - name: v1beta3
-    schema:
-      openAPIV3Schema:
-        properties:
-          spec:
-            properties:
-              ingress:
-                properties:
-                  enabled:
-                    type: boolean
-                  host:
-                    type: string
-                  annotations:
-                    additionalProperties:
-                      type: string
-                    type: object
-                  tls:
-                    properties:
-                      enabled:
-                        type: boolean
-                      secret:
-                        type: string
-                    type: object
-                  ssh:
-                    properties:
-                      enabled:
-                        type: boolean
-                    type: object
-                  ambassador:
-                    properties:
-                      id:
-                        items:
-                          type: string
-                        type: array
-                      createHost:
-                        type: boolean
-                    type: object
-                  istio:
-                    properties:
-                      gatewaySelector:
-                        additionalProperties:
-                          type: string
-                        type: object
-                    type: object
-                type: object
-              receiver:
-                properties:
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-              primaryGerrit:
-                properties:
-                  sshPort:
-                    type: integer
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-              gerritReplica:
-                properties:
-                  sshPort:
-                    type: integer
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-            type: object
-          status:
-            properties:
-              apiVersion:
-                type: string
-              code:
-                type: integer
-              details:
-                properties:
-                  causes:
-                    items:
+                    ssh:
                       properties:
-                        field:
-                          type: string
-                        message:
-                          type: string
-                        reason:
+                        enabled:
+                          type: boolean
+                      type: object
+                    ambassador:
+                      properties:
+                        id:
+                          items:
+                            type: string
+                          type: array
+                        createHost:
+                          type: boolean
+                      type: object
+                    istio:
+                      properties:
+                        gatewaySelector:
+                          additionalProperties:
+                            type: string
+                          type: object
+                      type: object
+                  type: object
+                receiver:
+                  properties:
+                    name:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+                primaryGerrit:
+                  properties:
+                    sshPort:
+                      type: integer
+                    name:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+                gerritReplica:
+                  properties:
+                    sshPort:
+                      type: integer
+                    name:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+              type: object
+            status:
+              properties:
+                apiVersion:
+                  type: string
+                code:
+                  type: integer
+                details:
+                  properties:
+                    causes:
+                      items:
+                        properties:
+                          field:
+                            type: string
+                          message:
+                            type: string
+                          reason:
+                            type: string
+                        type: object
+                      type: array
+                    group:
+                      type: string
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                    retryAfterSeconds:
+                      type: integer
+                    uid:
+                      type: string
+                  type: object
+                kind:
+                  type: string
+                message:
+                  type: string
+                metadata:
+                  properties:
+                    continue:
+                      type: string
+                    remainingItemCount:
+                      type: integer
+                    resourceVersion:
+                      type: string
+                    selfLink:
+                      type: string
+                  type: object
+                reason:
+                  type: string
+                status:
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
+    - name: v1beta3
+      schema:
+        openAPIV3Schema:
+          properties:
+            spec:
+              properties:
+                ingress:
+                  properties:
+                    enabled:
+                      type: boolean
+                    host:
+                      type: string
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    tls:
+                      properties:
+                        enabled:
+                          type: boolean
+                        secret:
                           type: string
                       type: object
-                    type: array
-                  group:
-                    type: string
-                  kind:
-                    type: string
-                  name:
-                    type: string
-                  retryAfterSeconds:
-                    type: integer
-                  uid:
-                    type: string
-                type: object
-              kind:
-                type: string
-              message:
-                type: string
-              metadata:
-                properties:
-                  continue:
-                    type: string
-                  remainingItemCount:
-                    type: integer
-                  resourceVersion:
-                    type: string
-                  selfLink:
-                    type: string
-                type: object
-              reason:
-                type: string
-              status:
-                type: string
-            type: object
-        type: object
-    served: true
-    storage: false
-    subresources:
-      status: {}
+                    ssh:
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    ambassador:
+                      properties:
+                        id:
+                          items:
+                            type: string
+                          type: array
+                        createHost:
+                          type: boolean
+                      type: object
+                    istio:
+                      properties:
+                        gatewaySelector:
+                          additionalProperties:
+                            type: string
+                          type: object
+                      type: object
+                  type: object
+                receiver:
+                  properties:
+                    name:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+                primaryGerrit:
+                  properties:
+                    sshPort:
+                      type: integer
+                    name:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+                gerritReplica:
+                  properties:
+                    sshPort:
+                      type: integer
+                    name:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+              type: object
+            status:
+              properties:
+                apiVersion:
+                  type: string
+                code:
+                  type: integer
+                details:
+                  properties:
+                    causes:
+                      items:
+                        properties:
+                          field:
+                            type: string
+                          message:
+                            type: string
+                          reason:
+                            type: string
+                        type: object
+                      type: array
+                    group:
+                      type: string
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                    retryAfterSeconds:
+                      type: integer
+                    uid:
+                      type: string
+                  type: object
+                kind:
+                  type: string
+                message:
+                  type: string
+                metadata:
+                  properties:
+                    continue:
+                      type: string
+                    remainingItemCount:
+                      type: integer
+                    resourceVersion:
+                      type: string
+                    selfLink:
+                      type: string
+                  type: object
+                reason:
+                  type: string
+                status:
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: false
+      subresources:
+        status: {}

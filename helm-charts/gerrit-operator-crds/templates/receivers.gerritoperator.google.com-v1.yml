@@ -9,79 +9,429 @@ spec:
     kind: Receiver
     plural: receivers
     shortNames:
-    - grec
+      - grec
     singular: receiver
   scope: Namespaced
   versions:
-  - name: v1beta3
-    schema:
-      openAPIV3Schema:
-        properties:
-          spec:
-            properties:
-              containerImages:
-                properties:
-                  imagePullPolicy:
-                    type: string
-                  imagePullSecrets:
-                    items:
+    - name: v1beta4
+      schema:
+        openAPIV3Schema:
+          properties:
+            spec:
+              properties:
+                containerImages:
+                  properties:
+                    imagePullPolicy:
+                      type: string
+                    imagePullSecrets:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    busyBox:
                       properties:
-                        name:
+                        registry:
+                          type: string
+                        tag:
                           type: string
                       type: object
-                    type: array
-                  busyBox:
+                    gerritImages:
+                      properties:
+                        registry:
+                          type: string
+                        org:
+                          type: string
+                        tag:
+                          type: string
+                      type: object
+                  type: object
+                storage:
+                  properties:
+                    storageClasses:
+                      properties:
+                        readWriteOnce:
+                          type: string
+                        readWriteMany:
+                          type: string
+                        nfsWorkaround:
+                          properties:
+                            enabled:
+                              type: boolean
+                            chownOnStartup:
+                              type: boolean
+                            idmapdConfig:
+                              type: string
+                          type: object
+                      type: object
+                    sharedStorage:
+                      properties:
+                        externalPVC:
+                          properties:
+                            enabled:
+                              type: boolean
+                            claimName:
+                              type: string
+                          type: object
+                        size:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        volumeName:
+                          type: string
+                        selector:
+                          properties:
+                            matchExpressions:
+                              items:
+                                properties:
+                                  key:
+                                    type: string
+                                  operator:
+                                    type: string
+                                  values:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              type: array
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              type: object
+                          type: object
+                      type: object
+                  type: object
+                ingress:
+                  properties:
+                    enabled:
+                      type: boolean
+                    host:
+                      type: string
+                    tlsEnabled:
+                      type: boolean
+                    ssh:
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                  type: object
+                tolerations:
+                  items:
                     properties:
-                      registry:
+                      effect:
                         type: string
-                      tag:
+                      key:
+                        type: string
+                      operator:
+                        type: string
+                      tolerationSeconds:
+                        type: integer
+                      value:
                         type: string
                     type: object
-                  gerritImages:
+                  type: array
+                affinity:
+                  properties:
+                    nodeAffinity:
+                      properties:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              preference:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchFields:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                type: object
+                              weight:
+                                type: integer
+                            type: object
+                          type: array
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          properties:
+                            nodeSelectorTerms:
+                              items:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchFields:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                type: object
+                              type: array
+                          type: object
+                      type: object
+                    podAffinity:
+                      properties:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              podAffinityTerm:
+                                properties:
+                                  labelSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaceSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaces:
+                                    items:
+                                      type: string
+                                    type: array
+                                  topologyKey:
+                                    type: string
+                                type: object
+                              weight:
+                                type: integer
+                            type: object
+                          type: array
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              labelSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaceSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaces:
+                                items:
+                                  type: string
+                                type: array
+                              topologyKey:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    podAntiAffinity:
+                      properties:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              podAffinityTerm:
+                                properties:
+                                  labelSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaceSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaces:
+                                    items:
+                                      type: string
+                                    type: array
+                                  topologyKey:
+                                    type: string
+                                type: object
+                              weight:
+                                type: integer
+                            type: object
+                          type: array
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              labelSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaceSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaces:
+                                items:
+                                  type: string
+                                type: array
+                              topologyKey:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                  type: object
+                topologySpreadConstraints:
+                  items:
                     properties:
-                      registry:
-                        type: string
-                      org:
-                        type: string
-                      tag:
-                        type: string
-                    type: object
-                type: object
-              storage:
-                properties:
-                  storageClasses:
-                    properties:
-                      readWriteOnce:
-                        type: string
-                      readWriteMany:
-                        type: string
-                      nfsWorkaround:
-                        properties:
-                          enabled:
-                            type: boolean
-                          chownOnStartup:
-                            type: boolean
-                          idmapdConfig:
-                            type: string
-                        type: object
-                    type: object
-                  sharedStorage:
-                    properties:
-                      externalPVC:
-                        properties:
-                          enabled:
-                            type: boolean
-                          claimName:
-                            type: string
-                        type: object
-                      size:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      volumeName:
-                        type: string
-                      selector:
+                      labelSelector:
                         properties:
                           matchExpressions:
                             items:
@@ -101,627 +451,627 @@ spec:
                               type: string
                             type: object
                         type: object
-                    type: object
-                type: object
-              ingress:
-                properties:
-                  enabled:
-                    type: boolean
-                  host:
-                    type: string
-                  tlsEnabled:
-                    type: boolean
-                  ssh:
-                    properties:
-                      enabled:
-                        type: boolean
-                    type: object
-                type: object
-              tolerations:
-                items:
-                  properties:
-                    effect:
-                      type: string
-                    key:
-                      type: string
-                    operator:
-                      type: string
-                    tolerationSeconds:
-                      type: integer
-                    value:
-                      type: string
-                  type: object
-                type: array
-              affinity:
-                properties:
-                  nodeAffinity:
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
+                      matchLabelKeys:
                         items:
-                          properties:
-                            preference:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchFields:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                              type: object
-                            weight:
-                              type: integer
-                          type: object
+                          type: string
                         type: array
-                      requiredDuringSchedulingIgnoredDuringExecution:
+                      maxSkew:
+                        type: integer
+                      minDomains:
+                        type: integer
+                      nodeAffinityPolicy:
+                        type: string
+                      nodeTaintsPolicy:
+                        type: string
+                      topologyKey:
+                        type: string
+                      whenUnsatisfiable:
+                        type: string
+                    type: object
+                  type: array
+                priorityClassName:
+                  type: string
+                replicas:
+                  type: integer
+                maxSurge:
+                  anyOf:
+                    - type: integer
+                    - type: string
+                  x-kubernetes-int-or-string: true
+                maxUnavailable:
+                  anyOf:
+                    - type: integer
+                    - type: string
+                  x-kubernetes-int-or-string: true
+                resources:
+                  properties:
+                    claims:
+                      items:
                         properties:
-                          nodeSelectorTerms:
-                            items:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchFields:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                              type: object
-                            type: array
+                          name:
+                            type: string
                         type: object
-                    type: object
-                  podAffinity:
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            podAffinityTerm:
-                              properties:
-                                labelSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaceSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaces:
-                                  items:
-                                    type: string
-                                  type: array
-                                topologyKey:
-                                  type: string
-                              type: object
-                            weight:
-                              type: integer
-                          type: object
-                        type: array
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            labelSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaceSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            topologyKey:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                  podAntiAffinity:
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            podAffinityTerm:
-                              properties:
-                                labelSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaceSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaces:
-                                  items:
-                                    type: string
-                                  type: array
-                                topologyKey:
-                                  type: string
-                              type: object
-                            weight:
-                              type: integer
-                          type: object
-                        type: array
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            labelSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaceSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            topologyKey:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                type: object
-              topologySpreadConstraints:
-                items:
+                      type: array
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+                readinessProbe:
                   properties:
-                    labelSelector:
+                    exec:
                       properties:
-                        matchExpressions:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    failureThreshold:
+                      type: integer
+                    grpc:
+                      properties:
+                        port:
+                          type: integer
+                        service:
+                          type: string
+                      type: object
+                    httpGet:
+                      properties:
+                        host:
+                          type: string
+                        httpHeaders:
                           items:
                             properties:
-                              key:
+                              name:
                                 type: string
-                              operator:
+                              value:
                                 type: string
-                              values:
+                            type: object
+                          type: array
+                        path:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        scheme:
+                          type: string
+                      type: object
+                    initialDelaySeconds:
+                      type: integer
+                    periodSeconds:
+                      type: integer
+                    successThreshold:
+                      type: integer
+                    tcpSocket:
+                      properties:
+                        host:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                      type: object
+                    terminationGracePeriodSeconds:
+                      type: integer
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                livenessProbe:
+                  properties:
+                    exec:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    failureThreshold:
+                      type: integer
+                    grpc:
+                      properties:
+                        port:
+                          type: integer
+                        service:
+                          type: string
+                      type: object
+                    httpGet:
+                      properties:
+                        host:
+                          type: string
+                        httpHeaders:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
+                        path:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        scheme:
+                          type: string
+                      type: object
+                    initialDelaySeconds:
+                      type: integer
+                    periodSeconds:
+                      type: integer
+                    successThreshold:
+                      type: integer
+                    tcpSocket:
+                      properties:
+                        host:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                      type: object
+                    terminationGracePeriodSeconds:
+                      type: integer
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                service:
+                  properties:
+                    type:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+                credentialSecretRef:
+                  type: string
+              type: object
+            status:
+              properties:
+                ready:
+                  type: boolean
+                appliedCredentialSecretVersion:
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
+    - name: v1beta3
+      schema:
+        openAPIV3Schema:
+          properties:
+            spec:
+              properties:
+                containerImages:
+                  properties:
+                    imagePullPolicy:
+                      type: string
+                    imagePullSecrets:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    busyBox:
+                      properties:
+                        registry:
+                          type: string
+                        tag:
+                          type: string
+                      type: object
+                    gerritImages:
+                      properties:
+                        registry:
+                          type: string
+                        org:
+                          type: string
+                        tag:
+                          type: string
+                      type: object
+                  type: object
+                storage:
+                  properties:
+                    storageClasses:
+                      properties:
+                        readWriteOnce:
+                          type: string
+                        readWriteMany:
+                          type: string
+                        nfsWorkaround:
+                          properties:
+                            enabled:
+                              type: boolean
+                            chownOnStartup:
+                              type: boolean
+                            idmapdConfig:
+                              type: string
+                          type: object
+                      type: object
+                    sharedStorage:
+                      properties:
+                        externalPVC:
+                          properties:
+                            enabled:
+                              type: boolean
+                            claimName:
+                              type: string
+                          type: object
+                        size:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        volumeName:
+                          type: string
+                        selector:
+                          properties:
+                            matchExpressions:
+                              items:
+                                properties:
+                                  key:
+                                    type: string
+                                  operator:
+                                    type: string
+                                  values:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              type: array
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              type: object
+                          type: object
+                      type: object
+                  type: object
+                ingress:
+                  properties:
+                    enabled:
+                      type: boolean
+                    host:
+                      type: string
+                    tlsEnabled:
+                      type: boolean
+                    ssh:
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                  type: object
+                tolerations:
+                  items:
+                    properties:
+                      effect:
+                        type: string
+                      key:
+                        type: string
+                      operator:
+                        type: string
+                      tolerationSeconds:
+                        type: integer
+                      value:
+                        type: string
+                    type: object
+                  type: array
+                affinity:
+                  properties:
+                    nodeAffinity:
+                      properties:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              preference:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchFields:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                type: object
+                              weight:
+                                type: integer
+                            type: object
+                          type: array
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          properties:
+                            nodeSelectorTerms:
+                              items:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchFields:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                type: object
+                              type: array
+                          type: object
+                      type: object
+                    podAffinity:
+                      properties:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              podAffinityTerm:
+                                properties:
+                                  labelSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaceSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaces:
+                                    items:
+                                      type: string
+                                    type: array
+                                  topologyKey:
+                                    type: string
+                                type: object
+                              weight:
+                                type: integer
+                            type: object
+                          type: array
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              labelSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaceSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaces:
                                 items:
                                   type: string
                                 type: array
+                              topologyKey:
+                                type: string
                             type: object
                           type: array
-                        matchLabels:
-                          additionalProperties:
-                            type: string
-                          type: object
                       type: object
-                    matchLabelKeys:
-                      items:
-                        type: string
-                      type: array
-                    maxSkew:
-                      type: integer
-                    minDomains:
-                      type: integer
-                    nodeAffinityPolicy:
-                      type: string
-                    nodeTaintsPolicy:
-                      type: string
-                    topologyKey:
-                      type: string
-                    whenUnsatisfiable:
-                      type: string
+                    podAntiAffinity:
+                      properties:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              podAffinityTerm:
+                                properties:
+                                  labelSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaceSelector:
+                                    properties:
+                                      matchExpressions:
+                                        items:
+                                          properties:
+                                            key:
+                                              type: string
+                                            operator:
+                                              type: string
+                                            values:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                    type: object
+                                  namespaces:
+                                    items:
+                                      type: string
+                                    type: array
+                                  topologyKey:
+                                    type: string
+                                type: object
+                              weight:
+                                type: integer
+                            type: object
+                          type: array
+                        requiredDuringSchedulingIgnoredDuringExecution:
+                          items:
+                            properties:
+                              labelSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaceSelector:
+                                properties:
+                                  matchExpressions:
+                                    items:
+                                      properties:
+                                        key:
+                                          type: string
+                                        operator:
+                                          type: string
+                                        values:
+                                          items:
+                                            type: string
+                                          type: array
+                                      type: object
+                                    type: array
+                                  matchLabels:
+                                    additionalProperties:
+                                      type: string
+                                    type: object
+                                type: object
+                              namespaces:
+                                items:
+                                  type: string
+                                type: array
+                              topologyKey:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
                   type: object
-                type: array
-              priorityClassName:
-                type: string
-              replicas:
-                type: integer
-              maxSurge:
-                anyOf:
-                - type: integer
-                - type: string
-                x-kubernetes-int-or-string: true
-              maxUnavailable:
-                anyOf:
-                - type: integer
-                - type: string
-                x-kubernetes-int-or-string: true
-              resources:
-                properties:
-                  claims:
-                    items:
-                      properties:
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  limits:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                  requests:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                type: object
-              readinessProbe:
-                properties:
-                  exec:
+                topologySpreadConstraints:
+                  items:
                     properties:
-                      command:
-                        items:
-                          type: string
-                        type: array
-                    type: object
-                  failureThreshold:
-                    type: integer
-                  grpc:
-                    properties:
-                      port:
-                        type: integer
-                      service:
-                        type: string
-                    type: object
-                  httpGet:
-                    properties:
-                      host:
-                        type: string
-                      httpHeaders:
-                        items:
-                          properties:
-                            name:
-                              type: string
-                            value:
-                              type: string
-                          type: object
-                        type: array
-                      path:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      scheme:
-                        type: string
-                    type: object
-                  initialDelaySeconds:
-                    type: integer
-                  periodSeconds:
-                    type: integer
-                  successThreshold:
-                    type: integer
-                  tcpSocket:
-                    properties:
-                      host:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                    type: object
-                  terminationGracePeriodSeconds:
-                    type: integer
-                  timeoutSeconds:
-                    type: integer
-                type: object
-              livenessProbe:
-                properties:
-                  exec:
-                    properties:
-                      command:
-                        items:
-                          type: string
-                        type: array
-                    type: object
-                  failureThreshold:
-                    type: integer
-                  grpc:
-                    properties:
-                      port:
-                        type: integer
-                      service:
-                        type: string
-                    type: object
-                  httpGet:
-                    properties:
-                      host:
-                        type: string
-                      httpHeaders:
-                        items:
-                          properties:
-                            name:
-                              type: string
-                            value:
-                              type: string
-                          type: object
-                        type: array
-                      path:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      scheme:
-                        type: string
-                    type: object
-                  initialDelaySeconds:
-                    type: integer
-                  periodSeconds:
-                    type: integer
-                  successThreshold:
-                    type: integer
-                  tcpSocket:
-                    properties:
-                      host:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                    type: object
-                  terminationGracePeriodSeconds:
-                    type: integer
-                  timeoutSeconds:
-                    type: integer
-                type: object
-              service:
-                properties:
-                  type:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-              credentialSecretRef:
-                type: string
-            type: object
-          status:
-            properties:
-              ready:
-                type: boolean
-              appliedCredentialSecretVersion:
-                type: string
-            type: object
-        type: object
-    served: true
-    storage: false
-    subresources:
-      status: {}
-  - name: v1beta4
-    schema:
-      openAPIV3Schema:
-        properties:
-          spec:
-            properties:
-              containerImages:
-                properties:
-                  imagePullPolicy:
-                    type: string
-                  imagePullSecrets:
-                    items:
-                      properties:
-                        name:
-                          type: string
-                      type: object
-                    type: array
-                  busyBox:
-                    properties:
-                      registry:
-                        type: string
-                      tag:
-                        type: string
-                    type: object
-                  gerritImages:
-                    properties:
-                      registry:
-                        type: string
-                      org:
-                        type: string
-                      tag:
-                        type: string
-                    type: object
-                type: object
-              storage:
-                properties:
-                  storageClasses:
-                    properties:
-                      readWriteOnce:
-                        type: string
-                      readWriteMany:
-                        type: string
-                      nfsWorkaround:
-                        properties:
-                          enabled:
-                            type: boolean
-                          chownOnStartup:
-                            type: boolean
-                          idmapdConfig:
-                            type: string
-                        type: object
-                    type: object
-                  sharedStorage:
-                    properties:
-                      externalPVC:
-                        properties:
-                          enabled:
-                            type: boolean
-                          claimName:
-                            type: string
-                        type: object
-                      size:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      volumeName:
-                        type: string
-                      selector:
+                      labelSelector:
                         properties:
                           matchExpressions:
                             items:
@@ -741,555 +1091,205 @@ spec:
                               type: string
                             type: object
                         type: object
-                    type: object
-                type: object
-              ingress:
-                properties:
-                  enabled:
-                    type: boolean
-                  host:
-                    type: string
-                  tlsEnabled:
-                    type: boolean
-                  ssh:
-                    properties:
-                      enabled:
-                        type: boolean
-                    type: object
-                type: object
-              tolerations:
-                items:
-                  properties:
-                    effect:
-                      type: string
-                    key:
-                      type: string
-                    operator:
-                      type: string
-                    tolerationSeconds:
-                      type: integer
-                    value:
-                      type: string
-                  type: object
-                type: array
-              affinity:
-                properties:
-                  nodeAffinity:
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
+                      matchLabelKeys:
                         items:
-                          properties:
-                            preference:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchFields:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                              type: object
-                            weight:
-                              type: integer
-                          type: object
+                          type: string
                         type: array
-                      requiredDuringSchedulingIgnoredDuringExecution:
+                      maxSkew:
+                        type: integer
+                      minDomains:
+                        type: integer
+                      nodeAffinityPolicy:
+                        type: string
+                      nodeTaintsPolicy:
+                        type: string
+                      topologyKey:
+                        type: string
+                      whenUnsatisfiable:
+                        type: string
+                    type: object
+                  type: array
+                priorityClassName:
+                  type: string
+                replicas:
+                  type: integer
+                maxSurge:
+                  anyOf:
+                    - type: integer
+                    - type: string
+                  x-kubernetes-int-or-string: true
+                maxUnavailable:
+                  anyOf:
+                    - type: integer
+                    - type: string
+                  x-kubernetes-int-or-string: true
+                resources:
+                  properties:
+                    claims:
+                      items:
                         properties:
-                          nodeSelectorTerms:
-                            items:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchFields:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                              type: object
-                            type: array
+                          name:
+                            type: string
                         type: object
-                    type: object
-                  podAffinity:
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            podAffinityTerm:
-                              properties:
-                                labelSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaceSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaces:
-                                  items:
-                                    type: string
-                                  type: array
-                                topologyKey:
-                                  type: string
-                              type: object
-                            weight:
-                              type: integer
-                          type: object
-                        type: array
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            labelSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaceSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            topologyKey:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                  podAntiAffinity:
-                    properties:
-                      preferredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            podAffinityTerm:
-                              properties:
-                                labelSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaceSelector:
-                                  properties:
-                                    matchExpressions:
-                                      items:
-                                        properties:
-                                          key:
-                                            type: string
-                                          operator:
-                                            type: string
-                                          values:
-                                            items:
-                                              type: string
-                                            type: array
-                                        type: object
-                                      type: array
-                                    matchLabels:
-                                      additionalProperties:
-                                        type: string
-                                      type: object
-                                  type: object
-                                namespaces:
-                                  items:
-                                    type: string
-                                  type: array
-                                topologyKey:
-                                  type: string
-                              type: object
-                            weight:
-                              type: integer
-                          type: object
-                        type: array
-                      requiredDuringSchedulingIgnoredDuringExecution:
-                        items:
-                          properties:
-                            labelSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaceSelector:
-                              properties:
-                                matchExpressions:
-                                  items:
-                                    properties:
-                                      key:
-                                        type: string
-                                      operator:
-                                        type: string
-                                      values:
-                                        items:
-                                          type: string
-                                        type: array
-                                    type: object
-                                  type: array
-                                matchLabels:
-                                  additionalProperties:
-                                    type: string
-                                  type: object
-                              type: object
-                            namespaces:
-                              items:
-                                type: string
-                              type: array
-                            topologyKey:
-                              type: string
-                          type: object
-                        type: array
-                    type: object
-                type: object
-              topologySpreadConstraints:
-                items:
+                      type: array
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+                readinessProbe:
                   properties:
-                    labelSelector:
+                    exec:
                       properties:
-                        matchExpressions:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    failureThreshold:
+                      type: integer
+                    grpc:
+                      properties:
+                        port:
+                          type: integer
+                        service:
+                          type: string
+                      type: object
+                    httpGet:
+                      properties:
+                        host:
+                          type: string
+                        httpHeaders:
                           items:
                             properties:
-                              key:
+                              name:
                                 type: string
-                              operator:
+                              value:
                                 type: string
-                              values:
-                                items:
-                                  type: string
-                                type: array
                             type: object
                           type: array
-                        matchLabels:
-                          additionalProperties:
-                            type: string
-                          type: object
+                        path:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        scheme:
+                          type: string
                       type: object
-                    matchLabelKeys:
-                      items:
-                        type: string
-                      type: array
-                    maxSkew:
+                    initialDelaySeconds:
                       type: integer
-                    minDomains:
+                    periodSeconds:
                       type: integer
-                    nodeAffinityPolicy:
-                      type: string
-                    nodeTaintsPolicy:
-                      type: string
-                    topologyKey:
-                      type: string
-                    whenUnsatisfiable:
-                      type: string
-                  type: object
-                type: array
-              priorityClassName:
-                type: string
-              replicas:
-                type: integer
-              maxSurge:
-                anyOf:
-                - type: integer
-                - type: string
-                x-kubernetes-int-or-string: true
-              maxUnavailable:
-                anyOf:
-                - type: integer
-                - type: string
-                x-kubernetes-int-or-string: true
-              resources:
-                properties:
-                  claims:
-                    items:
+                    successThreshold:
+                      type: integer
+                    tcpSocket:
                       properties:
-                        name:
+                        host:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                      type: object
+                    terminationGracePeriodSeconds:
+                      type: integer
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                livenessProbe:
+                  properties:
+                    exec:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    failureThreshold:
+                      type: integer
+                    grpc:
+                      properties:
+                        port:
+                          type: integer
+                        service:
                           type: string
                       type: object
-                    type: array
-                  limits:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                  requests:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                type: object
-              readinessProbe:
-                properties:
-                  exec:
-                    properties:
-                      command:
-                        items:
+                    httpGet:
+                      properties:
+                        host:
                           type: string
-                        type: array
-                    type: object
-                  failureThreshold:
-                    type: integer
-                  grpc:
-                    properties:
-                      port:
-                        type: integer
-                      service:
-                        type: string
-                    type: object
-                  httpGet:
-                    properties:
-                      host:
-                        type: string
-                      httpHeaders:
-                        items:
-                          properties:
-                            name:
-                              type: string
-                            value:
-                              type: string
-                          type: object
-                        type: array
-                      path:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      scheme:
-                        type: string
-                    type: object
-                  initialDelaySeconds:
-                    type: integer
-                  periodSeconds:
-                    type: integer
-                  successThreshold:
-                    type: integer
-                  tcpSocket:
-                    properties:
-                      host:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                    type: object
-                  terminationGracePeriodSeconds:
-                    type: integer
-                  timeoutSeconds:
-                    type: integer
-                type: object
-              livenessProbe:
-                properties:
-                  exec:
-                    properties:
-                      command:
-                        items:
+                        httpHeaders:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
+                        path:
                           type: string
-                        type: array
-                    type: object
-                  failureThreshold:
-                    type: integer
-                  grpc:
-                    properties:
-                      port:
-                        type: integer
-                      service:
-                        type: string
-                    type: object
-                  httpGet:
-                    properties:
-                      host:
-                        type: string
-                      httpHeaders:
-                        items:
-                          properties:
-                            name:
-                              type: string
-                            value:
-                              type: string
-                          type: object
-                        type: array
-                      path:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                      scheme:
-                        type: string
-                    type: object
-                  initialDelaySeconds:
-                    type: integer
-                  periodSeconds:
-                    type: integer
-                  successThreshold:
-                    type: integer
-                  tcpSocket:
-                    properties:
-                      host:
-                        type: string
-                      port:
-                        anyOf:
-                        - type: integer
-                        - type: string
-                        x-kubernetes-int-or-string: true
-                    type: object
-                  terminationGracePeriodSeconds:
-                    type: integer
-                  timeoutSeconds:
-                    type: integer
-                type: object
-              service:
-                properties:
-                  type:
-                    type: string
-                  httpPort:
-                    type: integer
-                type: object
-              credentialSecretRef:
-                type: string
-            type: object
-          status:
-            properties:
-              ready:
-                type: boolean
-              appliedCredentialSecretVersion:
-                type: string
-            type: object
-        type: object
-    served: true
-    storage: true
-    subresources:
-      status: {}
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        scheme:
+                          type: string
+                      type: object
+                    initialDelaySeconds:
+                      type: integer
+                    periodSeconds:
+                      type: integer
+                    successThreshold:
+                      type: integer
+                    tcpSocket:
+                      properties:
+                        host:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                      type: object
+                    terminationGracePeriodSeconds:
+                      type: integer
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                service:
+                  properties:
+                    type:
+                      type: string
+                    httpPort:
+                      type: integer
+                  type: object
+                credentialSecretRef:
+                  type: string
+              type: object
+            status:
+              properties:
+                ready:
+                  type: boolean
+                appliedCredentialSecretVersion:
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: false
+      subresources:
+        status: {}

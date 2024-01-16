@@ -17,12 +17,12 @@ package com.google.gerrit.k8s.operator.network.istio;
 import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler.ISTIO_DESTINATION_RULE_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler.ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE;
 
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.GerritClusterIngressCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritClusterIstioGateway;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioDestinationRule;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioVirtualService;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;

@@ -19,13 +19,13 @@ import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.GERRIT_SECR
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gerrit.GerritStatus;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.GerritStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
