@@ -1,5 +1,5 @@
-com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster
-com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit
-com.google.gerrit.k8s.operator.v1beta4.api.model.gitgc.GitGarbageCollection
-com.google.gerrit.k8s.operator.v1beta4.api.model.receiver.Receiver
-com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork
+com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster
+com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit
+com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection
+com.google.gerrit.k8s.operator.api.model.receiver.Receiver
+com.google.gerrit.k8s.operator.api.model.network.GerritNetwork

@@ -16,8 +16,8 @@ package com.google.gerrit.k8s.operator.gitgc.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;

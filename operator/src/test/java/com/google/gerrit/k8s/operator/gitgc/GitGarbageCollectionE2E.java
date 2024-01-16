@@ -25,11 +25,11 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollectionSpec;
+import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollectionStatus;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gitgc.GitGarbageCollection;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gitgc.GitGarbageCollectionSpec;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gitgc.GitGarbageCollectionStatus;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;

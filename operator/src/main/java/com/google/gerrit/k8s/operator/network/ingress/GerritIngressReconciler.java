@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.network.ingress;
 
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.GerritClusterIngressCondition;
 import com.google.gerrit.k8s.operator.network.ingress.dependent.GerritClusterIngress;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
