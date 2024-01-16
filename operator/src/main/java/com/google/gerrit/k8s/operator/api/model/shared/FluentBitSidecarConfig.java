@@ -1,4 +1,4 @@
-// Copyright (C) 2023 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator;
+package com.google.gerrit.k8s.operator.api.model.shared;
 
-import com.google.inject.AbstractModule;
+public class FluentBitSidecarConfig {
+  private String image = "fluent/fluent-bit:latest";
+  private String config = "";
 
-public class Constants extends AbstractModule {
-  public static final String VERSION = "v1beta5";
-  public static final String[] CUSTOM_RESOURCES =
-      new String[] {"GerritCluster", "Gerrit", "Receiver", "GerritNetwork", "GitGarbageCollection"};
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public String getConfig() {
+    return config;
+  }
+
+  public void setConfig(String config) {
+    this.config = config;
+  }
 }
