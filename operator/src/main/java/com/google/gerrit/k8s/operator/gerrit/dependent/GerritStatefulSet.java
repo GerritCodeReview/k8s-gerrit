@@ -17,12 +17,16 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
+<<<<<<< PATCH SET (267093 [Operator] Add Fluent Bit Sidecar for Logging)
+import com.google.gerrit.k8s.operator.cluster.dependent.FluentBitConfigMap;
+=======
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
+>>>>>>> BASE      (1e7a4c [Operator] Change process to create new CRD version)
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -170,6 +174,13 @@ public class GerritStatefulSet
         .withLivenessProbe(gerrit.getSpec().getLivenessProbe())
         .addAllToVolumeMounts(getVolumeMounts(gerrit, false))
         .endContainer()
+        .addNewContainer()
+        .withName("fluentbit-logger")
+        .withEnv(getEnvVars(gerrit))
+        .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
+        .withImage(gerrit.getSpec().getFluentBitSidecar().getImage())
+        .addAllToVolumeMounts(getFluentbitVolumeMounts(gerrit))
+        .endContainer()
         .addAllToVolumes(getVolumes(gerrit))
         .endSpec()
         .endTemplate()
@@ -229,6 +240,14 @@ public class GerritStatefulSet
             .withName("gerrit-config")
             .withNewConfigMap()
             .withName(GerritConfigMap.getName(gerrit))
+            .endConfigMap()
+            .build());
+
+    volumes.add(
+        new VolumeBuilder()
+            .withName(FluentBitConfigMap.getName(gerrit))
+            .withNewConfigMap()
+            .withName(FluentBitConfigMap.getName(gerrit))
             .endConfigMap()
             .build());
 
@@ -296,7 +315,6 @@ public class GerritStatefulSet
         volumeMounts.add(GerritCluster.getPluginCacheVolumeMount());
       }
     }
-
     for (GerritModule module : gerrit.getSpec().getAllGerritModules()) {
       GerritModuleData md = module.getModuleData();
       if (md == null) {
@@ -314,6 +332,19 @@ public class GerritStatefulSet
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
       volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
+
+    return volumeMounts;
+  }
+
+  private Set<VolumeMount> getFluentbitVolumeMounts(Gerrit gerrit) {
+    Set<VolumeMount> volumeMounts = new HashSet<>();
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(FluentBitConfigMap.getName(gerrit))
+            .withMountPath("/fluent-bit/etc/")
+            .build());
+
+    volumeMounts.add(GerritCluster.getLogsVolumeMount());
 
     return volumeMounts;
   }
