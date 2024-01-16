@@ -28,6 +28,7 @@
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
   - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+  - [FluentBitSidecarConfig](#fluentbitsidecarconfig)
   - [GerritTemplate](#gerrittemplate)
   - [GerritTemplateSpec](#gerrittemplatespec)
   - [GerritProbe](#gerritprobe)
@@ -67,7 +68,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta4 \
+**Version**: v1beta5 \
 **Kind**: GerritCluster
 
 ---
@@ -84,7 +85,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta4"
+apiVersion: "gerritoperator.google.com/v1beta5"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -153,6 +154,14 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+
+  fluentBitSidecar:
+    enabled: true
+    image: fluent/fluent-bit:latest
+    config: |-
+      [OUTPUT]
+        Name              stdout
+        Match             *
 
   serverId: ""
 
@@ -353,7 +362,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta4 \
+**Version**: v1beta5 \
 **Kind**: Gerrit
 
 ---
@@ -370,7 +379,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta4"
+apiVersion: "gerritoperator.google.com/v1beta5"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -561,7 +570,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta4 \
+**Version**: v1beta5 \
 **Kind**: Receiver
 
 ---
@@ -578,7 +587,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta4"
+apiVersion: "gerritoperator.google.com/v1beta5"
 kind: Receiver
 metadata:
   name: receiver
@@ -689,7 +698,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta4 \
+**Version**: v1beta5 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -706,7 +715,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta4"
+apiVersion: "gerritoperator.google.com/v1beta5"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -750,7 +759,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta4 \
+**Version**: v1beta5 \
 **Kind**: GerritNetwork
 
 ---
@@ -766,7 +775,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta4"
+apiVersion: "gerritoperator.google.com/v1beta5"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -802,6 +811,7 @@ spec:
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
+| `fluentBitSidecar` | [`FluentBitSidecarConfig`](#fluentbitsidecarconfig) | The Fluent Bit sidecar for application logging |
 | `serverId` | `String` | The serverId to be used for all Gerrit instances (default: `<namespace>/<name>`) |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
 | `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
@@ -956,6 +966,19 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
 
+## FluentBitSidecarConfig
+
+Fluent Bit is installed as a sidecar container to each Gerrit pod, which allows application
+logs to be collected. If no custom configuration is set, logs will be available through
+stdout in each sidecar.
+The input is always configured by the operator.
+
+| Field | Type | Description |
+|---|---|---|
+| `enabled` | `boolean` | Whether or not to create the sidecar (default: `false`) |
+| `image` | `String` | Fluent Bit image from docker (default: `fluent/fluent-bit:latest`) |
+| `config` | `String` | Additional config for fluent bit. [Available options](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file) |
+
 ## GerritTemplate
 
 | Field | Type | Description |
@@ -1063,6 +1086,7 @@ pod restarts before Gerrit is ready.
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`IngressConfig`](#ingressconfig) | Ingress configuration for Gerrit |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
+| `fluentBitSidecar` | [`FluentBitSidecarConfig`](#fluentbitsidecarconfig) | The Fluent Bit sidecar for application logging |
 | `serverId` | `String` | The serverId to be used for all Gerrit instances |
 
 ## GerritStatus
