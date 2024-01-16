@@ -17,11 +17,11 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
+import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.GerritTemplate;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServicePort;

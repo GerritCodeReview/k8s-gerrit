@@ -20,6 +20,13 @@ import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLU
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CM_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
+import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.cluster.GerritClusterStatus;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
@@ -30,13 +37,6 @@ import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsWorkaroundCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVCCondition;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.cluster.GerritClusterStatus;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.GerritTemplate;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.receiver.Receiver;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.receiver.ReceiverTemplate;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;

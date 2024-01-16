@@ -15,10 +15,10 @@
 package com.google.gerrit.k8s.operator.receiver;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverStatus;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.receiver.Receiver;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.receiver.ReceiverStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.Secret;

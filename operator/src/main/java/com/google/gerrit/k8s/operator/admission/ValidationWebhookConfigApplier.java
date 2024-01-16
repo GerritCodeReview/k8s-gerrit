@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
+import static com.google.gerrit.k8s.operator.Constants.VERSION;
 import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_NAME;
 import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_PORT;
 
@@ -35,7 +36,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -47,11 +47,9 @@ public class ValidationWebhookConfigApplier {
   private final KeyStoreProvider keyStoreProvider;
   private final ValidatingWebhookConfiguration cfg;
   private final String customResourceName;
-  private final String[] customResourceVersions;
 
   public interface Factory {
-    ValidationWebhookConfigApplier create(
-        String customResourceName, String[] customResourceVersions);
+    ValidationWebhookConfigApplier create(String customResourceName);
   }
 
   @AssistedInject
@@ -59,13 +57,11 @@ public class ValidationWebhookConfigApplier {
       KubernetesClient client,
       @Named("Namespace") String namespace,
       KeyStoreProvider keyStoreProvider,
-      @Assisted String customResourceName,
-      @Assisted String[] customResourceVersions) {
+      @Assisted String customResourceName) {
     this.client = client;
     this.namespace = namespace;
     this.keyStoreProvider = keyStoreProvider;
     this.customResourceName = customResourceName;
-    this.customResourceVersions = customResourceVersions;
 
     this.cfg = build();
   }
@@ -81,33 +77,27 @@ public class ValidationWebhookConfigApplier {
             .build());
   }
 
-  public List<ValidatingWebhook> webhooks()
+  public ValidatingWebhook webhook()
       throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
           CertificateException, IOException {
-    List<ValidatingWebhook> webhooks = new ArrayList<>();
-    for (String version : customResourceVersions) {
-      webhooks.add(
-          new ValidatingWebhookBuilder()
-              .withName(customResourceName.toLowerCase() + "." + version + ".validator.google.com")
-              .withAdmissionReviewVersions("v1", "v1beta1")
-              .withNewClientConfig()
-              .withCaBundle(caBundle())
-              .withNewService()
-              .withName(SERVICE_NAME)
-              .withNamespace(namespace)
-              .withPath(
-                  String.format("/admission/%s/%s", version, customResourceName).toLowerCase())
-              .withPort(SERVICE_PORT)
-              .endService()
-              .endClientConfig()
-              .withFailurePolicy("Fail")
-              .withMatchPolicy("Equivalent")
-              .withRules(rules(version))
-              .withTimeoutSeconds(10)
-              .withSideEffects("None")
-              .build());
-    }
-    return webhooks;
+    return new ValidatingWebhookBuilder()
+        .withName(customResourceName.toLowerCase() + "." + VERSION + ".validator.google.com")
+        .withAdmissionReviewVersions("v1", "v1beta1")
+        .withNewClientConfig()
+        .withCaBundle(caBundle())
+        .withNewService()
+        .withName(SERVICE_NAME)
+        .withNamespace(namespace)
+        .withPath(String.format("/admission/%s/%s", VERSION, customResourceName).toLowerCase())
+        .withPort(SERVICE_PORT)
+        .endService()
+        .endClientConfig()
+        .withFailurePolicy("Fail")
+        .withMatchPolicy("Equivalent")
+        .withRules(rules(VERSION))
+        .withTimeoutSeconds(10)
+        .withSideEffects("None")
+        .build();
   }
 
   private String caBundle()
@@ -122,7 +112,7 @@ public class ValidationWebhookConfigApplier {
           .withNewMetadata()
           .withName(customResourceName.toLowerCase())
           .endMetadata()
-          .withWebhooks(webhooks())
+          .withWebhooks(webhook())
           .build();
     } catch (CertificateException | IOException | KeyStoreException | NoSuchAlgorithmException e) {
       throw new RuntimeException(

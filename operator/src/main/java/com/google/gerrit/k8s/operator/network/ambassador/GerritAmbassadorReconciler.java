@@ -24,6 +24,7 @@ import static com.google.gerrit.k8s.operator.network.ambassador.dependent.Gerrit
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET.GERRIT_MAPPING_RECEIVER_GET;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext.GERRIT_TLS_CONTEXT;
 
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.CreateHostCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterHost;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
@@ -37,7 +38,6 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.LoadBalanceCo
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;

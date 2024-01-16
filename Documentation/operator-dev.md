@@ -49,10 +49,8 @@ It will create a new version based on the old version in the operator code that
 can be used to add the changes to the CRDs:
 
 ```sh
-operator/tools/newCRDVersion v1alpha v1beta1
-
-# optionally delete the now obsolete version
-operator/tools/newCRDVersion --delete v1alpha v1beta1 v1beta2
+NEW_VERSION_NAME=v1beta5
+operator/tools/newCRDVersion $NEW_VERSION_NAME
 ```
 
 **Note:** On OSX, the `--osx` flag has to be used for the `newCRDVersion` script
