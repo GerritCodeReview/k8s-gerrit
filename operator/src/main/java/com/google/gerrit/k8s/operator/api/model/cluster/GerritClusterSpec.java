@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.api.model.cluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
@@ -32,6 +33,15 @@ public class GerritClusterSpec {
   private String serverId = "";
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
+  private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
+
+  public FluentBitSidecarConfig getFluentBitSidecar() {
+    return fluentBitSidecar;
+  }
+
+  public void setFluentBitSidecar(FluentBitSidecarConfig fluentBitSidecar) {
+    this.fluentBitSidecar = fluentBitSidecar;
+  }
 
   public GerritStorageConfig getStorage() {
     return storage;
