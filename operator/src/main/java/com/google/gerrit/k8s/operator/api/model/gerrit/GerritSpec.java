@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
@@ -25,11 +26,20 @@ public class GerritSpec extends GerritTemplateSpec {
   private IngressConfig ingress = new IngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
   private String serverId = "";
+  private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
 
   public GerritSpec() {}
 
   public GerritSpec(GerritTemplateSpec templateSpec) {
     super(templateSpec);
+  }
+
+  public FluentBitSidecarConfig getFluentBitSidecar() {
+    return fluentBitSidecar;
+  }
+
+  public void setFluentBitSidecar(FluentBitSidecarConfig fluentBitSidecar) {
+    this.fluentBitSidecar = fluentBitSidecar;
   }
 
   public ContainerImageConfig getContainerImages() {
