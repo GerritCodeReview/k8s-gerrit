@@ -19,6 +19,7 @@ import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.GERRIT_SECR
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.cluster.dependent.FluentBitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret;
@@ -57,6 +58,10 @@ import java.util.stream.Collectors;
           name = "gerrit-secret",
           type = GerritSecret.class,
           useEventSourceWithName = GERRIT_SECRET_EVENT_SOURCE),
+      @Dependent(
+          name = "fluentbit-configmap",
+          type = FluentBitConfigMap.class,
+          useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-configmap",
           type = GerritConfigMap.class,

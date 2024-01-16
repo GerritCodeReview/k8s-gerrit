@@ -28,6 +28,7 @@
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
   - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+  - [FluentBitSidecarConfig](#fluentbitsidecarconfig)
   - [GerritTemplate](#gerrittemplate)
   - [GerritTemplateSpec](#gerrittemplatespec)
   - [GerritProbe](#gerritprobe)
@@ -153,6 +154,16 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+
+  fluentBitSidecar:
+    image: fluent/fluent-bit:latest
+    config: |-
+      [INPUT]
+        Name              tail
+        Path              /var/mnt/logs/*log
+      [OUTPUT]
+        Name              stdout
+        Match             *
 
   serverId: ""
 
@@ -798,6 +809,7 @@ spec:
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
+| `fluentBitSidecar` | [`FluentBitSidecarConfig`](#fluentbitsidecarconfig) | The Fluent Bit sidecar for application logging |
 | `serverId` | `String` | The serverId to be used for all Gerrit instances (default: `<namespace>/<name>`) |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
 | `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
@@ -952,6 +964,17 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
 
+## FluentBitSidecarConfig
+
+Fluent Bit is installed as a sidecar container to each Gerrit pod, which allows application
+logs to be collected. If no custom configuration is set, logs will be available through
+stdout in each sidecar.
+
+| Field | Type | Description |
+|---|---|---|
+| `image` | `String` | Fluent Bit image from docker (default: `fluent/fluent-bit:latest`) |
+| `config` | `String` | The config for fluent bit. [Available options](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file) |
+
 ## GerritTemplate
 
 | Field | Type | Description |
@@ -1059,6 +1082,7 @@ pod restarts before Gerrit is ready.
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`IngressConfig`](#ingressconfig) | Ingress configuration for Gerrit |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
+| `fluentBitSidecar` | [`FluentBitSidecarConfig`](#fluentbitsidecarconfig) | The Fluent Bit sidecar for application logging |
 | `serverId` | `String` | The serverId to be used for all Gerrit instances |
 
 ## GerritStatus
