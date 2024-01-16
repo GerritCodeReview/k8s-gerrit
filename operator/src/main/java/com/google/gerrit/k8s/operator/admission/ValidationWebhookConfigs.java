@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.admission;
 
 import static com.google.gerrit.k8s.operator.Constants.CUSTOM_RESOURCES;
-import static com.google.gerrit.k8s.operator.Constants.VERSIONS;
+import static com.google.gerrit.k8s.operator.Constants.VERSION;
 
 import com.google.gerrit.k8s.operator.LifecycleManager;
 import com.google.inject.Inject;
@@ -33,7 +33,7 @@ public class ValidationWebhookConfigs {
     this.configAppliers = new ArrayList<>();
 
     for (String customResourceName : CUSTOM_RESOURCES) {
-      this.configAppliers.add(configApplierFactory.create(customResourceName, VERSIONS));
+      this.configAppliers.add(configApplierFactory.create(customResourceName, VERSION));
     }
 
     lifecycleManager.addShutdownHook(

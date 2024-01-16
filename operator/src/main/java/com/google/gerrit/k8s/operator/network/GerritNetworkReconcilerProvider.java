@@ -14,11 +14,11 @@
 
 package com.google.gerrit.k8s.operator.network;
 
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler;
 import com.google.gerrit.k8s.operator.network.ingress.GerritIngressReconciler;
 import com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler;
 import com.google.gerrit.k8s.operator.network.none.GerritNoIngressReconciler;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;

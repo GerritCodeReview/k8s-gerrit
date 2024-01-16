@@ -2,7 +2,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--osx] [--delete DELETE_VERSION] OLD NEW"
+    echo >&2 "Usage: $me [--help] [--osx] NEW"
     exit 1
 }
 
@@ -10,12 +10,6 @@ while test $# -gt 0 ; do
   case "$1" in
   --help)
     usage
-    ;;
-
-  --delete)
-    shift
-    DELETE_VERSION=$1
-    shift
     ;;
 
   --osx)
@@ -28,53 +22,33 @@ while test $# -gt 0 ; do
   esac
 done
 
-OLD="$1"
-shift
 NEW="$1"
 
-if test -z "$OLD" || test -z "$NEW"; then
+if test -z "$NEW"; then
     usage
 fi
 
 SCRIPT_PATH="$(dirname "$(readlink -f "$0")")"
 API_PATH="$SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator"
 
-# Copy old version
-cp -R "$API_PATH/$OLD" "$API_PATH/$NEW"
+OLD="$(yq e '.spec.versions[0].name' $SCRIPT_PATH/../../crd/current/gerritclusters.gerritoperator.google.com-v1.yml)"
 
-# Adapt references to use new version
-find $SCRIPT_PATH/../src \
-    -path "$SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/$OLD" \
-    -prune \
-    -o \
-    -type f \
-    -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/com.google.gerrit.k8s.operator.$OLD/com.google.gerrit.k8s.operator.$NEW/g" {} ';'
-
-if test -n "$DELETE_VERSION"; then
-  sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/$DELETE_VERSION/$NEW/g" "$SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/Constants.java"
-else
-  sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/\"$OLD\"/\"$OLD\", \"$NEW\"/g" "$SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/Constants.java"
-fi
+sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/$OLD/$NEW/g" "$API_PATH/Constants.java"
 
 find $SCRIPT_PATH/.. \
     -name '*.yaml' \
     -type f \
     -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s#gerritoperator.google.com/$OLD#gerritoperator.google.com/$NEW#g" {} ';'
 
-find $SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/$NEW \
-    -type f \
-    -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/@Version(\"$OLD\")/@Version(\"$NEW\")/g" {} ';'
-
-find $SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/$OLD \
-    -type f \
-    -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/@Version(\"$OLD\")/@Version(value = \"$OLD\", storage = false)/g" {} ';'
-
-find $SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/$OLD \
-    -type f \
-    -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/public class/@Deprecated\npublic class/g" {} ';'
-
 sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s#$OLD#$NEW#g" $SCRIPT_PATH/../../Documentation/operator-api-reference.md
 
-if test -n "$DELETE_VERSION"; then
-    rm -rf $SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator/$DELETE_VERSION
-fi
+rm -r $SCRIPT_PATH/../../crd/deprecated
+mv $SCRIPT_PATH/../../crd/current $SCRIPT_PATH/../../crd/deprecated
+for f in "$SCRIPT_PATH/../../crd/deprecated/"*.yml; do
+  yq -i '.spec.versions[0].storage = false' "$f"
+done
+mkdir $SCRIPT_PATH/../../crd/current
+
+pushd $SCRIPT_PATH/..
+  mvn clean install
+popd
