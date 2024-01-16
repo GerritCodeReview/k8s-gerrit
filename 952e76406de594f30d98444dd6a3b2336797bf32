@@ -22,6 +22,30 @@
       },
       "revId": "952e76406de594f30d98444dd6a3b2336797bf32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb6ae22e_529e41ab",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-16T15:49:53Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. It did occur to me that maybe we should just receive the entire fluent-bit.conf file, the same way we do gerrit.config, as a single input which allows greater control. Maybe we should opt for that in the end. If we go that way it would also be more straightforward to make it a generic SidecarConfigMap.",
+      "parentUuid": "372f3292_7fe1c870",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "952e76406de594f30d98444dd6a3b2336797bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
