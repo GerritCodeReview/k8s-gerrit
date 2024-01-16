@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.GERRIT_SECRET_EVENT_SOURCE;
 
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ResourceDiscriminator;

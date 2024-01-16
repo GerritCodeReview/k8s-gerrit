@@ -18,10 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.gerrit.GerritSpec;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.shared.IngressConfig;
-import com.google.gerrit.k8s.operator.v1beta4.gerrit.config.GerritConfigBuilder;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gerrit.GerritSpec;
+import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.Map;
 import java.util.Set;
 import org.assertj.core.util.Arrays;
