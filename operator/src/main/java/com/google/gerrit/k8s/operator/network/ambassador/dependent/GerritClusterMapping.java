@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.GerritNetwork;
-import com.google.gerrit.k8s.operator.v1beta4.api.model.network.NetworkMemberWithSsh;
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.api.model.network.NetworkMemberWithSsh;
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.MappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;

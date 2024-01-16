@@ -343,7 +343,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>../helm-charts/gerrit-operator-crds/templates</outputDirectory>
+							<outputDirectory>../crd/current</outputDirectory>
 							<resources>
 								<resource>
 									<directory>target/classes/META-INF/fabric8</directory>
@@ -355,6 +355,23 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>combine-crd-versions</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>tools/combineCRDVersions</executable>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
