@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d57b1b20_0ac303b1",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-16T09:36:37Z",
+      "side": 1,
+      "message": "This is unrelated to this change",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0cd4e40_8e25bd4b",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-16T09:36:37Z",
+      "side": 1,
+      "message": "This is also unrelated",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "741d4990_8ee9790d",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-01-16T09:36:37Z",
+      "side": 1,
+      "message": "Why are colon characters removed?",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
