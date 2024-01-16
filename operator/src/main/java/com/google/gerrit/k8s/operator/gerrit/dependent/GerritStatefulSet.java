@@ -22,10 +22,13 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.cluster.dependent.FluentBitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
+import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
@@ -69,6 +72,20 @@ public class GerritStatefulSet
     StatefulSetBuilder stsBuilder = new StatefulSetBuilder();
 
     List<Container> initContainers = new ArrayList<>();
+    List<Container> sidecarContainers = new ArrayList<>();
+
+    FluentBitSidecarConfig fluentBitSidecarConfig = gerrit.getSpec().getFluentBitSidecar();
+    if (fluentBitSidecarConfig.isEnabled()) {
+      Container fluentBitSidecarContainer =
+          new ContainerBuilder()
+              .withName("fluentbit-logger")
+              .withEnv(getEnvVars(gerrit))
+              .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
+              .withImage(gerrit.getSpec().getFluentBitSidecar().getImage())
+              .addAllToVolumeMounts(getFluentbitVolumeMounts(gerrit))
+              .build();
+      sidecarContainers.add(fluentBitSidecarContainer);
+    }
 
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
@@ -170,6 +187,7 @@ public class GerritStatefulSet
         .withLivenessProbe(gerrit.getSpec().getLivenessProbe())
         .addAllToVolumeMounts(getVolumeMounts(gerrit, false))
         .endContainer()
+        .addAllToContainers(sidecarContainers)
         .addAllToVolumes(getVolumes(gerrit))
         .endSpec()
         .endTemplate()
@@ -229,6 +247,14 @@ public class GerritStatefulSet
             .withName("gerrit-config")
             .withNewConfigMap()
             .withName(GerritConfigMap.getName(gerrit))
+            .endConfigMap()
+            .build());
+
+    volumes.add(
+        new VolumeBuilder()
+            .withName(FluentBitConfigMap.getName(gerrit))
+            .withNewConfigMap()
+            .withName(FluentBitConfigMap.getName(gerrit))
             .endConfigMap()
             .build());
 
@@ -314,6 +340,19 @@ public class GerritStatefulSet
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
       volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
+
+    return volumeMounts;
+  }
+
+  private Set<VolumeMount> getFluentbitVolumeMounts(Gerrit gerrit) {
+    Set<VolumeMount> volumeMounts = new HashSet<>();
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(FluentBitConfigMap.getName(gerrit))
+            .withMountPath("/fluent-bit/etc/")
+            .build());
+
+    volumeMounts.add(GerritCluster.getLogsVolumeMount());
 
     return volumeMounts;
   }
