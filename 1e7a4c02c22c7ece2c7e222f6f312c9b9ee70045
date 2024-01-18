@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebf36bf5_9e468b35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-18T15:35:15Z",
+      "side": 1,
+      "message": "I believe these are the items to review in this change out of the 211 files, just to check I\u0027m not missing one: \nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/402997/5/Documentation/operator-dev.md\nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/402997/5/operator/pom.xml\nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/402997/5/operator/tools/combineCRDVersions\nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/402997/5/operator/tools/newCRDVersion",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cab1f21e_e2bf1fcf",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-18T15:35:15Z",
+      "side": 1,
+      "message": "Is this only for the gerritclusters crd, the others don\u0027t need to be kept in this way? I\u0027m wondering since it wasn\u0027t specifically named in the previous version of the script, but is here.",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
