@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c823b872_cb3f93e2",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-18T12:58:51Z",
+      "side": 1,
+      "message": "No, this is logging how many of the preserved packs will be pruned due to age.",
+      "parentUuid": "d57b1b20_0ac303b1",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0cd4e40_8e25bd4b",
         "filename": "container-images/git-gc/tools/gc.sh",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-16T09:36:37Z",
       "side": 1,
       "message": "This is also unrelated",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38ae769c_80bac0cb",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-18T12:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0cd4e40_8e25bd4b",
       "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2024-01-16T09:36:37Z",
       "side": 1,
       "message": "Why are colon characters removed?",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907f8dca_f2626f3e",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-18T12:58:51Z",
+      "side": 1,
+      "message": "Because the colon is signalling that a value is required, but these are flags not options.",
+      "parentUuid": "741d4990_8ee9790d",
       "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
