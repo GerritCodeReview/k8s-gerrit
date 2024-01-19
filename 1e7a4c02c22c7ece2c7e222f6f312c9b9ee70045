@@ -38,6 +38,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "772331af_0065a530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T12:19:09Z",
+      "side": 1,
+      "message": "When I run `operator/tools/newCRDVersion v1alpha5` I get many (dozens of lines) of `sed: 1: \"/Users/I561397/Document ...\": invalid command code 5` before the build starts. Then the build progresses as normal, but without having actually changed the versioning.",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ace6b167_686a6f66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T12:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b93cd407_bd61c99b",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cab1f21e_e2bf1fcf",
         "filename": "operator/tools/newCRDVersion",
         "patchSetId": 5
@@ -67,6 +102,24 @@
       "side": 1,
       "message": "It is for all. But since the version is the same for all CRDs, I just have to get it from one.",
       "parentUuid": "cab1f21e_e2bf1fcf",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff0ae0b2_3a58a66e",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T12:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a184a5c5_ba951b19",
       "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
