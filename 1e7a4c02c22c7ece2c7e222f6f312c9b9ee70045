@@ -73,6 +73,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f97f5d1c_f676ab09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-19T13:32:31Z",
+      "side": 1,
+      "message": "you need to add the option `--osx` if you are using MacOs `sed`, if you use gnu `sed` (that\u0027s the default on Linux) it should work without this option",
+      "parentUuid": "772331af_0065a530",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7abdd41_1730f7c7",
+        "filename": "operator/tools/combineCRDVersions",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-19T13:32:31Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cab1f21e_e2bf1fcf",
         "filename": "operator/tools/newCRDVersion",
         "patchSetId": 5
