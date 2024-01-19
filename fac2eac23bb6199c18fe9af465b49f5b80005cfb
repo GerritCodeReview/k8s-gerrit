@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1048cbc0_e2f2b328",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterSpec.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9d2eec_65720bb1",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ff2a688_83624570",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-01-19T13:37:33Z",
       "side": 1,
       "message": "nit: keep the same order as the field declarations",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b88fb5_8120daca",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritSpec.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff2a688_83624570",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55dc0845_cbd84ab0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/FluentBitSidecarConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c523bef7_cdd1bef1",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b74dc81_a3b6273d",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-01-19T13:37:33Z",
       "side": 1,
       "message": "Does that need to be configurable? It is also missing in the documentation.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "182167ae_bbde03bb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/FluentBitSidecarConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "No, it doesn\u0027t. I think this is fine to hardcode",
+      "parentUuid": "1b74dc81_a3b6273d",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b99588_f15517e0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/FluentBitSidecarConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "The default configuration is set in the FluentBitConfigMap. It\u0027s ok if it is an empty String as it\u0027ll just be appended to the default config. I think it makes sense to initialize it to an empty string here rather than do a null check in the configmap.",
+      "parentUuid": "98afe251_93c5a1d9",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88493e53_c08496bf",
@@ -146,6 +266,30 @@
       "writtenOn": "2024-01-19T13:37:33Z",
       "side": 1,
       "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09e494db_ecb601c3",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88493e53_c08496bf",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -179,6 +323,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f0982c_04207852",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "It would be fine. Fluentbit can have multiple input sections, each input is in its own INPUT section with its own configuration keys.\n\nAlthough if they want to *replace* the default one they can\u0027t. But I think that\u0027s fine",
+      "parentUuid": "d9dcc88d_9c66ae55",
+      "range": {
+        "startLine": 54,
+        "startChar": 21,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55f2ea97_9f99e804",
@@ -192,6 +360,30 @@
       "writtenOn": "2024-01-19T13:37:33Z",
       "side": 1,
       "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "668598ca_1f7e7f1c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMapDiscriminator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55f2ea97_9f99e804",
       "range": {
         "startLine": 1,
         "startChar": 17,

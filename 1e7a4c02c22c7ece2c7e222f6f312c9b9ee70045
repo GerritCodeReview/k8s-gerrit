@@ -16,6 +16,24 @@
       "message": "unrelated change",
       "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5197c5f_5c081cc6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-19T15:31:17Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c70ce2e1_95989ec4",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
