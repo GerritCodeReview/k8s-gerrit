@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c98564_aa9f8834",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T13:53:34Z",
+      "side": 1,
+      "message": "Moved to separate change.",
+      "parentUuid": "c0c0aa86_ed228e0e",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0cd4e40_8e25bd4b",
