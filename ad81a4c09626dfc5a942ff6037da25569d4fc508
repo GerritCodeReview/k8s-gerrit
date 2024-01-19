@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12058e70_cecec8a7",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-19T14:02:15Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
