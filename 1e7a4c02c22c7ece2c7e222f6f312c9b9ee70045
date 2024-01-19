@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b93cd407_bd61c99b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T08:27:59Z",
+      "side": 1,
+      "message": "Patchset 1 removes the old version. So if you review PS1 you review the removal. If you review the diff between PS1 and PS5 [1] you review the new stuff. This has to be done in a single change for the same reasons an update has to happen in a single change.\n\n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/402997/1..5",
+      "parentUuid": "ebf36bf5_9e468b35",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cab1f21e_e2bf1fcf",
         "filename": "operator/tools/newCRDVersion",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-18T15:35:15Z",
       "side": 1,
       "message": "Is this only for the gerritclusters crd, the others don\u0027t need to be kept in this way? I\u0027m wondering since it wasn\u0027t specifically named in the previous version of the script, but is here.",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a184a5c5_ba951b19",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T08:27:59Z",
+      "side": 1,
+      "message": "It is for all. But since the version is the same for all CRDs, I just have to get it from one.",
+      "parentUuid": "cab1f21e_e2bf1fcf",
       "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
