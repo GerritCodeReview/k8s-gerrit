@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27766820_75f6bb6e",
+        "filename": "operator/tools/combineCRDVersions",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-19T15:41:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "301cc9e8_b014a18f",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cab1f21e_e2bf1fcf",

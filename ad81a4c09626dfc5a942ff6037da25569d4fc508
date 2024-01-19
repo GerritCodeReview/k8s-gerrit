@@ -69,6 +69,24 @@
       "parentUuid": "12058e70_cecec8a7",
       "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff1405c_4a6067ec",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-19T15:41:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "84ec5a94_5e19fd46",
+      "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
