@@ -176,6 +176,9 @@ gc_project()
    find "$PROJECT_DIR/refs/changes" -type d | xargs rmdir
   ) 2>/dev/null
 
+  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +14 -delete) && \
+        log "pruning stale 'incoming_*.pack' files older than 14 days:\n$OUT"
+
   if [ $DONOT_PACK_REFS_OPT -eq 0 ] ; then
     local looseRefCount
     looseRefCount=$(find "$PROJECT_DIR/refs/" -type f | wc -l)
