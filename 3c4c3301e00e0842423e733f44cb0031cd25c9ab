@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0c0aa86_ed228e0e",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-19T13:44:08Z",
+      "side": 1,
+      "message": "I think `incoming_*.pack` files are not related to preserving pack files to be gc-ed with the next gc but are left over if a receive-pack is interrupted e.g. by a connection failure",
+      "parentUuid": "c823b872_cb3f93e2",
+      "revId": "3c4c3301e00e0842423e733f44cb0031cd25c9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0cd4e40_8e25bd4b",
         "filename": "container-images/git-gc/tools/gc.sh",
         "patchSetId": 2
