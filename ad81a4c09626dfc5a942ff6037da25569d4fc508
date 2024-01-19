@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac4d9606_82fa84cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T14:14:12Z",
+      "side": 1,
+      "message": "Guice error:\n\n```\nException in thread \"main\" com.google.inject.CreationException: Unable to create injector, see the following errors:\n\n1) [Guice/BindingAlreadySet]: String annotated with @Assisted(\"\") was bound multiple times.\n\nBound at:\n1  : ValidationWebhookConfigApplier$Factory.create(ValidationWebhookConfigApplier.java:1)\n2  : ValidationWebhookConfigApplier$Factory.create(ValidationWebhookConfigApplier.java:1)\n\nLearn more:\n  https://github.com/google/guice/wiki/BINDING_ALREADY_SET\n\n1 error\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFull classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nAssisted:                               \"com.google.inject.assistedinject.Assisted\"\nValidationWebhookConfigApplier$Factory: \"com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigApplier$Factory\"\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nEnd of classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\n    at com.google.inject.internal.Errors.throwCreationExceptionIfErrorsExist(Errors.java:576)\n    at com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:182)\n    at com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:113)\n    at com.google.inject.Guice.createInjector(Guice.java:87)\n    at com.google.inject.Guice.createInjector(Guice.java:78)\n    at com.google.gerrit.k8s.operator.Main.main(Main.java:26)\nStream closed EOF for gerrit-operator/gerrit-operator-f57ffcc79-x7zns (operator)\n\n```",
+      "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12058e70_cecec8a7",
         "filename": "operator/tools/newCRDVersion",
         "patchSetId": 6
