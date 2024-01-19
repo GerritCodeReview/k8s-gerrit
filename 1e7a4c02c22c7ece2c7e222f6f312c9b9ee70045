@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "199b4ce7_1d514b3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T14:24:53Z",
+      "side": 1,
+      "message": "Yes. That is indeed the solution.",
+      "parentUuid": "f97f5d1c_f676ab09",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7abdd41_1730f7c7",
@@ -102,6 +120,24 @@
       "writtenOn": "2024-01-19T13:32:31Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301cc9e8_b014a18f",
+        "filename": "operator/tools/combineCRDVersions",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T14:24:53Z",
+      "side": 1,
+      "message": "At the moment no shell script in this repo has a license header. I will add them in a separate change.",
+      "parentUuid": "e7abdd41_1730f7c7",
       "revId": "1e7a4c02c22c7ece2c7e222f6f312c9b9ee70045",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0399cde5_3e0685af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T14:24:53Z",
+      "side": 1,
+      "message": "Fixed. It is not possible to have assisted injects for two parameters of the same type.",
+      "parentUuid": "ac4d9606_82fa84cd",
+      "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12058e70_cecec8a7",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-19T14:02:15Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ec5a94_5e19fd46",
+        "filename": "operator/tools/newCRDVersion",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-19T14:24:53Z",
+      "side": 1,
+      "message": "At the moment no shell script in this repo has a license header. I will add them in a separate change.",
+      "parentUuid": "12058e70_cecec8a7",
       "revId": "ad81a4c09626dfc5a942ff6037da25569d4fc508",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
