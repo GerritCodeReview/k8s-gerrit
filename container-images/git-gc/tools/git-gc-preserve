@@ -74,18 +74,19 @@ preserve_packs() { # repo
     return 0
   fi
   local packdir=$1/objects/pack
-  pushd "$packdir" >/dev/null || exit
+  local current_pwd=$(pwd)
+  cd "$packdir" >/dev/null || exit
   mkdir -p preserved
-  printf "Preserving packs: "
+  printf "Preserving packs: " 1>&2
   count=0
-  for file in pack-*{.pack,.idx} ; do
+  for file in pack-*.pack pack-*.idx ; do
     ln -f "$file" preserved/"$(get_preserved_packfile_name "$file")"
-    if [[ "$file" == pack-*.pack ]]; then
-      ((count++))
-    fi
+    case $file in
+      pack-*.pack*) count=$(expr $count + 1);;
+    esac
   done
-  echo "$count, done."
-  popd >/dev/null || exit
+  echo "$count, done." 1>&2
+  cd $current_pwd >/dev/null || exit
 }
 
 # pack-0...2.pack to pack-0...2.old-pack
