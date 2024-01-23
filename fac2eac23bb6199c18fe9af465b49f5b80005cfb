@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1eb9dc_6ddbeefc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-23T10:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59c19052_b8c4e5d4",
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb9d2eec_65720bb1",
@@ -431,6 +449,30 @@
       "side": 1,
       "message": "I\u0027m not sure how to optionally add a container here, is there an example of that somewhere? I would guess I add an “if the fluentbit configuration is set, addNewContainer()...“ block, but how do I reference the specific Spec that is updated.",
       "parentUuid": "40d4ba46_d7e8509d",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 23
+      },
+      "revId": "fac2eac23bb6199c18fe9af465b49f5b80005cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56fd79de_a222db4f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-23T10:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a6ba9c_0df8c7f0",
       "range": {
         "startLine": 174,
         "startChar": 0,
