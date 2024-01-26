@@ -16,7 +16,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--tag TAG] [--gerrit-url URL] [--base-image IMAGE] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [IMAGE]"
     exit 1
 }
 
@@ -24,6 +24,11 @@ while test $# -gt 0 ; do
   case "$1" in
   --help)
     usage
+    ;;
+
+  --no-cache)
+    NO_CACHE=true
+    shift
     ;;
 
   --tag)
@@ -59,6 +64,9 @@ done
 source container-images/publish_list
 IMAGES=$(get_image_list)
 
+DOCKER_BUILD_OPTS="--platform=linux/amd64"
+test -n "$NO_CACHE" && DOCKER_BUILD_OPTS="$DOCKER_BUILD_OPTS --no-cache"
+
 if test -n "$GERRIT_WAR_URL"; then
     BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
 fi
@@ -73,7 +81,7 @@ docker_build(){
     IMAGE=$1
 
     docker build \
-        --platform=linux/amd64 \
+        $DOCKER_BUILD_OPTS \
         --build-arg TAG=$REV \
         -t k8sgerrit/$IMAGE:$TAG \
         ./container-images/$IMAGE
@@ -89,7 +97,7 @@ docker_build(){
 docker_build_gerrit_base(){
     BUILD_ARGS="$BUILD_ARGS --build-arg TAG=$REV"
     docker build \
-        --platform=linux/amd64 \
+        $DOCKER_BUILD_OPTS \
         $BUILD_ARGS \
         -t gerrit-base:$REV \
         ./container-images/gerrit-base
@@ -110,7 +118,7 @@ if test -n "$BASE_IMAGE"; then
     BASE_BUILD_ARGS="--build-arg BASE_IMAGE=$BASE_IMAGE"
 fi
 
-docker build $BASE_BUILD_ARGS --platform=linux/amd64 -t base:$REV ./container-images/base
+docker build $DOCKER_BUILD_OPTS $BASE_BUILD_ARGS -t base:$REV ./container-images/base
 if test $? -ne 0; then
     echo -e "\n\nFailed to build base image."
     exit 1
