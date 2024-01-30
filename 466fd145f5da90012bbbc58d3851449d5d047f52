@@ -16,6 +16,23 @@
       "message": "Ping",
       "revId": "466fd145f5da90012bbbc58d3851449d5d047f52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6a3efa_2d40d22c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-30T16:05:06Z",
+      "side": 1,
+      "message": "shouldn\u0027t we also expose the pod name ?",
+      "revId": "466fd145f5da90012bbbc58d3851449d5d047f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
