@@ -33,6 +33,24 @@
       "message": "shouldn\u0027t we also expose the pod name ?",
       "revId": "466fd145f5da90012bbbc58d3851449d5d047f52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29686d4b_c27cee7b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-30T16:13:38Z",
+      "side": 1,
+      "message": "We could, but it can also be done in the fluentbit sidecar part of the cluster configuration. I anticipated that we would prefer it in the blob as that way we don\u0027t need to update, rebuild and republish the operator every time we want to change the name of the label or make another minor fluentbit configuration change.\n\nYou can see how the pod name will be exposed through configuration here: https://git.wdf.sap.corp/c/argocd-gerrit/+/6062336/3/resources/gerrit/dev/resources/gerrit.yml\n\nI could add it here instead if we definitely want to hardcode it.",
+      "parentUuid": "aa6a3efa_2d40d22c",
+      "revId": "466fd145f5da90012bbbc58d3851449d5d047f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
