@@ -78,6 +78,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d853399_9bc8def0",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-31T14:16:17Z",
+      "side": 1,
+      "message": "Maybe would be better to leave this enabled? So that people can use the ingress to access the service, without having to use port forwarding.\n\n\n```suggestion\n    enabled: true\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33f92b5c_d6ac2cde",
         "filename": "Documentation/examples/gerritcluster.yaml",
         "patchSetId": 1
