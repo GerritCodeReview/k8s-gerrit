@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df76eaa7_dfa4f3a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Sure. I don\u0027t see an issue with that. We would just have to adapt the `build` script in the repository.\n\nThe whole CI/Release process of k8sgerrit however still requires a lot of work. We have a pipeline within SAP tailored to our setup, but for the open source version we are still lacking. For verification we use our SAP internal CI, which doesn\u0027t vote here. Would be great to get support for setting something up in the Gerrit CI.",
+      "parentUuid": "82ef67f4_e6588eb8",
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5d40a24_fb243459",
         "filename": "Documentation/examples/gerritcluster.yaml",
         "patchSetId": 1
@@ -66,6 +84,30 @@
       "writtenOn": "2024-01-31T12:25:53Z",
       "side": 1,
       "message": "```suggestion\napiVersion: \"gerritoperator.google.com/v1beta3\"\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 46
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46ef1b31_fd1edae8",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "I added a section to the guide on how to build the container images locally. That ensures that the versions of the CRDs and the containers being used is in sync. Thus, at this point in the commit graph it would be v1beta4.",
+      "parentUuid": "e5d40a24_fb243459",
       "range": {
         "startLine": 49,
         "startChar": 39,
@@ -99,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0604cc5_e1a0aa3d",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "I have extended the guide and in a later step istio will be used a s an ingress provider.",
+      "parentUuid": "9d853399_9bc8def0",
+      "range": {
+        "startLine": 68,
+        "startChar": 13,
+        "endLine": 68,
+        "endChar": 18
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33f92b5c_d6ac2cde",
@@ -112,6 +178,30 @@
       "writtenOn": "2024-01-31T12:35:21Z",
       "side": 1,
       "message": "Either minikube is slow or probes are too aggressive, in this case the container is restarted before gerrit is ready.\n\nManaged to make it work only with an initial delay of 120 s",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 30
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d88aa6_b8b1276c",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "I have assigned Minikube 10 CPUs and 32 Gb RAM on my MacBook. With that it works. This is highly dependent on the resources and also whether there are already filled repositories. Let me set some more appropriate values.",
+      "parentUuid": "33f92b5c_d6ac2cde",
       "range": {
         "startLine": 92,
         "startChar": 8,
@@ -145,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d00c5a99_6e925ebd",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffd3a623_8bb49cad",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "698bf80b_991815c0",
@@ -158,6 +272,30 @@
       "writtenOn": "2024-01-31T12:35:21Z",
       "side": 1,
       "message": "Same problem, added 120s for readiness to work",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90901e21_5b75cdc0",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "698bf80b_991815c0",
       "range": {
         "startLine": 99,
         "startChar": 8,
@@ -191,6 +329,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71869e6b_228a25bb",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d043e444_d8eafe0e",
+      "range": {
+        "startLine": 101,
+        "startChar": 24,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a26d3556_0818382b",
@@ -204,6 +366,30 @@
       "writtenOn": "2024-01-31T12:55:59Z",
       "side": 1,
       "message": "```suggestion\n        timeoutSeconds: 10\n```",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 25
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37de8e8d_2f9eece3",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a26d3556_0818382b",
       "range": {
         "startLine": 108,
         "startChar": 24,
@@ -251,6 +437,30 @@
       "side": 1,
       "message": "Same here, it isn\u0027t exposed to any external IP though.",
       "parentUuid": "a9509f7e_78f1bb16",
+      "range": {
+        "startLine": 114,
+        "startChar": 18,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f91302e6_1d25a5ec",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "NodePort services don\u0027t get an external IP, you would need to use the `LoadBalancer` type. Minikube anyway does need some extra work. This is described now in the section describing how to enable Istio support.",
+      "parentUuid": "e9845589_087ad2c9",
       "range": {
         "startLine": 114,
         "startChar": 18,
@@ -319,6 +529,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eec0a01c_b1d61c15",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "I have added a section listing the required tools. I didn\u0027t add recommended versions, since the range is pretty broad and maintaining that list will be quite an effort. If users report incompatibilities we should of course add those (already done for helm 2).",
+      "parentUuid": "0d8dc027_89f9298b",
+      "range": {
+        "startLine": 368,
+        "startChar": 0,
+        "endLine": 368,
+        "endChar": 4
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1529e18b_943f307b",
@@ -332,6 +566,30 @@
       "writtenOn": "2024-01-31T12:20:16Z",
       "side": 1,
       "message": "Shouldn\u0027t you creating the `gerrit` namespace first?\nOtherwise the deployment would fail with:\n```\nError from server (NotFound): error when creating \"Documentation/examples/gerritcluster.yaml\": namespaces \"gerrit\" not found\n```",
+      "range": {
+        "startLine": 382,
+        "startChar": 14,
+        "endLine": 382,
+        "endChar": 44
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43f9165c_e96b1ac3",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Good catch. Forgot to add that. Will have to run through the guide once start to finish.",
+      "parentUuid": "1529e18b_943f307b",
       "range": {
         "startLine": 382,
         "startChar": 14,
@@ -359,6 +617,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0139b831_4db83791",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "I have added a command to create the namespace. It is a little shorter then putting the whole yaml there as a file.",
+      "parentUuid": "a0285a36_63b1afd6",
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08d5edc2_44740ee2",
@@ -372,6 +648,24 @@
       "writtenOn": "2024-01-31T12:31:26Z",
       "side": 1,
       "message": "maybe we can add the command?:\n```\nkubectl port-forward gerrit-0 8080:8080\n```",
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ebb9fd8_cfd0b0e3",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T19:44:02Z",
+      "side": 1,
+      "message": "Used `minikube tunnel` in the extended guide after installing Istio.",
+      "parentUuid": "08d5edc2_44740ee2",
       "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
