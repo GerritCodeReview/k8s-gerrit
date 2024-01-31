@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68eccd9_1b2f65af",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/FluentBitSidecarConfig.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T08:54:00Z",
+      "side": 1,
+      "message": "`false` is already the default value for booleans. No need to set it explicitly.",
+      "range": {
+        "startLine": 20,
+        "startChar": 25,
+        "endLine": 20,
+        "endChar": 33
+      },
+      "revId": "500172283de35bc41e793e65d9c8d7c4d3b19bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae4d3054_ad77b708",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-01-31T08:54:00Z",
+      "side": 1,
+      "message": "Not sure if this is a good idea. This would lead to writing a ton of logs to the nodes and they would be duplicated in the log viewer, if general pod logs are also collected.\nMaybe just make this the default for the `customConfig`? Then it is easy to see that fluentbit basically works, but it can be overridden with any output.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 29
+      },
+      "revId": "500172283de35bc41e793e65d9c8d7c4d3b19bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
