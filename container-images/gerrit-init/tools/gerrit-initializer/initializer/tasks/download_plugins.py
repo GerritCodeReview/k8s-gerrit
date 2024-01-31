@@ -91,6 +91,8 @@ class AbstractPluginInstaller(ABC):
         required = []
         if self.config.is_ha:
             required.extend(REQUIRED_HA_LIBS)
+        elif self.config.refdb:
+            required.extend("global-refdb")
         LOG.info("Requiring libs: %s", required)
         return required
 
