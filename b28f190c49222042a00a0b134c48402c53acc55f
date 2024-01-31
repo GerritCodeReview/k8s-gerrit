@@ -43,6 +43,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33f92b5c_d6ac2cde",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-01-31T12:35:21Z",
+      "side": 1,
+      "message": "Either minikube is slow or probes are too aggressive, in this case the container is restarted before gerrit is ready.\n\nManaged to make it work only with an initial delay of 120 s",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 30
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698bf80b_991815c0",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-01-31T12:35:21Z",
+      "side": 1,
+      "message": "Same problem, added 120s for readiness to work",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9509f7e_78f1bb16",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-01-31T12:35:21Z",
+      "side": 1,
+      "message": "cahnged to 8080 and was able to access it from browser by forwarding the port of the container i.e.\n`kubectl port-forward gerrit-0 8080:8080`",
+      "range": {
+        "startLine": 114,
+        "startChar": 18,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4eb06ec3_ec391a7c",
         "filename": "Documentation/operator.md",
         "patchSetId": 1
