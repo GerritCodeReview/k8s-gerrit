@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5d40a24_fb243459",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-31T12:25:53Z",
+      "side": 1,
+      "message": "```suggestion\napiVersion: \"gerritoperator.google.com/v1beta3\"\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 46
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4eb06ec3_ec391a7c",
         "filename": "Documentation/operator.md",
         "patchSetId": 1
