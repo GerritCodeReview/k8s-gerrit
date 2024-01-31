@@ -75,18 +75,16 @@ public class GerritTemplate implements KubernetesResource {
     gerritSpec.setIngress(ingressConfig);
     gerritSpec.setServerId(getServerId(gerritCluster));
     gerritSpec.setFluentBitSidecar(gerritCluster.getSpec().getFluentBitSidecar());
-    if (getSpec().isHighlyAvailablePrimary()) {
-      GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
-      if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
-        refdb
-            .getZookeeper()
-            .setRootNode(
-                gerritCluster.getMetadata().getNamespace()
-                    + "/"
-                    + gerritCluster.getMetadata().getName());
-      }
-      gerritSpec.setRefdb(gerritCluster.getSpec().getRefdb());
+    GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
+    if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
+      refdb
+          .getZookeeper()
+          .setRootNode(
+              gerritCluster.getMetadata().getNamespace()
+                  + "/"
+                  + gerritCluster.getMetadata().getName());
     }
+    gerritSpec.setRefdb(gerritCluster.getSpec().getRefdb());
     gerrit.setSpec(gerritSpec);
     return gerrit;
   }
