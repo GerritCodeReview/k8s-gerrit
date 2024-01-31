@@ -1,28 +1,38 @@
 # Gerrit Operator
 
-1. [Gerrit Operator](#gerrit-operator)
-   1. [Development](#development)
-   2. [Prerequisites](#prerequisites)
-      1. [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
-      2. [Ingress provider](#ingress-provider)
-   3. [Deploy](#deploy)
-      1. [Using helm charts](#using-helm-charts)
-         1. [gerrit-operator-crds](#gerrit-operator-crds)
-         2. [gerrit-operator](#gerrit-operator-1)
-      2. [Without the helm charts](#without-the-helm-charts)
-      3. [Updating](#updating)
-   4. [CustomResources](#customresources)
-      1. [GerritCluster](#gerritcluster)
-      2. [Gerrit](#gerrit)
-      3. [GitGarbageCollection](#gitgarbagecollection)
-      4. [Receiver](#receiver)
-      5. [GerritNetwork](#gerritnetwork)
-      6. [IncomingReplicationTask](#incomingreplicationtask)
-   5. [Configuration of Gerrit](#configuration-of-gerrit)
-   6. [Feature toggles](#feature-toggles)
-      1. [Cluster Mode](#cluster-mode)
-         1. [With helm charts](#with-helm-charts)
-         2. [Without helm charts](#without-helm-charts)
+- [Gerrit Operator](#gerrit-operator)
+  - [Development](#development)
+  - [Prerequisites](#prerequisites)
+    - [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
+    - [Ingress provider](#ingress-provider)
+  - [Deploy](#deploy)
+    - [Using helm charts](#using-helm-charts)
+      - [gerrit-operator-crds](#gerrit-operator-crds)
+      - [gerrit-operator](#gerrit-operator-1)
+    - [Without the helm charts](#without-the-helm-charts)
+    - [Updating](#updating)
+  - [CustomResources](#customresources)
+    - [GerritCluster](#gerritcluster)
+    - [Gerrit](#gerrit)
+    - [GitGarbageCollection](#gitgarbagecollection)
+    - [Receiver](#receiver)
+    - [GerritNetwork](#gerritnetwork)
+    - [IncomingReplicationTask](#incomingreplicationtask)
+  - [Configuration of Gerrit](#configuration-of-gerrit)
+  - [Feature toggles](#feature-toggles)
+    - [Cluster Mode](#cluster-mode)
+      - [With helm charts](#with-helm-charts)
+      - [Without helm charts](#without-helm-charts)
+  - [Minikube](#minikube)
+    - [Prerequisites](#prerequisites-1)
+    - [Starting Minikube](#starting-minikube)
+    - [Build images](#build-images)
+    - [Gerrit Operator](#gerrit-operator-2)
+    - [NFS](#nfs)
+    - [Primary Gerrit](#primary-gerrit)
+    - [Adding a Gerrit Replica](#adding-a-gerrit-replica)
+    - [Istio](#istio)
+    - [High Availability](#high-availability)
 
 ## Development
 
@@ -387,3 +397,233 @@ The environment variable `CLUSTER_MODE` is set by the helm chart property `clust
 #### Without helm charts
 
 The environment variable `CLUSTER_MODE` is set in the Operator K8s Deployment Resource.
+
+## Minikube
+
+This chapter gives a short walkthrough in installing the Gerrit operator and a
+minimal GerritCluster in minikube. It is meant as an entrypoint for new users and
+developers to get familiar with deploying the setup.
+
+### Prerequisites
+
+The following tools are required for following the guide:
+
+- [JDK 17](https://jdk.java.net/archive/)
+- [maven](https://maven.apache.org/download.cgi)
+- [yq](https://github.com/mikefarah/yq?tab=readme-ov-file#macos--linux-via-homebrew)
+- [docker](https://docs.docker.com/get-docker/)
+- [minikube](https://minikube.sigs.k8s.io/docs/start/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [helm](https://helm.sh/docs/intro/install/) (> 3.0)
+
+During this guide a lot of components/pods will be started in Minikube. Consider
+increasing the number of CPUs and RAM that Minikube is allowed to use. This can
+either be done by configuring the limits in Docker or by using the `--cpus=10` and
+`--memory=32000` options.
+
+The guide was tested with 10 CPUs and 32G RAM, but should also work with less
+resources. With the full setup running without load, 14G RAM and 0.5 CPUs are
+being used, but during startup of Gerrit more resources are required.
+
+### Starting Minikube
+
+First start minikube:
+
+```sh
+minikube start
+```
+
+### Build images
+
+It is highly recommended to build the images manually to ensure that it is
+compatible with the example resources at the checked out commit:
+
+```sh
+eval $(minikube docker-env)
+./build --tag latest
+pushd operator
+mvn clean install -Drevision=latest
+docker image tag gerrit-operator:latest k8sgerrit/gerrit-operator:latest
+popd
+```
+
+### Gerrit Operator
+
+Then we can install the Gerrit Operator. This setup will use all the default values,
+i.e. no ingress provider support will be installed and it will use the latest
+version.
+
+```sh
+kubectl create ns gerrit-operator
+
+helm dependency build --verify helm-charts/gerrit-operator
+helm upgrade \
+  --install gerrit-operator \
+  helm-charts/gerrit-operator \
+  -n gerrit-operator \
+  --set=image.imagePullPolicy=IfNotPresent
+```
+
+### NFS
+
+For a GerritCluster a volume with ReadWriteMany capabilities is required. Thus,
+a NFS provisioner has to be deployed:
+
+```sh
+kubectl create ns nfs
+helm repo add nfs-ganesha-server-and-external-provisioner \
+  https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner/
+helm upgrade \
+  --install nfs \
+  nfs-ganesha-server-and-external-provisioner/nfs-server-provisioner \
+  -n nfs
+```
+
+### Primary Gerrit
+
+The Gerrit Operator will not manage secrets itself, since secret data would be
+exposed in the custom resources. Thus, Secrets have to be applied manually and
+referenced by name in the GerritCluster CustomResource. To create a Secret
+containing SSH keys for Gerrit, run:
+
+```sh
+kubectl create ns gerrit
+kubectl apply -f Documentation/examples/gerrit.secret.yaml
+```
+
+Then a simple GerritCluster can be installed:
+
+```sh
+kubectl apply -f Documentation/examples/1-gerritcluster.yaml
+```
+
+This will install a single primary Gerrit instance without any networking, i.e.
+it can only be accessed via port-forwarding.
+
+### Adding a Gerrit Replica
+
+Next, a Gerrit Replica can be added to the GerritCluster. It will access the
+repositories from the same filesystem as the primary Gerrit:
+
+```sh
+diff Documentation/examples/1-gerritcluster.yaml Documentation/examples/2-gerritcluster-with-replica.yaml
+kubectl apply -f Documentation/examples/2-gerritcluster-with-replica.yaml
+```
+
+### Istio
+
+The Gerrit Operator can also manage network routing configuration in the
+GerritCluster. To do that we need to install one of the supported Ingress
+providers like Istio.
+
+To install Istio with default configuration download istioctl:
+
+```sh
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.20.3 sh -
+export PATH="/Users/d073103/istio-1.20.3/bin:$PATH"
+```
+
+Then install istio:
+
+```sh
+istioctl install -f istio/gerrit.profile.yaml
+```
+
+Enabling istio sidecar injection in the Gerrit namespace is required to add Gerrit
+pods to the service mesh:
+
+```sh
+kubectl label namespace gerrit istio-injection=enabled
+```
+
+To make use of Istio, the operator has to be configured to support Istio as an
+Ingress provider:
+
+```sh
+helm upgrade \
+  --install gerrit-operator \
+  helm-charts/gerrit-operator \
+  -n gerrit-operator \
+  --set=ingress.type=ISTIO
+```
+
+Next, the Ingress can be enabled in the GerritCluster:
+
+```sh
+diff Documentation/examples/2-gerritcluster-with-replica.yaml Documentation/examples/3-gerritcluster-istio.yaml
+kubectl apply -f Documentation/examples/3-gerritcluster-istio.yaml
+```
+
+To access Gerrit, a tunnel has to be established to the Istio Ingressgateway
+service and the host. This should be done in a separate shell session.
+
+```sh
+minikube tunnel
+```
+
+The connection data can be retrieved like this:
+
+```sh
+export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+echo $GATEWAY_URL
+```
+
+Gerrit can now be accessed using `$GATEWAY_URL`. Note, that since a primary and
+a Gerrit Replica exist in the GerritCluster, the Gerrit Operator will automatically
+configure Istio to route fetch and clone requests to the Gerrit Replica.
+
+### High Availability
+
+As a next step Gerrit can be scaled to provide better availability. This is
+straightforward for the Gerrit Replica, since it just requires to increase the
+number of replicas in the Statefulset of Gerrit primaries in the GerritCluster
+spec:
+
+```sh
+diff Documentation/examples/3-gerritcluster-istio.yaml  Documentation/examples/4-gerritcluster-ha-replica.yaml
+kubectl apply -f Documentation/examples/4-gerritcluster-ha-replica.yaml
+```
+
+For the primary Gerrit, the Gerrit Operator will automatically install and configure
+the high-availability plugin, if the Primary Gerrit is scaled to 2 or more pod
+replicas. However, there are some prerequisites.
+
+First, a database to be used for the global refdb is required. In this example,
+zookeeper will be used:
+
+```sh
+kubectl create ns zookeeper
+kubectl label namespace zookeeper istio-injection=enabled
+helm upgrade --install zookeeper oci://registry-1.docker.io/bitnamicharts/zookeeper -n zookeeper
+```
+
+Now, the GerritCluster can be configured to use the Global RefDB
+
+```sh
+diff Documentation/examples/4-gerritcluster-ha-replica.yaml Documentation/examples/5-gerritcluster-refdb.yaml
+kubectl apply -f Documentation/examples/5-gerritcluster-refdb.yaml
+```
+
+This will configure Gerrit to install the global-refdb lib module and the plugin
+with the configured implementation, in this example Zookeeper. The Gerrit Operator
+will also set some basic authentication to enable the connection to the database.
+
+For Gerrit to be able to discover its peers, it has to have permissions to get
+the Gerrit pods deployed in its own namespace from the Kubernetes API server.
+For that purpose, a ServiceAccount with the corresponding role needs to be created:
+
+```sh
+kubectl apply -f Documentation/examples/gerrit.rbac.yaml
+```
+
+Now, the primary Gerrit can be scaled up. The ServiceAccount also has to be
+referenced:
+
+```sh
+diff Documentation/examples/5-gerritcluster-refdb.yaml Documentation/examples/6-gerritcluster-ha-primary.yaml
+kubectl apply -f Documentation/examples/6-gerritcluster-ha-primary.yaml
+```
+
+Now, two primary Gerrit pods are available in the cluster.
