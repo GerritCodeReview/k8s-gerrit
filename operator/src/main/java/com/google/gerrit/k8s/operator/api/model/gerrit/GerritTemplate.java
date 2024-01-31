@@ -78,7 +78,9 @@ public class GerritTemplate implements KubernetesResource {
     gerritSpec.setIngress(ingressConfig);
     gerritSpec.setServerId(getServerId(gerritCluster));
     gerritSpec.setFluentBitSidecar(gerritCluster.getSpec().getFluentBitSidecar());
-    if (getSpec().isHighlyAvailablePrimary()) {
+
+    if (gerritCluster.getSpec().getGerrits().stream()
+        .anyMatch(g -> g.getSpec().getMode().equals(GerritMode.PRIMARY))) {
       GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
       if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
         refdb
@@ -90,9 +92,7 @@ public class GerritTemplate implements KubernetesResource {
       }
       gerritSpec.setRefdb(gerritCluster.getSpec().getRefdb());
     }
-
     setSshdAdvertisedReadPort(gerritCluster, gerritSpec);
-
     gerrit.setSpec(gerritSpec);
     return gerrit;
   }
