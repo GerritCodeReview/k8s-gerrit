@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99b327ac_72b9cab3",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-31T11:22:23Z",
+      "side": 1,
+      "message": "nit: remove trailing whitespace",
+      "revId": "5400b2cd4340c740cdac4d775dcdad73b8376f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
