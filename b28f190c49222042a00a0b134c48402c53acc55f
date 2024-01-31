@@ -84,6 +84,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffd3a623_8bb49cad",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-31T12:55:59Z",
+      "side": 1,
+      "message": "I\u0027d say 1s for the healthcheck plugin is a bit too strict IMHO.\n`10s` is more appropriate\n\n\n```suggestion\n        timeoutSeconds: 10\n```",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "698bf80b_991815c0",
         "filename": "Documentation/examples/gerritcluster.yaml",
         "patchSetId": 1
@@ -107,6 +130,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d043e444_d8eafe0e",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-31T12:55:59Z",
+      "side": 1,
+      "message": "```suggestion\n        timeoutSeconds: 10\n```",
+      "range": {
+        "startLine": 101,
+        "startChar": 24,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a26d3556_0818382b",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-31T12:55:59Z",
+      "side": 1,
+      "message": "```suggestion\n        timeoutSeconds: 10\n```",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 25
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9509f7e_78f1bb16",
         "filename": "Documentation/examples/gerritcluster.yaml",
         "patchSetId": 1
@@ -118,6 +187,30 @@
       "writtenOn": "2024-01-31T12:35:21Z",
       "side": 1,
       "message": "cahnged to 8080 and was able to access it from browser by forwarding the port of the container i.e.\n`kubectl port-forward gerrit-0 8080:8080`",
+      "range": {
+        "startLine": 114,
+        "startChar": 18,
+        "endLine": 114,
+        "endChar": 20
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9845589_087ad2c9",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-31T12:55:59Z",
+      "side": 1,
+      "message": "Same here, it isn\u0027t exposed to any external IP though.",
+      "parentUuid": "a9509f7e_78f1bb16",
       "range": {
         "startLine": 114,
         "startChar": 18,
