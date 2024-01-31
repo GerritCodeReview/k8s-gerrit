@@ -1,0 +1,138 @@
+apiVersion: "gerritoperator.google.com/v1beta4"
+kind: GerritCluster
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  containerImages:
+    imagePullPolicy: IfNotPresent
+
+  storage:
+    # Which StorageClasses should be used
+    storageClasses:
+      readWriteOnce: standard
+      readWriteMany: nfs
+
+    # The shared storage will be used to store git repositories, logs and other
+    # components shared between Gerrit instances
+    sharedStorage:
+      size: 1Gi
+
+  # The network routing configuration will now be done by the Gerrit Operator
+  ingress:
+    enabled: true
+    host: "*"
+    tls:
+      enabled: false
+
+  # All Gerrit instances in the GerritCluster serve the same repositories and
+  # thus have to use the same serverId, which ahs to be set centrally here.
+  serverId: "minikube-gerrit"
+
+  # List of Gerrit deployments to be installed in the GerritCluster
+  gerrits:
+  # A primary Gerrit
+  - metadata:
+      name: gerrit
+      labels:
+        app: gerrit
+    spec:
+      mode: PRIMARY
+
+      replicas: 1
+
+      resources:
+        requests:
+          cpu: 1
+          memory: 5Gi
+        limits:
+          cpu: 1
+          memory: 6Gi
+
+      service:
+        type: NodePort
+        httpPort: 80
+        sshPort: 29418
+
+      site:
+        size: 1Gi
+
+      plugins:
+      # This way plugins are installed from the Gerrit-war file
+      - name: download-commands
+      - name: delete-project
+
+      configFiles:
+        # Some configuration options are specific to the k8sgerrit setup. These
+        # will be set by the Gerrit Operator.
+        gerrit.config: |-
+            [index]
+              type = LUCENE
+            [auth]
+              type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+            [httpd]
+              requestLog = true
+              gracefulStopTimeout = 20s
+            [user]
+              name = Gerrit Code Review
+              email = gerrit@example.com
+              anonymousCoward = Unnamed User
+            [container]
+              javaOptions = -Xms200m
+              javaOptions = -Xmx4g
+
+      # Reference by name to the Secret containing secret files to be mounted to
+      # $SITE/etc
+      secretRef: gerrit-secure-config
+
+  # Gerrit Replica
+  - metadata:
+      name: gerrit-replica
+      labels:
+        app: gerrit-replica
+    spec:
+      mode: REPLICA
+
+      replicas: 2
+
+      resources:
+        requests:
+          cpu: 1
+          memory: 5Gi
+        limits:
+          cpu: 1
+          memory: 6Gi
+
+      service:
+        type: NodePort
+        httpPort: 80
+        sshPort: 29418
+
+      site:
+        size: 1Gi
+
+      configFiles:
+        gerrit.config: |-
+            [index]
+              type = LUCENE
+            [auth]
+              type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+            [httpd]
+              requestLog = true
+              gracefulStopTimeout = 20s
+            [user]
+              name = Gerrit Code Review
+              email = gerrit@example.com
+              anonymousCoward = Unnamed User
+            [container]
+              javaOptions = -Xms200m
+              javaOptions = -Xmx4g
+        healthcheck.config: |-
+            [healthcheck "auth"]
+              enabled = false
+            [healthcheck "changesindex"]
+              enabled = false
+            [healthcheck "querychanges"]
+              enabled = false
+
+      secretRef: gerrit-secure-config
