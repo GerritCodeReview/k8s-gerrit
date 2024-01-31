@@ -69,6 +69,24 @@
       "parentUuid": "29686d4b_c27cee7b",
       "revId": "466fd145f5da90012bbbc58d3851449d5d047f52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b147972_c6f03173",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-01-31T10:00:03Z",
+      "side": 1,
+      "message": "Sounds good, done. Updated documentation too.",
+      "parentUuid": "9a8214d2_c02c9de6",
+      "revId": "466fd145f5da90012bbbc58d3851449d5d047f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
