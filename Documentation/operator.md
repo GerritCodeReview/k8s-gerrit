@@ -1,23 +1,24 @@
 # Gerrit Operator
 
-1. [Gerrit Operator](#gerrit-operator)
-   1. [Development](#development)
-   2. [Prerequisites](#prerequisites)
-      1. [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
-      2. [Ingress provider](#ingress-provider)
-   3. [Deploy](#deploy)
-      1. [Using helm charts](#using-helm-charts)
-         1. [gerrit-operator-crds](#gerrit-operator-crds)
-         2. [gerrit-operator](#gerrit-operator-1)
-      2. [Without the helm charts](#without-the-helm-charts)
-      3. [Updating](#updating)
-   4. [CustomResources](#customresources)
-      1. [GerritCluster](#gerritcluster)
-      2. [Gerrit](#gerrit)
-      3. [GitGarbageCollection](#gitgarbagecollection)
-      4. [Receiver](#receiver)
-      5. [GerritNetwork](#gerritnetwork)
-   5. [Configuration of Gerrit](#configuration-of-gerrit)
+- [Gerrit Operator](#gerrit-operator)
+  - [Development](#development)
+  - [Prerequisites](#prerequisites)
+    - [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
+    - [Ingress provider](#ingress-provider)
+  - [Deploy](#deploy)
+    - [Using helm charts](#using-helm-charts)
+      - [gerrit-operator-crds](#gerrit-operator-crds)
+      - [gerrit-operator](#gerrit-operator-1)
+    - [Without the helm charts](#without-the-helm-charts)
+    - [Updating](#updating)
+  - [CustomResources](#customresources)
+    - [GerritCluster](#gerritcluster)
+    - [Gerrit](#gerrit)
+    - [GitGarbageCollection](#gitgarbagecollection)
+    - [Receiver](#receiver)
+    - [GerritNetwork](#gerritnetwork)
+  - [Configuration of Gerrit](#configuration-of-gerrit)
+  - [Minikube](#minikube)
 
 ## Development
 
@@ -344,3 +345,45 @@ These options are:
 
     Since the container port for SSH is fixed, this will be set automatically.
     If no SSH port is configured in the service, the SSHD is disabled.
+
+## Minikube
+
+This chapter gives a short walkthrough in installing the Gerrit operator and a
+minimal GerritCluster in minikube. It is meant as an entrypoint for new user and
+developers to get familiar with deploying the setup.
+
+First start minikube:
+
+```sh
+minikube start
+```
+
+Then we can install the Gerrit Operator. This setup will use all the default values,
+i.e. no ingress provider support will be installed and it will use the latest
+version.
+
+```sh
+kubectl create ns gerrit-operator
+
+helm dependency build --verify helm-charts/gerrit-operator
+helm upgrade --install gerrit-operator helm-charts/gerrit-operator -n gerrit-operator
+```
+
+For a GerritCluster a volume with ReadWriteMany capabilities is required. Thus,
+a NFS provisioner has to be deployed:
+
+```sh
+kubectl create ns nfs
+helm repo add nfs-ganesha-server-and-external-provisioner \
+  https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner/
+helm install nfs nfs-ganesha-server-and-external-provisioner/nfs-server-provisioner -n nfs
+```
+
+Then a simple GerritCluster can be installed:
+
+```sh
+kubectl apply -f Documentation/examples/gerritcluster.yaml
+```
+
+This will install a single primary Gerrit instance without any networking, i.e.
+it can only be accessed via port-forwarding.
