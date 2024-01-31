@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0285a36_63b1afd6",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-01-31T11:06:40Z",
+      "side": 1,
+      "message": "should you add `Documentation/examples/gerritcluster.yaml`:\n```\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: gerrit\n  labels:\n    istio-injection: enabled\n```",
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
