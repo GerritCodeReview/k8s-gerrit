@@ -29,7 +29,7 @@ ARG GLOBAL_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/j
 RUN curl -k -o /var/plugins/global-refdb.jar ${GLOBAL_REFDB_URL}
 
 # Download high-availability plugin
-ARG HA_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-high-availability-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar
+ARG HA_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-master/job/plugin-high-availability-bazel-master/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar
 RUN curl -k -o /var/plugins/high-availability.jar ${HA_JAR_URL}
 
 # Download zookeeper-refdb plugin
