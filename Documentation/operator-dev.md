@@ -61,7 +61,7 @@ The commit adding a new version will be tagged in git using the version string.
 
 ## Publish
 
-Currently, there does not exist a container image for the operator in the
+Currently, there isn't a container image for the operator in the
 `docker.io/k8sgerrit` registry. You must build your own image in order to run
 the operator in your cluster. To publish the container image of the Gerrit
 Operator:
