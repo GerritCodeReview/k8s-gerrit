@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2c6f556_d408403d",
+        "filename": "container-images/git-gc/tools/git-gc-preserve",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-01-31T12:56:58Z",
+      "side": 0,
+      "message": "you can do something like this to not drop counting pack files (tried using ash):\n\n```\nlocal count\u003d0\n...\ncase $file in\n  pack-*.pack*) count\u003d$(expr $count + 1);;\nesac\n...\necho \"$count, done\";\n```",
+      "revId": "3c08e1c4307a7132957957d157e3feb970680d49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
