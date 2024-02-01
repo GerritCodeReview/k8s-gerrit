@@ -17,3 +17,6 @@ externalKeyStore:
   jks: ""
   # Java keystore password (not base64-encoded)
   password: ""
+
+multisite:
+  enabled: false
