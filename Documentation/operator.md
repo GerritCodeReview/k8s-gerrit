@@ -18,6 +18,10 @@
       4. [Receiver](#receiver)
       5. [GerritNetwork](#gerritnetwork)
    5. [Configuration of Gerrit](#configuration-of-gerrit)
+   6. [Feature toggles](#feature-toggles)
+      1. [Multisite](#multisite)
+         1. [With helm charts](#with-helm-charts)
+         2. [Without helm charts](#without-helm-charts)
 
 ## Development
 
@@ -344,3 +348,23 @@ These options are:
 
     Since the container port for SSH is fixed, this will be set automatically.
     If no SSH port is configured in the service, the SSHD is disabled.
+
+## Feature toggles
+
+This section is dedicated to explain what are the feature toggles and how to set each one of them.
+
+### Multisite
+
+The introduction of this toggle allows the provision of Gerrit multisite. 
+It is defined by an environment variable called `MULTI_SITE`, set to `false` by default 
+to preserve the existing behavior and ensuring backward compatibility.
+
+It can be configured either by:
+
+#### With helm charts
+
+The environment variable `MULTI_SITE` is set by the helm chart property `multisite.enabled`. 
+
+#### Without helm charts
+
+The environment variable `MULTI_SITE` is set in the Operator K8s Deployment Resource.
