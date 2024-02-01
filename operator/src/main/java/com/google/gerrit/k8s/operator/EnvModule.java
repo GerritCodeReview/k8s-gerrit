@@ -14,13 +14,28 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import java.util.Optional;
 
 public class EnvModule extends AbstractModule {
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @Override
   protected void configure() {
+    boolean isSharedFileSystem =
+        Optional.ofNullable(Boolean.parseBoolean(System.getenv("SHARED_FILE_SYSTEM"))).orElse(true);
+
+    if (!isSharedFileSystem) {
+      throw new UnsupportedOperationException(
+          "Gerrit HA is not yet supported without shared file system.");
+    }
+
+    logger.atInfo().log("Shared file system enabled");
+
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
         .toInstance(System.getenv("NAMESPACE"));

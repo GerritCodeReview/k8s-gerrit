@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -30,6 +31,8 @@ import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 
 public class OperatorModule extends AbstractModule {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
@@ -43,6 +46,7 @@ public class OperatorModule extends AbstractModule {
     install(new AdmissionWebhookModule());
 
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
+
     reconcilers.addBinding().to(GerritClusterReconciler.class);
     reconcilers.addBinding().to(GerritReconciler.class);
     reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
