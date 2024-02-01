@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -28,8 +29,11 @@ import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import java.util.Optional;
 
 public class OperatorModule extends AbstractModule {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
@@ -43,6 +47,17 @@ public class OperatorModule extends AbstractModule {
     install(new AdmissionWebhookModule());
 
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
+
+    boolean isSharedFileSystem =
+        Optional.ofNullable(Boolean.parseBoolean(System.getenv("SHARED_FILE_SYSTEM"))).orElse(true);
+
+    if (!isSharedFileSystem) {
+      throw new UnsupportedOperationException(
+          "Gerrit HA is not supported without shared file system.");
+    }
+
+    logger.atInfo().log("Shared file system enabled");
+
     reconcilers.addBinding().to(GerritClusterReconciler.class);
     reconcilers.addBinding().to(GerritReconciler.class);
     reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
