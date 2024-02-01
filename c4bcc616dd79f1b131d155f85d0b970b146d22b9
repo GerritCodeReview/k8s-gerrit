@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0785721e_833cde92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-01T08:00:07Z",
+      "side": 1,
+      "message": "Not only ,but I have noticed it while creating the guide for minikube. Having a global refdb on only a single primary, does not add a lot of useful functionality, but it also doesn\u0027t hurt and would allow to perform less complex tests or do smaller steps in adding functionality to a GerritCluster while incrementally configuring it. Thus, I believe this is just a more consistent way of handling it, which will lead to less confugion.",
+      "parentUuid": "84063a36_3680653e",
+      "revId": "c4bcc616dd79f1b131d155f85d0b970b146d22b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c00931d_fd32591e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
