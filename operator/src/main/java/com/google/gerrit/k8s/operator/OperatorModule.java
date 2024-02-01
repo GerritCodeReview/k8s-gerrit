@@ -43,6 +43,7 @@ public class OperatorModule extends AbstractModule {
     install(new AdmissionWebhookModule());
 
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
+
     reconcilers.addBinding().to(GerritClusterReconciler.class);
     reconcilers.addBinding().to(GerritReconciler.class);
     reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
