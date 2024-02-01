@@ -45,6 +45,8 @@ spec:
               fieldPath: metadata.namespace
         - name: INGRESS
           value: {{ .Values.ingress.type }}
+        - name: CLUSTER_MODE
+          value: "{{ .Values.cluster.mode | toString }}"
         ports:
         - containerPort: 80
         readinessProbe:

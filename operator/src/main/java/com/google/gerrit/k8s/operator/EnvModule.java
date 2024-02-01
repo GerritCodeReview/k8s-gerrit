@@ -14,13 +14,29 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
 public class EnvModule extends AbstractModule {
+
+  public enum ClusterMode {
+    HIGH_AVAILABILITY,
+    MULTISITE
+  }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @Override
   protected void configure() {
+    boolean isMultisite =
+        (ClusterMode.valueOf(System.getenv("CLUSTER_MODE")).equals(ClusterMode.MULTISITE));
+
+    if (isMultisite) {
+      throw new UnsupportedOperationException("Gerrit Multisite is not yet supported.");
+    }
+
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
         .toInstance(System.getenv("NAMESPACE"));
