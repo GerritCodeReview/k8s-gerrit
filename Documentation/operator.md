@@ -19,6 +19,10 @@
       5. [GerritNetwork](#gerritnetwork)
       6. [IncomingReplicationTask](#incomingreplicationtask)
    5. [Configuration of Gerrit](#configuration-of-gerrit)
+   6. [Feature toggles](#feature-toggles)
+      1. [Cluster Mode](#cluster-mode)
+         1. [With helm charts](#with-helm-charts)
+         2. [Without helm charts](#without-helm-charts)
 
 ## Development
 
@@ -356,3 +360,28 @@ These options are:
 
     Since the container port for SSH is fixed, this will be set automatically.
     If no SSH port is configured in the service, the SSHD is disabled.
+
+## Feature toggles
+
+This section is dedicated to explain what are the feature toggles and how to set each one of them.
+
+### Cluster Mode
+
+The introduction of this enumeration allows the provision of Gerrit in different modes.
+
+It is defined by an environment variable called `CLUSTER_MODE`, that can have the values of:
+
+* `HIGH_AVAILABILITY`
+* `MULTISITE`
+
+By default, the mode is set to `HIGH_AVAILABILITY`.
+
+It can be configured either by:
+
+#### With helm charts
+
+The environment variable `CLUSTER_MODE` is set by the helm chart property `cluster.mode`.
+
+#### Without helm charts
+
+The environment variable `CLUSTER_MODE` is set in the Operator K8s Deployment Resource.
