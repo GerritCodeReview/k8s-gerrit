@@ -43,6 +43,8 @@ spec:
               fieldPath: metadata.namespace
         - name: INGRESS
           value: {{ .Values.ingress.type }}
+        - name: SHARED_FILE_SYSTEM
+          value: "{{ .Values.sharedFileSystem.enabled | toString }}"
         ports:
         - containerPort: 80
         readinessProbe:
