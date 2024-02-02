@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ade7c220_e26f9d02",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-02T12:27:48Z",
+      "side": 1,
+      "message": "The function name does not really match the scope of what it is doing. `delete_empty_change_ref_dir` would be more descriptive. Or just using the complete path as the parameter.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 19
+      },
+      "revId": "80aad9accdacb76d2323a501b56b47dd0284c378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
