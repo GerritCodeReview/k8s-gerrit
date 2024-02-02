@@ -30,6 +30,9 @@ public class GerritInitConfig {
 
   private String refdb;
 
+  @JsonProperty("multisite")
+  private boolean isMultisite;
+
   public String getCaCertPath() {
     return caCertPath;
   }
@@ -88,10 +91,27 @@ public class GerritInitConfig {
     this.refdb = refdb;
   }
 
+  @JsonProperty("multisite")
+  public boolean isMultisite() {
+    return isMultisite;
+  }
+
+  @JsonProperty("multisite")
+  public void setMultisite(boolean isMultisite) {
+    this.isMultisite = isMultisite;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
-        caCertPath, isHighlyAvailable, libs, pluginCacheDir, pluginCacheEnabled, plugins, refdb);
+        caCertPath,
+        isHighlyAvailable,
+        libs,
+        pluginCacheDir,
+        pluginCacheEnabled,
+        plugins,
+        refdb,
+        isMultisite);
   }
 
   @Override
@@ -106,7 +126,8 @@ public class GerritInitConfig {
         && Objects.equals(pluginCacheDir, other.pluginCacheDir)
         && pluginCacheEnabled == other.pluginCacheEnabled
         && Objects.equals(plugins, other.plugins)
-        && Objects.equals(refdb, other.refdb);
+        && Objects.equals(refdb, other.refdb)
+        && isMultisite == other.isMultisite;
   }
 
   @Override
@@ -125,6 +146,8 @@ public class GerritInitConfig {
         + isHighlyAvailable
         + ", refdb="
         + refdb
+        + ", isMultisite="
+        + isMultisite
         + "]";
   }
 }
