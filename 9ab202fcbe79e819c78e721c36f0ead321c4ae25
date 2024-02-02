@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deef7d19_99dec0bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-02T08:29:12Z",
+      "side": 1,
+      "message": "Verified manually:\n\nContainer logs:\n```\n02/02/24 08:26:47 AM Started\n02/02/24 08:26:47 AM Started: repo.git\nPreserving packs: 1, done.\nEnumerating objects: 812752, done.\nCounting objects: 100% (812752/812752), done.\nDelta compression using up to 10 threads\nCompressing objects: 100% (175575/175575), done.\nWriting objects: 100% (812752/812752), done.\nSelecting bitmap commits: 63006, done.\nBuilding bitmaps: 100% (317/317), done.\nTotal 812752 (delta 498799), reused 812752 (delta 498799), pack-reused 0\nPruning old preserved packs: 0, done.\npruning stale \u0027incoming_*.pack\u0027 files older than 14 days:\\n\n02/02/24 08:27:01 AM Finished: repo.git\n02/02/24 08:27:01 AM Finished\n```\n\nPreserved packs:\n```\nls -la $REPO/.git/objects/pack/preserved\ntotal 385448\ndrwxr-xr-x  4 d073103  staff        128 Feb  2 09:26 .\ndrwxr-xr-x  6 d073103  staff        192 Feb  2 09:27 ..\n-r--r--r--  1 d073103  staff   22758128 Feb  2 09:26 pack-6139d9050ed11265caf52a6a528c6872e468dc6d.idx\n-r--r--r--  1 d073103  staff  168827203 Feb  2 09:26 pack-6139d9050ed11265caf52a6a528c6872e468dc6d.pack\n```",
+      "revId": "9ab202fcbe79e819c78e721c36f0ead321c4ae25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
