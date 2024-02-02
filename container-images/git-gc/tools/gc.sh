@@ -172,7 +172,7 @@ gc_project()
         || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
-  find "$PROJECT_DIR/refs/changes" -type d -empty -delete 2>/dev/null
+  delete_empty_dirs "$PROJECT_DIR"
 
   OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +14 -delete) && \
         log "pruning stale 'incoming_*.pack' files older than 14 days:\n$OUT"
@@ -187,6 +187,12 @@ gc_project()
   fi
 
   OUT=$(date +"%D %r Finished: $PROJECT_NAME$LOG_OPTS") && log "$OUT"
+}
+
+delete_empty_dirs()
+{
+  PROJECT_DIR="$1"
+  find "$PROJECT_DIR/refs/changes" -type d -empty -delete 2>/dev/null
 }
 
 ###########################
