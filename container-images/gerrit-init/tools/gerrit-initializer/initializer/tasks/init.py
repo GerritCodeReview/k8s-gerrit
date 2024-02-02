@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 
+from abc import abstractmethod
 from ..helpers import git, log
 from .download_plugins import get_installer
 from .reindex import IndexType, get_reindexer
@@ -44,6 +45,10 @@ class GerritInit:
 
         self.is_replica = self.gerrit_config.get_boolean("container.replica")
         self.pid_file = f"{self.site}/logs/gerrit.pid"
+
+    @abstractmethod
+    def _symlink_mounted_site_components(self):
+        pass
 
     def _get_gerrit_version(self, gerrit_war_path):
         command = f"java -jar {gerrit_war_path} version"
@@ -122,17 +127,12 @@ class GerritInit:
 
         os.symlink(src, target)
 
-    def _symlink_mounted_site_components(self):
-        self._symlink(f"{MNT_PATH}/git", f"{self.site}/git")
-
-        mounted_shared_dir = f"{MNT_PATH}/shared"
-        if not self.is_replica and os.path.exists(mounted_shared_dir):
-            self._symlink(mounted_shared_dir, f"{self.site}/shared")
-
+    def _symlink_index(self):
         index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
         if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
             self._symlink(f"{MNT_PATH}/index", f"{self.site}/index")
 
+    def _symlink_or_make_data_dir(self):
         data_dir = f"{self.site}/data"
         if os.path.exists(data_dir):
             for file_or_dir in os.listdir(data_dir):

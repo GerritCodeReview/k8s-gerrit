@@ -16,8 +16,10 @@
 
 
 import argparse
-
-from initializer.tasks import download_plugins, init, reindex, validate_notedb
+from initializer.config.cluster_mode import ClusterMode
+from initializer.tasks import download_plugins, reindex, validate_notedb
+from initializer.tasks.init_ha import GerritInitHA
+from initializer.tasks.init_multisite import GerritInitMultisite
 from initializer.config.init_config import InitConfig
 
 
@@ -28,7 +30,13 @@ def _run_download_plugins(args):
 
 def _run_init(args):
     config = InitConfig().parse(args.config)
-    init.GerritInit(args.site, config).execute()
+    match config.cluster_mode:
+        case ClusterMode.HIGH_AVAILABILITY.value:
+            GerritInitHA(args.site, config).execute()
+        case ClusterMode.MULTISITE.value:
+            GerritInitMultisite(args.site, config).execute()
+        case _:
+            raise ValueError(f"Invalid clusterMode: {config.cluster_mode}")
 
 
 def _run_reindex(args):
