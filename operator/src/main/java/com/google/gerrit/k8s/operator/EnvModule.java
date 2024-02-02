@@ -33,11 +33,9 @@ public class EnvModule extends AbstractModule {
     boolean isMultisite =
         (ClusterMode.valueOf(System.getenv("CLUSTER_MODE")).equals(ClusterMode.MULTISITE));
 
-    if (isMultisite) {
-      throw new UnsupportedOperationException("Gerrit Multisite is not yet supported.");
-    }
-
     logger.atInfo().log("Multisite is enabled: %s", isMultisite);
+
+    OperatorContext.createInstance(isMultisite);
 
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
