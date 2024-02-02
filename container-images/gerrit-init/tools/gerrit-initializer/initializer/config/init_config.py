@@ -16,6 +16,8 @@ import os.path
 
 import yaml
 
+from .cluster_mode import ClusterMode
+
 
 class InitConfig:
     def __init__(self):
@@ -28,6 +30,7 @@ class InitConfig:
 
         self.is_ha = False
         self.refdb = False
+        self.cluster_mode = ClusterMode.HIGH_AVAILABILITY
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
@@ -55,6 +58,10 @@ class InitConfig:
             self.ca_cert_path = config["caCertPath"]
 
         self.is_ha = "highAvailability" in config and config["highAvailability"]
+
+        if "clusterMode" in config:
+            self.cluster_mode = config["clusterMode"]
+
         if "refdb" in config:
             self.refdb = config["refdb"]
 
