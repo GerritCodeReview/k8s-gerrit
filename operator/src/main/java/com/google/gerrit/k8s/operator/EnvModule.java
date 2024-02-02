@@ -21,21 +21,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
 public class EnvModule extends AbstractModule {
-
-  public enum ClusterMode {
-    HIGH_AVAILABILITY,
-    MULTISITE
-  }
-
   @Override
   protected void configure() {
-    boolean isMultisite =
-        (ClusterMode.valueOf(System.getenv("CLUSTER_MODE")).equals(ClusterMode.MULTISITE));
-
-    if (isMultisite) {
-      throw new UnsupportedOperationException("Gerrit Multisite is not yet supported.");
-    }
-
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
         .toInstance(firstNonNull(System.getenv("NAMESPACE"), "default"));
