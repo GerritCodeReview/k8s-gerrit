@@ -22,6 +22,30 @@
       },
       "revId": "896c88c2c9e3306b6f80f2d66422eb48a84dedf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f18b8b4_fed33b6b",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-02T13:03:11Z",
+      "side": 1,
+      "message": "This is a remainder from the old code, see line 177 in the base version.",
+      "parentUuid": "f804ccd7_6409a8a8",
+      "range": {
+        "startLine": 175,
+        "startChar": 58,
+        "endLine": 175,
+        "endChar": 69
+      },
+      "revId": "896c88c2c9e3306b6f80f2d66422eb48a84dedf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
