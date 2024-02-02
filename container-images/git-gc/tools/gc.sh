@@ -193,7 +193,7 @@ delete_empty_dirs()
 {
   PROJECT_DIR="$1"
   for ns in changes users cache-automerge ; do
-    find "$PROJECT_DIR/refs/$ns" -type d -empty -delete 2>/dev/null
+    find "$PROJECT_DIR/refs/$ns" -type d -empty -delete
   done
 }
 
