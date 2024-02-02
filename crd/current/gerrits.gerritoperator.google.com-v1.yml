@@ -444,6 +444,14 @@ spec:
                   image:
                     type: string
                 type: object
+              gitAndLogsData:
+                properties:
+                  size:
+                    anyOf:
+                    - type: integer
+                    - type: string
+                    x-kubernetes-int-or-string: true
+                type: object
               gracefulStopTimeout:
                 type: integer
               ingress:
