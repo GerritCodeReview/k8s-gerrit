@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
@@ -28,6 +29,9 @@ import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
+import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
+import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -66,7 +70,6 @@ public class GerritStatefulSet
 
   @Override
   protected StatefulSet desired(Gerrit gerrit, Context<Gerrit> context) {
-    StatefulSetBuilder stsBuilder = new StatefulSetBuilder();
 
     List<Container> initContainers = new ArrayList<>();
     List<Container> sidecarContainers = new ArrayList<>();
@@ -118,7 +121,35 @@ public class GerritStatefulSet
       }
     }
 
-    stsBuilder
+    return getBuilder(gerrit, replicaSetAnnotations, sidecarContainers, initContainers).build();
+  }
+
+  private PersistentVolumeClaim buildPvc(String claimName, Gerrit gerrit, Quantity qty) {
+    return new PersistentVolumeClaimBuilder()
+        .withNewMetadata()
+        .withName(claimName)
+        .withLabels(getSelectorLabels(gerrit))
+        .endMetadata()
+        .withNewSpec()
+        .withAccessModes("ReadWriteOnce")
+        .withNewResources()
+        .withRequests(Map.of("storage", qty))
+        .endResources()
+        .withStorageClassName(gerrit.getSpec().getStorage().getStorageClasses().getReadWriteOnce())
+        .endSpec()
+        .build();
+  }
+
+  private StatefulSetBuilder getBuilder(
+      Gerrit gerrit,
+      Map<String, String> replicaSetAnnotations,
+      List<Container> sidecarContainers,
+      List<Container> initContainers) {
+
+    List<PersistentVolumeClaim> pvcClaims = new ArrayList<>();
+    pvcClaims.add(buildPvc(SITE_VOLUME_NAME, gerrit, gerrit.getSpec().getSite().getSize()));
+
+    return new StatefulSetBuilder()
         .withApiVersion("apps/v1")
         .withNewMetadata()
         .withName(getName(gerrit))
@@ -126,7 +157,10 @@ public class GerritStatefulSet
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
-        .withServiceName(GerritService.getName(gerrit))
+        .withServiceName(
+            !OperatorContext.isMultisite()
+                ? GerritService.getName(gerrit)
+                : GerritHeadlessService.getName(gerrit))
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate()
@@ -187,22 +221,8 @@ public class GerritStatefulSet
         .addAllToVolumes(getVolumes(gerrit))
         .endSpec()
         .endTemplate()
-        .addNewVolumeClaimTemplate()
-        .withNewMetadata()
-        .withName(SITE_VOLUME_NAME)
-        .withLabels(getSelectorLabels(gerrit))
-        .endMetadata()
-        .withNewSpec()
-        .withAccessModes("ReadWriteOnce")
-        .withNewResources()
-        .withRequests(Map.of("storage", gerrit.getSpec().getSite().getSize()))
-        .endResources()
-        .withStorageClassName(gerrit.getSpec().getStorage().getStorageClasses().getReadWriteOnce())
-        .endSpec()
-        .endVolumeClaimTemplate()
+        .withVolumeClaimTemplates(pvcClaims)
         .endSpec();
-
-    return stsBuilder.build();
   }
 
   public static String getName(Gerrit gerrit) {
@@ -234,10 +254,11 @@ public class GerritStatefulSet
   private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
-    volumes.add(
-        GerritCluster.getSharedVolume(
-            gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
-
+    if (!OperatorContext.isMultisite()) {
+      volumes.add(
+          GerritCluster.getSharedVolume(
+              gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
+    }
     volumes.add(
         new VolumeBuilder()
             .withName("gerrit-init-config")
@@ -303,7 +324,9 @@ public class GerritStatefulSet
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
-    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
+    if (!OperatorContext.isMultisite()) {
+      volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
+    }
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
