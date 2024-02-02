@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.cluster;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE;
@@ -22,15 +21,11 @@ import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CM_
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.PVC_EVENT_SOURCE;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritClusterStatus;
-import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
-import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
-import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedIncomingReplicationTask;
@@ -47,8 +42,6 @@ import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
-import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
@@ -71,11 +64,6 @@ import java.util.stream.Collectors;
           reconcilePrecondition = NfsWorkaroundCondition.class,
           useEventSourceWithName = CM_EVENT_SOURCE),
       @Dependent(
-          name = "gerrits",
-          type = ClusterManagedGerrit.class,
-          reconcilePrecondition = ClusterManagedGerritCondition.class,
-          useEventSourceWithName = CLUSTER_MANAGED_GERRIT_EVENT_SOURCE),
-      @Dependent(
           name = "receiver",
           type = ClusterManagedReceiver.class,
           reconcilePrecondition = ClusterManagedReceiverCondition.class,
@@ -88,11 +76,9 @@ import java.util.stream.Collectors;
           type = ClusterManagedIncomingReplicationTask.class,
           useEventSourceWithName = CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE),
     })
-public class GerritClusterReconciler
-    implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
+public class GerritClusterReconciler extends GerritClusterAbstractReconciler {
   public static final String CM_EVENT_SOURCE = "cm-event-source";
   public static final String PVC_EVENT_SOURCE = "pvc-event-source";
-  public static final String CLUSTER_MANAGED_GERRIT_EVENT_SOURCE = "cluster-managed-gerrit";
   public static final String CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE = "cluster-managed-receiver";
   public static final String CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE =
       "cluster-managed-gerrit-network";
@@ -109,10 +95,6 @@ public class GerritClusterReconciler
         new InformerEventSource<>(
             InformerConfiguration.from(PersistentVolumeClaim.class, context).build(), context);
 
-    InformerEventSource<Gerrit, GerritCluster> clusterManagedGerritEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(Gerrit.class, context).build(), context);
-
     InformerEventSource<Receiver, GerritCluster> clusterManagedReceiverEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(Receiver.class, context).build(), context);
@@ -127,10 +109,9 @@ public class GerritClusterReconciler
                 InformerConfiguration.from(IncomingReplicationTask.class, context).build(),
                 context);
 
-    Map<String, EventSource> eventSources = new HashMap<>();
+    Map<String, EventSource> eventSources = super.prepareEventSources(context);
     eventSources.put(CM_EVENT_SOURCE, cmEventSource);
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
-    eventSources.put(CLUSTER_MANAGED_GERRIT_EVENT_SOURCE, clusterManagedGerritEventSource);
     eventSources.put(CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE, clusterManagedReceiverEventSource);
     eventSources.put(
         CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE, clusterManagedGerritNetworkEventSource);
@@ -152,16 +133,5 @@ public class GerritClusterReconciler
       members.put("receiver", List.of(managedReceiver.getMetadata().getName()));
     }
     return UpdateControl.patchStatus(updateStatus(gerritCluster, members));
-  }
-
-  private GerritCluster updateStatus(
-      GerritCluster gerritCluster, Map<String, List<String>> members) {
-    GerritClusterStatus status = gerritCluster.getStatus();
-    if (status == null) {
-      status = new GerritClusterStatus();
-    }
-    status.setMembers(members);
-    gerritCluster.setStatus(status);
-    return gerritCluster;
   }
 }

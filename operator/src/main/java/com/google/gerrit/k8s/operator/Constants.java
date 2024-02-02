@@ -27,4 +27,9 @@ public class Constants extends AbstractModule {
         "GitGarbageCollection",
         "IncomingReplicationTask"
       };
+
+  public enum ClusterMode {
+    HIGH_AVAILABILITY,
+    MULTISITE
+  }
 }
