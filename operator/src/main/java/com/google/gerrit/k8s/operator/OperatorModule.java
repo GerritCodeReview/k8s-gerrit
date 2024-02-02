@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterNoSharedFSReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
@@ -50,19 +51,20 @@ public class OperatorModule extends AbstractModule {
 
     boolean isSharedFileSystem =
         Optional.ofNullable(Boolean.parseBoolean(System.getenv("SHARED_FILE_SYSTEM"))).orElse(true);
+    logger.atInfo().log("Shared file system is enabled: %s", isSharedFileSystem);
+
+    OperatorContext.createInstance(isSharedFileSystem);
 
     if (!isSharedFileSystem) {
-      throw new UnsupportedOperationException(
-          "Gerrit HA is not supported without shared file system.");
+      reconcilers.addBinding().to(GerritClusterNoSharedFSReconciler.class);
+      reconcilers.addBinding().to(GerritReconciler.class);
+    } else {
+      reconcilers.addBinding().to(GerritClusterReconciler.class);
+      reconcilers.addBinding().to(GerritReconciler.class);
+      reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
+      reconcilers.addBinding().to(ReceiverReconciler.class);
+      reconcilers.addBinding().toProvider(GerritNetworkReconcilerProvider.class);
     }
-
-    logger.atInfo().log("Shared file system enabled");
-
-    reconcilers.addBinding().to(GerritClusterReconciler.class);
-    reconcilers.addBinding().to(GerritReconciler.class);
-    reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
-    reconcilers.addBinding().to(ReceiverReconciler.class);
-    reconcilers.addBinding().toProvider(GerritNetworkReconcilerProvider.class);
   }
 
   private KubernetesClient getKubernetesClient() {

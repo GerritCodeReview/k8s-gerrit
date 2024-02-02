@@ -839,6 +839,14 @@ spec:
                                   - type: string
                                 x-kubernetes-int-or-string: true
                             type: object
+                          gitAndLogsData:
+                            properties:
+                              size:
+                                anyOf:
+                                  - type: integer
+                                  - type: string
+                                x-kubernetes-int-or-string: true
+                            type: object
                           plugins:
                             items:
                               properties:

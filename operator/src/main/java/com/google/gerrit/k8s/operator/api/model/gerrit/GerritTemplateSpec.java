@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.shared.HttpSshServiceConfig;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
@@ -48,6 +49,7 @@ public class GerritTemplateSpec {
   private HttpSshServiceConfig service = new HttpSshServiceConfig();
 
   private GerritSite site = new GerritSite();
+  private GerritGitAndLogsData gitAndLogsData = new GerritGitAndLogsData();
   private List<GerritPlugin> plugins = List.of();
   private List<GerritModule> libs = List.of();
   private Map<String, String> configFiles = Map.of();
@@ -79,6 +81,7 @@ public class GerritTemplateSpec {
     this.service = templateSpec.service;
 
     this.site = templateSpec.site;
+    this.gitAndLogsData = templateSpec.gitAndLogsData;
     this.plugins = templateSpec.plugins;
     this.libs = templateSpec.libs;
     this.configFiles = templateSpec.configFiles;
@@ -201,6 +204,14 @@ public class GerritTemplateSpec {
     this.site = site;
   }
 
+  public GerritGitAndLogsData getGitAndLogsData() {
+    return gitAndLogsData;
+  }
+
+  public void setGitAndLogsData(GerritGitAndLogsData gitAndLogsData) {
+    this.gitAndLogsData = gitAndLogsData;
+  }
+
   public List<GerritPlugin> getPlugins() {
     return plugins;
   }
@@ -266,6 +277,8 @@ public class GerritTemplateSpec {
 
   @JsonIgnore
   public boolean isHighlyAvailablePrimary() {
-    return getMode().equals(GerritMode.PRIMARY) && getReplicas() > 1;
+    return getMode().equals(GerritMode.PRIMARY)
+        && getReplicas() > 1
+        && OperatorContext.isSharedFS();
   }
 }
