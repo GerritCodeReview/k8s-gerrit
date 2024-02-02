@@ -35,6 +35,8 @@ public class EnvModule extends AbstractModule {
 
     logger.atInfo().log("Multisite is enabled: %s", isMultisite);
 
+    OperatorContext.createInstance(isMultisite);
+
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
         .toInstance(System.getenv("NAMESPACE"));
