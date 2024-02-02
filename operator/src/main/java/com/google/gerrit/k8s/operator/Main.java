@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigs;
 import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.Guice;
@@ -25,7 +26,13 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
     try {
-      Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
+      String getClusterModeEnv = System.getenv("CLUSTER_MODE");
+      ClusterMode clusterMode =
+          getClusterModeEnv == null
+              ? ClusterMode.HIGH_AVAILABILITY
+              : ClusterMode.valueOf(getClusterModeEnv.toUpperCase());
+
+      Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule(clusterMode));
       injector.getInstance(HttpServer.class).start();
       injector.getInstance(ValidationWebhookConfigs.class).apply();
       injector.getInstance(GerritOperator.class).start();
