@@ -123,11 +123,11 @@ class GerritInit:
         os.symlink(src, target)
 
     def _symlink_mounted_site_components(self):
-        self._symlink(f"{MNT_PATH}/git", f"{self.site}/git")
-
-        mounted_shared_dir = f"{MNT_PATH}/shared"
-        if not self.is_replica and os.path.exists(mounted_shared_dir):
-            self._symlink(mounted_shared_dir, f"{self.site}/shared")
+        if not self.config.is_multisite:
+            self._symlink(f"{MNT_PATH}/git", f"{self.site}/git")
+            mounted_shared_dir = f"{MNT_PATH}/shared"
+            if not self.is_replica and os.path.exists(mounted_shared_dir):
+                self._symlink(mounted_shared_dir, f"{self.site}/shared")
 
         index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
         if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
