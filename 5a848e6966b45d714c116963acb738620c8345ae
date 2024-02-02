@@ -16,6 +16,23 @@
       "message": "I verified that this works on ash",
       "revId": "5a848e6966b45d714c116963acb738620c8345ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b37a747b_f42a87a0",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2024-02-02T16:33:23Z",
+      "side": 1,
+      "message": "If it helps... in our gc script we do this as:\n\n```\n(find \"$PROJECT_DIR/refs/\" -mindepth 2 -type d -empty -mmin +60 -print0 | \\\n        xargs -0 --no-run-if-empty rmdir) 2\u003e/dev/null\n```\n\nThat way we don\u0027t have to track specific namespaces, but the mindepth prevents trying to rmdir the frequently used top-level dirs.",
+      "revId": "5a848e6966b45d714c116963acb738620c8345ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
