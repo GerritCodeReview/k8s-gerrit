@@ -84,7 +84,11 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_HA_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
-        LOG.info("Requiring plugins: %s", required)
+        LOG.info(
+            "Requiring plugins (ClusterMode: %s): %s",
+            self.config.cluster_mode,
+            required,
+        )
         return required
 
     def _get_required_libs(self):
@@ -93,7 +97,9 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_HA_LIBS)
         elif self.config.refdb:
             required.append("global-refdb")
-        LOG.info("Requiring libs: %s", required)
+        LOG.info(
+            "Requiring libs (ClusterMode: %s): %s", self.config.cluster_mode, required
+        )
         return required
 
     def _install_required_plugins(self):
