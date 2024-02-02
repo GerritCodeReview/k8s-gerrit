@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f804ccd7_6409a8a8",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-02T12:23:40Z",
+      "side": 1,
+      "message": "Why do you want to drop output on stderr ?\nWouldn\u0027t this hide the error message in case the command fails ?",
+      "range": {
+        "startLine": 175,
+        "startChar": 58,
+        "endLine": 175,
+        "endChar": 69
+      },
+      "revId": "896c88c2c9e3306b6f80f2d66422eb48a84dedf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
