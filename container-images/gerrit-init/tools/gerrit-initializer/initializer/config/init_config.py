@@ -28,6 +28,7 @@ class InitConfig:
 
         self.is_ha = False
         self.refdb = False
+        self.is_multisite = False
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
@@ -55,6 +56,8 @@ class InitConfig:
             self.ca_cert_path = config["caCertPath"]
 
         self.is_ha = "highAvailability" in config and config["highAvailability"]
+        self.is_multisite = "multisite" in config and config["multisite"]
+
         if "refdb" in config:
             self.refdb = config["refdb"]
 

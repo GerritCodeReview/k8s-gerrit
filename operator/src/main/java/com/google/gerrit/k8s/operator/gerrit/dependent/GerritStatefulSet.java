@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
@@ -234,10 +235,11 @@ public class GerritStatefulSet
   private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
-    volumes.add(
-        GerritCluster.getSharedVolume(
-            gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
-
+    if (!OperatorContext.isMultisite()) {
+      volumes.add(
+          GerritCluster.getSharedVolume(
+              gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
+    }
     volumes.add(
         new VolumeBuilder()
             .withName("gerrit-init-config")
@@ -303,7 +305,9 @@ public class GerritStatefulSet
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
-    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
+    if (!OperatorContext.isMultisite()) {
+      volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
+    }
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
