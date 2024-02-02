@@ -16,7 +16,8 @@ package com.google.gerrit.k8s.operator.api.model.shared;
 
 public class FluentBitSidecarConfig {
   private String image = "fluent/fluent-bit:latest";
-  private String config = """
+  private String config =
+      """
       [OUTPUT]
         Name            stdout
         Match           *
