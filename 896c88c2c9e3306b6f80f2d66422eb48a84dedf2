@@ -46,6 +46,30 @@
       },
       "revId": "896c88c2c9e3306b6f80f2d66422eb48a84dedf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30041a1a_0b577fc6",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-02T13:27:20Z",
+      "side": 1,
+      "message": "ok, but still I would argue that this should be removed. Here or in another change.",
+      "parentUuid": "5f18b8b4_fed33b6b",
+      "range": {
+        "startLine": 175,
+        "startChar": 58,
+        "endLine": 175,
+        "endChar": 69
+      },
+      "revId": "896c88c2c9e3306b6f80f2d66422eb48a84dedf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
