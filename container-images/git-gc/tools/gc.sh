@@ -172,9 +172,7 @@ gc_project()
         || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
-  (find "$PROJECT_DIR/refs/changes" -type d | xargs rmdir;
-   find "$PROJECT_DIR/refs/changes" -type d | xargs rmdir
-  ) 2>/dev/null
+  find "$PROJECT_DIR/refs/changes" -type d -empty -delete 2>/dev/null
 
   OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +14 -delete) && \
         log "pruning stale 'incoming_*.pack' files older than 14 days:\n$OUT"
