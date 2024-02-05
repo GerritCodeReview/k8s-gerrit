@@ -172,7 +172,7 @@ gc_project()
         || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
-  delete_empty_dirs "$PROJECT_DIR"
+  delete_empty_ref_dirs "$PROJECT_DIR"
 
   OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +14 -delete) && \
         log "pruning stale 'incoming_*.pack' files older than 14 days:\n$OUT"
@@ -189,12 +189,10 @@ gc_project()
   OUT=$(date +"%D %r Finished: $PROJECT_NAME$LOG_OPTS") && log "$OUT"
 }
 
-delete_empty_dirs()
+delete_empty_ref_dirs()
 {
   PROJECT_DIR="$1"
-  for ns in changes users cache-automerge ; do
-    find "$PROJECT_DIR/refs/$ns" -type d -empty -delete
-  done
+  find "$PROJECT_DIR/refs/$ns" -type d -empty -mindepth 2 -mmin +60 -delete
 }
 
 ###########################
