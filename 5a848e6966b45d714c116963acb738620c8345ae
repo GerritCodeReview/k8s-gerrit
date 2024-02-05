@@ -51,6 +51,24 @@
       "parentUuid": "b37a747b_f42a87a0",
       "revId": "5a848e6966b45d714c116963acb738620c8345ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed80fce6_6ea10202",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-02-05T14:16:42Z",
+      "side": 1,
+      "message": "I will takeover the `-mindepth 2` and `-mmin +60` options from your proposal.\n\nPiping the result through xargs is suboptimal as I explained in the first change in this series. One run of the command you provided, removes the empty leaf directories. The directories that become empty after removing the empty leaf directories are not removed. So you have to run that command multiple times, depending on the max-depth of the directory structure. Using the `-delete` option of the `find` command resolves this issue.\n\nDoen in If4b338bda8dcac1d86f404949fb0376e31b7ec6b",
+      "parentUuid": "fa222685_8d2325ee",
+      "revId": "5a848e6966b45d714c116963acb738620c8345ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
