@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
+import com.google.gerrit.k8s.operator.network.istio.GerritIstioNoSharedFSReconciler;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.server.ServerModule;
 import com.google.inject.AbstractModule;
@@ -58,6 +59,7 @@ public class OperatorModule extends AbstractModule {
     if (!isSharedFileSystem) {
       reconcilers.addBinding().to(GerritClusterNoSharedFSReconciler.class);
       reconcilers.addBinding().to(GerritReconciler.class);
+      reconcilers.addBinding().to(GerritIstioNoSharedFSReconciler.class);
     } else {
       reconcilers.addBinding().to(GerritClusterReconciler.class);
       reconcilers.addBinding().to(GerritReconciler.class);
