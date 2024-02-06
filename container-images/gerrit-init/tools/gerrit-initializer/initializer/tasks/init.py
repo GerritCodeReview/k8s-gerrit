@@ -21,6 +21,7 @@ from ..helpers import git, log
 from .download_plugins import get_installer
 from .reindex import IndexType, get_reindexer
 from .validate_notedb import NoteDbValidator
+from .pull_replication_configurator import PullReplicationConfigurator
 
 LOG = log.get_logger("init")
 MNT_PATH = "/var/mnt"
@@ -164,10 +165,13 @@ class GerritInit:
                     if os.path.isfile(
                         os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
                     ):
-                        self._symlink(
-                            os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
-                            os.path.join(etc_dir, file_or_dir),
-                        )
+                        if file_or_dir in ["replication.config", "gerrit.config"] and PullReplicationConfigurator.has_pull_replication():
+                            LOG.info('Skipping symlink of {}, will be set up by PullReplicationConfigurator'.format(file_or_dir))
+                        else:
+                            self._symlink(
+                                os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
+                                os.path.join(etc_dir, file_or_dir),
+                            )
 
     def _remove_auto_generated_ssh_keys(self):
         etc_dir = f"{self.site}/etc"
@@ -190,12 +194,15 @@ class GerritInit:
         elif not NoteDbValidator(MNT_PATH).check():
             LOG.info("NoteDB not ready. Initializing repositories.")
             self._symlink_mounted_site_components()
-        self._symlink_configuration()
 
         if os.path.exists(self.pid_file):
             os.remove(self.pid_file)
 
         self.plugin_installer.execute()
+        self._symlink_configuration()
+
+        if PullReplicationConfigurator.has_pull_replication():
+            PullReplicationConfigurator(self.site).configure()
 
         if self._needs_init():
             if self.gerrit_config:
