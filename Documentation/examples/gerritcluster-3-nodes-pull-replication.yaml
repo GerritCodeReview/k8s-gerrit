@@ -76,7 +76,7 @@ spec:
     spec:
       serviceAccount: gerrit
 
-      replicas: 2
+      replicas: 3
 
       resources:
         requests:
@@ -118,11 +118,16 @@ spec:
         size: 1Gi
 
       gitAndLogsData:
-        size: 2Gi
+        size: 1Gi
 
       plugins:
       - name: download-commands
       - name: delete-project
+
+      - name: pull-replication
+        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
+        sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
+
 
       configFiles:
         gerrit.config: |-
@@ -140,5 +145,46 @@ spec:
             [container]
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
+            [gerrit]
+              instanceId = INSTANCE_ID_PLACEHOLDER
+
+        replication.config: |-
+            [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]
+              url = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-1:8080/${name}.git
+              apiUrl = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-1:8080
+              fetch = +refs/*:refs/*
+              mirror = true
+              timeout = 600
+              rescheduleDelay = 15
+              replicationDelay = 5
+              createMissingRepositories = true
+              replicateProjectDeletions = true
+              replicateHiddenProjects = true
+            [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-2"]
+              url = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-2:8080/${name}.git
+              apiUrl = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-2:8080
+              fetch = +refs/*:refs/*
+              mirror = true
+              timeout = 600
+              rescheduleDelay = 15
+              replicationDelay = 5
+              createMissingRepositories = true
+              replicateProjectDeletions = true
+              replicateHiddenProjects = true
+            [gerrit]
+              autoReload = true
+              replicateOnStartup = false
+            [replication]
+              lockErrorMaxRetries = 5
+              maxRetries = 5
+              useCGitClient = false
+              consumeStreamEvents = false
+              syncRefs="ALL REFS ASYNC"
+              maxApiPayloadSize=40000
+
+        secure.config: |-
+            [auth]
+              registerEmailPrivateKey = A3D00Ny0bLW2z7xdInvIf35Q5mDCi5u9o/E=
+              bearertoken = some-bearer-token
 
       secretRef: gerrit-secure-config

@@ -404,6 +404,15 @@ public class GerritStatefulSet
   private List<EnvVar> getEnvVars(Gerrit gerrit) {
     List<EnvVar> envVars = new ArrayList<>();
     envVars.add(GerritCluster.getPodNameEnvVar());
+    if (!OperatorContext.isSharedFS()) {
+      envVars.add(GerritCluster.getPodIndexEnvVar());
+      envVars.add(GerritCluster.getNamespaceNameEnvVar());
+      envVars.add(
+          GerritCluster.getReplicasNumEnvVar(Integer.toString(gerrit.getSpec().getReplicas())));
+      envVars.add(
+          GerritCluster.getHeadlessServiceNameEnvVar(GerritHeadlessService.getName(gerrit)));
+    }
+    envVars.add(GerritCluster.getPodIndexEnvVar());
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       envVars.add(
           new EnvVarBuilder()
