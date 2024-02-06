@@ -376,6 +376,8 @@ It is defined by an environment variable called `CLUSTER_MODE`, that can have th
 
 By default, the mode is set to `HIGH_AVAILABILITY`.
 
+In case of provision Gerrit in `MULTISITE` mode, only `ISTIO` will be supported as ingress provider.
+
 It can be configured either by:
 
 #### With helm charts

@@ -27,8 +27,17 @@ spec:
       readWriteOnce: standard
 
   ingress:
-    enabled: false
-    host: localhost
+    enabled: true
+    host: gerrit.multisite.com
+    annotations: {}
+    tls:
+      enabled: false
+      secret: "gerrit-multisite-credential"
+    ssh:
+      enabled: true
+    istio:
+      gatewaySelector:
+        istio: ingressgateway
 
   serverId: "minikube-gerrit"
 
