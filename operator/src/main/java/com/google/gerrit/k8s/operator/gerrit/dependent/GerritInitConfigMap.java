@@ -81,6 +81,7 @@ public class GerritInitConfigMap
     }
 
     config.setMultisite(OperatorContext.isMultisite());
+    config.setGerritHeadlessServiceHost(GerritHeadlessService.getHostname(gerrit));
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));

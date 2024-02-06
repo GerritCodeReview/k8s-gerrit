@@ -33,6 +33,7 @@ MAX_CACHED_VERSIONS = 5
 REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
+REQUIRED_MULTISITE_PLUGINS = ["pull-replication"]
 
 
 class InvalidPluginException(Exception):
@@ -82,6 +83,8 @@ class AbstractPluginInstaller(ABC):
         required = REQUIRED_PLUGINS.copy()
         if self.config.is_ha:
             required.extend(REQUIRED_HA_PLUGINS)
+        elif self.config.is_multisite:
+            required.extend(REQUIRED_MULTISITE_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
         LOG.info("Requiring plugins: %s", required)

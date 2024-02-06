@@ -33,6 +33,9 @@ public class GerritInitConfig {
   @JsonProperty("multisite")
   private boolean isMultisite;
 
+  @JsonProperty("gerritHeadlessServiceHost")
+  private String gerritHeadlessServiceHost;
+
   public String getCaCertPath() {
     return caCertPath;
   }
@@ -101,6 +104,16 @@ public class GerritInitConfig {
     this.isMultisite = isMultisite;
   }
 
+  @JsonProperty("gerritHeadlessServiceHost")
+  public String getGerritHeadlessServiceHost() {
+    return gerritHeadlessServiceHost;
+  }
+
+  @JsonProperty("gerritHeadlessServiceHost")
+  public void setGerritHeadlessServiceHost(String gerritHeadlessServiceHost) {
+    this.gerritHeadlessServiceHost = gerritHeadlessServiceHost;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -111,7 +124,8 @@ public class GerritInitConfig {
         pluginCacheEnabled,
         plugins,
         refdb,
-        isMultisite);
+        isMultisite,
+        gerritHeadlessServiceHost);
   }
 
   @Override
@@ -127,7 +141,8 @@ public class GerritInitConfig {
         && pluginCacheEnabled == other.pluginCacheEnabled
         && Objects.equals(plugins, other.plugins)
         && Objects.equals(refdb, other.refdb)
-        && isMultisite == other.isMultisite;
+        && isMultisite == other.isMultisite
+        && Objects.equals(gerritHeadlessServiceHost, other.gerritHeadlessServiceHost);
   }
 
   @Override
@@ -148,6 +163,8 @@ public class GerritInitConfig {
         + refdb
         + ", isMultisite="
         + isMultisite
+        + ", gerritHeadlessServiceHost="
+        + gerritHeadlessServiceHost
         + "]";
   }
 }
