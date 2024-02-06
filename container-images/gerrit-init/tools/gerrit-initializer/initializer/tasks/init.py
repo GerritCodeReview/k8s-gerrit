@@ -20,6 +20,7 @@ import sys
 from abc import abstractmethod
 from ..helpers import git, log
 from .download_plugins import get_installer
+from .pull_replication_configurator import PullReplicationConfigurator
 from .reindex import IndexType, get_reindexer
 from .validate_notedb import NoteDbValidator
 
@@ -48,6 +49,10 @@ class GerritInit:
 
     @abstractmethod
     def _symlink_mounted_site_components(self):
+        pass
+
+    @abstractmethod
+    def _symlink_configuration(self):
         pass
 
     def _get_gerrit_version(self, gerrit_war_path):
@@ -152,22 +157,6 @@ class GerritInit:
                 if os.path.isdir(abs_mounted_path):
                     self._symlink(abs_mounted_path, abs_path)
 
-    def _symlink_configuration(self):
-        etc_dir = f"{self.site}/etc"
-        if not os.path.exists(etc_dir):
-            os.makedirs(etc_dir)
-
-        for config_type in ["config", "secret"]:
-            if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
-                for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
-                    if os.path.isfile(
-                        os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
-                    ):
-                        self._symlink(
-                            os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
-                            os.path.join(etc_dir, file_or_dir),
-                        )
-
     def _remove_auto_generated_ssh_keys(self):
         etc_dir = f"{self.site}/etc"
         if not os.path.exists(etc_dir):
@@ -195,6 +184,10 @@ class GerritInit:
             os.remove(self.pid_file)
 
         self.plugin_installer.execute()
+        self._symlink_configuration()
+
+        if PullReplicationConfigurator.has_pull_replication():
+            PullReplicationConfigurator(self.site, self.config).configure()
 
         if self._needs_init():
             if self.gerrit_config:

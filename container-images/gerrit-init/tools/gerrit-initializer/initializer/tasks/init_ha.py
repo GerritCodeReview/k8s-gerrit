@@ -35,3 +35,18 @@ class GerritInitHA(GerritInit):
         self._symlink_git_and_shared_volume()
         self._symlink_index()
         self._symlink_or_make_data_dir()
+
+    def _symlink_configuration(self):
+        etc_dir = f"{self.site}/etc"
+        if not os.path.exists(etc_dir):
+            os.makedirs(etc_dir)
+        for config_type in ["config", "secret"]:
+            if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
+                for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
+                    if os.path.isfile(
+                        os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
+                    ):
+                        self._symlink(
+                            os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
+                            os.path.join(etc_dir, file_or_dir),
+                        )

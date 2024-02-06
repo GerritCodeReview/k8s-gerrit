@@ -81,6 +81,7 @@ public class GerritInitConfigMap
     }
 
     config.setClusterMode(OperatorContext.getClusterMode());
+    config.setGerritHeadlessServiceHost(new GerritHeadlessService().getHostname(gerrit));
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));
