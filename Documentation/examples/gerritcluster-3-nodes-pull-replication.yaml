@@ -11,7 +11,8 @@ data:
     LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUFhQUFBQUJObFkyUnpZUwoxemFHRXlMVzVwYzNSd01qVTJBQUFBQ0c1cGMzUndNalUyQUFBQVFRUmNZWUNCZnVxczd3d2Q2amN5a0J4NXZ0QjRrSkp2CmxtbnlMS2EwbEZ1L1BpbVNUbmdUcXBRM3d5bHFsWEtLZ2ZsbzJyWkQzRCtkZGRFNUNxRXBTZDVOQUFBQXNFUGsvY0ZENVAKM0JBQUFBRTJWalpITmhMWE5vWVRJdGJtbHpkSEF5TlRZQUFBQUlibWx6ZEhBeU5UWUFBQUJCQkZ4aGdJRis2cXp2REIzcQpOektRSEhtKzBIaVFrbStXYWZJc3ByU1VXNzgrS1pKT2VCT3FsRGZES1dxVmNvcUIrV2phdGtQY1A1MTEwVGtLb1NsSjNrCjBBQUFBaEFLZC9IY3g4RlZkM3JPQ2J4ODFmWUxYeGFKOWc2dk1QWXRNdUFRb3E2YkI0QUFBQUVXczRjMmRsY25KcGRDMWwKZUdGdGNHeGxBUUlEQkFVRwotLS0tLUVORCBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0=
   ssh_host_ecdsa_key.pub: |
     ZWNkc2Etc2hhMi1uaXN0cDI1NiBBQUFBRTJWalpITmhMWE5vWVRJdGJtbHpkSEF5TlRZQUFBQUlibWx6ZEhBeU5UWUFBQUJCQkZ4aGdJRis2cXp2REIzcU56S1FISG0rMEhpUWttK1dhZklzcHJTVVc3OCtLWkpPZUJPcWxEZkRLV3FWY29xQitXamF0a1BjUDUxMTBUa0tvU2xKM2swPSBrOHNnZXJyaXQtZXhhbXBsZQ==
-
+  secure.config: |
+    W2F1dGhdCglyZWdpc3RlckVtYWlsUHJpdmF0ZUtleSA9IEEzRDAwTnkwYkxXMno3eGRJbnZJZjM1UTVtRENpNXU5by9FPQoJYmVhcmVydG9rZW4gPSBzb21lLWJlYXJlci10b2tlbgo=
 type: Opaque
 
 ---
@@ -29,10 +30,10 @@ spec:
     enabled: false
     host: localhost
 
+  serverId: "minikube-gerrit"
+
   fluentBitSidecar:
     enabled: true
-
-  serverId: "minikube-gerrit"
 
   gerrits:
   - metadata:
@@ -42,7 +43,7 @@ spec:
     spec:
       serviceAccount: gerrit
 
-      replicas: 1
+      replicas: 3
 
       resources:
         requests:
@@ -103,5 +104,15 @@ spec:
             [container]
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
+
+        replication.config: |-
+            [remote]
+              fetch = +refs/*:refs/*
+              mirror = true
+              timeout = 600
+              replicateProjectDeletions = true
+            [replication]
+              lockErrorMaxRetries = 5
+              maxRetries = 5
 
       secretRef: gerrit-secure-config
