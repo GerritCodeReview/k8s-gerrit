@@ -12,6 +12,7 @@ data:
     refdb: null
     clusterMode: "HIGH_AVAILABILITY"
     highAvailability: false
+    gerritHeadlessServiceHost: "gerrit.gerrit.svc.cluster.local"
 kind: ConfigMap
 metadata:
   labels:

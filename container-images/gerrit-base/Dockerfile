@@ -40,6 +40,10 @@ RUN curl -f -k -o /var/plugins/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
 ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-spanner-refdb-bazel-master-master/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
 RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 
+# Download pull-replication plugin
+ARG PULL_REPLICATION_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
+RUN curl -f -k -o /var/plugins/pull-replication.jar ${PULL_REPLICATION_URL}
+
 # Allow incoming traffic
 EXPOSE 29418 8080
 

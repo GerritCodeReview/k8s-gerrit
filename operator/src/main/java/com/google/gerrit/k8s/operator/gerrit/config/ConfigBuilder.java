@@ -25,6 +25,7 @@ import org.eclipse.jgit.lib.Config;
 public abstract class ConfigBuilder {
 
   private final ImmutableList<RequiredOption<?>> requiredOptions;
+
   private final Config config;
 
   ConfigBuilder(Config baseConfig, ImmutableList<RequiredOption<?>> requiredOptions) {

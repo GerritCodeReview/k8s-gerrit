@@ -31,6 +31,7 @@ class InitConfig:
         self.is_ha = False
         self.refdb = False
         self.cluster_mode = ClusterMode.HIGH_AVAILABILITY
+        self.gerrit_headless_service_host = ""
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
@@ -64,6 +65,8 @@ class InitConfig:
 
         if "refdb" in config:
             self.refdb = config["refdb"]
+
+        self.gerrit_headless_service_host = config["gerritHeadlessServiceHost"]
 
         return self
 

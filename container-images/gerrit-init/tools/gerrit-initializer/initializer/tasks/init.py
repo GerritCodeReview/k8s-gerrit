@@ -52,6 +52,10 @@ class GerritInit:
     def _symlink_mounted_site_components(self):
         pass
 
+    @abstractmethod
+    def _symlink_configuration(self):
+        pass
+
     def _get_gerrit_version(self, gerrit_war_path):
         command = f"java -jar {gerrit_war_path} version"
         version_process = subprocess.run(
@@ -153,22 +157,6 @@ class GerritInit:
                 abs_mounted_path = os.path.join(mounted_data_dir, file_or_dir)
                 if os.path.isdir(abs_mounted_path):
                     self._symlink(abs_mounted_path, abs_path)
-
-    def _symlink_configuration(self):
-        etc_dir = f"{self.site}/etc"
-        if not os.path.exists(etc_dir):
-            os.makedirs(etc_dir)
-
-        for config_type in ["config", "secret"]:
-            if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
-                for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
-                    if os.path.isfile(
-                        os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
-                    ):
-                        self._symlink(
-                            os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
-                            os.path.join(etc_dir, file_or_dir),
-                        )
 
     def _remove_auto_generated_ssh_keys(self):
         etc_dir = f"{self.site}/etc"
