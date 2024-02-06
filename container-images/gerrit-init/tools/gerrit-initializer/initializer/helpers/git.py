@@ -19,6 +19,31 @@ class GitConfigParser:
     def __init__(self, config_path):
         self.path = config_path
 
+    @staticmethod
+    def list_section(options, section):
+        return list(filter(lambda tag: tag['section'] == section, options))
+
+    @staticmethod
+    def _optstr(opt):
+        option = ""
+        if opt['subsection'] is not None:
+            option += opt['subsection'] + "."
+        option += opt["key"] + " = "
+        option += opt["value"]
+        return option
+
+    @staticmethod
+    def get_section_as_string(options, section, filter, with_section_name):
+        section_options = options
+        if filter:
+            section_options = GitConfigParser.list_section(options, section)
+        options_str = "\n\t".join([GitConfigParser._optstr(item) for item in section_options])
+        if with_section_name:
+            return f"[{section}]\n\t" + options_str
+        else:
+            return options_str
+
+
     def _execute_shell_command_and_get_output_lines(self, command):
         sub_process_run = subprocess.run(
             command.split(), stdout=subprocess.PIPE, check=True, universal_newlines=True
