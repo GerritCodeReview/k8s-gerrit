@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATT
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMember;
@@ -108,22 +109,27 @@ public class GerritIstioVirtualService
     if (gerritNetwork.hasPrimaryGerrit()) {
       HTTPRouteDestination dest =
           getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace);
-      routes.add(
-          new HTTPRouteBuilder()
-              .withName("forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
-              .withRoute(dest)
-              .withMatch(getGerritForbiddenMatches())
-              .withNewFault()
-              .withNewAbort()
-              .withNewHTTPFaultInjectionAbortHttpStatusErrorType()
-              .withHttpStatus(403)
-              .endHTTPFaultInjectionAbortHttpStatusErrorType()
-              .withNewPercentage()
-              .withValue(100D)
-              .endPercentage()
-              .endAbort()
-              .endFault()
-              .build());
+
+      if (OperatorContext.isSharedFS()) {
+        routes.add(
+            new HTTPRouteBuilder()
+                .withName(
+                    "forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
+                .withRoute(dest)
+                .withMatch(getGerritForbiddenMatches())
+                .withNewFault()
+                .withNewAbort()
+                .withNewHTTPFaultInjectionAbortHttpStatusErrorType()
+                .withHttpStatus(403)
+                .endHTTPFaultInjectionAbortHttpStatusErrorType()
+                .withNewPercentage()
+                .withValue(100D)
+                .endPercentage()
+                .endAbort()
+                .endFault()
+                .build());
+      }
+
       routes.add(
           new HTTPRouteBuilder()
               .withName("gerrit-primary-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())

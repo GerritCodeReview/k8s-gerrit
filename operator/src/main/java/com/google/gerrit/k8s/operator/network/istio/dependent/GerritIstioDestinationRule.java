@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 import static com.google.gerrit.k8s.operator.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
 import static com.google.gerrit.k8s.operator.api.model.network.GerritNetwork.SESSION_COOKIE_TTL;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
@@ -63,6 +64,19 @@ public class GerritIstioDestinationRule
   }
 
   private TrafficPolicy getTrafficPolicy(boolean isReplica) {
+    if (!OperatorContext.isSharedFS()) {
+      return new TrafficPolicyBuilder()
+          .withNewLoadBalancer()
+          .withNewLoadBalancerSettingsConsistentHashLbPolicy()
+          .withNewConsistentHash()
+          .withNewLoadBalancerSettingsConsistentHashLBUseSourceIpKey()
+          .withUseSourceIp(true)
+          .endLoadBalancerSettingsConsistentHashLBUseSourceIpKey()
+          .endConsistentHash()
+          .endLoadBalancerSettingsConsistentHashLbPolicy()
+          .endLoadBalancer()
+          .build();
+    }
     if (isReplica) {
       return new TrafficPolicyBuilder()
           .withNewLoadBalancer()
