@@ -29,6 +29,7 @@ class InitConfig:
         self.is_ha = False
         self.refdb = False
         self.is_multisite = False
+        self.gerrit_headless_service_host = ''
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
@@ -60,6 +61,9 @@ class InitConfig:
 
         if "refdb" in config:
             self.refdb = config["refdb"]
+
+        if self.is_multisite:
+            self.gerrit_headless_service_host = config["gerritHeadlessServiceHost"]
 
         return self
 

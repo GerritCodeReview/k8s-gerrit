@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Service;
@@ -36,7 +35,7 @@ import java.util.Map;
 public class GerritHeadlessService
     extends CRUDReconcileAddKubernetesDependentResource<Service, Gerrit> {
   public static final String HTTP_PORT_NAME = "http";
-  private static final String HEADLESS_SUFFIX = "-headless";
+  public static final String HEADLESS_SUFFIX = "-headless";
 
   public GerritHeadlessService() {
     super(Service.class);
@@ -64,14 +63,6 @@ public class GerritHeadlessService
     return gerrit.getMetadata().getName() + HEADLESS_SUFFIX;
   }
 
-  public static String getName(String gerritName) {
-    return gerritName;
-  }
-
-  public static String getName(GerritTemplate gerrit) {
-    return gerrit.getMetadata().getName();
-  }
-
   public static String getHostname(Gerrit gerrit) {
     return getHostname(getName(gerrit), gerrit.getMetadata().getNamespace());
   }
@@ -87,9 +78,7 @@ public class GerritHeadlessService
 
   public static Map<String, String> getLabels(Gerrit gerrit) {
     return GerritCluster.getLabels(
-        gerrit.getMetadata().getName(),
-        "gerrit-service-headless",
-        GerritReconciler.class.getSimpleName());
+        gerrit.getMetadata().getName(), getName(gerrit), GerritReconciler.class.getSimpleName());
   }
 
   private static List<ServicePort> getServicePorts(Gerrit gerrit) {
