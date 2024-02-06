@@ -414,6 +414,12 @@ public class GerritStatefulSet
     List<EnvVar> envVars = new ArrayList<>();
     envVars.add(GerritCluster.getPodNameEnvVar());
     envVars.addAll(gerrit.getSpec().getEnvVars());
+    if (OperatorContext.isMultisite()) {
+      envVars.add(GerritCluster.getPodIndexEnvVar());
+      envVars.add(
+          GerritCluster.getReplicasNumEnvVar(Integer.toString(gerrit.getSpec().getReplicas())));
+    }
+    envVars.add(GerritCluster.getPodIndexEnvVar());
 
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       envVars.add(

@@ -221,6 +221,23 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
+  public static EnvVar getPodIndexEnvVar() {
+    return new EnvVarBuilder()
+        .withName("POD_INDEX")
+        .withNewValueFrom()
+        .withNewFieldRef()
+        .withFieldPath("metadata.labels['apps.kubernetes.io/pod-index']")
+        .endFieldRef()
+        .endValueFrom()
+        .build();
+  }
+
+  @JsonIgnore
+  public static EnvVar getReplicasNumEnvVar(String replicas) {
+    return new EnvVarBuilder().withName("REPLICAS").withValue(replicas).build();
+  }
+
+  @JsonIgnore
   public String getDependentResourceName(String nameSuffix) {
     return String.format("%s-%s", getMetadata().getName(), nameSuffix);
   }
