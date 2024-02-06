@@ -18,7 +18,9 @@ import sys
 
 from ..helpers import log
 from .init import GerritInit
+from .pull_replication_configurator import PullReplicationConfigurator
 from .reindex import get_reindexer
+
 
 LOG = log.get_logger("init")
 MNT_PATH = "/var/mnt"
@@ -32,6 +34,30 @@ class GerritInitMultisite(GerritInit):
         self._symlink_index()
         self._symlink_or_make_data_dir()
 
+    def _symlink_configuration(self):
+        etc_dir = f"{self.site}/etc"
+        if not os.path.exists(etc_dir):
+            os.makedirs(etc_dir)
+        for config_type in ["config", "secret"]:
+            if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
+                for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
+                    if os.path.isfile(
+                        os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
+                    ):
+                        if file_or_dir in ["replication.config", "gerrit.config"]:
+                            LOG.info(
+                                "Skipping symlink of {}, will be set up by PullReplicationConfigurator".format(
+                                    file_or_dir
+                                )
+                            )
+                        else:
+                            self._symlink(
+                                os.path.join(
+                                    f"{MNT_PATH}/etc/{config_type}", file_or_dir
+                                ),
+                                os.path.join(etc_dir, file_or_dir),
+                            )
+
     def execute(self):
         # Required for migration away from NFS-based log storage, when using the
         # Gerrit-Operator and to provide backwards compatibility for the helm-
@@ -39,12 +65,14 @@ class GerritInitMultisite(GerritInit):
         self._symlink(f"{MNT_PATH}/logs", f"{self.site}/logs", required=False)
 
         self._symlink_mounted_site_components()
-        self._symlink_configuration()
 
         if os.path.exists(self.pid_file):
             os.remove(self.pid_file)
 
         self.plugin_installer.execute()
+        self._symlink_configuration()
+
+        PullReplicationConfigurator(self.site, self.config).configure()
 
         if self._needs_init():
             if self.gerrit_config:

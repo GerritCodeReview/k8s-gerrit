@@ -33,6 +33,9 @@ public class GerritInitConfig {
 
   private ClusterMode clusterMode;
 
+  @JsonProperty("gerritHeadlessServiceHost")
+  private String gerritHeadlessServiceHost;
+
   public String getCaCertPath() {
     return caCertPath;
   }
@@ -99,6 +102,16 @@ public class GerritInitConfig {
     this.clusterMode = clusterMode;
   }
 
+  @JsonProperty("gerritHeadlessServiceHost")
+  public String getGerritHeadlessServiceHost() {
+    return gerritHeadlessServiceHost;
+  }
+
+  @JsonProperty("gerritHeadlessServiceHost")
+  public void setGerritHeadlessServiceHost(String gerritHeadlessServiceHost) {
+    this.gerritHeadlessServiceHost = gerritHeadlessServiceHost;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -109,7 +122,8 @@ public class GerritInitConfig {
         pluginCacheEnabled,
         plugins,
         refdb,
-        clusterMode);
+        clusterMode,
+        gerritHeadlessServiceHost);
   }
 
   @Override
@@ -125,7 +139,8 @@ public class GerritInitConfig {
         && pluginCacheEnabled == other.pluginCacheEnabled
         && Objects.equals(plugins, other.plugins)
         && Objects.equals(refdb, other.refdb)
-        && clusterMode == other.clusterMode;
+        && clusterMode == other.clusterMode
+        && Objects.equals(gerritHeadlessServiceHost, other.gerritHeadlessServiceHost);
   }
 
   @Override
@@ -146,6 +161,8 @@ public class GerritInitConfig {
         + refdb
         + ", clusterMode="
         + clusterMode
+        + ", gerritHeadlessServiceHost="
+        + gerritHeadlessServiceHost
         + "]";
   }
 }

@@ -29,6 +29,22 @@ class GerritInitHA(GerritInit):
     def __init__(self, site, config):
         super().__init__(site, config)
 
+    def _symlink_configuration(self):
+        etc_dir = f"{self.site}/etc"
+        if not os.path.exists(etc_dir):
+            os.makedirs(etc_dir)
+
+        for config_type in ["config", "secret"]:
+            if os.path.exists(f"{MNT_PATH}/etc/{config_type}"):
+                for file_or_dir in os.listdir(f"{MNT_PATH}/etc/{config_type}"):
+                    if os.path.isfile(
+                        os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
+                    ):
+                        self._symlink(
+                            os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
+                            os.path.join(etc_dir, file_or_dir),
+                        )
+
     def _symlink_git_and_shared_volume(self):
         self._symlink(f"{MNT_PATH}/git", f"{self.site}/git")
         mounted_shared_dir = f"{MNT_PATH}/shared"

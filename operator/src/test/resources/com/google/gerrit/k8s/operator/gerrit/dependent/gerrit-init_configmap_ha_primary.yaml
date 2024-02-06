@@ -12,6 +12,7 @@ data:
     refdb: "zookeeper"
     clusterMode: "HIGH_AVAILABILITY"
     highAvailability: true
+    gerritHeadlessServiceHost: "gerrit.gerrit.svc.cluster.local"
 kind: ConfigMap
 metadata:
   labels:
