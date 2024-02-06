@@ -15,12 +15,11 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
-import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
-import com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder;
-import com.google.gerrit.k8s.operator.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.*;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -75,6 +74,13 @@ public class GerritConfigMap
 
     if (!configFiles.containsKey("healthcheck.config")) {
       configFiles.put("healthcheck.config", DEFAULT_HEALTHCHECK_CONFIG);
+    }
+
+    if (OperatorContext.getClusterMode() == Constants.ClusterMode.MULTISITE) {
+      PullReplicationPluginConfigBuilder cfgBuilder =
+          new PullReplicationPluginConfigBuilder(gerrit);
+      configFiles.put(
+          "replication.config", cfgBuilder.makeRemoteSections(cfgBuilder.build(), gerrit).toText());
     }
 
     return new ConfigMapBuilder()
