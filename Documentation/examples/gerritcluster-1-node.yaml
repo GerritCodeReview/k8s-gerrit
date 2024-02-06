@@ -1,3 +1,5 @@
+<<<<<<< PATCH SET (a0a60f Add Istio traffic management to the Gerrit multi-site setup)
+=======
 ---
 apiVersion: v1
 kind: Secret
@@ -105,3 +107,4 @@ spec:
               javaOptions = -Xmx4g
 
       secretRef: gerrit-secure-config
+>>>>>>> BASE      (27b4de Expand gerrit-init to set up pull replication)
