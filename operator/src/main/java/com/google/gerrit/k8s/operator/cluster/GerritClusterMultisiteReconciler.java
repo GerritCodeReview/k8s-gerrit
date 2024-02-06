@@ -15,13 +15,17 @@
 package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterMultisiteReconciler.CLUSTER_MANAGED_GERRIT_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterMultisiteReconciler.CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritClusterStatus;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.inject.Singleton;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -46,10 +50,17 @@ import java.util.stream.Collectors;
           type = ClusterManagedGerrit.class,
           reconcilePrecondition = ClusterManagedGerritCondition.class,
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_EVENT_SOURCE),
+      @Dependent(
+          type = ClusterManagedGerritNetwork.class,
+          reconcilePrecondition = ClusterManagedGerritNetworkCondition.class,
+          useEventSourceWithName = CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE)
     })
 public class GerritClusterMultisiteReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   public static final String CLUSTER_MANAGED_GERRIT_EVENT_SOURCE = "cluster-managed-gerrit";
+
+  public static final String CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE =
+      "cluster-managed-gerrit-network";
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
@@ -57,8 +68,14 @@ public class GerritClusterMultisiteReconciler
         new InformerEventSource<>(
             InformerConfiguration.from(Gerrit.class, context).build(), context);
 
+    InformerEventSource<GerritNetwork, GerritCluster> clusterManagedGerritNetworkEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(GerritNetwork.class, context).build(), context);
+
     Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(CLUSTER_MANAGED_GERRIT_EVENT_SOURCE, clusterManagedGerritEventSource);
+    eventSources.put(
+        CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE, clusterManagedGerritNetworkEventSource);
     return eventSources;
   }
 
