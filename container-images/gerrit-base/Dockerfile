@@ -37,7 +37,7 @@ ARG ZOOKEEPER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.
 RUN curl -k -o /var/plugins/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
 
 # Download spanner-refdb plugin
-ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-spanner-refdb-bazel-master-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
+ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-spanner-refdb-bazel-master-master/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
 RUN curl -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 
 # Allow incoming traffic
