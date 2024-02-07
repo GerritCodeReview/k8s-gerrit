@@ -16,7 +16,7 @@ RUN mkdir -p /var/gerrit/bin && \
 
 # Download Gerrit release
 ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.9.1.war
-RUN curl -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
+RUN curl -f -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
     ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
 # Download healthcheck plugin
@@ -26,19 +26,19 @@ RUN curl -k -o /var/plugins/healthcheck.jar ${HEALTHCHECK_JAR_URL} && \
 
 # Download global-refdb lib
 ARG GLOBAL_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/module-global-refdb-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/global-refdb/global-refdb.jar
-RUN curl -k -o /var/plugins/global-refdb.jar ${GLOBAL_REFDB_URL}
+RUN curl -f -k -o /var/plugins/global-refdb.jar ${GLOBAL_REFDB_URL}
 
 # Download high-availability plugin
 ARG HA_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-master/job/plugin-high-availability-bazel-master/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar
-RUN curl -k -o /var/plugins/high-availability.jar ${HA_JAR_URL}
+RUN curl -f -k -o /var/plugins/high-availability.jar ${HA_JAR_URL}
 
 # Download zookeeper-refdb plugin
 ARG ZOOKEEPER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-zookeeper-refdb-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar
-RUN curl -k -o /var/plugins/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
+RUN curl -f -k -o /var/plugins/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
 
 # Download spanner-refdb plugin
 ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-spanner-refdb-bazel-master-master/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
-RUN curl -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
+RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 
 # Allow incoming traffic
 EXPOSE 29418 8080
