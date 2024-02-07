@@ -21,7 +21,7 @@ RUN curl -f -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
 
 # Download healthcheck plugin
 ARG HEALTHCHECK_JAR_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-healthcheck-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar
-RUN curl -k -o /var/plugins/healthcheck.jar ${HEALTHCHECK_JAR_URL} && \
+RUN curl -f -k -o /var/plugins/healthcheck.jar ${HEALTHCHECK_JAR_URL} && \
     ln -s /var/plugins/healthcheck.jar /var/gerrit/plugins/healthcheck.jar
 
 # Download global-refdb lib
