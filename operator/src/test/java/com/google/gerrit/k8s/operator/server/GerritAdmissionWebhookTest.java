@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.server;
 
+import static com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer.PORT;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -158,7 +159,7 @@ public class GerritAdmissionWebhookTest {
       throws MalformedURLException, IOException {
     HttpURLConnection http =
         (HttpURLConnection)
-            new URL("http://localhost:8080/admission/v1beta1/gerrit").openConnection();
+            new URL("http://localhost:" + PORT + "/admission/v1beta1/gerrit").openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);

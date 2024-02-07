@@ -37,14 +37,15 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
     String customConfig = gerrit.getSpec().getFluentBitSidecar().getConfig();
-    String config = """
+    String config =
+        """
         [INPUT]
           Name            tail
           Path            /var/mnt/logs/*log
           Tag             <log_name>
           Tag_Regex       ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)\n
         """
-        + customConfig;
+            + customConfig;
 
     return new ConfigMapBuilder()
         .withApiVersion("v1")
