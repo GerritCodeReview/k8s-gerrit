@@ -15,6 +15,8 @@
 package com.google.gerrit.k8s.operator.test;
 
 import com.google.gerrit.k8s.operator.server.AdmissionWebhookServlet;
+import java.io.IOException;
+import java.net.ServerSocket;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
@@ -25,7 +27,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 public class TestAdmissionWebhookServer {
   public static final String KEYSTORE_PATH = "/operator/keystore.jks";
   public static final String KEYSTORE_PWD_FILE = "/operator/keystore.password";
-  public static final int PORT = 8080;
+  public static final int PORT = findFreePort();
 
   private final Server server = new Server();
   private final ServletHandler servletHandler = new ServletHandler();
@@ -48,5 +50,21 @@ public class TestAdmissionWebhookServer {
 
   public void stop() throws Exception {
     server.stop();
+  }
+
+  /**
+   * Returns a free port number on localhost.
+   *
+   * @return a free port number on localhost
+   * @throws IllegalStateException if unable to find a free port
+   */
+  private static int findFreePort() {
+    try (ServerSocket socket = new ServerSocket(0)) {
+      socket.setReuseAddress(true);
+      return socket.getLocalPort();
+    } catch (IOException e) {
+      // ignore
+    }
+    throw new IllegalStateException("Could not find a free TCP/IP port");
   }
 }
