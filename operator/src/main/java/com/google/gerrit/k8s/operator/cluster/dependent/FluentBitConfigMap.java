@@ -44,6 +44,9 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
           Path            /var/mnt/logs/*log
           Tag             <log_name>
           Tag_Regex       ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)\n
+          Multiline.parser   java
+          Buffer_Chunk_Size  10M
+          Buffer_Max_Size    10M
         """
             + customConfig;
 
