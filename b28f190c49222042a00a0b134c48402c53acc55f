@@ -668,6 +668,24 @@
       "parentUuid": "08d5edc2_44740ee2",
       "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5560e4f5_1ab7ed8f",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-09T09:09:26Z",
+      "side": 1,
+      "message": "Brilliant.",
+      "parentUuid": "7ebb9fd8_cfd0b0e3",
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

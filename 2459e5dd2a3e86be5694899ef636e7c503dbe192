@@ -72,6 +72,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c559d92c_2da14d5d",
+        "filename": "Documentation/examples/3-gerritcluster-istio.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-09T09:09:26Z",
+      "side": 1,
+      "message": "Should you enable ssh?",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7beea5c8_fab6f59b",
         "filename": "Documentation/examples/4-gerritcluster-ha-replica.yaml",
         "patchSetId": 4
@@ -112,6 +129,23 @@
         "endLine": 361,
         "endChar": 76
       },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0a4f009_95acb853",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-09T09:09:26Z",
+      "side": 1,
+      "message": "maybe you can mention that this installs the `default Istio installation`. I guess that if you add a `GerritCluster` with `ssh enabled`, the default profile would not exposed the port `29418`",
       "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
