@@ -1,4 +1,4 @@
-apiVersion: "gerritoperator.google.com/v1beta5"
+apiVersion: "gerritoperator.google.com/v1beta6"
 kind: GitGarbageCollection
 metadata:
   name: gitgc

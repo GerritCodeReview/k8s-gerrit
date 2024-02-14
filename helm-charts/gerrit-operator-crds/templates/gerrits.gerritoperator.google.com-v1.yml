@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-    - name: v1beta5
+    - name: v1beta6
       schema:
         openAPIV3Schema:
           properties:
@@ -158,6 +158,8 @@ spec:
                     enabled:
                       type: boolean
                   type: object
+                sshdAdvertisedReadPort:
+                  type: integer
                 serviceAccount:
                   type: string
                 tolerations:
@@ -818,7 +820,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta4
+    - name: v1beta5
       schema:
         openAPIV3Schema:
           properties:
@@ -954,6 +956,15 @@ spec:
                   type: object
                 serverId:
                   type: string
+                fluentBitSidecar:
+                  properties:
+                    image:
+                      type: string
+                    config:
+                      type: string
+                    enabled:
+                      type: boolean
+                  type: object
                 serviceAccount:
                   type: string
                 tolerations:
