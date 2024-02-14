@@ -23,6 +23,7 @@ import io.fabric8.kubernetes.api.model.HTTPGetActionBuilder;
 import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.Probe;
 import io.fabric8.kubernetes.api.model.TCPSocketAction;
+import java.util.Objects;
 
 public class GerritProbe extends Probe {
   private static final long serialVersionUID = 1L;
@@ -77,5 +78,29 @@ public class GerritProbe extends Probe {
   @Override
   public TCPSocketAction getTcpSocket() {
     return null;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + Objects.hash(exec, grpc, tcpSocket);
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritProbe other = (GerritProbe) obj;
+    return Objects.equals(exec, other.exec)
+        && Objects.equals(grpc, other.grpc)
+        && Objects.equals(tcpSocket, other.tcpSocket);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritProbe [exec=" + exec + ", grpc=" + grpc + ", tcpSocket=" + tcpSocket + "]";
   }
 }

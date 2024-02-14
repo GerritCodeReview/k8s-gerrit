@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
+import java.util.Objects;
+
 public class GerritDebugConfig {
   private boolean enabled;
   private boolean suspend;
@@ -32,5 +34,24 @@ public class GerritDebugConfig {
 
   public void setSuspend(boolean suspend) {
     this.suspend = suspend;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(enabled, suspend);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritDebugConfig other = (GerritDebugConfig) obj;
+    return enabled == other.enabled && suspend == other.suspend;
+  }
+
+  @Override
+  public String toString() {
+    return "GerritDebugConfig [enabled=" + enabled + ", suspend=" + suspend + "]";
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
 public class BusyBoxImage {
   private String registry;
@@ -58,5 +59,24 @@ public class BusyBoxImage {
     }
 
     return builder.toString();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(registry, tag);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    BusyBoxImage other = (BusyBoxImage) obj;
+    return Objects.equals(registry, other.registry) && Objects.equals(tag, other.tag);
+  }
+
+  @Override
+  public String toString() {
+    return "BusyBoxImage [registry=" + registry + ", tag=" + tag + "]";
   }
 }

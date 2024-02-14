@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GerritStatus {
   private boolean ready = false;
@@ -44,5 +45,32 @@ public class GerritStatus {
 
   public void setAppliedSecretVersions(Map<String, String> appliedSecretVersions) {
     this.appliedSecretVersions = appliedSecretVersions;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(appliedConfigMapVersions, appliedSecretVersions, ready);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritStatus other = (GerritStatus) obj;
+    return Objects.equals(appliedConfigMapVersions, other.appliedConfigMapVersions)
+        && Objects.equals(appliedSecretVersions, other.appliedSecretVersions)
+        && ready == other.ready;
+  }
+
+  @Override
+  public String toString() {
+    return "GerritStatus [ready="
+        + ready
+        + ", appliedConfigMapVersions="
+        + appliedConfigMapVersions
+        + ", appliedSecretVersions="
+        + appliedSecretVersions
+        + "]";
   }
 }

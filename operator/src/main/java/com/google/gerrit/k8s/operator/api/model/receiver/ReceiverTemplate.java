@@ -25,6 +25,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.StorageConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import java.util.Objects;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -82,5 +83,24 @@ public class ReceiverTemplate implements KubernetesResource {
         .withLabels(metadata.getLabels())
         .withNamespace(gerritCluster.getMetadata().getNamespace())
         .build();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(metadata, spec);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ReceiverTemplate other = (ReceiverTemplate) obj;
+    return Objects.equals(metadata, other.metadata) && Objects.equals(spec, other.spec);
+  }
+
+  @Override
+  public String toString() {
+    return "ReceiverTemplate [metadata=" + metadata + ", spec=" + spec + "]";
   }
 }

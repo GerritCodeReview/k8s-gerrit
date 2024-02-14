@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.shared;
 
 import io.fabric8.kubernetes.api.model.LabelSelector;
 import io.fabric8.kubernetes.api.model.Quantity;
+import java.util.Objects;
 
 public class SharedStorage {
   private ExternalPVCConfig externalPVC = new ExternalPVCConfig();
@@ -55,7 +56,37 @@ public class SharedStorage {
     this.selector = selector;
   }
 
-  public class ExternalPVCConfig {
+  @Override
+  public int hashCode() {
+    return Objects.hash(externalPVC, selector, size, volumeName);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    SharedStorage other = (SharedStorage) obj;
+    return Objects.equals(externalPVC, other.externalPVC)
+        && Objects.equals(selector, other.selector)
+        && Objects.equals(size, other.size)
+        && Objects.equals(volumeName, other.volumeName);
+  }
+
+  @Override
+  public String toString() {
+    return "SharedStorage [externalPVC="
+        + externalPVC
+        + ", size="
+        + size
+        + ", volumeName="
+        + volumeName
+        + ", selector="
+        + selector
+        + "]";
+  }
+
+  public static class ExternalPVCConfig {
     private boolean enabled;
     private String claimName = "";
 
@@ -73,6 +104,25 @@ public class SharedStorage {
 
     public void setClaimName(String claimName) {
       this.claimName = claimName;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(claimName, enabled);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (obj == null) return false;
+      if (getClass() != obj.getClass()) return false;
+      ExternalPVCConfig other = (ExternalPVCConfig) obj;
+      return Objects.equals(claimName, other.claimName) && enabled == other.enabled;
+    }
+
+    @Override
+    public String toString() {
+      return "ExternalPVCConfig [enabled=" + enabled + ", claimName=" + claimName + "]";
     }
   }
 }

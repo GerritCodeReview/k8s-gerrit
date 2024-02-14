@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class HttpServiceConfig implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -36,5 +37,24 @@ public class HttpServiceConfig implements Serializable {
 
   public void setHttpPort(int httpPort) {
     this.httpPort = httpPort;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(httpPort, type);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    HttpServiceConfig other = (HttpServiceConfig) obj;
+    return httpPort == other.httpPort && Objects.equals(type, other.type);
+  }
+
+  @Override
+  public String toString() {
+    return "HttpServiceConfig [type=" + type + ", httpPort=" + httpPort + "]";
   }
 }

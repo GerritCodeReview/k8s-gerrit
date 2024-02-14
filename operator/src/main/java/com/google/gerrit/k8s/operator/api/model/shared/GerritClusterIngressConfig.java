@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
+import java.util.Objects;
 
 public class GerritClusterIngressConfig {
   private boolean enabled = false;
@@ -90,5 +91,44 @@ public class GerritClusterIngressConfig {
   @JsonIgnore
   public static String getFullHostnameForService(String svcName, String ingressHost) {
     return String.format("%s.%s", svcName, ingressHost);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(ambassador, annotations, enabled, host, istio, ssh, tls);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritClusterIngressConfig other = (GerritClusterIngressConfig) obj;
+    return Objects.equals(ambassador, other.ambassador)
+        && Objects.equals(annotations, other.annotations)
+        && enabled == other.enabled
+        && Objects.equals(host, other.host)
+        && Objects.equals(istio, other.istio)
+        && Objects.equals(ssh, other.ssh)
+        && Objects.equals(tls, other.tls);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritClusterIngressConfig [enabled="
+        + enabled
+        + ", host="
+        + host
+        + ", annotations="
+        + annotations
+        + ", tls="
+        + tls
+        + ", ssh="
+        + ssh
+        + ", ambassador="
+        + ambassador
+        + ", istio="
+        + istio
+        + "]";
   }
 }

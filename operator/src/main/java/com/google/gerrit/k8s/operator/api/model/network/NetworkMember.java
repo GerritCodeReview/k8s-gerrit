@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.network;
 
 import com.google.gerrit.k8s.operator.api.model.shared.HttpServiceConfig;
+import java.util.Objects;
 
 public class NetworkMember {
   private String name;
@@ -41,5 +42,24 @@ public class NetworkMember {
 
   public void setHttpPort(int httpPort) {
     this.httpPort = httpPort;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(httpPort, name);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    NetworkMember other = (NetworkMember) obj;
+    return httpPort == other.httpPort && Objects.equals(name, other.name);
+  }
+
+  @Override
+  public String toString() {
+    return "NetworkMember [name=" + name + ", httpPort=" + httpPort + "]";
   }
 }
