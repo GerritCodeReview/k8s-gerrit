@@ -1,0 +1,69 @@
+apiVersion: "gerritoperator.google.com/v1beta5"
+kind: GerritCluster
+metadata:
+  name: gerrit
+spec:
+  containerImages: {}
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+    sharedStorage:
+      size: 1Gi
+      volumeName: "vol"
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+  serverId: "server-1"
+  fluentBitSidecar:
+    config: null
+  ingress:
+    enabled: true
+    host: example.com
+    annotations: {}
+    ssh:
+      enabled: true
+    tls:
+      enabled: false
+      secret: ""
+    istio:
+      gatewaySelector:
+        istio: ingressgateway
+
+  gerrits:
+  - metadata:
+      name: gerrit
+    spec:
+      serviceAccount: gerrit
+      replicas: 2
+      service:
+        type: NodePort
+        httpPort: 80
+        sshPort: 29418
+      site:
+        size: 1Gi
+      plugins:
+      - installAsLibrary: false
+        name: download-commands
+      libs: []
+      configFiles: {}
+      secretRef: gerrit-secure-config
+
+  - metadata:
+      name: gerrit-replica
+    spec:
+      serviceAccount: gerrit
+      replicas: 2
+      mode: REPLICA
+      service:
+        type: NodePort
+        httpPort: 80
+        sshPort: 39418
+      site:
+        size: 1Gi
+      plugins: []
+      libs: []
+      configFiles: {}
+      secretRef: gerrit-secure-config

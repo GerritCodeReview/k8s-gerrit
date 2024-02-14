@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
@@ -37,8 +38,9 @@ public class GerritConfigMap
     super(ConfigMap.class);
   }
 
+  @VisibleForTesting
   @Override
-  protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
+  public ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
     Map<String, String> gerritLabels =
         GerritCluster.getLabels(
             gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName());

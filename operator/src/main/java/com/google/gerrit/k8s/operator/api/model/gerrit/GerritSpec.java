@@ -28,6 +28,7 @@ public class GerritSpec extends GerritTemplateSpec {
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
   private String serverId = "";
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
+  private int sshdAdvertisedReadPort = 0;
 
   public GerritSpec() {}
 
@@ -83,10 +84,25 @@ public class GerritSpec extends GerritTemplateSpec {
     this.fluentBitSidecar = fluentBitSidecar;
   }
 
+  public int getSshdAdvertisedReadPort() {
+    return sshdAdvertisedReadPort;
+  }
+
+  public void setSshdAdvertisedReadPort(int sshdAdvertisedReadPort) {
+    this.sshdAdvertisedReadPort = sshdAdvertisedReadPort;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
-        super.hashCode(), containerImages, fluentBitSidecar, ingress, refdb, serverId, storage);
+        super.hashCode(),
+        containerImages,
+        fluentBitSidecar,
+        ingress,
+        refdb,
+        serverId,
+        sshdAdvertisedReadPort,
+        storage);
   }
 
   @Override
@@ -103,6 +119,7 @@ public class GerritSpec extends GerritTemplateSpec {
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(refdb, other.refdb)
         && Objects.equals(serverId, other.serverId)
+        && sshdAdvertisedReadPort == other.sshdAdvertisedReadPort
         && Objects.equals(storage, other.storage);
   }
 
@@ -120,6 +137,8 @@ public class GerritSpec extends GerritTemplateSpec {
         + serverId
         + ", fluentBitSidecar="
         + fluentBitSidecar
+        + ", sshdAdvertisedReadPort="
+        + sshdAdvertisedReadPort
         + "]";
   }
 }
