@@ -20,9 +20,14 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.Gerrit
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.StatusBuilder;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
 public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
@@ -60,6 +65,13 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
           .build();
     }
 
+    if (gerritsHaveSameMetadataName(gerritCluster)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_CONFLICT)
+          .withMessage("Gerrit Primary and Replica must have different metadata.name.")
+          .build();
+    }
+
     GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
@@ -89,6 +101,19 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
             .filter(g -> g.getSpec().getMode() == GerritMode.REPLICA)
             .count()
         > 1;
+  }
+
+  private boolean gerritsHaveSameMetadataName(GerritCluster gerritCluster) {
+    List<String> names =
+        gerritCluster.getSpec().getGerrits().stream()
+            .map(GerritTemplate::getMetadata)
+            .map(ObjectMeta::getName)
+            .collect(Collectors.toList());
+    Set<String> duplicates =
+        names.stream()
+            .filter(itr -> Collections.frequency(names, itr) > 1)
+            .collect(Collectors.toSet());
+    return duplicates.size() > 0;
   }
 
   @Override
