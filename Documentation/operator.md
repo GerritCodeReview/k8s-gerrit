@@ -123,7 +123,12 @@ ValidationWebhookConfigurations resource behind the scenes.
 
 You will need to modify the values in `helm-charts/gerrit-operator/values.yaml`
 to point the chart to the registry/org that is hosting the Docker container
-image for the operator (from the [Publish](#publish) step earlier). Now,
+image for the operator (from the [Publish](#publish) step earlier). It's worth
+noting the introduction of a new feature flag called `sharedFileSystem`. By
+default, its value is set to `true`, preserving the existing behavior and
+ensuring backward compatibility. However, when set to `false`, the operator
+permits provision a Gerrit HA installation without sharing the file system
+for git and logs data. Now,
 
 run:
 ```sh
