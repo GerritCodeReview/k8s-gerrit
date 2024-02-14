@@ -38,6 +38,9 @@ public class ClusterManagedGerrit
       GerritCluster gerritCluster, Context<GerritCluster> context) {
     Map<String, Gerrit> gerrits = new HashMap<>();
     for (GerritTemplate template : gerritCluster.getSpec().getGerrits()) {
+      if (gerrits.get(template.getMetadata().getName()) != null) {
+        throw new IllegalArgumentException("Each gerrit spec must use a different metadata.name");
+      }
       gerrits.put(template.getMetadata().getName(), desired(gerritCluster, template));
     }
     return gerrits;

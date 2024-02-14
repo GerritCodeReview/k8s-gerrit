@@ -168,6 +168,29 @@ public class GerritClusterAdmissionWebhookTest {
     assertThat(response2.getResponse().getAllowed(), is(true));
   }
 
+  @Test
+  public void testPrimaryGerritAndReplicaMustHaveUniqueName() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
+
+    TestGerritCluster gerritCluster =
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
+    GerritTemplate primary = TestGerrit.createGerritTemplate("gerrit", GerritMode.PRIMARY, cfg);
+    GerritTemplate replica = TestGerrit.createGerritTemplate("gerrit", GerritMode.REPLICA, cfg);
+    gerritCluster.addGerrit(primary);
+    gerritCluster.addGerrit(replica);
+
+    HttpURLConnection http2 = sendAdmissionRequest(gerritCluster.build());
+    AdmissionReview response2 =
+        new ObjectMapper().readValue(http2.getInputStream(), AdmissionReview.class);
+
+    assertThat(http2.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
+    assertThat(response2.getResponse().getAllowed(), is(false));
+    assertThat(
+        response2.getResponse().getStatus().getCode(),
+        is(equalTo(HttpServletResponse.SC_CONFLICT)));
+  }
+
   private HttpURLConnection sendAdmissionRequest(GerritCluster gerritCluster)
       throws MalformedURLException, IOException {
     HttpURLConnection http =
