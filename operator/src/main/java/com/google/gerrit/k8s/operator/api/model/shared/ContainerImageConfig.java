@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.shared;
 
 import io.fabric8.kubernetes.api.model.LocalObjectReference;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ContainerImageConfig {
@@ -54,5 +55,35 @@ public class ContainerImageConfig {
 
   public void setGerritImages(GerritRepositoryConfig gerritImages) {
     this.gerritImages = gerritImages;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(busyBox, gerritImages, imagePullPolicy, imagePullSecrets);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ContainerImageConfig other = (ContainerImageConfig) obj;
+    return Objects.equals(busyBox, other.busyBox)
+        && Objects.equals(gerritImages, other.gerritImages)
+        && Objects.equals(imagePullPolicy, other.imagePullPolicy)
+        && Objects.equals(imagePullSecrets, other.imagePullSecrets);
+  }
+
+  @Override
+  public String toString() {
+    return "ContainerImageConfig [imagePullPolicy="
+        + imagePullPolicy
+        + ", imagePullSecrets="
+        + imagePullSecrets
+        + ", busyBox="
+        + busyBox
+        + ", gerritImages="
+        + gerritImages
+        + "]";
   }
 }

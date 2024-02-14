@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class GerritIngressTlsConfig {
 
   private boolean enabled = false;
@@ -33,5 +35,24 @@ public class GerritIngressTlsConfig {
 
   public void setSecret(String secret) {
     this.secret = secret;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(enabled, secret);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritIngressTlsConfig other = (GerritIngressTlsConfig) obj;
+    return enabled == other.enabled && Objects.equals(secret, other.secret);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritIngressTlsConfig [enabled=" + enabled + ", secret=" + secret + "]";
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class FluentBitSidecarConfig {
   private String image = "fluent/fluent-bit:latest";
   private String config =
@@ -51,5 +53,32 @@ public class FluentBitSidecarConfig {
 
   public void setConfig(String config) {
     this.config = config;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(config, enabled, image);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    FluentBitSidecarConfig other = (FluentBitSidecarConfig) obj;
+    return Objects.equals(config, other.config)
+        && enabled == other.enabled
+        && Objects.equals(image, other.image);
+  }
+
+  @Override
+  public String toString() {
+    return "FluentBitSidecarConfig [image="
+        + image
+        + ", config="
+        + config
+        + ", enabled="
+        + enabled
+        + "]";
   }
 }

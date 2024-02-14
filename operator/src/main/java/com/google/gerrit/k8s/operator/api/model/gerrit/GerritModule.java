@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class GerritModule implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -64,5 +65,35 @@ public class GerritModule implements Serializable {
   @JsonProperty("data")
   public void setModuleData(GerritModuleData moduleData) {
     this.moduleData = moduleData;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(moduleData, name, sha1, url);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritModule other = (GerritModule) obj;
+    return Objects.equals(moduleData, other.moduleData)
+        && Objects.equals(name, other.name)
+        && Objects.equals(sha1, other.sha1)
+        && Objects.equals(url, other.url);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritModule [name="
+        + name
+        + ", url="
+        + url
+        + ", sha1="
+        + sha1
+        + ", moduleData="
+        + moduleData
+        + "]";
   }
 }

@@ -67,6 +67,17 @@ public class GitGarbageCollectionStatus {
     return false;
   }
 
+  @Override
+  public String toString() {
+    return "GitGarbageCollectionStatus [replicateAll="
+        + replicateAll
+        + ", excludedProjects="
+        + excludedProjects
+        + ", state="
+        + state
+        + "]";
+  }
+
   public enum GitGcState {
     ACTIVE,
     INACTIVE,

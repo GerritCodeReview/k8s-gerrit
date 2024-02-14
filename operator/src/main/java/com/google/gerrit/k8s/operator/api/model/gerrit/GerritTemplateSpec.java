@@ -23,6 +23,7 @@ import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -267,5 +268,103 @@ public class GerritTemplateSpec {
   @JsonIgnore
   public boolean isHighlyAvailablePrimary() {
     return getMode().equals(GerritMode.PRIMARY) && getReplicas() > 1;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        affinity,
+        configFiles,
+        debug,
+        gracefulStopTimeout,
+        libs,
+        livenessProbe,
+        mode,
+        plugins,
+        priorityClassName,
+        readinessProbe,
+        replicas,
+        resources,
+        secretRef,
+        service,
+        serviceAccount,
+        site,
+        startupProbe,
+        tolerations,
+        topologySpreadConstraints,
+        updatePartition);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritTemplateSpec other = (GerritTemplateSpec) obj;
+    return Objects.equals(affinity, other.affinity)
+        && Objects.equals(configFiles, other.configFiles)
+        && Objects.equals(debug, other.debug)
+        && gracefulStopTimeout == other.gracefulStopTimeout
+        && Objects.equals(libs, other.libs)
+        && Objects.equals(livenessProbe, other.livenessProbe)
+        && mode == other.mode
+        && Objects.equals(plugins, other.plugins)
+        && Objects.equals(priorityClassName, other.priorityClassName)
+        && Objects.equals(readinessProbe, other.readinessProbe)
+        && replicas == other.replicas
+        && Objects.equals(resources, other.resources)
+        && Objects.equals(secretRef, other.secretRef)
+        && Objects.equals(service, other.service)
+        && Objects.equals(serviceAccount, other.serviceAccount)
+        && Objects.equals(site, other.site)
+        && Objects.equals(startupProbe, other.startupProbe)
+        && Objects.equals(tolerations, other.tolerations)
+        && Objects.equals(topologySpreadConstraints, other.topologySpreadConstraints)
+        && updatePartition == other.updatePartition;
+  }
+
+  @Override
+  public String toString() {
+    return "GerritTemplateSpec [serviceAccount="
+        + serviceAccount
+        + ", tolerations="
+        + tolerations
+        + ", affinity="
+        + affinity
+        + ", topologySpreadConstraints="
+        + topologySpreadConstraints
+        + ", priorityClassName="
+        + priorityClassName
+        + ", replicas="
+        + replicas
+        + ", updatePartition="
+        + updatePartition
+        + ", resources="
+        + resources
+        + ", startupProbe="
+        + startupProbe
+        + ", readinessProbe="
+        + readinessProbe
+        + ", livenessProbe="
+        + livenessProbe
+        + ", gracefulStopTimeout="
+        + gracefulStopTimeout
+        + ", service="
+        + service
+        + ", site="
+        + site
+        + ", plugins="
+        + plugins
+        + ", libs="
+        + libs
+        + ", configFiles="
+        + configFiles
+        + ", secretRef="
+        + secretRef
+        + ", mode="
+        + mode
+        + ", debug="
+        + debug
+        + "]";
   }
 }

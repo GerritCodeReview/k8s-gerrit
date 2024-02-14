@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class GerritIstioConfig {
   private Map<String, String> gatewaySelector = Map.of("istio", "ingressgateway");
@@ -25,5 +26,24 @@ public class GerritIstioConfig {
 
   public void setGatewaySelector(Map<String, String> gatewaySelector) {
     this.gatewaySelector = gatewaySelector;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(gatewaySelector);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritIstioConfig other = (GerritIstioConfig) obj;
+    return Objects.equals(gatewaySelector, other.gatewaySelector);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritIstioConfig [gatewaySelector=" + gatewaySelector + "]";
   }
 }

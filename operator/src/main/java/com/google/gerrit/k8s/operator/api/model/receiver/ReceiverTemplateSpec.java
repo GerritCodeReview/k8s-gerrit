@@ -22,6 +22,7 @@ import io.fabric8.kubernetes.api.model.Toleration;
 import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ReceiverTemplateSpec {
   private List<Toleration> tolerations = new ArrayList<>();
@@ -159,5 +160,71 @@ public class ReceiverTemplateSpec {
 
   public void setCredentialSecretRef(String credentialSecretRef) {
     this.credentialSecretRef = credentialSecretRef;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        affinity,
+        credentialSecretRef,
+        livenessProbe,
+        maxSurge,
+        maxUnavailable,
+        priorityClassName,
+        readinessProbe,
+        replicas,
+        resources,
+        service,
+        tolerations,
+        topologySpreadConstraints);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ReceiverTemplateSpec other = (ReceiverTemplateSpec) obj;
+    return Objects.equals(affinity, other.affinity)
+        && Objects.equals(credentialSecretRef, other.credentialSecretRef)
+        && Objects.equals(livenessProbe, other.livenessProbe)
+        && Objects.equals(maxSurge, other.maxSurge)
+        && Objects.equals(maxUnavailable, other.maxUnavailable)
+        && Objects.equals(priorityClassName, other.priorityClassName)
+        && Objects.equals(readinessProbe, other.readinessProbe)
+        && replicas == other.replicas
+        && Objects.equals(resources, other.resources)
+        && Objects.equals(service, other.service)
+        && Objects.equals(tolerations, other.tolerations)
+        && Objects.equals(topologySpreadConstraints, other.topologySpreadConstraints);
+  }
+
+  @Override
+  public String toString() {
+    return "ReceiverTemplateSpec [tolerations="
+        + tolerations
+        + ", affinity="
+        + affinity
+        + ", topologySpreadConstraints="
+        + topologySpreadConstraints
+        + ", priorityClassName="
+        + priorityClassName
+        + ", replicas="
+        + replicas
+        + ", maxSurge="
+        + maxSurge
+        + ", maxUnavailable="
+        + maxUnavailable
+        + ", resources="
+        + resources
+        + ", readinessProbe="
+        + readinessProbe
+        + ", livenessProbe="
+        + livenessProbe
+        + ", service="
+        + service
+        + ", credentialSecretRef="
+        + credentialSecretRef
+        + "]";
   }
 }

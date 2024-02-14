@@ -112,18 +112,55 @@ public class GitGarbageCollectionSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cluster, projects, resources, schedule);
+    return Objects.hash(
+        affinity,
+        cluster,
+        disableBitmapIndex,
+        disablePackRefs,
+        preservePacks,
+        projects,
+        resources,
+        schedule,
+        tolerations);
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof GitGarbageCollectionSpec) {
-      GitGarbageCollectionSpec other = (GitGarbageCollectionSpec) obj;
-      return Objects.equals(cluster, other.cluster)
-          && Objects.equals(projects, other.projects)
-          && Objects.equals(resources, other.resources)
-          && Objects.equals(schedule, other.schedule);
-    }
-    return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GitGarbageCollectionSpec other = (GitGarbageCollectionSpec) obj;
+    return Objects.equals(affinity, other.affinity)
+        && Objects.equals(cluster, other.cluster)
+        && disableBitmapIndex == other.disableBitmapIndex
+        && disablePackRefs == other.disablePackRefs
+        && preservePacks == other.preservePacks
+        && Objects.equals(projects, other.projects)
+        && Objects.equals(resources, other.resources)
+        && Objects.equals(schedule, other.schedule)
+        && Objects.equals(tolerations, other.tolerations);
+  }
+
+  @Override
+  public String toString() {
+    return "GitGarbageCollectionSpec [cluster="
+        + cluster
+        + ", schedule="
+        + schedule
+        + ", projects="
+        + projects
+        + ", disableBitmapIndex="
+        + disableBitmapIndex
+        + ", disablePackRefs="
+        + disablePackRefs
+        + ", preservePacks="
+        + preservePacks
+        + ", resources="
+        + resources
+        + ", tolerations="
+        + tolerations
+        + ", affinity="
+        + affinity
+        + "]";
   }
 }
