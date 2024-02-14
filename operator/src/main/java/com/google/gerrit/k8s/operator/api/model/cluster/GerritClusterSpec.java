@@ -23,6 +23,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GerritClusterSpec {
 
@@ -97,5 +98,48 @@ public class GerritClusterSpec {
 
   public void setFluentBitSidecar(FluentBitSidecarConfig fluentBitSidecar) {
     this.fluentBitSidecar = fluentBitSidecar;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        containerImages, fluentBitSidecar, gerrits, ingress, receiver, refdb, serverId, storage);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritClusterSpec other = (GerritClusterSpec) obj;
+    return Objects.equals(containerImages, other.containerImages)
+        && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
+        && Objects.equals(gerrits, other.gerrits)
+        && Objects.equals(ingress, other.ingress)
+        && Objects.equals(receiver, other.receiver)
+        && Objects.equals(refdb, other.refdb)
+        && Objects.equals(serverId, other.serverId)
+        && Objects.equals(storage, other.storage);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritClusterSpec [storage="
+        + storage
+        + ", containerImages="
+        + containerImages
+        + ", ingress="
+        + ingress
+        + ", refdb="
+        + refdb
+        + ", serverId="
+        + serverId
+        + ", gerrits="
+        + gerrits
+        + ", receiver="
+        + receiver
+        + ", fluentBitSidecar="
+        + fluentBitSidecar
+        + "]";
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.api.model.receiver;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.StorageConfig;
+import java.util.Objects;
 
 public class ReceiverSpec extends ReceiverTemplateSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
@@ -51,5 +52,32 @@ public class ReceiverSpec extends ReceiverTemplateSpec {
 
   public void setIngress(IngressConfig ingress) {
     this.ingress = ingress;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(containerImages, ingress, storage);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ReceiverSpec other = (ReceiverSpec) obj;
+    return Objects.equals(containerImages, other.containerImages)
+        && Objects.equals(ingress, other.ingress)
+        && Objects.equals(storage, other.storage);
+  }
+
+  @Override
+  public String toString() {
+    return "ReceiverSpec [containerImages="
+        + containerImages
+        + ", storage="
+        + storage
+        + ", ingress="
+        + ingress
+        + "]";
   }
 }

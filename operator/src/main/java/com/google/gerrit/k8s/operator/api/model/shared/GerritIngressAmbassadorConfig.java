@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GerritIngressAmbassadorConfig {
   private List<String> id;
@@ -34,5 +35,24 @@ public class GerritIngressAmbassadorConfig {
 
   public void setCreateHost(boolean createHost) {
     this.createHost = createHost;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(createHost, id);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritIngressAmbassadorConfig other = (GerritIngressAmbassadorConfig) obj;
+    return createHost == other.createHost && Objects.equals(id, other.id);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritIngressAmbassadorConfig [id=" + id + ", createHost=" + createHost + "]";
   }
 }

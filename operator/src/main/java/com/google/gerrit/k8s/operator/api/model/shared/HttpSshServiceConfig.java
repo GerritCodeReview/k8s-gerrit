@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class HttpSshServiceConfig extends HttpServiceConfig implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -27,5 +28,27 @@ public class HttpSshServiceConfig extends HttpServiceConfig implements Serializa
 
   public void setSshPort(int sshPort) {
     this.sshPort = sshPort;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + Objects.hash(sshPort);
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
+    HttpSshServiceConfig other = (HttpSshServiceConfig) obj;
+    return sshPort == other.sshPort;
+  }
+
+  @Override
+  public String toString() {
+    return "HttpSshServiceConfig [sshPort=" + sshPort + "]";
   }
 }

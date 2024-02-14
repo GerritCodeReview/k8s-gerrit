@@ -25,6 +25,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import java.util.Objects;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -105,5 +106,24 @@ public class GerritTemplate implements KubernetesResource {
     return serverId.isBlank()
         ? gerritCluster.getMetadata().getNamespace() + "/" + gerritCluster.getMetadata().getName()
         : serverId;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(metadata, spec);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritTemplate other = (GerritTemplate) obj;
+    return Objects.equals(metadata, other.metadata) && Objects.equals(spec, other.spec);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritTemplate [metadata=" + metadata + ", spec=" + spec + "]";
   }
 }

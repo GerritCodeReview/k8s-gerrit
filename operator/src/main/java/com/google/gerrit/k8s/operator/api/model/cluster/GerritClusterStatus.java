@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.cluster;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GerritClusterStatus {
   private Map<String, List<String>> members;
@@ -26,5 +27,24 @@ public class GerritClusterStatus {
 
   public void setMembers(Map<String, List<String>> members) {
     this.members = members;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(members);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritClusterStatus other = (GerritClusterStatus) obj;
+    return Objects.equals(members, other.members);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritClusterStatus [members=" + members + "]";
   }
 }

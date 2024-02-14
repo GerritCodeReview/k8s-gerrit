@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
+import java.util.Objects;
+
 public class GerritModuleData {
   private String secretRef;
 
@@ -23,5 +25,24 @@ public class GerritModuleData {
 
   public void setSecretRef(String secretRef) {
     this.secretRef = secretRef;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(secretRef);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritModuleData other = (GerritModuleData) obj;
+    return Objects.equals(secretRef, other.secretRef);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritModuleData [secretRef=" + secretRef + "]";
   }
 }

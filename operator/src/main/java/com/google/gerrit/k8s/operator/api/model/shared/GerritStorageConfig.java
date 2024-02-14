@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class GerritStorageConfig extends StorageConfig {
   private PluginCacheConfig pluginCache = new PluginCacheConfig();
 
@@ -25,7 +27,26 @@ public class GerritStorageConfig extends StorageConfig {
     this.pluginCache = pluginCache;
   }
 
-  public class PluginCacheConfig {
+  @Override
+  public int hashCode() {
+    return Objects.hash(pluginCache);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritStorageConfig other = (GerritStorageConfig) obj;
+    return Objects.equals(pluginCache, other.pluginCache);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritStorageConfig [pluginCache=" + pluginCache + "]";
+  }
+
+  public static class PluginCacheConfig {
     private boolean enabled;
 
     public boolean isEnabled() {
@@ -34,6 +55,25 @@ public class GerritStorageConfig extends StorageConfig {
 
     public void setEnabled(boolean enabled) {
       this.enabled = enabled;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(enabled);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (obj == null) return false;
+      if (getClass() != obj.getClass()) return false;
+      PluginCacheConfig other = (PluginCacheConfig) obj;
+      return enabled == other.enabled;
+    }
+
+    @Override
+    public String toString() {
+      return "PluginCacheConfig [enabled=" + enabled + "]";
     }
   }
 }

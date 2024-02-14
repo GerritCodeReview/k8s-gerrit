@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
 public class IngressConfig {
   private boolean enabled;
@@ -71,5 +72,35 @@ public class IngressConfig {
     String protocol = isTlsEnabled() ? "https" : "http";
     String hostname = getHost();
     return String.format("%s://%s", protocol, hostname);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(enabled, host, ssh, tlsEnabled);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    IngressConfig other = (IngressConfig) obj;
+    return enabled == other.enabled
+        && Objects.equals(host, other.host)
+        && Objects.equals(ssh, other.ssh)
+        && tlsEnabled == other.tlsEnabled;
+  }
+
+  @Override
+  public String toString() {
+    return "IngressConfig [enabled="
+        + enabled
+        + ", host="
+        + host
+        + ", tlsEnabled="
+        + tlsEnabled
+        + ", ssh="
+        + ssh
+        + "]";
   }
 }

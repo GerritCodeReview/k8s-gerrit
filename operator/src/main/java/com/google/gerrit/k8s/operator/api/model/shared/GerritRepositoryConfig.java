@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 
 public class GerritRepositoryConfig {
   private String registry;
@@ -73,5 +74,26 @@ public class GerritRepositoryConfig {
     }
 
     return builder.toString();
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(org, registry, tag);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritRepositoryConfig other = (GerritRepositoryConfig) obj;
+    return Objects.equals(org, other.org)
+        && Objects.equals(registry, other.registry)
+        && Objects.equals(tag, other.tag);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritRepositoryConfig [registry=" + registry + ", org=" + org + ", tag=" + tag + "]";
   }
 }

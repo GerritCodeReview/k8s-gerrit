@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.receiver;
 
+import java.util.Objects;
+
 public class ReceiverStatus {
   private boolean ready;
   private String appliedCredentialSecretVersion = "";
@@ -32,5 +34,29 @@ public class ReceiverStatus {
 
   public void setAppliedCredentialSecretVersion(String appliedCredentialSecretVersion) {
     this.appliedCredentialSecretVersion = appliedCredentialSecretVersion;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(appliedCredentialSecretVersion, ready);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ReceiverStatus other = (ReceiverStatus) obj;
+    return Objects.equals(appliedCredentialSecretVersion, other.appliedCredentialSecretVersion)
+        && ready == other.ready;
+  }
+
+  @Override
+  public String toString() {
+    return "ReceiverStatus [ready="
+        + ready
+        + ", appliedCredentialSecretVersion="
+        + appliedCredentialSecretVersion
+        + "]";
   }
 }
