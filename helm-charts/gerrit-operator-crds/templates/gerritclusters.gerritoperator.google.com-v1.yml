@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-    - name: v1beta5
+    - name: v1beta6
       schema:
         openAPIV3Schema:
           properties:
@@ -1518,7 +1518,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta4
+    - name: v1beta5
       schema:
         openAPIV3Schema:
           properties:
@@ -2998,6 +2998,15 @@ spec:
                         credentialSecretRef:
                           type: string
                       type: object
+                  type: object
+                fluentBitSidecar:
+                  properties:
+                    image:
+                      type: string
+                    config:
+                      type: string
+                    enabled:
+                      type: boolean
                   type: object
               type: object
             status:

@@ -20,11 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
+import java.util.List;
 import java.util.Objects;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -88,8 +90,34 @@ public class GerritTemplate implements KubernetesResource {
       }
       gerritSpec.setRefdb(gerritCluster.getSpec().getRefdb());
     }
+
+    setSshdAdvertisedReadPort(gerritCluster, gerritSpec);
+
     gerrit.setSpec(gerritSpec);
     return gerrit;
+  }
+
+  @JsonIgnore
+  public void setSshdAdvertisedReadPort(GerritCluster gerritCluster, GerritSpec gerritSpec) {
+    if (spec.getMode() == GerritMode.PRIMARY) {
+      List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
+      int replicaSshdPort = 0;
+      int primarySshdPort = 0;
+      for (GerritTemplate gt : gerrits) {
+        switch (gt.getSpec().getMode()) {
+          case REPLICA:
+            replicaSshdPort = gt.getSpec().getService().getSshPort();
+            break;
+          case PRIMARY:
+            primarySshdPort = gt.getSpec().getService().getSshPort();
+            break;
+          default:
+        }
+      }
+      if (replicaSshdPort > 0 && primarySshdPort > 0) {
+        gerritSpec.setSshdAdvertisedReadPort(replicaSshdPort);
+      }
+    }
   }
 
   @JsonIgnore

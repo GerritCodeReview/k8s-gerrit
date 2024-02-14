@@ -160,9 +160,11 @@ public class GerritConfigBuilder extends ConfigBuilder {
   }
 
   private static RequiredOption<String> sshAdvertisedAddress(Gerrit gerrit) {
+    int port = gerrit.getSpec().getSshdAdvertisedReadPort();
+    if (port == 0) {
+      port = gerrit.getSpec().getService().getSshPort();
+    }
     return new RequiredOption<String>(
-        "sshd",
-        "advertisedAddress",
-        gerrit.getSpec().getIngress().getHost() + ":" + gerrit.getSpec().getService().getSshPort());
+        "sshd", "advertisedAddress", gerrit.getSpec().getIngress().getHost() + ":" + port);
   }
 }
