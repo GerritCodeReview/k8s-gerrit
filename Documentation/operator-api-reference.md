@@ -34,6 +34,7 @@
   - [GerritProbe](#gerritprobe)
   - [GerritServiceConfig](#gerritserviceconfig)
   - [GerritSite](#gerritsite)
+  - [GerritGitAndLogsData](#gerritgitandlogsdata)
   - [GerritModule](#gerritmodule)
   - [GerritModuleData](#gerritmoduledata)
   - [GerritPlugin](#gerritplugin)
@@ -1010,6 +1011,7 @@ The input and file name label is always configured by the operator.
 | `gracefulStopTimeout` | `long` | Seconds the pod is allowed to shutdown until it is forcefully killed (default: 30) |
 | `service` | [`GerritServiceConfig`](#gerritserviceconfig) | Configuration for the service used to manage network access to the StatefulSet |
 | `site` | [`GerritSite`](#gerritsite) | Configuration concerning the Gerrit site directory |
+| `gitAndLogsData` | [`GerritGitAndLogsData`](#gerritgitandlogsdata)| This field is mandatory when provisioning Gerrit HA without sharing file system. |
 | `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |
 | `libs` | [`GerritModule`](#gerritmodule)-Array | List of Gerrit library modules to install. These lib modules will be downloaded. (optional) |
 | `configFiles` | `Map<String, String>` | Configuration files for Gerrit that will be mounted into the Gerrit site's etc-directory (gerrit.config is mandatory) |
@@ -1037,6 +1039,12 @@ compared to the parent object. All other options can still be configured.
 | Field | Type | Description |
 |---|---|---|
 | `size` | [`Quantity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#quantity-resource-core) | Size of the volume used to persist not otherwise persisted site components (e.g. git repositories are persisted in a dedicated volume) (mandatory) |
+
+## GerritGitAndLogsData
+
+| Field | Type | Description                                                     |
+|---|---|-----------------------------------------------------------------|
+| `size` | [`Quantity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#quantity-resource-core) | Size of the volume used to persist git data and logs (mandatory) |
 
 ## GerritModule
 
