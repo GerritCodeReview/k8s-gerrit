@@ -15,8 +15,6 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
-import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.GERRIT_SECRET_EVENT_SOURCE;
-import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
@@ -24,7 +22,6 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritStatus;
 import com.google.gerrit.k8s.operator.cluster.dependent.FluentBitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.inject.Inject;
@@ -49,15 +46,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
 @ControllerConfiguration(
     dependents = {
-      @Dependent(
-          name = "gerrit-secret",
-          type = GerritSecret.class,
-          useEventSourceWithName = GERRIT_SECRET_EVENT_SOURCE),
       @Dependent(
           name = "fluentbit-configmap",
           type = FluentBitConfigMap.class,
@@ -82,7 +76,6 @@ import java.util.stream.Collectors;
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
   public static final String GERRIT_SECRET_EVENT_SOURCE = "gerrit-secret-event-source";
   public static final String CONFIG_MAP_EVENT_SOURCE = "configmap-event-source";
-  public static final String MODULE_METADATA_EVENT_SOURCE = "module-metadata-event-source";
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -97,41 +90,19 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   public Map<String, EventSource> prepareEventSources(EventSourceContext<Gerrit> context) {
     Map<String, EventSource> eventSources = new HashMap<>();
 
-    InformerEventSource<Secret, Gerrit> gerritSecretEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(Secret.class, context).build(), context);
-    eventSources.put(GERRIT_SECRET_EVENT_SOURCE, gerritSecretEventSource);
-
     InformerEventSource<ConfigMap, Gerrit> configmapEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
 
-    SecondaryToPrimaryMapper<Secret> moduleDataMapper =
-        (Secret moduleDataSecret) ->
-            context
-                .getPrimaryCache()
-                .list(
-                    gerrit ->
-                        gerrit.getSpec().getAllGerritModules().stream()
-                            .anyMatch(
-                                gerritModule ->
-                                    Objects.nonNull(gerritModule.getModuleData())
-                                        && Objects.nonNull(
-                                            gerritModule.getModuleData().getSecretRef())
-                                        && gerritModule
-                                            .getModuleData()
-                                            .getSecretRef()
-                                            .equals(moduleDataSecret.getMetadata().getName())))
-                .map(ResourceID::fromResource)
-                .collect(Collectors.toSet());
+    SecondaryToPrimaryMapper<Secret> secretMapper = new SecretToGerritMapper(context);
     InformerEventSource<Secret, Gerrit> moduleMetaDataEventSource =
         new InformerEventSource<>(
             InformerConfiguration.from(Secret.class, context)
-                .withSecondaryToPrimaryMapper(moduleDataMapper)
+                .withSecondaryToPrimaryMapper(secretMapper)
                 .build(),
             context);
-    eventSources.put(MODULE_METADATA_EVENT_SOURCE, moduleMetaDataEventSource);
+    eventSources.put(GERRIT_SECRET_EVENT_SOURCE, moduleMetaDataEventSource);
     return eventSources;
   }
 
@@ -189,10 +160,18 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
   public void addSecretsStatus(Gerrit gerrit, Context<Gerrit> context, GerritStatus status) {
     // GerritSecret
     Map<String, String> secretVersions = new HashMap<>();
-    Optional<String> gerritSecret =
-        context.managedDependentResourceContext().get(CONTEXT_SECRET_VERSION_KEY, String.class);
-    if (gerritSecret.isPresent()) {
-      secretVersions.put(gerrit.getSpec().getSecretRef(), gerritSecret.get());
+    String gerritSecretName = gerrit.getSpec().getSecretRef();
+    if (gerritSecretName != null && !gerritSecretName.isBlank()) {
+      Optional<Secret> gerritSecret =
+          Optional.ofNullable(
+              client
+                  .secrets()
+                  .inNamespace(gerrit.getMetadata().getNamespace())
+                  .withName(gerritSecretName)
+                  .get());
+      if (gerritSecret.isPresent()) {
+        secretVersions.put(gerritSecretName, gerritSecret.get().getMetadata().getResourceVersion());
+      }
     }
 
     // GerritModuleData secrets
@@ -210,5 +189,40 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
 
     logger.atFine().log("Adding Secret versions: %s", secretVersions);
     status.setAppliedSecretVersions(secretVersions);
+  }
+
+  private static class SecretToGerritMapper implements SecondaryToPrimaryMapper<Secret> {
+    private final EventSourceContext<Gerrit> context;
+
+    public SecretToGerritMapper(EventSourceContext<Gerrit> context) {
+      this.context = context;
+    }
+
+    @Override
+    public Set<ResourceID> toPrimaryResourceIDs(Secret secret) {
+      return context
+          .getPrimaryCache()
+          .list(
+              gerrit ->
+                  isGerritSecretConfig(gerrit, secret) || isGerritModuleDataSecret(gerrit, secret))
+          .map(ResourceID::fromResource)
+          .collect(Collectors.toSet());
+    }
+
+    private boolean isGerritSecretConfig(Gerrit gerrit, Secret secret) {
+      return gerrit.getSpec().getSecretRef().equals(secret.getMetadata().getName());
+    }
+
+    private boolean isGerritModuleDataSecret(Gerrit gerrit, Secret secret) {
+      return gerrit.getSpec().getAllGerritModules().stream()
+          .anyMatch(
+              gerritModule ->
+                  Objects.nonNull(gerritModule.getModuleData())
+                      && Objects.nonNull(gerritModule.getModuleData().getSecretRef())
+                      && gerritModule
+                          .getModuleData()
+                          .getSecretRef()
+                          .equals(secret.getMetadata().getName()));
+    }
   }
 }

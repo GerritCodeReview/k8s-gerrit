@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritSecret.CONTEXT_SECRET_VERSION_KEY;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
@@ -31,6 +29,7 @@ import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
+import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -422,10 +421,15 @@ public class GerritStatefulSet
 
   public boolean wasSecretUpdated(Gerrit gerrit, Context<Gerrit> context) {
     String secretName = gerrit.getSpec().getSecretRef();
-    Optional<String> gerritSecret =
-        context.managedDependentResourceContext().get(CONTEXT_SECRET_VERSION_KEY, String.class);
+    Optional<Secret> gerritSecret =
+        Optional.ofNullable(
+            client
+                .secrets()
+                .inNamespace(gerrit.getMetadata().getNamespace())
+                .withName(secretName)
+                .get());
     if (gerritSecret.isPresent()) {
-      String secVersion = gerritSecret.get();
+      String secVersion = gerritSecret.get().getMetadata().getResourceVersion();
       if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
         logger.atFine().log(
             "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
