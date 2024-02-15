@@ -332,6 +332,23 @@
       },
       "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "637db720_7282400c",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-15T15:37:52Z",
+      "side": 1,
+      "message": "When we build the docker images from this change (commit 2459e5dd2a3e86be5694899ef636e7c503dbe192) the `gerrit-init` container (regardless of primaries or replicas) raises the following exception: \n\n```\nException in thread \"main\" com.google.inject.ProvisionException: Unable to provision, see the following errors:\n\n1) Cannot load LibModule ValidationModule\n\n1 error\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFull classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nValidationModule: \"com.ericsson.gerrit.plugins.highavailability.ValidationModule\"\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nEnd of classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\n    at com.google.gerrit.server.LibModuleLoader.loadModule(LibModuleLoader.java:90)\n    at com.google.gerrit.server.LibModuleLoader.createModule(LibModuleLoader.java:80)\n    at com.google.gerrit.server.LibModuleLoader.lambda$loadModules$0(LibModuleLoader.java:39)\n    at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)\n    at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:992)\n    at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)\n    at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)\n    at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)\n    at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)\n    at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)\n    at com.google.gerrit.server.LibModuleLoader.loadModules(LibModuleLoader.java:40)\n    at com.google.gerrit.pgm.util.SiteProgram.createDbInjector(SiteProgram.java:140)\n    at com.google.gerrit.pgm.util.SiteProgram.createDbInjector(SiteProgram.java:81)\n    at com.google.gerrit.pgm.init.BaseInit.createSysInjector(BaseInit.java:416)\n    at com.google.gerrit.pgm.init.BaseInit.run(BaseInit.java:118)\n    at com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:62)\n    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n    at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n    at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n    at java.base/java.lang.reflect.Method.invoke(Method.java:568)\n    at com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:252)\n    at com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:148)\n    at com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:93)\n    at Main.main(Main.java:30)\nCaused by: java.lang.ClassNotFoundException: com.ericsson.gerrit.plugins.highavailability.ValidationModule\n    at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:445)\n    at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:592)\n    at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)\n    at java.base/java.lang.Class.forName0(Native Method)\n    at java.base/java.lang.Class.forName(Class.java:375)\n    at com.google.gerrit.server.LibModuleLoader.loadModule(LibModuleLoader.java:88)\n    ... 23 more\n\n```\n\nHowever when we use the image already built: `docker.io/k8sgerrit:latest` everything works as expected.",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
