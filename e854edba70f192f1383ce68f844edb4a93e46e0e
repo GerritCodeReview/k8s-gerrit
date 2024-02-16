@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82df6aad_a3e42ee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T11:06:56Z",
+      "side": 1,
+      "message": "can\u0027t find a change with this number",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10aff8a8_1e8e37e7",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T11:06:56Z",
+      "side": 1,
+      "message": "If you are changing CRDs you need to bump the API version to instruct k8s about the API change.\n\nThere is a script helping with that at `./operator/tools/newCRDVersion`.\n\nIn order to simplify the review we bump the API version in the first patchset and then add the CRD and code changes in subsequent patchsets. This way we can review the API bump and the new CRD and operator features separately.\n\nThis gets more complicated if multiple API changes are in flight since updates need to be serialized. I currently have this one open: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409483 which bumps the API version to v1beta6.",
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
