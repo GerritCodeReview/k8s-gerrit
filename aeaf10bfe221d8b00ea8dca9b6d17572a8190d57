@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ecf10a_b5e026f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T09:42:21Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 18,
+        "startChar": 84,
+        "endLine": 18,
+        "endChar": 87
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18b837cd_d9c9a6bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T09:42:21Z",
+      "side": 1,
+      "message": "nit: needs reformatting",
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f0f4d75_238740e0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T09:42:21Z",
+      "side": 1,
+      "message": "not yet",
+      "range": {
+        "startLine": 56,
+        "startChar": 24,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
