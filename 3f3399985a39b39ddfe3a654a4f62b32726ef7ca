@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "362776e1_f3b7c588",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-16T09:19:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e325c57a_e4e98c76",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "3f3399985a39b39ddfe3a654a4f62b32726ef7ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3fc052e8_d6377e58",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-13T07:47:49Z",
       "side": 1,
       "message": "Something to consider for a future change:\n\n- What happens, if the user also adds an `INPUT` section?\n- Should we add some validation webhook?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "3f3399985a39b39ddfe3a654a4f62b32726ef7ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e31cc8e_a37a15dc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/FluentBitConfigMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-16T09:19:44Z",
+      "side": 1,
+      "message": "A second `INPUT` will be added on top of the default, since fluent-bit allows for multiple input sections. That may not be ideal behavior, since a user could expect it to replace or amend the original. On the other hand, perhaps the user does just want to add a new INPUT... at least right now in the documentation I do clearly state that the input settings are handled by the operator.\n\nValidation: Yes, that\u0027s probably a good idea. I will add it as a task to work on later.",
+      "parentUuid": "3fc052e8_d6377e58",
       "range": {
         "startLine": 41,
         "startChar": 0,
