@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a291f0f_dc8227f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T10:24:03Z",
+      "side": 1,
+      "message": "Document new operator feature flag sharedFileSystem",
+      "revId": "661cfa35fb71e912e2124c822e02756f54b669af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "125b8e31_f1ff487a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T10:24:03Z",
+      "side": 1,
+      "message": "I can\u0027t find a change with this change number",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "661cfa35fb71e912e2124c822e02756f54b669af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f88c5a_2ef8f4c7",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-16T10:24:03Z",
+      "side": 1,
+      "message": "move this to a separate section `Feature Flags` ?",
+      "range": {
+        "startLine": 126,
+        "startChar": 68,
+        "endLine": 127,
+        "endChar": 73
+      },
+      "revId": "661cfa35fb71e912e2124c822e02756f54b669af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
