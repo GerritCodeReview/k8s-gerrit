@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eb6d655_b2d42368",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritClusterGerritsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T07:50:51Z",
+      "side": 1,
+      "message": "We should also verify the resulting configmap, because only it will contain the advertised port configuration.",
+      "revId": "1a2a0729f41bc1c4257ac48d29bcb8615722c5c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
