@@ -3,6 +3,121 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aeecbb2a_5bb1101a",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T10:14:18Z",
+      "side": 1,
+      "message": "This URL is not stable, especially with the sha sum. Should we built the plugin into the gerrit container?\nWe might also consider to have multiple versions of the containers depending on whether HA or Multisite will be used.",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 54
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4edf15a1_3f44d12c",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T10:14:18Z",
+      "side": 1,
+      "message": "I think that should not be required. The Instance ID can be read from a system property [1]. This system property is being set on startup of Gerrit [2] in the gerrit container based on the pod name.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/383334\n[2] https://gerrit.googlesource.com/k8s-gerrit/+/e10a216c3a69132bef4299ba92c16a63858bddcb/container-images/gerrit/tools/start#25",
+      "range": {
+        "startLine": 149,
+        "startChar": 27,
+        "endLine": 149,
+        "endChar": 50
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd5ae3a_e3235fe2",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T10:14:18Z",
+      "side": 1,
+      "message": "I believe that we can use the Operator to simplify this a bit. The operator could provide a default replication config containing remotes for all pods. The gerrit-init scripts than only have to delete the remote section matching its own pod. One thing we then would have to take care of, is how to bring in time-based configuration like timeouts, which should be configurable by the user, while the operator should configure the rest.\n\nEven nicer would be a discovery mechanism like jgroups in the HA-plugin, so that each instance could use the same configuration and just discovers its remotes. That is however a complete different story for later.",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 44
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4182c4b_82ebaf1b",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T10:14:18Z",
+      "side": 1,
+      "message": "secret?",
+      "range": {
+        "startLine": 187,
+        "startChar": 40,
+        "endLine": 187,
+        "endChar": 76
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b9027c6_004cc2a5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritCluster.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T10:14:18Z",
+      "side": 1,
+      "message": "Not tested, but I think that could mean that if we scale Gerrit, we have to restart every pod.\nThinking further such a restart would anyway be required with this implementation, since we would need to update the configuration every time we scale, which only happens in the init container.\nThese are arguments for having some kind of auto discovery in pull-replication.",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b453a8bf_83db13bc",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
         "patchSetId": 1
