@@ -90,6 +90,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "62a52367_376f2519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T14:11:30Z",
+      "side": 1,
+      "message": "Got that. Nevertheless, even in your scenario you have to run Git GC (if not please let me know what magic you use ;-)). Thus, I think we should discuss (out of scope of this change) how we would approach that in the end, since I believe that should be part of the setup.\nNot dealing with Gerrit Replicas now is also totally fine. We can always add that later.",
+      "parentUuid": "fe18522f_b1bd056a",
+      "range": {
+        "startLine": 18,
+        "startChar": 123,
+        "endLine": 18,
+        "endChar": 162
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9800ad27_3a9f6546",
         "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
         "patchSetId": 1
@@ -125,6 +149,30 @@
       "side": 1,
       "message": "This is a very interesting point. We need to read more about that. What we understood from the conversation we had weeks ago was to bind reconcilers based on the feature toggle once the operator starts running. Can you elaborate more on your idea?",
       "parentUuid": "9800ad27_3a9f6546",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c0db8c5_b80219bb",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T14:11:30Z",
+      "side": 1,
+      "message": "To be honest, I didn\u0027t look too much into the technical details yet, especially how to deal with registering the reconcilers, but the concept would look somewhat like this:\n\n- We add a new CRD, let\u0027s for example call it `GerritOperatorConfig`. The CustomResource would look something like this:\n\n```\napiVersion: \"gerritoperator.google.com/v1beta5\"\nkind: GerritOperatorConfig\nmetadata:\n  name: gerrit-operator-config\n  namespace: gerrit-operator\nspec:\n  ingressType: ISTIO\n  sharedFileSystem: true\n```\n\n- The Gerrit Operator will have a reconciler for `GerritOperatorConfig`.\n- The GerritOperator starts with default settings. It registers among the default reconcilers the `GerritOperatorConfigReconciler`.\n- Now the user can apply a custom `GerritOperatorConfig` CustomResource and the operator would reconcile it and by that reconfigure itself by for example registering the Reconcilers required by the chosen configuration.",
+      "parentUuid": "cfdce2d7_0aaff85d",
       "range": {
         "startLine": 46,
         "startChar": 0,
