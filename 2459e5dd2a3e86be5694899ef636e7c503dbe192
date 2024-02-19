@@ -198,6 +198,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e18c3c1_517e30a3",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-19T09:06:19Z",
+      "side": 1,
+      "message": "straightforward",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 16
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d65bd700_746834b0",
         "filename": "Documentation/operator.md",
         "patchSetId": 4
