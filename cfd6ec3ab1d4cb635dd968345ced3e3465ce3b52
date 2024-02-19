@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7efbd1ce_6f06129e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-19T14:07:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a9fb617_24e9f9ba",
+      "revId": "cfd6ec3ab1d4cb635dd968345ced3e3465ce3b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bdf5cf0_1a748c67",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-02-19T07:45:22Z",
       "side": 1,
       "message": "I would be nice to have toString return yaml or json, since these would be diretcly compatible with other tools working with Kubernetes.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "cfd6ec3ab1d4cb635dd968345ced3e3465ce3b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d8d912_2ccd6864",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-19T14:07:04Z",
+      "side": 1,
+      "message": "after having seen that the Java k8s client doesn\u0027t emit json in its #toString implementations you said you want us to do the same",
+      "parentUuid": "6bdf5cf0_1a748c67",
       "range": {
         "startLine": 47,
         "startChar": 0,
