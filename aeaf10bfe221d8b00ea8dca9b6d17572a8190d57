@@ -66,6 +66,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fe18522f_b1bd056a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-19T13:52:34Z",
+      "side": 1,
+      "message": "From the conversation that we had weeks ago, we exposed the intention of providing a new use case (mutual exclusive from the current): a kind of HA installation with 3 primaries with all the multisite capabilities using the pull replication plugin and not sharing the file system. Each primary would have its own file system for git and log data. It is important to mention that replicas are not considered at all in this scenario.\nThis use case would not collide with the current approach and all the possible combinations because of a feature toggle.",
+      "parentUuid": "44b9f15f_6c81f0a9",
+      "range": {
+        "startLine": 18,
+        "startChar": 123,
+        "endLine": 18,
+        "endChar": 162
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9800ad27_3a9f6546",
         "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
         "patchSetId": 1
@@ -77,6 +101,30 @@
       "writtenOn": "2024-02-19T08:12:34Z",
       "side": 1,
       "message": "Best practice is actually to use a CustomResource to configure the operator instead of using env vars or files [1]. That is something that I have in mind of doing for a while now. If we get more options we should do that soon. Thus, leaving a note of that here.\n\n[1] https://sdk.operatorframework.io/docs/best-practices/best-practices/#running-on-cluster",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfdce2d7_0aaff85d",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-19T13:52:34Z",
+      "side": 1,
+      "message": "This is a very interesting point. We need to read more about that. What we understood from the conversation we had weeks ago was to bind reconcilers based on the feature toggle once the operator starts running. Can you elaborate more on your idea?",
+      "parentUuid": "9800ad27_3a9f6546",
       "range": {
         "startLine": 46,
         "startChar": 0,
