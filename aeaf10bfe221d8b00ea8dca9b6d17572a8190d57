@@ -183,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "822a3da9_794ed5d1",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-19T14:16:55Z",
+      "side": 1,
+      "message": "I think we should use a more explicit field name instead of `sharedFileSystem` to differentiate between the different opinionated ways to deploy a gerrit cluster, e.g. `gerritClusterType: high-availability | multi-site`",
+      "parentUuid": "4c0db8c5_b80219bb",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f0f4d75_238740e0",
