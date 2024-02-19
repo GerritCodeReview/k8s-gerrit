@@ -41,6 +41,52 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44b9f15f_6c81f0a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T08:12:34Z",
+      "side": 1,
+      "message": "Just to bring up a few points that will need to be changed to support this:\n\nSharing the filesystem for git repositories is currently required to support:\n\n- sharing repositories without replication between Gerrit Primaries and Replicas\n- Allowing to run Git GC in a separate Pod (managed by a CronJob). If we don\u0027t share the repositories, Git GC has to be done in a sidecar container within each Gerrit pod.\n\nI believe this second point should be handled as well. Some discussions we had at SAP about that resulted in the idea to make GC more intelligent for this (especially when using multisite and having to run GC n times this would help to save a lot of resources), i.e. we would need something like the gc conductor you guys worked on.\n\nSharing the logs on NFS mostly has historical reasons, since we wanted an easy solution to have all the logs in a single filesystem. Wendy recently added fluentbit support and support for other log collectors could be added in a similar way. Thus, I believe we should make log storage in a shared volume optional or remove it completely.",
+      "range": {
+        "startLine": 18,
+        "startChar": 123,
+        "endLine": 18,
+        "endChar": 162
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9800ad27_3a9f6546",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T08:12:34Z",
+      "side": 1,
+      "message": "Best practice is actually to use a CustomResource to configure the operator instead of using env vars or files [1]. That is something that I have in mind of doing for a while now. If we get more options we should do that soon. Thus, leaving a note of that here.\n\n[1] https://sdk.operatorframework.io/docs/best-practices/best-practices/#running-on-cluster",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f0f4d75_238740e0",
