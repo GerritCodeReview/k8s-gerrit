@@ -28,6 +28,12 @@
     - [Adding a Gerrit Replica](#adding-a-gerrit-replica)
     - [Istio](#istio)
     - [High Availability](#high-availability)
+  - [Minikube multisite](#minikube-multisite)
+    - [Prerequisites](#prerequisites-2)
+    - [Build images](#build-images-1)
+    - [Istio](#istio-1)
+    - [Gerrit Operator](#gerrit-operator-3)
+    - [Deploy multisite with three replicas](#deploy-multisite-with-three-replicas)
 
 ## Development
 
@@ -581,3 +587,82 @@ kubectl apply -f Documentation/examples/6-gerritcluster-ha-primary.yaml
 ```
 
 Now, two primary Gerrit pods are available in the cluster.
+
+## Minikube Multisite
+
+This chapter gives a short walkthrough in installing the Gerrit operator and a
+GerritCluster in minikube with three primary instances. This is 'work in progress'
+and at the moment the features are: 
+
+* Use pull-replication plugin.
+* Each primary has its own file system for logs and data (no nfs).
+* Number of primaries can change but auto scaling is not supported.
+
+### Prerequisites
+
+Prerequisites for this configuration are the same as [this section](#prerequisites-1) plus the Kubernetes server version needs to be 1.28.0+ .
+
+### Build images
+
+We suggest to build the images for Gerrit (base, gerrit and gerrit-init) 
+and for the Gerrit Operator. 
+
+### Istio
+
+To install Istio with default configuration download istioctl:
+
+```sh
+curl -sL https://istio.io/downloadIstioctl | sh -
+```
+
+Then install istio specifying the profile for this configuration:
+
+```sh
+istioctl install -f Documentation/examples/gerrit-istio-profile.yaml
+```
+
+### Gerrit Operator
+
+To install the 'multisite' setup please note that the value of the property
+`sharedFileSystem.enabled` in the file `helm-charts/gerrit-operator/values.yaml`
+should be set to `false`. 
+
+Deploy the operator:
+
+```sh
+kubectl create ns gerrit-operator
+helm dependency build --verify helm-charts/gerrit-operator
+helm upgrade \
+  --install gerrit-operator \
+  helm-charts/gerrit-operator \
+  -n gerrit-operator \
+  --set=ingress.type=ISTIO
+```
+
+### Deploy multisite with three replicas
+
+Deploy GerritCluster custom resource that:
+
+* Creates a StatefulSet with three nodes
+* Configure networking and traffic management for Http and Ssh
+* Set up pull replication configuration
+
+```sh
+kubectl create ns gerrit
+kubectl label namespace gerrit istio-injection=enabled
+kubectl apply -f Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml
+```
+To access Gerrit, a tunnel has to be established to the Istio Ingressgateway
+service and the host. This should be done in a separate shell session.
+
+```sh
+minikube tunnel
+```
+
+Please note that in this example the host is defined as `gerrit.poc.com` in the 
+property `spec.ingress.host`. That implies to modify the `/etc/hosts` as follow:
+
+```
+127.0.0.1       localhost gerrit.poc.com
+```
+
