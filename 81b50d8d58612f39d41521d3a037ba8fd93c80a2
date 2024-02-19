@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81175a13_2f96bd8a",
+        "filename": "Documentation/examples/gerrit-istio-profile.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-19T14:05:36Z",
+      "side": 1,
+      "message": "I agree with you. \nThe reason why we introduced a new one (based on `demo` profile) was mainly because `./istio/gerrit.profile.yaml` was not working with Minikube. Exceptions were raised when the `istio envoy proxies` were provisioned in the gerrit instances.\n\nLet us give it another try.",
+      "parentUuid": "e7f80803_f4f633ff",
+      "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c223703_ea876a26",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2024-02-19T11:55:44Z",
       "side": 1,
       "message": "Would it make sense to make this an independent option to whether a shared volume is used? Using a cookie (current option) has some disadvantages and I am not sure whether we don\u0027t have to use a more stable algorithm (that on the other hand might cause larger imbalances). So having both options available independently might make sense.\nOr if you have some experience with what algorithm works well and if using the host IP is just much better, why not make it the only choice.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c4a028_d049ee0e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-02-19T14:05:36Z",
+      "side": 1,
+      "message": "The idea was to reuse the same traffic policy but we realised that in the new use case there were some edge cases where the affinity session based on cookies was not working as expected and the traffic was sent to all the pods.\n\n\u003e Would it make sense to make this an independent option to whether a shared volume is used?\n\nDefinitively it is something that we could introduce to improve flexibility. At the moment we have used this approach because was the easiest way of differentiating between use cases, taking into account that we did not want to pollute the current behaviour.",
+      "parentUuid": "4c223703_ea876a26",
       "range": {
         "startLine": 68,
         "startChar": 0,
