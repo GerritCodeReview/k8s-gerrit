@@ -33,6 +33,22 @@
     - [Adding a Gerrit Replica](#adding-a-gerrit-replica)
     - [Istio](#istio)
     - [High Availability](#high-availability)
+  - [Minikube multisite](#minikube-multisite)
+    - [Prerequisites](#prerequisites-2)
+    - [Build images](#build-images-1)
+    - [Istio](#istio-1)
+    - [Gerrit Operator](#gerrit-operator-3)
+    - [Deploy multisite with three replicas](#deploy-multisite-with-three-replicas)
+  - [Multisite notes](#multisite-notes)
+    - [Istio](#istio-2)
+    - [Kafka](#kafka)
+    - [Zookeeper](#zookeeper)
+    - [Sync Gerrit sites](#sync-gerrit-sites)
+  - [Multisite monitoring](#multisite-monitoring)
+    - [Prerequisites](#prerequisites-3)
+    - [Access to Prometheus](#access-to-prometheus)
+    - [Access to Grafana](#access-to-grafana)
+    - [Access to AlertManager](#access-to-alertmanager)
 
 ## Development
 
@@ -635,3 +651,283 @@ kubectl apply -f Documentation/examples/6-gerritcluster-ha-primary.yaml
 ```
 
 Now, two primary Gerrit pods are available in the cluster.
+
+## Minikube Multisite
+
+This chapter gives a short walkthrough in installing the Gerrit operator and a
+GerritCluster in minikube with three primary instances. This is 'work in progress'
+and at the moment the features are:
+
+* Use pull-replication plugin.
+* Each primary has its own file system for Gerrit site (no nfs).
+* Number of primaries can change but auto scaling is not supported.
+
+### Prerequisites
+
+Prerequisites for this configuration are the same as [this section](#prerequisites-1) plus:
+
+* Kafka broker should be deployed or accessible from the cluster. The connection string must be
+specified in the `events-kafka plugin` section of the `gerrit.config`, located within the
+`spec.gerrits[0].spec.configFiles` object, i.e:
+```
+      configFiles:
+        gerrit.config: |-
+        ...
+            [plugin "events-kafka"]
+              bootstrapServers = kafka-service.kafka-zk.svc.cluster.local:9092
+        ...
+```
+
+
+For additional context, please refer to the section `configFiles` in [GerritTemplateSpec](operator-api-reference.md#gerrittemplatespec)
+and [events-kafka plugin documentation](https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/master/src/main/resources/Documentation/config.md)
+
+* Zookeeper should be deployed or accessible from the cluster. The connection string is defined
+within the `spec.refdb` object, i.e:
+```
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper-service.kafka-zk.svc.cluster.local:2181
+```
+For additional context, please refer to the section [GlobalRefDbConfig](operator-api-reference.md#globalrefdbconfig).
+
+### Build images
+
+We suggest to build the images for Gerrit (base, gerrit and gerrit-init)
+and for the Gerrit Operator.
+
+### Istio
+
+The IstioOperator Custom Resource defined in the file `istio/gerrit.profile.yaml` requires to
+install `istioctl version 1.20.3`. Please run the following command:
+
+```bash
+curl -sL /tmp/istio.tar.gz https://github.com/istio/istio/releases/download/1.20.3/istio-1.20.3-osx-arm64.tar.gz | tar -xz -C /tmp
+```
+
+Create the istio-system namespace:
+
+```sh
+kubectl create namespace istio-system
+```
+
+Then install Istio specifying the profile for this configuration:
+
+```sh
+/tmp/istio-1.20.3/bin/istioctl install -f istio/gerrit.profile.yaml
+```
+
+### Gerrit Operator
+
+To install the operator in the 'multisite' cluster mode please note that the value of the property
+`cluster.mode` in the file `helm-charts/gerrit-operator/values.yaml`
+should be set to `MULTISITE`.
+
+Deploy the operator:
+
+```sh
+kubectl create ns gerrit-operator
+helm dependency build --verify helm-charts/gerrit-operator
+helm upgrade \
+  --install gerrit-operator \
+  helm-charts/gerrit-operator \
+  -n gerrit-operator \
+  --set=ingress.type=ISTIO \
+  --set=cluster.mode=MULTISITE
+```
+
+### Deploy multisite with three replicas
+
+Deploy GerritCluster custom resource that:
+
+* Creates a StatefulSet with three nodes
+* Configure networking and traffic management for Http and Ssh
+* Set up pull replication configuration
+
+```sh
+kubectl create ns gerrit
+kubectl label namespace gerrit istio-injection=enabled
+kubectl apply -f Documentation/examples/gerritcluster-roles.yaml
+kubectl apply -f Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml
+```
+To access Gerrit, a tunnel has to be established to the Istio Ingressgateway
+service and the host. This should be done in a separate shell session.
+
+```sh
+minikube tunnel
+```
+
+Please note that in this example the host is defined as `gerrit.multisite.com` in the
+property `spec.ingress.host`. That implies to modify the `/etc/hosts` as follow:
+
+```
+127.0.0.1       localhost gerrit.multisite.com
+```
+
+## Multisite notes
+
+This chapter is intended as a collection of resources for the usage of the operator
+with the the property `multisite.enabled` set to true, not necessarily in minikube.
+
+### Istio
+
+When using the operator in a proper kubernetes cluster (not minikube) with multiple nodes, please
+make sure to patch the gatway as follow:
+
+```sh
+kubectl patch svc istio-ingressgateway -n istio-system -p '{"spec":{"externalTrafficPolicy":"Local"}}'
+```
+
+Please read more on how to preserve the original client source IP on the [istio ingress](https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/)
+
+### Kafka
+
+An example of kafka deployment can be found [here](https://github.com/lydtechconsulting/kafka-kubernetes-demo/blob/v1.0.0/resources/kafka.yml), making sure to set the namespace as
+described in the [Prerequisites](#prerequisites-2)
+
+To connect and excecute operations in kafka, please spin up an image as clinent:
+```sh
+kubectl run my-kafka --rm -i --tty --image confluentinc/cp-kafka /bin/bash --namespace gerrit
+```
+
+After that is possible to connect to the image to check consume the messages in a topic, i.e. for
+the `gerrit` topic:
+```sh
+kubectl --namespace gerrit exec --stdin --tty my-kafka -- /bin/kafka-console-consumer --bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 --from-beginning --topic gerrit
+```
+
+Or to list all the topics:
+```sh
+kubectl --namespace gerrit exec --stdin --tty my-kafka -- /bin/kafka-topics --bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 --list
+```
+
+Or to list the group_ids:
+```sh
+kubectl --namespace gerrit exec --stdin --tty my-kafka -- /bin/kafka-consumer-groups --bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 --list
+```
+
+### Zookeeper
+
+An example of kafka deployment can be found [here](https://github.com/lydtechconsulting/kafka-kubernetes-demo/blob/v1.0.0/resources/zookeeper.yml), making sure to set the namespace as
+described in the [Prerequisites](#prerequisites-2)
+
+To connect and excecute operations in zookeeper, for example to check the sha stored in
+globalrefdb for the meta ref for the change 1, on the `poc-demo` project `/gerrit/gerrit/poc-demo/refs/changes/01/1/meta` you can use this command:
+```sh
+kubectl --namespace gerrit exec --stdin --tty my-kafka -- zookeeper-shell zookeeper-service.kafka-zk.svc.cluster.local:2181 get /gerrit/gerrit/poc-demo/refs/changes/01/1/meta
+```
+
+### Sync Gerrit sites
+
+Because in a multisite environment each gerrit istance is initialized during the `gerrit-init`
+phase, the status of the repositories, in particular the `All-Users` and `All-Projects` is not
+consistent across the nodes. To fix this a manual operation to sync all the sites is required. We
+can leverage pull replication to do this, i.e.:
+
+* Forward port 8080 for Gerrit-1 (without passing by the ingress-gatway):
+  ```sh
+  kubectl port-forward gerrit-1 8080:8080 -n gerrit
+  ```
+
+* Add the ssh key to gerrit-1
+  ```sh
+  curl -v -X POST -H "Content-Type: text/plain" --user admin:secret --data "$(cat ~/.ssh/id_ed25519.pub)" http://localhost:8080/a/accounts/self/sshkeys
+  ```
+
+* Forward the port 29418 to gerrit-1
+  ```sh
+  kubectl port-forward gerrit-1 29418:29418 -n gerrit
+  ```
+
+* Start pull replication for Gerrit-1 (pull from gerrit-0)
+  ```sh
+  ssh -p 29418 admin@localhost pull-replication start --url gerrit-0 --all
+  ```
+
+And finally repeat the process for gerrit-2.
+You can also log in to each gerrit node and make sure that all the refs have the same sha in the
+`All-Projects` and `All-Users` repositories with the command `git show-ref`.
+
+## Multisite monitoring
+
+This chapter provides an example to provision the [Prometheus stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) in the
+Minikube cluster. This stack allows to define [Grafana dashboards](https://grafana.com/grafana/dashboards/), and query metrics via
+[Prometheus](https://prometheus.io/)
+using [PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/) and to define alerts via [AlerManager](https://prometheus.io/docs/alerting/latest/alertmanager/).
+
+### Prerequisites
+
+1. Install the `Prometheus stack Helm chart` locally:
+
+```sh
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+
+2. Deploy the `Prometheus stack`:
+
+```sh
+kubectl create ns monitoring && \
+helm install my-kubpromstack prometheus-community/kube-prometheus-stack -n monitoring \
+--set prometheus.prometheusSpec.podMonitorSelectorNilUsesHelmValues=false \
+--set prometheus.prometheusSpec.probeSelectorNilUsesHelmValues=false \
+--set prometheus.prometheusSpec.ruleSelectorNilUsesHelmValues=false \
+--set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false \
+--set defaultRules.create=false \
+--set grafana.defaultDashboardsEnabled=false
+```
+
+3. Deploy `PodMonitor` Custom Resource to allow `Prometheus` to scrap Gerrit metrics from the
+different Gerrit instnces:
+```sh
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gerrit-metric-bearer-token
+  namespace: gerrit
+type: Opaque
+data:
+  bearer-token: c29tZS1iZWFyZXItdG9rZW4=
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gerrit-multisite
+  namespace: gerrit
+  labels:
+    team: devops
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: gerrit-statefulset-gerrit
+      app.kubernetes.io/instance: gerrit
+      app.kubernetes.io/managed-by: gerrit-operator
+      app.kubernetes.io/name: gerrit
+      app.kubernetes.io/part-of: gerrit
+  podMetricsEndpoints:
+  - port: http
+    path: /plugins/metrics-reporter-prometheus/metrics
+    bearerTokenSecret:
+      name: gerrit-metric-bearer-token
+      key: bearer-token
+```
+
+### Access to Prometheus
+
+```sh
+kubectl port-forward prometheus-my-kubpromstack-kube-prome-prometheus-0 9090:9090 -n monitoring
+```
+
+### Access to Grafana
+
+```sh
+kubectl port-forward my-kubpromstack-grafana-5f8bcc9786-r6c8b  3000:3000 -n monitoring
+```
+Note: please check the `Grafana` pod name
+
+### Access to AlertManager
+
+```sh
+kubectl port-forward alertmanager-my-kubpromstack-kube-prome-alertmanager-0 9093:9093 -n monitoring
+```
