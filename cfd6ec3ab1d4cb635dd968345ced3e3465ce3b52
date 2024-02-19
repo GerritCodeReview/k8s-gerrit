@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a9fb617_24e9f9ba",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T07:45:22Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "revId": "cfd6ec3ab1d4cb635dd968345ced3e3465ce3b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bdf5cf0_1a748c67",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T07:45:22Z",
+      "side": 1,
+      "message": "I would be nice to have toString return yaml or json, since these would be diretcly compatible with other tools working with Kubernetes.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "cfd6ec3ab1d4cb635dd968345ced3e3465ce3b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
