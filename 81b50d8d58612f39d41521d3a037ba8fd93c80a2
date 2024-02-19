@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f80803_f4f633ff",
+        "filename": "Documentation/examples/gerrit-istio-profile.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T11:55:44Z",
+      "side": 1,
+      "message": "Do we need another copy of the istio profile? It would be nice to reduce double maintenance and instead use the one provided at `./istio/gerrit.profile.yaml`. Maybe just symlink it here for convenience.",
+      "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c223703_ea876a26",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-19T11:55:44Z",
+      "side": 1,
+      "message": "Would it make sense to make this an independent option to whether a shared volume is used? Using a cookie (current option) has some disadvantages and I am not sure whether we don\u0027t have to use a more stable algorithm (that on the other hand might cause larger imbalances). So having both options available independently might make sense.\nOr if you have some experience with what algorithm works well and if using the host IP is just much better, why not make it the only choice.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
