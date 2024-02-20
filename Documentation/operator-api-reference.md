@@ -185,13 +185,13 @@ spec:
 
       affinity:
         nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: disktype
-              operator: In
-              values:
-              - ssd
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disktype
+                operator: In
+                values:
+                - ssd
 
       topologySpreadConstraints: []
       - maxSkew: 1
@@ -310,13 +310,13 @@ spec:
 
       affinity:
         nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: disktype
-              operator: In
-              values:
-              - ssd
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: disktype
+                operator: In
+                values:
+                - ssd
 
       topologySpreadConstraints: []
       - maxSkew: 1
