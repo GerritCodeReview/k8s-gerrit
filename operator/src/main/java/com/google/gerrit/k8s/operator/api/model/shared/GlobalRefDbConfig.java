@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class GlobalRefDbConfig {
   private RefDatabase database = RefDatabase.NONE;
   private ZookeeperRefDbConfig zookeeper;
@@ -41,6 +43,33 @@ public class GlobalRefDbConfig {
 
   public void setSpanner(SpannerRefDbConfig spanner) {
     this.spanner = spanner;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(database, spanner, zookeeper);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GlobalRefDbConfig other = (GlobalRefDbConfig) obj;
+    return database == other.database
+        && Objects.equals(spanner, other.spanner)
+        && Objects.equals(zookeeper, other.zookeeper);
+  }
+
+  @Override
+  public String toString() {
+    return "GlobalRefDbConfig [database="
+        + database
+        + ", zookeeper="
+        + zookeeper
+        + ", spanner="
+        + spanner
+        + "]";
   }
 
   public enum RefDatabase {

@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.Objects;
 
 public class GerritPlugin extends GerritModule {
   private static final long serialVersionUID = 1L;
@@ -34,5 +35,27 @@ public class GerritPlugin extends GerritModule {
   @JsonIgnore
   public boolean isPackagedPlugin() {
     return getUrl() == null;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + Objects.hash(installAsLibrary);
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritPlugin other = (GerritPlugin) obj;
+    return installAsLibrary == other.installAsLibrary;
+  }
+
+  @Override
+  public String toString() {
+    return "GerritPlugin [installAsLibrary=" + installAsLibrary + "]";
   }
 }

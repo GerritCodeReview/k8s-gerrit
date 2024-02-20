@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class StorageClassConfig {
 
   String readWriteOnce = "default";
@@ -42,5 +44,32 @@ public class StorageClassConfig {
 
   public void setNfsWorkaround(NfsWorkaroundConfig nfsWorkaround) {
     this.nfsWorkaround = nfsWorkaround;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(nfsWorkaround, readWriteMany, readWriteOnce);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    StorageClassConfig other = (StorageClassConfig) obj;
+    return Objects.equals(nfsWorkaround, other.nfsWorkaround)
+        && Objects.equals(readWriteMany, other.readWriteMany)
+        && Objects.equals(readWriteOnce, other.readWriteOnce);
+  }
+
+  @Override
+  public String toString() {
+    return "StorageClassConfig [readWriteOnce="
+        + readWriteOnce
+        + ", readWriteMany="
+        + readWriteMany
+        + ", nfsWorkaround="
+        + nfsWorkaround
+        + "]";
   }
 }

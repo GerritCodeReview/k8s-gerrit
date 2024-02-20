@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.Objects;
 
 public class GerritInitConfig {
   private String caCertPath = "/var/config/ca.crt";
@@ -85,5 +86,45 @@ public class GerritInitConfig {
 
   public void setRefdb(String refdb) {
     this.refdb = refdb;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        caCertPath, isHighlyAvailable, libs, pluginCacheDir, pluginCacheEnabled, plugins, refdb);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritInitConfig other = (GerritInitConfig) obj;
+    return Objects.equals(caCertPath, other.caCertPath)
+        && isHighlyAvailable == other.isHighlyAvailable
+        && Objects.equals(libs, other.libs)
+        && Objects.equals(pluginCacheDir, other.pluginCacheDir)
+        && pluginCacheEnabled == other.pluginCacheEnabled
+        && Objects.equals(plugins, other.plugins)
+        && Objects.equals(refdb, other.refdb);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritInitConfig [caCertPath="
+        + caCertPath
+        + ", pluginCacheEnabled="
+        + pluginCacheEnabled
+        + ", pluginCacheDir="
+        + pluginCacheDir
+        + ", plugins="
+        + plugins
+        + ", libs="
+        + libs
+        + ", isHighlyAvailable="
+        + isHighlyAvailable
+        + ", refdb="
+        + refdb
+        + "]";
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class ZookeeperRefDbConfig {
   private String connectString;
   private String rootNode;
@@ -32,5 +34,25 @@ public class ZookeeperRefDbConfig {
 
   public void setRootNode(String rootNode) {
     this.rootNode = rootNode;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(connectString, rootNode);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    ZookeeperRefDbConfig other = (ZookeeperRefDbConfig) obj;
+    return Objects.equals(connectString, other.connectString)
+        && Objects.equals(rootNode, other.rootNode);
+  }
+
+  @Override
+  public String toString() {
+    return "ZookeeperRefDbConfig [connectString=" + connectString + ", rootNode=" + rootNode + "]";
   }
 }

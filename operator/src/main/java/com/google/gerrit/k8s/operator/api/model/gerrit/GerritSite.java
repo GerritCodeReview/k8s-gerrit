@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import io.fabric8.kubernetes.api.model.Quantity;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class GerritSite implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -27,5 +28,24 @@ public class GerritSite implements Serializable {
 
   public void setSize(Quantity size) {
     this.size = size;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(size);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritSite other = (GerritSite) obj;
+    return Objects.equals(size, other.size);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritSite [size=" + size + "]";
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class GerritIngressSshConfig {
   private boolean enabled = false;
 
@@ -23,5 +25,24 @@ public class GerritIngressSshConfig {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(enabled);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritIngressSshConfig other = (GerritIngressSshConfig) obj;
+    return enabled == other.enabled;
+  }
+
+  @Override
+  public String toString() {
+    return "GerritIngressSshConfig [enabled=" + enabled + "]";
   }
 }

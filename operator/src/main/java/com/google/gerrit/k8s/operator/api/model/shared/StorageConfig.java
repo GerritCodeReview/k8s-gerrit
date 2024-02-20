@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class StorageConfig {
 
   private StorageClassConfig storageClasses;
@@ -40,5 +42,29 @@ public class StorageConfig {
 
   public void setSharedStorage(SharedStorage sharedStorage) {
     this.sharedStorage = sharedStorage;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(sharedStorage, storageClasses);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    StorageConfig other = (StorageConfig) obj;
+    return Objects.equals(sharedStorage, other.sharedStorage)
+        && Objects.equals(storageClasses, other.storageClasses);
+  }
+
+  @Override
+  public String toString() {
+    return "StorageConfig [storageClasses="
+        + storageClasses
+        + ", sharedStorage="
+        + sharedStorage
+        + "]";
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.api.model.network;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GerritNetworkSpec {
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
@@ -65,5 +66,35 @@ public class GerritNetworkSpec {
       gerrits.add(gerritReplica);
     }
     return gerrits;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(gerritReplica, ingress, primaryGerrit, receiver);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    GerritNetworkSpec other = (GerritNetworkSpec) obj;
+    return Objects.equals(gerritReplica, other.gerritReplica)
+        && Objects.equals(ingress, other.ingress)
+        && Objects.equals(primaryGerrit, other.primaryGerrit)
+        && Objects.equals(receiver, other.receiver);
+  }
+
+  @Override
+  public String toString() {
+    return "GerritNetworkSpec [ingress="
+        + ingress
+        + ", receiver="
+        + receiver
+        + ", primaryGerrit="
+        + primaryGerrit
+        + ", gerritReplica="
+        + gerritReplica
+        + "]";
   }
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import java.util.Objects;
+
 public class NfsWorkaroundConfig {
 
   private boolean enabled = false;
@@ -42,5 +44,32 @@ public class NfsWorkaroundConfig {
 
   public void setIdmapdConfig(String idmapdConfig) {
     this.idmapdConfig = idmapdConfig;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(chownOnStartup, enabled, idmapdConfig);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    NfsWorkaroundConfig other = (NfsWorkaroundConfig) obj;
+    return chownOnStartup == other.chownOnStartup
+        && enabled == other.enabled
+        && Objects.equals(idmapdConfig, other.idmapdConfig);
+  }
+
+  @Override
+  public String toString() {
+    return "NfsWorkaroundConfig [enabled="
+        + enabled
+        + ", chownOnStartup="
+        + chownOnStartup
+        + ", idmapdConfig="
+        + idmapdConfig
+        + "]";
   }
 }
