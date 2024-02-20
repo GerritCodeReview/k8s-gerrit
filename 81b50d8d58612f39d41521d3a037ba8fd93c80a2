@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3702fb99_6e5cf3a5",
+        "filename": "Documentation/examples/gerrit-istio-profile.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-02-20T09:19:10Z",
+      "side": 1,
+      "message": "could you update to the latest release 1.20.3 which fixes a security issue ?\nhttps://istio.io/latest/news/releases/1.20.x/announcing-1.20.3/",
+      "parentUuid": "fbe2b84e_87f57465",
+      "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c223703_ea876a26",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
         "patchSetId": 1
