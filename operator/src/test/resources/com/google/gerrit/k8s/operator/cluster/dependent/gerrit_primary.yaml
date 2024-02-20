@@ -1,0 +1,73 @@
+apiVersion: gerritoperator.google.com/v1beta5
+kind: Gerrit
+metadata:
+  name: gerrit
+spec:
+  configFiles: {}
+  containerImages:
+    busyBox:
+      registry: docker.io
+      tag: latest
+    gerritImages:
+      org: k8sgerrit
+      registry: docker.io
+      tag: latest
+    imagePullPolicy: Always
+    imagePullSecrets: []
+  debug:
+    enabled: false
+    suspend: false
+  fluentBitSidecar:
+    config: null
+    enabled: false
+    image: fluent/fluent-bit:latest
+  gracefulStopTimeout: 30
+  ingress:
+    enabled: true
+    host: example.com
+    ssh:
+      enabled: true
+    tlsEnabled: false
+  libs: []
+  mode: PRIMARY
+  plugins:
+  - installAsLibrary: false
+    name: download-commands
+  refdb:
+    database: NONE
+    spanner: null
+    zookeeper: null
+  replicas: 2
+  secretRef: gerrit-secure-config
+  serverId: server-1
+  service:
+    httpPort: 80
+    sshPort: 29418
+    type: NodePort
+  serviceAccount: gerrit
+  site:
+    size: 1Gi
+  sshdAdvertisedReadPort: 39418
+  storage:
+    pluginCache:
+      enabled: false
+    sharedStorage:
+      externalPVC:
+        claimName: gerrit-shared-pvc
+        enabled: true
+      size: 1500Gi
+    storageClasses:
+      nfsWorkaround:
+        chownOnStartup: false
+        enabled: false
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup
+      readWriteMany: nfs-client
+      readWriteOnce: gce-sc-fast
+status: null
