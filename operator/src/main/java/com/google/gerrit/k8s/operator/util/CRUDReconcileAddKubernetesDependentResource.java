@@ -35,6 +35,7 @@ public abstract class CRUDReconcileAddKubernetesDependentResource<
 
   @Override
   public Result<R> match(R actualResource, R desired, P primary, Context<P> context) {
-    return GenericKubernetesResourceMatcher.match(desired, actualResource, false, true);
+    return GenericKubernetesResourceMatcher.match(
+        desired, actualResource, false, false, true, context);
   }
 }
