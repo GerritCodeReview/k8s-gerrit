@@ -59,6 +59,11 @@ public abstract class AbstractGerritOperatorE2ETest {
       LocallyRunOperatorExtension.builder()
           .withNamespaceDeleteTimeout(120)
           .waitForNamespaceDeletion(true)
+          .withConfigurationService(
+              overrider ->
+                  overrider
+                      .withSSABasedCreateUpdateMatchForDependentResources(false)
+                      .withKubernetesClient(client))
           .withReconciler(new GerritClusterReconciler())
           .withReconciler(gerritReconciler)
           .withReconciler(new GitGarbageCollectionReconciler(client))

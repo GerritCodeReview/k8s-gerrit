@@ -21,7 +21,6 @@ import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.net.HttpURLConnection;
 import java.util.stream.Stream;
@@ -44,9 +43,6 @@ public class GitGarbageCollectionTest {
 
   @BeforeAll
   public void setup() throws Exception {
-    KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1beta1", "GerritCluster", GerritCluster.class);
-
     kubernetesServer.before();
   }
 
