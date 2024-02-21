@@ -15,10 +15,15 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
+<<<<<<< PATCH SET (28dde0 Update java-operator-sdk to 4.4.4)
+		<fabric8.version>6.7.2</fabric8.version>
+		<flogger.version>0.7.4</flogger.version>
+=======
 		<fabric8.version>6.6.2</fabric8.version>
 		<flogger.version>0.8</flogger.version>
+>>>>>>> BASE      (8898da Merge "[Operator] Fix network routing for receiver-only depl)
 		<guice.version>5.1.0</guice.version>
-		<javaoperatorsdk.version>4.3.3</javaoperatorsdk.version>
+		<javaoperatorsdk.version>4.4.4</javaoperatorsdk.version>
 		<jetty.version>11.0.15</jetty.version>
 		<log42.version>2.23.0</log42.version>
 		<lombok.version>1.18.28</lombok.version>
