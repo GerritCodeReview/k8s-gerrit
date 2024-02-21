@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.admission.servlet.GitGcAdmissionWebhook;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollectionSpec;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
@@ -31,7 +30,6 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -65,10 +63,6 @@ public class GitGcAdmissionWebhookTest {
 
   @BeforeAll
   public void setup() throws Exception {
-    KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1beta1", "GerritCluster", GerritCluster.class);
-    KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1beta1", "GitGarbageCollection", GitGarbageCollection.class);
     server = new TestAdmissionWebhookServer();
 
     kubernetesServer.before();
