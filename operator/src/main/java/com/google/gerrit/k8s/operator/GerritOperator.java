@@ -61,7 +61,12 @@ public class GerritOperator {
   }
 
   public void start() throws Exception {
-    operator = new Operator(client);
+    operator =
+        new Operator(
+            overrider ->
+                overrider
+                    .withSSABasedCreateUpdateMatchForDependentResources(false)
+                    .withKubernetesClient(client));
     for (Reconciler<?> reconciler : reconcilers) {
       logger.atInfo().log(
           String.format("Registering reconciler: %s", reconciler.getClass().getSimpleName()));
