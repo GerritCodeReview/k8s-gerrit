@@ -1,3 +1,4 @@
+
 ---
 apiVersion: v1
 kind: Secret
@@ -115,7 +116,20 @@ spec:
               javaOptions = -Xmx4g
 
         replication.config: |-
-            [remote]
+            [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]
+              url = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-1:8080/${name}.git
+              apiUrl = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-1:8080
+              fetch = +refs/*:refs/*
+              mirror = true
+              timeout = 600
+              rescheduleDelay = 15
+              replicationDelay = 5
+              createMissingRepositories = true
+              replicateProjectDeletions = true
+              replicateHiddenProjects = true
+            [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-2"]
+              url = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-2:8080/${name}.git
+              apiUrl = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-2:8080
               fetch = +refs/*:refs/*
               mirror = true
               timeout = 600
@@ -132,7 +146,9 @@ spec:
               maxRetries = 5
               useCGitClient = false
               consumeStreamEvents = false
-              syncRefs="ALL REFS ASYNC"
-              maxApiPayloadSize=40000
+              eventBrokerTopic = gerrit
+              eventBrokerGroupId = GERRIT_ID_PLACEHOLDER
+              syncRefs = "ALL REFS ASYNC"
+              maxApiPayloadSize = 40000
 
       secretRef: gerrit-secure-config
