@@ -19,15 +19,45 @@ spec:
         properties:
           spec:
             properties:
+              gerritReplica:
+                properties:
+                  httpPort:
+                    type: integer
+                  name:
+                    type: string
+                  sshPort:
+                    type: integer
+                type: object
               ingress:
                 properties:
+                  ambassador:
+                    properties:
+                      createHost:
+                        type: boolean
+                      id:
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    type: object
                   enabled:
                     type: boolean
                   host:
                     type: string
-                  annotations:
-                    additionalProperties:
-                      type: string
+                  istio:
+                    properties:
+                      gatewaySelector:
+                        additionalProperties:
+                          type: string
+                        type: object
+                    type: object
+                  ssh:
+                    properties:
+                      enabled:
+                        type: boolean
                     type: object
                   tls:
                     properties:
@@ -36,52 +66,22 @@ spec:
                       secret:
                         type: string
                     type: object
-                  ssh:
-                    properties:
-                      enabled:
-                        type: boolean
-                    type: object
-                  ambassador:
-                    properties:
-                      id:
-                        items:
-                          type: string
-                        type: array
-                      createHost:
-                        type: boolean
-                    type: object
-                  istio:
-                    properties:
-                      gatewaySelector:
-                        additionalProperties:
-                          type: string
-                        type: object
-                    type: object
-                type: object
-              receiver:
-                properties:
-                  name:
-                    type: string
-                  httpPort:
-                    type: integer
                 type: object
               primaryGerrit:
                 properties:
-                  sshPort:
+                  httpPort:
                     type: integer
                   name:
                     type: string
-                  httpPort:
+                  sshPort:
                     type: integer
                 type: object
-              gerritReplica:
+              receiver:
                 properties:
-                  sshPort:
+                  httpPort:
                     type: integer
                   name:
                     type: string
-                  httpPort:
-                    type: integer
                 type: object
             type: object
           status:
