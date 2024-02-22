@@ -405,17 +405,19 @@ public class GerritStatefulSet
   }
 
   private boolean isGerritRestartRequired(Gerrit gerrit, Context<Gerrit> context) {
-    if (wasConfigMapUpdated(GerritInitConfigMap.getName(gerrit), gerrit)
-        || wasConfigMapUpdated(GerritConfigMap.getName(gerrit), gerrit)) {
+    if (wasConfigMapUpdated(GerritInitConfigMap.getName(gerrit), gerrit, context)
+        || wasConfigMapUpdated(GerritConfigMap.getName(gerrit), gerrit, context)) {
       return true;
     }
 
     return wasSecretUpdated(gerrit, context);
   }
 
-  private boolean wasConfigMapUpdated(String configMapName, Gerrit gerrit) {
+  private boolean wasConfigMapUpdated(
+      String configMapName, Gerrit gerrit, Context<Gerrit> context) {
     String configMapVersion =
-        client
+        context
+            .getClient()
             .configMaps()
             .inNamespace(gerrit.getMetadata().getNamespace())
             .withName(configMapName)
@@ -437,7 +439,8 @@ public class GerritStatefulSet
     String secretName = gerrit.getSpec().getSecretRef();
     Optional<Secret> gerritSecret =
         Optional.ofNullable(
-            client
+            context
+                .getClient()
                 .secrets()
                 .inNamespace(gerrit.getMetadata().getNamespace())
                 .withName(secretName)
@@ -459,7 +462,8 @@ public class GerritStatefulSet
     for (String secretName : gerrit.getModuleDataSecretNames()) {
       String appliedVersion = gerrit.getStatus().getAppliedSecretVersions().get(secretName);
       String actualVersion =
-          client
+          context
+              .getClient()
               .secrets()
               .inNamespace(gerrit.getMetadata().getNamespace())
               .withName(secretName)
