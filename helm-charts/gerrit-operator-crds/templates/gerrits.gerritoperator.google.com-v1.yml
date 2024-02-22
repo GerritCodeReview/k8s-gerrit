@@ -19,164 +19,6 @@ spec:
           properties:
             spec:
               properties:
-                containerImages:
-                  properties:
-                    imagePullPolicy:
-                      type: string
-                    imagePullSecrets:
-                      items:
-                        properties:
-                          name:
-                            type: string
-                        type: object
-                      type: array
-                    busyBox:
-                      properties:
-                        registry:
-                          type: string
-                        tag:
-                          type: string
-                      type: object
-                    gerritImages:
-                      properties:
-                        registry:
-                          type: string
-                        org:
-                          type: string
-                        tag:
-                          type: string
-                      type: object
-                  type: object
-                storage:
-                  properties:
-                    pluginCache:
-                      properties:
-                        enabled:
-                          type: boolean
-                      type: object
-                    storageClasses:
-                      properties:
-                        readWriteOnce:
-                          type: string
-                        readWriteMany:
-                          type: string
-                        nfsWorkaround:
-                          properties:
-                            enabled:
-                              type: boolean
-                            chownOnStartup:
-                              type: boolean
-                            idmapdConfig:
-                              type: string
-                          type: object
-                      type: object
-                    sharedStorage:
-                      properties:
-                        externalPVC:
-                          properties:
-                            enabled:
-                              type: boolean
-                            claimName:
-                              type: string
-                          type: object
-                        size:
-                          anyOf:
-                            - type: integer
-                            - type: string
-                          x-kubernetes-int-or-string: true
-                        volumeName:
-                          type: string
-                        selector:
-                          properties:
-                            matchExpressions:
-                              items:
-                                properties:
-                                  key:
-                                    type: string
-                                  operator:
-                                    type: string
-                                  values:
-                                    items:
-                                      type: string
-                                    type: array
-                                type: object
-                              type: array
-                            matchLabels:
-                              additionalProperties:
-                                type: string
-                              type: object
-                          type: object
-                      type: object
-                  type: object
-                ingress:
-                  properties:
-                    enabled:
-                      type: boolean
-                    host:
-                      type: string
-                    tlsEnabled:
-                      type: boolean
-                    ssh:
-                      properties:
-                        enabled:
-                          type: boolean
-                      type: object
-                  type: object
-                refdb:
-                  properties:
-                    database:
-                      enum:
-                        - NONE
-                        - ZOOKEEPER
-                        - SPANNER
-                      type: string
-                    zookeeper:
-                      properties:
-                        connectString:
-                          type: string
-                        rootNode:
-                          type: string
-                      type: object
-                    spanner:
-                      properties:
-                        projectName:
-                          type: string
-                        instance:
-                          type: string
-                        database:
-                          type: string
-                      type: object
-                  type: object
-                serverId:
-                  type: string
-                fluentBitSidecar:
-                  properties:
-                    image:
-                      type: string
-                    config:
-                      type: string
-                    enabled:
-                      type: boolean
-                  type: object
-                sshdAdvertisedReadPort:
-                  type: integer
-                serviceAccount:
-                  type: string
-                tolerations:
-                  items:
-                    properties:
-                      effect:
-                        type: string
-                      key:
-                        type: string
-                      operator:
-                        type: string
-                      tolerationSeconds:
-                        type: integer
-                      value:
-                        type: string
-                    type: object
-                  type: array
                 affinity:
                   properties:
                     nodeAffinity:
@@ -279,6 +121,14 @@ spec:
                                           type: string
                                         type: object
                                     type: object
+                                  matchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
+                                  mismatchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
                                   namespaceSelector:
                                     properties:
                                       matchExpressions:
@@ -333,6 +183,14 @@ spec:
                                       type: string
                                     type: object
                                 type: object
+                              matchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
+                              mismatchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
                               namespaceSelector:
                                 properties:
                                   matchExpressions:
@@ -389,6 +247,14 @@ spec:
                                           type: string
                                         type: object
                                     type: object
+                                  matchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
+                                  mismatchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
                                   namespaceSelector:
                                     properties:
                                       matchExpressions:
@@ -443,6 +309,14 @@ spec:
                                       type: string
                                     type: object
                                 type: object
+                              matchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
+                              mismatchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
                               namespaceSelector:
                                 properties:
                                   matchExpressions:
@@ -473,201 +347,137 @@ spec:
                           type: array
                       type: object
                   type: object
-                topologySpreadConstraints:
-                  items:
-                    properties:
-                      labelSelector:
-                        properties:
-                          matchExpressions:
-                            items:
-                              properties:
-                                key:
-                                  type: string
-                                operator:
-                                  type: string
-                                values:
-                                  items:
-                                    type: string
-                                  type: array
-                              type: object
-                            type: array
-                          matchLabels:
-                            additionalProperties:
-                              type: string
-                            type: object
-                        type: object
-                      matchLabelKeys:
-                        items:
-                          type: string
-                        type: array
-                      maxSkew:
-                        type: integer
-                      minDomains:
-                        type: integer
-                      nodeAffinityPolicy:
-                        type: string
-                      nodeTaintsPolicy:
-                        type: string
-                      topologyKey:
-                        type: string
-                      whenUnsatisfiable:
-                        type: string
-                    type: object
-                  type: array
-                priorityClassName:
-                  type: string
-                replicas:
-                  type: integer
-                updatePartition:
-                  type: integer
-                resources:
+                configFiles:
+                  additionalProperties:
+                    type: string
+                  type: object
+                containerImages:
                   properties:
-                    claims:
+                    busyBox:
+                      properties:
+                        registry:
+                          type: string
+                        tag:
+                          type: string
+                      type: object
+                    gerritImages:
+                      properties:
+                        org:
+                          type: string
+                        registry:
+                          type: string
+                        tag:
+                          type: string
+                      type: object
+                    imagePullPolicy:
+                      type: string
+                    imagePullSecrets:
                       items:
                         properties:
                           name:
                             type: string
                         type: object
                       type: array
-                    limits:
-                      additionalProperties:
-                        anyOf:
-                          - type: integer
-                          - type: string
-                        x-kubernetes-int-or-string: true
-                      type: object
-                    requests:
-                      additionalProperties:
-                        anyOf:
-                          - type: integer
-                          - type: string
-                        x-kubernetes-int-or-string: true
-                      type: object
                   type: object
-                startupProbe:
+                debug:
                   properties:
-                    exec:
-                      properties:
-                        command:
-                          items:
-                            type: string
-                          type: array
-                      type: object
-                    failureThreshold:
-                      type: integer
-                    grpc:
-                      properties:
-                        port:
-                          type: integer
-                        service:
-                          type: string
-                      type: object
-                    httpGet:
-                      properties:
-                        host:
-                          type: string
-                        httpHeaders:
-                          items:
+                    enabled:
+                      type: boolean
+                    suspend:
+                      type: boolean
+                  type: object
+                envVars:
+                  items:
+                    properties:
+                      name:
+                        type: string
+                      value:
+                        type: string
+                      valueFrom:
+                        properties:
+                          configMapKeyRef:
                             properties:
+                              key:
+                                type: string
                               name:
                                 type: string
-                              value:
+                              optional:
+                                type: boolean
+                            type: object
+                          fieldRef:
+                            properties:
+                              apiVersion:
+                                type: string
+                              fieldPath:
                                 type: string
                             type: object
-                          type: array
-                        path:
-                          type: string
-                        port:
-                          anyOf:
-                            - type: integer
-                            - type: string
-                          x-kubernetes-int-or-string: true
-                        scheme:
-                          type: string
-                      type: object
-                    initialDelaySeconds:
-                      type: integer
-                    periodSeconds:
-                      type: integer
-                    successThreshold:
-                      type: integer
-                    tcpSocket:
-                      properties:
-                        host:
-                          type: string
-                        port:
-                          anyOf:
-                            - type: integer
-                            - type: string
-                          x-kubernetes-int-or-string: true
-                      type: object
-                    terminationGracePeriodSeconds:
-                      type: integer
-                    timeoutSeconds:
-                      type: integer
-                  type: object
-                readinessProbe:
-                  properties:
-                    exec:
-                      properties:
-                        command:
-                          items:
-                            type: string
-                          type: array
-                      type: object
-                    failureThreshold:
-                      type: integer
-                    grpc:
-                      properties:
-                        port:
-                          type: integer
-                        service:
-                          type: string
-                      type: object
-                    httpGet:
-                      properties:
-                        host:
-                          type: string
-                        httpHeaders:
-                          items:
+                          resourceFieldRef:
                             properties:
+                              containerName:
+                                type: string
+                              divisor:
+                                anyOf:
+                                  - type: integer
+                                  - type: string
+                                x-kubernetes-int-or-string: true
+                              resource:
+                                type: string
+                            type: object
+                          secretKeyRef:
+                            properties:
+                              key:
+                                type: string
                               name:
                                 type: string
-                              value:
-                                type: string
+                              optional:
+                                type: boolean
                             type: object
-                          type: array
-                        path:
-                          type: string
-                        port:
-                          anyOf:
-                            - type: integer
-                            - type: string
-                          x-kubernetes-int-or-string: true
-                        scheme:
-                          type: string
-                      type: object
-                    initialDelaySeconds:
-                      type: integer
-                    periodSeconds:
-                      type: integer
-                    successThreshold:
-                      type: integer
-                    tcpSocket:
-                      properties:
-                        host:
-                          type: string
-                        port:
-                          anyOf:
-                            - type: integer
-                            - type: string
-                          x-kubernetes-int-or-string: true
-                      type: object
-                    terminationGracePeriodSeconds:
-                      type: integer
-                    timeoutSeconds:
-                      type: integer
+                        type: object
+                    type: object
+                  type: array
+                fluentBitSidecar:
+                  properties:
+                    config:
+                      type: string
+                    enabled:
+                      type: boolean
+                    image:
+                      type: string
                   type: object
+                gracefulStopTimeout:
+                  type: integer
+                ingress:
+                  properties:
+                    enabled:
+                      type: boolean
+                    host:
+                      type: string
+                    ssh:
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    tlsEnabled:
+                      type: boolean
+                  type: object
+                libs:
+                  items:
+                    properties:
+                      data:
+                        properties:
+                          executable:
+                            type: boolean
+                          secretRef:
+                            type: string
+                        type: object
+                      name:
+                        type: string
+                      sha1:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                  type: array
                 livenessProbe:
                   properties:
                     exec:
@@ -730,17 +540,161 @@ spec:
                     timeoutSeconds:
                       type: integer
                   type: object
-                gracefulStopTimeout:
+                mode:
+                  enum:
+                    - PRIMARY
+                    - REPLICA
+                  type: string
+                plugins:
+                  items:
+                    properties:
+                      data:
+                        properties:
+                          executable:
+                            type: boolean
+                          secretRef:
+                            type: string
+                        type: object
+                      installAsLibrary:
+                        type: boolean
+                      name:
+                        type: string
+                      sha1:
+                        type: string
+                      url:
+                        type: string
+                    type: object
+                  type: array
+                priorityClassName:
+                  type: string
+                readinessProbe:
+                  properties:
+                    exec:
+                      properties:
+                        command:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    failureThreshold:
+                      type: integer
+                    grpc:
+                      properties:
+                        port:
+                          type: integer
+                        service:
+                          type: string
+                      type: object
+                    httpGet:
+                      properties:
+                        host:
+                          type: string
+                        httpHeaders:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
+                        path:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        scheme:
+                          type: string
+                      type: object
+                    initialDelaySeconds:
+                      type: integer
+                    periodSeconds:
+                      type: integer
+                    successThreshold:
+                      type: integer
+                    tcpSocket:
+                      properties:
+                        host:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                      type: object
+                    terminationGracePeriodSeconds:
+                      type: integer
+                    timeoutSeconds:
+                      type: integer
+                  type: object
+                refdb:
+                  properties:
+                    database:
+                      enum:
+                        - NONE
+                        - SPANNER
+                        - ZOOKEEPER
+                      type: string
+                    spanner:
+                      properties:
+                        database:
+                          type: string
+                        instance:
+                          type: string
+                        projectName:
+                          type: string
+                      type: object
+                    zookeeper:
+                      properties:
+                        connectString:
+                          type: string
+                        rootNode:
+                          type: string
+                      type: object
+                  type: object
+                replicas:
                   type: integer
+                resources:
+                  properties:
+                    claims:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+                secretRef:
+                  type: string
+                serverId:
+                  type: string
                 service:
                   properties:
+                    httpPort:
+                      type: integer
                     sshPort:
                       type: integer
                     type:
                       type: string
-                    httpPort:
-                      type: integer
                   type: object
+                serviceAccount:
+                  type: string
                 site:
                   properties:
                     size:
@@ -749,116 +703,192 @@ spec:
                         - type: string
                       x-kubernetes-int-or-string: true
                   type: object
-                plugins:
-                  items:
-                    properties:
-                      installAsLibrary:
-                        type: boolean
-                      name:
-                        type: string
-                      url:
-                        type: string
-                      sha1:
-                        type: string
-                      data:
-                        properties:
-                          secretRef:
+                sshdAdvertisedReadPort:
+                  type: integer
+                startupProbe:
+                  properties:
+                    exec:
+                      properties:
+                        command:
+                          items:
                             type: string
-                          executable:
-                            type: boolean
-                        type: object
-                    type: object
-                  type: array
-                libs:
-                  items:
-                    properties:
-                      name:
-                        type: string
-                      url:
-                        type: string
-                      sha1:
-                        type: string
-                      data:
-                        properties:
-                          secretRef:
-                            type: string
-                          executable:
-                            type: boolean
-                        type: object
-                    type: object
-                  type: array
-                configFiles:
-                  additionalProperties:
-                    type: string
+                          type: array
+                      type: object
+                    failureThreshold:
+                      type: integer
+                    grpc:
+                      properties:
+                        port:
+                          type: integer
+                        service:
+                          type: string
+                      type: object
+                    httpGet:
+                      properties:
+                        host:
+                          type: string
+                        httpHeaders:
+                          items:
+                            properties:
+                              name:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
+                        path:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        scheme:
+                          type: string
+                      type: object
+                    initialDelaySeconds:
+                      type: integer
+                    periodSeconds:
+                      type: integer
+                    successThreshold:
+                      type: integer
+                    tcpSocket:
+                      properties:
+                        host:
+                          type: string
+                        port:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                      type: object
+                    terminationGracePeriodSeconds:
+                      type: integer
+                    timeoutSeconds:
+                      type: integer
                   type: object
-                envVars:
+                storage:
+                  properties:
+                    pluginCache:
+                      properties:
+                        enabled:
+                          type: boolean
+                      type: object
+                    sharedStorage:
+                      properties:
+                        externalPVC:
+                          properties:
+                            claimName:
+                              type: string
+                            enabled:
+                              type: boolean
+                          type: object
+                        selector:
+                          properties:
+                            matchExpressions:
+                              items:
+                                properties:
+                                  key:
+                                    type: string
+                                  operator:
+                                    type: string
+                                  values:
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              type: array
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              type: object
+                          type: object
+                        size:
+                          anyOf:
+                            - type: integer
+                            - type: string
+                          x-kubernetes-int-or-string: true
+                        volumeName:
+                          type: string
+                      type: object
+                    storageClasses:
+                      properties:
+                        nfsWorkaround:
+                          properties:
+                            chownOnStartup:
+                              type: boolean
+                            enabled:
+                              type: boolean
+                            idmapdConfig:
+                              type: string
+                          type: object
+                        readWriteMany:
+                          type: string
+                        readWriteOnce:
+                          type: string
+                      type: object
+                  type: object
+                tolerations:
                   items:
                     properties:
-                      name:
+                      effect:
                         type: string
+                      key:
+                        type: string
+                      operator:
+                        type: string
+                      tolerationSeconds:
+                        type: integer
                       value:
                         type: string
-                      valueFrom:
-                        properties:
-                          configMapKeyRef:
-                            properties:
-                              key:
-                                type: string
-                              name:
-                                type: string
-                              optional:
-                                type: boolean
-                            type: object
-                          fieldRef:
-                            properties:
-                              apiVersion:
-                                type: string
-                              fieldPath:
-                                type: string
-                            type: object
-                          resourceFieldRef:
-                            properties:
-                              containerName:
-                                type: string
-                              divisor:
-                                anyOf:
-                                  - type: integer
-                                  - type: string
-                                x-kubernetes-int-or-string: true
-                              resource:
-                                type: string
-                            type: object
-                          secretKeyRef:
-                            properties:
-                              key:
-                                type: string
-                              name:
-                                type: string
-                              optional:
-                                type: boolean
-                            type: object
-                        type: object
                     type: object
                   type: array
-                secretRef:
-                  type: string
-                mode:
-                  enum:
-                    - PRIMARY
-                    - REPLICA
-                  type: string
-                debug:
-                  properties:
-                    enabled:
-                      type: boolean
-                    suspend:
-                      type: boolean
-                  type: object
+                topologySpreadConstraints:
+                  items:
+                    properties:
+                      labelSelector:
+                        properties:
+                          matchExpressions:
+                            items:
+                              properties:
+                                key:
+                                  type: string
+                                operator:
+                                  type: string
+                                values:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          matchLabels:
+                            additionalProperties:
+                              type: string
+                            type: object
+                        type: object
+                      matchLabelKeys:
+                        items:
+                          type: string
+                        type: array
+                      maxSkew:
+                        type: integer
+                      minDomains:
+                        type: integer
+                      nodeAffinityPolicy:
+                        type: string
+                      nodeTaintsPolicy:
+                        type: string
+                      topologyKey:
+                        type: string
+                      whenUnsatisfiable:
+                        type: string
+                    type: object
+                  type: array
+                updatePartition:
+                  type: integer
               type: object
             status:
               properties:
-                ready:
-                  type: boolean
                 appliedConfigMapVersions:
                   additionalProperties:
                     type: string
@@ -867,6 +897,8 @@ spec:
                   additionalProperties:
                     type: string
                   type: object
+                ready:
+                  type: boolean
               type: object
           type: object
       served: true
