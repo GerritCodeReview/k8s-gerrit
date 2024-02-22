@@ -55,7 +55,6 @@ public class GitGarbageCollectionReconciler
   public GitGarbageCollectionReconciler(KubernetesClient client) {
     this.client = client;
     this.dependentCronJob = new GitGarbageCollectionCronJob();
-    this.dependentCronJob.setKubernetesClient(client);
   }
 
   @Override

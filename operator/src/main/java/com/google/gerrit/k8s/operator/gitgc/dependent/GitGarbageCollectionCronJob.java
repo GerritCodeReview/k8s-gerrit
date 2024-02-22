@@ -45,7 +45,8 @@ public class GitGarbageCollectionCronJob
     String ns = gitGc.getMetadata().getNamespace();
     String name = gitGc.getMetadata().getName();
     GerritCluster gerritCluster =
-        client
+        context
+            .getClient()
             .resources(GerritCluster.class)
             .inNamespace(ns)
             .withName(gitGc.getSpec().getCluster())

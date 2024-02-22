@@ -18,10 +18,18 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
+import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
+import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import io.javaoperatorsdk.operator.processing.Controller;
+import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
+import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
 import java.net.HttpURLConnection;
 import java.util.stream.Stream;
 import org.junit.Rule;
@@ -63,10 +71,23 @@ public class GitGarbageCollectionTest {
         .andReturn(HttpURLConnection.HTTP_OK, gerritCluster)
         .once();
 
+    Context<GitGarbageCollection> context =
+        getContext(new GitGarbageCollectionReconciler(kubernetesServer.getClient()), input);
     GitGarbageCollectionCronJob dependentCronjob = new GitGarbageCollectionCronJob();
-    dependentCronjob.setKubernetesClient(kubernetesServer.getClient());
-    assertThat(dependentCronjob.desired(input, null))
+    assertThat(dependentCronjob.desired(input, context))
         .isEqualTo(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
+  }
+
+  private Context<GitGarbageCollection> getContext(
+      Reconciler<GitGarbageCollection> reconciler, GitGarbageCollection primary) {
+    Controller<GitGarbageCollection> controller =
+        new Controller<GitGarbageCollection>(
+            reconciler,
+            new BaseConfigurationService().getConfigurationFor(reconciler),
+            kubernetesServer.getClient());
+
+    return new DefaultContext<GitGarbageCollection>(
+        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {
