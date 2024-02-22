@@ -208,10 +208,20 @@ class GerritInit:
             os.remove(self.pid_file)
 
         self.plugin_installer.execute()
+<<<<<<< PATCH SET (e9bd7b Use pull-replication plugin standalone with a broker)
+<<<<<<< PATCH SET (a170aa Use pull-replication plugin standalone with a broker)
+        self._symlink_configuration()
+
+        if PullReplicationConfigurator.has_pull_replication():
+            PullReplicationConfigurator(self.site).configure_pull_replication()
+=======
+>>>>>>> BASE      (fbf383 Merge "Switch off index.synchronizeForced")
+=======
         self._symlink_configuration()
 
         if PullReplicationConfigurator.has_pull_replication():
             PullReplicationConfigurator(self.site, self.config).configure()
+>>>>>>> BASE      (a0a60f Add Istio traffic management to the Gerrit multi-site setup)
 
         if self._needs_init():
             if self.gerrit_config:
@@ -248,5 +258,8 @@ class GerritInit:
 
             if self.is_replica:
                 self._symlink_mounted_site_components()
+
+        if PullReplicationConfigurator.has_pull_replication():
+            PullReplicationConfigurator(self.site).configure_gerrit_configuration()
 
         get_reindexer(self.site, self.config).start(self.force_offline_reindex)
