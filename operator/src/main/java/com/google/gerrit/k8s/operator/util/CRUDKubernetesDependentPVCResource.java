@@ -32,7 +32,8 @@ public abstract class CRUDKubernetesDependentPVCResource<P extends HasMetadata>
   protected final PersistentVolumeClaim desired(P primary, Context<P> context) {
     PersistentVolumeClaim pvc = desiredPVC(primary, context);
     PersistentVolumeClaim existingPvc =
-        client
+        context
+            .getClient()
             .persistentVolumeClaims()
             .inNamespace(pvc.getMetadata().getNamespace())
             .withName(pvc.getMetadata().getName())
