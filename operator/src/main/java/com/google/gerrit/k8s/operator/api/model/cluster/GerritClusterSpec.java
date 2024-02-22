@@ -16,11 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.cluster;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
-import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
-import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
-import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
-import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +27,7 @@ public class GerritClusterSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
+  private EventsBrokerConfig eventsBroker = new EventsBrokerConfig();
   private String serverId = "";
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
@@ -67,6 +64,14 @@ public class GerritClusterSpec {
 
   public void setRefdb(GlobalRefDbConfig refdb) {
     this.refdb = refdb;
+  }
+
+  public EventsBrokerConfig getEventsBroker() {
+    return eventsBroker;
+  }
+
+  public void setEventsBroker(EventsBrokerConfig eventsBroker) {
+    this.eventsBroker = eventsBroker;
   }
 
   public String getServerId() {
@@ -118,6 +123,7 @@ public class GerritClusterSpec {
         ingress,
         receiver,
         refdb,
+        eventsBroker,
         scheduledTasks,
         serverId,
         storage);
@@ -135,6 +141,7 @@ public class GerritClusterSpec {
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(receiver, other.receiver)
         && Objects.equals(refdb, other.refdb)
+        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(scheduledTasks, other.scheduledTasks)
         && Objects.equals(serverId, other.serverId)
         && Objects.equals(storage, other.storage);
@@ -150,6 +157,8 @@ public class GerritClusterSpec {
         + ingress
         + ", refdb="
         + refdb
+        + ", eventsBroker="
+        + eventsBroker
         + ", serverId="
         + serverId
         + ", gerrits="
