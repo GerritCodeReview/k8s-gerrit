@@ -63,14 +63,18 @@ class PullReplicationConfigurator:
             content = content.replace(f'{REMOTE_ID_PLACEHOLDER}-{idx + 1}', f'gerrit-{x}')
             content = content.replace(f'{REMOTE_HOST_PLACEHOLDER}-{idx + 1}', f'gerrit-{x}.{self.remote_host_postfix}')
             LOG.info('Set pull replication for remote "{}"'.format(f'gerrit-{x}'))
+        content = content.replace('GERRIT_ID_PLACEHOLDER', f'gerrit-{self.pod_id}')
         with open(os.path.join(self.site, 'etc/replication.config'), 'w') as file:
             file.write(content)
 
-    def configure(self):
+    def configure_pull_replication(self):
         LOG.info('Setting pull replication configuration for pod-idx: {}'.format(self.pod_id))
 
         replication_config_configmap = os.path.join(MNT_PATH, 'etc/config/replication.config')
-        gerrit_config_configmap = os.path.join(MNT_PATH, 'etc/config/gerrit.config')
-
         self._configure_remotes(replication_config_configmap)
+
+    def configure_gerrit_configuration(self):
+        LOG.info('Setting gerrit configuration for pod-idx: {}'.format(self.pod_id))
+
+        gerrit_config_configmap = os.path.join(MNT_PATH, 'etc/config/gerrit.config')
         self._configure_instance_id(gerrit_config_configmap)

@@ -59,11 +59,6 @@ spec:
       readWriteOnce: standard
       readWriteMany: standard
 
-    sharedStorage:
-      externalPVC:
-        enabled: false
-      size: 1Gi
-
   ingress:
     enabled: true
     host: gerrit.poc.com
@@ -131,6 +126,15 @@ spec:
       gitAndLogsData:
         size: 1Gi
 
+      libs:
+      - name: pull-replication
+        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
+        sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
+
+      - name: events-broker
+        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/module-events-broker-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar
+        sha1: 2727b3f78cb8c526b2d6cc95534c27e2db7196d1
+
       plugins:
       - name: download-commands
       - name: delete-project
@@ -138,6 +142,10 @@ spec:
       - name: pull-replication
         url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
         sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
+
+      - name: events-kafka
+        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-events-kafka-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-kafka/events-kafka.jar
+        sha1: 9e51b2be7bbb7afac4d23b6b86084b9b41552042
 
 
       configFiles:
@@ -157,7 +165,18 @@ spec:
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
             [gerrit]
+              installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule
               instanceId = INSTANCE_ID_PLACEHOLDER
+            [plugin "events-kafka"]
+              sendAsync = true
+              bootstrapServers = kafka-service.kafka-zk.svc.cluster.local:9092
+              numberOfSubscribers = 6
+              securityProtocol = PLAINTEXT
+              pollingIntervalMs = 1000
+              enableAutoCommit = true
+              autoCommitIntervalMs = 1000
+              autoOffsetReset = latest
+              sendStreamEvents = true
 
         replication.config: |-
             [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]
@@ -190,7 +209,9 @@ spec:
               maxRetries = 5
               useCGitClient = false
               consumeStreamEvents = false
-              syncRefs="ALL REFS ASYNC"
-              maxApiPayloadSize=40000
+              eventBrokerTopic = gerrit
+              eventBrokerGroupId = GERRIT_ID_PLACEHOLDER
+              syncRefs = "ALL REFS ASYNC"
+              maxApiPayloadSize = 40000
 
       secretRef: gerrit-secure-config
