@@ -144,6 +144,18 @@ spec:
             [container]
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
+            [gerrit]
+              installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule
+            [plugin "events-kafka"]
+              sendAsync = true
+              bootstrapServers = kafka-service.kafka-zk.svc.cluster.local:9092
+              numberOfSubscribers = 6
+              securityProtocol = PLAINTEXT
+              pollingIntervalMs = 1000
+              enableAutoCommit = true
+              autoCommitIntervalMs = 1000
+              autoOffsetReset = latest
+              sendStreamEvents = true
 
         replication.config: |-
             [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]
@@ -176,7 +188,9 @@ spec:
               maxRetries = 5
               useCGitClient = false
               consumeStreamEvents = false
-              syncRefs="ALL REFS ASYNC"
-              maxApiPayloadSize=40000
+              eventBrokerTopic = gerrit
+              eventBrokerGroupId = GERRIT_ID_PLACEHOLDER
+              syncRefs = "ALL REFS ASYNC"
+              maxApiPayloadSize = 40000
 
       secretRef: gerrit-secure-config
