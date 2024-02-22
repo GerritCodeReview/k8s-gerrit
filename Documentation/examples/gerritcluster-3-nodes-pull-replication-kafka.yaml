@@ -176,7 +176,9 @@ spec:
               maxRetries = 5
               useCGitClient = false
               consumeStreamEvents = false
-              syncRefs="ALL REFS ASYNC"
-              maxApiPayloadSize=40000
+              eventBrokerTopic = gerrit
+              eventBrokerGroupId = GERRIT_ID_PLACEHOLDER
+              syncRefs = "ALL REFS ASYNC"
+              maxApiPayloadSize = 40000
 
       secretRef: gerrit-secure-config

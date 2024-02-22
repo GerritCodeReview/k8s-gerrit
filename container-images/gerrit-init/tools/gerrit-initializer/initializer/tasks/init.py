@@ -211,7 +211,9 @@ class GerritInit:
         self._symlink_configuration()
 
         if PullReplicationConfigurator.has_pull_replication():
-            PullReplicationConfigurator(self.site, self.config).configure()
+            PullReplicationConfigurator(
+                self.site, self.config
+            ).configure_pull_replication()
 
         if self._needs_init():
             if self.gerrit_config:
@@ -248,5 +250,10 @@ class GerritInit:
 
             if self.is_replica:
                 self._symlink_mounted_site_components()
+
+        if PullReplicationConfigurator.has_pull_replication():
+            PullReplicationConfigurator(
+                self.site, self.config
+            ).configure_gerrit_configuration()
 
         get_reindexer(self.site, self.config).start(self.force_offline_reindex)
