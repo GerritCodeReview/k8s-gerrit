@@ -49,7 +49,7 @@ public class GerritClusterMappingReceiverGET extends AbstractAmbassadorDependent
                     gerritNetwork, GERRIT_MAPPING_RECEIVER_GET, this.getClass().getSimpleName()))
             .endMetadata()
             .withNewSpecLike(getCommonSpec(gerritNetwork, receiverServiceName))
-            .withNewV2QueryParameters()
+            .withNewQueryParameters()
             .withAdditionalProperties(
                 new HashMap<String, Object>() {
                   {

@@ -15,13 +15,22 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
+<<<<<<< PATCH SET (6b9e6e Update java operator sdk to 4.8.0)
+		<fabric8.version>6.10.0</fabric8.version>
+		<flogger.version>0.7.4</flogger.version>
+=======
 		<fabric8.version>6.7.2</fabric8.version>
 		<flogger.version>0.8</flogger.version>
+>>>>>>> BASE      (14be38 Update java-operator-sdk to 4.5.0)
 		<guice.version>5.1.0</guice.version>
-		<javaoperatorsdk.version>4.5.0</javaoperatorsdk.version>
+		<javaoperatorsdk.version>4.8.0</javaoperatorsdk.version>
 		<jetty.version>11.0.15</jetty.version>
+<<<<<<< PATCH SET (6b9e6e Update java operator sdk to 4.8.0)
+		<lombok.version>1.18.30</lombok.version>
+=======
 		<log42.version>2.23.0</log42.version>
 		<lombok.version>1.18.28</lombok.version>
+>>>>>>> BASE      (14be38 Update java-operator-sdk to 4.5.0)
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.registry>docker.io</docker.registry>
@@ -270,7 +279,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.9.2</version>
+			<version>5.10.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
