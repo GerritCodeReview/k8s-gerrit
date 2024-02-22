@@ -43,6 +43,15 @@ RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 # Download pull-replication plugin
 ARG PULL_REPLICATION_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
 
+# Download events-broker lib
+ARG EVENTS_BROKER_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/module-events-broker-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar
+
+RUN curl -f -k -o /var/plugins/events-broker.jar ${EVENTS_BROKER_URL}
+
+# Download events-kafka plugin
+ARG EVENTS_KAFKA_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-events-kafka-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-kafka/events-kafka.jar
+
+RUN curl -f -k -o /var/plugins/events-kafka.jar ${EVENTS_KAFKA_URL}
 RUN curl -f -k -o /var/plugins/pull-replication.jar ${PULL_REPLICATION_URL}
 
 # Allow incoming traffic
