@@ -34,7 +34,8 @@ MAX_CACHED_VERSIONS = 5
 REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
-REQUIRED_MULTISITE_PLUGINS = ["pull-replication"]
+REQUIRED_MULTISITE_LIBS = ["events-broker", "pull-replication"]
+REQUIRED_MULTISITE_PLUGINS = ["events-kafka", "pull-replication"]
 
 
 class InvalidPluginException(Exception):
@@ -99,6 +100,8 @@ class AbstractPluginInstaller(ABC):
         required = []
         if self.config.is_ha:
             required.extend(REQUIRED_HA_LIBS)
+        elif self.config.is_multisite:
+            required.extend(REQUIRED_MULTISITE_LIBS)
         elif self.config.refdb:
             required.append("global-refdb")
         LOG.info(

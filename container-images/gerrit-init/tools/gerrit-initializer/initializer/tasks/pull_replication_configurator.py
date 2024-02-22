@@ -55,7 +55,10 @@ class PullReplicationConfigurator:
     def _configure_instance_id(self, template_path):
         with open(template_path, "r") as file:
             content = file.read()
+<<<<<<< PATCH SET (219bb7 Use pull-replication plugin standalone with a broker)
+=======
         content = content.replace(f"{INSTANCE_ID_PLACEHOLDER}", self.pod_name)
+>>>>>>> BASE      (5271d5 Add Istio traffic management to the Gerrit multi-site setup)
         with open(os.path.join(self.site, "etc/gerrit.config"), "w") as file:
             file.write(content)
 
@@ -70,6 +73,17 @@ class PullReplicationConfigurator:
         remote_pod_ids = list(range(0, self.replicas))
         del remote_pod_ids[self.pod_id]
         for idx, x in enumerate(remote_pod_ids):
+<<<<<<< PATCH SET (219bb7 Use pull-replication plugin standalone with a broker)
+            content = content.replace(
+                f"{REMOTE_ID_PLACEHOLDER}-{idx + 1}", f"gerrit-{x}"
+            )
+            content = content.replace(
+                f"{REMOTE_HOST_PLACEHOLDER}-{idx + 1}",
+                f"gerrit-{x}.{self.config.gerrit_headless_service_host}",
+            )
+            LOG.info('Set pull replication for remote "{}"'.format(f"gerrit-{x}"))
+            content = content.replace("GERRIT_ID_PLACEHOLDER", f"gerrit-{self.pod_id}")
+=======
             remote_ops_section = git.GitConfigParser.list_section(options, 'remote')
             remote_ops_section.append({'value': f"http://{self.pod_name_prefix}-{x}:8080" + "/${name}.git", 'section': 'remote', 'subsection': None, 'key': 'url'})
             remote_ops_section.append({'value': f"http://{self.pod_name_prefix}-{x}.{self.config.gerrit_headless_service_host}:8080", 'section': 'remote', 'subsection': None, 'key': 'apiUrl'})
@@ -77,10 +91,11 @@ class PullReplicationConfigurator:
             replication_config += '\n' + git.GitConfigParser.get_section_as_string(remote_ops_section, 'remote', False, False)
             LOG.info('Set pull replication for remote "{}"'.format(f"{self.pod_name_prefix}-{x}"))
 
+>>>>>>> BASE      (5271d5 Add Istio traffic management to the Gerrit multi-site setup)
         with open(os.path.join(self.site, "etc/replication.config"), "w") as file:
              file.write(replication_config)
 
-    def configure(self):
+    def configure_pull_replication(self):
         LOG.info(
             "Setting pull replication configuration for pod-idx: {}".format(self.pod_id)
         )
@@ -88,7 +103,10 @@ class PullReplicationConfigurator:
         replication_config_configmap = os.path.join(
             MNT_PATH, "etc/config/replication.config"
         )
-        gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
-
         self._configure_remotes(replication_config_configmap)
+
+    def configure_gerrit_configuration(self):
+        LOG.info("Setting gerrit configuration for pod-idx: {}".format(self.pod_id))
+
+        gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
         self._configure_instance_id(gerrit_config_configmap)
