@@ -233,6 +233,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74ea95b6_11a96a2d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-02-26T14:48:45Z",
+      "side": 1,
+      "message": "Please use the `EnvModule` to parse environment variables.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 100
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f0f4d75_238740e0",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
         "patchSetId": 1
