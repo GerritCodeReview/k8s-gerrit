@@ -1052,6 +1052,15 @@ spec:
                   type: object
                 sshdAdvertisedReadPort:
                   type: integer
+                accountDeactivation:
+                  properties:
+                    schedule:
+                      type: string
+                    credentialSecretRef:
+                      type: string
+                    enabled:
+                      type: boolean
+                  type: object
                 serviceAccount:
                   type: string
                 tolerations:

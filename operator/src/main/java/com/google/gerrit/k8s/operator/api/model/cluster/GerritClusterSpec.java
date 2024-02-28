@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.cluster;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
+import com.google.gerrit.k8s.operator.api.model.shared.AccountDeactivationConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
@@ -35,7 +36,11 @@ public class GerritClusterSpec {
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+  private AccountDeactivationConfig accountDeactivation = new AccountDeactivationConfig();
+=======
   private ScheduledTasks scheduledTasks = new ScheduledTasks();
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
 
   public GerritStorageConfig getStorage() {
     return storage;
@@ -101,17 +106,35 @@ public class GerritClusterSpec {
     this.fluentBitSidecar = fluentBitSidecar;
   }
 
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+  public AccountDeactivationConfig getAccountDeactivation() {
+    return accountDeactivation;
+  }
+
+  public void setAccountDeactivation(AccountDeactivationConfig accountDeactivation) {
+    this.accountDeactivation = accountDeactivation;
+=======
   public ScheduledTasks getScheduledTasks() {
     return scheduledTasks;
   }
 
   public void setScheduledTasks(ScheduledTasks scheduledTasks) {
     this.scheduledTasks = scheduledTasks;
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+        accountDeactivation,
+        containerImages,
+        fluentBitSidecar,
+        gerrits,
+        ingress,
+        receiver,
+        refdb,
+=======
         containerImages,
         fluentBitSidecar,
         gerrits,
@@ -119,6 +142,7 @@ public class GerritClusterSpec {
         receiver,
         refdb,
         scheduledTasks,
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
         serverId,
         storage);
   }
@@ -129,7 +153,8 @@ public class GerritClusterSpec {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     GerritClusterSpec other = (GerritClusterSpec) obj;
-    return Objects.equals(containerImages, other.containerImages)
+    return Objects.equals(accountDeactivation, other.accountDeactivation)
+        && Objects.equals(containerImages, other.containerImages)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(gerrits, other.gerrits)
         && Objects.equals(ingress, other.ingress)
@@ -158,8 +183,13 @@ public class GerritClusterSpec {
         + receiver
         + ", fluentBitSidecar="
         + fluentBitSidecar
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+        + ", accountDeactivation="
+        + accountDeactivation
+=======
         + ", scheduledTasks="
         + scheduledTasks
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
         + "]";
   }
 }

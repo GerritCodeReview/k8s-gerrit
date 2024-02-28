@@ -175,6 +175,11 @@ spec:
         Match             *
         Add k8s.pod.name  ${POD_NAME}
 
+  accountDeactivation:
+    enabled: true
+    schedule: "0 3 * * *"
+    credentialSecretRef: "gerrit-server-admin-credentials"
+
   serverId: ""
 
   gerrits:
@@ -936,6 +941,7 @@ spec:
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
 | `fluentBitSidecar` | [`FluentBitSidecarConfig`](#fluentbitsidecarconfig) | The Fluent Bit sidecar for application logging |
+| `accountDeactivation` | [`AccountDeactivationConfig`](#accountdeactivationconfig) | The cron job for scheduling deactivation of Gerrit accounts according to their status reported by the auth backend |
 | `serverId` | `String` | The serverId to be used for all Gerrit instances (default: `<namespace>/<name>`) |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
 | `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
@@ -1105,6 +1111,17 @@ The input and file name label is always configured by the operator.
 | `enabled` | `boolean` | Whether or not to create the sidecar (default: `false`) |
 | `image` | `String` | Fluent Bit image from docker (default: `fluent/fluent-bit:latest`) |
 | `config` | `String` | Additional config for fluent bit. [Available options](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file) |
+
+## AccountDeactivationConfig
+
+The schedule of sweeping and deactivating Gerrit accounts according to their backend status. Scheduled tasks within Gerrit can be a source of conflict when the operator has scaled up primary Gerrit instances. Thus, rather than using the Gerrit [account deactivator configuration](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#accountDeactivation), the operator creates a cron job to touch the REST API endpoint.
+
+| Field | Type | Description |
+|---|---|---|
+| `enabled` | `boolean` | Whether or not to enable the cron job (default: `false`) |
+| `schedule` | `string` | Cron schedule defining when to run account deactivation (mandatory) |
+| `credentialSecretRef` | `String` | Name of the secret containing the server administrator credentials for Gerrit, necessary to run the account deactivation task (mandatory) |
+
 
 ## GerritTemplate
 

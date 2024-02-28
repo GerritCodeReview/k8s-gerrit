@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator;
 
 import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
+import com.google.gerrit.k8s.operator.cluster.AccountDeactivationReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
@@ -47,7 +48,11 @@ public class OperatorModule extends AbstractModule {
     reconcilers.addBinding().to(GerritClusterReconciler.class);
     reconcilers.addBinding().to(GerritReconciler.class);
     reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+    reconcilers.addBinding().to(AccountDeactivationReconciler.class);
+=======
     reconcilers.addBinding().to(IncomingReplicationTaskReconciler.class);
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
     reconcilers.addBinding().to(ReceiverReconciler.class);
     reconcilers.addBinding().toProvider(GerritNetworkReconcilerProvider.class);
   }

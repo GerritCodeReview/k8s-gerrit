@@ -2108,6 +2108,15 @@ spec:
                         type: string
                     type: object
                 type: object
+              accountDeactivation:
+                properties:
+                  schedule:
+                    type: string
+                  credentialSecretRef:
+                    type: string
+                  enabled:
+                    type: boolean
+                type: object
             type: object
           status:
             properties:

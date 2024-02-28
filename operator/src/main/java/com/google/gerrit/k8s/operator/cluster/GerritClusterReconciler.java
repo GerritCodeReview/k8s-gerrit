@@ -28,7 +28,11 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedAccountDeactivationCronJob;
+=======
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
@@ -85,8 +89,14 @@ import java.util.stream.Collectors;
           reconcilePrecondition = ClusterManagedGerritNetworkCondition.class,
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE),
       @Dependent(
+<<<<<<< PATCH SET (9afbe6 WIP Operator-Managed Account Deactivation Cron Job)
+          type = ClusterManagedAccountDeactivationCronJob.class,
+          reconcilePrecondition = ClusterManagedAccountDeactivationCondition.class,
+          useEventSourceWithName = CM_EVENT_SOURCE),
+=======
           type = ClusterManagedIncomingReplicationTask.class,
           useEventSourceWithName = CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE),
+>>>>>>> BASE      (8ea2df Bind default namespace when environment variable not set)
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
