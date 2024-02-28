@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.cluster;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
+import com.google.gerrit.k8s.operator.api.model.shared.AccountDeactivationConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
@@ -35,6 +36,7 @@ public class GerritClusterSpec {
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
+  private AccountDeactivationConfig accountDeactivation = new AccountDeactivationConfig();
 
   public GerritStorageConfig getStorage() {
     return storage;
@@ -100,10 +102,26 @@ public class GerritClusterSpec {
     this.fluentBitSidecar = fluentBitSidecar;
   }
 
+  public AccountDeactivationConfig getAccountDeactivation() {
+    return accountDeactivation;
+  }
+
+  public void setAccountDeactivation(AccountDeactivationConfig accountDeactivation) {
+    this.accountDeactivation = accountDeactivation;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
-        containerImages, fluentBitSidecar, gerrits, ingress, receiver, refdb, serverId, storage);
+        accountDeactivation,
+        containerImages,
+        fluentBitSidecar,
+        gerrits,
+        ingress,
+        receiver,
+        refdb,
+        serverId,
+        storage);
   }
 
   @Override
@@ -112,7 +130,8 @@ public class GerritClusterSpec {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     GerritClusterSpec other = (GerritClusterSpec) obj;
-    return Objects.equals(containerImages, other.containerImages)
+    return Objects.equals(accountDeactivation, other.accountDeactivation)
+        && Objects.equals(containerImages, other.containerImages)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(gerrits, other.gerrits)
         && Objects.equals(ingress, other.ingress)
@@ -140,6 +159,8 @@ public class GerritClusterSpec {
         + receiver
         + ", fluentBitSidecar="
         + fluentBitSidecar
+        + ", accountDeactivation="
+        + accountDeactivation
         + "]";
   }
 }
