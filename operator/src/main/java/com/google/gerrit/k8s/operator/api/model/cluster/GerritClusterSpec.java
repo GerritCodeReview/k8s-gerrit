@@ -35,6 +35,7 @@ public class GerritClusterSpec {
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
+  private ScheduledTasks scheduledTasks;
 
   public GerritStorageConfig getStorage() {
     return storage;
@@ -100,10 +101,26 @@ public class GerritClusterSpec {
     this.fluentBitSidecar = fluentBitSidecar;
   }
 
+  public ScheduledTasks getScheduledTasks() {
+    return scheduledTasks;
+  }
+
+  public void setScheduledTasks(ScheduledTasks scheduledTasks) {
+    this.scheduledTasks = scheduledTasks;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
-        containerImages, fluentBitSidecar, gerrits, ingress, receiver, refdb, serverId, storage);
+        containerImages,
+        fluentBitSidecar,
+        gerrits,
+        ingress,
+        receiver,
+        refdb,
+        scheduledTasks,
+        serverId,
+        storage);
   }
 
   @Override
@@ -118,6 +135,7 @@ public class GerritClusterSpec {
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(receiver, other.receiver)
         && Objects.equals(refdb, other.refdb)
+        && Objects.equals(scheduledTasks, other.scheduledTasks)
         && Objects.equals(serverId, other.serverId)
         && Objects.equals(storage, other.storage);
   }
@@ -140,6 +158,8 @@ public class GerritClusterSpec {
         + receiver
         + ", fluentBitSidecar="
         + fluentBitSidecar
+        + ", scheduledTasks="
+        + scheduledTasks
         + "]";
   }
 }
