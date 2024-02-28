@@ -31,6 +31,7 @@ import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedIncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiver;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedReceiverCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
@@ -79,6 +80,10 @@ import java.util.stream.Collectors;
           useEventSourceWithName = CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE),
       @Dependent(
           type = ClusterManagedGerritNetwork.class,
+          reconcilePrecondition = ClusterManagedGerritNetworkCondition.class,
+          useEventSourceWithName = CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE),
+      @Dependent(
+          type = ClusterManagedIncomingReplicationTask.class,
           reconcilePrecondition = ClusterManagedGerritNetworkCondition.class,
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE),
     })
