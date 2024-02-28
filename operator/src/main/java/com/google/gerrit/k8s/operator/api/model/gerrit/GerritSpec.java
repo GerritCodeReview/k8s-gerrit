@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
+import com.google.gerrit.k8s.operator.api.model.shared.AccountDeactivationConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
@@ -29,6 +30,7 @@ public class GerritSpec extends GerritTemplateSpec {
   private String serverId = "";
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
   private int sshdAdvertisedReadPort = 0;
+  private AccountDeactivationConfig accountDeactivation = new AccountDeactivationConfig();
 
   public GerritSpec() {}
 
@@ -92,10 +94,19 @@ public class GerritSpec extends GerritTemplateSpec {
     this.sshdAdvertisedReadPort = sshdAdvertisedReadPort;
   }
 
+  public AccountDeactivationConfig getAccountDeactivation() {
+    return accountDeactivation;
+  }
+
+  public void setAccountDeactivation(AccountDeactivationConfig accountDeactivation) {
+    this.accountDeactivation = accountDeactivation;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(
         super.hashCode(),
+        accountDeactivation,
         containerImages,
         fluentBitSidecar,
         ingress,

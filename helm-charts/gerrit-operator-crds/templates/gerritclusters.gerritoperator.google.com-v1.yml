@@ -1503,6 +1503,15 @@ spec:
                     enabled:
                       type: boolean
                   type: object
+                accountDeactivation:
+                  properties:
+                    schedule:
+                      type: string
+                    credentialSecretRef:
+                      type: string
+                    enabled:
+                      type: boolean
+                  type: object
               type: object
             status:
               properties:
