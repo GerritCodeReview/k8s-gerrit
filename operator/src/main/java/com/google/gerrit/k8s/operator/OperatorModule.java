@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.server.ServerModule;
+import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
 import io.fabric8.kubernetes.client.Config;
@@ -46,6 +47,7 @@ public class OperatorModule extends AbstractModule {
     reconcilers.addBinding().to(GerritClusterReconciler.class);
     reconcilers.addBinding().to(GerritReconciler.class);
     reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
+    reconcilers.addBinding().to(IncomingReplicationTaskReconciler.class);
     reconcilers.addBinding().to(ReceiverReconciler.class);
     reconcilers.addBinding().toProvider(GerritNetworkReconcilerProvider.class);
   }
