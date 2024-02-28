@@ -1,0 +1,49 @@
+apiVersion: "gerritoperator.google.com/v1beta7"
+kind: IncomingReplicationTask
+metadata:
+  name: incoming-replication-test
+  namespace: gerrit
+spec:
+  config:
+    remotes:
+    - fetch:
+      - remoteRepo: fabric8io/kubernetes-client
+        localRepo: kubernetes-client
+        refSpec: +refs/heads/*:refs/heads/remote/*"
+      name: github
+      timeout: 5m
+      url: https://github.com
+  schedule: '*/5 * * * *'
+  secretRef: incoming-repl-test
+  containerImages:
+    busyBox:
+      registry: docker.io
+      tag: latest
+    gerritImages:
+      org: k8sgerrit
+      registry: docker.io
+      tag: latest
+    imagePullPolicy: Always
+    imagePullSecrets: []
+  storage:
+    pluginCache:
+      enabled: false
+    sharedStorage:
+      externalPVC:
+        claimName: gerrit-shared-pvc
+        enabled: true
+      size: 1500Gi
+    storageClasses:
+      nfsWorkaround:
+        chownOnStartup: false
+        enabled: false
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup
+      readWriteMany: nfs-client
+      readWriteOnce: gce-sc-fast

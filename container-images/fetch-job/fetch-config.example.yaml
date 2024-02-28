@@ -1,0 +1,11 @@
+remotes:
+- name: example
+  url: https://example.com
+  timeout: 5m
+  fetch:
+  - remoteRepo: project1
+  - remoteRepo: project2
+    localRepo: local/project2
+  - remoteRepo: project3
+    localRepo: local/project3
+    refSpec: "+refs/heads/*:refs/heads/remote/*"

@@ -17,7 +17,14 @@ package com.google.gerrit.k8s.operator;
 import com.google.inject.AbstractModule;
 
 public class Constants extends AbstractModule {
-  public static final String VERSION = "v1beta6";
+  public static final String VERSION = "v1beta7";
   public static final String[] CUSTOM_RESOURCES =
-      new String[] {"GerritCluster", "Gerrit", "Receiver", "GerritNetwork", "GitGarbageCollection"};
+      new String[] {
+        "GerritCluster",
+        "Gerrit",
+        "Receiver",
+        "GerritNetwork",
+        "GitGarbageCollection",
+        "IncomingReplicationTask"
+      };
 }
