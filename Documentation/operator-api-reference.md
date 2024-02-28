@@ -8,6 +8,7 @@
   - [Receiver](#receiver)
   - [GitGarbageCollection](#gitgarbagecollection)
   - [GerritNetwork](#gerritnetwork)
+  - [IncomingReplicationTask](#incomingreplicationtask)
   - [GerritClusterSpec](#gerritclusterspec)
   - [GerritClusterStatus](#gerritclusterstatus)
   - [StorageConfig](#storageconfig)
@@ -54,6 +55,13 @@
   - [GerritNetworkSpec](#gerritnetworkspec)
   - [NetworkMember](#networkmember)
   - [NetworkMemberWithSsh](#networkmemberwithssh)
+  - [ScheduledTasks](#scheduledtasks)
+  - [IncomingReplicationTaskTemplate](#incomingreplicationtasktemplate)
+  - [IncomingReplicationTaskTemplateSpec](#incomingreplicationtasktemplatespec)
+  - [IncomingReplicationConfig](#incomingreplicationconfig)
+  - [Remote](#remote)
+  - [Fetch](#fetch)
+  - [IncomingReplicationTaskSpec](#incomingreplicationtaskspec)
 
 ## General Remarks
 
@@ -68,7 +76,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta6 \
+**Version**: v1beta7 \
 **Kind**: GerritCluster
 
 ---
@@ -85,7 +93,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta6"
+apiVersion: "gerritoperator.google.com/v1beta7"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -359,6 +367,23 @@ spec:
         httpPort: 80
 
       credentialSecretRef: receiver-credentials
+
+  scheduledTasks:
+    incomingReplication:
+    - metadata:
+        name: github
+      spec:
+        schedule: "0 * * * *"
+        config:
+          remotes:
+          - name: github
+            url: https://github.com
+            fetch:
+            - remoteRepo: fabric8io/kubernetes-client
+            - remoteRepo: operator-framework/java-operator-sdk
+              localRepo: josdk
+              refSpec: "+refs/heads/master:refs/heads/github/master"
+        secretRef: github-repl-secret
 ```
 
 ## Gerrit
@@ -366,7 +391,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta6 \
+**Version**: v1beta7 \
 **Kind**: Gerrit
 
 ---
@@ -383,7 +408,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta6"
+apiVersion: "gerritoperator.google.com/v1beta7"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -574,7 +599,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta6 \
+**Version**: v1beta7 \
 **Kind**: Receiver
 
 ---
@@ -591,7 +616,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta6"
+apiVersion: "gerritoperator.google.com/v1beta7"
 kind: Receiver
 metadata:
   name: receiver
@@ -702,7 +727,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta6 \
+**Version**: v1beta7 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -719,7 +744,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta6"
+apiVersion: "gerritoperator.google.com/v1beta7"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -763,7 +788,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta6 \
+**Version**: v1beta7 \
 **Kind**: GerritNetwork
 
 ---
@@ -779,7 +804,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta6"
+apiVersion: "gerritoperator.google.com/v1beta7"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -807,6 +832,83 @@ spec:
     httpPort: 29418
 ```
 
+## IncomingReplicationTask
+
+---
+
+**Group**: gerritoperator.google.com \
+**Version**: v1beta7 \
+**Kind**: IncomingReplicationTask
+
+---
+
+
+| Field | Type | Description |
+|---|---|---|
+| `apiVersion` | `String` | APIVersion of this resource |
+| `kind` | `String` | Kind of this resource |
+| `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource |
+| `spec` | [`IncomingReplicationTaskSpec`](#receiverspec) | Specification for IncomingReplicationTask |
+
+Example:
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1beta7"
+kind: IncomingReplicationTask
+metadata:
+  name: incoming-repl-task
+spec:
+  config:
+    remotes:
+    - fetch:
+      - remoteRepo: fabric8io/kubernetes-client
+      name: github
+      timeout: 5m
+      url: https://github.com
+  schedule: '*/5 * * * *'
+  secretRef: incoming-repl-test
+
+  containerImages:
+    imagePullSecrets: []
+    imagePullPolicy: Always
+    gerritImages:
+      registry: docker.io
+      org: k8sgerrit
+      tag: latest
+    busyBox:
+      registry: docker.io
+      tag: latest
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+      nfsWorkaround:
+        enabled: false
+        chownOnStartup: false
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup
+
+    sharedStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+
+```
+
 ## GerritClusterSpec
 
 | Field | Type | Description |
@@ -819,6 +921,7 @@ spec:
 | `serverId` | `String` | The serverId to be used for all Gerrit instances (default: `<namespace>/<name>`) |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
 | `receiver` | [`ReceiverTemplate`](#receivertemplate) | A Receiver instance to be installed in the GerritCluster. |
+| `scheduledTasks` | [`ScheduledTasks`](#scheduledtasks) | Scheduled tasks to install into the GerritCluster |
 
 ## GerritClusterStatus
 
@@ -1219,3 +1322,59 @@ compared to the parent object. All other options can still be configured.
 | Field     | Type  | Description       |
 |-----------|-------|-------------------|
 | `sshPort` | `int` | Port used for SSH |
+
+## ScheduledTasks
+
+| Field | Type | Description |
+|---|---|---|
+| `incomingReplication` | [`IncomingReplicationTaskTemplate`](#incomingreplicationtasktemplate) | Scheduled task to fetch from remote git servers |
+
+## IncomingReplicationTaskTemplate
+
+| Field | Type | Description |
+|---|---|---|
+| `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource. A name is mandatory. Labels can optionally be defined. Other fields like the namespace are ignored. |
+| `spec` | [`IncomingReplicationTaskTemplateSpec`](#incomingreplicationtasktemplatespec) | Specification for IncomingReplicationTaskTemplate |
+
+## IncomingReplicationTaskTemplateSpec
+
+| Field | Type | Description |
+|---|---|---|
+| `schedule` | `String` | Schedule in which to execute the job |
+| `config` | [`IncomingReplicationConfig`](#incomingreplicationconfig) | Configuration of replication task |
+| `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GitGarbageCollection container |
+| `tolerations` | [`Toleration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core)-Array | Pod tolerations (optional) |
+| `affinity` | [`Affinity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core) | Pod affinity (optional) |
+| `secretRef` | `String` | Name of the secret containing the .netrc file containing credentials for all remote git servers |
+
+## IncomingReplicationConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `remotes` | [`List<Remote>`](#remote) | List of remotes from which to fetch |
+
+## Remote
+
+| Field | Type | Description |
+|---|---|---|
+| `name` | `String` | Name of the remote (mandatory) |
+| `url` | `String` | Base URL of the remote, e.g. `https://gerrit-review.googlesource.com/a` (mandatory) |
+| `timeout` | `String` | Timeout for the fetch (default: `5m`) |
+| `fetch` | [`List<Fetch>`](#fetch) | List of projects to fetch |
+
+## Fetch
+
+| Field | Type | Description |
+|---|---|---|
+| `remoteRepo` | `String` | Name of the remote repository (mandatory) |
+| `localRepo` | `String` | Name of the local repository (default: same as `remoteRepo`) |
+| `refSpec` | `String` | RefSpec to fetch |
+
+## IncomingReplicationTaskSpec
+
+**Extends:** [`IncomingReplicationTaskTemplateSpec`](#incomingreplicationtasktemplatespec)
+
+| Field | Type | Description |
+|---|---|---|
+| `storage` | [`StorageConfig`](#storageconfig) | Storage used by GerritCluster |
+| `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |

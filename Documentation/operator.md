@@ -1,23 +1,24 @@
 # Gerrit Operator
 
-1. [Gerrit Operator](#gerrit-operator)
-   1. [Development](#development)
-   2. [Prerequisites](#prerequisites)
-      1. [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
-      2. [Ingress provider](#ingress-provider)
-   3. [Deploy](#deploy)
-      1. [Using helm charts](#using-helm-charts)
-         1. [gerrit-operator-crds](#gerrit-operator-crds)
-         2. [gerrit-operator](#gerrit-operator-1)
-      2. [Without the helm charts](#without-the-helm-charts)
-      3. [Updating](#updating)
-   4. [CustomResources](#customresources)
-      1. [GerritCluster](#gerritcluster)
-      2. [Gerrit](#gerrit)
-      3. [GitGarbageCollection](#gitgarbagecollection)
-      4. [Receiver](#receiver)
-      5. [GerritNetwork](#gerritnetwork)
-   5. [Configuration of Gerrit](#configuration-of-gerrit)
+- [Gerrit Operator](#gerrit-operator)
+  - [Development](#development)
+  - [Prerequisites](#prerequisites)
+    - [Shared Storage (ReadWriteMany)](#shared-storage-readwritemany)
+    - [Ingress provider](#ingress-provider)
+  - [Deploy](#deploy)
+    - [Using helm charts](#using-helm-charts)
+      - [gerrit-operator-crds](#gerrit-operator-crds)
+      - [gerrit-operator](#gerrit-operator-1)
+    - [Without the helm charts](#without-the-helm-charts)
+    - [Updating](#updating)
+  - [CustomResources](#customresources)
+    - [GerritCluster](#gerritcluster)
+    - [Gerrit](#gerrit)
+    - [GitGarbageCollection](#gitgarbagecollection)
+    - [Receiver](#receiver)
+    - [GerritNetwork](#gerritnetwork)
+    - [IncomingReplicationTask](#incomingreplicationtask)
+  - [Configuration of Gerrit](#configuration-of-gerrit)
 
 ## Development
 
@@ -285,6 +286,17 @@ configured ingress provider to enable ingress traffic to GerritCluster component
 
 The GerritNetwork CustomResource is not meant to be installed manually, but will
 be created by the Gerrit Operator based on the GerritCluster CustomResource.
+
+### IncomingReplicationTask
+
+A regularly running task to fetch repositories from a different git server that
+is not necessarily a Gerrit to the local Gerrit. This job can also be used to
+fetch a subset of refs into an existing repository in Gerrit, e.g. branches from
+a forked repository could be fetched into a ref namespace of the fork residing
+in Gerrit.
+
+Only fetching via HTTP(S) is supported at the moment. SSH can't be used for
+fetches.
 
 ## Configuration of Gerrit
 
