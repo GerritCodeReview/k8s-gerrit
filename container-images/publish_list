@@ -16,5 +16,6 @@ get_image_list(){
   echo  "apache-git-http-backend" \
         "gerrit-init" \
         "gerrit" \
-        "git-gc"
+        "git-gc" \
+        "fetch-job"
 }
