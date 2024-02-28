@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1beta6
+  - name: v1beta7
     schema:
       openAPIV3Schema:
         properties:
@@ -1502,6 +1502,27 @@ spec:
                     type: string
                   enabled:
                     type: boolean
+                type: object
+              scheduledTasks:
+                properties:
+                  incomingReplTasks:
+                    items:
+                      properties:
+                        schedule:
+                          type: string
+                        remote:
+                          type: string
+                        repositories:
+                          items:
+                            properties:
+                              source:
+                                type: string
+                              target:
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                 type: object
             type: object
           status:
