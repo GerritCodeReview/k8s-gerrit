@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dec3e979_db32fa34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Some notes to self to investigate later so I remember what I\u0027m doing/things I need clarity on and could use comments on.",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3b0de7a_460ee1cc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/AccountDeactivationReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Not sure if this makes sense. We do need to access the kubernetes client from the creation of the cron job container because that\u0027s how we\u0027ll get the secret values for the admin username/password which will allow us to send the post request, and this allows that? Is there a better alternative",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67610c2a_18a664d4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/AccountDeactivationReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Right now this fails to build with:\nAccountDeactivationReconciler.java:[48,34] incompatible types: inference variable T has incompatible bounds\n[ERROR]     equality constraints: com.google.gerrit.k8s.operator.api.model.shared.AccountDeactivationTask\n[ERROR]     lower bounds: io.fabric8.kubernetes.api.model.HasMetadata",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a386c160_8c6944cc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Does this need to be a new event source?",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "927ab1af_3d9f0f9f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCondition.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Checks if the account deactivation configuration exists, and if it\u0027s enabled -- should I also check if there\u0027s a valid schedule here? Probably that would go under an admission webhook",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba8fadf8_44dce0e8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "If this is GerritCluster instead of Gerrit, then I don\u0027t need to modify the GerritSpec. However, how else do I get the correct gerrit info for GerritService.getHostname(gerrit) to get the hostname?",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "decd3ded_b7fc14eb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "May want to validate this (just a user-configured String)",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27dc1063_7196392a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Check that this works to retrieve secrets / how we\u0027re mounting this secret.",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e52f506_620cdc7f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure I actually need the busybox image here as this just runs a curl command. Also not positive this is how it works even if I am using the busybox image...",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8640f181_e996ba51",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T16:48:07Z",
+      "side": 1,
+      "message": "Do I need these volumes? Probably not? You don\u0027t need access to volumes to send a curl request. These were left from copying the gitgc.",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
