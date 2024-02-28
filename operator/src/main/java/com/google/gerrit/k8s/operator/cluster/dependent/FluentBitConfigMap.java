@@ -39,16 +39,27 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
     String customConfig = gerrit.getSpec().getFluentBitSidecar().getConfig();
     String config =
         """
+        [SERVICE]
+          Parsers_file    parsers-multiline.conf
         [INPUT]
           Name            tail
           Path            /var/mnt/logs/*log
           Tag             <log_name>
           Tag_Regex       ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)
-          Multiline.parser   java
+          Multiline.parser   gerrit-multiline
           Buffer_Chunk_Size  10M
           Buffer_Max_Size    10M\n
         """
             + customConfig;
+    String multilineParser =
+        """
+        [MULTILINE_PARSER]
+          Name          gerrit-multiline
+          Type          regex
+          Flush_timeout 1000
+          Rule  "start_state"  "/\\[\\d{4}-\\d{2}-\\d{2}(.*?)\\](.*)/"  "cont"
+          Rule  "cont"         "^(?!\\[)(.*)"       "cont"
+        """;
 
     return new ConfigMapBuilder()
         .withApiVersion("v1")
@@ -59,7 +70,10 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
             GerritCluster.getLabels(
                 gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName()))
         .endMetadata()
-        .withData(Map.of("fluent-bit.conf", config))
+        .withData(
+            Map.ofEntries(
+                Map.entry("fluent-bit.conf", config),
+                Map.entry("parsers-multiline.conf", multilineParser)))
         .build();
   }
 }
