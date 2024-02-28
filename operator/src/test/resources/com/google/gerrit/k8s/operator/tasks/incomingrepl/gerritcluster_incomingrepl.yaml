@@ -1,0 +1,35 @@
+apiVersion: "gerritoperator.google.com/v1beta7"
+kind: GerritCluster
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  containerImages: {}
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+    sharedStorage:
+      size: 1Gi
+      volumeName: "vol"
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+  scheduledTasks:
+    incomingReplication:
+      - metadata:
+          name: incoming-replication-test
+        spec:
+          schedule: "*/5 * * * *"
+          config:
+            remotes:
+            - name: github
+              url: https://github.com
+              fetch:
+              - remoteRepo: fabric8io/kubernetes-client
+                localRepo: kubernetes-client
+                refSpec: +refs/heads/*:refs/heads/remote/*
+          secretRef: incoming-repl-secret

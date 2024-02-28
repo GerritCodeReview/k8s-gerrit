@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  incoming-replication.config.yaml: |
+    ---
+    remotes:
+    - name: "github"
+      url: "https://github.com"
+      timeout: "5m"
+      fetch:
+      - remoteRepo: "fabric8io/kubernetes-client"
+        localRepo: "kubernetes-client"
+        refSpec: "+refs/heads/*:refs/heads/remote/*"
+
+metadata:
+  name: incoming-replication-test-configmap
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: incoming-replication-test
+    app.kubernetes.io/created-by: IncomingReplicationTaskConfigMap
+    app.kubernetes.io/instance: incoming-replication-test
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: incoming-replication-test-configmap
