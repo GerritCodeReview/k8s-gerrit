@@ -16,6 +16,24 @@
       "message": "why 2 Change-Ids ?",
       "revId": "975642d751a6ba5331fb17a5595f4675afda4bd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77d6f685_2b7c5d92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-02-28T15:03:51Z",
+      "side": 1,
+      "message": "No idea how that happened. Removed the surplus.",
+      "parentUuid": "42218590_8d79e09a",
+      "revId": "975642d751a6ba5331fb17a5595f4675afda4bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
