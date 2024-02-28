@@ -17,6 +17,7 @@
       3. [GitGarbageCollection](#gitgarbagecollection)
       4. [Receiver](#receiver)
       5. [GerritNetwork](#gerritnetwork)
+      6. [IncomingReplicationTask](#incomingreplicationtask)
    5. [Configuration of Gerrit](#configuration-of-gerrit)
 
 ## Development
@@ -285,6 +286,17 @@ configured ingress provider to enable ingress traffic to GerritCluster component
 
 The GerritNetwork CustomResource is not meant to be installed manually, but will
 be created by the Gerrit Operator based on the GerritCluster CustomResource.
+
+### IncomingReplicationTask
+
+A regularly running task to fetch repositories from a different git server that
+is not necessarily a Gerrit to the local Gerrit. This job can also be used to
+fetch a subset of refs into an existing repository in Gerrit, e.g. branches from
+a forked repository could be fetched into a ref namespace of the fork residing
+in Gerrit.
+
+Only fetching via HTTP(S) is supported at the moment. SSH can't be used for
+fetches.
 
 ## Configuration of Gerrit
 
