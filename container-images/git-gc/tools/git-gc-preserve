@@ -92,8 +92,8 @@ preserve_packs() { # repo
 # pack-0...2.pack to pack-0...2.old-pack
 # pack-0...2.idx to pack-0...2.old-idx
 get_preserved_packfile_name() { # packfile > preserved_packfile
-  local old=${1/%\.pack/.old-pack}
-  old=${old/%\.idx/.old-idx}
+  local old="$(basename -- $1 .pack).old-pack"
+  old=$(basename -- $old .idx).old-idx
   echo "$old"
 }
 
