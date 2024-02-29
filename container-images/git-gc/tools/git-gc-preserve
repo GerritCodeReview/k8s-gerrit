@@ -116,4 +116,5 @@ fi
 
 prune_preserved "$repopath"
 preserve_packs "$repopath"
-git gc ${args:+"$args"}
+
+git gc "$args"
