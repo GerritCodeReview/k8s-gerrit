@@ -116,4 +116,9 @@ fi
 
 prune_preserved "$repopath"
 preserve_packs "$repopath"
-git gc ${args:+"$args"}
+
+if test -n "$args"; then
+  git gc "$args"
+else
+  git gc
+fi
