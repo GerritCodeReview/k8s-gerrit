@@ -12,8 +12,62 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REV=$(git describe --always --dirt --abbrev=10)
-GERRIT_VERSION=$(docker run --platform=linux/amd64 --entrypoint "/bin/sh" gerrit-base:$REV \
-    -c "java -jar /var/gerrit/bin/gerrit.war version")
-GERRIT_VERSION=$(echo "${GERRIT_VERSION##*$'\n'}" | cut -d' ' -f3 | tr -d '[:space:]')
-echo "$REV-$GERRIT_VERSION"
+usage() {
+    me=`basename "$0"`
+    echo >&2 "Usage: $me [--help] [--output (K8SGERRIT | GERRIT | COMBINED)]"
+    exit 1
+}
+
+OUTPUT="COMBINED"
+
+while test $# -gt 0 ; do
+  case "$1" in
+  --help)
+    usage
+    ;;
+
+  --output)
+    shift
+    OUTPUT=$1
+    shift
+    ;;
+
+  *)
+    break
+  esac
+done
+
+getK8sVersion() {
+    echo "$(git describe --always --dirty --abbrev=10)"
+}
+
+getGerritVersion() {
+    GERRIT_VERSION="$(
+        docker run \
+            --platform=linux/amd64 \
+            --entrypoint '/bin/sh' \
+            gerrit-base:$(getK8sVersion) \
+            -c 'java -jar /var/gerrit/bin/gerrit.war version'
+        )"
+    GERRIT_VERSION="$(
+        echo "${GERRIT_VERSION##*$'\n'}" \
+        | cut -d' ' -f3 \
+        | tr -d '[:space:]'
+    )"
+    echo "$GERRIT_VERSION"
+}
+
+case $OUTPUT in
+    K8SGERRIT)
+        echo "$(getK8sVersion)"
+        ;;
+    GERRIT)
+        echo "$(getGerritVersion)"
+        ;;
+    COMBINED)
+        echo "$(getK8sVersion)-$(getGerritVersion)"
+        ;;
+    *)
+        usage
+        ;;
+esac
