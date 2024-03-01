@@ -75,7 +75,7 @@ if test -n "$HEALTHCHECK_JAR_URL"; then
     BUILD_ARGS="$BUILD_ARGS --build-arg HEALTHCHECK_JAR_URL=$HEALTHCHECK_JAR_URL"
 fi
 
-export REV="$(git describe --always --dirty --abbrev=10)"
+export REV="$(./get_version.sh --output K8SGERRIT)"
 
 docker_build(){
     IMAGE=$1
@@ -135,7 +135,7 @@ else
             docker_build_gerrit_base
         else
             if test -z "$TAG"; then
-                TAG="$(git describe --always --dirty --abbrev=10)-unknown"
+                TAG="$REV-unknown"
             fi
             echo -e "\nNo Image containing Gerrit will be built." \
                     "The Gerrit-version can thus not be determinded." \
