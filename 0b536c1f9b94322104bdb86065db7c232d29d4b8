@@ -16,6 +16,24 @@
       "message": "not sure if we should do this, if I can enter --abbrev\u003d10 then I can do the same with a different length ;-)",
       "revId": "0b536c1f9b94322104bdb86065db7c232d29d4b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "546a7594_a812d337",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-01T09:45:19Z",
+      "side": 1,
+      "message": "True, but this way we at least have a format that is reproducible. We should document that however. Also, using the `./get-version.sh` script should then give the same result everywhere, so it can be used locally.",
+      "parentUuid": "dd888584_e4d2e986",
+      "revId": "0b536c1f9b94322104bdb86065db7c232d29d4b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
