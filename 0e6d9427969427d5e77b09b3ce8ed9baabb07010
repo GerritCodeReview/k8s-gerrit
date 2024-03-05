@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81092ff8_a3c16075",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/AccountDeactivationConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "Convention would be:\n\n```suggestion\npublic class AccountDeactivationSpec {\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3b0de7a_460ee1cc",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/AccountDeactivationReconciler.java",
         "patchSetId": 5
@@ -37,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4892010_ff62a39d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/AccountDeactivationReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "You don\u0027t need that. Since you are using the automated workflow to create the cronjob and not doing it manually, you will be able to get the client from the context.",
+      "parentUuid": "a3b0de7a_460ee1cc",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67610c2a_18a664d4",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/AccountDeactivationReconciler.java",
         "patchSetId": 5
@@ -48,6 +89,24 @@
       "writtenOn": "2024-02-28T16:48:07Z",
       "side": 1,
       "message": "Right now this fails to build with:\nAccountDeactivationReconciler.java:[48,34] incompatible types: inference variable T has incompatible bounds\n[ERROR]     equality constraints: com.google.gerrit.k8s.operator.api.model.shared.AccountDeactivationTask\n[ERROR]     lower bounds: io.fabric8.kubernetes.api.model.HasMetadata",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9643ad5_bda40cb6",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/AccountDeactivationReconciler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "Not sure, but this might work:\n\n```suggestion\n    return UpdateControl\u003cAccountDeactivationTask\u003e.noUpdate();\n```",
+      "parentUuid": "67610c2a_18a664d4",
       "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +147,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ff74a5a_5b987a36",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCondition.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "Yes, such things should go into the validating webhook. There is also a `@Required` annotation that can be used to label required fields. Then Kubernetes already checks whether a field was set, but not if the value makes sense.",
+      "parentUuid": "927ab1af_3d9f0f9f",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba8fadf8_44dce0e8",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
         "patchSetId": 5
@@ -99,6 +176,24 @@
       "writtenOn": "2024-02-28T16:48:07Z",
       "side": 1,
       "message": "If this is GerritCluster instead of Gerrit, then I don\u0027t need to modify the GerritSpec. However, how else do I get the correct gerrit info for GerritService.getHostname(gerrit) to get the hostname?",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74ded42b_15ec6fdc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "You should use GerritCluster.\nJust create a new method that uses the information of the GerritCluster resource to construct the URL. Since there can always only be one primary Gerrit in a GerritCluster that would be possible.",
+      "parentUuid": "ba8fadf8_44dce0e8",
       "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -122,6 +217,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afb56234_eb0b9233",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "This might help: https://github.com/fabric8io/kubernetes-client/blob/main/doc/CRD-generator.md#iofabric8generatorannotationpattern",
+      "parentUuid": "decd3ded_b7fc14eb",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27dc1063_7196392a",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
         "patchSetId": 5
@@ -133,6 +246,24 @@
       "writtenOn": "2024-02-28T16:48:07Z",
       "side": 1,
       "message": "Check that this works to retrieve secrets / how we\u0027re mounting this secret.",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33963dd6_0006255c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "If you call get() on a resource, always do a null-check before extracting data. It might be that you don\u0027t get any resource returned.",
+      "parentUuid": "27dc1063_7196392a",
       "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -156,6 +287,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e73d40f0_0154bfed",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "I would guess that busybox doesn\u0027t even contain curl.",
+      "parentUuid": "7e52f506_620cdc7f",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8640f181_e996ba51",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
         "patchSetId": 5
@@ -167,6 +316,24 @@
       "writtenOn": "2024-02-28T16:48:07Z",
       "side": 1,
       "message": "Do I need these volumes? Probably not? You don\u0027t need access to volumes to send a curl request. These were left from copying the gitgc.",
+      "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30cab59d_6904f894",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedAccountDeactivationCronJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-05T08:32:09Z",
+      "side": 1,
+      "message": "You should not need them, if you just call the REST API.",
+      "parentUuid": "8640f181_e996ba51",
       "revId": "0e6d9427969427d5e77b09b3ce8ed9baabb07010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
