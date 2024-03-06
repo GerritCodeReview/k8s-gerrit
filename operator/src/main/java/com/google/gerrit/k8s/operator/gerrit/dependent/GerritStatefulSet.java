@@ -296,7 +296,6 @@ public class GerritStatefulSet
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
-    volumeMounts.add(GerritCluster.getLogsVolumeMount());
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
@@ -351,7 +350,12 @@ public class GerritStatefulSet
             .withMountPath("/fluent-bit/etc/")
             .build());
 
-    volumeMounts.add(GerritCluster.getLogsVolumeMount());
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(SITE_VOLUME_NAME)
+            .withSubPath("logs")
+            .withMountPath("/var/mnt/logs")
+            .build());
 
     return volumeMounts;
   }

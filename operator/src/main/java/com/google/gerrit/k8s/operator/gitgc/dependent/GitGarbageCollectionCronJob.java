@@ -122,7 +122,6 @@ public class GitGarbageCollectionCronJob
   private Container buildGitGcContainer(GitGarbageCollection gitGc, GerritCluster gerritCluster) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
-    volumeMounts.add(GerritCluster.getLogsVolumeMount("/var/log/git"));
 
     if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()
         && gerritCluster
@@ -146,7 +145,6 @@ public class GitGarbageCollectionCronJob
                     .getGerritImages()
                     .getFullImageName("git-gc"))
             .withResources(gitGc.getSpec().getResources())
-            .withEnv(GerritCluster.getPodNameEnvVar())
             .withVolumeMounts(volumeMounts);
 
     ArrayList<String> args = new ArrayList<>();

@@ -103,12 +103,16 @@ class GerritInit:
         LOG.info("No initialization required.")
         return False
 
-    def _ensure_symlink(self, src, target):
-        if not os.path.exists(src):
-            raise FileNotFoundError(f"Unable to find mounted dir: {src}")
+    def _symlink(self, src, target, required=True):
+        if os.path.islink(target) and not os.path.exists(os.readlink(target)):
+            LOG.warn(f"Removing broken symlink {target}")
+            os.unlink(target)
 
-        if os.path.islink(target) and os.path.realpath(target) == src:
-            return
+        if not os.path.exists(src):
+            if required:
+                raise FileNotFoundError(f"Unable to find mounted dir: {src}")
+            else:
+                return
 
         if os.path.exists(target):
             if os.path.isdir(target) and not os.path.islink(target):
@@ -119,16 +123,15 @@ class GerritInit:
         os.symlink(src, target)
 
     def _symlink_mounted_site_components(self):
-        self._ensure_symlink(f"{MNT_PATH}/git", f"{self.site}/git")
-        self._ensure_symlink(f"{MNT_PATH}/logs", f"{self.site}/logs")
+        self._symlink(f"{MNT_PATH}/git", f"{self.site}/git")
 
         mounted_shared_dir = f"{MNT_PATH}/shared"
         if not self.is_replica and os.path.exists(mounted_shared_dir):
-            self._ensure_symlink(mounted_shared_dir, f"{self.site}/shared")
+            self._symlink(mounted_shared_dir, f"{self.site}/shared")
 
         index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
         if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
-            self._ensure_symlink(f"{MNT_PATH}/index", f"{self.site}/index")
+            self._symlink(f"{MNT_PATH}/index", f"{self.site}/index")
 
         data_dir = f"{self.site}/data"
         if os.path.exists(data_dir):
@@ -147,7 +150,7 @@ class GerritInit:
                 abs_path = os.path.join(data_dir, file_or_dir)
                 abs_mounted_path = os.path.join(mounted_data_dir, file_or_dir)
                 if os.path.isdir(abs_mounted_path):
-                    self._ensure_symlink(abs_mounted_path, abs_path)
+                    self._symlink(abs_mounted_path, abs_path)
 
     def _symlink_configuration(self):
         etc_dir = f"{self.site}/etc"
@@ -160,7 +163,7 @@ class GerritInit:
                     if os.path.isfile(
                         os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
                     ):
-                        self._ensure_symlink(
+                        self._symlink(
                             os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir),
                             os.path.join(etc_dir, file_or_dir),
                         )
@@ -176,6 +179,11 @@ class GerritInit:
                 os.remove(full_path)
 
     def execute(self):
+        # Required for migration away from NFS-based log storage, when using the
+        # Gerrit-Operator and to provide backwards compatibility for the helm-
+        # charts
+        self._symlink(f"{MNT_PATH}/logs", f"{self.site}/logs", required=False)
+
         if not self.is_replica:
             self._symlink_mounted_site_components()
         elif not NoteDbValidator(MNT_PATH).check():
