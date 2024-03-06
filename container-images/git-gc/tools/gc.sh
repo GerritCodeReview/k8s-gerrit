@@ -126,6 +126,19 @@ delete_stale_gc_lock()
         log "pruning stale 'gc.pid' lock file older than 24 hours:\n$OUT"
 }
 
+delete_empty_ref_dirs()
+{
+  local PROJECT_DIR="$1"
+  find "$PROJECT_DIR/refs" -type d -empty -mindepth 2 -mmin +60 -delete
+}
+
+delete_stale_incoming_packs()
+{
+  local PROJECT_DIR="$1"
+  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +1 -delete) && \
+        log "pruning stale 'incoming_*.pack' files older than 24 hours:\n$OUT"
+}
+
 gc_project()
 {
   PROJECT_NAME="$@"
@@ -182,9 +195,7 @@ gc_project()
     && log "$OUT"
 
   delete_empty_ref_dirs "$PROJECT_DIR"
-
-  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +14 -delete) && \
-        log "pruning stale 'incoming_*.pack' files older than 14 days:\n$OUT"
+  delete_stale_incoming_packs "$PROJECT_DIR"
 
   if [ $DONOT_PACK_REFS_OPT -eq 0 ] ; then
     local looseRefCount
@@ -196,12 +207,6 @@ gc_project()
   fi
 
   OUT=$(date +"%D %r Finished: $PROJECT_NAME$LOG_OPTS") && log "$OUT"
-}
-
-delete_empty_ref_dirs()
-{
-  PROJECT_DIR="$1"
-  find "$PROJECT_DIR/refs" -type d -empty -mindepth 2 -mmin +60 -delete
 }
 
 ###########################
