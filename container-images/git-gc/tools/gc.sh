@@ -119,6 +119,13 @@ gc_specified_projects()
   done
 }
 
+delete_stale_gc_lock()
+{
+  local PROJECT_DIR="$1"
+  OUT=$(find "$PROJECT_DIR" -name 'gc.pid' -type f -maxdepth 1 -mtime +1 -delete) && \
+        log "pruning stale 'gc.pid' lock file older than 24 hours:\n$OUT"
+}
+
 gc_project()
 {
   PROJECT_NAME="$@"
@@ -167,6 +174,8 @@ gc_project()
 
   git --git-dir="$PROJECT_DIR" config pack.window 250
   git --git-dir="$PROJECT_DIR" config pack.depth 50
+
+  delete_stale_gc_lock "$PROJECT_DIR"
 
   OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" --auto --prune $OPTS \
         || date +"%D %r Failed: $PROJECT_NAME") \
