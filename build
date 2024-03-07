@@ -16,9 +16,11 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [--organization ORGANIZATION] [IMAGE]"
     exit 1
 }
+
+ORGANIZATION="k8sgerrit"
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -55,6 +57,12 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --organization)
+    shift
+    ORGANIZATION=$1
+    shift
+    ;;    
+
   *)
     break
   esac
@@ -83,14 +91,14 @@ docker_build(){
     docker build \
         $DOCKER_BUILD_OPTS \
         --build-arg TAG=$REV \
-        -t k8sgerrit/$IMAGE:$TAG \
+        -t $ORGANIZATION/$IMAGE:$TAG \
         ./container-images/$IMAGE
 
     if test $? -ne 0; then
-        REPORT="$REPORT Failed: k8sgerrit/$IMAGE.\n"
+        REPORT="$REPORT Failed: $ORGANIZATION/$IMAGE.\n"
         RETURN_CODE=1
     else
-        REPORT="$REPORT Success: k8sgerrit/$IMAGE:$TAG\n"
+        REPORT="$REPORT Success: $ORGANIZATION/$IMAGE:$TAG\n"
     fi
 }
 
