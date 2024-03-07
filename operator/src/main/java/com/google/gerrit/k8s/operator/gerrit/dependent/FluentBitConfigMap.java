@@ -40,25 +40,25 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
     String config =
         """
         [SERVICE]
-          Parsers_file    parsers-multiline.conf
+          Parsers_file parsers-multiline.conf
         [INPUT]
-          Name            tail
-          Path            /var/mnt/logs/*log
-          Tag             <log_name>
-          Tag_Regex       ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)
-          Multiline.parser   gerrit-multiline
-          Buffer_Chunk_Size  10M
-          Buffer_Max_Size    10M\n
+          Name tail
+          Path /var/mnt/logs/*log
+          Tag <log_name>
+          Tag_Regex ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)
+          Multiline.parser gerrit-multiline
+          Buffer_Chunk_Size 10M
+          Buffer_Max_Size 10M\n
         """
             + customConfig;
     String multilineParser =
         """
         [MULTILINE_PARSER]
-          Name          gerrit-multiline
-          Type          regex
+          Name gerrit-multiline
+          Type regex
           Flush_timeout 1000
-          Rule  "start_state"  "/\\[\\d{4}-\\d{2}-\\d{2}(.*?)\\](.*)/"  "cont"
-          Rule  "cont"         "^(?!\\[)(.*)"       "cont"
+          Rule "start_state" "/\\[\\d{4}-\\d{2}-\\d{2}(.*?)\\](.*)/" "cont"
+          Rule "cont" "^(?!\\[)(.*)" "cont"
         """;
 
     return new ConfigMapBuilder()
