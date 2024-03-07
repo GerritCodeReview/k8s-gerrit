@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "117c00be_2a64f5af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-07T16:04:36Z",
+      "side": 1,
+      "message": "I see your point, let me think about that.",
+      "parentUuid": "6cbc7476_06f6c232",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "fd3b18673f74bea1dd502ed28a1834b7cb50a4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ff557c0_8091e5f4",
         "filename": "build",
         "patchSetId": 3
