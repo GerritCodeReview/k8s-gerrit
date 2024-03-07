@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47da8115_b95d2c9c",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-07T16:26:03Z",
+      "side": 1,
+      "message": "why `find`? Isn\u0027t the location of `gc.pid` file always `$GIT_DIR/gc.pid`?",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 12
+      },
+      "revId": "2146afbd6ad75bf830f79c8825aad9886d8dd2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10ae85bb_4a53e6c7",
         "filename": "container-images/git-gc/tools/gc.sh",
         "patchSetId": 1
