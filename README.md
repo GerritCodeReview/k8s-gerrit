@@ -77,6 +77,13 @@ providing a download URL for a `.jar`-file containing the plugin:
 ./build --healthcheck-jar-url https://example.com/healthcheck.jar
 ```
 
+The build-script uses the `k8sgerrit` as a default organization. By using the
+`--organization ORGANIZATION`-option, the organization can be changed:
+
+```
+./build --organization my-organization
+```
+
 The build script will in addition tag the image with the output of
 `git describe --dirty`.
 
