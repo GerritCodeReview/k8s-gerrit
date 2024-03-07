@@ -19,7 +19,7 @@ import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritStatus;
-import com.google.gerrit.k8s.operator.cluster.dependent.FluentBitConfigMap;
+import com.google.gerrit.k8s.operator.gerrit.dependent.FluentBitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
