@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e350cdb_b1d8cafd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-07T16:41:37Z",
+      "side": 1,
+      "message": "Definitively if the idea is to work together build and publish, this change makes no sense. For me would make more sense to have only one script that has the option to publish the images, i.e `--push`.",
+      "parentUuid": "117c00be_2a64f5af",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "fd3b18673f74bea1dd502ed28a1834b7cb50a4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ff557c0_8091e5f4",
         "filename": "build",
         "patchSetId": 3
