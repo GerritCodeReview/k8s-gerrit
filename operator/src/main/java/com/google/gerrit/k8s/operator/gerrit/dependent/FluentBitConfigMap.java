@@ -22,19 +22,35 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.CRUDKubernetesDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 
 @KubernetesDependent(resourceDiscriminator = FluentBitConfigMapDiscriminator.class)
 public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
-  private static final String FLUENT_BIT_CONFIG =
+  private static final String FLUENT_BIT_SERVICE_CONFIG =
       """
       [SERVICE]
-        Parsers_file parsers-multiline.conf
+        Parsers_file parsers.conf
+      """;
+  private static final String FLUENT_BIT_TEXT_LOG_INPUT =
+      """
       [INPUT]
         Name tail
-        Path /var/mnt/logs/*log
+        Path /var/mnt/logs/*_log
         Tag <log_name>
         Tag_Regex ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)
         Multiline.parser gerrit-multiline
+        Buffer_Chunk_Size 10M
+        Buffer_Max_Size 10M\n
+      """;
+  private static final String FLUENT_BIT_JSON_LOG_INPUT =
+      """
+      [INPUT]
+        Name tail
+        Path /var/mnt/logs/*_log.json
+        Tag <log_name>
+        Tag_Regex ^\\/var\\/mnt\\/logs\\/(?<log_name>.+)
+        Parser jsonLog
         Buffer_Chunk_Size 10M
         Buffer_Max_Size 10M\n
       """;
@@ -46,6 +62,12 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
         Flush_timeout 1000
         Rule "start_state" "/\\[\\d{4}-\\d{2}-\\d{2}(.*?)\\](.*)/" "cont"
         Rule "cont" "^(?!\\[)(.*)" "cont"
+      """;
+  private static final String JSON_PARSER_CONFIG =
+      """
+      [PARSER]
+        Name jsonLog
+        Format json
       """;
 
   public FluentBitConfigMap() {
@@ -59,7 +81,26 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
     String customConfig = gerrit.getSpec().getFluentBitSidecar().getConfig();
-    String config = FLUENT_BIT_CONFIG + customConfig;
+
+    Config gerritConfig = new Config();
+    try {
+      gerritConfig.fromText(gerrit.getSpec().getConfigFiles().get("gerrit.config"));
+    } catch (ConfigInvalidException e) {
+      throw new IllegalStateException("Failed to parse gerrit.config.", e);
+    }
+
+    String config = FLUENT_BIT_SERVICE_CONFIG;
+    String parserConfig = "";
+    if (gerritConfig.getBoolean("log", "textLogging", true)) {
+      config = config + FLUENT_BIT_TEXT_LOG_INPUT;
+      parserConfig = parserConfig + MULTILINE_PARSER_CONFIG;
+    }
+
+    if (gerritConfig.getBoolean("log", "jsonLogging", false)) {
+      config = config + FLUENT_BIT_JSON_LOG_INPUT;
+      parserConfig = parserConfig + JSON_PARSER_CONFIG;
+    }
+    config = config + customConfig;
 
     return new ConfigMapBuilder()
         .withApiVersion("v1")
@@ -72,8 +113,7 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
         .endMetadata()
         .withData(
             Map.ofEntries(
-                Map.entry("fluent-bit.conf", config),
-                Map.entry("parsers-multiline.conf", MULTILINE_PARSER_CONFIG)))
+                Map.entry("fluent-bit.conf", config), Map.entry("parsers.conf", parserConfig)))
         .build();
   }
 }
