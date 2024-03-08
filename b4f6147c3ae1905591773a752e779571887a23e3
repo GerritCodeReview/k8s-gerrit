@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1f91f1_a3fc7cec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-08T12:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb2de90c_4c6a5e45",
+      "revId": "b4f6147c3ae1905591773a752e779571887a23e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d436b321_36db9a65",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-07T16:28:45Z",
       "side": 1,
       "message": "The depth should also be limited as the location of `incoming_*.pack` files is fixed, right? Limiting depth would also result in fast execution.",
+      "revId": "b4f6147c3ae1905591773a752e779571887a23e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e9dc80_96d171e7",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-08T12:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d436b321_36db9a65",
       "revId": "b4f6147c3ae1905591773a752e779571887a23e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
