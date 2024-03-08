@@ -183,8 +183,8 @@ gc_project()
 
   delete_empty_ref_dirs "$PROJECT_DIR"
 
-  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +14 -delete) && \
-        log "pruning stale 'incoming_*.pack' files older than 14 days:\n$OUT"
+  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +1 -delete) && \
+        log "pruning stale 'incoming_*.pack' files older than 24 hours:\n$OUT"
 
   if [ $DONOT_PACK_REFS_OPT -eq 0 ] ; then
     local looseRefCount
