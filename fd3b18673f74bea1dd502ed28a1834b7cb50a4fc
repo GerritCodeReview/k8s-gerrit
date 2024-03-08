@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94831182_6464e240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-08T08:50:21Z",
+      "side": 1,
+      "message": "Yes, I guess it makes sense to merge both scripts into one. That would streamline the process.",
+      "parentUuid": "0e350cdb_b1d8cafd",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "fd3b18673f74bea1dd502ed28a1834b7cb50a4fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ff557c0_8091e5f4",
         "filename": "build",
         "patchSetId": 3
