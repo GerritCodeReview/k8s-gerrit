@@ -126,6 +126,12 @@ delete_stale_gc_lock()
         log "pruning stale 'gc.pid' lock file older than 12 hours:\n$OUT"
 }
 
+delete_empty_ref_dirs()
+{
+  PROJECT_DIR="$1"
+  find "$PROJECT_DIR/refs" -type d -empty -mindepth 2 -mmin +60 -delete
+}
+
 delete_stale_incoming_packs()
 {
   local PROJECT_DIR="$1"
@@ -202,12 +208,6 @@ gc_project()
   fi
 
   OUT=$(date +"%D %r Finished: $PROJECT_NAME$LOG_OPTS") && log "$OUT"
-}
-
-delete_empty_ref_dirs()
-{
-  PROJECT_DIR="$1"
-  find "$PROJECT_DIR/refs" -type d -empty -mindepth 2 -mmin +60 -delete
 }
 
 ###########################
