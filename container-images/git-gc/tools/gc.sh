@@ -129,7 +129,7 @@ delete_stale_gc_lock()
 delete_stale_incoming_packs()
 {
   local PROJECT_DIR="$1"
-  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -mtime +1 -delete) && \
+  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -maxdepth 1 -mtime +1 -delete) && \
         log "pruning stale 'incoming_*.pack' files older than 24 hours:\n$OUT"
 }
 
