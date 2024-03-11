@@ -70,6 +70,30 @@
       },
       "revId": "1bbaf5823be267edf58e437ad0d7bb7d2a219f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70d17ff1_0a8f0f1b",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-11T08:35:57Z",
+      "side": 1,
+      "message": "done in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/412597",
+      "parentUuid": "44dbd085_5781a0a8",
+      "range": {
+        "startLine": 132,
+        "startChar": 68,
+        "endLine": 132,
+        "endChar": 79
+      },
+      "revId": "1bbaf5823be267edf58e437ad0d7bb7d2a219f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
