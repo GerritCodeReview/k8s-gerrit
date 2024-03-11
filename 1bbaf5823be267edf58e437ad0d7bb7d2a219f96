@@ -22,6 +22,30 @@
       },
       "revId": "1bbaf5823be267edf58e437ad0d7bb7d2a219f96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ec04bb_d1679065",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-11T08:25:11Z",
+      "side": 1,
+      "message": "no, jgit creates them in the `objects` directory, see\nhttps://github.com/eclipse-jgit/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/ObjectDirectoryPackParser.java#L163\n\nreading that code we also need to cleanup stale `incoming_*.idx` files, will add this in another change",
+      "parentUuid": "806ba7e7_89c53aae",
+      "range": {
+        "startLine": 132,
+        "startChar": 68,
+        "endLine": 132,
+        "endChar": 79
+      },
+      "revId": "1bbaf5823be267edf58e437ad0d7bb7d2a219f96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
