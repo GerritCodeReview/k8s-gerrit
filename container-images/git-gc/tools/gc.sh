@@ -135,8 +135,8 @@ delete_empty_ref_dirs()
 delete_stale_incoming_packs()
 {
   local PROJECT_DIR="$1"
-  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack' -type f -maxdepth 1 -mtime +1 -delete) && \
-        log "pruning stale 'incoming_*.pack' files older than 24 hours:\n$OUT"
+  OUT=$(find "$PROJECT_DIR/objects" -name 'incoming_*.pack'  -o -name "incoming_*.idx" -type f -maxdepth 1 -mtime +1 -delete) && \
+        log "pruning stale 'incoming_*.pack' and 'incoming_*.idx' files older than 24 hours:\n$OUT"
 }
 
 gc_project()
