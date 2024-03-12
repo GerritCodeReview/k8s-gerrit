@@ -33,8 +33,8 @@ MAX_CACHED_VERSIONS = 5
 REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
-REQUIRED_MULTISITE_LIBS = ["events-broker", "global-refdb", "multi-site"]
-REQUIRED_MULTISITE_PLUGINS =  ["events-kafka", "multi-site", "websession-broker"]
+REQUIRED_MULTISITE_LIBS = ["events-broker", "global-refdb", "multi-site", "pull-replication"]
+REQUIRED_MULTISITE_PLUGINS =  ["events-kafka", "multi-site", "pull-replication", "websession-broker"]
 
 
 class InvalidPluginException(Exception):
