@@ -130,18 +130,9 @@ spec:
       gitAndLogsData:
         size: 1Gi
 
-      libs:
-      - name: pull-replication
-        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
-        sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
-
       plugins:
       - name: download-commands
       - name: delete-project
-
-      - name: pull-replication
-        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
-        sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
 
       configFiles:
         gerrit.config: |-
