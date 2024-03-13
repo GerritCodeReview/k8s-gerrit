@@ -1,5 +1,3 @@
-<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
-=======
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -46,10 +44,11 @@ data:
     ZWNkc2Etc2hhMi1uaXN0cDI1NiBBQUFBRTJWalpITmhMWE5vWVRJdGJtbHpkSEF5TlRZQUFBQUlibWx6ZEhBeU5UWUFBQUJCQkZ4aGdJRis2cXp2REIzcU56S1FISG0rMEhpUWttK1dhZklzcHJTVVc3OCtLWkpPZUJPcWxEZkRLV3FWY29xQitXamF0a1BjUDUxMTBUa0tvU2xKM2swPSBrOHNnZXJyaXQtZXhhbXBsZQ==
   secure.config: |
     W2F1dGhdCglyZWdpc3RlckVtYWlsUHJpdmF0ZUtleSA9IEEzRDAwTnkwYkxXMno3eGRJbnZJZjM1UTVtRENpNXU5by9FPQoJYmVhcmVydG9rZW4gPSBzb21lLWJlYXJlci10b2tlbgo=
+
 type: Opaque
 
 ---
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta6"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -58,6 +57,11 @@ spec:
   storage:
     storageClasses:
       readWriteOnce: standard
+      readWriteMany: standard
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper-service.kafka-zk.svc.cluster.local:2181
 
   ingress:
     enabled: true
@@ -73,9 +77,6 @@ spec:
         istio: ingressgateway
 
   serverId: "minikube-gerrit"
-
-  fluentBitSidecar:
-    enabled: true
 
   gerrits:
   - metadata:
@@ -124,11 +125,23 @@ spec:
       mode: PRIMARY
 
       site:
-        size: 2Gi
+        size: 1Gi
+
+      gitAndLogsData:
+        size: 1Gi
+
+      libs:
+      - name: pull-replication
+        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
+        sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
 
       plugins:
       - name: download-commands
       - name: delete-project
+
+      - name: pull-replication
+        url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-pull-replication-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
+        sha1: 26226ca252ddc12e40331ad34eedab7ae020e5eb
 
       configFiles:
         gerrit.config: |-
@@ -147,17 +160,24 @@ spec:
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
             [gerrit]
+              basePath = git
               installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule
+              installModule = com.googlesource.gerrit.plugins.multisite.Module # multi-site needs to be a gerrit lib
+              installDbModule = com.googlesource.gerrit.plugins.multisite.GitModule
+              instanceId = INSTANCE_ID_PLACEHOLDER
             [plugin "events-kafka"]
               sendAsync = true
               bootstrapServers = kafka-service.kafka-zk.svc.cluster.local:9092
-              numberOfSubscribers = 6
+              numberOfSubscribers = 7
               securityProtocol = PLAINTEXT
               pollingIntervalMs = 1000
               enableAutoCommit = true
               autoCommitIntervalMs = 1000
               autoOffsetReset = latest
               sendStreamEvents = true
+              groupId = INSTANCE_ID_PLACEHOLDER
+            [plugin "websession-broker"]
+              webSessionTopic = gerrit_web_session
 
         replication.config: |-
             [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]
@@ -194,6 +214,15 @@ spec:
               eventBrokerGroupId = GERRIT_ID_PLACEHOLDER
               syncRefs = "ALL REFS ASYNC"
               maxApiPayloadSize = 40000
+        multi-site.config: |-
+            [index]
+              maxTries = 50
+              retryInterval = 30000
+            [broker]
+              indexEventTopic = gerrit_index
+              batchIndexEventTopic = gerrit_batch_index
+              streamEventTopic = gerrit_stream
+              projectListEventTopic = gerrit_list_project
+              cacheEventTopic = gerrit_cache_eviction
 
       secretRef: gerrit-secure-config
->>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)

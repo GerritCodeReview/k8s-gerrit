@@ -33,9 +33,12 @@ public class GerritInitConfig {
   @JsonProperty("multisite")
   private boolean isMultisite;
 
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+=======
   @JsonProperty("gerritHeadlessServiceHost")
   private String gerritHeadlessServiceHost;
 
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
   public String getCaCertPath() {
     return caCertPath;
   }
@@ -104,6 +107,8 @@ public class GerritInitConfig {
     this.isMultisite = isMultisite;
   }
 
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+=======
   @JsonProperty("gerritHeadlessServiceHost")
   public String getGerritHeadlessServiceHost() {
     return gerritHeadlessServiceHost;
@@ -114,6 +119,7 @@ public class GerritInitConfig {
     this.gerritHeadlessServiceHost = gerritHeadlessServiceHost;
   }
 
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
   @Override
   public int hashCode() {
     return Objects.hash(
@@ -124,8 +130,12 @@ public class GerritInitConfig {
         pluginCacheEnabled,
         plugins,
         refdb,
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+        isMultisite);
+=======
         isMultisite,
         gerritHeadlessServiceHost);
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
   }
 
   @Override
@@ -141,8 +151,12 @@ public class GerritInitConfig {
         && pluginCacheEnabled == other.pluginCacheEnabled
         && Objects.equals(plugins, other.plugins)
         && Objects.equals(refdb, other.refdb)
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+        && isMultisite == other.isMultisite;
+=======
         && isMultisite == other.isMultisite
         && Objects.equals(gerritHeadlessServiceHost, other.gerritHeadlessServiceHost);
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
   }
 
   @Override
@@ -163,8 +177,11 @@ public class GerritInitConfig {
         + refdb
         + ", isMultisite="
         + isMultisite
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+=======
         + ", gerritHeadlessServiceHost="
         + gerritHeadlessServiceHost
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
         + "]";
   }
 }

@@ -165,6 +165,10 @@ class GerritInit:
                     if os.path.isfile(
                         os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
                     ):
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+                        if file_or_dir in ["replication.config"] and PullReplicationConfigurator.has_pull_replication():
+                            LOG.info('Skipping symlink of {}, will be set up by PullReplicationConfigurator'.format(file_or_dir))
+=======
                         if (
                             file_or_dir in ["replication.config", "gerrit.config"]
                             and PullReplicationConfigurator.has_pull_replication()
@@ -174,6 +178,7 @@ class GerritInit:
                                     file_or_dir
                                 )
                             )
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
                         else:
                             self._symlink(
                                 os.path.join(

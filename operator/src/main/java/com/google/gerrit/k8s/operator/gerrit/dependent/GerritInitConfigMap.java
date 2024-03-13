@@ -81,7 +81,10 @@ public class GerritInitConfigMap
     }
 
     config.setMultisite(OperatorContext.isMultisite());
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+=======
     config.setGerritHeadlessServiceHost(GerritHeadlessService.getHostname(gerrit));
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
 
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));

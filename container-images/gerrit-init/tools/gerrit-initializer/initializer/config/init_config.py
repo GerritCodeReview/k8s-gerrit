@@ -29,7 +29,10 @@ class InitConfig:
         self.is_ha = False
         self.refdb = False
         self.is_multisite = False
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+=======
         self.gerrit_headless_service_host = ""
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
@@ -61,6 +64,7 @@ class InitConfig:
 
         if "refdb" in config:
             self.refdb = config["refdb"]
+        self.is_multisite = "multisite" in config and config["multisite"]
 
         self.gerrit_headless_service_host = config["gerritHeadlessServiceHost"]
 

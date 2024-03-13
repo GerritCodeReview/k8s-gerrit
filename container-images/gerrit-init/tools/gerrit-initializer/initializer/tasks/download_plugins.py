@@ -33,8 +33,13 @@ MAX_CACHED_VERSIONS = 5
 REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+REQUIRED_MULTISITE_LIBS = ["events-broker", "global-refdb", "multi-site"]
+REQUIRED_MULTISITE_PLUGINS =  ["events-kafka", "multi-site", "websession-broker"]
+=======
 REQUIRED_MULTISITE_LIBS = ["events-broker", "pull-replication"]
 REQUIRED_MULTISITE_PLUGINS = ["events-kafka", "pull-replication"]
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
 
 
 class InvalidPluginException(Exception):
@@ -97,8 +102,11 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_HA_LIBS)
         elif self.config.is_multisite:
             required.extend(REQUIRED_MULTISITE_LIBS)
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+=======
         elif self.config.refdb:
             required.append("global-refdb")
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
         LOG.info("Requiring libs: %s", required)
         return required
 

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
@@ -78,9 +79,13 @@ public class GerritTemplate implements KubernetesResource {
     gerritSpec.setIngress(ingressConfig);
     gerritSpec.setServerId(getServerId(gerritCluster));
     gerritSpec.setFluentBitSidecar(gerritCluster.getSpec().getFluentBitSidecar());
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+    if (getSpec().isHighlyAvailablePrimary() || OperatorContext.isMultisite()) {
+=======
 
     if (gerritCluster.getSpec().getGerrits().stream()
         .anyMatch(g -> g.getSpec().getMode().equals(GerritMode.PRIMARY))) {
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
       GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
       if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
         refdb

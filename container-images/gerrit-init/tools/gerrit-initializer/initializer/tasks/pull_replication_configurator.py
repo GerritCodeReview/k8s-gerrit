@@ -45,7 +45,19 @@ class PullReplicationConfigurator:
         return int(os.environ.get("POD_NAME")[7:])
 
     def _get_replicas_num(self):
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+        return int(os.environ.get('REPLICAS'))
+
+    def _remove_symlink(self, path):
+        os.unlink(os.path.join(self.site, path))
+
+    def _get_remote_host_postfix(self):
+        namespace = os.environ.get('NAMESPACE_NAME')
+        headless_svc = os.environ.get('HEADLESS_SVC')
+        return f'{headless_svc}.{namespace}.svc.cluster.local'
+=======
         return int(os.environ.get("REPLICAS"))
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
 
     def _configure_instance_id(self, template_path):
         with open(template_path, "r") as file:
@@ -82,7 +94,13 @@ class PullReplicationConfigurator:
         self._configure_remotes(replication_config_configmap)
 
     def configure_gerrit_configuration(self):
+<<<<<<< PATCH SET (092bc1 Add multi-site setup into the Gerrit installation)
+        LOG.info('Setting gerrit configuration for pod-idx: {}'.format(self.pod_id))
+        self._remove_symlink('etc/gerrit.config')
+        gerrit_config_configmap = os.path.join(MNT_PATH, 'etc/config/gerrit.config')
+=======
         LOG.info("Setting gerrit configuration for pod-idx: {}".format(self.pod_id))
 
         gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
+>>>>>>> BASE      (a1a846 Use pull-replication plugin standalone with a broker)
         self._configure_instance_id(gerrit_config_configmap)
