@@ -166,7 +166,7 @@ class GerritInit:
                         os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
                     ):
                         if (
-                            file_or_dir in ["replication.config", "gerrit.config"]
+                            file_or_dir in ["replication.config"]
                             and PullReplicationConfigurator.has_pull_replication()
                         ):
                             LOG.info(
