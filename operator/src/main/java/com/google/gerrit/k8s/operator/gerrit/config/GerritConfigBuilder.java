@@ -18,6 +18,8 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
@@ -76,8 +78,19 @@ public class GerritConfigBuilder extends ConfigBuilder {
       requiredOptions.add(new RequiredOption<String>("gerrit", "serverId", serverId));
     }
 
-    if ((!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
-            && gerrit.getSpec().getMode().equals(GerritMode.PRIMARY))
+    if (OperatorContext.getClusterMode() == Constants.ClusterMode.MULTISITE) {
+      requiredOptions.add(
+          new RequiredOption<Set<String>>(
+              "gerrit",
+              "installModule",
+              Set.of("com.googlesource.gerrit.plugins.multisite.Module")));
+      requiredOptions.add(
+          new RequiredOption<Set<String>>(
+              "gerrit",
+              "installDbModule",
+              Set.of("com.googlesource.gerrit.plugins.multisite.GitModule")));
+    } else if (!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
+            && gerrit.getSpec().getMode().equals(GerritMode.PRIMARY)
         || gerrit.getSpec().isHighlyAvailablePrimary()) {
       requiredOptions.add(
           new RequiredOption<Set<String>>(
@@ -193,8 +206,14 @@ public class GerritConfigBuilder extends ConfigBuilder {
               "events-kafka",
               "bootstrapServers",
               eventsBroker.getKafkaConfig().getConnectString()));
+        requiredOptions.add(
+                new RequiredOption<String>("plugin", "events-kafka", "numberOfSubscribers", "7"));
       requiredOptions.add(
-          new RequiredOption<String>("plugin", "events-kafka", "sendStreamEvents", "true"));
+          new RequiredOption<String>("plugin", "events-kafka", "sendStreamEvents", "false"));
+        requiredOptions.add(
+                new RequiredOption<String>(
+                        "plugin", "events-kafka", "groupId", "INSTANCE_ID_PLACEHOLDER"));
+
     }
     return requiredOptions;
   }
