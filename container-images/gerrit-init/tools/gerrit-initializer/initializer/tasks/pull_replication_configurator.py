@@ -47,9 +47,13 @@ class PullReplicationConfigurator:
     def _get_replicas_num(self):
         return int(os.environ.get("REPLICAS"))
 
+    def _remove_symlink(self, path):
+        os.unlink(os.path.join(self.site, path))
+
     def _configure_instance_id(self, template_path):
         with open(template_path, "r") as file:
             content = file.read()
+        content = content.replace(f"{INSTANCE_ID_PLACEHOLDER}", f"gerrit-{self.pod_id}")
         with open(os.path.join(self.site, "etc/gerrit.config"), "w") as file:
             file.write(content)
 
@@ -67,7 +71,9 @@ class PullReplicationConfigurator:
                 f"gerrit-{x}.{self.config.gerrit_headless_service_host}",
             )
             LOG.info('Set pull replication for remote "{}"'.format(f"gerrit-{x}"))
-            content = content.replace("GERRIT_ID_PLACEHOLDER", f"gerrit-{self.pod_id}")
+            content = content.replace(
+                "GERRIT_ID_PLACEHOLDER", f"gerrit-{self.pod_id}-catchup"
+            )
         with open(os.path.join(self.site, "etc/replication.config"), "w") as file:
             file.write(content)
 
@@ -83,6 +89,6 @@ class PullReplicationConfigurator:
 
     def configure_gerrit_configuration(self):
         LOG.info("Setting gerrit configuration for pod-idx: {}".format(self.pod_id))
-
+        self._remove_symlink("etc/gerrit.config")
         gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
         self._configure_instance_id(gerrit_config_configmap)
