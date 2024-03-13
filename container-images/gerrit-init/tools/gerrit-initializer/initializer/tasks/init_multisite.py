@@ -44,7 +44,7 @@ class GerritInitMultisite(GerritInit):
                     if os.path.isfile(
                         os.path.join(f"{MNT_PATH}/etc/{config_type}", file_or_dir)
                     ):
-                        if file_or_dir in ["replication.config", "gerrit.config"]:
+                        if file_or_dir in ["replication.config"]:
                             LOG.info(
                                 "Skipping symlink of {}, will be set up by PullReplicationConfigurator".format(
                                     file_or_dir
