@@ -28,6 +28,7 @@ class InitConfig:
 
         self.is_ha = False
         self.refdb = False
+        self.is_multisite = False
 
     def parse(self, config_file):
         if not os.path.exists(config_file):
@@ -57,6 +58,7 @@ class InitConfig:
         self.is_ha = "highAvailability" in config and config["highAvailability"]
         if "refdb" in config:
             self.refdb = config["refdb"]
+        self.is_multisite = "multisite" in config and config["multisite"]
 
         return self
 

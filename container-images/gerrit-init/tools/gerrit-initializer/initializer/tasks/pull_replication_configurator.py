@@ -42,6 +42,9 @@ class PullReplicationConfigurator:
     def _get_replicas_num(self):
         return int(os.environ.get('REPLICAS'))
 
+    def _remove_symlink(self, path):
+        os.unlink(os.path.join(self.site, path))
+
     def _get_remote_host_postfix(self):
         namespace = os.environ.get('NAMESPACE_NAME')
         headless_svc = os.environ.get('HEADLESS_SVC')
@@ -75,6 +78,6 @@ class PullReplicationConfigurator:
 
     def configure_gerrit_configuration(self):
         LOG.info('Setting gerrit configuration for pod-idx: {}'.format(self.pod_id))
-
+        self._remove_symlink('etc/gerrit.config')
         gerrit_config_configmap = os.path.join(MNT_PATH, 'etc/config/gerrit.config')
         self._configure_instance_id(gerrit_config_configmap)

@@ -33,6 +33,8 @@ MAX_CACHED_VERSIONS = 5
 REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
+REQUIRED_MULTISITE_LIBS = ["events-broker", "global-refdb", "multi-site"]
+REQUIRED_MULTISITE_PLUGINS =  ["events-kafka", "multi-site", "websession-broker"]
 
 
 class InvalidPluginException(Exception):
@@ -82,6 +84,8 @@ class AbstractPluginInstaller(ABC):
         required = REQUIRED_PLUGINS.copy()
         if self.config.is_ha:
             required.extend(REQUIRED_HA_PLUGINS)
+        elif self.config.is_multisite:
+            required.extend(REQUIRED_MULTISITE_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
         LOG.info("Requiring plugins: %s", required)
@@ -91,6 +95,8 @@ class AbstractPluginInstaller(ABC):
         required = []
         if self.config.is_ha:
             required.extend(REQUIRED_HA_LIBS)
+        elif self.config.is_multisite:
+            required.extend(REQUIRED_MULTISITE_LIBS)
         LOG.info("Requiring libs: %s", required)
         return required
 
