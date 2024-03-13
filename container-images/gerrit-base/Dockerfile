@@ -52,6 +52,14 @@ RUN curl -f -k -o /var/plugins/events-broker.jar ${EVENTS_BROKER_URL}
 ARG EVENTS_KAFKA_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-events-kafka-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-kafka/events-kafka.jar
 RUN curl -f -k -o /var/plugins/events-kafka.jar ${EVENTS_KAFKA_URL}
 
+# Download websession-broker plugin
+ARG WEBSESSION_BROKER_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-websession-broker-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar
+RUN curl -f -k -o /var/plugins/websession-broker.jar ${WEBSESSION_BROKER_URL}
+
+# Download multi-site plugin
+ARG MULTI_SITE_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-multi-site-bazel-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar
+RUN curl -f -k -o /var/plugins/multi-site.jar ${MULTI_SITE_URL}
+
 # Allow incoming traffic
 EXPOSE 29418 8080
 
