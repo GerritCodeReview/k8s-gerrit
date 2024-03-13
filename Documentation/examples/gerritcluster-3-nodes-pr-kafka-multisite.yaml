@@ -31,6 +31,11 @@ spec:
     storageClasses:
       readWriteOnce: standard
 
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper-service.kafka-zk.svc.cluster.local:2181
+
   ingress:
     enabled: true
     host: gerrit.multisite.com
@@ -130,5 +135,9 @@ spec:
             [replication]
               lockErrorMaxRetries = 5
               maxRetries = 5
+
+        multi-site.config: |-
+            [index]
+              maxTries = 50
 
       secretRef: gerrit-secure-config
