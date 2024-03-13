@@ -22,6 +22,12 @@ metadata:
   name: gerrit
   namespace: gerrit
 spec:
+  containerImages:
+      imagePullPolicy: Always
+      gerritImages:
+        registry: docker.io
+        org: avilaplana
+        tag: latest
   eventsBroker:
     brokerType: KAFKA
     kafkaConfig:
@@ -30,6 +36,11 @@ spec:
   storage:
     storageClasses:
       readWriteOnce: standard
+
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper-service.kafka-zk.svc.cluster.local:2181
 
   ingress:
     enabled: false
@@ -109,6 +120,8 @@ spec:
             [container]
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
+            [plugin "websession-broker"]
+              webSessionTopic = gerrit_web_session
 
         replication.config: |-
             [remote]
@@ -131,5 +144,15 @@ spec:
               eventBrokerTopic = gerrit
               syncRefs = "ALL REFS ASYNC"
               maxApiPayloadSize = 40000
+        multi-site.config: |-
+            [index]
+              maxTries = 50
+              retryInterval = 30000
+            [broker]
+              indexEventTopic = gerrit_index
+              batchIndexEventTopic = gerrit_batch_index
+              streamEventTopic = gerrit
+              projectListEventTopic = gerrit_list_project
+              cacheEventTopic = gerrit_cache_eviction
 
       secretRef: gerrit-secure-config
