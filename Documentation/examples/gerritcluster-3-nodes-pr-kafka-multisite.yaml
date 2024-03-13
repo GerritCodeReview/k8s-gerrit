@@ -1,5 +1,34 @@
-<<<<<<< PATCH SET (758165 Add multi-site setup into the Gerrit installation)
-=======
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gerrit
+  namespace: gerrit
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gerrit
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gerrit
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gerrit
+subjects:
+- kind: ServiceAccount
+  name: gerrit
+  namespace: gerrit
+
 ---
 apiVersion: v1
 kind: Secret
@@ -18,20 +47,20 @@ data:
 type: Opaque
 
 ---
-apiVersion: "gerritoperator.google.com/v1beta10"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: GerritCluster
 metadata:
   name: gerrit
   namespace: gerrit
 spec:
-  eventsBroker:
-    brokerType: KAFKA
-    kafkaConfig:
-      connectString: kafka-service.kafka-zk.svc.cluster.local:9092
-
   storage:
     storageClasses:
       readWriteOnce: standard
+
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper-service.kafka-zk.svc.cluster.local:2181
 
   ingress:
     enabled: true
@@ -120,9 +149,40 @@ spec:
             [container]
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
+            [gerrit]
+              basePath = git
+              installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule
+              installModule = com.googlesource.gerrit.plugins.multisite.Module # multi-site needs to be a gerrit lib
+              installDbModule = com.googlesource.gerrit.plugins.multisite.GitModule
+            [plugin "events-kafka"]
+              sendAsync = true
+              bootstrapServers = kafka-service.kafka-zk.svc.cluster.local:9092
+              numberOfSubscribers = 7
+              securityProtocol = PLAINTEXT
+              pollingIntervalMs = 1000
+              enableAutoCommit = true
+              autoCommitIntervalMs = 1000
+              autoOffsetReset = latest
+              sendStreamEvents = false
+              groupId = INSTANCE_ID_PLACEHOLDER
+            [plugin "websession-broker"]
+              webSessionTopic = gerrit_web_session
 
         replication.config: |-
-            [remote]
+            [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]
+              url = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-1:8080/${name}.git
+              apiUrl = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-1:8080
+              fetch = +refs/*:refs/*
+              mirror = true
+              timeout = 600
+              rescheduleDelay = 15
+              replicationDelay = 5
+              createMissingRepositories = true
+              replicateProjectDeletions = true
+              replicateHiddenProjects = true
+            [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-2"]
+              url = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-2:8080/${name}.git
+              apiUrl = http://REMOTE_INSTANCE_HOST_PLACEHOLDER-2:8080
               fetch = +refs/*:refs/*
               mirror = true
               timeout = 600
@@ -140,8 +200,18 @@ spec:
               useCGitClient = false
               consumeStreamEvents = false
               eventBrokerTopic = gerrit
+              eventBrokerGroupId = GERRIT_ID_PLACEHOLDER
               syncRefs = "ALL REFS ASYNC"
               maxApiPayloadSize = 40000
+        multi-site.config: |-
+            [index]
+              maxTries = 50
+              retryInterval = 30000
+            [broker]
+              indexEventTopic = gerrit_index
+              batchIndexEventTopic = gerrit_batch_index
+              streamEventTopic = gerrit
+              projectListEventTopic = gerrit_list_project
+              cacheEventTopic = gerrit_cache_eviction
 
       secretRef: gerrit-secure-config
->>>>>>> BASE      (104e0d Use pull-replication plugin standalone with a broker)

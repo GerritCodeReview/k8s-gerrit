@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
@@ -81,7 +82,8 @@ public class GerritTemplate implements KubernetesResource {
     gerritSpec.setFluentBitSidecar(gerritCluster.getSpec().getFluentBitSidecar());
 
     if (gerritCluster.getSpec().getGerrits().stream()
-        .anyMatch(g -> g.getSpec().getMode().equals(GerritMode.PRIMARY))) {
+            .anyMatch(g -> g.getSpec().getMode().equals(GerritMode.PRIMARY))
+        || OperatorContext.isMultisite()) {
       GlobalRefDbConfig refdb = gerritCluster.getSpec().getRefdb();
       if (refdb.getZookeeper() != null && refdb.getZookeeper().getRootNode() == null) {
         refdb

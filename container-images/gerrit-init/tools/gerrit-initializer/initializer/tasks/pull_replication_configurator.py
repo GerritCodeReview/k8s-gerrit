@@ -52,9 +52,13 @@ class PullReplicationConfigurator:
     def _get_replicas_num(self):
         return int(os.environ.get("REPLICAS"))
 
+    def _remove_symlink(self, path):
+        os.unlink(os.path.join(self.site, path))
+
     def _configure_instance_id(self, template_path):
         with open(template_path, "r") as file:
             content = file.read()
+        content = content.replace(f"{INSTANCE_ID_PLACEHOLDER}", f"gerrit-{self.pod_id}")
         with open(os.path.join(self.site, "etc/gerrit.config"), "w") as file:
             file.write(content)
 
@@ -102,6 +106,12 @@ class PullReplicationConfigurator:
                     "subsection": None,
                 }
             )
+<<<<<<< PATCH SET (758165 Add multi-site setup into the Gerrit installation)
+            LOG.info('Set pull replication for remote "{}"'.format(f"gerrit-{x}"))
+            content = content.replace(
+                "GERRIT_ID_PLACEHOLDER", f"gerrit-{self.pod_id}-catchup"
+            )
+=======
             remote_section_name = f'remote "{self.pod_name_prefix}-{x}"'
             replication_config += "\n" + git.GitConfigParser.get_section_as_string(
                 remote_ops_section, "remote", False, remote_section_name
@@ -112,6 +122,7 @@ class PullReplicationConfigurator:
                 )
             )
 
+>>>>>>> BASE      (104e0d Use pull-replication plugin standalone with a broker)
         with open(os.path.join(self.site, "etc/replication.config"), "w") as file:
             file.write(replication_config)
 
@@ -127,6 +138,6 @@ class PullReplicationConfigurator:
 
     def configure_gerrit_configuration(self):
         LOG.info("Setting gerrit configuration for pod-idx: {}".format(self.pod_id))
-
+        self._remove_symlink("etc/gerrit.config")
         gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
         self._configure_instance_id(gerrit_config_configmap)
