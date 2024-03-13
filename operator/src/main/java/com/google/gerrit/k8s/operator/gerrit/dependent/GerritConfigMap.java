@@ -15,10 +15,14 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.MultisitePluginConfigBuilder;
+import com.google.gerrit.k8s.operator.gerrit.config.PullReplicationPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -75,6 +79,14 @@ public class GerritConfigMap
 
     if (!configFiles.containsKey("healthcheck.config")) {
       configFiles.put("healthcheck.config", DEFAULT_HEALTHCHECK_CONFIG);
+    }
+
+    if (OperatorContext.getClusterMode() == Constants.ClusterMode.MULTISITE) {
+      configFiles.putAll(
+          Map.of(
+              "multi-site.config", new MultisitePluginConfigBuilder(gerrit).build().toText(),
+              "replication.config",
+                  new PullReplicationPluginConfigBuilder(gerrit).build().toText()));
     }
 
     return new ConfigMapBuilder()
