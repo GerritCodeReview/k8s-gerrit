@@ -83,6 +83,5 @@ class PullReplicationConfigurator:
 
     def configure_gerrit_configuration(self):
         LOG.info("Setting gerrit configuration for pod-idx: {}".format(self.pod_id))
-
         gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
         self._configure_instance_id(gerrit_config_configmap)
