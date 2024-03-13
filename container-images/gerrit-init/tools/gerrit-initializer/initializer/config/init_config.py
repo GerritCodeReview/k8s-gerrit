@@ -61,6 +61,7 @@ class InitConfig:
 
         if "refdb" in config:
             self.refdb = config["refdb"]
+        self.is_multisite = "multisite" in config and config["multisite"]
 
         self.gerrit_headless_service_host = config["gerritHeadlessServiceHost"]
 
