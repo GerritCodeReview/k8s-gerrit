@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9232b4db_98a3ebe3",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-14T09:05:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cc775ff2_411c4d2f",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 12
+      },
+      "revId": "2146afbd6ad75bf830f79c8825aad9886d8dd2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10ae85bb_4a53e6c7",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "My C foo is a bit rusty, after staring at this code for 15min I still don\u0027t know exactly under which conditions it exits or not.",
       "parentUuid": "10ae85bb_4a53e6c7",
+      "range": {
+        "startLine": 126,
+        "startChar": 57,
+        "endLine": 126,
+        "endChar": 65
+      },
+      "revId": "2146afbd6ad75bf830f79c8825aad9886d8dd2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aceb87a_c6fbfcfe",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-14T09:05:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7664f9c5_b23d0fa3",
       "range": {
         "startLine": 126,
         "startChar": 57,
