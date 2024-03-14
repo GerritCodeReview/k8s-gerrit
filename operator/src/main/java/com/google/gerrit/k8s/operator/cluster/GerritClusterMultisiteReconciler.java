@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
           reconcilePrecondition = ClusterManagedGerritNetworkCondition.class,
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE)
     })
-public class GerritClusterNoSharedFSReconciler
+public class GerritClusterMultisiteReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
   public static final String CM_EVENT_SOURCE = "cm-event-source";
   public static final String CLUSTER_MANAGED_GERRIT_EVENT_SOURCE = "cluster-managed-gerrit";

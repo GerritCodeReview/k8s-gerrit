@@ -17,23 +17,23 @@ package com.google.gerrit.k8s.operator;
 public class OperatorContext {
   private static OperatorContext instance;
 
-  private boolean isSharedFS;
+  private boolean isMultisite;
 
-  private OperatorContext(boolean isSharedFS) {
-    this.isSharedFS = isSharedFS;
+  private OperatorContext(boolean isMultisite) {
+    this.isMultisite = isMultisite;
   }
 
-  public static OperatorContext createInstance(boolean isSharedFS) {
+  public static OperatorContext createInstance(boolean isMultisite) {
     if (instance == null) {
-      instance = new OperatorContext(isSharedFS);
+      instance = new OperatorContext(isMultisite);
     }
     return instance;
   }
 
-  public static boolean isSharedFS() {
+  public static boolean isMultisite() {
     if (instance == null) {
       throw new UnsupportedOperationException("The Operation Context must be initialised");
     }
-    return instance.isSharedFS;
+    return instance.isMultisite;
   }
 }

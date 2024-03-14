@@ -150,7 +150,7 @@ public class GerritStatefulSet
     List<PersistentVolumeClaim> pvcClaims = new ArrayList<>();
     pvcClaims.add(buildPvc(SITE_VOLUME_NAME, gerrit, gerrit.getSpec().getSite().getSize()));
 
-    if (!OperatorContext.isSharedFS()) {
+    if (OperatorContext.isMultisite()) {
       pvcClaims.add(buildPvc("shared", gerrit, gerrit.getSpec().getGitAndLogsData().getSize()));
     }
 
@@ -163,9 +163,9 @@ public class GerritStatefulSet
         .endMetadata()
         .withNewSpec()
         .withServiceName(
-            OperatorContext.isSharedFS()
-                ? GerritService.getName(gerrit)
-                : GerritHeadlessService.getName(gerrit))
+            OperatorContext.isMultisite()
+                ? GerritHeadlessService.getName(gerrit)
+                : GerritService.getName(gerrit))
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate()
@@ -251,7 +251,7 @@ public class GerritStatefulSet
   private Set<Volume> getVolumes(Gerrit gerrit) {
     Set<Volume> volumes = new HashSet<>();
 
-    if (OperatorContext.isSharedFS()) {
+    if (!OperatorContext.isMultisite()) {
       volumes.add(
           GerritCluster.getSharedVolume(
               gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
@@ -403,7 +403,7 @@ public class GerritStatefulSet
   private List<EnvVar> getEnvVars(Gerrit gerrit) {
     List<EnvVar> envVars = new ArrayList<>();
     envVars.add(GerritCluster.getPodNameEnvVar());
-    if (!OperatorContext.isSharedFS()) {
+    if (OperatorContext.isMultisite()) {
       envVars.add(GerritCluster.getPodIndexEnvVar());
       envVars.add(GerritCluster.getNamespaceNameEnvVar());
       envVars.add(

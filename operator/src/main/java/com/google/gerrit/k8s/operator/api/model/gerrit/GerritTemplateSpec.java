@@ -280,7 +280,7 @@ public class GerritTemplateSpec {
   public boolean isHighlyAvailablePrimary() {
     return getMode().equals(GerritMode.PRIMARY)
         && getReplicas() > 1
-        && OperatorContext.isSharedFS();
+        && !OperatorContext.isMultisite();
   }
 
   @Override

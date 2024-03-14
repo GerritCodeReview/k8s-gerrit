@@ -50,7 +50,7 @@ import java.util.Map;
           dependsOn = {"gerrit-istio-gateway"},
           useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE)
     })
-public class GerritIstioNoSharedFSReconciler
+public class GerritIstioMultisiteReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
   public static final String ISTIO_DESTINATION_RULE_EVENT_SOURCE =
       "gerrit-cluster-istio-destination-rule";

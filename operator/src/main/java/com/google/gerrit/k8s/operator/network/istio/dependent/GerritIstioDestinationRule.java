@@ -64,7 +64,7 @@ public class GerritIstioDestinationRule
   }
 
   private TrafficPolicy getTrafficPolicy(boolean isReplica) {
-    if (!OperatorContext.isSharedFS()) {
+    if (OperatorContext.isMultisite()) {
       return new TrafficPolicyBuilder()
           .withNewLoadBalancer()
           .withNewLoadBalancerSettingsConsistentHashLbPolicy()
