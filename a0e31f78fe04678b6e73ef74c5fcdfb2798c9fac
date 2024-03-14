@@ -45,6 +45,54 @@
       },
       "revId": "a0e31f78fe04678b6e73ef74c5fcdfb2798c9fac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90cfcad0_48928d5f",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-14T09:51:20Z",
+      "side": 1,
+      "message": "Done, tried on ash",
+      "parentUuid": "993ae8c3_ef18fa24",
+      "range": {
+        "startLine": 138,
+        "startChar": 36,
+        "endLine": 138,
+        "endChar": 86
+      },
+      "revId": "a0e31f78fe04678b6e73ef74c5fcdfb2798c9fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02b032d_9c1644f3",
+        "filename": "container-images/git-gc/tools/gc.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-14T09:51:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6615f2b_8c212499",
+      "range": {
+        "startLine": 138,
+        "startChar": 60,
+        "endLine": 138,
+        "endChar": 61
+      },
+      "revId": "a0e31f78fe04678b6e73ef74c5fcdfb2798c9fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
