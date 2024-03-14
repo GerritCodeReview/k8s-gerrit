@@ -65,18 +65,10 @@ spec:
               limits:
                 cpu: 100m
                 memory: 256Mi
-            env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
             volumeMounts:
             - name: shared
               subPath: git
               mountPath: /var/gerrit/git
-            - name: shared
-              subPathExpr: "logs/$(POD_NAME)"
-              mountPath: /var/log/git
           volumes:
           - name: shared
             persistentVolumeClaim:

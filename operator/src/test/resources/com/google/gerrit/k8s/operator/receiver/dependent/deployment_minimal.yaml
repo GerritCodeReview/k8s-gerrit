@@ -43,11 +43,6 @@ spec:
       - name: apache-git-http-backend
         imagePullPolicy: Always
         image: docker.io/k8sgerrit/apache-git-http-backend:latest
-        env:
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
         ports:
         - name: http
           containerPort: 80
@@ -61,9 +56,6 @@ spec:
             port: 80
 
         volumeMounts:
-        - name: shared
-          subPathExpr: "logs/$(POD_NAME)"
-          mountPath: /var/log/apache2
         - name: apache-credentials
           mountPath: /var/apache/credentials/.htpasswd
           subPath: .htpasswd

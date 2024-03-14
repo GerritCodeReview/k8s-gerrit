@@ -106,7 +106,6 @@ public class ReceiverDeployment
                 .getContainerImages()
                 .getGerritImages()
                 .getFullImageName("apache-git-http-backend"))
-        .withEnv(GerritCluster.getPodNameEnvVar())
         .withPorts(getContainerPorts(receiver))
         .withResources(receiver.getSpec().getResources())
         .withReadinessProbe(receiver.getSpec().getReadinessProbe())
@@ -163,7 +162,6 @@ public class ReceiverDeployment
   private Set<VolumeMount> getVolumeMounts(Receiver receiver, boolean isInitContainer) {
     Set<VolumeMount> volumeMounts = new HashSet<>();
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
-    volumeMounts.add(GerritCluster.getLogsVolumeMount("/var/log/apache2"));
 
     volumeMounts.add(
         new VolumeMountBuilder()

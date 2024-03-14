@@ -62,16 +62,8 @@ spec:
             - sh
             - -c
             args:
-            - chown -R 1000:100 /var/mnt/logs /var/mnt/git
-            env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
+            - chown -R 1000:100 /var/mnt/git
             volumeMounts:
-            - name: shared
-              subPathExpr: "logs/$(POD_NAME)"
-              mountPath: /var/mnt/logs
             - name: shared
               subPath: git
               mountPath: /var/mnt/git
@@ -89,18 +81,10 @@ spec:
               limits:
                 cpu: 100m
                 memory: 256Mi
-            env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
             volumeMounts:
             - name: shared
               subPath: git
               mountPath: /var/gerrit/git
-            - name: shared
-              subPathExpr: "logs/$(POD_NAME)"
-              mountPath: /var/log/git
             - name: nfs-config
               subPath: idmapd.conf
               mountPath: /etc/idmapd.conf

@@ -142,20 +142,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
-  public static VolumeMount getLogsVolumeMount() {
-    return getLogsVolumeMount("/var/mnt/logs");
-  }
-
-  @JsonIgnore
-  public static VolumeMount getLogsVolumeMount(String mountPath) {
-    return new VolumeMountBuilder()
-        .withName(SHARED_VOLUME_NAME)
-        .withSubPathExpr("logs/$(POD_NAME)")
-        .withMountPath(mountPath)
-        .build();
-  }
-
-  @JsonIgnore
   public static Volume getNfsImapdConfigVolume() {
     return new VolumeBuilder()
         .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
@@ -193,7 +179,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
       ContainerImageConfig imageConfig,
       List<VolumeMount> additionalVolumeMounts) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
-    volumeMounts.add(getLogsVolumeMount());
     volumeMounts.add(getGitRepositoriesVolumeMount());
 
     volumeMounts.addAll(additionalVolumeMounts);
@@ -219,7 +204,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withImage(imageConfig.getBusyBox().getBusyBoxImage())
         .withCommand(List.of("sh", "-c"))
         .withArgs(args.toString().trim())
-        .withEnv(getPodNameEnvVar())
         .withVolumeMounts(volumeMounts)
         .build();
   }

@@ -21,7 +21,6 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
-import com.google.gerrit.k8s.operator.cluster.dependent.FluentBitConfigMap;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -296,7 +295,6 @@ public class GerritStatefulSet
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
-    volumeMounts.add(GerritCluster.getLogsVolumeMount());
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
@@ -351,7 +349,12 @@ public class GerritStatefulSet
             .withMountPath("/fluent-bit/etc/")
             .build());
 
-    volumeMounts.add(GerritCluster.getLogsVolumeMount());
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(SITE_VOLUME_NAME)
+            .withSubPath("logs")
+            .withMountPath("/var/mnt/logs")
+            .build());
 
     return volumeMounts;
   }

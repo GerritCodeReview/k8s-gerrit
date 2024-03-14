@@ -20,7 +20,6 @@ COPY tools /var/tools/
 COPY config/* /var/config/
 
 RUN mkdir -p /var/mnt/git \
-  && mkdir -p /var/mnt/logs \
   && chown -R gerrit:users /var/mnt
 
 USER gerrit
