@@ -18,5 +18,5 @@ externalKeyStore:
   # Java keystore password (not base64-encoded)
   password: ""
 
-sharedFileSystem:
-  enabled: true
+multisite:
+  enabled: false

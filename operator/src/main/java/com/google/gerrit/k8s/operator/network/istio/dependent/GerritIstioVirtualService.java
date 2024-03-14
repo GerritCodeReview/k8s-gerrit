@@ -110,7 +110,7 @@ public class GerritIstioVirtualService
       HTTPRouteDestination dest =
           getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace);
 
-      if (OperatorContext.isSharedFS()) {
+      if (!OperatorContext.isMultisite()) {
         routes.add(
             new HTTPRouteBuilder()
                 .withName(

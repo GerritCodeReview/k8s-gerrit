@@ -39,7 +39,7 @@ public class GerritClusterGerritsTest {
       String expectedGerritReplicaOutputFile)
       throws ConfigInvalidException {
 
-    OperatorContext.createInstance(true);
+    OperatorContext.createInstance(false);
     GerritCluster gerritCluster =
         ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), inputFile);
     ClusterManagedGerrit clusterManagedGerrit = new ClusterManagedGerrit();
