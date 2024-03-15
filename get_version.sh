@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REV=$(git describe --always --dirty)
+REV=$(git describe --always --dirt --abbrev=10)
 GERRIT_VERSION=$(docker run --platform=linux/amd64 --entrypoint "/bin/sh" gerrit-base:$REV \
     -c "java -jar /var/gerrit/bin/gerrit.war version")
 GERRIT_VERSION=$(echo "${GERRIT_VERSION##*$'\n'}" | cut -d' ' -f3 | tr -d '[:space:]')
