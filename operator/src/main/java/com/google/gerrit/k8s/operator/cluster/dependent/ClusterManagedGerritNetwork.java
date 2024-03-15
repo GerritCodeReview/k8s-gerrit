@@ -22,7 +22,7 @@ import com.google.gerrit.k8s.operator.api.model.network.GerritNetworkSpec;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMember;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMemberWithSsh;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
-import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
+import com.google.gerrit.k8s.operator.util.KubernetesDependentCustomResource;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
@@ -30,7 +30,7 @@ import java.util.Optional;
 
 @KubernetesDependent
 public class ClusterManagedGerritNetwork
-    extends CRUDReconcileAddKubernetesDependentResource<GerritNetwork, GerritCluster> {
+    extends KubernetesDependentCustomResource<GerritNetwork, GerritCluster> {
   public static final String NAME_SUFFIX = "gerrit-network";
 
   public ClusterManagedGerritNetwork() {
