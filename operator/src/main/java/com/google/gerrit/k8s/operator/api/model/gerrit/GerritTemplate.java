@@ -27,6 +27,7 @@ import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
@@ -126,6 +127,8 @@ public class GerritTemplate implements KubernetesResource {
         .withName(metadata.getName())
         .withLabels(metadata.getLabels())
         .withNamespace(gerritCluster.getMetadata().getNamespace())
+        .withAnnotations(
+            Map.of("gerritoperator.google.com/apiVersion", gerritCluster.getApiVersion()))
         .build();
   }
 

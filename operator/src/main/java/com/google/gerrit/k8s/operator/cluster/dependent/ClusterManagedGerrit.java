@@ -17,7 +17,7 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
-import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
+import com.google.gerrit.k8s.operator.util.CRUDReconcileConsiderMetadataKubernetesDependentResource;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ClusterManagedGerrit
-    extends CRUDReconcileAddKubernetesDependentResource<Gerrit, GerritCluster>
+    extends CRUDReconcileConsiderMetadataKubernetesDependentResource<Gerrit, GerritCluster>
     implements Deleter<GerritCluster>, BulkDependentResource<Gerrit, GerritCluster> {
 
   public ClusterManagedGerrit() {
