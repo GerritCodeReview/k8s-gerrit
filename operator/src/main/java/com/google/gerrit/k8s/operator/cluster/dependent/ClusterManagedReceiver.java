@@ -16,11 +16,11 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
-import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
+import com.google.gerrit.k8s.operator.util.KubernetesDependentCustomResource;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 
 public class ClusterManagedReceiver
-    extends CRUDReconcileAddKubernetesDependentResource<Receiver, GerritCluster> {
+    extends KubernetesDependentCustomResource<Receiver, GerritCluster> {
 
   public ClusterManagedReceiver() {
     super(Receiver.class);
