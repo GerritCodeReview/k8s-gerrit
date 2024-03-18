@@ -168,6 +168,24 @@
       "message": "maybe we can skip this, iterating an empty list should be quick",
       "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "742c4fd3_d71b59ab",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedIncomingReplicationTaskCondition.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-18T15:01:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42080d50_5be8a74c",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
