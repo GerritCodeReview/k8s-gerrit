@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac119f4_37ad9b69",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T15:28:07Z",
+      "side": 1,
+      "message": "mention the default RefSpec",
+      "revId": "5f6b823b85867b5d163faca488ca2c345a284100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d2c4fd_40816907",
+        "filename": "container-images/fetch-job/fetch-config.example.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T15:28:07Z",
+      "side": 1,
+      "message": "remove spurious quote",
+      "range": {
+        "startLine": 11,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "5f6b823b85867b5d163faca488ca2c345a284100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
