@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f186608_73aa4992",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T10:39:05Z",
+      "side": 1,
+      "message": "keep numbered list ?",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "267b5b59_75a7f67b",
+        "filename": "container-images/fetch-job/README.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T10:39:05Z",
+      "side": 1,
+      "message": "local gerrit",
+      "range": {
+        "startLine": 6,
+        "startChar": 66,
+        "endLine": 6,
+        "endChar": 83
+      },
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d9215f4_91203e59",
+        "filename": "container-images/fetch-job/README.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T10:39:05Z",
+      "side": 1,
+      "message": "mention where to put credentials (if needed) for the remote git server ?",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7275218_408f7778",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/tasks/incomingrepl/IncomingReplicationTaskSpec.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T10:39:05Z",
+      "side": 1,
+      "message": "maybe you need to call the superclass\u0027es toString if it also adds relevant fields which should show up here",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42080d50_5be8a74c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/dependent/ClusterManagedIncomingReplicationTaskCondition.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-18T10:39:05Z",
+      "side": 1,
+      "message": "maybe we can skip this, iterating an empty list should be quick",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
