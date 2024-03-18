@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90b1b1d6_5d23c369",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-18T15:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f186608_73aa4992",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "267b5b59_75a7f67b",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-03-18T10:39:05Z",
       "side": 1,
       "message": "local gerrit",
+      "range": {
+        "startLine": 6,
+        "startChar": 66,
+        "endLine": 6,
+        "endChar": 83
+      },
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72389fb0_c5b88a0e",
+        "filename": "container-images/fetch-job/README.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-18T15:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "267b5b59_75a7f67b",
       "range": {
         "startLine": 6,
         "startChar": 66,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb32c90_0cc710ca",
+        "filename": "container-images/fetch-job/README.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-18T15:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d9215f4_91203e59",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7275218_408f7778",
@@ -71,6 +131,24 @@
       "writtenOn": "2024-03-18T10:39:05Z",
       "side": 1,
       "message": "maybe you need to call the superclass\u0027es toString if it also adds relevant fields which should show up here",
+      "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29e78f30_fc5c5ce8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/tasks/incomingrepl/IncomingReplicationTaskSpec.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-18T15:00:42Z",
+      "side": 1,
+      "message": "Will do that in a separate change to also fix all other occurrences.",
+      "parentUuid": "c7275218_408f7778",
       "revId": "f1a49df12e9db5e713f88efcb68d8d702dc9bfcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
