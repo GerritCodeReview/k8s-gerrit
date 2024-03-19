@@ -190,7 +190,7 @@ gc_project()
 
   delete_stale_gc_lock "$PROJECT_DIR"
 
-  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" --prune $OPTS \
+  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" --cruft --prune $OPTS \
         || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
