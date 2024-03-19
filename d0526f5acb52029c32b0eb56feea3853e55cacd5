@@ -33,6 +33,42 @@
       "message": "This can\u0027t be part of the label definition, but you would need to define a submit requirement. Done in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/395239",
       "revId": "d0526f5acb52029c32b0eb56feea3853e55cacd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44365607_0a1514f4",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3357938
+      },
+      "writtenOn": "2024-03-19T22:50:12Z",
+      "side": 1,
+      "message": "\u003e This has to be done in the submit-requirement section not in label",
+      "parentUuid": "ad5ff804_363d37e4",
+      "revId": "d0526f5acb52029c32b0eb56feea3853e55cacd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45a93cec_e55ee9e9",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3357938
+      },
+      "writtenOn": "2024-03-19T22:50:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3e539490_0895c218",
+      "revId": "d0526f5acb52029c32b0eb56feea3853e55cacd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
