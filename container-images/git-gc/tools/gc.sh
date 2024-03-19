@@ -190,7 +190,7 @@ gc_project()
 
   delete_stale_gc_lock "$PROJECT_DIR"
 
-  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" --auto --prune $OPTS \
+  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" --prune $OPTS \
         || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
@@ -221,8 +221,8 @@ GC_PROJECTS_OPT=0
 DONOT_WRITE_BITMAPS_OPT=0
 DONOT_PACK_REFS_OPT=0
 PRESERVE_PACKS_OPT=0
-# set auto gc options on the fly when git gc is triggered by cron
-GC_CONFIG="-c gc.auto=6700 -c gc.autoPackLimit=4"
+# optional additional git config options
+GC_CONFIG=""
 
 while getopts 's:p:BRP?h' c
 do
