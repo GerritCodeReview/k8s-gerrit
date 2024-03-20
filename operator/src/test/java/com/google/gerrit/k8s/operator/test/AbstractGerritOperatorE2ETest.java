@@ -26,6 +26,7 @@ import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.Config;
@@ -64,6 +65,7 @@ public abstract class AbstractGerritOperatorE2ETest {
           .withReconciler(new GitGarbageCollectionReconciler(client))
           .withReconciler(new ReceiverReconciler(client))
           .withReconciler(getGerritNetworkReconciler())
+          .withReconciler(new IncomingReplicationTaskReconciler())
           .build();
 
   @BeforeEach
