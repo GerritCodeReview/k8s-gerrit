@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3da41b17_bb4fed45",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/cluster/dependent/gerrit_primary.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-20T15:19:05Z",
+      "side": 1,
+      "message": "shouldn\u0027t we use v1beta7 now ?",
+      "revId": "f68b2353d159038c77a87f761f579f5ab81ece11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
