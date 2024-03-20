@@ -19,13 +19,18 @@ import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
+import io.javaoperatorsdk.operator.OperatorException;
 
 public class Main {
 
   public static void main(String[] args) throws Exception {
-    Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
-    injector.getInstance(HttpServer.class).start();
-    injector.getInstance(ValidationWebhookConfigs.class).apply();
-    injector.getInstance(GerritOperator.class).start();
+    try {
+      Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
+      injector.getInstance(HttpServer.class).start();
+      injector.getInstance(ValidationWebhookConfigs.class).apply();
+      injector.getInstance(GerritOperator.class).start();
+    } catch (OperatorException e) {
+      System.exit(1);
+    }
   }
 }
