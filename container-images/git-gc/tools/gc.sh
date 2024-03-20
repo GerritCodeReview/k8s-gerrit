@@ -180,7 +180,9 @@ gc_project()
   git --git-dir="$PROJECT_DIR" config gc.autodetach false
   git --git-dir="$PROJECT_DIR" config gc.auto 0
   git --git-dir="$PROJECT_DIR" config gc.autopacklimit 0
+  git --git-dir="$PROJECT_DIR" config gc.cruftPacks true
   git --git-dir="$PROJECT_DIR" config gc.packrefs true
+  git --git-dir="$PROJECT_DIR" config gc.pruneExpire 2.weeks.ago
   git --git-dir="$PROJECT_DIR" config gc.reflogexpire never
   git --git-dir="$PROJECT_DIR" config gc.reflogexpireunreachable never
   git --git-dir="$PROJECT_DIR" config receive.autogc false
@@ -190,7 +192,7 @@ gc_project()
 
   delete_stale_gc_lock "$PROJECT_DIR"
 
-  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" --cruft --prune $OPTS \
+  OUT=$(git $GC_CONFIG --git-dir="$PROJECT_DIR" "$GC_COMMAND" $OPTS \
         || date +"%D %r Failed: $PROJECT_NAME") \
     && log "$OUT"
 
