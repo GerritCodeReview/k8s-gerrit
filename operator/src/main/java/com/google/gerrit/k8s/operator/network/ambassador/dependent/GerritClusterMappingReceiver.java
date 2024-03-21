@@ -49,10 +49,24 @@ public class GerritClusterMappingReceiver extends AbstractAmbassadorDependentRes
                     gerritNetwork, GERRIT_MAPPING_RECEIVER, this.getClass().getSimpleName()))
             .endMetadata()
             .withNewSpecLike(getCommonSpec(gerritNetwork, receiverServiceName))
-            .withPrefix(PROJECTS_URL_PATTERN + "|" + RECEIVE_PACK_URL_PATTERN)
-            .withPrefixRegex(true)
+            .withPrefix(getPrefix(gerritNetwork))
+            .withPrefixRegex(useRegexPrefix(gerritNetwork))
             .endSpec()
             .build();
     return mapping;
+  }
+
+  private String getPrefix(GerritNetwork gerritNetwork) {
+    if (gerritNetwork.hasGerritReplica()) {
+      return PROJECTS_URL_PATTERN + "|" + RECEIVE_PACK_URL_PATTERN;
+    }
+    return "/";
+  }
+
+  private boolean useRegexPrefix(GerritNetwork gerritNetwork) {
+    if (gerritNetwork.hasGerritReplica()) {
+      return true;
+    }
+    return false;
   }
 }

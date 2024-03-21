@@ -100,7 +100,7 @@ public class GerritClusterIngress
               gerritNetwork.getMetadata().getNamespace(),
               svcName);
     }
-    if (gerritNetwork.hasReceiver()) {
+    if (gerritNetwork.hasReceiver() && gerritNetwork.hasGerritReplica()) {
       String svcName = ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName());
       configSnippet =
           createNginxConfigSnippetGerritReplicaRouting(
@@ -253,11 +253,25 @@ public class GerritClusterIngress
     ServiceBackendPort port =
         new ServiceBackendPortBuilder().withName(ReceiverService.HTTP_PORT_NAME).build();
 
-    for (String path : List.of(PROJECTS_URL_PATTERN, RECEIVE_PACK_URL_PATTERN)) {
+    if (gerritNetwork.hasGerritReplica()) {
+      for (String path : List.of(PROJECTS_URL_PATTERN, RECEIVE_PACK_URL_PATTERN)) {
+        paths.add(
+            new HTTPIngressPathBuilder()
+                .withPathType("Prefix")
+                .withPath(path)
+                .withNewBackend()
+                .withNewService()
+                .withName(svcName)
+                .withPort(port)
+                .endService()
+                .endBackend()
+                .build());
+      }
+    } else {
       paths.add(
           new HTTPIngressPathBuilder()
               .withPathType("Prefix")
-              .withPath(path)
+              .withPath("/")
               .withNewBackend()
               .withNewService()
               .withName(svcName)

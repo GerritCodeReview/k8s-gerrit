@@ -1,0 +1,16 @@
+apiVersion: "gerritoperator.google.com/v1beta7"
+kind: GerritNetwork
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  ingress:
+    enabled: true
+    host: example.com
+    tls:
+      enabled: false
+    ambassador:
+      id: ["my-id-1", "my-id-2"]
+  receiver:
+    name: receiver
+    httpPort: 48081

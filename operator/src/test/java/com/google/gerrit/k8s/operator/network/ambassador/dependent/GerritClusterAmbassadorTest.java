@@ -120,6 +120,9 @@ public class GerritClusterAmbassadorTest {
                 GerritClusterMappingReceiver.class.getName(), "mapping_receiver.yaml",
                 GerritClusterMappingReceiverGET.class.getName(), "mappingGET_receiver.yaml")),
         Arguments.of(
+            "../../gerritnetwork_receiver.yaml",
+            Map.of(GerritClusterMappingReceiver.class.getName(), "mapping_receiver_only.yaml")),
+        Arguments.of(
             "../../gerritnetwork_receiver_replica_tls.yaml",
             Map.of(
                 GerritClusterMapping.class.getName(), "mapping_replica.yaml",

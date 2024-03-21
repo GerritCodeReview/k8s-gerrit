@@ -45,6 +45,7 @@ public class GerritClusterIngressTest {
         Arguments.of("../../gerritnetwork_primary_replica.yaml", "ingress_primary_replica.yaml"),
         Arguments.of("../../gerritnetwork_primary.yaml", "ingress_primary.yaml"),
         Arguments.of("../../gerritnetwork_replica.yaml", "ingress_replica.yaml"),
+        Arguments.of("../../gerritnetwork_receiver.yaml", "ingress_receiver.yaml"),
         Arguments.of("../../gerritnetwork_receiver_replica.yaml", "ingress_receiver_replica.yaml"),
         Arguments.of(
             "../../gerritnetwork_receiver_replica_tls.yaml", "ingress_receiver_replica_tls.yaml"));

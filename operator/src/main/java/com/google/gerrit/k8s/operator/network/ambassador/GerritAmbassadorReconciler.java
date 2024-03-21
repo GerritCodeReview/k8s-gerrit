@@ -35,6 +35,7 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritCluster
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.LoadBalanceCondition;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverGETMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
@@ -132,7 +133,7 @@ import java.util.Map;
       @Dependent(
           name = GERRIT_MAPPING_RECEIVER_GET,
           type = GerritClusterMappingReceiverGET.class,
-          reconcilePrecondition = ReceiverMappingCondition.class,
+          reconcilePrecondition = ReceiverGETMappingCondition.class,
           useEventSourceWithName = MAPPING_EVENT_SOURCE),
       @Dependent(
           name = GERRIT_TLS_CONTEXT,
