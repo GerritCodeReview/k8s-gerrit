@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: gerrit-gerrit-http-virtual-service
+  namespace: gerrit
+spec:
+  hosts:
+  - example.com
+  gateways:
+  - gerrit/gerrit-istio-gateway
+  http:
+  - name: receiver-receiver
+    route:
+    - destination:
+        port:
+          number: 48081
+        host: receiver.gerrit.svc.cluster.local

@@ -84,10 +84,15 @@ public class GerritIstioVirtualService
     String namespace = gerritNetwork.getMetadata().getNamespace();
     List<HTTPRoute> routes = new ArrayList<>();
     if (gerritNetwork.hasReceiver()) {
-      routes.add(
+      HTTPRouteBuilder receiverRouteBuilder =
           new HTTPRouteBuilder()
-              .withName("receiver-" + gerritNetwork.getSpec().getReceiver().getName())
-              .withMatch(getReceiverMatches())
+              .withName("receiver-" + gerritNetwork.getSpec().getReceiver().getName());
+      if (gerritNetwork.hasGerritReplica()) {
+        receiverRouteBuilder = receiverRouteBuilder.withMatch(getReceiverMatches());
+      }
+
+      routes.add(
+          receiverRouteBuilder
               .withRoute(
                   getReceiverHTTPDestination(gerritNetwork.getSpec().getReceiver(), namespace))
               .build());

@@ -61,6 +61,8 @@ public class GerritClusterIstioTest {
         Arguments.of(
             "../../gerritnetwork_replica.yaml", "gateway.yaml", "virtualservice_replica.yaml"),
         Arguments.of(
+            "../../gerritnetwork_receiver.yaml", "gateway.yaml", "virtualservice_receiver.yaml"),
+        Arguments.of(
             "../../gerritnetwork_receiver_replica.yaml",
             "gateway.yaml",
             "virtualservice_receiver_replica.yaml"),
