@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.api.model.shared.HttpSshServiceConfig;
 import io.fabric8.kubernetes.api.model.Affinity;
+import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
 import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
@@ -52,6 +53,7 @@ public class GerritTemplateSpec {
   private List<GerritPlugin> plugins = List.of();
   private List<GerritModule> libs = List.of();
   private Map<String, String> configFiles = Map.of();
+  private List<EnvVar> envVars = List.of();
   private String secretRef;
   private GerritMode mode = GerritMode.PRIMARY;
 
@@ -83,6 +85,7 @@ public class GerritTemplateSpec {
     this.plugins = templateSpec.plugins;
     this.libs = templateSpec.libs;
     this.configFiles = templateSpec.configFiles;
+    this.envVars = templateSpec.envVars;
     this.secretRef = templateSpec.secretRef;
     this.mode = templateSpec.mode;
 
@@ -236,6 +239,14 @@ public class GerritTemplateSpec {
     this.configFiles = configFiles;
   }
 
+  public List<EnvVar> getEnvVars() {
+    return envVars;
+  }
+
+  public void setEnvVars(List<EnvVar> envVars) {
+    this.envVars = envVars;
+  }
+
   public String getSecretRef() {
     return secretRef;
   }
@@ -276,6 +287,7 @@ public class GerritTemplateSpec {
         affinity,
         configFiles,
         debug,
+        envVars,
         gracefulStopTimeout,
         libs,
         livenessProbe,
@@ -303,6 +315,7 @@ public class GerritTemplateSpec {
     GerritTemplateSpec other = (GerritTemplateSpec) obj;
     return Objects.equals(affinity, other.affinity)
         && Objects.equals(configFiles, other.configFiles)
+        && Objects.equals(envVars, other.envVars)
         && Objects.equals(debug, other.debug)
         && gracefulStopTimeout == other.gracefulStopTimeout
         && Objects.equals(libs, other.libs)
@@ -359,6 +372,8 @@ public class GerritTemplateSpec {
         + libs
         + ", configFiles="
         + configFiles
+        + ", envVars="
+        + envVars
         + ", secretRef="
         + secretRef
         + ", mode="

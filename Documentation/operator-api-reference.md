@@ -76,7 +76,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta7 \
+**Version**: v1beta8 \
 **Kind**: GerritCluster
 
 ---
@@ -93,7 +93,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta7"
+apiVersion: "gerritoperator.google.com/v1beta8"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -302,6 +302,10 @@ spec:
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
 
+      envVars:
+      - name: GOOGLE_APPLICATION_CREDENTIALS
+        value: /var/gerrit/etc/gcp-credentials.json
+
       secretRef: gerrit-secure-config
 
   receiver:
@@ -391,7 +395,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta7 \
+**Version**: v1beta8 \
 **Kind**: Gerrit
 
 ---
@@ -408,7 +412,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta7"
+apiVersion: "gerritoperator.google.com/v1beta8"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -534,6 +538,10 @@ spec:
           javaOptions = -Xms200m
           javaOptions = -Xmx4g
 
+  envVars:
+  - name: GOOGLE_APPLICATION_CREDENTIALS
+    value: /var/gerrit/etc/gcp-credentials.json
+
   secretRef: gerrit-secure-config
 
   serverId: ""
@@ -599,7 +607,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta7 \
+**Version**: v1beta8 \
 **Kind**: Receiver
 
 ---
@@ -616,7 +624,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta7"
+apiVersion: "gerritoperator.google.com/v1beta8"
 kind: Receiver
 metadata:
   name: receiver
@@ -727,7 +735,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta7 \
+**Version**: v1beta8 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -744,7 +752,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta7"
+apiVersion: "gerritoperator.google.com/v1beta8"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -788,7 +796,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta7 \
+**Version**: v1beta8 \
 **Kind**: GerritNetwork
 
 ---
@@ -804,7 +812,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta7"
+apiVersion: "gerritoperator.google.com/v1beta8"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -837,7 +845,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta7 \
+**Version**: v1beta8 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -853,7 +861,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta7"
+apiVersion: "gerritoperator.google.com/v1beta8"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -1114,6 +1122,7 @@ The input and file name label is always configured by the operator.
 | `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |
 | `libs` | [`GerritModule`](#gerritmodule)-Array | List of Gerrit library modules to install. These lib modules will be downloaded. (optional) |
 | `configFiles` | `Map<String, String>` | Configuration files for Gerrit that will be mounted into the Gerrit site's etc-directory (gerrit.config is mandatory) |
+| `envVars` |  [`List<EnvVar>`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#envvar-v1-core) | Environment variables that will be set in the pod. (optional) |
 | `secretRef` | `String` | Name of secret containing configuration files, e.g. secure.config, that will be mounted into the Gerrit site's etc-directory (optional) |
 | `mode` | [`GerritMode`](#gerritmode) | In which mode Gerrit should be run. (default: PRIMARY) |
 | `debug` | [`GerritDebugConfig`](#gerritdebugconfig) | Enable the debug-mode for Gerrit |
