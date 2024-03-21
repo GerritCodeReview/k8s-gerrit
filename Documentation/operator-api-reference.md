@@ -302,6 +302,9 @@ spec:
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
 
+      envVars:
+        GOOGLE_APPLICATION_CREDENTIALS: /var/gerrit/etc/gcp-credentials.json
+
       secretRef: gerrit-secure-config
 
   receiver:
@@ -533,6 +536,9 @@ spec:
         [container]
           javaOptions = -Xms200m
           javaOptions = -Xmx4g
+
+  envVars:
+    GOOGLE_APPLICATION_CREDENTIALS: /var/gerrit/etc/gcp-credentials.json
 
   secretRef: gerrit-secure-config
 
@@ -1114,6 +1120,7 @@ The input and file name label is always configured by the operator.
 | `plugins` | [`GerritPlugin`](#gerritplugin)-Array | List of Gerrit plugins to install. These plugins can either be packaged in the Gerrit war-file or they will be downloaded. (optional) |
 | `libs` | [`GerritModule`](#gerritmodule)-Array | List of Gerrit library modules to install. These lib modules will be downloaded. (optional) |
 | `configFiles` | `Map<String, String>` | Configuration files for Gerrit that will be mounted into the Gerrit site's etc-directory (gerrit.config is mandatory) |
+| `envVars` |  `Map<String, String>` | Environment variables that will be set in the pod. (optional) |
 | `secretRef` | `String` | Name of secret containing configuration files, e.g. secure.config, that will be mounted into the Gerrit site's etc-directory (optional) |
 | `mode` | [`GerritMode`](#gerritmode) | In which mode Gerrit should be run. (default: PRIMARY) |
 | `debug` | [`GerritDebugConfig`](#gerritdebugconfig) | Enable the debug-mode for Gerrit |

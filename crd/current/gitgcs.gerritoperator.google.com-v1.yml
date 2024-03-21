@@ -13,7 +13,7 @@ spec:
     singular: gitgarbagecollection
   scope: Namespaced
   versions:
-  - name: v1beta7
+  - name: v1beta8
     schema:
       openAPIV3Schema:
         properties:
