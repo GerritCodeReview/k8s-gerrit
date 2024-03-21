@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c50d145a_17c46923",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-21T16:38:08Z",
+      "side": 1,
+      "message": "Is this just a rename? I see a lot more going on in the change.",
+      "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
