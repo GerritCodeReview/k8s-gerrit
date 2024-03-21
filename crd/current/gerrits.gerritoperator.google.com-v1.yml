@@ -787,6 +787,10 @@ spec:
                 additionalProperties:
                   type: string
                 type: object
+              envVars:
+                additionalProperties:
+                  type: string
+                type: object
               secretRef:
                 type: string
               mode:

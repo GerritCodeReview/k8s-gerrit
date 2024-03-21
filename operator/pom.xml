@@ -24,8 +24,8 @@
 		<lombok.version>1.18.28</lombok.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<docker.registry>docker.io</docker.registry>
-		<docker.org>k8sgerrit</docker.org>
+		<docker.registry>gerrit-dev.common.repositories.cloud.sap</docker.registry>
+		<docker.org>k8sgerrit-dev</docker.org>
 
 		<test.docker.registry>docker.io</test.docker.registry>
 		<test.docker.org>k8sgerritdev</test.docker.org>
@@ -341,7 +341,7 @@
 							</from>
 							<to>
 								<image>gerrit-operator</image>
-								<tags>${revision}</tags>
+								<tags>i561397</tags>
 							</to>
 						</configuration>
 					</execution>

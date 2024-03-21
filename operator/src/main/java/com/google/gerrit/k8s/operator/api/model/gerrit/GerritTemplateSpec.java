@@ -52,6 +52,7 @@ public class GerritTemplateSpec {
   private List<GerritPlugin> plugins = List.of();
   private List<GerritModule> libs = List.of();
   private Map<String, String> configFiles = Map.of();
+  private Map<String, String> envVars = Map.of();
   private String secretRef;
   private GerritMode mode = GerritMode.PRIMARY;
 
@@ -83,6 +84,7 @@ public class GerritTemplateSpec {
     this.plugins = templateSpec.plugins;
     this.libs = templateSpec.libs;
     this.configFiles = templateSpec.configFiles;
+    this.envVars = templateSpec.envVars;
     this.secretRef = templateSpec.secretRef;
     this.mode = templateSpec.mode;
 
@@ -236,6 +238,14 @@ public class GerritTemplateSpec {
     this.configFiles = configFiles;
   }
 
+  public Map<String, String> getEnvVars() {
+    return envVars;
+  }
+
+  public void setEnvVars(Map<String, String> envVars) {
+    this.envVars = envVars;
+  }
+
   public String getSecretRef() {
     return secretRef;
   }
@@ -276,6 +286,7 @@ public class GerritTemplateSpec {
         affinity,
         configFiles,
         debug,
+        envVars,
         gracefulStopTimeout,
         libs,
         livenessProbe,
@@ -303,6 +314,7 @@ public class GerritTemplateSpec {
     GerritTemplateSpec other = (GerritTemplateSpec) obj;
     return Objects.equals(affinity, other.affinity)
         && Objects.equals(configFiles, other.configFiles)
+        && Objects.equals(envVars, other.envVars)
         && Objects.equals(debug, other.debug)
         && gracefulStopTimeout == other.gracefulStopTimeout
         && Objects.equals(libs, other.libs)
@@ -359,6 +371,8 @@ public class GerritTemplateSpec {
         + libs
         + ", configFiles="
         + configFiles
+        + ", envVars="
+        + envVars
         + ", secretRef="
         + secretRef
         + ", mode="
