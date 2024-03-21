@@ -16,6 +16,24 @@
       "message": "Is this just a rename? I see a lot more going on in the change.",
       "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "260dcf98_3ad3d081",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-21T16:42:41Z",
+      "side": 1,
+      "message": "Well, the rename is problematic I believe: the new name has the opposite meaning.\n\nBefore this change \u003d\u003e true \u003d HA (shared filesystem)\nAfter this change  \u003d\u003e true \u003d Multi-site (no shared filesystem)\n\nWhy don\u0027t we squash this to the change that introduces the feature flag instead?",
+      "parentUuid": "c50d145a_17c46923",
+      "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
