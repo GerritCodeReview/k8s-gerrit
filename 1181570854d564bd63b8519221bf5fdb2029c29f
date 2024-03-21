@@ -34,6 +34,24 @@
       "parentUuid": "c50d145a_17c46923",
       "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f286bdc7_1ea56dd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-03-21T16:59:32Z",
+      "side": 1,
+      "message": "At the beginning of the chain, the installation was not multi-site and that is why we used the term `SHARED_FILE_SYSTEM`. Now the installation has multisite and for that reason, we changed the term to `MULTI_SITE`. \n\n\u003e Before this change \u003d\u003e true \u003d HA (shared filesystem)\nAfter this change \u003d\u003e true \u003d Multi-site (no shared filesystem)\n\nI think the code is self-explanatory and all the if statements have been changed according to the right approach.\n\nHaving said that it is true that the `SHARED_FILE_SYSTEM` caused some confusion and some reviewers raised it.\n\nWe are happy to redo the initial change even knowing that the installation will not be multisite.",
+      "parentUuid": "260dcf98_3ad3d081",
+      "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
