@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af128ca_1224d0f4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-21T09:08:16Z",
+      "side": 1,
+      "message": "I think this code would be more readable if this is inlined here:\n```\nwithPrefixRegex(gerritNetwork.hasGerritReplica())\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 58
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e4db315_d0c71f64",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-21T09:08:16Z",
+      "side": 1,
+      "message": "```\nreturn gerritNetwork.hasGerritReplica()\n```",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 17
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e993f45_515a8c81",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/ReceiverGETMappingCondition.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-21T09:08:16Z",
+      "side": 1,
+      "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e007f510_d591d090",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-21T09:08:16Z",
+      "side": 1,
+      "message": "Most of the options here are repeated from the same block from 272-281. Would it make sense to factor out the common part?",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 26
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
