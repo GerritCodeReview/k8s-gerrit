@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1121ce65_6e3d6dc8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-21T09:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af128ca_1224d0f4",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 58
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e4db315_d0c71f64",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51231819_305eda90",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-21T09:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e4db315_d0c71f64",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 17
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e993f45_515a8c81",
@@ -60,6 +108,30 @@
       "writtenOn": "2024-03-21T09:08:16Z",
       "side": 1,
       "message": "2024",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7938b264_8f75805a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/ReceiverGETMappingCondition.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-21T09:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e993f45_515a8c81",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "764ad3a6_7a60635b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/ReceiverGETMappingCondition.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-21T09:20:21Z",
+      "side": 1,
+      "message": "I am just following the pattern introduced by Musaab. It is all uppercase, because it refers to the request method GET (here info/refs).",
+      "parentUuid": "f7d1d2c7_59eed52a",
+      "range": {
+        "startLine": 23,
+        "startChar": 21,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e007f510_d591d090",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java",
         "patchSetId": 2
@@ -106,6 +202,30 @@
       "writtenOn": "2024-03-21T09:08:16Z",
       "side": 1,
       "message": "Most of the options here are repeated from the same block from 272-281. Would it make sense to factor out the common part?",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 268,
+        "endChar": 26
+      },
+      "revId": "ebab76d54b227e5442e6c091e908944d71d4f134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd42914_f0367957",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-21T09:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e007f510_d591d090",
       "range": {
         "startLine": 259,
         "startChar": 0,
