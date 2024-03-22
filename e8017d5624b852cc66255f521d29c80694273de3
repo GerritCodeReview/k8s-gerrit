@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "498b5982_cd56c03f",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-03-22T09:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45928f32_b25e82b1",
+      "revId": "e8017d5624b852cc66255f521d29c80694273de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ec5ca44_43ea6c75",
@@ -48,6 +66,30 @@
       "writtenOn": "2024-03-22T07:59:27Z",
       "side": 1,
       "message": "Consider using the EnvVar object directly. That keeps the API closer to Kubernetes native.",
+      "range": {
+        "startLine": 55,
+        "startChar": 10,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "e8017d5624b852cc66255f521d29c80694273de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ae935a8_15e59233",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplateSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-03-22T09:55:31Z",
+      "side": 1,
+      "message": "Done. Patchset 3 -\u003e Patchset 4",
+      "parentUuid": "3ec5ca44_43ea6c75",
       "range": {
         "startLine": 55,
         "startChar": 10,
