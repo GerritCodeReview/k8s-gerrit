@@ -1,0 +1,15 @@
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: gerrit-mapping-receiver
+  namespace: gerrit
+spec:
+  ambassador_id:
+    - my-id-1
+    - my-id-2
+  bypass_auth: true
+  rewrite: ""
+  host: example.com
+  prefix: /
+  prefix_regex: false
+  service: receiver:48081
