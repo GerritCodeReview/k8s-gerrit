@@ -171,7 +171,7 @@ public class GerritStatefulSet
         .withNewPreStop()
         .withNewExec()
         .withCommand(
-            "/bin/ash/", "-c", "kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null")
+            "/bin/ash", "-c", "kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null")
         .endExec()
         .endPreStop()
         .endLifecycle()
