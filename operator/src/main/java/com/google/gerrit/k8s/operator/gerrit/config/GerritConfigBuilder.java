@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -73,12 +74,15 @@ public class GerritConfigBuilder extends ConfigBuilder {
       requiredOptions.add(new RequiredOption<String>("gerrit", "serverId", serverId));
     }
 
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
+        || gerrit.getSpec().isHighlyAvailablePrimary()) {
       requiredOptions.add(
           new RequiredOption<Set<String>>(
               "gerrit",
               "installModule",
               Set.of("com.gerritforge.gerrit.globalrefdb.validation.LibModule")));
+    }
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       requiredOptions.add(
           new RequiredOption<Set<String>>(
               "gerrit",
