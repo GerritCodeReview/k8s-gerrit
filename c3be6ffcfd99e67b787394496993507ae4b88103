@@ -16,6 +16,24 @@
       "message": "It\u0027s important to note that we encountered an issue with `Session affinity based on source IP` when deploying a `multisite` installation in `GKE` using the `Istio default profile`. We observed that the source IP was lost after the traffic passed through the ingress gateways, resulting in traffic from the same user being distributed across all pods.\n\nAfter researching, we found a solution documented at https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/. We applied a patch to the `istio-ingressgateway` service using the following command:\n```\nkubectl patch svc istio-ingressgateway -n istio-system -p \u0027{\"spec\":{\"externalTrafficPolicy\":\"Local\"}}\u0027\n```\nThis resolved the issue, ensuring that traffic from the same user consistently reached the same pod. However, I acknowledge that my understanding of Istio is limited, and I need to delve deeper into it for further investigation.",
       "revId": "c3be6ffcfd99e67b787394496993507ae4b88103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "effc85de_80cfa8b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-26T17:21:22Z",
+      "side": 1,
+      "message": "Good to know. We indeed use that option to ensure transparent IPs. This is not an Istio specific option, but something that has to be configured in the load balancer provided by the infrastructure. In Kubernetes this is done via the service (type loadbalancer). Note, that this only enables transparency until the request reaches the ingressgateway pods, afterwards the IP is again the same for all clients, but then target instance should already have been determined by Istio. To enable client IP forwarding beyond the ingressgateway pods, one has to use the TPROXY interception mode: https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1/#ProxyConfig-InboundInterceptionMode.",
+      "parentUuid": "348f4b66_d3ea90a7",
+      "revId": "c3be6ffcfd99e67b787394496993507ae4b88103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
