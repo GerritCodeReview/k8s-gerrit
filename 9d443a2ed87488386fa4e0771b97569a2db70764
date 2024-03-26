@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ec16403_0314beb0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ingress/dependent/GerritClusterIngress.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-03-26T13:19:53Z",
+      "side": 1,
+      "message": "This should rather be of Duration type so that it is clear what the unit is. At the usage place (line 121, 122) the Duration is converted to the target unit.",
+      "revId": "9d443a2ed87488386fa4e0771b97569a2db70764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
