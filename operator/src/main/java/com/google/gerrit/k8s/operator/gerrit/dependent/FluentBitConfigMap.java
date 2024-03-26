@@ -31,11 +31,13 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
       """
       [SERVICE]
         Parsers_file parsers.conf
+        Storage.path /var/log/flb-storage/
       """;
   private static final String FLUENT_BIT_TEXT_LOG_INPUT =
       """
       [INPUT]
         Name tail
+        Storage.type filesystem
         Path /var/mnt/logs/*_log
         Tag <log_name>
         Tag_Regex ^\\/var\\/mnt\\/logs\\/(?<log_name>[^*]+)
@@ -47,6 +49,7 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
       """
       [INPUT]
         Name tail
+        Storage.type filesystem
         Path /var/mnt/logs/*_log.json
         Tag <log_name>
         Tag_Regex ^\\/var\\/mnt\\/logs\\/(?<log_name>.+)
