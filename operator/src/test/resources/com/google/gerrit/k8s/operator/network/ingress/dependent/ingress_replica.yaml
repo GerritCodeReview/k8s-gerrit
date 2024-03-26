@@ -9,8 +9,8 @@ metadata:
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/session-cookie-name: Gerrit_Session
     nginx.ingress.kubernetes.io/session-cookie-path: /
-    nginx.ingress.kubernetes.io/session-cookie-max-age: 60
-    nginx.ingress.kubernetes.io/session-cookie-expires: 60
+    nginx.ingress.kubernetes.io/session-cookie-max-age: 3600
+    nginx.ingress.kubernetes.io/session-cookie-expires: 3600
 spec:
   rules:
   - host: example.com

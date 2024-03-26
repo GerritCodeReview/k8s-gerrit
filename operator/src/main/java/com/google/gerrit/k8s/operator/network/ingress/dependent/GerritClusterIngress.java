@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
-import static com.google.gerrit.k8s.operator.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
 import static com.google.gerrit.k8s.operator.network.Constants.GERRIT_FORBIDDEN_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
@@ -47,6 +46,8 @@ import java.util.Map;
 public class GerritClusterIngress
     extends CRUDReconcileAddKubernetesDependentResource<Ingress, GerritNetwork> {
   public static final String INGRESS_NAME = "gerrit-ingress";
+  public static final String SESSION_COOKIE_NAME = "Gerrit_Session";
+  public static final String SESSION_COOKIE_TTL = "3600";
 
   public GerritClusterIngress() {
     super(Ingress.class);
@@ -117,8 +118,8 @@ public class GerritClusterIngress
     annotations.put("nginx.ingress.kubernetes.io/affinity", "cookie");
     annotations.put("nginx.ingress.kubernetes.io/session-cookie-name", SESSION_COOKIE_NAME);
     annotations.put("nginx.ingress.kubernetes.io/session-cookie-path", "/");
-    annotations.put("nginx.ingress.kubernetes.io/session-cookie-max-age", "60");
-    annotations.put("nginx.ingress.kubernetes.io/session-cookie-expires", "60");
+    annotations.put("nginx.ingress.kubernetes.io/session-cookie-max-age", SESSION_COOKIE_TTL);
+    annotations.put("nginx.ingress.kubernetes.io/session-cookie-expires", SESSION_COOKIE_TTL);
 
     return annotations;
   }
