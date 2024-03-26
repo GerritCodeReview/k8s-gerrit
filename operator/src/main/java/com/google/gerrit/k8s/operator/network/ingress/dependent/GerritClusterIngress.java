@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
-import static com.google.gerrit.k8s.operator.api.model.network.GerritNetwork.SESSION_COOKIE_NAME;
 import static com.google.gerrit.k8s.operator.network.Constants.GERRIT_FORBIDDEN_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
@@ -38,6 +37,7 @@ import io.fabric8.kubernetes.api.model.networking.v1.ServiceBackendPort;
 import io.fabric8.kubernetes.api.model.networking.v1.ServiceBackendPortBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +47,8 @@ import java.util.Map;
 public class GerritClusterIngress
     extends CRUDReconcileAddKubernetesDependentResource<Ingress, GerritNetwork> {
   public static final String INGRESS_NAME = "gerrit-ingress";
+  public static final String SESSION_COOKIE_NAME = "Gerrit_Session";
+  public static final Duration SESSION_COOKIE_TTL = Duration.ofSeconds(3600L);
 
   public GerritClusterIngress() {
     super(Ingress.class);
@@ -117,8 +119,12 @@ public class GerritClusterIngress
     annotations.put("nginx.ingress.kubernetes.io/affinity", "cookie");
     annotations.put("nginx.ingress.kubernetes.io/session-cookie-name", SESSION_COOKIE_NAME);
     annotations.put("nginx.ingress.kubernetes.io/session-cookie-path", "/");
-    annotations.put("nginx.ingress.kubernetes.io/session-cookie-max-age", "60");
-    annotations.put("nginx.ingress.kubernetes.io/session-cookie-expires", "60");
+    annotations.put(
+        "nginx.ingress.kubernetes.io/session-cookie-max-age",
+        String.valueOf(SESSION_COOKIE_TTL.getSeconds()));
+    annotations.put(
+        "nginx.ingress.kubernetes.io/session-cookie-expires",
+        String.valueOf(SESSION_COOKIE_TTL.getSeconds()));
 
     return annotations;
   }
