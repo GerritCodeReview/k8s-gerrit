@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d032672_ebe27992",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/FluentBitConfigMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-03-26T13:10:08Z",
+      "side": 1,
+      "message": "I don\u0027t believe that this is safe. This directory is not on a persistent volume and thus might be gone after a pod restart. I would suggest using a subdirectory under /var/mnt/logs",
+      "revId": "71c8fdda4d8336fc743778ed12bd8e7b1c6c9d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
