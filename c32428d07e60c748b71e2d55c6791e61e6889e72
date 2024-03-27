@@ -16,6 +16,24 @@
       "message": "Please test that this works, e.g. that the directory is created by fluentbit",
       "revId": "c32428d07e60c748b71e2d55c6791e61e6889e72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95687cbd_4afaacee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-03-27T12:48:42Z",
+      "side": 1,
+      "message": "Tested on my test cluster. Folder created as var/gerrit/logs/flb-storage \u0026 present when pod restarted",
+      "parentUuid": "d31f3f8d_deaf7c08",
+      "revId": "c32428d07e60c748b71e2d55c6791e61e6889e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
