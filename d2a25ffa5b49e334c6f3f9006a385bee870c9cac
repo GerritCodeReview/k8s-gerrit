@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60dc9de7_60c8197d",
+        "filename": "container-images/gerrit/tools/start",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-03-28T10:12:47Z",
+      "side": 1,
+      "message": "I checked in gerrit-0 pod that with our sapmachine installation `security.overridePropertiesFile\u003dtrue`:\n\n```\n/var/sapmachine/conf/security $ cat java.security  | grep overridePropertiesFile\n# the command line, set the key security.overridePropertiesFile\nsecurity.overridePropertiesFile\u003dtrue\n```\n\nsee https://dzone.com/articles/how-override-java-security\nand https://www.java.com/en/configure_crypto.html",
+      "revId": "d2a25ffa5b49e334c6f3f9006a385bee870c9cac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
