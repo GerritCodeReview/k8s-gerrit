@@ -74,7 +74,8 @@ public class GerritConfigBuilder extends ConfigBuilder {
       requiredOptions.add(new RequiredOption<String>("gerrit", "serverId", serverId));
     }
 
-    if (!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
+    if ((!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
+            && gerrit.getSpec().getMode().equals(GerritMode.PRIMARY))
         || gerrit.getSpec().isHighlyAvailablePrimary()) {
       requiredOptions.add(
           new RequiredOption<Set<String>>(
