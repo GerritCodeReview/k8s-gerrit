@@ -107,6 +107,7 @@ while [ $# -gt 0 ] ; do
     shift
 done
 args=$(git rev-parse --sq-quote "$@")
+echo "git args: $args"
 
 repopath=$(git rev-parse --git-dir)
 if [ -z "$repopath" ]; then
