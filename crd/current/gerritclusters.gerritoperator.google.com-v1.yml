@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-  - name: v1beta8
+  - name: v1beta9
     schema:
       openAPIV3Schema:
         properties:
