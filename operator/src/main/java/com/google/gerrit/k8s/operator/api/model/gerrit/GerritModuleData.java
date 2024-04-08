@@ -18,6 +18,7 @@ import java.util.Objects;
 
 public class GerritModuleData {
   private String secretRef;
+  private boolean executable;
 
   public String getSecretRef() {
     return secretRef;
@@ -27,9 +28,17 @@ public class GerritModuleData {
     this.secretRef = secretRef;
   }
 
+  public boolean isExecutable() {
+    return executable;
+  }
+
+  public void setExecutable(boolean executable) {
+    this.executable = executable;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(secretRef);
+    return Objects.hash(executable, secretRef);
   }
 
   @Override
@@ -38,11 +47,11 @@ public class GerritModuleData {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     GerritModuleData other = (GerritModuleData) obj;
-    return Objects.equals(secretRef, other.secretRef);
+    return executable == other.executable && Objects.equals(secretRef, other.secretRef);
   }
 
   @Override
   public String toString() {
-    return "GerritModuleData [secretRef=" + secretRef + "]";
+    return "GerritModuleData [secretRef=" + secretRef + ", executable=" + executable + "]";
   }
 }

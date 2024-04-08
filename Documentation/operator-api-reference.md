@@ -76,7 +76,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta8 \
+**Version**: v1beta9 \
 **Kind**: GerritCluster
 
 ---
@@ -93,7 +93,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta8"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -263,6 +263,12 @@ spec:
       # Installs a packaged plugin
       - name: delete-project
 
+      # Plugin with data files
+      - name: hooks
+        data:
+          secretRef: hooks
+          executable: false
+
       # Downloads and installs a plugin
       - name: javamelody
         url: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.6/job/plugin-javamelody-bazel-master-stable-3.6/lastSuccessfulBuild/artifact/bazel-bin/plugins/javamelody/javamelody.jar
@@ -395,7 +401,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta8 \
+**Version**: v1beta9 \
 **Kind**: Gerrit
 
 ---
@@ -412,7 +418,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta8"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -496,6 +502,12 @@ spec:
   plugins:
   # Installs a plugin packaged into the gerrit.war file
   - name: delete-project
+
+  # Plugin with data files
+  - name: hooks
+    data:
+      secretRef: hooks
+      executable: false
 
   # Downloads and installs a plugin
   - name: javamelody
@@ -607,7 +619,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta8 \
+**Version**: v1beta9 \
 **Kind**: Receiver
 
 ---
@@ -624,7 +636,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta8"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: Receiver
 metadata:
   name: receiver
@@ -735,7 +747,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta8 \
+**Version**: v1beta9 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -752,7 +764,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta8"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -796,7 +808,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta8 \
+**Version**: v1beta9 \
 **Kind**: GerritNetwork
 
 ---
@@ -812,7 +824,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta8"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -845,7 +857,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta8 \
+**Version**: v1beta9 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -861,7 +873,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta8"
+apiVersion: "gerritoperator.google.com/v1beta9"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -1162,6 +1174,7 @@ compared to the parent object. All other options can still be configured.
 | Field | Type | Description |
 |---|---|---|
 | `secretRef` | `String` | Name of a secretRef. The secret will be mounted under the gerrit site's `data/$module_name` directory|
+| `executable` | `boolean` | Whether the mounted data files should have executable permissions (file mode 754 instead of 644). (default: false) |
 
 ## GerritPlugin
 
