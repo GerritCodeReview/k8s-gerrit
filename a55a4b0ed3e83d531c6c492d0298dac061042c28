@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c1cbba3_58934f10",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-08T13:37:26Z",
+      "side": 1,
+      "message": "```suggestion\n      envVars:\n      - name: GOOGLE_APPLICATION_CREDENTIALS\n        value: /var/gerrit/etc/gcp-credentials.json\n```",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 51
+      },
+      "revId": "a55a4b0ed3e83d531c6c492d0298dac061042c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
