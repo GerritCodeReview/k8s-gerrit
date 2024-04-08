@@ -264,6 +264,7 @@ public class GerritStatefulSet
               .withName(md.getSecretRef())
               .withNewSecret()
               .withSecretName(md.getSecretRef())
+              .withDefaultMode(md.isExecutable() ? 492 : 420)
               .endSecret()
               .build());
     }
