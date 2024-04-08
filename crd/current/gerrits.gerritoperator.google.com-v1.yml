@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1beta8
+  - name: v1beta9
     schema:
       openAPIV3Schema:
         properties:
@@ -764,6 +764,8 @@ spec:
                       properties:
                         secretRef:
                           type: string
+                        executable:
+                          type: boolean
                       type: object
                   type: object
                 type: array
@@ -780,6 +782,8 @@ spec:
                       properties:
                         secretRef:
                           type: string
+                        executable:
+                          type: boolean
                       type: object
                   type: object
                 type: array
