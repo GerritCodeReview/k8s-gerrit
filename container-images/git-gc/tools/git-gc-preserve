@@ -92,11 +92,12 @@ preserve_packs() { # repo
 # pack-0...2.pack to pack-0...2.old-pack
 # pack-0...2.idx to pack-0...2.old-idx
 get_preserved_packfile_name() { # packfile > preserved_packfile
-  if [[ $1 == *.pack ]]; then
-    echo "$(basename -- $1 .pack).old-pack"
-  elif [[ $1 == *.idx ]]; then
-    echo "$(basename -- $1 .idx).old-idx"
-  fi
+  case "$1" in
+    *.pack)
+      echo "$(basename -- $1 .pack).old-pack";;
+    *.idx)
+      echo "$(basename -- $1 .idx).old-idx";;
+  esac
 }
 
 # main
