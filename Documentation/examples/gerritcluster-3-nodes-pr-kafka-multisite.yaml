@@ -156,6 +156,8 @@ spec:
               installModule = com.googlesource.gerrit.plugins.multisite.Module # multi-site needs to be a gerrit lib
               installDbModule = com.googlesource.gerrit.plugins.multisite.GitModule
               instanceId = INSTANCE_ID_PLACEHOLDER
+            [metrics]
+              reservoir = SlidingTimeWindow
             [plugin "events-kafka"]
               sendAsync = true
               bootstrapServers = kafka-service.kafka-zk.svc.cluster.local:9092
@@ -169,6 +171,8 @@ spec:
               groupId = INSTANCE_ID_PLACEHOLDER
             [plugin "websession-broker"]
               webSessionTopic = gerrit_web_session
+            [plugin "metrics-reporter-prometheus"]
+              prometheusBearerToken = some-bearer-token
 
         replication.config: |-
             [remote "REMOTE_INSTANCE_ID_PLACEHOLDER-1"]

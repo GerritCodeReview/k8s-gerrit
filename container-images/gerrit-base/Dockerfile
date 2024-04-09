@@ -65,6 +65,11 @@ ARG WEBSESSION_BROKER_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-
 
 RUN curl -f -k -o /var/plugins/websession-broker.jar ${WEBSESSION_BROKER_URL}
 
+# Download metrics-reporter-prometheus plugin
+ARG REPORTER_PROMETHEUS_URL=https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.9/job/plugin-metrics-reporter-prometheus-bazel-master-stable-3.9/lastSuccessfulBuild/artifact/bazel-bin/plugins/metrics-reporter-prometheus/metrics-reporter-prometheus.jar
+
+RUN curl -f -k -o /var/plugins/metrics-reporter-prometheus.jar ${REPORTER_PROMETHEUS_URL}
+
 # Allow incoming traffic
 EXPOSE 29418 8080
 
