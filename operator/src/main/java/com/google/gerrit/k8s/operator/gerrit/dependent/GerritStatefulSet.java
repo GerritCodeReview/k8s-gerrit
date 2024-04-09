@@ -121,7 +121,7 @@ public class GerritStatefulSet
     stsBuilder
         .withApiVersion("apps/v1")
         .withNewMetadata()
-        .withName(gerrit.getMetadata().getName())
+        .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(getLabels(gerrit))
         .endMetadata()
@@ -203,6 +203,14 @@ public class GerritStatefulSet
         .endSpec();
 
     return stsBuilder.build();
+  }
+
+  public static String getName(Gerrit gerrit) {
+    return getName(gerrit.getMetadata().getName());
+  }
+
+  public static String getName(String gerritName) {
+    return gerritName;
   }
 
   private static String getComponentName(String gerritName) {
