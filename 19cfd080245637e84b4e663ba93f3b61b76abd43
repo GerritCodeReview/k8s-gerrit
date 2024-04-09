@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c754984_3dccab76",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-09T08:07:11Z",
+      "side": 1,
+      "message": "Did you mean file mode ?\nhttps://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html",
+      "range": {
+        "startLine": 1177,
+        "startChar": 96,
+        "endLine": 1177,
+        "endChar": 101
+      },
+      "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24aca836_e2199911",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritModuleData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-09T08:07:11Z",
+      "side": 1,
+      "message": "would it make sense to allow configuration of `int mode` instead of `boolean executable` ?",
+      "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ab12c11_8c91488b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-09T08:07:11Z",
+      "side": 1,
+      "message": "I expected 754 and 644",
+      "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
