@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3295c18_11212ca9",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-09T09:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c754984_3dccab76",
+      "range": {
+        "startLine": 1177,
+        "startChar": 96,
+        "endLine": 1177,
+        "endChar": 101
+      },
+      "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24aca836_e2199911",
