@@ -34,7 +34,8 @@ REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
 REQUIRED_MULTISITE_LIBS = ["events-broker", "global-refdb", "multi-site", "pull-replication"]
-REQUIRED_MULTISITE_PLUGINS =  ["events-kafka", "multi-site", "pull-replication", "websession-broker"]
+REQUIRED_MULTISITE_PLUGINS = ["events-kafka", "multi-site", "pull-replication", "websession-broker"]
+REQUIRED_METRICS_PLUGINS = ["metrics-reporter-prometheus"]
 
 
 class InvalidPluginException(Exception):
@@ -86,6 +87,7 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_HA_PLUGINS)
         elif self.config.is_multisite:
             required.extend(REQUIRED_MULTISITE_PLUGINS)
+            required.extend(REQUIRED_METRICS_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
         LOG.info("Requiring plugins: %s", required)
