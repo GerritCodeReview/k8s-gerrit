@@ -89,6 +89,7 @@ rules:
   - "gateways"
   - "virtualservices"
   - "destinationrules"
+  - "serviceentries"
   verbs:
   - '*'
 - apiGroups:
