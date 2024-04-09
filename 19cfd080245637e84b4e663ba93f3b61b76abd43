@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0289aa02_d3e6017d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritModuleData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-09T09:11:37Z",
+      "side": 1,
+      "message": "I don\u0027t believe there is a lot of value. ConfigMaps and Secrets are anyway always read-only. You will never want to block the user running the container and if you exec the container, you are always that user with our containers. I don\u0027t believe there is a scenario where we want to have any other file modes than 644 or 754.",
+      "parentUuid": "24aca836_e2199911",
+      "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ab12c11_8c91488b",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
         "patchSetId": 2
@@ -54,6 +72,24 @@
       "writtenOn": "2024-04-09T08:07:11Z",
       "side": 1,
       "message": "I expected 754 and 644",
+      "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "522ede6d_59c9c979",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-09T09:11:37Z",
+      "side": 1,
+      "message": "In Kubernetes you have to use decimal values instead of octal, if you use json to communicate with the API server, which the operator does.",
+      "parentUuid": "8ab12c11_8c91488b",
       "revId": "19cfd080245637e84b4e663ba93f3b61b76abd43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
