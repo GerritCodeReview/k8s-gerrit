@@ -20,7 +20,6 @@ import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.GerritClusterIngressCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritClusterIstioGateway;
-import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioDestinationRule;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioVirtualService;
 import com.google.inject.Singleton;
@@ -45,7 +44,7 @@ import java.util.Map;
       @Dependent(
           name = "gerrit-destination-rules",
           type = GerritIstioDestinationRule.class,
-          reconcilePrecondition = GerritIstioCondition.class,
+          reconcilePrecondition = GerritClusterIngressCondition.class,
           useEventSourceWithName = ISTIO_DESTINATION_RULE_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-istio-gateway",
@@ -54,7 +53,7 @@ import java.util.Map;
       @Dependent(
           name = "gerrit-istio-virtual-service",
           type = GerritIstioVirtualService.class,
-          reconcilePrecondition = GerritIstioCondition.class,
+          reconcilePrecondition = GerritClusterIngressCondition.class,
           dependsOn = {"gerrit-istio-gateway"},
           useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE)
     })
