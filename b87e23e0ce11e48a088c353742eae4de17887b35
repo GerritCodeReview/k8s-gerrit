@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45ee77e2_b21707e0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-10T08:38:56Z",
+      "side": 1,
+      "message": "use octal literals to make this clearer\nsee https://www.freecodecamp.org/news/number-systems-in-java/\n\n```suggestion\n              .withDefaultMode(md.isExecutable() ? 0754 : 0644)\n```",
+      "range": {
+        "startLine": 267,
+        "startChar": 14,
+        "endLine": 267,
+        "endChar": 61
+      },
+      "revId": "b87e23e0ce11e48a088c353742eae4de17887b35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
