@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b06cb4_6830f5e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-10T11:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ef7fa0_efa48c03",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c1b17a5_bebd5256",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1fd5965_f06b2966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-10T11:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c1b17a5_bebd5256",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bd587fa_343005df",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-04-10T09:39:44Z",
       "side": 1,
       "message": "this method looks strange, it\u0027s not really a getter, it just returns the method parameter, so why do we need this ?\n\nsame question for GerritService#getName",
+      "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a889ffa_e37dca96",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-10T11:11:57Z",
+      "side": 1,
+      "message": "The reason for this method is that I need a static access to it from other classes, since I need to reference it from them. Naming could be improved.",
+      "parentUuid": "8bd587fa_343005df",
       "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
