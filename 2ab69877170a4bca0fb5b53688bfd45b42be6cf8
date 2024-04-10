@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c09d59_70797110",
+        "filename": "helm-charts/gerrit-operator/templates/rbac.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-10T08:54:01Z",
+      "side": 1,
+      "message": "this addition seems unrelated",
+      "revId": "2ab69877170a4bca0fb5b53688bfd45b42be6cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
