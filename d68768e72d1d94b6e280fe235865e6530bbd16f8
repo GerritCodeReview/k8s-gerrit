@@ -128,6 +128,24 @@
       "parentUuid": "8bd587fa_343005df",
       "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177c0943_35e7c24a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-04-10T15:24:33Z",
+      "side": 1,
+      "message": "I think this method is a no-op, the compiler will inline it replacing the call to this method by the parameter the caller provides.",
+      "parentUuid": "7a889ffa_e37dca96",
+      "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
