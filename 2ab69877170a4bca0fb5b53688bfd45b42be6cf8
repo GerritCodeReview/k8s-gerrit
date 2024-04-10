@@ -16,6 +16,24 @@
       "message": "this addition seems unrelated",
       "revId": "2ab69877170a4bca0fb5b53688bfd45b42be6cf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04bddc90_e29245d7",
+        "filename": "helm-charts/gerrit-operator/templates/rbac.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-10T11:10:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37c09d59_70797110",
+      "revId": "2ab69877170a4bca0fb5b53688bfd45b42be6cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
