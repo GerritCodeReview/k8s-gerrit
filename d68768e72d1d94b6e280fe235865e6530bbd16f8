@@ -146,6 +146,24 @@
       "parentUuid": "7a889ffa_e37dca96",
       "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e87be631_2d3c7d34",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-16T11:49:19Z",
+      "side": 1,
+      "message": "Yes, as of now it is. As we define here the StatefulSet gets the same name as the parent Gerrit resource. Other resources, need the name of the StatefulSet, but do not necessarily now about that convention (and it should not have to). If we change how the name is generated, we would have wrong references in the other resources, which would lead to runtime failures. Doing it this way (using static methods), does not add any overhead during runtime, but reduces the place we need to change the naming pattern in to a single place. Further, reading the code from which this method is called now makes it clear which resource is referenced there.\nIt would of course be preferable to always use `getName(Gerrit gerrit)`, but that would require us to either hand the Gerrit resource over with other resources leading to huge yaml files with unnecessary data or to run queries against the API server, which just adds overhead.",
+      "parentUuid": "177c0943_35e7c24a",
+      "revId": "d68768e72d1d94b6e280fe235865e6530bbd16f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
