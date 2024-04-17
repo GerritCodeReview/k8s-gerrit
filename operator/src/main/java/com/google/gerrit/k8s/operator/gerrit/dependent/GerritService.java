@@ -58,7 +58,7 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
   }
 
   public static String getName(Gerrit gerrit) {
-    return gerrit.getMetadata().getName();
+    return getName(gerrit.getMetadata().getName());
   }
 
   public static String getName(String gerritName) {
@@ -66,11 +66,11 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
   }
 
   public static String getName(GerritTemplate gerrit) {
-    return gerrit.getMetadata().getName();
+    return getName(gerrit.getMetadata().getName());
   }
 
   public static String getHostname(Gerrit gerrit) {
-    return getHostname(gerrit.getMetadata().getName(), gerrit.getMetadata().getNamespace());
+    return getHostname(getName(gerrit), gerrit.getMetadata().getNamespace());
   }
 
   public static String getHostname(String name, String namespace) {
@@ -82,12 +82,16 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
         "http://%s:%s", getHostname(gerrit), gerrit.getSpec().getService().getHttpPort());
   }
 
-  public static Map<String, String> getLabels(Gerrit gerrit) {
+  public Map<String, String> getLabels(Gerrit gerrit) {
     return GerritCluster.getLabels(
-        gerrit.getMetadata().getName(), "gerrit-service", GerritReconciler.class.getSimpleName());
+        gerrit.getMetadata().getName(), getComponentName(), GerritReconciler.class.getSimpleName());
   }
 
-  private static List<ServicePort> getServicePorts(Gerrit gerrit) {
+  protected String getComponentName() {
+    return "gerrit-service";
+  }
+
+  protected static List<ServicePort> getServicePorts(Gerrit gerrit) {
     List<ServicePort> ports = new ArrayList<>();
     ports.add(
         new ServicePortBuilder()
