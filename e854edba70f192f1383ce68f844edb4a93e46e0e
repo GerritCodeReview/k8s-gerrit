@@ -39,6 +39,46 @@
       "message": "If you are changing CRDs you need to bump the API version to instruct k8s about the API change.\n\nThere is a script helping with that at `./operator/tools/newCRDVersion`.\n\nIn order to simplify the review we bump the API version in the first patchset and then add the CRD and code changes in subsequent patchsets. This way we can review the API bump and the new CRD and operator features separately.\n\nThis gets more complicated if multiple API changes are in flight since updates need to be serialized. I currently have this one open: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409483 which bumps the API version to v1beta6.",
       "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724451e7_3f0af6bf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:38:46Z",
+      "side": 1,
+      "message": "I believe a headless service should be installed regardless of how Gerrit is being installed. Could we thus move that to a separate change?",
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e872c8b_6a641d49",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:38:46Z",
+      "side": 1,
+      "message": "I believe that if we don\u0027t use a shared FS, we don\u0027t need separate volumes for the git repositories and the rest of the site. It could just be a single volume. That would be much easier to maintain, e.g. a snapshot would contain both indexes and repositories and it would thus be easier to keep backups in sync.\n\nImplementing that, will likely require changes in the gerrit-init container, i.e. the python scripts that it uses, since no symlinking the parts of the site into place is required anymore. That shouldn\u0027t be hard though.",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 96
+      },
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

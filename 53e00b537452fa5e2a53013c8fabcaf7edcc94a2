@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d8b2c8_b28485cd",
+        "filename": "Documentation/examples/gerritcluster-1-node.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:38:46Z",
+      "side": 1,
+      "message": "The current version is v1beta9 in the meantime",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 46
+      },
+      "revId": "53e00b537452fa5e2a53013c8fabcaf7edcc94a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69abc3f8_4e0d2add",
+        "filename": "helm-charts/gerrit-operator-crds/templates/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:38:46Z",
+      "side": 1,
+      "message": "Logs were in the meantime moved out of the NFS volume",
+      "range": {
+        "startLine": 842,
+        "startChar": 29,
+        "endLine": 842,
+        "endChar": 36
+      },
+      "revId": "53e00b537452fa5e2a53013c8fabcaf7edcc94a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
