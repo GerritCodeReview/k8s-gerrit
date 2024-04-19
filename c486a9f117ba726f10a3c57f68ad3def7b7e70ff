@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7b0549_e3bb7ad2",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T14:00:30Z",
+      "side": 1,
+      "message": "nit: too long lines\n\nPlease use black to lint python files:\n\n```\npipenv run black $(find . -name \u0027*.py\u0027)\n```",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 129
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ce15d1_246bf4f2",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T14:00:30Z",
+      "side": 1,
+      "message": "Why not let the operator compute the",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96df66fb_2f9be93f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritCluster.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T14:00:30Z",
+      "side": 1,
+      "message": "There should be no need for this. The index is part of the POD_NAME variable and thus already available.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 3
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ced0949_970fedae",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritCluster.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T14:00:30Z",
+      "side": 1,
+      "message": "Instead of using env variables, you could use the `GerritInitConfigMap`. That contains configuration used by the gerrit-init container.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
