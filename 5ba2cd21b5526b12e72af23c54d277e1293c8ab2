@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2a9493_24a52faa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-19T14:34:36Z",
+      "side": 1,
+      "message": "Yes, and that\u0027s useless 😊 I am glad that you like the default set to false, I had to keep backward compatibility with what Ericsson liked, which was forwarding also forced reindexing actions.\n\nCan you update the documentation?",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "5ba2cd21b5526b12e72af23c54d277e1293c8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
