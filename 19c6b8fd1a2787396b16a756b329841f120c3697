@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d3c3c3e_de4cb5b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:34:41Z",
+      "side": 1,
+      "message": "I would squash this change into the previous change to get the documentation with the implementation.",
+      "revId": "19c6b8fd1a2787396b16a756b329841f120c3697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
