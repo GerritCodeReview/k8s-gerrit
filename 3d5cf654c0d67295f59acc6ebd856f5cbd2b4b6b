@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be48b225_7d8f941c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:39:45Z",
+      "side": 1,
+      "message": "Squash with the previous change to keep the documentation in sync with the implementation",
+      "revId": "3d5cf654c0d67295f59acc6ebd856f5cbd2b4b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
