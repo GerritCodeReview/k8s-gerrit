@@ -52,6 +52,24 @@
       "parentUuid": "260dcf98_3ad3d081",
       "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6c5979_334527d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-19T12:29:30Z",
+      "side": 1,
+      "message": "I believe this should be squashed into the first change of the series. Yes, at that point it is not multisite, but it is also not yet providing any relevant functionality. I believe that would be better than to break the configuration later on.",
+      "parentUuid": "f286bdc7_1ea56dd6",
+      "revId": "1181570854d564bd63b8519221bf5fdb2029c29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
