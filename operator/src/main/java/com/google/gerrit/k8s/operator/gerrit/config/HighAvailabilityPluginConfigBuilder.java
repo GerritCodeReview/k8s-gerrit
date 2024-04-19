@@ -46,7 +46,7 @@ public class HighAvailabilityPluginConfigBuilder extends ConfigBuilder {
     requiredOptions.add(new RequiredOption<Boolean>("cache", "synchronize", true));
     requiredOptions.add(new RequiredOption<Boolean>("event", "synchronize", true));
     requiredOptions.add(new RequiredOption<Boolean>("index", "synchronize", true));
-    requiredOptions.add(new RequiredOption<Boolean>("index", "synchronizeForced", true));
+    requiredOptions.add(new RequiredOption<Boolean>("index", "synchronizeForced", false));
     requiredOptions.add(new RequiredOption<Boolean>("healthcheck", "enable", true));
     requiredOptions.add(new RequiredOption<Boolean>("ref-database", "enabled", true));
     return requiredOptions;
