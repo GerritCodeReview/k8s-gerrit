@@ -94,6 +94,30 @@
       },
       "revId": "5ba2cd21b5526b12e72af23c54d277e1293c8ab2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2781ef23_0c16ca1e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-22T18:03:04Z",
+      "side": 1,
+      "message": "\u003e In which scenarios would synchronizedForce \u003d true make sense at all?\n\nIt was a requirement for Ericsson (the original authors of the high-availability plugin) to always forward all events, even the forced one. I never understood their rationale though.",
+      "parentUuid": "2d71ed30_82287e93",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "5ba2cd21b5526b12e72af23c54d277e1293c8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
