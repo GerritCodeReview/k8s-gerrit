@@ -70,6 +70,30 @@
       },
       "revId": "5ba2cd21b5526b12e72af23c54d277e1293c8ab2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d71ed30_82287e93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-04-22T13:57:16Z",
+      "side": 1,
+      "message": "sorry for a funny typo it should be `synchronizeForced`",
+      "parentUuid": "d30c6536_45197c18",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "5ba2cd21b5526b12e72af23c54d277e1293c8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
