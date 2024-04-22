@@ -15,7 +15,7 @@ RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/war
 
 # Download Gerrit release
-ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.9.2.war
+ARG GERRIT_WAR_URL=https://gerrit-releases.storage.googleapis.com/gerrit-3.9.4.war
 RUN curl -f -k -o /var/war/gerrit.war ${GERRIT_WAR_URL} && \
     ln -s /var/war/gerrit.war /var/gerrit/bin/gerrit.war
 
