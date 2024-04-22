@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c511146c_bfe7425a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-04-22T15:58:01Z",
+      "side": 1,
+      "message": "Why is the metrics-reporter plugin required for multisite? Could you describe that also in the commit message?\n\nI am asking, because by now we already have a lot of plugins built into the image, increasing its size significantly. So we should avoid plugins that are not 100% required, since they can always be downloaded.\nI believe with multisite coming into play we should also start introducing setup-specific images, i.e. one for single node, one for HA and one for multisite. This would just differ in the set of plugins provided.\nIn that regard at SAP we also already discussed that we need a more stable way to download plugins, likely publishing them to Nexus/Maven. Alternatively or in addition we could consider an alternative build for Gerrit that adds HA-/Multisite components to the war-file, so that it is not required to install them separately (that is what we do at SAP).",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "e6fbc2e654a92bd67a7a1d25dd7d99a58d5d7f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
