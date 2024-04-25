@@ -19,12 +19,20 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedIncomingReplicationTask;
+import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
+import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
+import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
+import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import io.javaoperatorsdk.operator.processing.Controller;
+import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
+import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -84,20 +92,31 @@ public class IncomingReplicationTaskTest {
         .andReturn(HttpURLConnection.HTTP_OK, testSecret)
         .always();
 
-    IncomingReplicationTaskCronJob incomingReplicationTaskCronJob =
-        new IncomingReplicationTaskCronJob();
-    incomingReplicationTaskCronJob.setKubernetesClient(kubernetesServer.getClient());
-    CronJob cronJob = incomingReplicationTaskCronJob.desired(incomingReplTask, null);
+    Context<IncomingReplicationTask> context =
+        getContext(new IncomingReplicationTaskReconciler(), incomingReplTask);
+    CronJob cronJob = new IncomingReplicationTaskCronJob().desired(incomingReplTask, context);
 
     assertThat(cronJob)
         .isEqualTo(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
 
     IncomingReplicationTaskConfigMap incomingReplicationTaskConfigMap =
         new IncomingReplicationTaskConfigMap();
-    ConfigMap configMap = incomingReplicationTaskConfigMap.desired(incomingReplTask, null);
+    ConfigMap configMap = incomingReplicationTaskConfigMap.desired(incomingReplTask, context);
 
     assertThat(configMap)
         .isEqualTo(ReconcilerUtils.loadYaml(ConfigMap.class, this.getClass(), expectedConfigMap));
+  }
+
+  private Context<IncomingReplicationTask> getContext(
+      Reconciler<IncomingReplicationTask> reconciler, IncomingReplicationTask primary) {
+    Controller<IncomingReplicationTask> controller =
+        new Controller<IncomingReplicationTask>(
+            reconciler,
+            new BaseConfigurationService().getConfigurationFor(reconciler),
+            kubernetesServer.getClient());
+
+    return new DefaultContext<IncomingReplicationTask>(
+        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {

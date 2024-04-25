@@ -15,25 +15,15 @@
 package com.google.gerrit.k8s.operator.util;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
-import io.fabric8.kubernetes.client.dsl.Resource;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.Matcher.Result;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.GenericKubernetesResourceMatcher;
-import io.javaoperatorsdk.operator.processing.dependent.kubernetes.GenericResourceUpdatePreProcessor;
-import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class KubernetesDependentCustomResource<
         R extends HasMetadata, P extends HasMetadata>
     extends CRUDReconcileAddKubernetesDependentResource<R, P> {
-
-  private static final Logger log =
-      LoggerFactory.getLogger(KubernetesDependentCustomResource.class);
-
   public KubernetesDependentCustomResource(Class<R> resourceType) {
     super(resourceType);
   }
@@ -49,36 +39,19 @@ public abstract class KubernetesDependentCustomResource<
 
   @Override
   public Result<R> match(R actualResource, R desired, P primary, Context<P> context) {
-    return GenericKubernetesResourceMatcher.match(desired, actualResource, true, true);
+    return GenericKubernetesResourceMatcher.match(
+        desired, actualResource, true, false, true, context);
   }
 
   @Override
   public R create(R target, P primary, Context<P> context) {
-    return prepare(setApiVersionAnnotation(target, primary), primary, "Creating").create();
+    R newResource = super.create(target, primary, context);
+    return setApiVersionAnnotation(newResource, primary);
   }
 
   @Override
   public R update(R actual, R target, P primary, Context<P> context) {
-    R updatedActual =
-        GenericResourceUpdatePreProcessor.processorFor(resourceType())
-            .replaceSpecOnActual(actual, target, context);
-    updatedActual = setApiVersionAnnotation(updatedActual, primary);
-    return prepare(updatedActual, primary, "Updating").replace();
-  }
-
-  protected Resource<R> prepare(R desired, P primary, String actionName) {
-    log.debug(
-        "{} target resource with type: {}, with id: {}",
-        actionName,
-        desired.getClass(),
-        ResourceID.fromResource(desired));
-
-    desired.addOwnerReference(primary);
-
-    if (desired instanceof Namespaced) {
-      return client.resource(desired).inNamespace(desired.getMetadata().getNamespace());
-    } else {
-      return client.resource(desired);
-    }
+    R updatedActual = super.update(actual, target, primary, context);
+    return setApiVersionAnnotation(updatedActual, primary);
   }
 }

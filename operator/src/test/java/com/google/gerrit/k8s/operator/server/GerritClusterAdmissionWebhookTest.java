@@ -23,10 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
-import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
-import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplateSpec;
 import com.google.gerrit.k8s.operator.test.ReceiverUtil;
@@ -38,7 +36,6 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.fabric8.kubernetes.internal.KubernetesDeserializer;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -63,12 +60,6 @@ public class GerritClusterAdmissionWebhookTest {
 
   @BeforeAll
   public void setup() throws Exception {
-    KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1beta1", "Gerrit", Gerrit.class);
-    KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1beta1", "GerritCluster", GerritCluster.class);
-    KubernetesDeserializer.registerCustomKind(
-        "gerritoperator.google.com/v1beta1", "Receiver", Receiver.class);
     server = new TestAdmissionWebhookServer();
 
     kubernetesServer.before();

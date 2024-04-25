@@ -93,7 +93,7 @@ public class IncomingReplicationTaskCronJob
             .withFsGroup(100L)
             .endSecurityContext()
             .addAllToInitContainers(initContainers)
-            .addToContainers(buildTaskContainer(incomingReplTask))
+            .addToContainers(buildTaskContainer(incomingReplTask, context))
             .withVolumes(getVolumes(incomingReplTask))
             .endSpec()
             .endTemplate()
@@ -125,7 +125,8 @@ public class IncomingReplicationTaskCronJob
         name, getComponentName(name), IncomingReplicationTaskReconciler.class.getSimpleName());
   }
 
-  private Container buildTaskContainer(IncomingReplicationTask incomingReplTask) {
+  private Container buildTaskContainer(
+      IncomingReplicationTask incomingReplTask, Context<IncomingReplicationTask> context) {
 
     ContainerBuilder taskContainerBuilder =
         new ContainerBuilder()
@@ -139,12 +140,13 @@ public class IncomingReplicationTaskCronJob
                     .getGerritImages()
                     .getFullImageName("fetch-job"))
             .withResources(incomingReplTask.getSpec().getResources())
-            .withVolumeMounts(getVolumeMounts(incomingReplTask));
+            .withVolumeMounts(getVolumeMounts(incomingReplTask, context));
 
     return taskContainerBuilder.build();
   }
 
-  private List<VolumeMount> getVolumeMounts(IncomingReplicationTask incomingReplTask) {
+  private List<VolumeMount> getVolumeMounts(
+      IncomingReplicationTask incomingReplTask, Context<IncomingReplicationTask> context) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
     volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
 
@@ -169,7 +171,8 @@ public class IncomingReplicationTaskCronJob
     String secretRef = incomingReplTask.getSpec().getSecretRef();
     if (secretRef != null && !secretRef.isBlank()) {
       Secret secret =
-          client
+          context
+              .getClient()
               .resources(Secret.class)
               .inNamespace(incomingReplTask.getMetadata().getNamespace())
               .withName(secretRef)

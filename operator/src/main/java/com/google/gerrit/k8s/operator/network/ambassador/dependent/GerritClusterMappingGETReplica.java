@@ -49,7 +49,7 @@ public class GerritClusterMappingGETReplica extends AbstractAmbassadorDependentR
                     gerritNetwork, GERRIT_MAPPING_GET_REPLICA, this.getClass().getSimpleName()))
             .endMetadata()
             .withNewSpecLike(getCommonSpec(gerritNetwork, replicaServiceName))
-            .withNewV2QueryParameters()
+            .withNewQueryParameters()
             .withAdditionalProperties(
                 new HashMap<String, Object>() {
                   {
