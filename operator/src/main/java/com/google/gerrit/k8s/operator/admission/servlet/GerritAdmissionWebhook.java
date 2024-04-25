@@ -14,94 +14,19 @@
 
 package com.google.gerrit.k8s.operator.admission.servlet;
 
-import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
-import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
-
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
-import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
-import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.fabric8.kubernetes.api.model.Status;
-import io.fabric8.kubernetes.api.model.StatusBuilder;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.Locale;
+import io.javaoperatorsdk.webhook.admission.validation.Validator;
 
 @Singleton
-public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
+public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet<Gerrit> {
   private static final long serialVersionUID = 1L;
 
-  @Override
-  public Status validate(HasMetadata resource) {
-    if (!(resource instanceof Gerrit)) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage("Invalid resource. Expected Gerrit-resource for validation.")
-          .build();
-    }
-
-    Gerrit gerrit = (Gerrit) resource;
-
-    try {
-      invalidGerritConfiguration(gerrit);
-    } catch (InvalidGerritConfigException e) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage(e.getMessage())
-          .build();
-    }
-
-    if (noRefDbConfiguredForHA(gerrit)) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage(
-              "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE")
-          .build();
-    }
-
-    if (missingRefdbConfig(gerrit)) {
-      String refDbName = "";
-      switch (gerrit.getSpec().getRefdb().getDatabase()) {
-        case ZOOKEEPER:
-          refDbName = ZOOKEEPER.toString().toLowerCase(Locale.US);
-          break;
-        case SPANNER:
-          refDbName = SPANNER.toString().toLowerCase(Locale.US);
-          break;
-        default:
-          break;
-      }
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage(
-              String.format("Missing %s configuration (.spec.refdb.%s)", refDbName, refDbName))
-          .build();
-    }
-
-    return new StatusBuilder().withCode(HttpServletResponse.SC_OK).build();
-  }
-
-  private void invalidGerritConfiguration(Gerrit gerrit) throws InvalidGerritConfigException {
-    new GerritConfigBuilder(gerrit).validate();
-  }
-
-  private boolean noRefDbConfiguredForHA(Gerrit gerrit) {
-    return gerrit.getSpec().isHighlyAvailablePrimary()
-        && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
-  }
-
-  private boolean missingRefdbConfig(Gerrit gerrit) {
-    GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
-    switch (refDbConfig.getDatabase()) {
-      case ZOOKEEPER:
-        return refDbConfig.getZookeeper() == null;
-      case SPANNER:
-        return refDbConfig.getSpanner() == null;
-      default:
-        return false;
-    }
+  @Inject
+  public GerritAdmissionWebhook(Validator<Gerrit> validator) {
+    super(validator);
   }
 
   @Override
