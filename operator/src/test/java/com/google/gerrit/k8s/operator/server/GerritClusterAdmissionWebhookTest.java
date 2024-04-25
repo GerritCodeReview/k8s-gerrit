@@ -22,6 +22,8 @@ import static org.hamcrest.Matchers.equalTo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
+import com.google.gerrit.k8s.operator.admission.validators.GerritClusterValidator;
+import com.google.gerrit.k8s.operator.admission.validators.GerritValidator;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -36,6 +38,7 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.javaoperatorsdk.webhook.admission.Operation;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -64,8 +67,8 @@ public class GerritClusterAdmissionWebhookTest {
 
     kubernetesServer.before();
 
-    server.registerWebhook(new GerritClusterAdmissionWebhook());
-    server.registerWebhook(new GerritAdmissionWebhook());
+    server.registerWebhook(new GerritClusterAdmissionWebhook(new GerritClusterValidator()));
+    server.registerWebhook(new GerritAdmissionWebhook(new GerritValidator()));
     server.start();
   }
 
@@ -193,6 +196,7 @@ public class GerritClusterAdmissionWebhookTest {
     http.setDoOutput(true);
 
     AdmissionRequest admissionReq = new AdmissionRequest();
+    admissionReq.setOperation(Operation.CREATE.toString());
     admissionReq.setObject(gerritCluster);
     AdmissionReview admissionReview = new AdmissionReview();
     admissionReview.setRequest(admissionReq);

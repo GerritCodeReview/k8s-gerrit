@@ -16,42 +16,37 @@ package com.google.gerrit.k8s.operator.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.flogger.FluentLogger;
-import io.fabric8.kubernetes.api.model.HasMetadata;
-import io.fabric8.kubernetes.api.model.Status;
-import io.fabric8.kubernetes.api.model.admission.v1.AdmissionResponseBuilder;
+import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
+import io.javaoperatorsdk.webhook.admission.AdmissionController;
+import io.javaoperatorsdk.webhook.admission.validation.Validator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public abstract class ValidatingAdmissionWebhookServlet extends AdmissionWebhookServlet {
+public abstract class ValidatingAdmissionWebhookServlet<T extends KubernetesResource>
+    extends AdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public abstract Status validate(HasMetadata resource);
+  private final Validator<T> validator;
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
+  public ValidatingAdmissionWebhookServlet(Validator<T> validator) {
+    this.validator = validator;
+  }
+
+  public AdmissionReview validate(AdmissionReview admissionReview) {
+    return new AdmissionController<>(validator).handle(admissionReview);
+  }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    AdmissionReview admissionReq =
+    AdmissionReview admissionReview =
         objectMapper.readValue(request.getInputStream(), AdmissionReview.class);
-
-    logger.atFine().log("Admission request received: %s", admissionReq.toString());
-
-    response.setContentType("application/json");
-    AdmissionResponseBuilder admissionRespBuilder =
-        new AdmissionResponseBuilder().withUid(admissionReq.getRequest().getUid());
-    Status validationStatus = validate((HasMetadata) admissionReq.getRequest().getObject());
-    response.setStatus(HttpServletResponse.SC_OK);
-    if (validationStatus.getCode() < 400) {
-      admissionRespBuilder = admissionRespBuilder.withAllowed(true);
-    } else {
-      admissionRespBuilder = admissionRespBuilder.withAllowed(false).withStatus(validationStatus);
-    }
-    admissionReq.setResponse(admissionRespBuilder.build());
-    objectMapper.writeValue(response.getWriter(), admissionReq);
+    objectMapper.writeValue(response.getWriter(), validate(admissionReview));
     logger.atFine().log(
-        "Admission request responded with %s", admissionReq.getResponse().toString());
+        "Admission request responded with %s", admissionReview.getResponse().toString());
   }
 
   @Override

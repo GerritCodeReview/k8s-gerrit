@@ -14,13 +14,25 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
+import com.google.gerrit.k8s.operator.admission.validators.GerritClusterValidator;
+import com.google.gerrit.k8s.operator.admission.validators.GerritValidator;
+import com.google.gerrit.k8s.operator.admission.validators.GitGcValidator;
+import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import io.javaoperatorsdk.webhook.admission.validation.Validator;
 
 public class AdmissionWebhookModule extends AbstractModule {
   public void configure() {
     install(new FactoryModuleBuilder().build(ValidationWebhookConfigApplier.Factory.class));
 
     bind(ValidationWebhookConfigs.class);
+
+    bind(new TypeLiteral<Validator<Gerrit>>() {}).to(GerritValidator.class);
+    bind(new TypeLiteral<Validator<GerritCluster>>() {}).to(GerritClusterValidator.class);
+    bind(new TypeLiteral<Validator<GitGarbageCollection>>() {}).to(GitGcValidator.class);
   }
 }
