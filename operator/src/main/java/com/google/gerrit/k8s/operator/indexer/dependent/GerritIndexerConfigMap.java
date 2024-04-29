@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.ConfigMap;
@@ -37,7 +38,7 @@ public class GerritIndexerConfigMap
   @Override
   protected ConfigMap desired(GerritIndexer gerritIndexer, Context<GerritIndexer> context) {
     Map<String, String> gerritIndexerLabels =
-        GerritCluster.getLabels(
+        GerritClusterLabelFactory.create(
             gerritIndexer.getMetadata().getName(),
             getName(gerritIndexer),
             this.getClass().getSimpleName());
