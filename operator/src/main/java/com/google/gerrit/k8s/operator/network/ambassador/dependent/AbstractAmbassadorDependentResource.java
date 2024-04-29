@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -37,7 +37,8 @@ public abstract class AbstractAmbassadorDependentResource<T extends HasMetadata>
             .withName(name)
             .withNamespace(gerritnetwork.getMetadata().getNamespace())
             .withLabels(
-                GerritCluster.getLabels(gerritnetwork.getMetadata().getName(), name, className))
+                GerritClusterLabelFactory.create(
+                    gerritnetwork.getMetadata().getName(), name, className))
             .build();
     return metadata;
   }
