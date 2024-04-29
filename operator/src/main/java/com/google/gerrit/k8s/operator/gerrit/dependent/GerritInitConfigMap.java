@@ -23,9 +23,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritInitConfig;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -46,7 +46,7 @@ public class GerritInitConfigMap
   @Override
   protected ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
     Map<String, String> gerritLabels =
-        GerritCluster.getLabels(
+        GerritClusterLabelFactory.create(
             gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName());
 
     return new ConfigMapBuilder()
