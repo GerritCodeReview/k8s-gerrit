@@ -22,6 +22,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -150,7 +151,7 @@ public class IncomingReplicationTaskCronJob
   private List<VolumeMount> getVolumeMounts(
       IncomingReplicationTask incomingReplTask, Context<IncomingReplicationTask> context) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
-    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
+    volumeMounts.add(GerritClusterSharedVolumeMountFactory.createForGitRepos("/var/gerrit/git"));
 
     volumeMounts.add(
         new VolumeMountBuilder()
