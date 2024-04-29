@@ -20,6 +20,9 @@ import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeMountFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsInitContainerFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
@@ -67,7 +70,7 @@ public class GitGarbageCollectionCronJob
             .getStorageClasses()
             .getNfsWorkaround()
             .isChownOnStartup()) {
-      initContainers.add(gerritCluster.createNfsInitContainer());
+      initContainers.add(NfsInitContainerFactory.create(gerritCluster));
     }
 
     JobTemplateSpec gitGcJobTemplate =
@@ -135,7 +138,7 @@ public class GitGarbageCollectionCronJob
                 .getNfsWorkaround()
                 .getIdmapdConfig()
             != null) {
-      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
+      volumeMounts.add(NfsIdmapdVolumeMountFactory.create());
     }
 
     ContainerBuilder gitGcContainerBuilder =
@@ -189,7 +192,7 @@ public class GitGarbageCollectionCronJob
               .getNfsWorkaround()
               .getIdmapdConfig()
           != null) {
-        volumes.add(GerritCluster.getNfsImapdConfigVolume());
+        volumes.add(NfsIdmapdVolumeFactory.create());
       }
     }
     return volumes;

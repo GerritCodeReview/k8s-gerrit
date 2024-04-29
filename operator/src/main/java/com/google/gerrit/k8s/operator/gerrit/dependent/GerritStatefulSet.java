@@ -24,6 +24,9 @@ import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeMountFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsInitContainerFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -95,12 +98,11 @@ public class GerritStatefulSet
       ContainerImageConfig images = gerrit.getSpec().getContainerImages();
 
       if (gerrit.getSpec().isHighlyAvailablePrimary()) {
-
         initContainers.add(
-            GerritCluster.createNfsInitContainer(
+            NfsInitContainerFactory.create(
                 hasIdmapdConfig, images, List.of(GerritClusterSharedVolumeMountFactory.create())));
       } else {
-        initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
+        initContainers.add(NfsInitContainerFactory.create(hasIdmapdConfig, images));
       }
     }
 
@@ -283,7 +285,7 @@ public class GerritStatefulSet
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumes.add(GerritCluster.getNfsImapdConfigVolume());
+      volumes.add(NfsIdmapdVolumeFactory.create());
     }
 
     if (gerrit.getSpec().getFluentBitSidecar().isEnabled()) {
@@ -347,7 +349,7 @@ public class GerritStatefulSet
     NfsWorkaroundConfig nfsWorkaround =
         gerrit.getSpec().getStorage().getStorageClasses().getNfsWorkaround();
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
-      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
+      volumeMounts.add(NfsIdmapdVolumeMountFactory.create());
     }
 
     return volumeMounts;
