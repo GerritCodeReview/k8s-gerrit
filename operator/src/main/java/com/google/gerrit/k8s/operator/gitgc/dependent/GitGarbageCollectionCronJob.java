@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.gitgc.dependent;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
@@ -54,7 +55,7 @@ public class GitGarbageCollectionCronJob
     logger.atInfo().log("Reconciling GitGc with name: %s/%s", ns, name);
 
     Map<String, String> gitGcLabels =
-        gerritCluster.getLabels("GitGc", this.getClass().getSimpleName());
+        GerritClusterLabelFactory.create(gerritCluster, "GitGc", this.getClass().getSimpleName());
 
     List<Container> initContainers = new ArrayList<>();
     if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()

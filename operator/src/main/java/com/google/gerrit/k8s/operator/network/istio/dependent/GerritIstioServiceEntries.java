@@ -17,8 +17,8 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -51,7 +51,7 @@ public class GerritIstioServiceEntries
         .withName(podName)
         .withNamespace(namespace)
         .withLabels(
-            GerritCluster.getLabels(
+            GerritClusterLabelFactory.create(
                 gerritNetwork.getMetadata().getName(), podName, this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()

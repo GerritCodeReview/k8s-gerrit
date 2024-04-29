@@ -19,8 +19,8 @@ import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATT
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -68,7 +68,7 @@ public class GerritClusterIngress
             .withName("gerrit-ingress")
             .withNamespace(gerritNetwork.getMetadata().getNamespace())
             .withLabels(
-                GerritCluster.getLabels(
+                GerritClusterLabelFactory.create(
                     gerritNetwork.getMetadata().getName(),
                     "gerrit-ingress",
                     this.getClass().getSimpleName()))

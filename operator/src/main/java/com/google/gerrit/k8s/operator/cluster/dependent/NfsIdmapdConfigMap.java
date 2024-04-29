@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -37,7 +38,9 @@ public class NfsIdmapdConfigMap
         .withNewMetadata()
         .withName(NFS_IDMAPD_CM_NAME)
         .withNamespace(gerritCluster.getMetadata().getNamespace())
-        .withLabels(gerritCluster.getLabels(NFS_IDMAPD_CM_NAME, this.getClass().getSimpleName()))
+        .withLabels(
+            GerritClusterLabelFactory.create(
+                gerritCluster, NFS_IDMAPD_CM_NAME, this.getClass().getSimpleName()))
         .endMetadata()
         .withData(
             Map.of(

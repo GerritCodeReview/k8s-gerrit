@@ -17,9 +17,9 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Service;
@@ -83,7 +83,7 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
   }
 
   public Map<String, String> getLabels(Gerrit gerrit) {
-    return GerritCluster.getLabels(
+    return GerritClusterLabelFactory.create(
         gerrit.getMetadata().getName(), getComponentName(), GerritReconciler.class.getSimpleName());
   }
 
