@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -163,7 +164,7 @@ public class ReceiverDeployment
 
   private Set<VolumeMount> getVolumeMounts(Receiver receiver, boolean isInitContainer) {
     Set<VolumeMount> volumeMounts = new HashSet<>();
-    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount("/var/gerrit/git"));
+    volumeMounts.add(GerritClusterSharedVolumeMountFactory.createForGitRepos("/var/gerrit/git"));
 
     volumeMounts.add(
         new VolumeMountBuilder()
