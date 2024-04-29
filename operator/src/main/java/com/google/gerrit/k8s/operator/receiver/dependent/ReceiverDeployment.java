@@ -18,6 +18,7 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -140,7 +141,7 @@ public class ReceiverDeployment
   private Set<Volume> getVolumes(Receiver receiver) {
     Set<Volume> volumes = new HashSet<>();
     volumes.add(
-        GerritCluster.getSharedVolume(
+        GerritClusterSharedVolumeFactory.create(
             receiver.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
     volumes.add(
