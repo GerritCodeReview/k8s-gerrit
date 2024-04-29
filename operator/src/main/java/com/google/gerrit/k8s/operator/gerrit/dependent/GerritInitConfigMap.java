@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import static com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory.PLUGIN_CACHE_MOUNT_PATH;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

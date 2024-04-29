@@ -14,12 +14,12 @@
 
 package com.google.gerrit.k8s.operator.api.model.cluster;
 
-import static com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory.SHARED_VOLUME_NAME;
 import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
@@ -45,44 +45,9 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
   private static final int GERRIT_FS_UID = 1000;
   private static final int GERRIT_FS_GID = 100;
-  public static final String PLUGIN_CACHE_MOUNT_PATH = "/var/mnt/plugin_cache";
-  public static final String PLUGIN_CACHE_SUB_DIR = "plugin_cache";
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-
-  @JsonIgnore
-  public static VolumeMount getGitRepositoriesVolumeMount() {
-    return getGitRepositoriesVolumeMount("/var/mnt/git");
-  }
-
-  @JsonIgnore
-  public static VolumeMount getGitRepositoriesVolumeMount(String mountPath) {
-    return new VolumeMountBuilder()
-        .withName(SHARED_VOLUME_NAME)
-        .withSubPath("git")
-        .withMountPath(mountPath)
-        .build();
-  }
-
-  @JsonIgnore
-  public static VolumeMount getHAShareVolumeMount() {
-    return getSharedVolumeMount("shared", "/var/mnt/shared");
-  }
-
-  @JsonIgnore
-  public static VolumeMount getPluginCacheVolumeMount() {
-    return getSharedVolumeMount(PLUGIN_CACHE_SUB_DIR, "/var/mnt/plugin_cache");
-  }
-
-  @JsonIgnore
-  public static VolumeMount getSharedVolumeMount(String subPath, String mountPath) {
-    return new VolumeMountBuilder()
-        .withName(SHARED_VOLUME_NAME)
-        .withSubPath(subPath)
-        .withMountPath(mountPath)
-        .build();
   }
 
   @JsonIgnore
@@ -123,7 +88,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
       ContainerImageConfig imageConfig,
       List<VolumeMount> additionalVolumeMounts) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
-    volumeMounts.add(getGitRepositoriesVolumeMount());
+    volumeMounts.add(GerritClusterSharedVolumeMountFactory.createForGitRepos());
 
     volumeMounts.addAll(additionalVolumeMounts);
 
