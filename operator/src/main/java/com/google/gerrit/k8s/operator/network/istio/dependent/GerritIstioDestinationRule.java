@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
@@ -47,7 +47,7 @@ public class GerritIstioDestinationRule
         .withName(getName(gerritName))
         .withNamespace(gerritNetwork.getMetadata().getNamespace())
         .withLabels(
-            GerritCluster.getLabels(
+            GerritClusterLabelFactory.create(
                 gerritNetwork.getMetadata().getName(),
                 getName(gerritName),
                 this.getClass().getSimpleName()))

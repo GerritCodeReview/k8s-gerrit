@@ -18,7 +18,6 @@ import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMa
 import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.SharedStorage.ExternalPVCConfig;
@@ -36,9 +35,7 @@ import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -48,7 +45,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
   private static final long serialVersionUID = 2L;
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String SHARED_VOLUME_NAME = "shared";
   private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
   private static final int GERRIT_FS_UID = 1000;
@@ -58,43 +54,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-
-  @JsonIgnore
-  public Map<String, String> getLabels(String component, String createdBy) {
-    return getLabels(getMetadata().getName(), component, createdBy);
-  }
-
-  // TODO(Thomas): Having so many string parameters is bad. The only parameter should be the
-  // Kubernetes resource that implements an interface that provides methods to retrieve the
-  // required information.
-  @JsonIgnore
-  public static Map<String, String> getLabels(String instance, String component, String createdBy) {
-    Map<String, String> labels = new HashMap<>();
-
-    labels.putAll(getSelectorLabels(instance, component));
-    String version = GerritCluster.class.getPackage().getImplementationVersion();
-    if (version == null || version.isBlank()) {
-      logger.atWarning().log("Unable to read Gerrit Operator version from jar.");
-      version = "unknown";
-    }
-    labels.put("app.kubernetes.io/version", version);
-    labels.put("app.kubernetes.io/created-by", createdBy);
-
-    return labels;
-  }
-
-  @JsonIgnore
-  public static Map<String, String> getSelectorLabels(String instance, String component) {
-    Map<String, String> labels = new HashMap<>();
-
-    labels.put("app.kubernetes.io/name", "gerrit");
-    labels.put("app.kubernetes.io/instance", instance);
-    labels.put("app.kubernetes.io/component", component);
-    labels.put("app.kubernetes.io/part-of", instance);
-    labels.put("app.kubernetes.io/managed-by", "gerrit-operator");
-
-    return labels;
   }
 
   @JsonIgnore

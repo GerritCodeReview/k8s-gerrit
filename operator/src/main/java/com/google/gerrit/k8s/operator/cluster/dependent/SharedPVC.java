@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.SharedStorage;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDKubernetesDependentPVCResource;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaimBuilder;
@@ -38,7 +39,9 @@ public class SharedPVC extends CRUDKubernetesDependentPVCResource<GerritCluster>
         .withNewMetadata()
         .withName(SHARED_PVC_NAME)
         .withNamespace(gerritCluster.getMetadata().getNamespace())
-        .withLabels(gerritCluster.getLabels("shared-storage", this.getClass().getSimpleName()))
+        .withLabels(
+            GerritClusterLabelFactory.create(
+                gerritCluster, "shared-storage", this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
         .withAccessModes("ReadWriteMany")

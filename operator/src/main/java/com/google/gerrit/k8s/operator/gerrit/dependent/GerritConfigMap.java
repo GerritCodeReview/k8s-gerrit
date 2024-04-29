@@ -15,8 +15,8 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder;
@@ -42,7 +42,7 @@ public class GerritConfigMap
   @Override
   public ConfigMap desired(Gerrit gerrit, Context<Gerrit> context) {
     Map<String, String> gerritLabels =
-        GerritCluster.getLabels(
+        GerritClusterLabelFactory.create(
             gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName());
 
     Map<String, String> configFiles = gerrit.getSpec().getConfigFiles();
