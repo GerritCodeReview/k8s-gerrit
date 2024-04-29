@@ -23,6 +23,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -97,7 +98,7 @@ public class GerritStatefulSet
 
         initContainers.add(
             GerritCluster.createNfsInitContainer(
-                hasIdmapdConfig, images, List.of(GerritCluster.getHAShareVolumeMount())));
+                hasIdmapdConfig, images, List.of(GerritClusterSharedVolumeMountFactory.create())));
       } else {
         initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
       }
@@ -303,9 +304,9 @@ public class GerritStatefulSet
     volumeMounts.add(
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
-      volumeMounts.add(GerritCluster.getHAShareVolumeMount());
+      volumeMounts.add(GerritClusterSharedVolumeMountFactory.create());
     }
-    volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
+    volumeMounts.add(GerritClusterSharedVolumeMountFactory.createForGitRepos());
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
@@ -327,7 +328,7 @@ public class GerritStatefulSet
 
       if (gerrit.getSpec().getStorage().getPluginCache().isEnabled()
           && gerrit.getSpec().getPlugins().stream().anyMatch(p -> !p.isPackagedPlugin())) {
-        volumeMounts.add(GerritCluster.getPluginCacheVolumeMount());
+        volumeMounts.add(GerritClusterSharedVolumeMountFactory.createForPluginCache());
       }
     }
 
