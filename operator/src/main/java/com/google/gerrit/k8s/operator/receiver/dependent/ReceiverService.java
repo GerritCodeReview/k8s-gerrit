@@ -16,8 +16,8 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment.HTTP_PORT;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Service;
@@ -65,7 +65,7 @@ public class ReceiverService
   }
 
   public static Map<String, String> getLabels(Receiver receiver) {
-    return GerritCluster.getLabels(
+    return GerritClusterLabelFactory.create(
         receiver.getMetadata().getName(),
         "receiver-service",
         ReceiverReconciler.class.getSimpleName());
