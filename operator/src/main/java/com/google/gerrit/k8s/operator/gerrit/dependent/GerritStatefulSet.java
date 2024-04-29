@@ -24,6 +24,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -239,7 +240,7 @@ public class GerritStatefulSet
 
     if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       volumes.add(
-          GerritCluster.getSharedVolume(
+          GerritClusterSharedVolumeFactory.create(
               gerrit.getSpec().getStorage().getSharedStorage().getExternalPVC()));
     }
     volumes.add(

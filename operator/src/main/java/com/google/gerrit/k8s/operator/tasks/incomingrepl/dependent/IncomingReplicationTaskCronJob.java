@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -194,7 +195,7 @@ public class IncomingReplicationTaskCronJob
     List<Volume> volumes = new ArrayList<>();
 
     volumes.add(
-        GerritCluster.getSharedVolume(
+        GerritClusterSharedVolumeFactory.create(
             incomingReplTask.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
     volumes.add(
