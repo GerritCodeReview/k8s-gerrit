@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
@@ -176,7 +177,7 @@ public class GitGarbageCollectionCronJob
     List<Volume> volumes = new ArrayList<>();
 
     volumes.add(
-        GerritCluster.getSharedVolume(
+        GerritClusterSharedVolumeFactory.create(
             gerritCluster.getSpec().getStorage().getSharedStorage().getExternalPVC()));
 
     if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()) {
