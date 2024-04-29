@@ -22,10 +22,10 @@ import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_P
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMember;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMemberWithSsh;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -68,7 +68,7 @@ public class GerritIstioVirtualService
         .withName(getName(gerritNetwork))
         .withNamespace(namespace)
         .withLabels(
-            GerritCluster.getLabels(
+            GerritClusterLabelFactory.create(
                 gerritNetwork.getMetadata().getName(),
                 getName(gerritNetwork),
                 this.getClass().getSimpleName()))

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -111,7 +111,7 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
         .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(
-            GerritCluster.getLabels(
+            GerritClusterLabelFactory.create(
                 gerrit.getMetadata().getName(), getName(gerrit), this.getClass().getSimpleName()))
         .endMetadata()
         .withData(
