@@ -16,13 +16,15 @@ package com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent;
 
 import static com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent.IncomingReplicationTaskConfigMap.CONFIG_FILE_NAME;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeFactory;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeMountFactory;
+import com.google.gerrit.k8s.operator.cluster.NfsInitContainerFactory;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -70,7 +72,7 @@ public class IncomingReplicationTaskCronJob
               != null;
       ContainerImageConfig images = incomingReplTask.getSpec().getContainerImages();
 
-      initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
+      initContainers.add(NfsInitContainerFactory.create(hasIdmapdConfig, images));
     }
 
     JobTemplateSpec gitGcJobTemplate =
@@ -168,7 +170,7 @@ public class IncomingReplicationTaskCronJob
                 .getNfsWorkaround()
                 .getIdmapdConfig()
             != null) {
-      volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
+      volumeMounts.add(NfsIdmapdVolumeMountFactory.create());
     }
 
     String secretRef = incomingReplTask.getSpec().getSecretRef();
@@ -220,7 +222,7 @@ public class IncomingReplicationTaskCronJob
               .getNfsWorkaround()
               .getIdmapdConfig()
           != null) {
-        volumes.add(GerritCluster.getNfsImapdConfigVolume());
+        volumes.add(NfsIdmapdVolumeFactory.create());
       }
     }
 
