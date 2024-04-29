@@ -23,6 +23,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -224,12 +225,12 @@ public class GerritStatefulSet
   }
 
   public static Map<String, String> getSelectorLabels(String gerritName) {
-    return GerritCluster.getSelectorLabels(gerritName, getComponentName(gerritName));
+    return GerritClusterLabelFactory.createSelectorLabels(gerritName, getComponentName(gerritName));
   }
 
   private static Map<String, String> getLabels(Gerrit gerrit) {
     String name = gerrit.getMetadata().getName();
-    return GerritCluster.getLabels(
+    return GerritClusterLabelFactory.create(
         name, getComponentName(name), GerritReconciler.class.getSimpleName());
   }
 
