@@ -14,25 +14,12 @@
 
 package com.google.gerrit.k8s.operator.api.model.cluster;
 
-import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap.NFS_IDMAPD_CM_NAME;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.api.model.Constants;
-import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.cluster.GerritClusterSharedVolumeMountFactory;
-import io.fabric8.kubernetes.api.model.Container;
-import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
-import io.fabric8.kubernetes.api.model.Volume;
-import io.fabric8.kubernetes.api.model.VolumeBuilder;
-import io.fabric8.kubernetes.api.model.VolumeMount;
-import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
 import io.fabric8.kubernetes.model.annotation.ShortNames;
 import io.fabric8.kubernetes.model.annotation.Version;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -42,78 +29,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClusterStatus>
     implements Namespaced {
   private static final long serialVersionUID = 2L;
-  private static final String NFS_IDMAPD_CONFIG_VOLUME_NAME = "nfs-config";
-  private static final int GERRIT_FS_UID = 1000;
-  private static final int GERRIT_FS_GID = 100;
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-
-  @JsonIgnore
-  public static Volume getNfsImapdConfigVolume() {
-    return new VolumeBuilder()
-        .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
-        .withNewConfigMap()
-        .withName(NFS_IDMAPD_CM_NAME)
-        .endConfigMap()
-        .build();
-  }
-
-  @JsonIgnore
-  public static VolumeMount getNfsImapdConfigVolumeMount() {
-    return new VolumeMountBuilder()
-        .withName(NFS_IDMAPD_CONFIG_VOLUME_NAME)
-        .withMountPath("/etc/idmapd.conf")
-        .withSubPath("idmapd.conf")
-        .build();
-  }
-
-  @JsonIgnore
-  public Container createNfsInitContainer() {
-    return createNfsInitContainer(
-        getSpec().getStorage().getStorageClasses().getNfsWorkaround().getIdmapdConfig() != null,
-        getSpec().getContainerImages());
-  }
-
-  @JsonIgnore
-  public static Container createNfsInitContainer(
-      boolean configureIdmapd, ContainerImageConfig imageConfig) {
-    return createNfsInitContainer(configureIdmapd, imageConfig, List.of());
-  }
-
-  @JsonIgnore
-  public static Container createNfsInitContainer(
-      boolean configureIdmapd,
-      ContainerImageConfig imageConfig,
-      List<VolumeMount> additionalVolumeMounts) {
-    List<VolumeMount> volumeMounts = new ArrayList<>();
-    volumeMounts.add(GerritClusterSharedVolumeMountFactory.createForGitRepos());
-
-    volumeMounts.addAll(additionalVolumeMounts);
-
-    StringBuilder args = new StringBuilder();
-    args.append("chown -R ");
-    args.append(GERRIT_FS_UID);
-    args.append(":");
-    args.append(GERRIT_FS_GID);
-    args.append(" ");
-    for (VolumeMount vm : volumeMounts) {
-      args.append(vm.getMountPath());
-      args.append(" ");
-    }
-
-    if (configureIdmapd) {
-      volumeMounts.add(getNfsImapdConfigVolumeMount());
-    }
-
-    return new ContainerBuilder()
-        .withName("nfs-init")
-        .withImagePullPolicy(imageConfig.getImagePullPolicy())
-        .withImage(imageConfig.getBusyBox().getBusyBoxImage())
-        .withCommand(List.of("sh", "-c"))
-        .withArgs(args.toString().trim())
-        .withVolumeMounts(volumeMounts)
-        .build();
   }
 }
