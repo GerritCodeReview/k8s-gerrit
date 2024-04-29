@@ -15,8 +15,6 @@
 package com.google.gerrit.k8s.operator.api.model.cluster;
 
 import com.google.gerrit.k8s.operator.Constants;
-import io.fabric8.kubernetes.api.model.EnvVar;
-import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.client.CustomResource;
 import io.fabric8.kubernetes.model.annotation.Group;
@@ -34,17 +32,5 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
 
   public String toString() {
     return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
-  }
-
-  @JsonIgnore
-  public static EnvVar getPodNameEnvVar() {
-    return new EnvVarBuilder()
-        .withName("POD_NAME")
-        .withNewValueFrom()
-        .withNewFieldRef()
-        .withFieldPath("metadata.name")
-        .endFieldRef()
-        .endValueFrom()
-        .build();
   }
 }

@@ -23,7 +23,11 @@ import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.server.ServerModule;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
+import io.fabric8.kubernetes.api.model.EnvVar;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -55,5 +59,19 @@ public class OperatorModule extends AbstractModule {
   private KubernetesClient getKubernetesClient() {
     Config config = new ConfigBuilder().withNamespace(null).build();
     return new KubernetesClientBuilder().withConfig(config).build();
+  }
+
+  @Provides
+  @Singleton
+  @PodNameEnvVar
+  public static EnvVar podNameEnvVar() {
+    return new EnvVarBuilder()
+        .withName("POD_NAME")
+        .withNewValueFrom()
+        .withNewFieldRef()
+        .withFieldPath("metadata.name")
+        .endFieldRef()
+        .endValueFrom()
+        .build();
   }
 }

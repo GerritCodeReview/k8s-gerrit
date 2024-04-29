@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.PodNameEnvVar;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
@@ -29,6 +29,7 @@ import com.google.gerrit.k8s.operator.cluster.NfsIdmapdVolumeMountFactory;
 import com.google.gerrit.k8s.operator.cluster.NfsInitContainerFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
+import com.google.inject.Inject;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.ContainerPort;
@@ -65,6 +66,8 @@ public class GerritStatefulSet
   public static final int SSH_PORT = 29418;
   public static final int JGROUPS_PORT = 7800;
   public static final int DEBUG_PORT = 8000;
+
+  @Inject private @PodNameEnvVar EnvVar podNameEnvVar;
 
   public GerritStatefulSet() {
     super(StatefulSet.class);
@@ -394,7 +397,7 @@ public class GerritStatefulSet
 
   private List<EnvVar> getEnvVars(Gerrit gerrit) {
     List<EnvVar> envVars = new ArrayList<>();
-    envVars.add(GerritCluster.getPodNameEnvVar());
+    envVars.add(podNameEnvVar);
     envVars.addAll(gerrit.getSpec().getEnvVars());
 
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
