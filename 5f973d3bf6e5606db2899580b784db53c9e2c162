@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad17e96b_e95947d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-01T12:25:47Z",
+      "side": 1,
+      "message": "nit: you could provide the url: https://github.com/operator-framework/josdk-webhooks?tab\u003dreadme-ov-file or say:\n```\nThe java operator SDK (JOSDK) project provides a framework and\ntooling to support implementing dynamic admission controllers\nand conversion hooks for Kubernetes in Java. \n```",
+      "revId": "5f973d3bf6e5606db2899580b784db53c9e2c162",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
