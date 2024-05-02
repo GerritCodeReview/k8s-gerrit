@@ -33,11 +33,6 @@ public class GerritNetwork extends CustomResource<GerritNetworkSpec, Status> imp
   public static final String SESSION_COOKIE_TTL = "60s";
 
   @JsonIgnore
-  public String getDependentResourceName(String nameSuffix) {
-    return String.format("%s-%s", getMetadata().getName(), nameSuffix);
-  }
-
-  @JsonIgnore
   public boolean hasPrimaryGerrit() {
     return getSpec().getPrimaryGerrit() != null;
   }
