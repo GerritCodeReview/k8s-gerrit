@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.api.model.cluster;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.Constants;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
@@ -47,10 +46,5 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .endFieldRef()
         .endValueFrom()
         .build();
-  }
-
-  @JsonIgnore
-  public String getDependentResourceName(String nameSuffix) {
-    return String.format("%s-%s", getMetadata().getName(), nameSuffix);
   }
 }
