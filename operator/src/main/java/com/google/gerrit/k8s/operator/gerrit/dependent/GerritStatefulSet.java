@@ -389,7 +389,7 @@ public class GerritStatefulSet
 
   private List<EnvVar> getEnvVars(Gerrit gerrit) {
     List<EnvVar> envVars = new ArrayList<>();
-    envVars.add(GerritCluster.getPodNameEnvVar());
+    envVars.add(getPodNameEnvVar());
     envVars.addAll(gerrit.getSpec().getEnvVars());
 
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
@@ -475,5 +475,16 @@ public class GerritStatefulSet
       }
     }
     return false;
+  }
+
+  public EnvVar getPodNameEnvVar() {
+    return new EnvVarBuilder()
+        .withName("POD_NAME")
+        .withNewValueFrom()
+        .withNewFieldRef()
+        .withFieldPath("metadata.name")
+        .endFieldRef()
+        .endValueFrom()
+        .build();
   }
 }

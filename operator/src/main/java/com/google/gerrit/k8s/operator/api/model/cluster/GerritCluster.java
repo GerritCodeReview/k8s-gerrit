@@ -24,8 +24,6 @@ import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.SharedStorage.ExternalPVCConfig;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
-import io.fabric8.kubernetes.api.model.EnvVar;
-import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -205,18 +203,6 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withCommand(List.of("sh", "-c"))
         .withArgs(args.toString().trim())
         .withVolumeMounts(volumeMounts)
-        .build();
-  }
-
-  @JsonIgnore
-  public static EnvVar getPodNameEnvVar() {
-    return new EnvVarBuilder()
-        .withName("POD_NAME")
-        .withNewValueFrom()
-        .withNewFieldRef()
-        .withFieldPath("metadata.name")
-        .endFieldRef()
-        .endValueFrom()
         .build();
   }
 }
