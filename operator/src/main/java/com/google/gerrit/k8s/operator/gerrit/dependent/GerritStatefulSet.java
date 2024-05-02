@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
@@ -394,7 +393,7 @@ public class GerritStatefulSet
 
   private List<EnvVar> getEnvVars(Gerrit gerrit) {
     List<EnvVar> envVars = new ArrayList<>();
-    envVars.add(GerritCluster.getPodNameEnvVar());
+    envVars.add(getPodNameEnvVar());
     envVars.addAll(gerrit.getSpec().getEnvVars());
 
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
@@ -480,5 +479,16 @@ public class GerritStatefulSet
       }
     }
     return false;
+  }
+
+  public EnvVar getPodNameEnvVar() {
+    return new EnvVarBuilder()
+        .withName("POD_NAME")
+        .withNewValueFrom()
+        .withNewFieldRef()
+        .withFieldPath("metadata.name")
+        .endFieldRef()
+        .endValueFrom()
+        .build();
   }
 }
