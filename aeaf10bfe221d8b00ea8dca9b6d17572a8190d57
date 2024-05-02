@@ -114,6 +114,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0768e6ad_d0bb2f12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-02T13:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18b837cd_d9c9a6bb",
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e62f2c_88a1ed4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-02T13:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4ecf10a_b5e026f4",
+      "range": {
+        "startLine": 18,
+        "startChar": 84,
+        "endLine": 18,
+        "endChar": 87
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9800ad27_3a9f6546",
         "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
         "patchSetId": 1
@@ -254,6 +296,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd9778a_8343f356",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-02T13:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74ea95b6_11a96a2d",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 100
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f0f4d75_238740e0",
@@ -267,6 +333,30 @@
       "writtenOn": "2024-02-16T09:42:21Z",
       "side": 1,
       "message": "not yet",
+      "range": {
+        "startLine": 56,
+        "startChar": 24,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "aeaf10bfe221d8b00ea8dca9b6d17572a8190d57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f36835_4a08f592",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-02T13:23:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f0f4d75_238740e0",
       "range": {
         "startLine": 56,
         "startChar": 24,
