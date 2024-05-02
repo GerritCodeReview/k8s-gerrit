@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0883c8c2_e95e0bd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-02T18:52:01Z",
+      "side": 1,
+      "message": "review the commit description. The feature toggle is the ENVIRONMENT VARIABLE is `MULTI_SITE` and there are 2 flavours:\n- helm chart\n- provision the Gerrit operator as Deployment",
+      "revId": "df4cbd024c6a9d1bd838c34d162b948db6c506c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
