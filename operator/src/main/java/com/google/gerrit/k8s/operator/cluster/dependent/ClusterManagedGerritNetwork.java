@@ -42,7 +42,7 @@ public class ClusterManagedGerritNetwork
     GerritNetwork gerritNetwork = new GerritNetwork();
     gerritNetwork.setMetadata(
         new ObjectMetaBuilder()
-            .withName(gerritCluster.getDependentResourceName(NAME_SUFFIX))
+            .withName(String.format("%s-%s", gerritCluster.getMetadata().getName(), NAME_SUFFIX))
             .withNamespace(gerritCluster.getMetadata().getNamespace())
             .build());
     GerritNetworkSpec gerritNetworkSpec = new GerritNetworkSpec();
