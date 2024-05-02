@@ -67,13 +67,6 @@ public class IngressConfig {
     return String.format("%s://%s/", protocol, hostname);
   }
 
-  @JsonIgnore
-  public String getSshUrl() {
-    String protocol = isTlsEnabled() ? "https" : "http";
-    String hostname = getHost();
-    return String.format("%s://%s", protocol, hostname);
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(enabled, host, ssh, tlsEnabled);
