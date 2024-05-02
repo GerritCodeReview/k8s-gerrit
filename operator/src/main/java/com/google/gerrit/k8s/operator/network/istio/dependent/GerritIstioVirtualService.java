@@ -63,12 +63,12 @@ public class GerritIstioVirtualService
 
     return new VirtualServiceBuilder()
         .withNewMetadata()
-        .withName(gerritNetwork.getDependentResourceName(NAME_SUFFIX))
+        .withName(getName(gerritNetwork))
         .withNamespace(namespace)
         .withLabels(
             GerritCluster.getLabels(
                 gerritNetwork.getMetadata().getName(),
-                gerritNetwork.getDependentResourceName(NAME_SUFFIX),
+                getName(gerritNetwork),
                 this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
@@ -78,6 +78,10 @@ public class GerritIstioVirtualService
         .withTcp(getTCPRoutes(gerritNetwork))
         .endSpec()
         .build();
+  }
+
+  public String getName(GerritNetwork gerritNetwork) {
+    return String.format("%s-%s", gerritNetwork.getMetadata().getName(), NAME_SUFFIX);
   }
 
   private List<HTTPRoute> getHTTPRoutes(GerritNetwork gerritNetwork) {
