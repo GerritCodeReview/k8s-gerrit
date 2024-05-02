@@ -56,11 +56,6 @@ public class IngressConfig {
   }
 
   @JsonIgnore
-  public String getFullHostnameForService(String svcName) {
-    return String.format("%s.%s", svcName, getHost());
-  }
-
-  @JsonIgnore
   public String getUrl() {
     String protocol = isTlsEnabled() ? "https" : "http";
     String hostname = getHost();
