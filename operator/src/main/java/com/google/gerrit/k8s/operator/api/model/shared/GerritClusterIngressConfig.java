@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Map;
 import java.util.Objects;
 
@@ -81,16 +80,6 @@ public class GerritClusterIngressConfig {
 
   public void setIstio(GerritIstioConfig istio) {
     this.istio = istio;
-  }
-
-  @JsonIgnore
-  public String getFullHostnameForService(String svcName) {
-    return getFullHostnameForService(svcName, getHost());
-  }
-
-  @JsonIgnore
-  public static String getFullHostnameForService(String svcName, String ingressHost) {
-    return String.format("%s.%s", svcName, ingressHost);
   }
 
   @Override
