@@ -15,19 +15,17 @@
 package com.google.gerrit.k8s.operator.gerrit;
 
 import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.CONFIG_MAP_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.gerrit.GerritReconciler.GERRIT_SERVICE_EVENT_SOURCE;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritStatus;
-import com.google.gerrit.k8s.operator.gerrit.dependent.FluentBitConfigMap;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
+import com.google.gerrit.k8s.operator.gerrit.dependent.*;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
+import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -65,18 +63,20 @@ import java.util.stream.Collectors;
           type = GerritInitConfigMap.class,
           useEventSourceWithName = CONFIG_MAP_EVENT_SOURCE),
       @Dependent(
-          name = "gerrit-statefulset",
-          type = GerritStatefulSet.class,
-          dependsOn = {"gerrit-configmap", "gerrit-init-configmap"}),
-      @Dependent(
           name = "gerrit-service",
           type = GerritService.class,
+          useEventSourceWithName = GERRIT_SERVICE_EVENT_SOURCE,
+          dependsOn = {"gerrit-statefulset"}),
+      @Dependent(
+          name = "gerrit-service-headless",
+          type = GerritHeadlessService.class,
+          useEventSourceWithName = GERRIT_SERVICE_EVENT_SOURCE,
           dependsOn = {"gerrit-statefulset"})
     })
 public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitializer<Gerrit> {
   public static final String GERRIT_SECRET_EVENT_SOURCE = "gerrit-secret-event-source";
   public static final String CONFIG_MAP_EVENT_SOURCE = "configmap-event-source";
-
+  public static final String GERRIT_SERVICE_EVENT_SOURCE = "gerrit-service-event-source";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final KubernetesClient client;
@@ -94,6 +94,11 @@ public class GerritReconciler implements Reconciler<Gerrit>, EventSourceInitiali
         new InformerEventSource<>(
             InformerConfiguration.from(ConfigMap.class, context).build(), context);
     eventSources.put(CONFIG_MAP_EVENT_SOURCE, configmapEventSource);
+
+    InformerEventSource<Service, Gerrit> gerritServiceEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(Service.class, context).build(), context);
+    eventSources.put(GERRIT_SERVICE_EVENT_SOURCE, gerritServiceEventSource);
 
     SecondaryToPrimaryMapper<Secret> secretMapper = new SecretToGerritMapper(context);
     InformerEventSource<Secret, Gerrit> moduleMetaDataEventSource =
