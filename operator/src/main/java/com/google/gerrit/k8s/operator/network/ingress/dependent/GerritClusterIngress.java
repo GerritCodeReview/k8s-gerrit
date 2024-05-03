@@ -94,7 +94,8 @@ public class GerritClusterIngress
     }
 
     if (gerritNetwork.hasPrimaryGerrit() && gerritNetwork.hasGerritReplica()) {
-      String svcName = GerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName());
+      String svcName =
+          new GerritService().getName(gerritNetwork.getSpec().getGerritReplica().getName());
       configSnippet =
           createNginxConfigSnippetGerritReplicaRouting(
               configSnippet,
@@ -208,6 +209,7 @@ public class GerritClusterIngress
     ServiceBackendPort port =
         new ServiceBackendPortBuilder().withName(GerritService.HTTP_PORT_NAME).build();
 
+    GerritService gerritService = new GerritService();
     List<HTTPIngressPath> paths = new ArrayList<>();
     // Order matters, since routing rules will be applied in order!
     if (!gerritNetwork.hasPrimaryGerrit() && gerritNetwork.hasGerritReplica()) {
@@ -217,7 +219,7 @@ public class GerritClusterIngress
               .withPath("/")
               .withNewBackend()
               .withNewService()
-              .withName(GerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName()))
+              .withName(gerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName()))
               .withPort(port)
               .endService()
               .endBackend()
@@ -231,7 +233,7 @@ public class GerritClusterIngress
               .withPath(UPLOAD_PACK_URL_PATTERN)
               .withNewBackend()
               .withNewService()
-              .withName(GerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName()))
+              .withName(gerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName()))
               .withPort(port)
               .endService()
               .endBackend()
@@ -244,7 +246,7 @@ public class GerritClusterIngress
               .withPath("/")
               .withNewBackend()
               .withNewService()
-              .withName(GerritService.getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()))
+              .withName(gerritService.getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()))
               .withPort(port)
               .endService()
               .endBackend()

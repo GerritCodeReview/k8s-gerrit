@@ -143,7 +143,7 @@ public class GerritIstioVirtualService
       NetworkMemberWithSsh networkMember, String namespace) {
     return new HTTPRouteDestinationBuilder()
         .withNewDestination()
-        .withHost(GerritService.getHostname(networkMember.getName(), namespace))
+        .withHost(new GerritService().getHostname(networkMember.getName(), namespace))
         .withNewPort()
         .withNumber(networkMember.getHttpPort())
         .endPort()
@@ -267,7 +267,7 @@ public class GerritIstioVirtualService
       NetworkMemberWithSsh networkMember, String namespace) {
     return new RouteDestinationBuilder()
         .withNewDestination()
-        .withHost(GerritService.getHostname(networkMember.getName(), namespace))
+        .withHost(new GerritService().getHostname(networkMember.getName(), namespace))
         .withNewPort()
         .withNumber(networkMember.getSshPort())
         .endPort()
