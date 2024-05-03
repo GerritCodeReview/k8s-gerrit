@@ -12,9 +12,9 @@ metadata:
         return 403;
       }
       if ($args ~ service=git-upload-pack){
-        set $proxy_upstream_name "gerrit-replica-http";
+        set $proxy_upstream_name "gerrit-replica-service-http";
         set $proxy_host $proxy_upstream_name;
-        set $service_name "replica";
+        set $service_name "replica-service";
       }
     nginx.ingress.kubernetes.io/affinity: cookie
     nginx.ingress.kubernetes.io/session-cookie-name: Gerrit_Session
@@ -30,13 +30,13 @@ spec:
         path: "/.*/git-upload-pack"
         backend:
           service:
-            name: replica
+            name: replica-service
             port:
               name: http
       - pathType: Prefix
         path: "/"
         backend:
           service:
-            name: primary
+            name: primary-service
             port:
               name: http
