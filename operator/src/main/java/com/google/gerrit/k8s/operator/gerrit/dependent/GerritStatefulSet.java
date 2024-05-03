@@ -126,7 +126,7 @@ public class GerritStatefulSet
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
-        .withServiceName(GerritService.getName(gerrit))
+        .withServiceName(new GerritHeadlessService().getName(gerrit))
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate()
@@ -398,7 +398,8 @@ public class GerritStatefulSet
               .withName("GERRIT_URL")
               .withValue(
                   String.format(
-                      "http://$(POD_NAME).%s:%s", GerritService.getHostname(gerrit), HTTP_PORT))
+                      "http://$(POD_NAME).%s:%s",
+                      new GerritHeadlessService().getHostname(gerrit), HTTP_PORT))
               .build());
     }
     return envVars;

@@ -61,7 +61,7 @@ public class GerritIstioServiceEntries
         .withHosts(
             getServiceHost(
                 podName,
-                GerritService.getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
+                new GerritService().getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
                 namespace))
         .withPorts(
             List.of(
