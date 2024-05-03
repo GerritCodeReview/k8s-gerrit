@@ -28,13 +28,13 @@ spec:
     - destination:
         port:
           number: 48080
-        host: replica.gerrit.svc.cluster.local
+        host: replica-service.gerrit.svc.cluster.local
   - name: forbidden-routes-primary
     route:
     - destination:
         port:
           number: 48080
-        host: primary.gerrit.svc.cluster.local
+        host: primary-service.gerrit.svc.cluster.local
     match:
     - uri:
         regex: "^(/a)?/plugins/high-availability/.*$"
@@ -48,4 +48,4 @@ spec:
     - destination:
         port:
           number: 48080
-        host: primary.gerrit.svc.cluster.local
+        host: primary-service.gerrit.svc.cluster.local
