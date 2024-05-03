@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Service;
@@ -32,11 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = GerritServiceDiscriminator.class)
-public class GerritService extends CRUDReconcileAddKubernetesDependentResource<Service, Gerrit> {
-  public static final String HTTP_PORT_NAME = "http";
+@KubernetesDependent(resourceDiscriminator = GerritHeadlessServiceDiscriminator.class)
+public class GerritHeadlessService
+    extends CRUDReconcileAddKubernetesDependentResource<Service, Gerrit> {
+  private static final String HTTP_PORT_NAME = "http";
+  private static final String SSH_PORT_NAME = "ssh";
+  private static final String HEADLESS_SUFFIX = "-headless";
 
-  public GerritService() {
+  public GerritHeadlessService() {
     super(Service.class);
   }
 
@@ -50,7 +52,8 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
-        .withType(gerrit.getSpec().getService().getType())
+        .withType("ClusterIP")
+        .withClusterIP("None")
         .withPorts(getServicePorts(gerrit))
         .withSelector(GerritStatefulSet.getSelectorLabels(gerrit))
         .endSpec()
@@ -58,15 +61,7 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
   }
 
   public static String getName(Gerrit gerrit) {
-    return getName(gerrit.getMetadata().getName());
-  }
-
-  public static String getName(String gerritName) {
-    return gerritName;
-  }
-
-  public static String getName(GerritTemplate gerrit) {
-    return getName(gerrit.getMetadata().getName());
+    return gerrit.getMetadata().getName() + HEADLESS_SUFFIX;
   }
 
   public static String getHostname(Gerrit gerrit) {
@@ -82,16 +77,12 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
         "http://%s:%s", getHostname(gerrit), gerrit.getSpec().getService().getHttpPort());
   }
 
-  public Map<String, String> getLabels(Gerrit gerrit) {
+  public static Map<String, String> getLabels(Gerrit gerrit) {
     return GerritCluster.getLabels(
-        gerrit.getMetadata().getName(), getComponentName(), GerritReconciler.class.getSimpleName());
+        gerrit.getMetadata().getName(), getName(gerrit), GerritReconciler.class.getSimpleName());
   }
 
-  protected String getComponentName() {
-    return "gerrit-service";
-  }
-
-  protected static List<ServicePort> getServicePorts(Gerrit gerrit) {
+  private static List<ServicePort> getServicePorts(Gerrit gerrit) {
     List<ServicePort> ports = new ArrayList<>();
     ports.add(
         new ServicePortBuilder()
@@ -102,7 +93,7 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
     if (gerrit.isSshEnabled()) {
       ports.add(
           new ServicePortBuilder()
-              .withName("ssh")
+              .withName(SSH_PORT_NAME)
               .withPort(gerrit.getSpec().getService().getSshPort())
               .withNewTargetPort(SSH_PORT)
               .build());
