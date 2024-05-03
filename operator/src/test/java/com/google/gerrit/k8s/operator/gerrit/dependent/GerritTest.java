@@ -56,7 +56,8 @@ public class GerritTest {
       String expectedGerritConfigMapOutputFile,
       String expectedGerritInitConfigMapOutputFile,
       String expectedStatefulSetOutputFile,
-      String expectedServiceOutputFile) {
+      String expectedServiceOutputFile,
+      String expectedHeadlessServiceOutputFile) {
     Gerrit gerrit = ReconcilerUtils.loadYaml(Gerrit.class, this.getClass(), inputFile);
     Context<Gerrit> context =
         getContext(new GerritReconciler(kubernetesServer.getClient()), gerrit);
@@ -98,6 +99,12 @@ public class GerritTest {
     Service expectedService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedServiceOutputFile);
     assertThat(serviceResult).isEqualTo(expectedService);
+
+    GerritHeadlessService headlessServiceDependent = new GerritHeadlessService();
+    Service headlessServiceResult = headlessServiceDependent.desired(gerrit, context);
+    Service expectedHeadlessService =
+        ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedHeadlessServiceOutputFile);
+    assertThat(headlessServiceResult).isEqualTo(expectedHeadlessService);
   }
 
   private Context<Gerrit> getContext(Reconciler<Gerrit> reconciler, Gerrit primary) {
@@ -118,12 +125,14 @@ public class GerritTest {
             "gerrit_configmap_single_primary.yaml",
             "gerrit-init_configmap_single_primary.yaml",
             "statefulset_single_primary.yaml",
-            "service.yaml"),
+            "service.yaml",
+            "headless_service.yaml"),
         Arguments.of(
             "../gerrit_ha_primary.yaml",
             "gerrit_configmap_ha_primary.yaml",
             "gerrit-init_configmap_ha_primary.yaml",
             "statefulset_ha_primary.yaml",
-            "service.yaml"));
+            "service.yaml",
+            "headless_service.yaml"));
   }
 }

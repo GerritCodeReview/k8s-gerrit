@@ -14,7 +14,7 @@ spec:
     - destination:
         port:
           number: 48080
-        host: primary.gerrit.svc.cluster.local
+        host: primary-service.gerrit.svc.cluster.local
     match:
     - uri:
         regex: "^(/a)?/plugins/high-availability/.*$"
@@ -28,7 +28,7 @@ spec:
     - destination:
         port:
           number: 48080
-        host: primary.gerrit.svc.cluster.local
+        host: primary-service.gerrit.svc.cluster.local
   tcp:
   - match:
     - port: 49418
@@ -36,4 +36,4 @@ spec:
     - destination:
         port:
           number: 49418
-        host: primary.gerrit.svc.cluster.local
+        host: primary-service.gerrit.svc.cluster.local

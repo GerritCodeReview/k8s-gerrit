@@ -44,6 +44,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: replica
+            name: replica-service
             port:
               name: http
