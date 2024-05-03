@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,9 @@ import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
-@KubernetesDependent(resourceDiscriminator = GerritServiceDiscriminator.class)
-public class GerritService extends GerritAbstractService {
-
-  private static final String SERVICE_SUFFIX = "-service";
+@KubernetesDependent(resourceDiscriminator = GerritHeadlessServiceDiscriminator.class)
+public class GerritHeadlessService extends GerritAbstractService {
+  private static final String HEADLESS_SERVICE_SUFFIX = "-headless";
 
   @Override
   protected Service desired(Gerrit gerrit, Context<Gerrit> context) {
@@ -34,15 +33,19 @@ public class GerritService extends GerritAbstractService {
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
-        .withType(gerrit.getSpec().getService().getType())
+        .withClusterIP("None")
         .withPorts(GerritServiceUtil.getServicePorts(gerrit))
         .withSelector(GerritStatefulSet.getSelectorLabels(gerrit))
         .endSpec()
         .build();
   }
 
+  public static String getName(Gerrit gerrit) {
+    return gerrit.getMetadata().getName() + HEADLESS_SERVICE_SUFFIX;
+  }
+
   @Override
   public String getComponentName(Gerrit gerrit) {
-    return gerrit.getMetadata().getName() + SERVICE_SUFFIX;
+    return getName(gerrit);
   }
 }

@@ -22,6 +22,7 @@ import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_P
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritServiceUtil;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.networking.v1.HTTPIngressPath;
@@ -152,7 +153,7 @@ public class GerritClusterIngress
     configSnippet.append("-");
     configSnippet.append(svcName);
     configSnippet.append("-");
-    configSnippet.append(GerritService.HTTP_PORT_NAME);
+    configSnippet.append(GerritServiceUtil.HTTP_PORT_NAME);
     configSnippet.append("\";\n");
     configSnippet.append("  set $proxy_host $proxy_upstream_name;");
     configSnippet.append("\n");
@@ -206,7 +207,7 @@ public class GerritClusterIngress
 
   private List<HTTPIngressPath> getGerritHTTPIngressPaths(GerritNetwork gerritNetwork) {
     ServiceBackendPort port =
-        new ServiceBackendPortBuilder().withName(GerritService.HTTP_PORT_NAME).build();
+        new ServiceBackendPortBuilder().withName(GerritServiceUtil.HTTP_PORT_NAME).build();
 
     List<HTTPIngressPath> paths = new ArrayList<>();
     // Order matters, since routing rules will be applied in order!
