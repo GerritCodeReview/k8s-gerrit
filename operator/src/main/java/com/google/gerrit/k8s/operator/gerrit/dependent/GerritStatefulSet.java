@@ -126,7 +126,7 @@ public class GerritStatefulSet
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
-        .withServiceName(GerritService.getName(gerrit))
+        .withServiceName(GerritHeadlessService.getName(gerrit))
         .withReplicas(gerrit.getSpec().getReplicas())
         .withNewUpdateStrategy()
         .withNewRollingUpdate()
