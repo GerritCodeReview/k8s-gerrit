@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.google.gerrit.operator</groupId>
+	<artifactId>gerrit-operator-api</artifactId>
+	<version>${revision}</version>
+
+	<parent>
+		<groupId>com.google.gerrit.operator</groupId>
+		<artifactId>gerrit-operator-parent</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<name>Gerrit Kubernetes Operator API</name>
+	<description>CustomResourceDefinitions for Gerrit Operator</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>kubernetes-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>istio-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>crd-generator-apt</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>generator-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<id>copy-crds</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>../../crd/current</outputDirectory>
+							<resources>
+								<resource>
+									<directory>target/classes/META-INF/fabric8</directory>
+									<includes>
+										<include>*-v1.yml</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>combine-crd-versions</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>../tools/combineCRDVersions</executable>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
