@@ -37,27 +37,19 @@ public class GerritOperator {
   public static final int SERVICE_PORT = 8080;
 
   private final KubernetesClient client;
-  private final LifecycleManager lifecycleManager;
 
   @SuppressWarnings("rawtypes")
   private final Set<Reconciler> reconcilers;
 
-  private final String namespace;
-
   private Operator operator;
-  private Service svc;
 
   @Inject
   @SuppressWarnings("rawtypes")
   public GerritOperator(
-      LifecycleManager lifecycleManager,
       KubernetesClient client,
-      Set<Reconciler> reconcilers,
-      @Named("Namespace") String namespace) {
-    this.lifecycleManager = lifecycleManager;
+      Set<Reconciler> reconcilers) {
     this.client = client;
     this.reconcilers = reconcilers;
-    this.namespace = namespace;
   }
 
   public void start() throws Exception {
@@ -73,44 +65,5 @@ public class GerritOperator {
       operator.register(reconciler);
     }
     operator.start();
-    lifecycleManager.addShutdownHook(
-        new Runnable() {
-          @Override
-          public void run() {
-            shutdown();
-          }
-        });
-    applyService();
-  }
-
-  public void shutdown() {
-    client.resource(svc).delete();
-    operator.stop();
-  }
-
-  private void applyService() {
-    ServicePort port =
-        new ServicePortBuilder()
-            .withName("http")
-            .withPort(SERVICE_PORT)
-            .withNewTargetPort(PORT)
-            .withProtocol("TCP")
-            .build();
-    svc =
-        new ServiceBuilder()
-            .withApiVersion("v1")
-            .withNewMetadata()
-            .withName(SERVICE_NAME)
-            .withNamespace(namespace)
-            .endMetadata()
-            .withNewSpec()
-            .withType("ClusterIP")
-            .withPorts(port)
-            .withSelector(Map.of("app", "gerrit-operator"))
-            .endSpec()
-            .build();
-
-    logger.atInfo().log(String.format("Applying Service for Gerrit Operator: %s", svc.toString()));
-    client.resource(svc).createOrReplace();
   }
 }
