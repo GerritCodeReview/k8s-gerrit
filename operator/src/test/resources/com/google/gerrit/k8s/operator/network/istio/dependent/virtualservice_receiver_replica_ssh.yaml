@@ -30,7 +30,7 @@ spec:
     - destination:
         port:
           number: 48080
-        host: replica.gerrit.svc.cluster.local
+        host: replica-service.gerrit.svc.cluster.local
   tcp:
   - match:
     - port: 49419
@@ -38,4 +38,4 @@ spec:
     - destination:
         port:
           number: 49419
-        host: replica.gerrit.svc.cluster.local
+        host: replica-service.gerrit.svc.cluster.local

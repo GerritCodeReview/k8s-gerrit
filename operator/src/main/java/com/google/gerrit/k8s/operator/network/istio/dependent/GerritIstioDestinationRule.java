@@ -53,7 +53,8 @@ public class GerritIstioDestinationRule
                 this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()
-        .withHost(GerritService.getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
+        .withHost(
+            new GerritService().getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
         .withTrafficPolicy(getTrafficPolicy(isReplica))
         .endSpec()
         .build();

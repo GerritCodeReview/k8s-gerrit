@@ -262,7 +262,7 @@ public class TestGerrit {
                   client
                       .services()
                       .inNamespace(namespace)
-                      .withName(GerritService.getName(gerrit))
+                      .withName(new GerritService().getName(gerrit))
                       .get(),
                   is(notNullValue()));
             });
