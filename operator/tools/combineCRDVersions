@@ -14,16 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SCRIPT_PATH="$(dirname "$(readlink -f "$0")")"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
 
-CHART_TEMPLATE_PATH="$SCRIPT_PATH/../../helm-charts/gerrit-operator-crds/templates"
-CURRENT_CRD_PATH="$SCRIPT_PATH/../../crd/current"
+CHART_TEMPLATE_PATH="$REPO_ROOT/helm-charts/gerrit-operator-crds/templates"
+CURRENT_CRD_PATH="$REPO_ROOT/crd/current"
 
 rm -rf $CHART_TEMPLATE_PATH
 cp -R $CURRENT_CRD_PATH $CHART_TEMPLATE_PATH
 
 for f in "$CHART_TEMPLATE_PATH/"*.yml; do
-  OLD_CRD_PATH="$SCRIPT_PATH/../../crd/deprecated/$(basename "$f")"
+  OLD_CRD_PATH="$REPO_ROOT/crd/deprecated/$(basename "$f")"
   OLD_VERSION="$(yq -e '.spec.versions.[0]' "$OLD_CRD_PATH")" \
     yq -i '.spec.versions += env(OLD_VERSION)' "$f"
 done
