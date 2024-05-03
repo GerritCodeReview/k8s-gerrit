@@ -31,6 +31,7 @@ public class ServerModule extends AbstractModule {
       bind(KeyStoreProvider.class).to(GeneratedKeyStoreProvider.class);
     }
     bind(HttpServer.class);
+    bind(ServiceReconciler.class);
     Multibinder<AdmissionWebhookServlet> admissionWebhookServlets =
         Multibinder.newSetBinder(binder(), AdmissionWebhookServlet.class);
     admissionWebhookServlets.addBinding().to(GerritClusterAdmissionWebhook.class);
