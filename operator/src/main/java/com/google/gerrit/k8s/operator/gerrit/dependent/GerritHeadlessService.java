@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2024 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Service;
@@ -25,23 +24,25 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent(resourceDiscriminator = GerritServiceDiscriminator.class)
-public class GerritService extends CRUDReconcileAddKubernetesDependentResource<Service, Gerrit> {
-  public GerritService() {
+@KubernetesDependent(resourceDiscriminator = GerritHeadlessServiceDiscriminator.class)
+public class GerritHeadlessService
+    extends CRUDReconcileAddKubernetesDependentResource<Service, Gerrit> {
+  private static final String HEADLESS_SUFFIX = "-headless";
+
+  public GerritHeadlessService() {
     super(Service.class);
   }
 
   @Override
   protected Service desired(Gerrit gerrit, Context<Gerrit> context) {
     return new ServiceBuilder()
-        .withApiVersion("v1")
         .withNewMetadata()
         .withName(getName(gerrit))
         .withNamespace(gerrit.getMetadata().getNamespace())
         .withLabels(getLabels(gerrit))
         .endMetadata()
         .withNewSpec()
-        .withType(gerrit.getSpec().getService().getType())
+        .withClusterIP("None")
         .withPorts(GerritServiceUtil.getServicePorts(gerrit))
         .withSelector(GerritStatefulSet.getSelectorLabels(gerrit))
         .endSpec()
@@ -49,15 +50,7 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
   }
 
   public static String getName(Gerrit gerrit) {
-    return getName(gerrit.getMetadata().getName());
-  }
-
-  public static String getName(String gerritName) {
-    return gerritName;
-  }
-
-  public static String getName(GerritTemplate gerrit) {
-    return getName(gerrit.getMetadata().getName());
+    return gerrit.getMetadata().getName() + HEADLESS_SUFFIX;
   }
 
   public static String getHostname(Gerrit gerrit) {
@@ -68,17 +61,8 @@ public class GerritService extends CRUDReconcileAddKubernetesDependentResource<S
     return String.format("%s.%s.svc.cluster.local", name, namespace);
   }
 
-  public static String getUrl(Gerrit gerrit) {
-    return String.format(
-        "http://%s:%s", getHostname(gerrit), gerrit.getSpec().getService().getHttpPort());
-  }
-
-  public Map<String, String> getLabels(Gerrit gerrit) {
+  public static Map<String, String> getLabels(Gerrit gerrit) {
     return GerritCluster.getLabels(
-        gerrit.getMetadata().getName(), getComponentName(), GerritReconciler.class.getSimpleName());
-  }
-
-  protected String getComponentName() {
-    return "gerrit-service";
+        gerrit.getMetadata().getName(), getName(gerrit), GerritReconciler.class.getSimpleName());
   }
 }
