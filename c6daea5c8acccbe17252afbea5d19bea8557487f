@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b621852_5ee37041",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-05T19:38:32Z",
+      "side": 1,
+      "message": "According to the Kubernetes API [1]:\n\n```\nserviceName (string), required\n\nserviceName is the name of the service that governs this StatefulSet. \nThis service must exist before the StatefulSet, and is responsible for\nthe network identity of the set. Pods get DNS/hostnames that follow the\npattern: pod-specific-string.serviceName.default.svc.cluster.local\nwhere \"pod-specific-string\" is managed by the StatefulSet controller.\n```\n\nReferences:\n[1] https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/stateful-set-v1/#StatefulSetSpec",
+      "revId": "c6daea5c8acccbe17252afbea5d19bea8557487f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
