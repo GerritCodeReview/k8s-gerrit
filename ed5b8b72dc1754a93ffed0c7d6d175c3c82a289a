@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a6cc58_9f8b5c6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-06T14:16:21Z",
+      "side": 1,
+      "message": "This change shows intrusiveness of maven build into the source code directory layout. We could try to switch to the bazel build as a hackathon topic?",
+      "revId": "ed5b8b72dc1754a93ffed0c7d6d175c3c82a289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e070c33_b02715d1",
+        "filename": "operator/gerrit-operator-api/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritProbe.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-06T14:16:21Z",
+      "side": 1,
+      "message": "this is unnecessary",
+      "revId": "ed5b8b72dc1754a93ffed0c7d6d175c3c82a289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec18b1b_dca0a21d",
+        "filename": "operator/gerrit-operator-api/src/main/java/com/google/gerrit/k8s/operator/api/model/receiver/ReceiverProbe.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-06T14:16:21Z",
+      "side": 1,
+      "message": "This is unnecessary",
+      "revId": "ed5b8b72dc1754a93ffed0c7d6d175c3c82a289a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

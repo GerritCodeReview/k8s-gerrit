@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1f9bcfc_ee65c64a",
+        "filename": "operator/gerrit-operator-api/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritProbe.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-06T14:16:21Z",
+      "side": 0,
+      "message": "Why are code changes necessary for moving code into a different maven package?",
+      "revId": "8f86ffb306404d00f7b801b71ba97f0e8d80b4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
