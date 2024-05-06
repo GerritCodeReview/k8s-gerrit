@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c550d1_12c0d2e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-06T14:08:30Z",
+      "side": 1,
+      "message": "This change, and several follow-up changes in the series, introduce dedicated factories for some computations. However, the usage of the factories is via its static methods (no Guice injection) and the rest of the code depends on the concrete factory classes. What are the major benefits?",
+      "revId": "c4c02bbc58653e88e3dcb83aaa98e9a83f326201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d41cd144_ba210401",
