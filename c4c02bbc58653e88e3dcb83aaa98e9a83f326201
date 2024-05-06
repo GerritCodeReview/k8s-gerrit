@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d41cd144_ba210401",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-06T14:04:02Z",
+      "side": 1,
+      "message": "This change could have been smaller if, in the first iteration, the        `GerritCluster.create` method is kept and it delegates to the `GerritClusterLabelFactory.create`.",
+      "revId": "c4c02bbc58653e88e3dcb83aaa98e9a83f326201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
