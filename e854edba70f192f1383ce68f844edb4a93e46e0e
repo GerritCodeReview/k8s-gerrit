@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac2a682_d750edf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-07T15:25:47Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "82df6aad_a3e42ee0",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 66
+      },
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10aff8a8_1e8e37e7",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-02-16T11:06:56Z",
       "side": 1,
       "message": "If you are changing CRDs you need to bump the API version to instruct k8s about the API change.\n\nThere is a script helping with that at `./operator/tools/newCRDVersion`.\n\nIn order to simplify the review we bump the API version in the first patchset and then add the CRD and code changes in subsequent patchsets. This way we can review the API bump and the new CRD and operator features separately.\n\nThis gets more complicated if multiple API changes are in flight since updates need to be serialized. I currently have this one open: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409483 which bumps the API version to v1beta6.",
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24cb4e80_92059824",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-07T15:25:47Z",
+      "side": 1,
+      "message": "Thank you for the explanation. In the end we did not have to make any changes to the model, so we don\u0027t have to bump the API version.",
+      "parentUuid": "10aff8a8_1e8e37e7",
       "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -76,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd0c2bc0_cd76539e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-07T15:25:47Z",
+      "side": 1,
+      "message": "I believe @alvaro.vilaplana@gmail.com already moved it to the change 424502",
+      "parentUuid": "a2b367c7_82930f9e",
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e872c8b_6a641d49",
@@ -89,6 +149,30 @@
       "writtenOn": "2024-04-19T12:38:46Z",
       "side": 1,
       "message": "I believe that if we don\u0027t use a shared FS, we don\u0027t need separate volumes for the git repositories and the rest of the site. It could just be a single volume. That would be much easier to maintain, e.g. a snapshot would contain both indexes and repositories and it would thus be easier to keep backups in sync.\n\nImplementing that, will likely require changes in the gerrit-init container, i.e. the python scripts that it uses, since no symlinking the parts of the site into place is required anymore. That shouldn\u0027t be hard though.",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 96
+      },
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cec9eb2_c60a910d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-07T15:25:47Z",
+      "side": 1,
+      "message": "We agree, now if it is multisite, than we have a persistent volume for each gerrit instance for the whole site (git, caches, indexes, etc.)",
+      "parentUuid": "7e872c8b_6a641d49",
       "range": {
         "startLine": 155,
         "startChar": 6,
