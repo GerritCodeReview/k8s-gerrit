@@ -213,6 +213,30 @@
       },
       "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29efbbe7_d63467d8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T16:16:10Z",
+      "side": 1,
+      "message": "\u003e Notably that only works if using the same protocol (separate sessions for HTTPS and SSH). \n\nMakes sense to me unless that I am missing something.\n\n\u003e We also observe some imbalance, but that is manageable.\n\nDo you mean imbalance under the same session? If that is true I think that is really bad and we can end up with unpredictable results, i.e git operations (client/server conversations). Please @thomas.draebing@sap.com can you provide us more context about that?.",
+      "parentUuid": "ce43d2f2_07ed5782",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "81b50d8d58612f39d41521d3a037ba8fd93c80a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

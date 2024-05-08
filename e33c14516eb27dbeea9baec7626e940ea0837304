@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27fece39_b9df8434",
+        "filename": "Documentation/examples/gerrit-istio-profile.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T16:16:10Z",
+      "side": 1,
+      "message": "This file needs to be removed. It is not needed anymore because of this change 410003",
+      "revId": "e33c14516eb27dbeea9baec7626e940ea0837304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "118e599b_e9b5fb65",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/GerritIstioNoSharedFSReconciler.java",
         "patchSetId": 2
@@ -14,6 +31,24 @@
       "writtenOn": "2024-04-19T14:05:51Z",
       "side": 1,
       "message": "Please check the updates in the original implementation. You will need to reconcile serviceentries to avoid a bug in Envoy that keeps sessions open even after the IP of a pod changed.",
+      "revId": "e33c14516eb27dbeea9baec7626e940ea0837304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "675448e5_accec06a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/GerritIstioNoSharedFSReconciler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T16:16:10Z",
+      "side": 1,
+      "message": "This reconciler is a duplication of `GerritIstioReconciler` so it can be removed and we can use `GerritIstioReconciler`",
+      "parentUuid": "118e599b_e9b5fb65",
       "revId": "e33c14516eb27dbeea9baec7626e940ea0837304",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
