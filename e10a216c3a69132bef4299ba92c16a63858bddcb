@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd7d4663_617b33b8",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T15:12:52Z",
+      "side": 1,
+      "message": "\u003e I believe that we can use the Operator to simplify this a bit. The operator could provide a default replication config containing remotes for all pods. The gerrit-init scripts than only have to delete the remote section matching its own pod. One thing we then would have to take care of, is how to bring in time-based configuration like timeouts, which should be configurable by the user, while the operator should configure the rest.\n\nDefinitively we agree 100%. Currently the way pull replication is configured does not scale and is very error prone. I think we should have a conversation to discuss possible solutions.\n\n\u003e Even nicer would be a discovery mechanism like jgroups in the HA-plugin, so that each instance could use the same configuration and just discovers its remotes. That is however a complete different story for later.\n\nWe should consolidate the way the discovery mechanism and dns resolution works and use the same approach across all the use cases. I think this could be the first improvement to address once we have multisite stable and running.",
+      "parentUuid": "6bd5ae3a_e3235fe2",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 44
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4182c4b_82ebaf1b",
         "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
         "patchSetId": 1
