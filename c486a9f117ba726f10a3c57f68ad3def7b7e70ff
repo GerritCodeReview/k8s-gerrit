@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d15932_64348c2f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritCluster.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-08T14:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96df66fb_2f9be93f",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 3
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ced0949_970fedae",
@@ -131,6 +155,30 @@
       "writtenOn": "2024-04-19T14:00:30Z",
       "side": 1,
       "message": "Instead of using env variables, you could use the `GerritInitConfigMap`. That contains configuration used by the gerrit-init container.",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99c15acb_b44c3414",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritCluster.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-08T14:36:47Z",
+      "side": 1,
+      "message": "NO longer relevant because we are just using the `POD_NAME` to retrieve the index.",
+      "parentUuid": "4ced0949_970fedae",
       "range": {
         "startLine": 240,
         "startChar": 0,
