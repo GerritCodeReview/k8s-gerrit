@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e7d513_03cd7203",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/config/init_config.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T13:05:14Z",
+      "side": 1,
+      "message": "I think this guard is not needed because the host is passed always in the config map.",
+      "revId": "18a1b9926cde37bd57039bd5c63d49d047715614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
