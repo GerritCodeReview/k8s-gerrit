@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0406738_f8ecfe06",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T12:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c7b0549_e3bb7ad2",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 129
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06ce15d1_246bf4f2",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-19T14:00:30Z",
       "side": 1,
       "message": "Why not let the operator compute the",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "c486a9f117ba726f10a3c57f68ad3def7b7e70ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655cd6f7_d6d151bc",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T12:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06ce15d1_246bf4f2",
       "range": {
         "startLine": 45,
         "startChar": 0,

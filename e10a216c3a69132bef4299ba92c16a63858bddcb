@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f551412_e0c94dcf",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T12:59:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeecbb2a_5bb1101a",
+      "range": {
+        "startLine": 127,
+        "startChar": 6,
+        "endLine": 129,
+        "endChar": 54
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4edf15a1_3f44d12c",
