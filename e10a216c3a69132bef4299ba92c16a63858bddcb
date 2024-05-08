@@ -203,6 +203,24 @@
       "message": "Isn\u0027t this is occurring anyway in line #415?",
       "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b84a8b1_495edaf1",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-08T14:38:35Z",
+      "side": 1,
+      "message": "That is correct and was addressed in a later change, anyway, now we don\u0027t need to expose the `POD_INDEX` anymore. So both linked 409 and 415 are no longer needed.",
+      "parentUuid": "b453a8bf_83db13bc",
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
