@@ -190,6 +190,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "324524ac_fbe8ed4f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritCluster.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-08T14:59:17Z",
+      "side": 1,
+      "message": "\u003e Not tested, but I think that could mean that if we scale Gerrit, we have to restart every pod.\n\nThis is exactly the behaviour that we have tested. In fact, updating the number of replicas will have the effect of restarting each pod in the statefulset.\nThis also means that scaling up or down is possible provided that the replication.config passed as template in the configmap is updated accordingly.\n\n\u003eThese are arguments for having some kind of auto discovery in pull-replication.\n\nBased on the comment here [1], we think that an auto discovery of the remotes (similar to what is currently in place for HA) would be the best approach. If we implement this that just the common settings for pull replication can be passed as a single configmap.\n\n[1]: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409747/comment/6bd5ae3a_e3235fe2/",
+      "parentUuid": "5b9027c6_004cc2a5",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b453a8bf_83db13bc",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
         "patchSetId": 1
