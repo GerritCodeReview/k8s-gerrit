@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c33227e6_24f453f4",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T14:33:23Z",
+      "side": 1,
+      "message": "@diego.sessona@gmail.com with the latest updates of change 409747, this condition is not anymore valid. There is no version constraint.",
+      "revId": "d458f1a2d1e96edf16c368e14e88007349b20fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
