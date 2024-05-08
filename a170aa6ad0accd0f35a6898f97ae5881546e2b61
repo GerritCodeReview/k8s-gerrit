@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2262fd3a_663c1b53",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication-kafka.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-08T12:40:02Z",
+      "side": 1,
+      "message": "@diego.sessona@gmail.com we need to add the library in the file: `download_plugins.py`",
+      "revId": "a170aa6ad0accd0f35a6898f97ae5881546e2b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
