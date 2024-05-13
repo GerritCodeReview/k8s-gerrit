@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritClusterSpec;
@@ -75,7 +76,7 @@ public class GerritAdmissionWebhookTest {
 
     kubernetesServer.before();
 
-    GerritAdmissionWebhook webhook = new GerritAdmissionWebhook();
+    GerritAdmissionWebhook webhook = new GerritAdmissionWebhook(ClusterMode.HIGH_AVAILABILITY);
     server.registerWebhook(webhook);
     server.start();
   }
