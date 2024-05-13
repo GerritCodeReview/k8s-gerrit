@@ -62,8 +62,7 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
-    if ((clusterMode == ClusterMode.MULTISITE || gerrit.getSpec().isHighlyAvailablePrimary())
-        && !isRefdbConfigured(gerrit)) {
+    if (noRefDbConfiguredForMultiPrimary(gerrit)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage(
@@ -97,8 +96,9 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
     new GerritConfigBuilder(gerrit).validate();
   }
 
-  private boolean isRefdbConfigured(Gerrit gerrit) {
-    return !gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
+  private boolean noRefDbConfiguredForMultiPrimary(Gerrit gerrit) {
+    return (gerrit.getSpec().isHighlyAvailablePrimary() || clusterMode == ClusterMode.MULTISITE)
+        && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
   private boolean missingRefdbConfig(Gerrit gerrit) {

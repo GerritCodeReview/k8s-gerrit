@@ -31,10 +31,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
+public class GerritMultisiteAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
 
   @Test
-  public void testInvalidGerritConfigRejected() throws Exception {
+  public void testNoRefDbConfiguredForMultisiteRejected() throws Exception {
     String clusterName = "gerrit";
     Config gerritConfig = new Config();
     gerritConfig.setString("container", null, "user", "gerrit");
