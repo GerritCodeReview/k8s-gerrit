@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c47f306_976a3eff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-13T07:11:45Z",
+      "side": 1,
+      "message": "The final goal is to move the API classes into their own library. For that I want to remove everything from the API classes that is not a direct getter or setter or a getter for a value derived from multiple fields. Thus, I am moving those methods into dedicated classes.\nAs far as I could figure it out, Guice is unfortunately not working with DependentResources due to the way JOSDK calls the constructor. Please feel free to try that as well. Maybe you can get it to work.",
+      "parentUuid": "56c550d1_12c0d2e6",
+      "revId": "c4c02bbc58653e88e3dcb83aaa98e9a83f326201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d41cd144_ba210401",
