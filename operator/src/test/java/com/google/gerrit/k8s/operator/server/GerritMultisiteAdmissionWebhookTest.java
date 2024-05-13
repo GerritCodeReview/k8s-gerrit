@@ -21,7 +21,6 @@ import static org.hamcrest.Matchers.equalTo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.HttpURLConnection;
@@ -31,20 +30,18 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
+public class GerritMultisiteAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
+
+  private static final String NO_REFDB_CONFIGURED_MSG =
+      "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE";
 
   @Test
-  public void testInvalidGerritConfigRejected() throws Exception {
+  public void testNoRefDbConfiguredForMultisiteRejected() throws Exception {
+
     String clusterName = "gerrit";
     Config gerritConfig = new Config();
     gerritConfig.setString("container", null, "user", "gerrit");
     Gerrit gerrit = createGerrit(clusterName, gerritConfig);
-    kubernetesServer
-        .expect()
-        .get()
-        .withPath(LIST_GERRITS_PATH)
-        .andReturn(HttpURLConnection.HTTP_OK, new DefaultKubernetesResourceList<Gerrit>())
-        .times(2);
 
     mockGerritCluster(clusterName);
 
@@ -54,17 +51,9 @@ public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
         new ObjectMapper().readValue(http.getInputStream(), AdmissionReview.class);
 
     assertThat(http.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
-    assertThat(response.getResponse().getAllowed(), is(true));
-
-    gerritConfig.setString("container", null, "user", "invalid");
-    Gerrit gerrit2 = createGerrit(clusterName, gerritConfig);
-    HttpURLConnection http2 = sendAdmissionRequest(gerrit2);
-
-    AdmissionReview response2 =
-        new ObjectMapper().readValue(http2.getInputStream(), AdmissionReview.class);
-
-    assertThat(http2.getResponseCode(), is(equalTo(HttpServletResponse.SC_OK)));
-    assertThat(response2.getResponse().getAllowed(), is(false));
+    assertThat(response.getResponse().getAllowed(), is(false));
+    assertThat(
+        response.getResponse().getStatus().getMessage(), is(equalTo(NO_REFDB_CONFIGURED_MSG)));
   }
 
   @Override
@@ -74,6 +63,6 @@ public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
 
   @Override
   protected ClusterMode getClusterMode() {
-    return ClusterMode.HIGH_AVAILABILITY;
+    return ClusterMode.MULTISITE;
   }
 }
