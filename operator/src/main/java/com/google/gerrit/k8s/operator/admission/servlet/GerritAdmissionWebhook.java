@@ -19,6 +19,7 @@ import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
@@ -62,13 +63,20 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
-    if ((clusterMode == ClusterMode.MULTISITE || gerrit.getSpec().isHighlyAvailablePrimary())
-        && !isRefdbConfigured(gerrit)) {
+    if (noRefDbConfiguredForMultiPrimary(gerrit)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
           .withMessage(
               "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE")
           .build();
+    }
+
+    if (noEventsBrokerConfiguredForMultisite(gerrit)) {
+      return new StatusBuilder()
+              .withCode(HttpServletResponse.SC_BAD_REQUEST)
+              .withMessage(
+                      "An events-broker is required to run Gerrit in multisite mode: .spec.eventsBroker.brokerType != NONE")
+              .build();
     }
 
     if (missingRefdbConfig(gerrit)) {
@@ -97,8 +105,14 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
     new GerritConfigBuilder(gerrit).validate();
   }
 
-  private boolean isRefdbConfigured(Gerrit gerrit) {
-    return !gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
+  private boolean noRefDbConfiguredForMultiPrimary(Gerrit gerrit) {
+    return (gerrit.getSpec().isHighlyAvailablePrimary() || clusterMode == ClusterMode.MULTISITE)
+        && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
+  }
+
+  private boolean noEventsBrokerConfiguredForMultisite(Gerrit gerrit) {
+    return clusterMode == ClusterMode.MULTISITE
+            && gerrit.getSpec().getEventsBroker().getBrokerType().equals(EventsBrokerConfig.BrokerType.NONE);
   }
 
   private boolean missingRefdbConfig(Gerrit gerrit) {
