@@ -14,60 +14,32 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import static com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer.PORT;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
-import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplateSpec;
 import com.google.gerrit.k8s.operator.test.ReceiverUtil;
-import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
-import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import org.eclipse.jetty.http.HttpMethod;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Rule;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class GerritClusterAdmissionWebhookTest {
-  private static final String NAMESPACE = "test";
-  private TestAdmissionWebhookServer server;
-
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
-
-  @BeforeAll
-  public void setup() throws Exception {
-    server = new TestAdmissionWebhookServer();
-
-    kubernetesServer.before();
-
-    server.registerWebhook(new GerritClusterAdmissionWebhook());
-    server.registerWebhook(new GerritAdmissionWebhook());
-    server.start();
-  }
+public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
 
   @Test
   public void testOnlySinglePrimaryGerritIsAcceptedPerGerritCluster() throws Exception {
@@ -182,30 +154,13 @@ public class GerritClusterAdmissionWebhookTest {
         is(equalTo(HttpServletResponse.SC_CONFLICT)));
   }
 
-  private HttpURLConnection sendAdmissionRequest(GerritCluster gerritCluster)
-      throws MalformedURLException, IOException {
-    HttpURLConnection http =
-        (HttpURLConnection)
-            new URL("http://localhost:" + PORT + "/admission/v1beta1/gerritcluster")
-                .openConnection();
-    http.setRequestMethod(HttpMethod.POST.asString());
-    http.setRequestProperty("Content-Type", "application/json");
-    http.setDoOutput(true);
-
-    AdmissionRequest admissionReq = new AdmissionRequest();
-    admissionReq.setObject(gerritCluster);
-    AdmissionReview admissionReview = new AdmissionReview();
-    admissionReview.setRequest(admissionReq);
-
-    try (OutputStream os = http.getOutputStream()) {
-      byte[] input = new ObjectMapper().writer().writeValueAsBytes(admissionReview);
-      os.write(input, 0, input.length);
-    }
-    return http;
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 
-  @AfterAll
-  public void shutdown() throws Exception {
-    server.stop();
+  @Override
+  protected String getCustomResource() {
+    return "gerritcluster";
   }
 }

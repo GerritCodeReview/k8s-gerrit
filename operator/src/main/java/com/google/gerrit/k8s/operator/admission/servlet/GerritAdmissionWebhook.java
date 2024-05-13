@@ -17,11 +17,14 @@ package com.google.gerrit.k8s.operator.admission.servlet;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.InvalidGerritConfigException;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
@@ -32,6 +35,19 @@ import java.util.Locale;
 @Singleton
 public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private static final long serialVersionUID = 1L;
+
+  private final ClusterMode clusterMode;
+
+  public static final String NO_REFDB_CONFIGURED_MSG =
+      "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE";
+
+  public static final String NO_EVENTS_BROKER_CONFIGURED_MSG =
+      "An events-broker is required to run Gerrit in multisite mode: .spec.eventsBroker.brokerType != NONE";
+
+  @Inject
+  public GerritAdmissionWebhook(ClusterMode clusterMode) {
+    this.clusterMode = clusterMode;
+  }
 
   @Override
   public Status validate(HasMetadata resource) {
@@ -53,11 +69,17 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
-    if (noRefDbConfiguredForHA(gerrit)) {
+    if (noRefDbConfiguredForMultiPrimary(gerrit)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
-          .withMessage(
-              "A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database != NONE")
+          .withMessage(NO_REFDB_CONFIGURED_MSG)
+          .build();
+    }
+
+    if (noEventsBrokerConfiguredForMultisite(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage(NO_EVENTS_BROKER_CONFIGURED_MSG)
           .build();
     }
 
@@ -87,9 +109,18 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
     new GerritConfigBuilder(gerrit).validate();
   }
 
-  private boolean noRefDbConfiguredForHA(Gerrit gerrit) {
-    return gerrit.getSpec().isHighlyAvailablePrimary()
+  private boolean noRefDbConfiguredForMultiPrimary(Gerrit gerrit) {
+    return (gerrit.getSpec().isHighlyAvailablePrimary() || clusterMode == ClusterMode.MULTISITE)
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
+  }
+
+  private boolean noEventsBrokerConfiguredForMultisite(Gerrit gerrit) {
+    return clusterMode == ClusterMode.MULTISITE
+        && gerrit
+            .getSpec()
+            .getEventsBroker()
+            .getBrokerType()
+            .equals(EventsBrokerConfig.BrokerType.NONE);
   }
 
   private boolean missingRefdbConfig(Gerrit gerrit) {
