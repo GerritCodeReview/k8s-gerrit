@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.admission.servlet;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -43,6 +44,14 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
     }
 
     GerritCluster gerritCluster = (GerritCluster) resource;
+
+    if (OperatorContext.isMultisite() && !haveOnlyOnePrimary(gerritCluster)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_CONFLICT)
+          .withMessage(
+              "Only a single primary Gerrit and no replicas are allowed per Gerrit Cluster.")
+          .build();
+    }
 
     if (multiplePrimaryGerritInCluster(gerritCluster)) {
       return new StatusBuilder()
@@ -114,6 +123,11 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
             .filter(itr -> Collections.frequency(names, itr) > 1)
             .collect(Collectors.toSet());
     return duplicates.size() > 0;
+  }
+
+  private boolean haveOnlyOnePrimary(GerritCluster gerritCluster) {
+    List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
+    return gerrits.size() == 1 && gerrits.get(0).getSpec().getMode() == GerritMode.PRIMARY;
   }
 
   @Override
