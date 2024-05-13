@@ -15,10 +15,12 @@
 package com.google.gerrit.k8s.operator.admission.servlet;
 
 import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -32,6 +34,17 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
+
+  public static final String GERRIT_MULTISITE_MISCONFIGURED =
+      "Gerrit Cluster in multisite mode should be configured as Primary Gerrit and have spec.gerrits[0].specs.replicas value > 1.";
+
+  private final ClusterMode clusterMode;
+
+  @Inject
+  public GerritClusterAdmissionWebhook(ClusterMode clusterMode) {
+    this.clusterMode = clusterMode;
+  }
+
   private static final long serialVersionUID = 1L;
 
   @Override
@@ -45,35 +58,47 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
 
     GerritCluster gerritCluster = (GerritCluster) resource;
 
-    if (multiplePrimaryGerritInCluster(gerritCluster)) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_CONFLICT)
-          .withMessage("Only a single primary Gerrit is allowed per Gerrit Cluster.")
-          .build();
+    if (clusterMode == ClusterMode.MULTISITE) {
+
+      if (isMultisiteMisconfigured(gerritCluster)) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_CONFLICT)
+            .withMessage(GERRIT_MULTISITE_MISCONFIGURED)
+            .build();
+      }
+
+    } else {
+
+      if (multiplePrimaryGerritInCluster(gerritCluster)) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_CONFLICT)
+            .withMessage("Only a single primary Gerrit is allowed per Gerrit Cluster.")
+            .build();
+      }
+
+      if (primaryGerritAndReceiverInCluster(gerritCluster)) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_CONFLICT)
+            .withMessage("A primary Gerrit cannot be in the same Gerrit Cluster as a Receiver.")
+            .build();
+      }
+
+      if (multipleGerritReplicaInCluster(gerritCluster)) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_CONFLICT)
+            .withMessage("Only a single Gerrit Replica is allowed per Gerrit Cluster.")
+            .build();
+      }
+
+      if (gerritsHaveSameMetadataName(gerritCluster)) {
+        return new StatusBuilder()
+            .withCode(HttpServletResponse.SC_CONFLICT)
+            .withMessage("Gerrit Primary and Replica must have different metadata.name.")
+            .build();
+      }
     }
 
-    if (primaryGerritAndReceiverInCluster(gerritCluster)) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_CONFLICT)
-          .withMessage("A primary Gerrit cannot be in the same Gerrit Cluster as a Receiver.")
-          .build();
-    }
-
-    if (multipleGerritReplicaInCluster(gerritCluster)) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_CONFLICT)
-          .withMessage("Only a single Gerrit Replica is allowed per Gerrit Cluster.")
-          .build();
-    }
-
-    if (gerritsHaveSameMetadataName(gerritCluster)) {
-      return new StatusBuilder()
-          .withCode(HttpServletResponse.SC_CONFLICT)
-          .withMessage("Gerrit Primary and Replica must have different metadata.name.")
-          .build();
-    }
-
-    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
+    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook(clusterMode);
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
       if (status.getCode() != HttpServletResponse.SC_OK) {
@@ -115,6 +140,13 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
             .filter(itr -> Collections.frequency(names, itr) > 1)
             .collect(Collectors.toSet());
     return duplicates.size() > 0;
+  }
+
+  private boolean isMultisiteMisconfigured(GerritCluster gerritCluster) {
+    List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
+    return !(gerrits.size() == 1
+        && gerrits.get(0).getSpec().getMode() == GerritMode.PRIMARY
+        && gerrits.get(0).getSpec().getReplicas() > 1);
   }
 
   @Override
