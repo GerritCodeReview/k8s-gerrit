@@ -54,6 +54,7 @@ public class OperatorModule extends AbstractModule {
     bind(LifecycleManager.class);
     bind(GerritOperator.class);
 
+    bind(ClusterMode.class).toInstance(clusterMode);
     OperatorContext.createInstance(clusterMode);
     logger.atInfo().log("Cluster mode: %s", clusterMode);
 
