@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.admission.servlet;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
@@ -61,6 +62,14 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
           .build();
     }
 
+    if (noRefDbConfiguredForMultisite(gerrit)) {
+      return new StatusBuilder()
+          .withCode(HttpServletResponse.SC_BAD_REQUEST)
+          .withMessage(
+              "A Ref-Database is required in Multisite setup: .spec.refdb.database != NONE")
+          .build();
+    }
+
     if (missingRefdbConfig(gerrit)) {
       String refDbName = "";
       switch (gerrit.getSpec().getRefdb().getDatabase()) {
@@ -89,6 +98,11 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   private boolean noRefDbConfiguredForHA(Gerrit gerrit) {
     return gerrit.getSpec().isHighlyAvailablePrimary()
+        && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
+  }
+
+  private boolean noRefDbConfiguredForMultisite(Gerrit gerrit) {
+    return OperatorContext.isMultisite()
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
