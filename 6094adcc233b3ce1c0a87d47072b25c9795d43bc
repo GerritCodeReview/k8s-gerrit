@@ -22,6 +22,30 @@
       },
       "revId": "6094adcc233b3ce1c0a87d47072b25c9795d43bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dadb652e_c4e6c2f2",
+        "filename": "helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 15
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-14T11:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c319be3c_8ca84061",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "6094adcc233b3ce1c0a87d47072b25c9795d43bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
