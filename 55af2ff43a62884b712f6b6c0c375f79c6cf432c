@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81adcb9d_86ac6766",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/EnvModule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-14T13:34:00Z",
+      "side": 1,
+      "message": "How would a binding look like? Looks like you would bind an annotated Boolean to the `isMultisite`?\n\nWhy not instead bind the `ClusterMode`:\n```\n  bind(ClusterMode.class).toInstance(ClusterMode.valueOf(\"CLUSTER_MODE\"));\n```\n\nThis would be more future proof, if we add yet another cluster mode.",
+      "revId": "55af2ff43a62884b712f6b6c0c375f79c6cf432c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
