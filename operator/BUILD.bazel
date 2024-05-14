@@ -1,0 +1,350 @@
+load("@aspect_bazel_lib//lib:tar.bzl", "tar")
+load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", "java_test_suite")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("//tools/bzl:genrule2.bzl", "genrule2")
+
+java_binary(
+    name = "java-generator-cli",
+    main_class = "io.fabric8.java.generator.cli.GenerateJavaSources",
+    visibility = ["//visibility:public"],
+    runtime_deps = [
+        "@maven//:io_fabric8_java_generator_cli",
+    ],
+)
+
+java_binary(
+    name = "delombok-bin",
+    main_class = "lombok.launch.Main",
+    runtime_deps = [
+        "@maven//:io_fabric8_generator_annotations",
+        "@maven//:io_fabric8_kubernetes_client_api",
+        "@maven//:io_sundr_builder_annotations",
+        "@maven//:org_projectlombok_lombok",
+    ],
+)
+
+genrule2(
+    name = "generate-ambassador-bindings",
+    srcs = ["src/main/resources/crd/emissary-crds.yaml"],
+    outs = ["generate-ambassador-bindings.zip"],
+    cmd = " && ".join([
+        "$(location :java-generator-cli) --target $$TMP --add-extra-annotations --source $<",
+        "cd $$TMP",
+        "zip -q $$ROOT/$@ $$(find . -type f)",
+    ]),
+    tools = [":java-generator-cli"],
+)
+
+genrule2(
+    name = "delombok-ambassador-bindings",
+    srcs = [":generate-ambassador-bindings"],
+    outs = ["delombok-ambassador-bindings.srcjar"],
+    cmd = " && ".join([
+        "unzip -q -d $$TMP $<",
+        "$(location :delombok-bin) delombok --target $$TMP/delombok $$TMP",
+        "cd $$TMP/delombok",
+        "zip -q $$ROOT/$@ $$(find . -type f)",
+    ]),
+    tools = [":delombok-bin"],
+)
+
+java_plugin(
+    name = "crd-generator-plugin",
+    processor_class = "io.fabric8.crd.generator.apt.CustomResourceAnnotationProcessor",
+    deps = [
+        "@maven//:io_fabric8_crd_generator_apt",
+    ],
+)
+
+java_plugin(
+    name = "sundr-buildable-processor-plugin",
+    processor_class = "io.sundr.builder.internal.processor.BuildableProcessor",
+    deps = [
+        "@maven//:io_sundr_builder_annotations",
+    ],
+)
+
+java_plugin(
+    name = "sundr-external-buildable-processor-plugin",
+    processor_class = "io.sundr.builder.internal.processor.ExternalBuildableProcessor",
+    deps = [
+        "@maven//:io_sundr_builder_annotations",
+    ],
+)
+
+java_library(
+    name = "sundr-external-buildable-processor",
+    exported_plugins = [
+        ":sundr-buildable-processor-plugin",
+        ":sundr-external-buildable-processor-plugin",
+    ],
+    exports = ["@maven//:io_sundr_builder_annotations"],
+)
+
+java_library(
+    name = "ambassador-bindings-lib",
+    srcs = [":delombok-ambassador-bindings"],
+    deps = [
+        ":sundr-external-buildable-processor",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:io_fabric8_generator_annotations",
+        "@maven//:io_fabric8_kubernetes_client_api",
+        "@maven//:io_fabric8_kubernetes_model_common",
+        "@maven//:io_fabric8_kubernetes_model_core",
+    ],
+)
+
+# TODO(davido): The package is generated in Bazel build: io.fabric8.kubernetes.api.
+# This is conflicting with the version of the library on the classpath.
+# Remove this generated package from the final artifact for now and investigate later
+# why this is happening in the first place.
+genrule2(
+    name = "stripped-ambassador-bindings",
+    srcs = ["ambassador-bindings-lib"],
+    outs = ["stripped-ambassador-bindings.jar"],
+    cmd = " && ".join([
+        "unzip -q -d $$TMP $<",
+        "cd $$TMP",
+        "rm -rf io/fabric8",
+        "zip -qr $$ROOT/$@ .",
+    ]),
+)
+
+java_import(
+    name = "stripped-ambassador-bindings-impl",
+    jars = [":stripped-ambassador-bindings"],
+)
+
+java_library(
+    name = "crd-generator-processor",
+    exported_plugins = [
+        ":crd-generator-plugin",
+    ],
+    exports = ["@maven//:io_fabric8_crd_generator_apt"],
+)
+
+API_MODEL = "src/main/java/com/google/gerrit/k8s/operator/api/model/**/*.java"
+
+java_library(
+    name = "crd-operator-lib",
+    srcs = glob([API_MODEL]),
+    deps = [
+        ":crd-generator-processor",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_google_inject_guice",
+        "@maven//:io_fabric8_generator_annotations",
+        "@maven//:io_fabric8_kubernetes_client_api",
+        "@maven//:io_fabric8_kubernetes_model_common",
+        "@maven//:io_fabric8_kubernetes_model_core",
+        "@maven//:org_apache_commons_commons_lang3",
+    ],
+)
+
+java_library(
+    name = "operator",
+    srcs = glob(
+        ["src/main/java/**/*.java"],
+        exclude = [API_MODEL],
+    ),
+    resources = glob(["src/main/resources/**"]),
+    deps = [
+        ":crd-operator-lib",
+        ":stripped-ambassador-bindings-impl",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_core",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_fasterxml_jackson_dataformat_jackson_dataformat_yaml",
+        "@maven//:com_google_flogger_flogger",
+        "@maven//:com_google_flogger_flogger_log4j2_backend",
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_google_inject_extensions_guice_assistedinject",
+        "@maven//:com_google_inject_guice",
+        "@maven//:io_fabric8_crd_generator_apt",
+        "@maven//:io_fabric8_generator_annotations",
+        "@maven//:io_fabric8_istio_client",
+        "@maven//:io_fabric8_istio_model_v1beta1",
+        "@maven//:io_fabric8_kubernetes_client",
+        "@maven//:io_fabric8_kubernetes_client_api",
+        "@maven//:io_fabric8_kubernetes_model_admissionregistration",
+        "@maven//:io_fabric8_kubernetes_model_apps",
+        "@maven//:io_fabric8_kubernetes_model_batch",
+        "@maven//:io_fabric8_kubernetes_model_common",
+        "@maven//:io_fabric8_kubernetes_model_core",
+        "@maven//:io_fabric8_kubernetes_model_networking",
+        "@maven//:io_fabric8_kubernetes_model_node",
+        "@maven//:io_javaoperatorsdk_kubernetes_webhooks_framework_core",
+        "@maven//:io_javaoperatorsdk_micrometer_support",
+        "@maven//:io_javaoperatorsdk_operator_framework",
+        "@maven//:io_javaoperatorsdk_operator_framework_core",
+        "@maven//:io_sundr_builder_annotations",
+        "@maven//:org_apache_commons_commons_lang3",
+        "@maven//:org_apache_logging_log4j_log4j_api",
+        "@maven//:org_apache_logging_log4j_log4j_core",
+        "@maven//:org_apache_logging_log4j_log4j_slf4j_impl",
+        "@maven//:org_bouncycastle_bcpkix_jdk18on",
+        "@maven//:org_bouncycastle_bcprov_jdk18on",
+        "@maven//:org_eclipse_jetty_jetty_server",
+        "@maven//:org_eclipse_jetty_jetty_servlet",
+        "@maven//:org_eclipse_jetty_jetty_util",
+        "@maven//:org_eclipse_jetty_toolchain_jetty_jakarta_servlet_api",
+        "@maven//:org_eclipse_jgit_org_eclipse_jgit",
+    ],
+)
+
+java_test_suite(
+    name = "operator-tests",
+    size = "small",
+    srcs = glob(["src/test/java/**/*.java"]),
+    resource_strip_prefix = "operator/src/test/resources",
+    resources = glob(["src/test/resources/**"]),
+    runner = "junit5",
+    test_suffixes = [
+        "Test.java",
+    ],
+    runtime_deps = JUNIT5_DEPS,
+    deps = [
+        ":crd-operator-lib",
+        ":operator",
+        ":stripped-ambassador-bindings-impl",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_google_flogger_flogger",
+        "@maven//:com_google_inject_guice",
+        "@maven//:com_google_truth_truth",
+        "@maven//:com_urswolfer_gerrit_client_rest_gerrit_rest_java_client",
+        "@maven//:commons_codec_commons_codec",
+        "@maven//:io_fabric8_istio_model_v1beta1",
+        "@maven//:io_fabric8_kubernetes_client_api",
+        "@maven//:io_fabric8_kubernetes_model_admissionregistration",
+        "@maven//:io_fabric8_kubernetes_model_apps",
+        "@maven//:io_fabric8_kubernetes_model_batch",
+        "@maven//:io_fabric8_kubernetes_model_common",
+        "@maven//:io_fabric8_kubernetes_model_core",
+        "@maven//:io_fabric8_kubernetes_model_networking",
+        "@maven//:io_fabric8_kubernetes_server_mock",
+        "@maven//:io_javaoperatorsdk_kubernetes_webhooks_framework_core",
+        "@maven//:io_javaoperatorsdk_operator_framework_core",
+        "@maven//:io_javaoperatorsdk_operator_framework_junit_5",
+        "@maven//:org_apache_commons_commons_lang3",
+        "@maven//:org_apache_httpcomponents_httpclient",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_awaitility_awaitility",
+        "@maven//:org_eclipse_jetty_jetty_http",
+        "@maven//:org_eclipse_jetty_jetty_server",
+        "@maven//:org_eclipse_jetty_jetty_servlet",
+        "@maven//:org_eclipse_jetty_toolchain_jetty_jakarta_servlet_api",
+        "@maven//:org_eclipse_jgit_org_eclipse_jgit",
+        "@maven//:org_hamcrest_hamcrest",
+        "@maven//:org_hamcrest_hamcrest_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_junit_jupiter_junit_jupiter_params",
+        "@maven//:org_mockito_mockito_core",
+    ],
+)
+
+# TODO(davido): This relies on pushing of operator docker image to docker repository,
+# that wasn't implemented yet.
+java_test_suite(
+    name = "operator-tests-e2e",
+    size = "large",
+    srcs = glob(["src/test/java/**/*.java"]),
+    resource_strip_prefix = "operator/src/test/resources",
+    resources = glob(["src/test/resources/**"]),
+    runner = "junit5",
+    test_suffixes = [
+        "E2E.java",
+    ],
+    runtime_deps = JUNIT5_DEPS,
+    deps = [
+        ":crd-operator-lib",
+        ":operator",
+        ":stripped-ambassador-bindings-impl",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_core",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_fasterxml_jackson_dataformat_jackson_dataformat_yaml",
+        "@maven//:com_google_flogger_flogger",
+        "@maven//:com_google_flogger_flogger_log4j2_backend",
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_google_inject_extensions_guice_assistedinject",
+        "@maven//:com_google_inject_guice",
+        "@maven//:com_google_truth_truth",
+        "@maven//:com_urswolfer_gerrit_client_rest_gerrit_rest_java_client",
+        "@maven//:commons_codec_commons_codec",
+        "@maven//:io_fabric8_crd_generator_apt",
+        "@maven//:io_fabric8_generator_annotations",
+        "@maven//:io_fabric8_istio_client",
+        "@maven//:io_fabric8_istio_model_v1beta1",
+        "@maven//:io_fabric8_kubernetes_client",
+        "@maven//:io_fabric8_kubernetes_client_api",
+        "@maven//:io_fabric8_kubernetes_model_admissionregistration",
+        "@maven//:io_fabric8_kubernetes_model_apps",
+        "@maven//:io_fabric8_kubernetes_model_batch",
+        "@maven//:io_fabric8_kubernetes_model_common",
+        "@maven//:io_fabric8_kubernetes_model_core",
+        "@maven//:io_fabric8_kubernetes_model_networking",
+        "@maven//:io_fabric8_kubernetes_model_node",
+        "@maven//:io_fabric8_kubernetes_server_mock",
+        "@maven//:io_javaoperatorsdk_kubernetes_webhooks_framework_core",
+        "@maven//:io_javaoperatorsdk_micrometer_support",
+        "@maven//:io_javaoperatorsdk_operator_framework",
+        "@maven//:io_javaoperatorsdk_operator_framework_core",
+        "@maven//:io_javaoperatorsdk_operator_framework_junit_5",
+        "@maven//:io_sundr_builder_annotations",
+        "@maven//:junit_junit",
+        "@maven//:org_apache_commons_commons_lang3",
+        "@maven//:org_apache_httpcomponents_httpclient",
+        "@maven//:org_apache_logging_log4j_log4j_api",
+        "@maven//:org_apache_logging_log4j_log4j_core",
+        "@maven//:org_apache_logging_log4j_log4j_slf4j_impl",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_awaitility_awaitility",
+        "@maven//:org_bouncycastle_bcpkix_jdk18on",
+        "@maven//:org_bouncycastle_bcprov_jdk18on",
+        "@maven//:org_eclipse_jetty_jetty_http",
+        "@maven//:org_eclipse_jetty_jetty_server",
+        "@maven//:org_eclipse_jetty_jetty_servlet",
+        "@maven//:org_eclipse_jetty_jetty_util",
+        "@maven//:org_eclipse_jetty_toolchain_jetty_jakarta_servlet_api",
+        "@maven//:org_eclipse_jgit_org_eclipse_jgit",
+        "@maven//:org_hamcrest_hamcrest",
+        "@maven//:org_hamcrest_hamcrest_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_junit_jupiter_junit_jupiter_params",
+        "@maven//:org_mockito_mockito_core",
+    ],
+)
+
+java_binary(
+    name = "operator-binary",
+    main_class = "com.google.gerrit.k8s.operator.Main",
+    runtime_deps = [":operator"],
+)
+
+exports_files(
+    ["maven_install.json"],
+    visibility = ["//visibility:public"],
+)
+
+tar(
+    name = "layer",
+    srcs = ["operator-binary_deploy.jar"],
+)
+
+oci_image(
+    name = "k8s-gerrit-image",
+    base = "@distroless_java",
+    entrypoint = [
+        "java",
+        "-jar",
+        "operator/operator-binary_deploy.jar",
+    ],
+    tars = [":layer"],
+)
+
+oci_tarball(
+    name = "k8s-gerrit-image-tarball",
+    image = ":k8s-gerrit-image",
+    repo_tags = ["k8s-gerrit-image:latest"],
+)
