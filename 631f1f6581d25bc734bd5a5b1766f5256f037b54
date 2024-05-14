@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34a4dce_88a13e15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-14T11:27:46Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com we could have donde something more sophisticated like depending on which cluster mode we are (HA or multisite) we register specific `ValidationWebhookConfigs` and specific `AdmissionWebhookServlet`. I think we could do that as a follow up but we are open to discuss.",
+      "revId": "631f1f6581d25bc734bd5a5b1766f5256f037b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
