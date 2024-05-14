@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f515473_738175e1",
+        "filename": "Documentation/examples/gerritcluster-2-nodes.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T06:41:47Z",
+      "side": 1,
+      "message": "Since this is not changing between examples, should we move it into a separate file?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fa6f70f_7e7846dd",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T06:41:47Z",
+      "side": 1,
+      "message": "this should be added to the previous block, since it also not required in the multisite setup",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 68
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fc7a9fa_8aac8eaf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorContext.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T06:41:47Z",
+      "side": 1,
+      "message": "Why not use Guice and make it a Singleton using `@Singleton`?\nMight not be possible, since Guice does not work well with DependentResources, but might be worth a try in a later iteration.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb0254e_75c7c04f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterMultisiteReconciler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T06:41:47Z",
+      "side": 1,
+      "message": "Should we extend the GerritClusterReconciler or use a shared base class to avoid duplication, e.g. in creating some event sources?",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 45
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0af95662_7507a0ed",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T06:41:47Z",
+      "side": 1,
+      "message": "This and the following refactorings are unrelated to the main purpose of this change, please move them to a separate change.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 96
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
