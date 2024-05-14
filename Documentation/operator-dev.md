@@ -1,16 +1,109 @@
 # Operator Development
 
-1. [Operator Development](#operator-development)
-   1. [Build](#build)
-   2. [Versioning](#versioning)
-   3. [Publish](#publish)
-   4. [Tests](#tests)
+- [Operator Development](#operator-development)
+  - [Prerequisites](#prerequisites)
+  - [Bazel (Work In Progress)](#bazel-work-in-progress)
+    - [Update dependencies](#update-dependencies)
+    - [Build](#build)
+    - [Test](#test)
+    - [Publish](#publish)
+  - [Maven](#maven)
+    - [Build](#build-1)
+    - [Test](#test-1)
+    - [Publish](#publish-1)
+  - [Versioning](#versioning)
+  - [E2E Tests](#e2e-tests)
 
-## Build
+## Prerequisites
 
-For this step, you need Java 11 and Maven installed.
+To build the Gerrit Operator, the following tools have to be installed:
 
-To build all components of the operator run:
+- Java 17
+- Maven\
+  ***OR***
+- [Bazel](https://github.com/bazelbuild/bazel)
+  (ideally also [Bazelisk](https://github.com/bazelbuild/bazelisk))
+- Docker
+
+## Bazel (Work In Progress)
+
+### Update dependencies
+
+To update Maven dependencies, add the dependency to `MODULE.bazel`. Then
+execute the following commands to lock the updated dependencies:
+
+```sh
+bazelisk mod deps --lockfile_mode=update
+REPIN=1 bazelisk run @maven//:pin
+bazelisk mod deps --lockfile_mode=update
+```
+
+### Build
+
+To build the Gerrit Operator binary, run:
+
+```sh
+bazelisk build operator:operator-binary_deploy.jar
+```
+
+To directly build the docker image containing the Gerrit Operator binary, run:
+
+```sh
+bazelisk run operator:build
+```
+
+To generate the CRDs, run:
+
+```sh
+bazelisk build operator:crds
+```
+
+The CRDs can then be found under `./bazel-bin/operator/crds`.
+
+Changes in CRDs should always be checked in to provide an easy way to install
+them. Since Bazel will never update source files, this has to be done manually:
+
+```sh
+rm -rf ./crd/current
+cp -R ./bazel-bin/operator/crds ./crd/current
+operator/tools/combineCRDVersions
+```
+
+### Test
+
+To run unit tests with Bazel, run:
+
+```sh
+bazelisk test operator:operator-tests
+```
+
+To run E2E tests with bazel, fill in the details in
+`operator/src/test/resources/test.properties` and then run:
+
+```sh
+bazelisk test --config=e2e operator:operator-tests-e2e
+```
+
+### Publish
+
+To publish the `gerrit-operator` container image, run:
+
+```sh
+bazelisk run operator:publish
+```
+
+By default the image will be pushed to `docker.io/k8sgerrit/gerrit-operator:latest`,
+but this can be overridden:
+
+```sh
+bazelisk run operator:publish -- --repository $REPOSITORY --tag $TAG
+```
+
+## Maven
+
+### Build
+
+To build all components of the operator using Maven run:
 
 ```sh
 cd operator
@@ -27,6 +120,43 @@ The jar-version and container image tag can be set using the `revision` property
 ```sh
 mvn clean install -Drevision=$(git describe --always --dirty)
 ```
+
+### Test
+
+Unit tests will be executed as part of the main build.
+
+To run all E2E tests, use:
+
+```sh
+cd operator
+mvn clean install -P integration-test -Dproperties=<path to properties file>
+```
+
+### Publish
+
+To publish the container image of the Gerrit Operator:
+
+1. Update the `docker.registry` and `docker.org` tags in the `operator/pom.xml`
+file to point to your own Docker registry and org that you have permissions to
+push to.
+
+```xml
+<docker.registry>my-registry</docker.registry>
+<docker.org>my-org</docker.org>
+```
+
+2. run the following commands:
+
+```sh
+cd operator
+mvn clean install -P publish
+```
+
+This will build the operator source code, create an image out of the
+built artifacts, and publish this image to the registry specified in the
+`pom.xml` file. The built image is multi-platform - it will run on both `amd64`
+and `arm64` architectures. It is okay to run this build command from an ARM
+Mac.
 
 ## Versioning
 
@@ -59,36 +189,7 @@ version.
 
 The commit adding a new version will be tagged in git using the version string.
 
-## Publish
-
-Currently, there isn't a container image for the operator in the
-`docker.io/k8sgerrit` registry. You must build your own image in order to run
-the operator in your cluster. To publish the container image of the Gerrit
-Operator:
-
-1. Update the `docker.registry` and `docker.org` tags in the `operator/pom.xml`
-file to point to your own Docker registry and org that you have permissions to
-push to.
-
-```xml
-<docker.registry>my-registry</docker.registry>
-<docker.org>my-org</docker.org>
-```
-
-2. run the following commands:
-
-```sh
-cd operator
-mvn clean install -P publish
-```
-
-This will build the operator source code, create an image out of the
-built artifacts, and publish this image to the registry specified in the
-`pom.xml` file. The built image is multi-platform - it will run on both `amd64`
-and `arm64` architectures. It is okay to run this build command from an ARM
-Mac.
-
-## Tests
+## E2E Tests
 
 Executing the E2E tests has a few infrastructure requirements that have to be
 provided:
@@ -129,17 +230,3 @@ In addition, some properties have to be set to configure the tests:
 - `ldapAdminPwd`: Admin password for LDAP server
 - `gerritUser`: Username of a user in LDAP
 - `gerritPwd`: The password of `gerritUser`
-
-The properties should be set in the `test.properties` file. Alternatively, a
-path of a properties file can be configured by using the
-`-Dproperties=<path to properties file>`-option.
-
-To run all E2E tests, use:
-
-```sh
-cd operator
-mvn clean install -P integration-test -Dproperties=<path to properties file>
-```
-
-Note, that running the E2E tests will also involve pushing the container image
-to the repository configured in the properties file.
