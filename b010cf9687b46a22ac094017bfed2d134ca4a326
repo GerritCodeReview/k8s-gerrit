@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "531e48c6_3a0835e9",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T07:44:07Z",
+      "side": 1,
+      "message": "The pod name depends on the name the user gives gerrit, so the length may change. \n```suggestion\n        return int(os.environ.get(\"POD_NAME\").rsplit(\"-\", 1)[1])\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "811745b9_dda8822a",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T07:44:07Z",
+      "side": 1,
+      "message": "The instance ID might be different, if the name of the GerritCluster or the Gerrit CR changes. It is actually always the $POD_NAME. So just use that here.\n\nActually, if the only purpose is to set the instanceID, that is not necessary. It is already being set using a system property (something that I introduced for that purpose). Check out the `container-images/gerrit/tools/start` script.",
+      "range": {
+        "startLine": 53,
+        "startChar": 66,
+        "endLine": 53,
+        "endChar": 72
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e32c5f93_00572330",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T07:44:07Z",
+      "side": 1,
+      "message": "This depends on the name of the Gerrit resource. The instance ID is always the POD_NAME. So use that one to construct the value.",
+      "range": {
+        "startLine": 64,
+        "startChar": 56,
+        "endLine": 64,
+        "endChar": 66
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61994cb8_16bcc7a9",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T07:44:07Z",
+      "side": 1,
+      "message": "Same here. Use the POD_NAME env var to get the prefix",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 24
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

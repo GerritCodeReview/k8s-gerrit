@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "08e8a2cb_90f0e890",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-14T07:44:07Z",
+      "side": 1,
+      "message": "What I meant is something like this:\n\n```\nspec:\n  configFiles:\n          [remote]\n              timeout \u003d 600\n              rescheduleDelay \u003d 15\n              replicationDelay \u003d 5\n            [gerrit]\n              autoReload \u003d true\n              replicateOnStartup \u003d false\n            [replication]\n              lockErrorMaxRetries \u003d 5\n              maxRetries \u003d 5\n              useCGitClient \u003d false\n              consumeStreamEvents \u003d false\n              syncRefs\u003d\"ALL REFS ASYNC\"\n              maxApiPayloadSize\u003d40000\n```\nThe operator will then use the `remote` section to create the full templates. This is possible , since the operator knows the number of replicas. That would make it much easier for users.",
+      "parentUuid": "cd7d4663_617b33b8",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 44
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4182c4b_82ebaf1b",
         "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
         "patchSetId": 1
