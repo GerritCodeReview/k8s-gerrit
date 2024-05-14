@@ -1,0 +1,18 @@
+build --repository_cache=~/.gerritcodereview/bazel-cache/repository
+build --action_env=PATH
+build --disk_cache=~/.gerritcodereview/bazel-cache/cas
+
+build:macos --macos_minimum_os=10.11
+
+# Check direct Bazel module dependencies are up-to-date
+common --check_direct_dependencies=error
+common --lockfile_mode=error
+
+# Enable Java 17 language features
+build --java_runtime_version=remotejdk_17
+build --java_language_version=17
+build --tool_java_language_version=17
+build --tool_java_runtime_version=remotejdk_17
+
+# User-specific .bazelrc
+try-import %workspace%/user.bazelrc

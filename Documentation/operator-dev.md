@@ -8,9 +8,49 @@
 
 ## Build
 
-For this step, you need Java 11 and Maven installed.
+For this step, you need Java 17 and Maven or Bazel installed.
 
-To build all components of the operator run:
+### Build using Bazel
+
+To build the operator using Bazel (still work in progress):
+
+When Bazel module dependencies have been changed, Bazel module lock
+file must be re-generated:
+
+  $ bazel mod deps --lockfile_mode=update
+
+When maven dependencies have been changed, the dependencies must be
+re-pinned:
+
+  $ REPIN=1 bazelisk run @maven//:pin
+
+To build the operator library:
+
+  $ bazel build operator
+
+To run unit tests:
+
+  $ bazel test operator:operator-tests
+
+To run E2E tests:
+
+  $ bazel test operator:operator-tests-e2e
+
+To create the operator binary:
+    
+  $ bazel build operator:operator-binary_deploy.jar
+    
+To create the image containing operator binary:
+    
+  $ bazel build operator:k8s-gerrit-image
+    
+To create the image tarball:
+    
+  $ bazel build operator:k8s-gerrit-image-tarball
+
+### Build using Maven
+
+To build all components of the operator using Maven run:
 
 ```sh
 cd operator
