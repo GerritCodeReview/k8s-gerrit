@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91a9d9cc_bdc3ddf5",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-14T12:59:07Z",
+      "side": 1,
+      "message": "I would propose to avoid such coding patterns and instead create subclasses of this class for the HA and Multisite setup. We can name them like `GerritInitHA` and `GerritInitMultisite`.",
+      "parentUuid": "6fa6f70f_7e7846dd",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 68
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6fc7a9fa_8aac8eaf",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorContext.java",
         "patchSetId": 12
