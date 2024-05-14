@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "38a664e6_6c8ee09e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-14T13:26:19Z",
+      "side": 1,
+      "message": "What does that mean? Do we need this change or not?",
+      "parentUuid": "5f79e3c8_1a2d4d58",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "31a4526dd2cf48e3870ae7be418fe665acb8571e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b11d13d4_77570b30",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
         "patchSetId": 4

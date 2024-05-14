@@ -16,6 +16,24 @@
       "message": "@thomas.draebing@sap.com we sterted moving the headless service out of the issue 409745.",
       "revId": "e2d6b83305b43eda33b09537b8a0e06dd623f637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac4e7350_d8bf6f15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-14T13:26:19Z",
+      "side": 1,
+      "message": "For me this issue doesn\u0027t open, I get an error: \"Invalid ID\"",
+      "parentUuid": "642bf1aa_5ff5b319",
+      "revId": "e2d6b83305b43eda33b09537b8a0e06dd623f637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
