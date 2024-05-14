@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29878d9_6908a73c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-14T13:56:10Z",
+      "side": 1,
+      "message": "Yes we need it. Pull replication needs headless service for dns resolution to allow communication peer to peer between Gerrit instances. i.e `gerrit-0.gerrit-headless.svc.cluster.local` is resolved thanks to the headless service.\n\n@thomas.draebing@sap.com raised the question that currently in HA use case there is peer to peer communication with hosts with the form i.e `gerrit-0.gerrit.svc.cluster.local` and but we dont have clear idea of who is resolving that host. We assume that is Istio.",
+      "parentUuid": "38a664e6_6c8ee09e",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 8
+      },
+      "revId": "31a4526dd2cf48e3870ae7be418fe665acb8571e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b11d13d4_77570b30",
