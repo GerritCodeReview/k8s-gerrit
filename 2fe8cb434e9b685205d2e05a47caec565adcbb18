@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "876dd369_7245e7eb",
+        "filename": "Documentation/examples/gerritcluster-2-nodes.yaml",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-14T12:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f515473_738175e1",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fa6f70f_7e7846dd",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-14T06:41:47Z",
       "side": 1,
       "message": "this should be added to the previous block, since it also not required in the multisite setup",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 68
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71f96571_4e24e03a",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-14T12:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fa6f70f_7e7846dd",
       "range": {
         "startLine": 129,
         "startChar": 8,
@@ -106,6 +154,30 @@
       "writtenOn": "2024-05-14T06:41:47Z",
       "side": 1,
       "message": "This and the following refactorings are unrelated to the main purpose of this change, please move them to a separate change.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 96
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a90ade_6869977c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-14T12:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af95662_7507a0ed",
       "range": {
         "startLine": 124,
         "startChar": 4,

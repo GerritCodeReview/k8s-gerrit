@@ -154,6 +154,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb5511a5_b08452c7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-14T12:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ceb4ef5_0a26c9b1",
+      "revId": "e854edba70f192f1383ce68f844edb4a93e46e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e872c8b_6a641d49",
