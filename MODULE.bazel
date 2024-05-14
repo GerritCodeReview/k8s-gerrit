@@ -1,0 +1,75 @@
+"""Operator build and test dependencies."""
+
+# NOTE: When editing this file, also update the lockfile.
+#   bazel mod deps --lockfile_mode=update
+
+module(
+    name = "operator",
+    repo_name = "io_operator",
+)
+
+# =========================================
+# Operator module dependencies
+# =========================================
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.7.0")
+bazel_dep(name = "container_structure_test", version = "1.16.0")
+bazel_dep(name = "rules_jvm_external", version = "6.0")
+bazel_dep(name = "rules_oci", version = "1.7.0")
+
+# =========================================
+# Java dependencies
+# =========================================
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        # keep sorted
+        "com.google.flogger:flogger:0.8",
+        "com.google.flogger:flogger-log4j2-backend:0.8",
+        "com.google.inject.extensions:guice-assistedinject:5.1.0",
+        "com.google.inject:guice:5.1.0",
+        "io.fabric8:crd-generator-apt:6.11.0",
+        "io.fabric8:istio-client:6.11.0",
+        "io.fabric8:java-generator-cli:6.11.0",
+        "io.fabric8:kubernetes-client:6.11.0",
+        "io.javaoperatorsdk:micrometer-support:4.8.3",
+        "io.javaoperatorsdk:operator-framework:4.8.3",
+        "org.apache.logging.log4j:log4j-api:2.23.0",
+        "org.apache.logging.log4j:log4j-core:2.23.0",
+        "org.apache.logging.log4j:log4j-slf4j-impl:2.19.0",
+        "org.bouncycastle:bcpkix-jdk18on:1.73",
+        "org.eclipse.jetty:jetty-server:11.0.15",
+        "org.eclipse.jetty:jetty-servlet:11.0.15",
+        "org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r",
+        "org.projectlombok:lombok:1.18.32",
+    ],
+    # Don't forget to change this to back to True before submitting your change.
+    fail_if_repin_required = True,
+    lock_file = "//:maven_install.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+
+# Test only maven dependencies
+[
+    maven.artifact(
+        testonly = True,
+        artifact = artifact,
+        group = group,
+        version = version,
+    )
+    for group, artifact, version in [coord.split(":") for coord in [
+        "com.google.guava:guava-testlib:33.0.0-jre",
+    ]]
+]
+
+use_repo(maven, "maven", "unpinned_maven")
+
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
+oci.pull(
+    name = "distroless_java",
+    digest = "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
+    image = "gcr.io/distroless/java17",
+)
+use_repo(oci, "distroless_java")
