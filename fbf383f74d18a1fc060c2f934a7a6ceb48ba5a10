@@ -22,6 +22,30 @@
       },
       "revId": "fbf383f74d18a1fc060c2f934a7a6ceb48ba5a10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72020418_bef53bc7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/GerritReconciler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-14T08:19:30Z",
+      "side": 0,
+      "message": "You are right. I removed it by mistake.",
+      "parentUuid": "07ee91cf_463b84c7",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 69
+      },
+      "revId": "fbf383f74d18a1fc060c2f934a7a6ceb48ba5a10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
