@@ -16,6 +16,29 @@
       "message": "@thomas.draebing@sap.com we could have donde something more sophisticated like depending on which cluster mode we are (HA or multisite) we register specific `ValidationWebhookConfigs` and specific `AdmissionWebhookServlet`. I think we could do that as a follow up but we are open to discuss.",
       "revId": "631f1f6581d25bc734bd5a5b1766f5256f037b54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e467b7d_c1e3afdd",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-14T12:16:38Z",
+      "side": 1,
+      "message": "These 3 methods all have negation in their name `no...`, and the first two actually check a combination of two conditions. I believe the code in this class would be easier to read if each method checks only one condition which are then combined at the usage place:\n\n```\n  private boolean isHAPrimary() {\n    ...\n  }\n  \n  private boolean isMultisite() {\n    ...\n  }\n  \n  private boolean isRefDbConfigured() {\n    ...\n  }\n```\n\nThen at the using place instead of:\n```\n  if (noRefDbConfiguredForMultisite(gerrit)) {\n```\n\nuse:\n```\n  if (isMultisite() \u0026\u0026 !isRefDbConfigured()) {\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 3
+      },
+      "revId": "631f1f6581d25bc734bd5a5b1766f5256f037b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
