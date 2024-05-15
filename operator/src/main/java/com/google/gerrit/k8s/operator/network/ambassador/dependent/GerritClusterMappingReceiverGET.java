@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.network.Constants.INFO_REFS_PATTERN;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import io.getambassador.v2.Mapping;
@@ -51,11 +52,7 @@ public class GerritClusterMappingReceiverGET extends AbstractAmbassadorDependent
             .withNewSpecLike(getCommonSpec(gerritNetwork, receiverServiceName))
             .withNewQueryParameters()
             .withAdditionalProperties(
-                new HashMap<String, Object>() {
-                  {
-                    put("service", "git-receive-pack");
-                  }
-                })
+                new HashMap<String, Object>(ImmutableMap.of("service", "git-upload-pack")))
             .endV2QueryParameters()
             .withMethod("GET")
             .withPrefix(INFO_REFS_PATTERN)
