@@ -106,11 +106,6 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   @Override
   public String getName() {
-    return "gerrit";
-  }
-
-  @Override
-  public String getVersion() {
-    return "v1beta1";
+    return "gerrits";
   }
 }

@@ -18,13 +18,6 @@ import com.google.inject.AbstractModule;
 
 public class Constants extends AbstractModule {
   public static final String VERSION = "v1beta9";
-  public static final String[] CUSTOM_RESOURCES =
-      new String[] {
-        "GerritCluster",
-        "Gerrit",
-        "Receiver",
-        "GerritNetwork",
-        "GitGarbageCollection",
-        "IncomingReplicationTask"
-      };
+  public static final String[] RESOURCES_WITH_VALIDATING_WEBHOOK =
+      new String[] {"gerritclusters", "gerrits", "gitgarbagecollections"};
 }
