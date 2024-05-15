@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "889d223a_d929cac5",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication-kafka.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:14:27Z",
+      "side": 1,
+      "message": "Since this option is required by the setup, it should be managed by the operator",
+      "range": {
+        "startLine": 148,
+        "startChar": 14,
+        "endLine": 148,
+        "endChar": 80
+      },
+      "revId": "a1a846faa39460834d51a85a8b4224f135d28e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0440a5d5_238c32e5",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
         "patchSetId": 4
