@@ -18,15 +18,14 @@ import com.google.inject.AbstractModule;
 
 public class Constants extends AbstractModule {
   public static final String VERSION = "v1beta10";
-  public static final String[] CUSTOM_RESOURCES =
-      new String[] {
-        "GerritCluster",
-        "Gerrit",
-        "Receiver",
-        "GerritNetwork",
-        "GitGarbageCollection",
-        "IncomingReplicationTask"
-      };
+
+  // The resource kind always has to be plural for use in webhooks
+  public static final String GERRIT_CLUSTER_KIND = "gerritclusters";
+  public static final String GERRIT_KIND = "gerrits";
+  public static final String GIT_GC_KIND = "gitgarbagecollections";
+
+  public static final String[] RESOURCES_WITH_VALIDATING_WEBHOOK =
+      new String[] {GERRIT_CLUSTER_KIND, GERRIT_KIND, GIT_GC_KIND};
 
   public enum ClusterMode {
     HIGH_AVAILABILITY,

@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.admission.servlet;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
+import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
@@ -106,11 +107,6 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   @Override
   public String getName() {
-    return "gerrit";
-  }
-
-  @Override
-  public String getVersion() {
-    return "v1beta1";
+    return Constants.GERRIT_KIND;
   }
 }

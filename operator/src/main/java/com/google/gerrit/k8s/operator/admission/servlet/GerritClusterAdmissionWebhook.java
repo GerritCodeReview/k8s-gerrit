@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.admission.servlet;
 
+import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -118,11 +119,6 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
 
   @Override
   public String getName() {
-    return "gerritcluster";
-  }
-
-  @Override
-  public String getVersion() {
-    return "v1beta1";
+    return Constants.GERRIT_CLUSTER_KIND;
   }
 }
