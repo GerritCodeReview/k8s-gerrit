@@ -90,35 +90,6 @@
 						</executions>
 					</plugin>
 					<plugin>
-						<groupId>com.google.cloud.tools</groupId>
-						<artifactId>jib-maven-plugin</artifactId>
-						<version>3.3.1</version>
-						<executions>
-							<execution>
-								<phase>pre-integration-test</phase>
-								<goals>
-									<goal>build</goal>
-								</goals>
-								<configuration>
-									<container>
-										<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
-									</container>
-									<containerizingMode>packaged</containerizingMode>
-									<from>
-										<image>gcr.io/distroless/java:11</image>
-									</from>
-									<to>
-										<image>
-											${test.docker.registry}/${test.docker.org}/gerrit-operator</image>
-										<tags>
-											<tag>${project.version}</tag>
-										</tags>
-									</to>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<version>2.22.2</version>
 						<executions>
