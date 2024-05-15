@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5b116ab_b64e0899",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterMultisiteReconciler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T10:50:02Z",
+      "side": 1,
+      "message": "+1 \nBoth reconcilers definitively cannot have the same reconcilers because the setups are different. There is space to do some refactoring but IMHO we would not get much benefit from that, maybe even the opposite.",
+      "parentUuid": "f5bcaffa_754eb2ed",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 45
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0af95662_7507a0ed",
