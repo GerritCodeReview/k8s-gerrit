@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46c47c7_46923aa8",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:35:54Z",
+      "side": 1,
+      "message": "Will be set by the operator",
+      "range": {
+        "startLine": 153,
+        "startChar": 14,
+        "endLine": 153,
+        "endChar": 28
+      },
+      "revId": "75816595e39777da8a07b6bc319dbc00ec9f58bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6c400df_985bd858",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:35:54Z",
+      "side": 1,
+      "message": "Since these options are required to make the setup work, they should be set by the operator",
+      "range": {
+        "startLine": 155,
+        "startChar": 14,
+        "endLine": 156,
+        "endChar": 83
+      },
+      "revId": "75816595e39777da8a07b6bc319dbc00ec9f58bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b29294b3_81cd5400",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:35:54Z",
+      "side": 1,
+      "message": "The instanceID is managed by the operator and should thus be configured by the operator",
+      "range": {
+        "startLine": 167,
+        "startChar": 24,
+        "endLine": 167,
+        "endChar": 47
+      },
+      "revId": "75816595e39777da8a07b6bc319dbc00ec9f58bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fba7398_3cf3e258",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:35:54Z",
+      "side": 1,
+      "message": "This already required the Gerrit to be a primary (replicas won\u0027t run multisite), so this should not be necessary.",
+      "range": {
+        "startLine": 85,
+        "startChar": 27,
+        "endLine": 85,
+        "endChar": 40
+      },
+      "revId": "75816595e39777da8a07b6bc319dbc00ec9f58bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb24ab7c_60ddcb97",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:35:54Z",
+      "side": 1,
+      "message": "Can you add it to the bottom. That order would relate it to HA and make it easier to read.",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 14
+      },
+      "revId": "75816595e39777da8a07b6bc319dbc00ec9f58bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
