@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0440a5d5_238c32e5",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T08:59:14Z",
+      "side": 1,
+      "message": "If we make an event-broker an integral part, we should add a section to the GerritCluster CRD that lets the user configure which event broker should be used, similar like the global refdb section.",
+      "range": {
+        "startLine": 37,
+        "startChar": 30,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "a1a846faa39460834d51a85a8b4224f135d28e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
