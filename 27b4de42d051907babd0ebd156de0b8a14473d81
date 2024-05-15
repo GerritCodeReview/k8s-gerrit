@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b1d08fc_dc13e771",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-15T22:32:55Z",
+      "side": 1,
+      "message": "formatting and clean up needed",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "27b4de42d051907babd0ebd156de0b8a14473d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
