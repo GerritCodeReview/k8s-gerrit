@@ -22,6 +22,30 @@
       },
       "revId": "517d443e4e85d946a0a3fcae0d032c185318e187",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59a9758d_2f801968",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T10:53:22Z",
+      "side": 1,
+      "message": "I have created a hierarchy but the main method `protected Service desired(Gerrit gerrit, Context\u003cGerrit\u003e context)` is kept in each concrete class even they are pretty similar. We could some refactoring but IMHO the code would end up in a solution difficult to read. Open to suggestions.",
+      "parentUuid": "cef8ebfa_d277cb99",
+      "range": {
+        "startLine": 46,
+        "startChar": 19,
+        "endLine": 46,
+        "endChar": 36
+      },
+      "revId": "517d443e4e85d946a0a3fcae0d032c185318e187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
