@@ -16,6 +16,98 @@
       "message": "After the introduction of the `ClusterMode` enumeration I think each use case should have its own `ValidatingAdmissionWebhookServlet` and `ValidationWebhookConfigs` and bind them when the operator starts.",
       "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c064c5_f3cbc6c8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:41:37Z",
+      "side": 1,
+      "message": "Why not use the previous condition? The message is pretty generic and also holds for multisite setups.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64284504_6999312d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:41:37Z",
+      "side": 1,
+      "message": "No need to wrap this in a method IMO",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 3
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fbf6209_6d9f2067",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:41:37Z",
+      "side": 1,
+      "message": "```suggestion\n              \"Only a single primary Gerrit and no Gerrit Replicas are allowed per Gerrit Cluster when using the multisite setup.\")\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 92
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8adad87a_e2e9e674",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-15T09:41:37Z",
+      "side": 1,
+      "message": "```suggestion\n  private boolean haveOnlySinglePrimary(GerritCluster gerritCluster) {\n```",
+      "range": {
+        "startLine": 128,
+        "startChar": 18,
+        "endLine": 128,
+        "endChar": 36
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
