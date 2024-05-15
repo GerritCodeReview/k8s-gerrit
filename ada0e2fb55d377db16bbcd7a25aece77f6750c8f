@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb320c4_44844df4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterSharedVolumeMountFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2024-05-15T15:33:27Z",
+      "side": 1,
+      "message": "```suggestion\n    return create(PLUGIN_CACHE_SUB_DIR, PLUGIN_CACHE_MOUNT_PATH);\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 40,
+        "endLine": 39,
+        "endChar": 62
+      },
+      "revId": "ada0e2fb55d377db16bbcd7a25aece77f6750c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
