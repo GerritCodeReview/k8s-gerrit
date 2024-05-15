@@ -39,6 +39,30 @@
       },
       "revId": "dee79c2dcf19374cf5d5f893369fba05f32df46d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f2585e_2ef1b850",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingReceiverGET.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-15T14:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a69074a_877c2bb9",
+      "range": {
+        "startLine": 55,
+        "startChar": 71,
+        "endLine": 55,
+        "endChar": 88
+      },
+      "revId": "dee79c2dcf19374cf5d5f893369fba05f32df46d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
