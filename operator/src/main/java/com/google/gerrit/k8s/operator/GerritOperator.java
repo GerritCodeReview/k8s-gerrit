@@ -68,8 +68,7 @@ public class GerritOperator {
                     .withSSABasedCreateUpdateMatchForDependentResources(false)
                     .withKubernetesClient(client));
     for (Reconciler<?> reconciler : reconcilers) {
-      logger.atInfo().log(
-          String.format("Registering reconciler: %s", reconciler.getClass().getSimpleName()));
+      logger.atInfo().log("Registering reconciler: %s", reconciler.getClass().getSimpleName());
       operator.register(reconciler);
     }
     operator.start();
@@ -110,7 +109,7 @@ public class GerritOperator {
             .endSpec()
             .build();
 
-    logger.atInfo().log(String.format("Applying Service for Gerrit Operator: %s", svc.toString()));
+    logger.atInfo().log("Applying Service for Gerrit Operator: %s", svc.toString());
     client.resource(svc).createOrReplace();
   }
 }
