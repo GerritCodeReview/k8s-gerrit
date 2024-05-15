@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1847dfb0_e49a7964",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-15T08:33:27Z",
+      "side": 1,
+      "message": "define constants for these Strings and also use them to define Constants.RESOURCES_WITH_VALIDATING_WEBHOOK ?",
+      "revId": "f0eb68b0acb337ebf12e0991452b5c2ded8b62e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
