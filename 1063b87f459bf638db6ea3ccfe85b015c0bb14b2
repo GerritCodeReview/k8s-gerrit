@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa9387b2_651433da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T04:17:18Z",
+      "side": 1,
+      "message": "After the introduction of the `ClusterMode` enumeration I think each use case should have its own `ValidatingAdmissionWebhookServlet` and `ValidationWebhookConfigs` and bind them when the operator starts.",
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
