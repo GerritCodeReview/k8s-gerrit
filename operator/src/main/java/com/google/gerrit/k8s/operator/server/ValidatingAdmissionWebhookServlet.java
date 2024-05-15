@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.Constants;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionResponseBuilder;
@@ -56,6 +57,6 @@ public abstract class ValidatingAdmissionWebhookServlet extends AdmissionWebhook
 
   @Override
   public String getURI() {
-    return String.format("/admission/%s/%s", getVersion(), getName());
+    return String.format("/admission/%s/%s", Constants.VERSION, getName());
   }
 }

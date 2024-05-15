@@ -104,11 +104,6 @@ public class GitGcAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   @Override
   public String getName() {
-    return "gitgc";
-  }
-
-  @Override
-  public String getVersion() {
-    return "v1beta1";
+    return "gitgarbagecollections";
   }
 }

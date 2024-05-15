@@ -21,7 +21,5 @@ public abstract class AdmissionWebhookServlet extends HttpServlet {
 
   public abstract String getName();
 
-  public abstract String getVersion();
-
   public abstract String getURI();
 }

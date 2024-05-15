@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.test;
 
+import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.server.AdmissionWebhookServlet;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -45,7 +46,7 @@ public class TestAdmissionWebhookServer {
 
   public void registerWebhook(AdmissionWebhookServlet webhook) {
     servletHandler.addServletWithMapping(
-        new ServletHolder(webhook), "/admission/" + webhook.getVersion() + "/" + webhook.getName());
+        new ServletHolder(webhook), "/admission/" + Constants.VERSION + "/" + webhook.getName());
   }
 
   public void stop() throws Exception {

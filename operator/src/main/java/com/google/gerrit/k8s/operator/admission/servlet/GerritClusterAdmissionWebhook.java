@@ -118,11 +118,6 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
 
   @Override
   public String getName() {
-    return "gerritcluster";
-  }
-
-  @Override
-  public String getVersion() {
-    return "v1beta1";
+    return "gerritclusters";
   }
 }
