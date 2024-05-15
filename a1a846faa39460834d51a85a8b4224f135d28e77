@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5b6af2a_794bdd13",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication-kafka.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T20:17:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "889d223a_d929cac5",
+      "range": {
+        "startLine": 148,
+        "startChar": 14,
+        "endLine": 148,
+        "endChar": 80
+      },
+      "revId": "a1a846faa39460834d51a85a8b4224f135d28e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0440a5d5_238c32e5",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-15T08:59:14Z",
       "side": 1,
       "message": "If we make an event-broker an integral part, we should add a section to the GerritCluster CRD that lets the user configure which event broker should be used, similar like the global refdb section.",
+      "range": {
+        "startLine": 37,
+        "startChar": 30,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "a1a846faa39460834d51a85a8b4224f135d28e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4ad2dc_e88c8527",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T20:17:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0440a5d5_238c32e5",
       "range": {
         "startLine": 37,
         "startChar": 30,
