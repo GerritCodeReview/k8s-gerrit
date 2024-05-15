@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "235a3cdf_e7a19dcb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T11:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35c064c5_f3cbc6c8",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64284504_6999312d",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-05-15T09:41:37Z",
       "side": 1,
       "message": "No need to wrap this in a method IMO",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 3
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c6d935f_1092a5ee",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T11:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64284504_6999312d",
       "range": {
         "startLine": 98,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfb6b2f8_13203521",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T11:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fbf6209_6d9f2067",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 92
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8adad87a_e2e9e674",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-05-15T09:41:37Z",
       "side": 1,
       "message": "```suggestion\n  private boolean haveOnlySinglePrimary(GerritCluster gerritCluster) {\n```",
+      "range": {
+        "startLine": 128,
+        "startChar": 18,
+        "endLine": 128,
+        "endChar": 36
+      },
+      "revId": "1063b87f459bf638db6ea3ccfe85b015c0bb14b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f741c6de_81598db3",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-15T11:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8adad87a_e2e9e674",
       "range": {
         "startLine": 128,
         "startChar": 18,
