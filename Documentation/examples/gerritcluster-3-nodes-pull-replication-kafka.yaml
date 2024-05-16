@@ -16,12 +16,17 @@ data:
 type: Opaque
 
 ---
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GerritCluster
 metadata:
   name: gerrit
   namespace: gerrit
 spec:
+  eventsBroker:
+    brokerType: KAFKA
+    kafkaConfig:
+      connectString: kafka-service.kafka-zk.svc.cluster.local:9092
+
   storage:
     storageClasses:
       readWriteOnce: standard
@@ -132,7 +137,8 @@ spec:
               maxRetries = 5
               useCGitClient = false
               consumeStreamEvents = false
-              syncRefs="ALL REFS ASYNC"
-              maxApiPayloadSize=40000
+              eventBrokerTopic = gerrit
+              syncRefs = "ALL REFS ASYNC"
+              maxApiPayloadSize = 40000
 
       secretRef: gerrit-secure-config
