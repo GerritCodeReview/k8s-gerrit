@@ -16,12 +16,23 @@ data:
 type: Opaque
 
 ---
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GerritCluster
 metadata:
   name: gerrit
   namespace: gerrit
 spec:
+  containerImages:
+      imagePullPolicy: Always
+      gerritImages:
+        registry: docker.io
+        org: avilaplana
+        tag: latest
+  eventsBroker:
+    brokerType: KAFKA
+    kafkaConfig:
+      connectString: kafka-service.kafka-zk.svc.cluster.local:9092
+
   storage:
     storageClasses:
       readWriteOnce: standard
@@ -113,6 +124,8 @@ spec:
             [container]
               javaOptions = -Xms200m
               javaOptions = -Xmx4g
+            [plugin "events-kafka"]
+              autoCommitIntervalMs = 1000
 
         replication.config: |-
             [remote]
