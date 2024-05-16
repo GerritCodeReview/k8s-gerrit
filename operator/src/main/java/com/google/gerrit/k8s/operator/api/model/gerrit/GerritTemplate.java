@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
@@ -91,6 +92,9 @@ public class GerritTemplate implements KubernetesResource {
                     + gerritCluster.getMetadata().getName());
       }
       gerritSpec.setRefdb(gerritCluster.getSpec().getRefdb());
+
+      EventsBrokerConfig eventsBrokerConfig = gerritCluster.getSpec().getEventsBroker();
+      gerritSpec.setEventsBroker(eventsBrokerConfig);
     }
 
     setSshdAdvertisedReadPort(gerritCluster, gerritSpec);
