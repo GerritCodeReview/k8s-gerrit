@@ -16,8 +16,8 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;

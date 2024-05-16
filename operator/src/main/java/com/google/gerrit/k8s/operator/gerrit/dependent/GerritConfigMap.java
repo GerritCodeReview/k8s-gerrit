@@ -15,8 +15,8 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;

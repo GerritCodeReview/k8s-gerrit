@@ -20,8 +20,8 @@ import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATT
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMember;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMemberWithSsh;
