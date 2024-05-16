@@ -35,6 +35,7 @@ import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.ContainerPort;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
+import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -186,9 +187,11 @@ public class GerritStatefulSet
         .withEnv(getEnvVars(gerrit))
         .withPorts(getContainerPorts(gerrit))
         .withResources(gerrit.getSpec().getResources())
-        .withStartupProbe(gerrit.getSpec().getStartupProbe())
-        .withReadinessProbe(gerrit.getSpec().getReadinessProbe())
-        .withLivenessProbe(gerrit.getSpec().getLivenessProbe())
+        .withStartupProbe(gerrit.getSpec().getStartupProbe().getForPort(new IntOrString(HTTP_PORT)))
+        .withReadinessProbe(
+            gerrit.getSpec().getReadinessProbe().getForPort(new IntOrString(HTTP_PORT)))
+        .withLivenessProbe(
+            gerrit.getSpec().getLivenessProbe().getForPort(new IntOrString(HTTP_PORT)))
         .addAllToVolumeMounts(getVolumeMounts(gerrit, false))
         .endContainer()
         .addAllToContainers(sidecarContainers)
