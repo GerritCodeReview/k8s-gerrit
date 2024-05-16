@@ -13,65 +13,12 @@ spec:
     singular: gitgarbagecollection
   scope: Namespaced
   versions:
-    - name: v1beta8
+    - name: v1beta9
       schema:
         openAPIV3Schema:
           properties:
             spec:
               properties:
-                cluster:
-                  type: string
-                schedule:
-                  type: string
-                projects:
-                  items:
-                    type: string
-                  type: array
-                disableBitmapIndex:
-                  type: boolean
-                disablePackRefs:
-                  type: boolean
-                preservePacks:
-                  type: boolean
-                resources:
-                  properties:
-                    claims:
-                      items:
-                        properties:
-                          name:
-                            type: string
-                        type: object
-                      type: array
-                    limits:
-                      additionalProperties:
-                        anyOf:
-                          - type: integer
-                          - type: string
-                        x-kubernetes-int-or-string: true
-                      type: object
-                    requests:
-                      additionalProperties:
-                        anyOf:
-                          - type: integer
-                          - type: string
-                        x-kubernetes-int-or-string: true
-                      type: object
-                  type: object
-                tolerations:
-                  items:
-                    properties:
-                      effect:
-                        type: string
-                      key:
-                        type: string
-                      operator:
-                        type: string
-                      tolerationSeconds:
-                        type: integer
-                      value:
-                        type: string
-                    type: object
-                  type: array
                 affinity:
                   properties:
                     nodeAffinity:
@@ -174,6 +121,14 @@ spec:
                                           type: string
                                         type: object
                                     type: object
+                                  matchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
+                                  mismatchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
                                   namespaceSelector:
                                     properties:
                                       matchExpressions:
@@ -228,6 +183,14 @@ spec:
                                       type: string
                                     type: object
                                 type: object
+                              matchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
+                              mismatchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
                               namespaceSelector:
                                 properties:
                                   matchExpressions:
@@ -284,6 +247,14 @@ spec:
                                           type: string
                                         type: object
                                     type: object
+                                  matchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
+                                  mismatchLabelKeys:
+                                    items:
+                                      type: string
+                                    type: array
                                   namespaceSelector:
                                     properties:
                                       matchExpressions:
@@ -338,6 +309,14 @@ spec:
                                       type: string
                                     type: object
                                 type: object
+                              matchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
+                              mismatchLabelKeys:
+                                items:
+                                  type: string
+                                type: array
                               namespaceSelector:
                                 properties:
                                   matchExpressions:
@@ -368,21 +347,74 @@ spec:
                           type: array
                       type: object
                   type: object
+                cluster:
+                  type: string
+                disableBitmapIndex:
+                  type: boolean
+                disablePackRefs:
+                  type: boolean
+                preservePacks:
+                  type: boolean
+                projects:
+                  items:
+                    type: string
+                  type: array
+                resources:
+                  properties:
+                    claims:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+                schedule:
+                  type: string
+                tolerations:
+                  items:
+                    properties:
+                      effect:
+                        type: string
+                      key:
+                        type: string
+                      operator:
+                        type: string
+                      tolerationSeconds:
+                        type: integer
+                      value:
+                        type: string
+                    type: object
+                  type: array
               type: object
             status:
               properties:
-                replicateAll:
-                  type: boolean
                 excludedProjects:
                   items:
                     type: string
                   type: array
+                replicateAll:
+                  type: boolean
                 state:
                   enum:
                     - ACTIVE
-                    - INACTIVE
                     - CONFLICT
                     - ERROR
+                    - INACTIVE
                   type: string
               type: object
           type: object

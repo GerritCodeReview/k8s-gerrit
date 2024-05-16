@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
@@ -26,6 +27,7 @@ public class GerritSpec extends GerritTemplateSpec {
   private GerritStorageConfig storage = new GerritStorageConfig();
   private IngressConfig ingress = new IngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
+  private EventsBrokerConfig eventsBroker = new EventsBrokerConfig();
   private String serverId = "";
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
   private int sshdAdvertisedReadPort = 0;
@@ -68,6 +70,14 @@ public class GerritSpec extends GerritTemplateSpec {
     this.refdb = refdb;
   }
 
+  public EventsBrokerConfig getEventsBroker() {
+    return eventsBroker;
+  }
+
+  public void setEventsBroker(EventsBrokerConfig eventsBroker) {
+    this.eventsBroker = eventsBroker;
+  }
+
   public String getServerId() {
     return serverId;
   }
@@ -100,6 +110,7 @@ public class GerritSpec extends GerritTemplateSpec {
         fluentBitSidecar,
         ingress,
         refdb,
+        eventsBroker,
         serverId,
         sshdAdvertisedReadPort,
         storage);
@@ -118,6 +129,7 @@ public class GerritSpec extends GerritTemplateSpec {
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(refdb, other.refdb)
+        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(serverId, other.serverId)
         && sshdAdvertisedReadPort == other.sshdAdvertisedReadPort
         && Objects.equals(storage, other.storage);
@@ -133,6 +145,8 @@ public class GerritSpec extends GerritTemplateSpec {
         + ingress
         + ", refdb="
         + refdb
+        + ", eventsBroker="
+        + eventsBroker
         + ", serverId="
         + serverId
         + ", fluentBitSidecar="

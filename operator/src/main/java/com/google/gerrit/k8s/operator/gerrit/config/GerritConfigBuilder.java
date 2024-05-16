@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class GerritConfigBuilder extends ConfigBuilder {
     requiredOptions.addAll(gerritSection(gerrit));
     requiredOptions.addAll(httpdSection(gerrit));
     requiredOptions.addAll(sshdSection(gerrit));
+    requiredOptions.addAll(eventsBrokerSection(gerrit));
     return requiredOptions;
   }
 
@@ -95,6 +97,14 @@ public class GerritConfigBuilder extends ConfigBuilder {
     if (ingressConfig.isEnabled()) {
       requiredOptions.add(
           new RequiredOption<String>("gerrit", "canonicalWebUrl", ingressConfig.getUrl()));
+    }
+
+    if (gerrit.getSpec().getEventsBroker().getBrokerType() != EventsBrokerConfig.BrokerType.NONE) {
+      requiredOptions.add(
+          new RequiredOption<Set<String>>(
+              "gerrit",
+              "installModule",
+              Set.of("com.gerritforge.gerrit.eventbroker.BrokerApiModule")));
     }
 
     return requiredOptions;
@@ -171,5 +181,30 @@ public class GerritConfigBuilder extends ConfigBuilder {
     }
     return new RequiredOption<String>(
         "sshd", "advertisedAddress", gerrit.getSpec().getIngress().getHost() + ":" + port);
+  }
+
+  private static List<RequiredOption<?>> eventsBrokerSection(Gerrit gerrit) {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    if (gerrit.getSpec().getEventsBroker().getBrokerType() == EventsBrokerConfig.BrokerType.KAFKA) {
+      requiredOptions.add(
+          new RequiredOption<String>("plugin", "events-kafka", "sendAsync", "true"));
+      requiredOptions.add(
+          new RequiredOption<String>(
+              "plugin",
+              "events-kafka",
+              "bootstrapServers",
+              gerrit.getSpec().getEventsBroker().getKafkaConfig().getConnectString()));
+      requiredOptions.add(
+          new RequiredOption<String>("plugin", "events-kafka", "securityProtocol", "PLAINTEXT"));
+      requiredOptions.add(
+          new RequiredOption<String>("plugin", "events-kafka", "enableAutoCommit", "true"));
+      requiredOptions.add(
+          new RequiredOption<String>("plugin", "events-kafka", "autoCommitIntervalMs", "1000"));
+      requiredOptions.add(
+          new RequiredOption<String>("plugin", "events-kafka", "autoOffsetReset", "latest"));
+      requiredOptions.add(
+          new RequiredOption<String>("plugin", "events-kafka", "sendStreamEvents", "true"));
+    }
+    return requiredOptions;
   }
 }
