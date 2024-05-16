@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 public class GerritTemplateSpec {
   private String serviceAccount;
 
-  private List<Toleration> tolerations;
+  private List<Toleration> tolerations = new ArrayList<>();
   private Affinity affinity;
   private List<TopologySpreadConstraint> topologySpreadConstraints = new ArrayList<>();
   private String priorityClassName;
