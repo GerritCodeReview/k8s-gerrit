@@ -16,6 +16,24 @@
       "message": "I need to add tests regarding with the events broker configuration.",
       "revId": "219bb79b65fb208224414c992060810422b85964",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8882dd4_59c3fa29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-16T14:55:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b923051_7b034402",
+      "revId": "219bb79b65fb208224414c992060810422b85964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
