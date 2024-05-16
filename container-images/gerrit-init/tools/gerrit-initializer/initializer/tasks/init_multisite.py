@@ -72,7 +72,7 @@ class GerritInitMultisite(GerritInit):
         self.plugin_installer.execute()
         self._symlink_configuration()
 
-        PullReplicationConfigurator(self.site, self.config).configure()
+        PullReplicationConfigurator(self.site, self.config).configure_pull_replication()
 
         if self._needs_init():
             if self.gerrit_config:
@@ -106,5 +106,9 @@ class GerritInitMultisite(GerritInit):
 
             self._remove_auto_generated_ssh_keys()
             self._symlink_configuration()
+
+        PullReplicationConfigurator(
+            self.site, self.config
+        ).configure_gerrit_configuration()
 
         get_reindexer(self.site, self.config).start(self.force_offline_reindex)
