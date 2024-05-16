@@ -26,6 +26,7 @@ import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
+import io.fabric8.kubernetes.api.model.IntOrString;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -113,8 +114,10 @@ public class ReceiverDeployment
                 .getFullImageName("apache-git-http-backend"))
         .withPorts(getContainerPorts(receiver))
         .withResources(receiver.getSpec().getResources())
-        .withReadinessProbe(receiver.getSpec().getReadinessProbe())
-        .withLivenessProbe(receiver.getSpec().getLivenessProbe())
+        .withReadinessProbe(
+            receiver.getSpec().getReadinessProbe().getForPort(new IntOrString(HTTP_PORT)))
+        .withLivenessProbe(
+            receiver.getSpec().getLivenessProbe().getForPort(new IntOrString(HTTP_PORT)))
         .addAllToVolumeMounts(getVolumeMounts(receiver, false))
         .endContainer()
         .addAllToVolumes(getVolumes(receiver))
