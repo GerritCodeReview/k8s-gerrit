@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
@@ -23,7 +25,7 @@ public class EnvModule extends AbstractModule {
   protected void configure() {
     bind(String.class)
         .annotatedWith(Names.named("Namespace"))
-        .toInstance(System.getenv("NAMESPACE"));
+        .toInstance(firstNonNull(System.getenv("NAMESPACE"), "default"));
 
     String ingressTypeEnv = System.getenv("INGRESS");
     IngressType ingressType =
