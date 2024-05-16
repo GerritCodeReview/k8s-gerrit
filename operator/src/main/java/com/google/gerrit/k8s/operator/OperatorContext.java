@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 
 public class OperatorContext {
   private static OperatorContext instance;

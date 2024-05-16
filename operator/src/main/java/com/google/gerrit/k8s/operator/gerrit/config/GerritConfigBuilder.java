@@ -18,8 +18,8 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;

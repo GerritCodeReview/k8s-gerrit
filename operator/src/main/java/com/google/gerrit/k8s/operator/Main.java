@@ -15,8 +15,8 @@
 package com.google.gerrit.k8s.operator;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigs;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;

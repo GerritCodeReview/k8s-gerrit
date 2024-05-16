@@ -14,9 +14,9 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
-import static com.google.gerrit.k8s.operator.Constants.VERSION;
 import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_NAME;
 import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_PORT;
+import static com.google.gerrit.k8s.operator.api.model.Constants.VERSION;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.server.KeyStoreProvider;
