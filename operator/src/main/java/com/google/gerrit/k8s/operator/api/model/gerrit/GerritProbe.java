@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import io.fabric8.kubernetes.api.model.ExecAction;
 import io.fabric8.kubernetes.api.model.GRPCAction;
 import io.fabric8.kubernetes.api.model.HTTPGetAction;
@@ -28,17 +27,19 @@ import java.util.Objects;
 public class GerritProbe extends Probe {
   private static final long serialVersionUID = 1L;
 
-  private static final HTTPGetAction HTTP_GET_ACTION =
-      new HTTPGetActionBuilder()
-          .withPath("/config/server/healthcheck~status")
-          .withPort(new IntOrString(GerritStatefulSet.HTTP_PORT))
-          .build();
+  private static final String HEALTHCHECK_URI = "/config/server/healthcheck~status";
 
   @JsonIgnore private ExecAction exec;
 
   @JsonIgnore private GRPCAction grpc;
 
   @JsonIgnore private TCPSocketAction tcpSocket;
+
+  @JsonIgnore
+  public GerritProbe getForPort(IntOrString port) {
+    super.setHttpGet(new HTTPGetActionBuilder().withPath(HEALTHCHECK_URI).withPort(port).build());
+    return this;
+  }
 
   @Override
   public void setExec(ExecAction exec) {
@@ -51,9 +52,7 @@ public class GerritProbe extends Probe {
   }
 
   @Override
-  public void setHttpGet(HTTPGetAction httpGet) {
-    super.setHttpGet(HTTP_GET_ACTION);
-  }
+  public void setHttpGet(HTTPGetAction httpGet) {}
 
   @Override
   public void setTcpSocket(TCPSocketAction tcpSocket) {
@@ -68,11 +67,6 @@ public class GerritProbe extends Probe {
   @Override
   public GRPCAction getGrpc() {
     return null;
-  }
-
-  @Override
-  public HTTPGetAction getHttpGet() {
-    return HTTP_GET_ACTION;
   }
 
   @Override
