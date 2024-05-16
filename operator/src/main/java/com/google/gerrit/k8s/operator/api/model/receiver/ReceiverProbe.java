@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.api.model.receiver;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment;
 import io.fabric8.kubernetes.api.model.ExecAction;
 import io.fabric8.kubernetes.api.model.GRPCAction;
 import io.fabric8.kubernetes.api.model.HTTPGetAction;
@@ -28,8 +27,9 @@ import java.util.Objects;
 public class ReceiverProbe extends Probe {
   private static final long serialVersionUID = 1L;
 
+  private static final int HTTP_PORT = 80;
   private static final TCPSocketAction TCP_SOCKET_ACTION =
-      new TCPSocketActionBuilder().withPort(new IntOrString(ReceiverDeployment.HTTP_PORT)).build();
+      new TCPSocketActionBuilder().withPort(new IntOrString(HTTP_PORT)).build();
 
   @JsonIgnore private ExecAction exec;
 
