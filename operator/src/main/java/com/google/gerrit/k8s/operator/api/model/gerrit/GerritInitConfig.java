@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import java.util.List;
 import java.util.Objects;
 

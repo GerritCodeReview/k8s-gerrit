@@ -14,7 +14,9 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
-import static com.google.gerrit.k8s.operator.Constants.RESOURCES_WITH_VALIDATING_WEBHOOK;
+import static com.google.gerrit.k8s.operator.api.model.Constants.GERRIT_CLUSTER_KIND;
+import static com.google.gerrit.k8s.operator.api.model.Constants.GERRIT_KIND;
+import static com.google.gerrit.k8s.operator.api.model.Constants.GIT_GC_KIND;
 
 import com.google.gerrit.k8s.operator.LifecycleManager;
 import com.google.inject.Inject;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationWebhookConfigs {
+  private static final String[] RESOURCES_WITH_VALIDATING_WEBHOOK =
+      new String[] {GERRIT_CLUSTER_KIND, GERRIT_KIND, GIT_GC_KIND};
 
   private final List<ValidationWebhookConfigApplier> configAppliers;
 

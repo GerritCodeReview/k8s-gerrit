@@ -18,7 +18,7 @@ import static com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMa
 import static com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC.SHARED_PVC_NAME;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.SharedStorage.ExternalPVCConfig;
 import io.fabric8.kubernetes.api.model.Container;
