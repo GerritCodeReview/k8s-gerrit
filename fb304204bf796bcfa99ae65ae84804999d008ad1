@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4619873_024aa48f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritAbstractService.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-16T08:44:07Z",
+      "side": 1,
+      "message": "This method needs to be marked as an abstract and be implemented in the concrete classes.",
+      "revId": "fb304204bf796bcfa99ae65ae84804999d008ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
