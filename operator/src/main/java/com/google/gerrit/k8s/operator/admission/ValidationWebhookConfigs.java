@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
-import static com.google.gerrit.k8s.operator.Constants.CUSTOM_RESOURCES;
+import static com.google.gerrit.k8s.operator.api.model.Constants.CUSTOM_RESOURCES;
 
 import com.google.gerrit.k8s.operator.LifecycleManager;
 import com.google.inject.Inject;
