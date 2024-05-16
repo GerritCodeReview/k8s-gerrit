@@ -76,7 +76,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: GerritCluster
 
 ---
@@ -93,7 +93,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -401,7 +401,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: Gerrit
 
 ---
@@ -418,7 +418,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -619,7 +619,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: Receiver
 
 ---
@@ -636,7 +636,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: Receiver
 metadata:
   name: receiver
@@ -747,7 +747,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -764,7 +764,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -808,7 +808,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: GerritNetwork
 
 ---
@@ -824,7 +824,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -857,7 +857,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -873,7 +873,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
