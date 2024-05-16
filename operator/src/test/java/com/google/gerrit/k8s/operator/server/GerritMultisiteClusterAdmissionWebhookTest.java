@@ -20,8 +20,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.api.model.Constants;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.test.TestGerrit;

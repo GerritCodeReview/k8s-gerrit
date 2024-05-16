@@ -15,7 +15,7 @@
 package com.google.gerrit.k8s.operator.admission.servlet;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.inject.Inject;
