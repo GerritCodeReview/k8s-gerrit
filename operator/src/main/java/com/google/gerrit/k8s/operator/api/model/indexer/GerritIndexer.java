@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.indexer;
 
-import com.google.gerrit.k8s.operator.Constants;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import io.fabric8.kubernetes.api.model.Namespaced;
 import io.fabric8.kubernetes.api.model.Status;
 import io.fabric8.kubernetes.client.CustomResource;

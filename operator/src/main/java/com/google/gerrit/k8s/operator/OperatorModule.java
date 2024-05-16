@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterMultisiteReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;

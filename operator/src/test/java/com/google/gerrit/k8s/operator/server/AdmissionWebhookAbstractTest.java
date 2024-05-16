@@ -17,11 +17,11 @@ package com.google.gerrit.k8s.operator.server;
 import static com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer.PORT;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
+import com.google.gerrit.k8s.operator.api.model.Constants;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritClusterSpec;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
