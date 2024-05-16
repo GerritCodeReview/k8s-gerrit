@@ -21,9 +21,9 @@ import com.google.inject.name.Names;
 public class EnvModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(String.class)
-        .annotatedWith(Names.named("Namespace"))
-        .toInstance(System.getenv("NAMESPACE"));
+    String namespaceTypeEnv = System.getenv("NAMESPACE");
+    String namespace = namespaceTypeEnv == null ? "default" : namespaceTypeEnv;
+    bind(String.class).annotatedWith(Names.named("Namespace")).toInstance(namespace);
 
     String ingressTypeEnv = System.getenv("INGRESS");
     IngressType ingressType =
