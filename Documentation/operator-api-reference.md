@@ -29,6 +29,9 @@
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
   - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+  - [EventsBrokerConfig](#eventsbrokerconfig)
+  - [BrokerType](#brokertype)
+  - [EventsKafkaConfig](#eventskafkaconfig)
   - [FluentBitSidecarConfig](#fluentbitsidecarconfig)
   - [GerritTemplate](#gerrittemplate)
   - [GerritTemplateSpec](#gerrittemplatespec)
@@ -76,7 +79,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: GerritCluster
 
 ---
@@ -93,7 +96,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -401,7 +404,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: Gerrit
 
 ---
@@ -418,7 +421,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -619,7 +622,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: Receiver
 
 ---
@@ -636,7 +639,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: Receiver
 metadata:
   name: receiver
@@ -747,7 +750,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -764,7 +767,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -808,7 +811,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: GerritNetwork
 
 ---
@@ -824,7 +827,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -857,7 +860,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta9 \
+**Version**: v1beta10 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -873,7 +876,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta9"
+apiVersion: "gerritoperator.google.com/v1beta10"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -1090,6 +1093,30 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 |---|---|---|
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
+
+## EventsBrokerConfig
+
+Note, that the operator will not deploy or operate the broker used for the events broker. It will only configure Gerrit
+to use it.
+
+| Field               | Type                                           | Description                                                                                         |
+|---------------------|------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| `brokerType`        | [`BrokerType`](#brokertype)                    | Which broker to use for events broker. Choices: `NONE`, `KAFKA`. (default: `NONE`)                  |
+| `eventsKafkaConfig` | [`EventsKafkaConfig`](#eventskafkaconfig)      | Configuration of `events-kafka` plugin. Only used when `brokerType` property is defined as `KAFKA`. |
+
+## BrokerType
+
+| Value   | Description                         |
+|---------|-------------------------------------|
+| `NONE`  | No broker will be used.             |
+| `KAFKA` | Kafka will be used as events broker |
+
+## EventsKafkaConfig
+
+| Field              | Type                  | Description                                                                              |
+|--------------------|-----------------------|------------------------------------------------------------------------------------------|
+| `kafkaProperties`  | `Map<String, String>` | Kafka Properties of `events-kafka` plugin. The property `bootstrapServers` is mandatory. |
+| `pluginProperties` | `Map<String, String>` | Plugin Properties of `events-kafka` plugin.                                              |
 
 ## FluentBitSidecarConfig
 
