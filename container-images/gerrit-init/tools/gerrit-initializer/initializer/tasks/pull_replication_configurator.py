@@ -18,9 +18,6 @@ from ..helpers import log, git
 
 LOG = log.get_logger("init")
 MNT_PATH = "/var/mnt"
-REMOTE_ID_PLACEHOLDER = "REMOTE_INSTANCE_ID_PLACEHOLDER"
-REMOTE_HOST_PLACEHOLDER = "REMOTE_INSTANCE_HOST_PLACEHOLDER"
-
 
 class PullReplicationConfigurator:
     def __init__(self, site, config):
@@ -54,11 +51,23 @@ class PullReplicationConfigurator:
         gerrit_ops = git.GitConfigParser.get_section_as_string(
             options, "gerrit", True, None
         )
-        replication_ops = git.GitConfigParser.get_section_as_string(
-            options, "replication", True, None
+        replication_ops = git.GitConfigParser.list_section(options, "replication")
+        replication_ops.append(
+            {
+                "key": "eventBrokerGroupId",
+                "value": f"{self.pod_name}-pull-replication",
+                "section": "replication",
+                "subsection": None,
+            }
         )
 
-        replication_config = gerrit_ops + "\n" + replication_ops
+        replication_config = (
+            gerrit_ops
+            + "\n"
+            + git.GitConfigParser.get_section_as_string(
+                replication_ops, "replication", False, None
+            )
+        )
 
         remote_pod_ids = list(range(0, self.replicas))
         del remote_pod_ids[self.pod_id]
@@ -94,7 +103,7 @@ class PullReplicationConfigurator:
         with open(os.path.join(self.site, "etc/replication.config"), "w") as file:
             file.write(replication_config)
 
-    def configure(self):
+    def configure_pull_replication(self):
         LOG.info(
             "Setting pull replication configuration for pod-idx: {}".format(self.pod_id)
         )
@@ -102,7 +111,10 @@ class PullReplicationConfigurator:
         replication_config_configmap = os.path.join(
             MNT_PATH, "etc/config/replication.config"
         )
-        gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
-
         self._configure_remotes(replication_config_configmap)
+
+    def configure_gerrit_configuration(self):
+        LOG.info("Setting gerrit configuration for pod-idx: {}".format(self.pod_id))
+
+        gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
         self._configure_instance_id(gerrit_config_configmap)
