@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5500a6af_d8532ceb",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-16T09:08:34Z",
+      "side": 1,
+      "message": "Good point, now is also possible to change the `REPLICAS` without the user having to add or remove extra remote sections.",
+      "parentUuid": "08e8a2cb_90f0e890",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 44
+      },
+      "revId": "e10a216c3a69132bef4299ba92c16a63858bddcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4182c4b_82ebaf1b",

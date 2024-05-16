@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65647cf5_a417570d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-16T09:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "531e48c6_3a0835e9",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "811745b9_dda8822a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-14T07:44:07Z",
       "side": 1,
       "message": "The instance ID might be different, if the name of the GerritCluster or the Gerrit CR changes. It is actually always the $POD_NAME. So just use that here.\n\nActually, if the only purpose is to set the instanceID, that is not necessary. It is already being set using a system property (something that I introduced for that purpose). Check out the `container-images/gerrit/tools/start` script.",
+      "range": {
+        "startLine": 53,
+        "startChar": 66,
+        "endLine": 53,
+        "endChar": 72
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec0d4ef_885e227f",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-16T09:08:34Z",
+      "side": 1,
+      "message": "Changed to use $POD_NAME.\nThe only purpose is to set the instanceID at this point, but later on will be also used to set the `groupId` of the `[plugin \"events-kafka\"]` section.\nIMHO we don\u0027t need to remove it to then add it again, but we can do it if it makes the chain of the changes cleaner.",
+      "parentUuid": "811745b9_dda8822a",
       "range": {
         "startLine": 53,
         "startChar": 66,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2adfbf92_fc98a580",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-16T09:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e32c5f93_00572330",
+      "range": {
+        "startLine": 64,
+        "startChar": 56,
+        "endLine": 64,
+        "endChar": 66
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61994cb8_16bcc7a9",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-05-14T07:44:07Z",
       "side": 1,
       "message": "Same here. Use the POD_NAME env var to get the prefix",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 24
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "100beab1_f6a2b9d1",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-16T09:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61994cb8_16bcc7a9",
       "range": {
         "startLine": 68,
         "startChar": 18,
