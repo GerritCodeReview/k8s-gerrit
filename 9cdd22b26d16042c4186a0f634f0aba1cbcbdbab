@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a07435e_41a0fcca",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterAbstractReconciler.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-16T06:49:47Z",
+      "side": 1,
+      "message": "Remove the start and add explicitly the imports.",
+      "revId": "9cdd22b26d16042c4186a0f634f0aba1cbcbdbab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
