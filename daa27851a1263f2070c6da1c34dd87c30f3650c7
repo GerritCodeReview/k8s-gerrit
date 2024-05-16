@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bca3e3d0_c1ef79e3",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/EnvModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-05-16T13:03:37Z",
+      "side": 1,
+      "message": "If we would use Guava this could become just:\n```\n  String namespace \u003d firstNonNull(System.getenv(\"NAMESPACE\"), \"default\");\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 79
+      },
+      "revId": "daa27851a1263f2070c6da1c34dd87c30f3650c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
