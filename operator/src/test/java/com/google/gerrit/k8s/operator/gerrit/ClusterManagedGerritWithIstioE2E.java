@@ -28,11 +28,11 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.network.IngressType;
-import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2EBase;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import org.junit.jupiter.api.Test;
 
-public class ClusterManagedGerritWithIstioE2E extends AbstractGerritOperatorE2ETest {
+public class ClusterManagedGerritWithIstioE2E extends AbstractGerritOperatorE2EBase {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Test
