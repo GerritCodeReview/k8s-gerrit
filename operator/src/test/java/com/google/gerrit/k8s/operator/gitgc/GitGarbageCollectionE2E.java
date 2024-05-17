@@ -29,7 +29,7 @@ import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollectionSpec;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollectionStatus;
 import com.google.gerrit.k8s.operator.network.IngressType;
-import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2EBase;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
-public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2ETest {
+public class GitGarbageCollectionE2E extends AbstractGerritOperatorE2EBase {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static final String GITGC_SCHEDULE = "*/1 * * * *";
 

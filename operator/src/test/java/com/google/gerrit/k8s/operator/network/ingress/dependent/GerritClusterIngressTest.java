@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.network.ingress.dependent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.test.OperatorUtils;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.util.stream.Stream;
@@ -31,7 +32,7 @@ public class GerritClusterIngressTest {
     GerritClusterIngress dependent = new GerritClusterIngress();
     Ingress result =
         dependent.desired(
-            ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile), null);
+            OperatorUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile), null);
     Ingress expected = ReconcilerUtils.loadYaml(Ingress.class, this.getClass(), expectedOutputFile);
     assertThat(result.getSpec()).isEqualTo(expected.getSpec());
     assertThat(result.getMetadata().getAnnotations())

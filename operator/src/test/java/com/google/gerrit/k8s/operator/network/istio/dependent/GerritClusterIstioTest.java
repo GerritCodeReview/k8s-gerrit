@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.test.OperatorUtils;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
@@ -31,7 +32,7 @@ public class GerritClusterIstioTest {
   public void expectedGerritClusterIstioComponentsCreated(
       String inputFile, String expectedGatewayOutputFile, String expectedVirtualServiceOutputFile) {
     GerritNetwork gerritNetwork =
-        ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
+        OperatorUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
     GerritClusterIstioGateway gatewayDependent = new GerritClusterIstioGateway();
     Gateway gatewayResult = gatewayDependent.desired(gerritNetwork, null);
     Gateway expectedGateway =

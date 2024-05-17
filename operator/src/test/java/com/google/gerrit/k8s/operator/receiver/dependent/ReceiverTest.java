@@ -42,7 +42,7 @@ public class ReceiverTest {
 
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
-        Arguments.of("../receiver.yaml", "deployment.yaml", "service.yaml"),
-        Arguments.of("../receiver_minimal.yaml", "deployment_minimal.yaml", "service.yaml"));
+        Arguments.of("receiver.yaml", "deployment.yaml", "service.yaml"),
+        Arguments.of("receiver_minimal.yaml", "deployment_minimal.yaml", "service.yaml"));
   }
 }

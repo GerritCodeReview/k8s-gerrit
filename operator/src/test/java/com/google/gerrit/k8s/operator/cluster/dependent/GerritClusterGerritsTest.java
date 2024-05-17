@@ -79,6 +79,6 @@ public class GerritClusterGerritsTest {
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../gerritcluster_primary_replica.yaml", "gerrit_primary.yaml", "gerrit_replica.yaml"));
+            "gerritcluster_primary_replica.yaml", "gerrit_primary.yaml", "gerrit_replica.yaml"));
   }
 }

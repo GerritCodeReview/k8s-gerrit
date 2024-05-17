@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.receiver;
 
 import com.google.gerrit.k8s.operator.network.IngressType;
 
-public class ClusterManagedReceiverWithIstioE2E extends AbstractClusterManagedReceiverE2E {
+public class ClusterManagedReceiverWithIstioE2E extends AbstractClusterManagedReceiverE2EBase {
   @Override
   protected IngressType getIngressType() {
     return IngressType.ISTIO;
