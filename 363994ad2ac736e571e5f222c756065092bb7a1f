@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49a96614_20af3d1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T11:29:42Z",
+      "side": 1,
+      "message": "directory",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "363994ad2ac736e571e5f222c756065092bb7a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2163494_a50a05ff",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/OperatorUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T11:29:42Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "363994ad2ac736e571e5f222c756065092bb7a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5a673ce_301569f4",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/OperatorUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T11:29:42Z",
+      "side": 1,
+      "message": "define a constant PARENT_DIR \u003d \"../\" and use PARENT_DIR.size() in line 39 to avoid magic number ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "363994ad2ac736e571e5f222c756065092bb7a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
