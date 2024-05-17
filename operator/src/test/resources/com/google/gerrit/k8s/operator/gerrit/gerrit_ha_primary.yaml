@@ -1,0 +1,55 @@
+apiVersion: "gerritoperator.google.com/v1beta9"
+kind: Gerrit
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  containerImages:
+    imagePullSecrets: []
+    imagePullPolicy: Always
+    gerritImages:
+      registry: docker.io
+      org: k8sgerrit
+      tag: latest
+    busyBox:
+      registry: docker.io
+      tag: latest
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+    sharedStorage:
+      size: 1Gi
+      volumeName: "vol"
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+  serverId: "server-1"
+
+  fluentBitSidecar:
+    enabled: false
+
+  ingress:
+    enabled: true
+    host: example.com
+    tlsEnabled: true
+
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper.example.com
+
+  serviceAccount: gerrit
+  replicas: 2
+  service:
+    type: NodePort
+    httpPort: 80
+    sshPort: 29418
+  site:
+    size: 1Gi
+  plugins:
+  - name: download-commands
+  secretRef: gerrit-secure-config

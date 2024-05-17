@@ -1,0 +1,36 @@
+apiVersion: v1
+data:
+  healthcheck.config: |-
+    [healthcheck "auth"]
+        enabled = false
+    [healthcheck "querychanges"]
+        enabled = false
+  gerrit.config: |-
+    [cache]
+        directory = cache
+    [container]
+        user = gerrit
+        replica = false
+        javaHome = /usr/lib/jvm/java-11-openjdk
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+    [gerrit]
+        basepath = git
+        serverId = server-1
+        canonicalWebUrl = https://example.com/
+    [httpd]
+        listenUrl = proxy-https://*:8080/
+    [sshd]
+        listenAddress = *:29418
+        advertisedAddress = example.com:29418
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: gerrit-configmap
+    app.kubernetes.io/created-by: GerritConfigMap
+    app.kubernetes.io/instance: gerrit
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit
+    app.kubernetes.io/version: unknown
+  name: gerrit-configmap
+  namespace: gerrit
