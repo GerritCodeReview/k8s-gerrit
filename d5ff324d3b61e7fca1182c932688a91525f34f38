@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97b45322_2af130c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T11:34:20Z",
+      "side": 1,
+      "message": "package",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "d5ff324d3b61e7fca1182c932688a91525f34f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2000da2_57747c4e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritProbe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T11:34:20Z",
+      "side": 1,
+      "message": "can we invert the dependency so that the GerritStatefulSet is using the constant defined here to avoid duplicate constant ?",
+      "revId": "d5ff324d3b61e7fca1182c932688a91525f34f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b48e157_b81b7c46",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/receiver/ReceiverProbe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T11:34:20Z",
+      "side": 1,
+      "message": "can we invert the dependency so that ReceiverDeployment is using the constant defined here to avoid duplicate constant ?",
+      "revId": "d5ff324d3b61e7fca1182c932688a91525f34f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
