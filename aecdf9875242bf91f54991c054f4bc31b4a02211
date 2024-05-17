@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c27ecdd_b9c8869d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T08:11:44Z",
+      "side": 1,
+      "message": "What\u0027s the point of wrapping this in an Optional just to check if it is present ?\n\nI think this looks simpler:\n```suggestion\n    service \u003d serviceResource.get();\n    if (service !\u003d null) {\n      ...\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7e7efeb_3fb5f9af",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T08:11:44Z",
+      "side": 1,
+      "message": "```suggestion\n      if (!existingService.getSpec().getClusterIP().equalsIgnoreCase(\"none\")) {\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 52,
+        "endLine": 48,
+        "endChar": 72
+      },
+      "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b3c0c99_0e3bce02",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T08:11:44Z",
+      "side": 1,
+      "message": "```suggestion\n        serviceResource.withTimeout(10, TimeUnit.SECONDS).delete();\n```",
+      "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
