@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3dc385_b827d8e5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-17T14:04:41Z",
+      "side": 0,
+      "message": "This breaks the reconciliation of the Gerrit resources",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 17
+      },
+      "revId": "788772b95bb8825024260f63bfc71122653c0c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

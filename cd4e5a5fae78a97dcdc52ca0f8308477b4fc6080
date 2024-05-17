@@ -3,6 +3,121 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21ddfa67_cd3577ea",
+        "filename": "Documentation/examples/gerritcluster-roles.yaml",
+        "patchSetId": 26
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-17T14:04:41Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 2
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0acd89f7_c42e985a",
+        "filename": "Documentation/examples/gerritcluster-roles.yaml",
+        "patchSetId": 26
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-17T14:04:41Z",
+      "side": 1,
+      "message": "This has nothing to do with cluster roles.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 12
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "315e6973_8e52d699",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-17T14:04:41Z",
+      "side": 1,
+      "message": "Why not keep it inline?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 42
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb06e7dd_425a30a1",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-17T14:04:41Z",
+      "side": 1,
+      "message": "Is this actually injected anywhere?",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 52
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f5e715_04407c1c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritInitConfig.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-17T14:04:41Z",
+      "side": 1,
+      "message": "Since we have the clusterMode now, this shouldn\u0027t be required anymore.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 3
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f8384fe_96bc099a",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterAbstractReconciler.java",
         "patchSetId": 26
