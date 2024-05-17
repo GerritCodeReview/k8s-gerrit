@@ -1,0 +1,25 @@
+apiVersion: v1
+data:
+  gerrit-init.yaml: |
+    caCertPath: "/var/config/ca.crt"
+    pluginCacheEnabled: false
+    pluginCacheDir: "/var/mnt/plugin_cache"
+    plugins:
+    - name: "download-commands"
+      installAsLibrary: false
+      data: null
+    libs: []
+    refdb: null
+    highAvailability: false
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: gerrit-init-configmap
+    app.kubernetes.io/created-by: GerritInitConfigMap
+    app.kubernetes.io/instance: gerrit
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit
+    app.kubernetes.io/version: unknown
+  name: gerrit-init-configmap
+  namespace: gerrit
