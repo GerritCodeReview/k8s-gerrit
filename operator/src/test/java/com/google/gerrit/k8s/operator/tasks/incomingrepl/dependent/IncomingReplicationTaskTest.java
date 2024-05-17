@@ -122,9 +122,9 @@ public class IncomingReplicationTaskTest {
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../gerritcluster_incomingrepl.yaml",
-            "../incomingrepltask.yaml",
-            "incomingrepl_cronjob.yaml",
-            "incomingrepl_configmap.yaml"));
+            "gerritcluster_incomingrepl.yaml",
+            "incomingrepltask.yaml",
+            "expected/incomingrepl_cronjob.yaml",
+            "expected/incomingrepl_configmap.yaml"));
   }
 }

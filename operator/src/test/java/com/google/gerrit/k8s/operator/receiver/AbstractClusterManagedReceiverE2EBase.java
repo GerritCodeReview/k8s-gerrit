@@ -24,7 +24,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplateSpec;
-import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2EBase;
 import com.google.gerrit.k8s.operator.test.ReceiverUtil;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -42,7 +42,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public abstract class AbstractClusterManagedReceiverE2E extends AbstractGerritOperatorE2ETest {
+public abstract class AbstractClusterManagedReceiverE2EBase extends AbstractGerritOperatorE2EBase {
   private static final String GERRIT_NAME = "gerrit";
   private ReceiverTemplate receiver;
   private GerritTemplate gerrit;

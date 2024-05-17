@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -25,7 +24,8 @@ public class TestProperties {
     String propertiesPath = System.getProperty("properties", "test.properties");
     Properties props = new Properties();
     try {
-      props.load(new FileInputStream(propertiesPath));
+      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+      props.load(classloader.getResourceAsStream(propertiesPath));
     } catch (IOException e) {
       throw new IllegalStateException("Could not load properties file.");
     }
