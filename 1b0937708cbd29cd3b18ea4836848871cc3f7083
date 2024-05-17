@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc5f5647_ff96a7f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-05-17T08:28:39Z",
+      "side": 1,
+      "message": "Can you explain here why introducing a headless service is needed ? This would help to understand the context of this change.",
+      "revId": "1b0937708cbd29cd3b18ea4836848871cc3f7083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
