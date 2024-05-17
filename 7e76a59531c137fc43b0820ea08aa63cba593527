@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "56a0c196_b37d6baa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-17T10:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12f88d36_48b6d2b2",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 58
+      },
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0adee5aa_72acbefb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2024-05-15T15:12:10Z",
       "side": 1,
       "message": "- the build steps described in the commit message work for me on Mac\n- add documentation in Documentation/operator-dev",
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3a25da_cc76e81b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-17T10:33:23Z",
+      "side": 1,
+      "message": "I have added the documentation.",
+      "parentUuid": "0adee5aa_72acbefb",
       "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2024-05-15T15:12:10Z",
       "side": 1,
       "message": "use constants for version numbers used for several related artefacts ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 36,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bcdf5fc_15cd6173",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-17T10:33:23Z",
+      "side": 1,
+      "message": "I\u0027ve started to add the constants already for test artifacts, but it\u0027s not done yet.",
+      "parentUuid": "10d73b30_f62e66aa",
       "range": {
         "startLine": 27,
         "startChar": 36,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c54b00_cdd6811f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-17T10:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8c8858_0c468562",
+      "range": {
+        "startLine": 46,
+        "startChar": 29,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb7bcbfb_247b93a0",
@@ -106,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3dd5b79a_6de5a054",
+        "filename": "operator/BUILD.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-17T10:33:23Z",
+      "side": 1,
+      "message": "I will try to figure out how to do it.",
+      "parentUuid": "fb7bcbfb_247b93a0",
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2dc7077b_1c6453fd",
         "filename": "operator/pom.xml",
         "patchSetId": 1
@@ -117,6 +225,24 @@
       "writtenOn": "2024-05-15T15:12:10Z",
       "side": 1,
       "message": "move this unrelated fix to another change",
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2495614b_420bc182",
+        "filename": "operator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-05-17T10:33:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dc7077b_1c6453fd",
       "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
