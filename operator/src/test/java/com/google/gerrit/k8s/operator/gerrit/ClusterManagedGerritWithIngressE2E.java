@@ -30,7 +30,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.network.IngressType;
-import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2EBase;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.fabric8.kubernetes.api.model.networking.v1.IngressLoadBalancerIngress;
@@ -38,7 +38,7 @@ import io.fabric8.kubernetes.api.model.networking.v1.IngressStatus;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class ClusterManagedGerritWithIngressE2E extends AbstractGerritOperatorE2ETest {
+public class ClusterManagedGerritWithIngressE2E extends AbstractGerritOperatorE2EBase {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Test
