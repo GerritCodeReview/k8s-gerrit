@@ -46,7 +46,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mockito;
 
-public abstract class AbstractGerritOperatorE2ETest {
+public abstract class AbstractGerritOperatorE2EBase {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   protected static final KubernetesClient client = getKubernetesClient();
   public static final String IMAGE_PULL_SECRET_NAME = "image-pull-secret";
@@ -113,7 +113,7 @@ public abstract class AbstractGerritOperatorE2ETest {
       }
       logger.atWarning().log("KUBECONFIG variable not set. Using default config.");
     } catch (IOException e) {
-      logger.atSevere().log("Failed to load kubeconfig. Trying default", e);
+      logger.atSevere().withCause(e).log("Failed to load kubeconfig. Trying default");
     }
     return new KubernetesClientBuilder().build();
   }

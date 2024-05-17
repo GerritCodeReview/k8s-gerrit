@@ -24,12 +24,12 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.cluster.dependent.NfsIdmapdConfigMap;
 import com.google.gerrit.k8s.operator.cluster.dependent.SharedPVC;
 import com.google.gerrit.k8s.operator.network.IngressType;
-import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2EBase;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.PersistentVolumeClaim;
 import org.junit.jupiter.api.Test;
 
-public class GerritClusterE2E extends AbstractGerritOperatorE2ETest {
+public class GerritClusterE2E extends AbstractGerritOperatorE2EBase {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Test

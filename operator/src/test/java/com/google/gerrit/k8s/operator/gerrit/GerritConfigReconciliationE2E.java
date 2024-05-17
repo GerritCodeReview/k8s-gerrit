@@ -25,14 +25,14 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.HttpSshServiceConfig;
 import com.google.gerrit.k8s.operator.network.IngressType;
-import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
+import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2EBase;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2ETest {
+public class GerritConfigReconciliationE2E extends AbstractGerritOperatorE2EBase {
   private static final String GERRIT_NAME = "gerrit";
   private static final String RESTART_ANNOTATION = "kubectl.kubernetes.io/restartedAt";
 
