@@ -17,6 +17,7 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.test.OperatorUtils;
 import io.getambassador.v2.Host;
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.TLSContext;
@@ -37,7 +38,7 @@ public class GerritClusterAmbassadorTest {
       throws ClassNotFoundException, NoSuchMethodException, InstantiationException,
           IllegalAccessException, InvocationTargetException {
     GerritNetwork gerritNetwork =
-        ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
+        OperatorUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
 
     for (Map.Entry<String, String> entry : expectedOutputFileNames.entrySet()) {
       String className = entry.getKey();

@@ -93,24 +93,24 @@ public class GitGarbageCollectionTest {
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../gitgc_all_default.yaml",
-            "../gerritcluster_minimal.yaml",
-            "cronjob_all_default.yaml"),
+            "gitgc_all_default.yaml",
+            "gerritcluster_minimal.yaml",
+            "expected/cronjob_all_default.yaml"),
         Arguments.of(
-            "../gitgc_selected_default.yaml",
-            "../gerritcluster_minimal.yaml",
-            "cronjob_selected_default.yaml"),
+            "gitgc_selected_default.yaml",
+            "gerritcluster_minimal.yaml",
+            "expected/cronjob_selected_default.yaml"),
         Arguments.of(
-            "../gitgc_all_options_enabled.yaml",
-            "../gerritcluster_minimal.yaml",
-            "cronjob_all_options_enabled.yaml"),
+            "gitgc_all_options_enabled.yaml",
+            "gerritcluster_minimal.yaml",
+            "expected/cronjob_all_options_enabled.yaml"),
         Arguments.of(
-            "../gitgc_selected_options_enabled.yaml",
-            "../gerritcluster_minimal.yaml",
-            "cronjob_selected_options_enabled.yaml"),
+            "gitgc_selected_options_enabled.yaml",
+            "gerritcluster_minimal.yaml",
+            "expected/cronjob_selected_options_enabled.yaml"),
         Arguments.of(
-            "../gitgc_all_default.yaml",
-            "../gerritcluster_nfs_workaround.yaml",
-            "cronjob_all_nfs_workaround.yaml"));
+            "gitgc_all_default.yaml",
+            "gerritcluster_nfs_workaround.yaml",
+            "expected/cronjob_all_nfs_workaround.yaml"));
   }
 }

@@ -115,18 +115,18 @@ public class GerritTest {
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../gerrit_single_primary.yaml",
-            "gerrit_configmap_single_primary.yaml",
-            "gerrit-init_configmap_single_primary.yaml",
-            "statefulset_single_primary.yaml",
-            "service.yaml",
-            "headless_service.yaml"),
+            "gerrit_single_primary.yaml",
+            "expected/gerrit_configmap_single_primary.yaml",
+            "expected/gerrit-init_configmap_single_primary.yaml",
+            "expected/statefulset_single_primary.yaml",
+            "expected/service.yaml",
+            "expected/headless_service.yaml"),
         Arguments.of(
-            "../gerrit_ha_primary.yaml",
-            "gerrit_configmap_ha_primary.yaml",
-            "gerrit-init_configmap_ha_primary.yaml",
-            "statefulset_ha_primary.yaml",
-            "service.yaml",
-            "headless_service.yaml"));
+            "gerrit_ha_primary.yaml",
+            "expected/gerrit_configmap_ha_primary.yaml",
+            "expected/gerrit-init_configmap_ha_primary.yaml",
+            "expected/statefulset_ha_primary.yaml",
+            "expected/service.yaml",
+            "expected/headless_service.yaml"));
   }
 }

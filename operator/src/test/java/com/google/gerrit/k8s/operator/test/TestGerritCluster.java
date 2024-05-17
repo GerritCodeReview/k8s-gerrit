@@ -167,7 +167,7 @@ public class TestGerritCluster {
     containerImageConfig.setGerritImages(repoConfig);
     Set<LocalObjectReference> imagePullSecrets = new HashSet<>();
     imagePullSecrets.add(
-        new LocalObjectReference(AbstractGerritOperatorE2ETest.IMAGE_PULL_SECRET_NAME));
+        new LocalObjectReference(AbstractGerritOperatorE2EBase.IMAGE_PULL_SECRET_NAME));
     containerImageConfig.setImagePullSecrets(imagePullSecrets);
     clusterSpec.setContainerImages(containerImageConfig);
 
