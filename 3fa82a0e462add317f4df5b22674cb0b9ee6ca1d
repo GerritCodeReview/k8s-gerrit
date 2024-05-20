@@ -96,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43c8f8d0_7f7401eb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-20T10:31:53Z",
+      "side": 1,
+      "message": "-1 to my previous comment. I will rephrase it:\n\nThe contract for MULTISITE should be:\n```\n- Cluster mode MULTISITE:\n- Gerrits with size 1\n- K8s replicas \u003e 1\n- Mode PRIMARY\n```",
+      "parentUuid": "ac53ec3a_6213d3d5",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 85
+      },
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7121682_dbdc7067",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
         "patchSetId": 15
@@ -107,6 +131,24 @@
       "writtenOn": "2024-05-20T09:52:06Z",
       "side": 1,
       "message": "This method should check that there are more than 1 replica and PRIMARY",
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a8678e2_0f8e5513",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-20T10:31:53Z",
+      "side": 1,
+      "message": "-1 to my previous comment. I will rephrase it.\n\nThe contract for MULTISITE:\n\n- rename the method to be accurate\n\n- gerrits.size() \u003d\u003d 1\n\n- gerrits.get(0).getSpec().getMode() \u003d\u003d GerritMode.PRIMARY;\n\n- gerrits.get(0).getSpec().getGerrits().get(0).getSpec().getReplicas() \u003e 1",
+      "parentUuid": "a7121682_dbdc7067",
       "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
