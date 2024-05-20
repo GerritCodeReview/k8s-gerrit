@@ -54,11 +54,11 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
 
     GerritCluster gerritCluster = (GerritCluster) resource;
 
-    if (clusterMode == ClusterMode.MULTISITE && !haveOnlySinglePrimary(gerritCluster)) {
+    if (isMultisiteMisconfigured(gerritCluster)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_CONFLICT)
           .withMessage(
-              "Only a single primary Gerrit and no Gerrit Replicas are allowed per Gerrit Cluster when using the multisite setup.")
+              "Gerrit Cluster in multisite mode should be configured as Primary Gerrit and have spec.gerrits[0].specs.replicas value > 1.")
           .build();
     }
 
@@ -134,9 +134,12 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
     return duplicates.size() > 0;
   }
 
-  private boolean haveOnlySinglePrimary(GerritCluster gerritCluster) {
+  private boolean isMultisiteMisconfigured(GerritCluster gerritCluster) {
     List<GerritTemplate> gerrits = gerritCluster.getSpec().getGerrits();
-    return gerrits.size() == 1 && gerrits.get(0).getSpec().getMode() == GerritMode.PRIMARY;
+    return clusterMode == ClusterMode.MULTISITE
+        && !(gerrits.size() == 1
+            && gerrits.get(0).getSpec().getMode() == GerritMode.PRIMARY
+            && gerrits.get(0).getSpec().getReplicas() > 1);
   }
 
   @Override

@@ -14,10 +14,6 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
@@ -32,16 +28,21 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import jakarta.servlet.http.HttpServletResponse;
-import java.net.HttpURLConnection;
-import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jgit.lib.Config;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import java.net.HttpURLConnection;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 @TestInstance(Lifecycle.PER_CLASS)
-public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
+public class GerritMultisiteAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
 
   private static final String LIST_GERRITS_PATH =
       String.format(
@@ -55,6 +56,7 @@ public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
           HasMetadata.getPlural(GerritCluster.class));
 
   @Test
+  //TODO: test that if no globalrefdb in multisite config is ko
   public void testInvalidGerritConfigRejected() throws Exception {
     String clusterName = "gerrit";
     Config gerritConfig = new Config();
