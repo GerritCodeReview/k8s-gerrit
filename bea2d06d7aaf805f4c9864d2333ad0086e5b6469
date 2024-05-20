@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c2e5f2b_d496099f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritSpec.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-20T16:01:11Z",
+      "side": 1,
+      "message": "Add a check in the GerritAdmissionWebhook",
+      "range": {
+        "startLine": 30,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 69
+      },
+      "revId": "bea2d06d7aaf805f4c9864d2333ad0086e5b6469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
