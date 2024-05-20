@@ -54,10 +54,10 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class GerritClusterAdmissionWebhookTest {
-  private static final String NAMESPACE = "test";
-  private TestAdmissionWebhookServer server;
+  protected static final String NAMESPACE = "test";
+  protected TestAdmissionWebhookServer server;
 
-  private ClusterMode highAvailability = ClusterMode.HIGH_AVAILABILITY;
+  private ClusterMode clusterMode = ClusterMode.HIGH_AVAILABILITY;
 
   @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
 
@@ -67,8 +67,8 @@ public class GerritClusterAdmissionWebhookTest {
 
     kubernetesServer.before();
 
-    server.registerWebhook(new GerritClusterAdmissionWebhook(highAvailability));
-    server.registerWebhook(new GerritAdmissionWebhook(highAvailability));
+    server.registerWebhook(new GerritClusterAdmissionWebhook(clusterMode));
+    server.registerWebhook(new GerritAdmissionWebhook(clusterMode));
     server.start();
   }
 
@@ -185,7 +185,7 @@ public class GerritClusterAdmissionWebhookTest {
         is(equalTo(HttpServletResponse.SC_CONFLICT)));
   }
 
-  private HttpURLConnection sendAdmissionRequest(GerritCluster gerritCluster)
+  protected HttpURLConnection sendAdmissionRequest(GerritCluster gerritCluster)
       throws MalformedURLException, IOException {
     HttpURLConnection http =
         (HttpURLConnection)
