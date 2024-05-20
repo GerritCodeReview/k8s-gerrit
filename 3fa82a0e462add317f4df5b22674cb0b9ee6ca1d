@@ -72,6 +72,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7121682_dbdc7067",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-20T09:52:06Z",
+      "side": 1,
+      "message": "This method should check that there are more than 1 replica and PRIMARY",
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "012b0820_0eb95fbb",
         "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java",
         "patchSetId": 15
