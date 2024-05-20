@@ -118,6 +118,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7289ce29_eb11c515",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplateSpec.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-20T11:23:19Z",
+      "side": 1,
+      "message": "```suggestion\ngetMode().equals(GerritMode.PRIMARY)\n        \u0026\u0026 getReplicas() \u003e 1\n        \u0026\u0026 !OperatorContext.getClusterMode() \u003d\u003d ClusterMode.MULTISITE;\n```",
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4f8384fe_96bc099a",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterAbstractReconciler.java",
         "patchSetId": 26
