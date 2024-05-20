@@ -16,6 +16,24 @@
       "message": "@diego.sessona@gmail.com we should create an abstract class with all the functionality like start the server and register the webhooks and we can have 2 concrete test classes, one for multisite and other for the other use case.",
       "revId": "bf9bb032d6f1bf34516c5d49f8235ae8afc44eb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0997ce32_d2c65884",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritMultisiteClusterAdmissionWebhookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-20T14:44:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "471cea3f_64703c71",
+      "revId": "bf9bb032d6f1bf34516c5d49f8235ae8afc44eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
