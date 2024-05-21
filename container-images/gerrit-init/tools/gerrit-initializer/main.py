@@ -16,8 +16,10 @@
 
 
 import argparse
-
-from initializer.tasks import download_plugins, init, reindex, validate_notedb
+from initializer.config.cluster_mode import ClusterMode
+from initializer.tasks import download_plugins, reindex, validate_notedb
+from initializer.tasks.init_ha import GerritInitHA
+from initializer.tasks.init_multisite import GerritInitMultisite
 from initializer.config.init_config import InitConfig
 
 
@@ -28,7 +30,12 @@ def _run_download_plugins(args):
 
 def _run_init(args):
     config = InitConfig().parse(args.config)
-    init.GerritInit(args.site, config).execute()
+    init = (
+        GerritInitHA(args.site, config)
+        if config.cluster_mode == ClusterMode.HIGH_AVAILABILITY.value
+        else GerritInitMultisite(args.site, config)
+    )
+    init.execute()
 
 
 def _run_reindex(args):
