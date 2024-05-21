@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c96dfcb_9cbe0a80",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T07:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c27ecdd_b9c8869d",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7e7efeb_3fb5f9af",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d851e37_1066f56a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T07:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7e7efeb_3fb5f9af",
+      "range": {
+        "startLine": 48,
+        "startChar": 52,
+        "endLine": 48,
+        "endChar": 72
+      },
+      "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b3c0c99_0e3bce02",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-05-17T08:11:44Z",
       "side": 1,
       "message": "```suggestion\n        serviceResource.withTimeout(10, TimeUnit.SECONDS).delete();\n```",
+      "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6609a19_09d03e21",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritHeadlessService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T07:54:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b3c0c99_0e3bce02",
       "revId": "aecdf9875242bf91f54991c054f4bc31b4a02211",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
