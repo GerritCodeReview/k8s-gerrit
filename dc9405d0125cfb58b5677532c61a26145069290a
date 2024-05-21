@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b1dbc9_fe4f5db8",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/main.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-21T20:24:53Z",
+      "side": 1,
+      "message": "execute method should diverge in the subclasses",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "dc9405d0125cfb58b5677532c61a26145069290a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
