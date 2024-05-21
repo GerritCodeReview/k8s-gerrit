@@ -212,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94896523_7dd94d10",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritInitConfig.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T17:04:37Z",
+      "side": 1,
+      "message": "Unfortunately this is not possible at the moment. The reason is because as the cluster mode is defined currently, the value `HIGH_AVAILABILITY` represents `ALL` the use cases in the HA (Single Primary, Single Replica, High Availability). The property `highAvailability` in the `gerrit-init-configmap` represents this:\n```\ngetMode().equals(GerritMode.PRIMARY)\n        \u0026\u0026 getReplicas() \u003e 1\n        \u0026\u0026 OperatorContext.getClusterMode() \u003d\u003d ClusterMode.HIGH_AVAILABILITY\n```\n\nWe think that further conversation are necessary to address all the cluster modes and how is the change from one cluster mode to another one when there is an update in the cluster.",
+      "parentUuid": "56f5e715_04407c1c",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 3
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7289ce29_eb11c515",
