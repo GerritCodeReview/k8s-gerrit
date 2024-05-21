@@ -229,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee22790d_b99828e9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplateSpec.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T16:44:34Z",
+      "side": 1,
+      "message": "-1. As it is defined the cluster mode `ClusterMode.HIGH_AVAILABILITY` is the opposite to `ClusterMode.MULTISITE`, for that reason my comment is irrelevant.",
+      "parentUuid": "7289ce29_eb11c515",
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f8384fe_96bc099a",
