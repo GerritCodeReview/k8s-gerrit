@@ -22,6 +22,30 @@
       },
       "revId": "788772b95bb8825024260f63bfc71122653c0c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d05e4506_fdd077a7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterReconciler.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T08:33:05Z",
+      "side": 0,
+      "message": "To remove the breaking change regarding the reconciliation I have reverted `GerritClusterReconciler.java` to the version in `master` and I left `GerritClusterMultisiteReconciler` as it was before. I will give a try to see if we can do a better refactoring. I think it would be great to pair on this if there are good ideas.",
+      "parentUuid": "8a3dc385_b827d8e5",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 17
+      },
+      "revId": "788772b95bb8825024260f63bfc71122653c0c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
