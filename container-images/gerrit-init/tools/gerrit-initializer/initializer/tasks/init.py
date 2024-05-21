@@ -17,7 +17,7 @@ import shutil
 import subprocess
 import sys
 
-from ..config.cluster_mode import ClusterMode
+from abc import abstractmethod
 from ..helpers import git, log
 from .download_plugins import get_installer
 from .reindex import IndexType, get_reindexer
@@ -123,17 +123,12 @@ class GerritInit:
 
         os.symlink(src, target)
 
-    def _symlink_mounted_site_components(self):
-        if self.config.cluster_mode != ClusterMode.MULTISITE.value:
-            self._symlink(f"{MNT_PATH}/git", f"{self.site}/git")
-            mounted_shared_dir = f"{MNT_PATH}/shared"
-            if not self.is_replica and os.path.exists(mounted_shared_dir):
-                self._symlink(mounted_shared_dir, f"{self.site}/shared")
-
+    def _symlink_index(self):
         index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
         if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
             self._symlink(f"{MNT_PATH}/index", f"{self.site}/index")
 
+    def _symlink_or_make_data_dir(self):
         data_dir = f"{self.site}/data"
         if os.path.exists(data_dir):
             for file_or_dir in os.listdir(data_dir):
@@ -152,6 +147,10 @@ class GerritInit:
                 abs_mounted_path = os.path.join(mounted_data_dir, file_or_dir)
                 if os.path.isdir(abs_mounted_path):
                     self._symlink(abs_mounted_path, abs_path)
+
+    @abstractmethod
+    def _symlink_mounted_site_components(self):
+        pass
 
     def _symlink_configuration(self):
         etc_dir = f"{self.site}/etc"
