@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99b7a621_82ca11e1",
+        "filename": "Documentation/examples/gerritcluster-roles.yaml",
+        "patchSetId": 26
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T08:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21ddfa67_cd3577ea",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 2
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0acd89f7_c42e985a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-05-17T14:04:41Z",
       "side": 1,
       "message": "This has nothing to do with cluster roles.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 12
+      },
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01964ef5_bef25473",
+        "filename": "Documentation/examples/gerritcluster-roles.yaml",
+        "patchSetId": 26
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T08:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0acd89f7_c42e985a",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -146,6 +194,24 @@
       "writtenOn": "2024-05-17T12:37:14Z",
       "side": 1,
       "message": "@thomas.draebing@sap.com IMHO the more I see this hierarchy the more I feel that we should leave it as it was before, bit of duplication is not a bad option when improve readability. I dont think that there is much space to do a smart refactoring in this JOSDK context.",
+      "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c121174_18ebd028",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/cluster/GerritClusterAbstractReconciler.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T08:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f8384fe_96bc099a",
       "revId": "cd4e5a5fae78a97dcdc52ca0f8308477b4fc6080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

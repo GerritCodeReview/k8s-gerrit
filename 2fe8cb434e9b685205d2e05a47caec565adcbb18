@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec7a9ea_65322e7e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorContext.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T08:14:17Z",
+      "side": 1,
+      "message": "We followed some advices from @sasa.zivkov@sap.com to try to use Guice injection dependency in the context of JOSDK but it was fruitless. We have decided to leave it for next iterations.",
+      "parentUuid": "6fc7a9fa_8aac8eaf",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fb0254e_75c7c04f",
