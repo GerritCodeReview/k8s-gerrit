@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "95701e12_8bff6662",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T16:41:17Z",
+      "side": 1,
+      "message": "\u003e With multisite you do it differently and install everything even, if there is only a single replica pod. \n\nTo simplify the design, for the moment we have decided to change the contract when the cluster mode is `MULTISITE`. The new contract enforce the cluster to have the following requirements:\n\n- Single Primary Gerrit\n- More than 1 Replicas\n\n```\n(gerrits.size() \u003d\u003d 1\n        \u0026\u0026 gerrits.get(0).getSpec().getMode() \u003d\u003d GerritMode.PRIMARY\n        \u0026\u0026 gerrits.get(0).getSpec().getReplicas() \u003e 1);\n```\n\nThe validation would fail in case that this contract is not satisfied.\n\n\u003e This causes weird edge cases everywhere, e.g. how to deal with pull-replication in that case.\nWe should either handle it the same as in high-availability, i.e. as long as only a single primary is configured, all multi-primary stuff is omitted.\n\nThis edge case would no apply with the new contract.\n\n\u003e Alternatively, we could make it a dedicated cluster mode, but since it is an operator level option, I think that would just make it unnecessarily complicated, since it would require to reconfigure the operator, when scaling up from 1 to 2+ primary pods.\n\nI agree with that.\n\nI think in future iterations we will address the fact of starting from a MULTISITE cluster with 1 replica and scaling up to 2+. But we want to be pragmatic and start with a simple approach.",
+      "parentUuid": "ec73ee39_330b3f3c",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 92
+      },
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdbe35f7_de046260",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
         "patchSetId": 15
@@ -142,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe11098d_fb51fa59",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T16:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c8f8d0_7f7401eb",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 85
+      },
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7121682_dbdc7067",
@@ -177,6 +225,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3578593_eedb86de",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T16:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a8678e2_0f8e5513",
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "012b0820_0eb95fbb",
@@ -190,6 +256,24 @@
       "writtenOn": "2024-05-17T15:27:16Z",
       "side": 1,
       "message": "Could you add tests for multisite as well or parameterize the existing tests?",
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "496686e0_0d7af6a5",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T16:41:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "012b0820_0eb95fbb",
       "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

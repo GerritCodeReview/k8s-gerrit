@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d6aff3_36fd2a70",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-21T16:41:17Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com Regarding your comment [1]. We have tried to follow the pattern defined currently in the class but all the checks were executed even when the cluster mode is `MULTISIDE` and that is not correct. In order to avoid that we introduced this temporal guard to check if the cluster mode is `MULTISITE`. Eventually in the next iteration this code will be removed because a new GerritCluster/Gerrit CR webhook validations will be introduced for the cluster mode is `MULTISITE` making the code cleaner and with single responsibility.\n\nReferences: \n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425208/15..19/operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java#b57",
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
