@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f487ac3e_2cf1f9b9",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-05-22T08:59:23Z",
+      "side": 1,
+      "message": "Done. Thank you Sasa for the comment, that also allowed us to optimize the execute() of the init for the different modes.",
+      "parentUuid": "91a9d9cc_bdc3ddf5",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 68
+      },
+      "revId": "2fe8cb434e9b685205d2e05a47caec565adcbb18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fc7a9fa_8aac8eaf",
