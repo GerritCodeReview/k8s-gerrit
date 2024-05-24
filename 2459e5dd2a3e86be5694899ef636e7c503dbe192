@@ -177,6 +177,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "628a5aa1_421cf679",
+        "filename": "Documentation/examples/3-gerritcluster-istio.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-24T09:21:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8cb5f24_856710d3",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7beea5c8_fab6f59b",
@@ -302,6 +320,24 @@
       "side": 1,
       "message": "Changed to use the suggested minimal configuration",
       "parentUuid": "a0a4f009_95acb853",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2de9dce9_6498fd80",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-05-24T09:21:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258a7232_c3162288",
       "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
