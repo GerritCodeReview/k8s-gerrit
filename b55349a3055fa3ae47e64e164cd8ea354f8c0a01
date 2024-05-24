@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c45261f_997cba1e",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 22
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:18:25Z",
+      "side": 1,
+      "message": "I would assume that the options `fetch`, `mirror`, `createMissingRepositories`, `replicateProjectDeletions` and `replicateHiddenProjects` always have to be set like this. Thus, the operator should set and enforce those options.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "040014dc_f550ffee",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:18:25Z",
+      "side": 1,
+      "message": "I would suggest to compute all remote sections in the operator and at this point just delete the section that represents the current instance. This would be more transparent, since the ConfigMap already contains all sections and it would require less computations overall.\nIdeally, we wouldn\u0027t even need to delete the section, but the pull-replication plugin should just ignore it. This should be a simple change (can be done later).",
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02bfc80_da4d2c1b",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:18:25Z",
+      "side": 1,
+      "message": "Why add this to the final file? It is not being used by Gerrit, right?",
+      "range": {
+        "startLine": 63,
+        "startChar": 49,
+        "endLine": 63,
+        "endChar": 64
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3afcf841_53eced74",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:18:25Z",
+      "side": 1,
+      "message": "Not setting this at all should also work and would reduce the clutter here.",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 39
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe1aad82_0fb0e7e6",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:18:25Z",
+      "side": 1,
+      "message": "Why not set the section name right from the start? Why use `remote` while creating the new section?",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
