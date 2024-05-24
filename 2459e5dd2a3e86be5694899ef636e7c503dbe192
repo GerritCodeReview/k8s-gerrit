@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88cbb2ca_92afa817",
+        "filename": "Documentation/examples/1-gerritcluster.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad9c01e1_e346d425",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2178f7c3_1bfc906c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-31T23:04:17Z",
       "side": 1,
       "message": "has",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b17b8bc9_e7fb143f",
+        "filename": "Documentation/examples/2-gerritcluster-with-replica.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2178f7c3_1bfc906c",
       "range": {
         "startLine": 28,
         "startChar": 46,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94a84fda_e9ca8ce8",
+        "filename": "Documentation/examples/2-gerritcluster-with-replica.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa508211_8e713f1f",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 29
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c559d92c_2da14d5d",
@@ -89,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8cb5f24_856710d3",
+        "filename": "Documentation/examples/3-gerritcluster-istio.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "I would like to keep the example as simple as possible and SSH complicates it a lot.",
+      "parentUuid": "c559d92c_2da14d5d",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7beea5c8_fab6f59b",
         "filename": "Documentation/examples/4-gerritcluster-ha-replica.yaml",
         "patchSetId": 4
@@ -100,6 +190,30 @@
       "writtenOn": "2024-01-31T23:04:17Z",
       "side": 1,
       "message": "has",
+      "range": {
+        "startLine": 29,
+        "startChar": 46,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "624ef067_e4e26cb7",
+        "filename": "Documentation/examples/4-gerritcluster-ha-replica.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7beea5c8_fab6f59b",
       "range": {
         "startLine": 29,
         "startChar": 46,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2305a5b1_a289a0f2",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aec3b8d_644be1a6",
+      "range": {
+        "startLine": 361,
+        "startChar": 72,
+        "endLine": 361,
+        "endChar": 76
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0a4f009_95acb853",
@@ -152,6 +290,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "258a7232_c3162288",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Changed to use the suggested minimal configuration",
+      "parentUuid": "a0a4f009_95acb853",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "febc68a8_729217d4",
         "filename": "Documentation/operator.md",
         "patchSetId": 4
@@ -163,6 +319,30 @@
       "writtenOn": "2024-01-31T23:04:17Z",
       "side": 1,
       "message": "host.",
+      "range": {
+        "startLine": 513,
+        "startChar": 16,
+        "endLine": 513,
+        "endChar": 20
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fe9ad7_c424255f",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "febc68a8_729217d4",
       "range": {
         "startLine": 513,
         "startChar": 16,
@@ -196,6 +376,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "706e43f8_5a790ee9",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8800d945_912b2bdf",
+      "range": {
+        "startLine": 530,
+        "startChar": 19,
+        "endLine": 530,
+        "endChar": 23
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e18c3c1_517e30a3",
@@ -209,6 +413,30 @@
       "writtenOn": "2024-02-19T09:06:19Z",
       "side": 1,
       "message": "straightforward",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 16
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5170c8_24e5db86",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e18c3c1_517e30a3",
       "range": {
         "startLine": 535,
         "startChar": 0,
@@ -242,6 +470,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a1c0bfd_68b2bbcd",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65bd700_746834b0",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 536,
+        "endChar": 22
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25c25114_10ae72dd",
@@ -255,6 +507,30 @@
       "writtenOn": "2024-01-31T23:04:17Z",
       "side": 1,
       "message": "example",
+      "range": {
+        "startLine": 564,
+        "startChar": 44,
+        "endLine": 564,
+        "endChar": 48
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9449dd8f_9e1e1be6",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25c25114_10ae72dd",
       "range": {
         "startLine": 564,
         "startChar": 44,
@@ -288,6 +564,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d19565fc_fdd3deac",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf708bf7_75b0a5ad",
+      "range": {
+        "startLine": 565,
+        "startChar": 43,
+        "endLine": 565,
+        "endChar": 49
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7c2ad41_8a800375",
@@ -301,6 +601,30 @@
       "writtenOn": "2024-01-31T23:04:17Z",
       "side": 1,
       "message": "Gerrit pods deployed in the \"gerrit\" namespace",
+      "range": {
+        "startLine": 568,
+        "startChar": 4,
+        "endLine": 568,
+        "endChar": 25
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96381c92_0044ec2f",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7c2ad41_8a800375",
       "range": {
         "startLine": 568,
         "startChar": 4,
@@ -334,6 +658,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6fe6a7d_7e61ad4b",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7072f798_0e44ef48",
+      "range": {
+        "startLine": 569,
+        "startChar": 45,
+        "endLine": 569,
+        "endChar": 48
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63fe667c_44c89d17",
@@ -347,6 +695,30 @@
       "writtenOn": "2024-01-31T23:04:17Z",
       "side": 1,
       "message": "the",
+      "range": {
+        "startLine": 575,
+        "startChar": 5,
+        "endLine": 575,
+        "endChar": 8
+      },
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2282f75a_0b8b0209",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63fe667c_44c89d17",
       "range": {
         "startLine": 575,
         "startChar": 5,
@@ -388,6 +760,24 @@
       "side": 1,
       "message": "This typically happens, if the download of the high-availability plugin during the container build failed. Until this recent change [1], this failure was silent and it looked like the build succeeded. Was change [1] present during your build?\n\nOne big issue with k8sgerrit is that we need a stable server for plugins and the Gerrit-CI which we currently use, is just not that, since the job names and with it the URLs change. Also the versions can not be pinned and thus might become incompatible.\n\n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/407422/2",
       "parentUuid": "637db720_7282400c",
+      "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f46940e5_7d379e09",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:05:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ce737b3d_c6812e63",
       "revId": "2459e5dd2a3e86be5694899ef636e7c503dbe192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
