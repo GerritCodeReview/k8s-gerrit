@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16c54a2f_6cad2b34",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "95701e12_8bff6662",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 92
+      },
+      "revId": "3fa82a0e462add317f4df5b22674cb0b9ee6ca1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdbe35f7_de046260",

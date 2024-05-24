@@ -16,6 +16,179 @@
       "message": "@thomas.draebing@sap.com Regarding your comment [1]. We have tried to follow the pattern defined currently in the class but all the checks were executed even when the cluster mode is `MULTISIDE` and that is not correct. In order to avoid that we introduced this temporal guard to check if the cluster mode is `MULTISITE`. Eventually in the next iteration this code will be removed because a new GerritCluster/Gerrit CR webhook validations will be introduced for the cluster mode is `MULTISITE` making the code cleaner and with single responsibility.\n\nReferences: \n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425208/15..19/operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java#b57",
       "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db974e98_26460527",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "Why not use Guice instead of an if-Statement? You could also introduce something like validators:\n- GenericGerritClusterValidator (abstract)\n- HAGerritClusterValidator\n- MultiSiteGerritClusterValidator\nand just call the suitable implementation here.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25b3740c_55006120",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "21d6aff3_36fd2a70",
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ed310ac_d7f82996",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "You already guard for that above, so remove that condition here.",
+      "range": {
+        "startLine": 110,
+        "startChar": 11,
+        "endLine": 110,
+        "endChar": 47
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b9926d_795abdf7",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae19fdea_250648a4",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "nit: group abstract methods together",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c187ddca_f0f0661c",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "Wouldn\u0027t you be able to get this from `customResource`?",
+      "range": {
+        "startLine": 113,
+        "startChar": 73,
+        "endLine": 113,
+        "endChar": 92
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b71f150_15f3e1b6",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritMultisiteAdmissionWebhookTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "These should be part of the tested classes.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 108
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae7f3263_cd26e653",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritMultisiteClusterAdmissionWebhookTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T12:40:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this constant be part of the tested class?",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 131
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
