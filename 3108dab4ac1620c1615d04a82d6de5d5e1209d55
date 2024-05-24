@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a8387af_72408c35",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "Note to self, we should have used a set here to avoid duplication.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9baec43_60a413d7",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "A event broker can be configured in the GerritCluster independently of using multisite, we should do the same as we do here and install the components, if an event-broker was configured.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "694af648_7450cf6c",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "This method does nothing than copying the file. It should be removed in favor of symlinking the gerrit.config file.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 31
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13eb172f_2382110e",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "Is that correct? I thought the default groupId would be the instanceId? In that case shouldn\u0027t be the default here be the same?",
+      "range": {
+        "startLine": 62,
+        "startChar": 42,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b73d9f06_1b33fb48",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "That should not be required anymore",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42930ba4_976cbb78",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterSpec.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "No wildcards please",
+      "range": {
+        "startLine": 19,
+        "startChar": 55,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f21e9c5_935a842e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:33:46Z",
+      "side": 1,
+      "message": "Is this option actually something that the operator should enforce? This sounds like something users want to optimize. Same as some other options below, e.g. `pollingIntervalMs`",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 92
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
