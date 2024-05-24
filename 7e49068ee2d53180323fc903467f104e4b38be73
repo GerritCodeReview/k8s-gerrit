@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dde744d0_bc6f8fed",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 25
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "nit: empty line before this line for readability and consistency.",
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d683c1_7fc39aad",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 25
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "Considering the semantics, this might be something that is happening on the cluster level, i.e. even if we support sharding at some point, all primary Gerrit instances would use the same topics. So you might consider managing these configurations on GerritCluster level.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 53
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93636ead_1bbc5a3b",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "As already stated in a previous change, this should not be required.",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 88
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da4c8ca3_5c8cc584",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "There should be no need for that.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 60
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35510148_d6e519c2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplate.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "Should not be required. Otherwise HA would also fail.",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 68
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e2b9a3_f1065358",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "Isn\u0027t that required for multisite as well?",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 78
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "156c9bdb_179e9645",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "unrelated change",
+      "range": {
+        "startLine": 211,
+        "startChar": 87,
+        "endLine": 211,
+        "endChar": 88
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2fe8c9_1cee4440",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "Why change that?",
+      "range": {
+        "startLine": 223,
+        "startChar": 84,
+        "endLine": 223,
+        "endChar": 89
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "153b6908_da42f8f8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T10:44:04Z",
+      "side": 1,
+      "message": "Why not use the default, which according to the documentation is anyway the instance ID?",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 76
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
