@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c12420cc_bea263f5",
+        "filename": "Documentation/examples/gerritcluster-2-nodes.yaml",
+        "patchSetId": 31
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:44:43Z",
+      "side": 1,
+      "message": "If rebased on top of 405561, this should be removed.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4183b503_0223d751",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/config/cluster_mode.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:44:43Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad93c7f3_ad4521d8",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:44:43Z",
+      "side": 1,
+      "message": "As far as I could see, the only difference between HA and Multisite in this method was whether Gerrit Replicas are supported or not. I don\u0027t believe that warrants a different implementation.\nHowever, we might consider a different implementation for replicas instead of using if statements. That should however go into a separate change.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd1f0317_375f44d9",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/main.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:44:43Z",
+      "side": 1,
+      "message": "Since we are using Python \u003e 3.10, use match-case statements. That would be more explicit and more readable.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 10
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "476c6f4b_8f6fe3e5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:44:43Z",
+      "side": 1,
+      "message": "This is not really Guice code and could be done in Main.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 57
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7527c5_1af916ce",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-05-24T09:44:43Z",
+      "side": 1,
+      "message": "Since this is the same in `if` and `else`, move it to after the if-statement.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 58
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
