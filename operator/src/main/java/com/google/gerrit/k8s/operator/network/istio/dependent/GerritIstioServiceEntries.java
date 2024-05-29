@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.JGROUPS_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
@@ -73,6 +74,11 @@ public class GerritIstioServiceEntries
                     .withName("http")
                     .withNumber(HTTP_PORT)
                     .withProtocol("HTTP")
+                    .build(),
+                new PortBuilder()
+                    .withName("jgroups")
+                    .withNumber(JGROUPS_PORT)
+                    .withProtocol("TCP")
                     .build()))
         .endSpec()
         .build();
