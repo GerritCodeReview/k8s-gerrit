@@ -22,6 +22,7 @@ import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
 import io.fabric8.kubernetes.api.model.TopologySpreadConstraint;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -52,7 +53,7 @@ public class GerritTemplateSpec {
   private GerritSite site = new GerritSite();
   private List<GerritPlugin> plugins = List.of();
   private List<GerritModule> libs = List.of();
-  private Map<String, String> configFiles = Map.of();
+  private Map<String, String> configFiles = new HashMap<>();
   private List<EnvVar> envVars = List.of();
   private String secretRef;
   private GerritMode mode = GerritMode.PRIMARY;
