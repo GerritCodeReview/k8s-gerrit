@@ -136,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc12e491_4addd3c1",
+        "filename": "Documentation/examples/gerritcluster.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-03T11:26:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46ef1b31_fd1edae8",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 46
+      },
+      "revId": "b28f190c49222042a00a0b134c48402c53acc55f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d853399_9bc8def0",
