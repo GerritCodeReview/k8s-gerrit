@@ -18,6 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.CustomRequestLog;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
@@ -66,6 +67,7 @@ public class HttpServer {
     }
     servletHandler.addServletWithMapping(HealthcheckServlet.class, "/health");
     server.setHandler(servletHandler);
+    server.setRequestLog(new CustomRequestLog());
 
     server.start();
   }
