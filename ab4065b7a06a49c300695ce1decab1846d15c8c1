@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4773d14c_2ba29fd0",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-03T11:52:38Z",
+      "side": 1,
+      "message": "these assertions seem to be the same like above line 69-74, hence we may extract this code into an assertion method e.g. assertConfigMap(ConfigMap)",
+      "range": {
+        "startLine": 81,
+        "startChar": 1,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "ab4065b7a06a49c300695ce1decab1846d15c8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
