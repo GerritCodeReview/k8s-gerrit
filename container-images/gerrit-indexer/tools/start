@@ -1,4 +1,6 @@
-# Copyright (C) 2018 The Android Open Source Project
+#!/bin/ash
+
+# Copyright (C) 2024 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,11 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-get_image_list(){
-  echo  "apache-git-http-backend" \
-        "gerrit-indexer" \
-        "gerrit-init" \
-        "gerrit" \
-        "git-gc" \
-        "fetch-job"
-}
+JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
+java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
