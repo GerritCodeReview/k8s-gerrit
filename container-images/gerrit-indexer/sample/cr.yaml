@@ -1,0 +1,20 @@
+apiVersion: "gerritoperator.google.com/v1beta9"
+kind: GerritIndexer
+metadata:
+  name: gerrit-indexer
+  namespace: gerrit
+spec:
+  resources:
+    requests:
+      cpu: 10
+      memory: 128Gi
+  configFiles:
+    gerrit.config: |-
+      [container]
+        javaOptions = -Xmx100g
+  data:
+    site:
+      persistenVolumeClaim: gerrit-site # default: name of the site volume of pod 0
+    repositories: # if not set use the git-dir in site volume (compatibility with multisite)
+      persistenVolumeClaim: gerrit-site # default: name of the shared PVC
+      subPath: git/.snapshot/snapshot-1234 # default: git

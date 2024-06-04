@@ -1,0 +1,80 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gerrit-indexer
+  namespace: gerrit
+spec:
+  template:
+    metadata:
+      annotations:
+        # Eviction would mean a complete restart of the index
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+        # We don't want any network connection. The sidecar would even prevent
+        # shutdown of the pod
+        sidecar.istio.io/inject: "false"
+    spec:
+      initContainers:
+      # We need to initialize the site to install the new Gerrit version, in case
+      # it is not yet installed in the site volume
+      - name: gerrit-init
+        image: k8sgerrit/gerrit-init
+        imagePullPolicy: Always
+        # Resources will likely be different to the productive Gerrits. Note, that
+        # we thus will also need to allow different heap sizes, i.e. separate gerrit
+        # config
+        resources:
+          requests:
+            cpu: 10 # USER
+            memory: 128Gi # USER
+        volumeMounts:
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/config
+          name: gerrit-init-config
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        # One should likely not use the same directory that is used productively
+        # In GCP the snapshot is on the same volume. Ideally it would be a separate
+        # volume.
+        - mountPath: /var/mnt/git
+          name: shared
+          subPath: git/.snapshot/snapshot-1234 # USER
+          readOnly: true
+      containers:
+      - name: indexer
+        image: k8sgerrit/gerrit-indexer
+        args:
+        - --output
+        - /indexes
+        resources:
+          requests:
+            cpu: 10 # USER
+            memory: 128Gi # USER
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: /var/gerrit
+        - mountPath: /var/mnt/git
+          name: shared
+          subPath: git/.snapshot/snapshot-1234 # USER
+          readOnly: true
+        - name: shared
+          subPath: shared/indexes
+          mountPath: /indexes
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+      restartPolicy: OnFailure
+      securityContext:
+        fsGroup: 100
+      volumes:
+      - name: gerrit-site
+        persistentVolumeClaim:
+          claimName: gerrit-indexer-site-pvc # USER
+      - name: shared
+        persistentVolumeClaim:
+          claimName: gerrit-indexer-shared-pvc # USER
+      - name: gerrit-init-config
+        configMap:
+          name: gerrit-init-configmap
+      - name: gerrit-config
+        configMap:
+          name: gerrit-indexer-configmap  # USER
