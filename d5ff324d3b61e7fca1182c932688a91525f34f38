@@ -59,6 +59,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cacb4a41_881f1fb8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritProbe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-06-04T08:46:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4e52fe8d_fdf033a4",
+      "revId": "d5ff324d3b61e7fca1182c932688a91525f34f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b48e157_b81b7c46",
