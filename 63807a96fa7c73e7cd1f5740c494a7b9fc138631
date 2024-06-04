@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c0fe5d_575e57f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-04T11:29:41Z",
+      "side": 1,
+      "message": "That actually has to be `bazel test --local_test_jobs\u003d1 --test_env KUBECONFIG\u003d\u003cPath to kubeconfig file\u003e operator:operator-tests-e2e`.\nI believe `--local_test_jobs\u003d1` should go to the .bazelrc. This is currently required, since some tests rely on the same resources and can\u0027t run in parallel. I will work on changing that.\nAlso the test.properties has to be filled in. This should be documented, especially since with bazel we can\u0027t configure a path to a custom file, but have to configure the resource file in place.",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec237ab_2ad3e30c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-04T11:29:41Z",
+      "side": 1,
+      "message": "That is actually not required ,but was a mistake of mine when setting up the tests in maven.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 45
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ea5ff2f_4eaf34c0",
+        "filename": "Documentation/operator-dev.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-04T11:29:41Z",
+      "side": 1,
+      "message": "Should we directly mention bazelisk?",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a557ca3_ad4277cc",
+        "filename": "Documentation/operator-dev.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-04T11:29:41Z",
+      "side": 1,
+      "message": "nit: trailing whitespaces",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 4
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
