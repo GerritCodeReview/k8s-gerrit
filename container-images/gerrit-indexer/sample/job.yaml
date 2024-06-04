@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gerrit-indexer
+spec:
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - name: indexer
+        image: k8sgerrit/gerrit-indexer
+        args:
+        - --output
+        - /indexes
+        resources:
+          requests:
+            cpu: 10
+            memory: 128Gi
+        volumeMounts:
+        - name: gerrit-site
+          mountPath: /var/gerrit
+        - name: shared
+          subPath: indexes
+          mountPath: /indexes
+        - name: gerrit-config
+          subPath: gerrit.config
+          mountPath: /var/gerrit/etc/gerrit.config
+      restartPolicy: OnFailure
+      securityContext:
+        fsGroup: 100
+      volumes:
+      - name: gerrit-site
+        persistentVolumeClaim:
+          claimName: gerrit-indexer-site-pvc
+      - name: shared
+        persistentVolumeClaim:
+          claimName: gerrit-shared-pvc
+      - name: gerrit-config
+        configMap:
+          name: gerrit-indexer-configmap
