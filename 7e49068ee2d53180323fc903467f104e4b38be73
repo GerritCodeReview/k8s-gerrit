@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4468d335_03a2b266",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 25
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:58Z",
+      "side": 1,
+      "message": "I believe that there is space for improvement in the way that we configure multisite plugin and we will address this in a followup change.\n\n\u003e  i.e. even if we support sharding at some point, all primary Gerrit instances would use the same topics. So you might consider managing these configurations on GerritCluster level.\n\nI believe that is a future feature and it is not related with the multisite setup. Whenever we have the requirement we can address it.",
+      "parentUuid": "c7d683c1_7fc39aad",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 53
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93636ead_1bbc5a3b",
@@ -156,6 +180,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19701e17_00292fea",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:58Z",
+      "side": 1,
+      "message": "This comment [1] explains the reason why the value 7 is needed.\n\nReference:\n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425526/11/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java#198",
+      "parentUuid": "156c9bdb_179e9645",
+      "range": {
+        "startLine": 211,
+        "startChar": 87,
+        "endLine": 211,
+        "endChar": 88
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b2fe8c9_1cee4440",
@@ -169,6 +217,30 @@
       "writtenOn": "2024-05-24T10:44:04Z",
       "side": 1,
       "message": "Why change that?",
+      "range": {
+        "startLine": 223,
+        "startChar": 84,
+        "endLine": 223,
+        "endChar": 89
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1001b46_6520b045",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:58Z",
+      "side": 1,
+      "message": "Good question, the reason is because when multisite plugin is installed, the plugin itself has a producer of stream events (to `gerrit` topic) and for that reason you dont need `events-kafka` plugin to send duplicated stream events to Kafka (by default `gerrit` topic) again [1].\n\nProbably we could remove this line to avoid confusion.\n\nReferences:\n[1] https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/stable-3.9/src/main/resources/Documentation/config.md",
+      "parentUuid": "6b2fe8c9_1cee4440",
       "range": {
         "startLine": 223,
         "startChar": 84,
