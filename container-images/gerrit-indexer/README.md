@@ -10,3 +10,6 @@ Container image for reindexing the indexes in a Gerrit site.
 ## Start
 
 * starts the Gerrit `Reindex` pgm tool via start script `/var/tools/start`
+* Using the `--output OUTPUT` option for the entrypoint script allows to copy
+  the resulting indexes to an output directory. The output directory is mainly
+  meant to be a mounted volume.
