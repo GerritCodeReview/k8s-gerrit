@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3a8e8a8a_6e343d79",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:04Z",
+      "side": 1,
+      "message": "I think it is very good point but we are providing incremental features. In a next follow-up will address it.",
+      "parentUuid": "19bbfb84_c8c8e99e",
+      "range": {
+        "startLine": 38,
+        "startChar": 31,
+        "endLine": 38,
+        "endChar": 43
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5a8387af_72408c35",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
         "patchSetId": 11
@@ -60,6 +84,30 @@
       "writtenOn": "2024-05-24T10:33:46Z",
       "side": 1,
       "message": "A event broker can be configured in the GerritCluster independently of using multisite, we should do the same as we do here and install the components, if an event-broker was configured.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "978ce853_9b643f4f",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:04Z",
+      "side": 1,
+      "message": "IMHO that is an optimisation out of multisite setup. We can address that in a follow-up change.",
+      "parentUuid": "d9baec43_60a413d7",
       "range": {
         "startLine": 105,
         "startChar": 0,
@@ -118,6 +166,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc6ca6b7_317b71fc",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:04Z",
+      "side": 1,
+      "message": "Yes it is correct but you need to see this in the context of multisite setup. As I explained in the comment [1] in multisite there will be 7 consumers. 2 consumers will consume from the same topic, `gerrit` topic:\n- 1 consumer in multisite\n- Consumer in pull-replication\n\nIf we dont change the consumer group of the pull-replication consumer (using the default one), We will end up having 2 consumers with the same consumer group consuming events from the same topic (with only 1 partition) which this translates that pull-replication consumer will never consume any event and for that reason will never catch up.\n\nThis is a very well known problem [2] [3] [4]\n\nHaving said that it is true that this is not needed in this change and for that reason I will remove it and I will add it in the next change.\n\nReferences:\n\n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425526/11/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java#198\n[2] https://gerrit-review.googlesource.com/c/modules/events-broker/+/384876\n[3] https://gerrit-review.googlesource.com/c/plugins/events-kafka/+/384914\n[4] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/385859",
+      "parentUuid": "13eb172f_2382110e",
+      "range": {
+        "startLine": 62,
+        "startChar": 42,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b73d9f06_1b33fb48",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 11
@@ -162,6 +234,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38e223ce_d924ec7a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/cluster/GerritClusterSpec.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42930ba4_976cbb78",
+      "range": {
+        "startLine": 19,
+        "startChar": 55,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f21e9c5_935a842e",
@@ -175,6 +271,30 @@
       "writtenOn": "2024-05-24T10:33:46Z",
       "side": 1,
       "message": "Is this option actually something that the operator should enforce? This sounds like something users want to optimize. Same as some other options below, e.g. `pollingIntervalMs`",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 92
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5bf77eb_5ccb5400",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-04T16:55:04Z",
+      "side": 1,
+      "message": "\u003e Is this option actually something that the operator should enforce?This sounds like something users want to optimize. \n\nLet me give you some context.  At the time of starting this change, we were using the default value of 6 [1] and to be honest we could reduce it to 1 because only pull-replication is consuming from Kafka. But we need to see this in the context of multisite, introduced in the next change, where we set the value of 7 (already in master [2] [3]).\n\nWhy 7 consumers?\n- 6 of the consumers are in created in multisite for the following topics:\n   - batchIndexEvent\n   - streamEvent\n   - gerrit\n   - projectListEvent\n   - cacheEvent\n   - indexEvent\n- 1 of the consumers is created in pull replication to consume from the topic gerrit\n\nI will remove `numberOfSubscribers` and `pollingIntervalMs` because they are setting the default values, so there is no reason to have them and the provide confusion.\n\nJust as a side node, in the context of multisite there is no space for allowing the operator to enforce it because needs to be 7.\n\n\u003e Same as some other options below, e.g. pollingIntervalMs\n\nI think that is a very fair point and we should address this but at the moment is an optimisation that we can face in a follow-up change.\n\nReferences:\n[1] https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/stable-3.9/src/main/resources/Documentation/config.md\n[2] https://gerrit-review.googlesource.com/c/plugins/events-kafka/+/411198\n[3] https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/master/src/main/resources/Documentation/config.md",
+      "parentUuid": "8f21e9c5_935a842e",
       "range": {
         "startLine": 197,
         "startChar": 0,
