@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3476c73_12ee42a0",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-05T12:03:05Z",
+      "side": 1,
+      "message": "It is more than an optimization. We now have a section in the CR that allows to configure an event-broker. It is not very transparent that this section will be ignored if multisite isn\u0027t used.\nI am fine with doing that later, but please document the fact for now.",
+      "parentUuid": "978ce853_9b643f4f",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "694af648_7450cf6c",
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "Yes it is correct but you need to see this in the context of multisite setup. As I explained in the comment [1] in multisite there will be 7 consumers. 2 consumers will consume from the same topic, `gerrit` topic:\n- 1 consumer in multisite\n- Consumer in pull-replication\n\nIf we dont change the consumer group of the pull-replication consumer (using the default one), We will end up having 2 consumers with the same consumer group consuming events from the same topic (with only 1 partition) which this translates that pull-replication consumer will never consume any event and for that reason will never catch up.\n\nThis is a very well known problem [2] [3] [4]\n\nHaving said that it is true that this is not needed in this change and for that reason I will remove it and I will add it in the next change.\n\nReferences:\n\n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425526/11/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java#198\n[2] https://gerrit-review.googlesource.com/c/modules/events-broker/+/384876\n[3] https://gerrit-review.googlesource.com/c/plugins/events-kafka/+/384914\n[4] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/385859",
       "parentUuid": "13eb172f_2382110e",
+      "range": {
+        "startLine": 62,
+        "startChar": 42,
+        "endLine": 62,
+        "endChar": 50
+      },
+      "revId": "3108dab4ac1620c1615d04a82d6de5d5e1209d55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93575821_6d262537",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-05T12:03:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fc6ca6b7_317b71fc",
       "range": {
         "startLine": 62,
         "startChar": 42,

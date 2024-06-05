@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d863bd9_b453c0e0",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-05T12:03:05Z",
+      "side": 1,
+      "message": "I guess that this should also be left to the user to optimize.",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
