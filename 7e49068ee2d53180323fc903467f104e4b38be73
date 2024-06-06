@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76d3c0f1_f388927d",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 25
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:34:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dde744d0_bc6f8fed",
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7d683c1_7fc39aad",
@@ -136,6 +154,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "338725e6_c4ce2ce9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplate.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:34:58Z",
+      "side": 1,
+      "message": "Why would that fail? This code is introducing the logical operator `OR` and for that reason it would not affect.",
+      "parentUuid": "35510148_d6e519c2",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 68
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68e2b9a3_f1065358",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
         "patchSetId": 25
@@ -147,6 +189,30 @@
       "writtenOn": "2024-05-24T10:44:04Z",
       "side": 1,
       "message": "Isn\u0027t that required for multisite as well?",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 78
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53785526_9f34335e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:34:58Z",
+      "side": 1,
+      "message": "Good question, when we added it, it blew up. Let us double check again to try to understand the reason.",
+      "parentUuid": "68e2b9a3_f1065358",
       "range": {
         "startLine": 99,
         "startChar": 22,
