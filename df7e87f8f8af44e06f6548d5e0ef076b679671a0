@@ -61,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7040154f_d0da9dfb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "Did not we agreed to keep the validations in the same code and face the refactoring in a follow-up change?. I will look at it but I would avoid a massive refactoring at this point.",
+      "parentUuid": "db974e98_26460527",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 47
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ed310ac_d7f82996",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
         "patchSetId": 19
@@ -72,6 +96,30 @@
       "writtenOn": "2024-05-24T12:40:37Z",
       "side": 1,
       "message": "You already guard for that above, so remove that condition here.",
+      "range": {
+        "startLine": 110,
+        "startChar": 11,
+        "endLine": 110,
+        "endChar": 47
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08530e0e_ddcf721e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritClusterAdmissionWebhook.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "good catch.",
+      "parentUuid": "1ed310ac_d7f82996",
       "range": {
         "startLine": 110,
         "startChar": 11,
@@ -99,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f1e10a7_3b1b8c66",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b9926d_795abdf7",
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae19fdea_250648a4",
@@ -112,6 +178,30 @@
       "writtenOn": "2024-05-24T12:40:37Z",
       "side": 1,
       "message": "nit: group abstract methods together",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ddb535_2e2a66cb",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae19fdea_250648a4",
       "range": {
         "startLine": 107,
         "startChar": 0,
@@ -145,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e9f7500_47e4c174",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "It is not possible as it is. In master is hardcoded because each test:\n- GerritAdmissionWebhookTest\n- GerritClusterAdmissionWebhookTest\n- GitGcAdmissionWebhookTest\n\nhas `sendAdmissionRequest` method duplicated. \n\nI think is a valid point but requires refactoring. Definitively we should look at it in a future follow-up change.",
+      "parentUuid": "c187ddca_f0f0661c",
+      "range": {
+        "startLine": 113,
+        "startChar": 73,
+        "endLine": 113,
+        "endChar": 92
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b71f150_15f3e1b6",
@@ -168,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a438b0f7_8fad7bff",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritMultisiteAdmissionWebhookTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "Well, there is a great debate about asserting in values defined in production code, i.e constants. For me these assertions do not test anything, actually they are kind of cheating because if you change the value of the constant, the test will not catch that and the test will pass. But having said that I have seen many people doing it so I am happy to move them to the production code and keep them in one place.",
+      "parentUuid": "1b71f150_15f3e1b6",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 108
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae7f3263_cd26e653",
@@ -181,6 +319,30 @@
       "writtenOn": "2024-05-24T12:40:37Z",
       "side": 1,
       "message": "Shouldn\u0027t this constant be part of the tested class?",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 131
+      },
+      "revId": "df7e87f8f8af44e06f6548d5e0ef076b679671a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af9d35ad_b935da20",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritMultisiteClusterAdmissionWebhookTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-06T16:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae7f3263_cd26e653",
       "range": {
         "startLine": 38,
         "startChar": 2,
