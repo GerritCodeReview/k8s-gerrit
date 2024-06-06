@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3e5f08dc_25e76942",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 22
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:32Z",
+      "side": 1,
+      "message": "\u003e I would assume that the options fetch, mirror, createMissingRepositories, replicateProjectDeletions and replicateHiddenProjects always have to be set like this.\n\nI don\u0027t believe that is the case, in my opinion we should let the user be able to specify these values in the definition of the cluster. In fact the operator cannot have the responsibility of setting those values, which would make the configuration of the plugin less flexible.",
+      "parentUuid": "1c45261f_997cba1e",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "040014dc_f550ffee",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 22
@@ -37,6 +61,24 @@
       "writtenOn": "2024-05-24T10:18:25Z",
       "side": 1,
       "message": "I would suggest to compute all remote sections in the operator and at this point just delete the section that represents the current instance. This would be more transparent, since the ConfigMap already contains all sections and it would require less computations overall.\nIdeally, we wouldn\u0027t even need to delete the section, but the pull-replication plugin should just ignore it. This should be a simple change (can be done later).",
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbacde6c_fda3b84d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:32Z",
+      "side": 1,
+      "message": "Yes, I believe you mentioned it already in this comment [1], although that will split the logic to set the remotes in the operator and then in the init script to delete the section for its own pod.\n\n\nAt the moment this is a working solution, so I \u0027d rather leave all the logic in the gerrit-init and then move all the logic in the operator in a different change. \n\n[1]: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409747/comment/6bd5ae3a_e3235fe2/",
+      "parentUuid": "040014dc_f550ffee",
       "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2024-05-24T10:18:25Z",
       "side": 1,
       "message": "Why add this to the final file? It is not being used by Gerrit, right?",
+      "range": {
+        "startLine": 63,
+        "startChar": 49,
+        "endLine": 63,
+        "endChar": 64
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b79354be_ce0f0c80",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:32Z",
+      "side": 1,
+      "message": "Yes, that section is used by pull replication for all settings not specific to a particular remote [1].\n\nAs an example, the final `replication.config` file might look like:\n\n\n```\n[gerrit]\n    autoReload \u003d true\n    replicateOnStartup \u003d false\n[replication]\n    lockErrorMaxRetries \u003d 5\n    maxRetries \u003d 5\n\n[remote \"host-two\"]\n    url \u003d gerrit2@host-two.example.com:/some/path/${name}.git\n    apiUrl \u003d http://host-two\n    fetch \u003d +refs/*:refs/*\n\n[remote \"host-three\"]\n    url \u003d mirror1.host-three:/pub/git/${name}.git\n    url \u003d mirror2.host-three:/pub/git/${name}.git\n    url \u003d mirror3.host-three:/pub/git/${name}.git\n    apiUrl \u003d http://host-three\n    fetch \u003d +refs/heads/*:refs/heads/*\n    fetch \u003d +refs/tags/*:refs/tags/*\n```\n\nWe will improve the documentation to let the users know how to configure pull-replication in the custom resource.\n\n[1]: https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.9/src/main/resources/Documentation/config.md",
+      "parentUuid": "f02bfc80_da4d2c1b",
       "range": {
         "startLine": 63,
         "startChar": 49,
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0213e4fd_0393c608",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3afcf841_53eced74",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 39
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe1aad82_0fb0e7e6",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 22
@@ -100,6 +190,30 @@
       "writtenOn": "2024-05-24T10:18:25Z",
       "side": 1,
       "message": "Why not set the section name right from the start? Why use `remote` while creating the new section?",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e395a3d_717393fa",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:32Z",
+      "side": 1,
+      "message": "I am not sure what you mean. \n\n\nThe `section name` for each remote needs to be set as:\n```\n[remote \"gerrit-0\"]\n ...\n[remote \"gerrit-1\"]\n ...\n```\n\nOr are you suggesting to move the logic at the beginning of the for block ?",
+      "parentUuid": "fe1aad82_0fb0e7e6",
       "range": {
         "startLine": 86,
         "startChar": 12,
