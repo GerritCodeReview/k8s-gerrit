@@ -43,6 +43,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "960b5fb6_964758fb",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/config/cluster_mode.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:25Z",
+      "side": 1,
+      "message": "Acknowledged. This will also fix the unrelated change for this comment [1] in change 409747\n\n[1]: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409747/comment/06f6e551_97115ad4/",
+      "parentUuid": "4183b503_0223d751",
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad93c7f3_ad4521d8",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
         "patchSetId": 31
@@ -54,6 +72,30 @@
       "writtenOn": "2024-05-24T09:44:43Z",
       "side": 1,
       "message": "As far as I could see, the only difference between HA and Multisite in this method was whether Gerrit Replicas are supported or not. I don\u0027t believe that warrants a different implementation.\nHowever, we might consider a different implementation for replicas instead of using if statements. That should however go into a separate change.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60bc4435_55b0c140",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:25Z",
+      "side": 1,
+      "message": "That was done following the suggestion of this comment [1].\nI believe that if we start having different implementation of the init() method for each cluster mode, than is much more readable to keep the execute() logic in the concrete implementation for each mode.\n\n\n[1]: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/409745/comment/6fa6f70f_7e7846dd/",
+      "parentUuid": "ad93c7f3_ad4521d8",
       "range": {
         "startLine": 47,
         "startChar": 0,
@@ -77,6 +119,30 @@
       "writtenOn": "2024-05-24T09:44:43Z",
       "side": 1,
       "message": "Since we are using Python \u003e 3.10, use match-case statements. That would be more explicit and more readable.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 10
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "461483a8_beb8824f",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/main.py",
+        "patchSetId": 31
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dd1f0317_375f44d9",
       "range": {
         "startLine": 35,
         "startChar": 8,
@@ -123,6 +189,30 @@
       "writtenOn": "2024-05-24T09:44:43Z",
       "side": 1,
       "message": "Since this is the same in `if` and `else`, move it to after the if-statement.",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 58
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "561b2b82_0eeeb8c9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorModule.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-06T07:48:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cc7527c5_1af916ce",
       "range": {
         "startLine": 65,
         "startChar": 6,
