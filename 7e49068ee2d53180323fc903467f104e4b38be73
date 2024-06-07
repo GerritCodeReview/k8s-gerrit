@@ -178,6 +178,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdfc6b19_19999c3f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplate.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-07T06:54:13Z",
+      "side": 1,
+      "message": "I didn\u0027t mean the additional condition would cause it to fail, but that the HA-mode also works without explicitly checking for it.\nThe existing condition checks whether we have any primary Gerrit. So the existing first condition will already always validate to true and the added OR condition is unnecessary.\n\nWe didn\u0027t add a specific check for whether we actually use HA (and thus need a global refdb), because it is kind of confusing that there is a global refdb section that you can configure, but if you didn\u0027t scale the primaries to at least 2 instances, it wouldn\u0027t do anything.",
+      "parentUuid": "338725e6_c4ce2ce9",
+      "range": {
+        "startLine": 87,
+        "startChar": 8,
+        "endLine": 87,
+        "endChar": 68
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68e2b9a3_f1065358",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
         "patchSetId": 25
