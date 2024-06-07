@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d373ad8_c6edd410",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 22
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-07T06:43:13Z",
+      "side": 1,
+      "message": "First of all my comment was just for the multisite case, not when pull-replication is used in a different context. Just to be clear about that.\nI am not so familiar with multisite, so I will trust you on that, but in which situation it would be beneficial to set `createMissingRepositories` to `false` in a multisite context? Same for the other options I mentioned.\n\nAs a general note: The operator is meant to make the setup for users easier. That only works by being a bit opinionated. This is of course a fine line to walk and not always easy to decide. But what I would envision for the operator in the multisite context, would be that it at least takes care of the configuration options that have to be set in a certain way to make multisite work, but exist in Gerrit/plugins to support other scenarios.\nSetting up multisite or HA is complicated and one aim of the operator is to reduce the pain a bit.\n\nThat being said, I am fine with moving the changes to pin some configuration into separate changes, which would also make them easier to revert, if the need arises and keeps the scope smaller.",
+      "parentUuid": "3e5f08dc_25e76942",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "040014dc_f550ffee",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 22
@@ -214,6 +238,30 @@
       "side": 1,
       "message": "I am not sure what you mean. \n\n\nThe `section name` for each remote needs to be set as:\n```\n[remote \"gerrit-0\"]\n ...\n[remote \"gerrit-1\"]\n ...\n```\n\nOr are you suggesting to move the logic at the beginning of the for block ?",
       "parentUuid": "fe1aad82_0fb0e7e6",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64dd0c71_8880d945",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-07T06:43:13Z",
+      "side": 1,
+      "message": "Yes, that is what I meant. And then directly use the data in the `remote_ops_section.append()` calls, instead of first setting section to `remote`.",
+      "parentUuid": "4e395a3d_717393fa",
       "range": {
         "startLine": 86,
         "startChar": 12,
