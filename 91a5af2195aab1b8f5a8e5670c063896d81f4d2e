@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "294f5125_806c2aab",
+        "filename": "Documentation/examples/gerritcluster-2-nodes.yaml",
+        "patchSetId": 31
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-07T13:36:27Z",
+      "side": 1,
+      "message": "The change adds the documentation about installing Gerrit in Minikube and adds the first examples. These examples already contain the secret and thus it should not be necessary to add it again.",
+      "parentUuid": "fca45aec_b3171598",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "91a5af2195aab1b8f5a8e5670c063896d81f4d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4183b503_0223d751",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/config/cluster_mode.py",
         "patchSetId": 31
