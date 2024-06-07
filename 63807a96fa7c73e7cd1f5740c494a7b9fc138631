@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "656ef73b_810644da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-07T13:49:02Z",
+      "side": 1,
+      "message": "\u003e I believe --local_test_jobs\u003d1 should go to the .bazelrc.\n\nA better approach would be to set the `exclusive` bit per target, see Bazel encyclopedia: [1].\n\nThat way some test target would ran exclusively, while the other would still run in parallel. Done.\n\n\n[1]: https://bazel.build/reference/test-encyclopedia#tag-conventions",
+      "parentUuid": "e4c0fe5d_575e57f2",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ec237ab_2ad3e30c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
