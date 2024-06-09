@@ -167,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6dfac3a_2a197b77",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-09T20:16:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e88cdeb_d1117313",
+      "range": {
+        "startLine": 53,
+        "startChar": 66,
+        "endLine": 53,
+        "endChar": 72
+      },
+      "revId": "b010cf9687b46a22ac094017bfed2d134ca4a326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e32c5f93_00572330",
