@@ -46,6 +46,30 @@
       },
       "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5368e5ce_8b607309",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-09T19:42:33Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com I have modelled the events broker in this way:\n```\n  eventsBroker:\n    brokerType: KAFKA\n    eventsKafkaConfig:\n      kafkaProperties:\n          bootstrapServers: \"kafka-service.kafka-zk.svc.cluster.local:9092\"\n          securityProtocol: \"PLAINTEXT\"\n          enableAutoCommit: \"true\"\n          autoCommitIntervalMs: \"1000\"\n          autoOffsetReset: \"latest\"\n      pluginProperties:\n          sendStreamEvents: \"true\"\n```\n\nIn this way we encode the entire plugin configuration in the CR. `kafkaProperties` and `pluginProperties` are serialised into Map\u003cString, String\u003e for simplicity.\n\nIf you are happy with this approach I can rebase this in the chain of changes. (although not all the comments have been addressed) and in this way those changes can be adapted. \n\nNote: I think multisite plugin should be modelled in similar way.",
+      "parentUuid": "c22a2fcb_0a44e5a8",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
