@@ -22,6 +22,30 @@
       },
       "revId": "23631f77370ff9db70f3ba13ddf33be2e98f8321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29558042_58a53e87",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioVirtualService.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-09T20:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eda4477_ce08e5b6",
+      "range": {
+        "startLine": 119,
+        "startChar": 43,
+        "endLine": 119,
+        "endChar": 67
+      },
+      "revId": "23631f77370ff9db70f3ba13ddf33be2e98f8321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
