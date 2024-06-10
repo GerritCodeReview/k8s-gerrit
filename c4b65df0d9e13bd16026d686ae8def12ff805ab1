@@ -94,6 +94,30 @@
       },
       "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e8665fa_d1f1101d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-10T16:55:12Z",
+      "side": 1,
+      "message": "You made valid points. \n\nWould it work for you (for this change, multisite will change slightly):\n- We encode the bootstrapServers in GerritCluster CR in this way:\n```\n  eventsBroker:\n    brokerType: KAFKA\n    kafkaConfig:\n      connectString: kafka-service.kafka-zk.svc.cluster.local:9092\n```\n- The gerrit.config section would contain:\n```\n            [plugin \"events-kafka\"]\n              securityProtocol \u003d PLAINTEXT\n              pollingIntervalMs \u003d 1000\n              enableAutoCommit \u003d true\n              autoCommitIntervalMs \u003d 1000\n              autoOffsetReset \u003d latest\n              sendStreamEvents \u003d true\n```\n- Java class `GerritConfigBuilder` would build the section with all the pieces in `gerrit.config`\n\n\u003e Configure the bootstrapServers via yaml (we can let the operator create Istio ServiceEntries for it to make it part of the ServiceMesh)\n\nDo we need this? I have been looking and for the Java class `ZookeeperRefDbConfig` and it is used only whenthe config file `zookeeper-refdb.config` is created by in the Java class `ZookeeperRefDbPluginConfigBuilder`. I think we should use the same approach unless that I am missing something.",
+      "parentUuid": "5f0f3775_155d8122",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
