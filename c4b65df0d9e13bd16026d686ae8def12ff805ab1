@@ -70,6 +70,30 @@
       },
       "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0f3775_155d8122",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-10T07:06:20Z",
+      "side": 1,
+      "message": "Thanks for putting that much thought into it!\n\nI am not sure about modelling the whole configuration in yaml. I have thought about it in the past for the gerrit.config, but decided not to go that route. The two main reasons are:\n- Double maintenance: we would have to maintain changes in the plugin configuration here as well. That is quite some work and would always bump the CRD version. This will likely not be necessary, if you use `Map\u003cString, String\u003e` at the cost of having less validation, which takes away a lot of the advantage it would have to use yaml.\n- Also users are used to the git config format and the documentation of Gerrit and its plugins use it. Changing the format makes it slightly more difficult for users to configure the plugin.\n\nThe strategy currently used is thus to only move values to yaml that are also used outside of the Gerrit config or are very central for the GerritCluster, i.e. it is related to a component that is itself a component of the GerritCluster, like the database for the global RefDB.\n\nI would suggest the following:\n- Configure the bootstrapServers via yaml (we can let the operator create Istio ServiceEntries for it to make it part of the ServiceMesh)\n- If the other options should always be cluster-wide configurations, add a field to add the config as a String in git config format (similar as gerrit.config).\n- Handle some options whose value is determined by the setup using `RequiredOption`, e.g. if multisite is being used enforce `sendStreamEvents` to be `false`\n\nTo be clear, I am open for arguments against this approach and using yaml, since I also like the yaml format better and would like to have a single format for all configuration. We should however have a single approach in that regard and maybe find a set of rules to write down in the developer guide. We can also have a call to have this discussion.",
+      "parentUuid": "5368e5ce_8b607309",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
