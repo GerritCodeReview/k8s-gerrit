@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca22a6f1_ca54671b",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-10T07:46:55Z",
+      "side": 1,
+      "message": "Ack. Although still unfortunate. IMO this is messy and the operator\u0027s life (human or machine) could be made easier by just changing the defaults in both plugins to prepend the plugin name, i.e. `multisite-InstanceId` and `pull-replication-InstanceId`. This would avoid those clashes completely. Of course this is a breaking change for people using defaults, but on master that should be fine.\n\nDoes that make sense to you?",
+      "parentUuid": "932d22e2_1c6206ce",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 88
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da4c8ca3_5c8cc584",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 25
@@ -402,6 +426,30 @@
       "side": 1,
       "message": "This is a really good point. \n\nIf we dont defined explicitly the property `groupId` in the `events-kafka` section, the `multisite` and `websession-broker` plugins fail in lading time when Gerrit starts with the following exception:\n```\n[2024-06-06T17:16:35.319Z] [main] WARN  com.google.gerrit.server.plugins.PluginLoader : Cannot load plugin multi-site\norg.apache.kafka.common.KafkaException: Failed to construct kafka consumer\n\tat org.apache.kafka.clients.consumer.KafkaConsumer.\u003cinit\u003e(KafkaConsumer.java:827)\n\tat org.apache.kafka.clients.consumer.KafkaConsumer.\u003cinit\u003e(KafkaConsumer.java:664)\n\tat com.googlesource.gerrit.plugins.kafka.subscribe.KafkaConsumerFactory.create(KafkaConsumerFactory.java:40)\n\tat com.googlesource.gerrit.plugins.kafka.subscribe.KafkaEventNativeSubscriber.subscribe(KafkaEventNativeSubscriber.java:90)\n\tat com.googlesource.gerrit.plugins.kafka.api.KafkaBrokerApi.receiveAsync(KafkaBrokerApi.java:102)\n\tat com.googlesource.gerrit.plugins.kafka.api.KafkaBrokerApi.receiveAsync(KafkaBrokerApi.java:53)\n\tat com.googlesource.gerrit.plugins.multisite.consumer.MultiSiteConsumerRunner.lambda$start$0(MultiSiteConsumerRunner.java:49)\n\tat java.base/java.lang.Iterable.forEach(Iterable.java:75)\n\tat com.googlesource.gerrit.plugins.multisite.consumer.MultiSiteConsumerRunner.start(MultiSiteConsumerRunner.java:47)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:95)\n\tat com.google.gerrit.server.plugins.ServerPlugin.startPlugin(ServerPlugin.java:274)\n\tat com.google.gerrit.server.plugins.ServerPlugin.start(ServerPlugin.java:196)\n\tat com.google.gerrit.server.plugins.PluginLoader.runPlugin(PluginLoader.java:555)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:441)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:341)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:95)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:404)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:297)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:62)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:568)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:252)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:148)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:93)\n\tat Main.main(Main.java:30)\nCaused by: org.apache.kafka.common.errors.InvalidConfigurationException: enable.auto.commit cannot be set to true when default group id (null) is used.\n```\n\nFrom the stack trace we can see that the Kafka consumer property `group.id` is `null` and is not set as the documentation is suggesting with the default value [1]\n\n\nReferences: \n[1] https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/container-images/gerrit/tools/start#26",
       "parentUuid": "153b6908_da42f8f8",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 76
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5602c42_3c12c50d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-10T07:46:55Z",
+      "side": 1,
+      "message": "The default for groupId is only set when running `gerrit.war init` [1]. I believe that should be fixed in the plugin instead of working around here. This should also be an easy fix/improve.\n\n[1] https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/kafka/InitConfig.java#76",
+      "parentUuid": "08f6b04d_79655ba2",
       "range": {
         "startLine": 224,
         "startChar": 6,
