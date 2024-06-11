@@ -156,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e724898_5e79920a",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-11T18:34:51Z",
+      "side": 1,
+      "message": "- `pull-replication` consumer group is already set in the property `eventBrokerGroupId` as you can see in L57 [1] \n- for `multisite` consumer group (instance-id, i.e gerrit-0, gerrit-1) should be solved with your proposal in comment [2]\n\nDoes it make sense to you?\n\nReferences:\n[1] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425526/19/container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py\n[2] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/413963/25..31/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java#b226",
+      "parentUuid": "ca22a6f1_ca54671b",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 88
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da4c8ca3_5c8cc584",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 25
