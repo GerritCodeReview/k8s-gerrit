@@ -142,6 +142,30 @@
       },
       "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9c89ef5_9d56c83f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-11T08:34:56Z",
+      "side": 1,
+      "message": "\u003e This is not strictly necessary right now and also not implemented for zookeeper, but it helps with monitoring, e.g. it is shown as a workload in kiali. Also we already have in mind to use mTLS functionalities for increased security and maybe as an alternative for basic auth. For that external services need to be part of the mesh.\n\nThat is interesting. Lets address this in another change. \n\n\u003e Yes, that sounds good. But only options that have a fixed/required value for the setup provided by the operator. Options like pollingIntervalMs that are used for optimization should be set by the user and otherwise rely on the default provided by the plugin. \n\nIt makes sense to me\n\n\u003e If in this case, because it is an option forwarded to Kafka, it has no default, we should either add a default to the plugin or we need to add a new construct similar to RequiredOption: DefaultOption that sets a default if the option wasn\u0027t set, but doesn\u0027t enforce a value.\n\nKafka defines it own defaults and I think we so follow the same approach as you suggested above. If user wants to change them they can do it in the `events-kafka` section.\n\nI have been checking the examples I provided and I found:\n\n\n```\nsecurityProtocol \u003d PLAINTEXT -\u003e kafka default value is PLAINTEXT -\u003e we can remove it\nenableAutoCommit \u003d true -\u003e kafka default value is true -\u003e we can remove it\nautoCommitIntervalMs \u003d 1000 -\u003e kafka default value is 5 secons -\u003e we can keep it\nautoOffsetReset \u003d latest -\u003e kafka default value is latest -\u003e we can remove it\nsendStreamEvents \u003d true -\u003e plugin default is false -\u003e we can keep it\npollingIntervalMs \u003d 1000 -\u003e plugin default is 1000 -\u003e we can remove it\n```\n\nSo the config would end up as:\n```\n          [plugin \"events-kafka\"]\n            autoCommitIntervalMs \u003d 100\n```\n\nAnd the Java class `GerritConfigBuilder ` would enforce `sendStreamEvents` to true.",
+      "parentUuid": "cb62acde_097e9311",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
