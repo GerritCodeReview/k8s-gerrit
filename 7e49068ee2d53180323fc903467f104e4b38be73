@@ -319,6 +319,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd10fe9f_2b0addad",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-11T19:18:54Z",
+      "side": 1,
+      "message": "It is not needed for `multisite` setup. I checked with @ponch78@gmail.com and he confirmed that is used in the case of `HA Active/Active`.",
+      "parentUuid": "53785526_9f34335e",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 78
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "156c9bdb_179e9645",
