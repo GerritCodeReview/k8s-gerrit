@@ -118,6 +118,30 @@
       },
       "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb62acde_097e9311",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-11T06:39:58Z",
+      "side": 1,
+      "message": "\u003e \u003e Configure the bootstrapServers via yaml (we can let the operator create Istio ServiceEntries for it to make it part of the ServiceMesh)\n\u003e Do we need this? I have been looking and for the Java class ZookeeperRefDbConfig and it is used only whenthe config file zookeeper-refdb.config is created by in the Java class ZookeeperRefDbPluginConfigBuilder. I think we should use the same approach unless that I am missing something.\n\nThis is not strictly necessary right now and also not implemented for zookeeper, but it helps with monitoring, e.g. it is shown as a workload in kiali. Also we already have in mind to use mTLS functionalities for increased security and maybe as an alternative for basic auth. For that external services need to be part of the mesh.\n\n\u003e Would it work for you (for this change, multisite will change slightly):\n\u003e We encode the bootstrapServers in GerritCluster CR in this way:\n\n```\neventsBroker:\n  brokerType: KAFKA\n  kafkaConfig:\n    connectString: kafka-service.kafka-zk.svc.cluster.local:9092\n```\n\u003e The gerrit.config section would contain:\n```\n          [plugin \"events-kafka\"]\n            securityProtocol \u003d PLAINTEXT\n            pollingIntervalMs \u003d 1000\n            enableAutoCommit \u003d true\n            autoCommitIntervalMs \u003d 1000\n            autoOffsetReset \u003d latest\n            sendStreamEvents \u003d true\n```\n\u003e Java class GerritConfigBuilder would build the section with all the pieces in gerrit.config\n\nYes, that sounds good. But only options that have a fixed/required value for the setup provided by the operator. Options like `pollingIntervalMs` that are used for optimization should be set by the user and otherwise rely on the default provided by the plugin. If in this case, because it is an option forwarded to Kafka, it has no default, we should either add a default to the plugin or we need to add a new construct similar to `RequiredOption`: `DefaultOption` that sets a default if the option wasn\u0027t set, but doesn\u0027t enforce a value.",
+      "parentUuid": "4e8665fa_d1f1101d",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 96
+      },
+      "revId": "c4b65df0d9e13bd16026d686ae8def12ff805ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
