@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.ArrayList;
@@ -35,6 +36,12 @@ public class GerritConfigBuilder extends ConfigBuilder {
   public GerritConfigBuilder(Gerrit gerrit) {
     super(
         gerrit.getSpec().getConfigFiles().getOrDefault("gerrit.config", ""),
+        ImmutableList.copyOf(collectRequiredOptions(gerrit)));
+  }
+
+  public GerritConfigBuilder(GerritIndexer gerritIndexer, Gerrit gerrit) {
+    super(
+        gerritIndexer.getSpec().getConfigFiles().getOrDefault("gerrit.config", ""),
         ImmutableList.copyOf(collectRequiredOptions(gerrit)));
   }
 

@@ -1,0 +1,61 @@
+apiVersion: "gerritoperator.google.com/v1beta9"
+kind: GerritCluster
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  containerImages:
+    imagePullSecrets: []
+    imagePullPolicy: Always
+    gerritImages:
+      registry: docker.io
+      org: k8sgerrit
+      tag: latest
+    busyBox:
+      registry: docker.io
+      tag: latest
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+      nfsWorkaround:
+        enabled: false
+        chownOnStartup: false
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup
+
+    sharedStorage:
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+  gerrits:
+  - metadata:
+      name: gerrit
+    spec:
+      serviceAccount: gerrit
+      replicas: 2
+      service:
+        type: NodePort
+        httpPort: 80
+        sshPort: 29418
+      site:
+        size: 1Gi
+      plugins:
+      - installAsLibrary: false
+        name: download-commands
+      libs: []
+      configFiles: {}
+      secretRef: gerrit-secure-config
+
+  receiver: {}

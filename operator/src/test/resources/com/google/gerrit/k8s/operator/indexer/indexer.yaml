@@ -1,0 +1,27 @@
+apiVersion: "gerritoperator.google.com/v1beta9"
+kind: GerritIndexer
+metadata:
+  name: gerrit-indexer
+  namespace: gerrit
+spec:
+  cluster: gerrit
+  resources:
+    requests:
+      cpu: 2
+      memory: 5Gi
+    limits:
+      cpu: 3
+      memory: 6Gi
+  configFiles:
+    gerrit.config: |-
+      [log]
+        textLogging = true
+        jsonLogging = true
+  storage:
+    site:
+      createSnapshot: true
+    repositories:
+      createSnapshot: true
+    output:
+      persistentVolumeClaim: indexer-output
+      subPath: indexes/new
