@@ -28,6 +28,7 @@ rules:
   - "batch"
   resources:
   - cronjobs
+  - jobs
   verbs:
   - '*'
 - apiGroups:
@@ -73,6 +74,13 @@ rules:
   - "admissionregistration.k8s.io"
   resources:
   - 'validatingwebhookconfigurations'
+  verbs:
+  - '*'
+- apiGroups:
+  - "snapshot.storage.k8s.io"
+  resources:
+  - 'volumesnapshots'
+  - 'volumesnapshotclasses'
   verbs:
   - '*'
 {{- if eq .Values.ingress.type "INGRESS" }}
