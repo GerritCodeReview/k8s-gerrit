@@ -133,6 +133,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "764506b4_eeb182ae",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml",
+        "patchSetId": 25
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-06-12T11:01:30Z",
+      "side": 1,
+      "message": "Makes sense. Then what I am going to do is to keep:\n```\nmulti-site.config: |-\n            [index]\n              maxTries \u003d 50\n```\nin `spec.gerrits[].spec.configFiles` and a Java class `MultisitePluginConfigBuilder` can enforce the topics. For the moment I am not going to provide any validation between `broker.streamEventTopic` property in `multisite` and `replication.eventBrokerTopic` in `pull-replication`. We will see how we address that later.",
+      "parentUuid": "69b86ed9_8414cc3f",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 53
+      },
+      "revId": "7e49068ee2d53180323fc903467f104e4b38be73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93636ead_1bbc5a3b",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
         "patchSetId": 25
