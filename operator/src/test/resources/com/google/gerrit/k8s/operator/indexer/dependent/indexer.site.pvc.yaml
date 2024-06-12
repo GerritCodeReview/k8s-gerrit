@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gerrit-indexer-site-snapshot-pvc
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit-indexer
+    app.kubernetes.io/created-by: GerritIndexerReconciler
+    app.kubernetes.io/instance: gerrit-indexer
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-indexer-gerrit-indexer
+spec:
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  dataSource:
+    apiGroup: snapshot.storage.k8s.io
+    kind: VolumeSnapshot
+    name: gerrit-indexer-site-snapshot

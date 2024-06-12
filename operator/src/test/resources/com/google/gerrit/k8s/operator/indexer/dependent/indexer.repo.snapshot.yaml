@@ -1,0 +1,17 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: gerrit-indexer-repositories-snapshot
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit-indexer
+    app.kubernetes.io/created-by: GerritIndexerReconciler
+    app.kubernetes.io/instance: gerrit-indexer
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-indexer-gerrit-indexer
+spec:
+  source:
+    persistentVolumeClaimName: shared-pvc
+  volumeSnapshotClassName: shared-storage
