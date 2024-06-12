@@ -155,6 +155,11 @@
 		</dependency>
 		<dependency>
 			<groupId>io.fabric8</groupId>
+			<artifactId>volumesnapshot-client</artifactId>
+			<version>${fabric8.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
 			<artifactId>crd-generator-apt</artifactId>
 			<version>${fabric8.version}</version>
 			<scope>provided</scope>
