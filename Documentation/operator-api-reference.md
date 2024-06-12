@@ -9,6 +9,7 @@
   - [GitGarbageCollection](#gitgarbagecollection)
   - [GerritNetwork](#gerritnetwork)
   - [IncomingReplicationTask](#incomingreplicationtask)
+  - [GerritIndexer](#gerritindexer)
   - [GerritClusterSpec](#gerritclusterspec)
   - [GerritClusterStatus](#gerritclusterstatus)
   - [StorageConfig](#storageconfig)
@@ -65,6 +66,9 @@
   - [Remote](#remote)
   - [Fetch](#fetch)
   - [IncomingReplicationTaskSpec](#incomingreplicationtaskspec)
+  - [GerritIndexerSpec](#gerritindexerspec)
+  - [GerritIndexerStorage](#gerritindexerstorage)
+  - [GerritIndexerVolumeRef](#gerritindexervolumeref)
 
 ## General Remarks
 
@@ -871,7 +875,7 @@ spec:
 | `apiVersion` | `String` | APIVersion of this resource |
 | `kind` | `String` | Kind of this resource |
 | `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource |
-| `spec` | [`IncomingReplicationTaskSpec`](#receiverspec) | Specification for IncomingReplicationTask |
+| `spec` | [`IncomingReplicationTaskSpec`](#incomingreplicationtaskspec) | Specification for IncomingReplicationTask |
 
 Example:
 
@@ -929,6 +933,74 @@ spec:
           volume-type: ssd
           aws-availability-zone: us-east-1
 ```
+
+## GerritIndexer
+
+---
+
+**Group**: gerritoperator.google.com \
+**Version**: v1beta9 \
+**Kind**: GerritIndexer
+
+---
+
+
+| Field | Type | Description |
+|---|---|---|
+| `apiVersion` | `String` | APIVersion of this resource |
+| `kind` | `String` | Kind of this resource |
+| `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource |
+| `spec` | [`GerritIndexerSpec`](#gerritindexerspec) | Specification for GerritIndexer |
+
+Example:
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1beta9"
+kind: GerritIndexer
+metadata:
+  name: gerrit-indexer
+  namespace: gerrit
+spec:
+  cluster: gerrit-cluster
+  resources:
+    requests:
+      cpu: 2
+      memory: 5Gi
+    limits:
+      cpu: 3
+      memory: 6Gi
+  configFiles:
+    gerrit.config: |-
+        [gerrit]
+          serverId = gerrit-1
+          disableReverseDnsLookup = true
+        [index]
+          type = LUCENE
+        [auth]
+          type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+        [httpd]
+          requestLog = true
+          gracefulStopTimeout = 1m
+        [transfer]
+          timeout = 120 s
+        [user]
+          name = Gerrit Code Review
+          email = gerrit@example.com
+          anonymousCoward = Unnamed User
+        [container]
+          javaOptions = -Xms200m
+          javaOptions = -Xmx4g
+  storage:
+    site:
+      persistentVolumeClaim: gerrit-site-gerrit-0-snapshot
+    repositories:
+      persistentVolumeClaim: shared-pvc
+      subPath: git
+    output:
+      persistentVolumeClaim: shared-pvc
+      subPath: shared/indexes
+```
+
 
 ## GerritClusterSpec
 
@@ -1424,3 +1496,27 @@ compared to the parent object. All other options can still be configured.
 |---|---|---|
 | `storage` | [`StorageConfig`](#storageconfig) | Storage used by GerritCluster |
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
+
+## GerritIndexerSpec
+
+| Field | Type | Description |
+|---|---|---|
+| `cluster` | `String` | Name of the GerritCluster serving the repositories to be indexed (mandatory) |
+| `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GerritIndexer container |
+| `configFiles` | `Map<String, String>` | Configuration files to be mounted in to `$SITE/etc` |
+| `storage` | [`GerritIndexerStorage`](#gerritindexerstorage) | Storage configuration of the GerritIndexer job |
+
+## GerritIndexerStorage
+
+| Field | Type | Description |
+|---|---|---|
+| `site` | [`GerritIndexerVolumeRef`](#gerritindexervolumeref) | Volume containing the site of a primary Gerrit in the GerritCluster (mandatory) |
+| `repositories` | [`GerritIndexerVolumeRef`](#gerritindexervolumeref) | Volume containing the repositories served by the GerritCluster (mandatory) |
+| `output` | [`GerritIndexerVolumeRef`](#gerritindexervolumeref) | Volume used to store the resulting indexes. If not provided, the volume containing the repositories will be used. |
+
+## GerritIndexerVolumeRef
+
+| Field | Type | Description |
+|---|---|---|
+| `persistentVolumeClaim` | `String` | Name of the PersistentVolumeClaim that should be mounted (mandatory) |
+| `subPath` | `String` | Path in the volume to mount for the respective volume. (defaults: site: `null`; repositories: `git`; output: `shared/indexes`) |
