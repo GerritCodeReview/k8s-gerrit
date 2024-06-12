@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f34695cf_7586bc67",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-12T06:27:56Z",
+      "side": 1,
+      "message": "Why not use `Boolean`?",
+      "range": {
+        "startLine": 197,
+        "startChar": 29,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "d3c17de515fb22e6b91cf90d51279106e82e143b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

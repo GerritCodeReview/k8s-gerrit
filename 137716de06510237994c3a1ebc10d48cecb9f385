@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7721adb3_b9c5b9e5",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-12T06:27:56Z",
+      "side": 1,
+      "message": "This is an API-change. You will need to bump up the API version of all CRDs. There is a script to create a new version. The process is documented here: https://gerrit.googlesource.com/k8s-gerrit/+/refs/changes/26/425526/19/Documentation/operator-dev.md#versioning",
+      "revId": "137716de06510237994c3a1ebc10d48cecb9f385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
