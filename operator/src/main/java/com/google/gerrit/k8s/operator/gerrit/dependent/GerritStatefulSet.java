@@ -56,7 +56,7 @@ public class GerritStatefulSet
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final SimpleDateFormat RFC3339 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-  private static final String SITE_VOLUME_NAME = "gerrit-site";
+  public static final String SITE_VOLUME_NAME = "gerrit-site";
   public static final int HTTP_PORT = 8080;
   public static final int SSH_PORT = 29418;
   public static final int JGROUPS_PORT = 7800;
