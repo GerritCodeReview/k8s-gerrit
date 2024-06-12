@@ -90,6 +90,10 @@ public class GerritInitConfigMap
   }
 
   public static String getName(Gerrit gerrit) {
-    return String.format("%s-init-configmap", gerrit.getMetadata().getName());
+    return getName(gerrit.getMetadata().getName());
+  }
+
+  public static String getName(String gerritName) {
+    return String.format("%s-init-configmap", gerritName);
   }
 }
