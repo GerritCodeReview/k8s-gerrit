@@ -1,0 +1,103 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gerrit-indexer
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit-indexer
+    app.kubernetes.io/created-by: GerritIndexerReconciler
+    app.kubernetes.io/instance: gerrit-indexer
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-indexer-gerrit-indexer
+spec:
+  manualSelector: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: gerrit-operator
+      app.kubernetes.io/name: gerrit
+      app.kubernetes.io/part-of: gerrit-indexer
+      app.kubernetes.io/created-by: GerritIndexerReconciler
+      app.kubernetes.io/instance: gerrit-indexer
+      app.kubernetes.io/version: unknown
+      app.kubernetes.io/component: gerrit-indexer-gerrit-indexer
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: false
+        cluster-autoscaler.kubernetes.io/safe-to-evict: false
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: gerrit-indexer
+        app.kubernetes.io/created-by: GerritIndexerReconciler
+        app.kubernetes.io/instance: gerrit-indexer
+        app.kubernetes.io/version: unknown
+        app.kubernetes.io/component: gerrit-indexer-gerrit-indexer
+    spec:
+      securityContext:
+        fsGroup: 100
+      initContainers:
+      - name: gerrit-init
+        image: docker.io/k8sgerrit/gerrit-init:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 2
+            memory: 5Gi
+          limits:
+            cpu: 3
+            memory: 6Gi
+        volumeMounts:
+        - mountPath: /var/config
+          name: gerrit-init-config
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        - mountPath: /var/mnt/git
+          name: repositories
+          readOnly: true
+          subPath: git
+      containers:
+      - name: gerrit-indexer
+        image: docker.io/k8sgerrit/gerrit-indexer:latest
+        imagePullPolicy: Always
+        args: ["--output", "/indexes"]
+        resources:
+          requests:
+            cpu: 2
+            memory: 5Gi
+          limits:
+            cpu: 3
+            memory: 6Gi
+        volumeMounts:
+        - mountPath: /indexes
+          name: index-output
+          subPath: indexes/new
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        - mountPath: /var/mnt/git
+          name: repositories
+          readOnly: true
+          subPath: git
+      restartPolicy: OnFailure
+      volumes:
+      - name: gerrit-site
+        persistentVolumeClaim:
+          claimName: gerrit-site-pvc
+      - configMap:
+          name: gerrit-indexer-configmap
+        name: gerrit-config
+      - configMap:
+          name: gerrit-init-configmap
+        name: gerrit-init-config
+      - name: repositories
+        persistentVolumeClaim:
+          claimName: gerrit-repos-pvc
+      - name: index-output
+        persistentVolumeClaim:
+          claimName: indexer-output
