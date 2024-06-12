@@ -22,6 +22,7 @@ import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
@@ -38,6 +39,12 @@ public class GerritConfigBuilder extends ConfigBuilder {
   public GerritConfigBuilder(Gerrit gerrit) {
     super(
         gerrit.getSpec().getConfigFiles().getOrDefault("gerrit.config", ""),
+        ImmutableList.copyOf(collectRequiredOptions(gerrit)));
+  }
+
+  public GerritConfigBuilder(GerritIndexer gerritIndexer, Gerrit gerrit) {
+    super(
+        gerritIndexer.getSpec().getConfigFiles().getOrDefault("gerrit.config", ""),
         ImmutableList.copyOf(collectRequiredOptions(gerrit)));
   }
 
