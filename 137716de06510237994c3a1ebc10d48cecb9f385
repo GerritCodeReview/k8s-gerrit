@@ -52,6 +52,24 @@
       "parentUuid": "5a347cb8_aa4bf76e",
       "revId": "137716de06510237994c3a1ebc10d48cecb9f385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fa74d7a_74e9010f",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-24T07:54:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0fc366d8_481d7105",
+      "revId": "137716de06510237994c3a1ebc10d48cecb9f385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
