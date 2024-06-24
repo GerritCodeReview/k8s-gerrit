@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e72869f2_baaa352a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-24T07:32:40Z",
+      "side": 1,
+      "message": "Could you rebase to resolve the merge conflict?",
+      "revId": "84f69bc01090f03b265aed2918ee6d27de905104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c67c9a42_4cebe67d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 32
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-06-24T07:32:40Z",
+      "side": 1,
+      "message": "nit, unrelated change: method was moved to a different position in file",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 79
+      },
+      "revId": "84f69bc01090f03b265aed2918ee6d27de905104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
