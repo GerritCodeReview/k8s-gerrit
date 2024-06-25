@@ -46,6 +46,30 @@
       },
       "revId": "15c15b665e27835f3bea2afa86ff993a51a71177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386b004b_fc489e2a",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/config/cluster_mode.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-25T16:51:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17ae1b8e_37bf8fbd",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "15c15b665e27835f3bea2afa86ff993a51a71177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

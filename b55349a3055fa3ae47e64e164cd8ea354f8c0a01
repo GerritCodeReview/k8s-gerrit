@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d73bc8d_47f1927f",
+        "filename": "Documentation/examples/gerritcluster-3-nodes-pull-replication.yaml",
+        "patchSetId": 22
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-25T16:51:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d373ad8_c6edd410",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "040014dc_f550ffee",
@@ -201,6 +225,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4a8a721_8b260998",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-25T16:51:42Z",
+      "side": 1,
+      "message": "Also no longer relevant because the operator now writes the \"full\" replication.config with all remotes.",
+      "parentUuid": "0213e4fd_0393c608",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 39
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe1aad82_0fb0e7e6",
@@ -262,6 +310,30 @@
       "side": 1,
       "message": "Yes, that is what I meant. And then directly use the data in the `remote_ops_section.append()` calls, instead of first setting section to `remote`.",
       "parentUuid": "4e395a3d_717393fa",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "b55349a3055fa3ae47e64e164cd8ea354f8c0a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7db56e26_d80f0501",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2024-06-25T16:51:42Z",
+      "side": 1,
+      "message": "This is no longer relevant because now the gerrit-init is \"only\" deleting the part of the remote for its own pod.",
+      "parentUuid": "64dd0c71_8880d945",
       "range": {
         "startLine": 86,
         "startChar": 12,
