@@ -16,6 +16,24 @@
       "message": "I tried to run the E2E tests and they failed, because the OperatorContext was not initialized. Could you please add the line `OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY);` to `AbstractGerritOperatorE2ETest.setup()`? That fixes the issue.",
       "revId": "ff53200d0f61147e9c75079c2ac6cef8848ad3ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8555fd8_bdbe3e90",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/Main.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-01T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6587dea_4f8193e3",
+      "revId": "ff53200d0f61147e9c75079c2ac6cef8848ad3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
