@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80818e12_6e196c70",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/helpers/git_config_witer.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-02T19:56:39Z",
+      "side": 1,
+      "message": "Now the class `GitConfigWriter` has 2 public API:\n- def remove_subsection(self, section, subsection): to filter dictionaries from the the initial list of dictionaries that encode the git configuration.\n- def write_config(self, path): to write the git configuration in a file\n\nAnd the rest of methods are now defined as privates [1] and I think they are very clear as a internal methods.\n\n\u003e this one also does parsing in public methods\n\nThat statement is not accurate. The private methods what they do mainly is to filter out configuration from the git configuration file encoded as a list of dictionaries. The parsing is really done by `GitConfigParser`.",
+      "parentUuid": "65049f85_6b2f21ea",
+      "revId": "07d47700db3bf53b1aa928521e11d52998864fee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92ed0196_f06fe147",
