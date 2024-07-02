@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7b503ef_cdea4573",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/config/init_config.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-02T09:46:21Z",
+      "side": 1,
+      "message": "Is this actually still being used?",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 41
+      },
+      "revId": "07d47700db3bf53b1aa928521e11d52998864fee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65049f85_6b2f21ea",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/helpers/git_config_witer.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-02T09:46:21Z",
+      "side": 1,
+      "message": "We now have `git.py` which is used for parsing a git configuration file and now also `git_config_writer.py`. However, this one also does parsing in public methods. That is confusing and should be cleaned up.",
+      "revId": "07d47700db3bf53b1aa928521e11d52998864fee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92ed0196_f06fe147",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-02T09:46:21Z",
+      "side": 1,
+      "message": "nit: no wildcard imports please",
+      "range": {
+        "startLine": 22,
+        "startChar": 52,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "07d47700db3bf53b1aa928521e11d52998864fee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
