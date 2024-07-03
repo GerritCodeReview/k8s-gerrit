@@ -7,14 +7,17 @@ COPY dependencies/* /var/tools/
 COPY requirements.txt /var/tools/
 WORKDIR /var/tools
 
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN apk update && \
     apk add --no-cache \
       python3 && \
-    python3 -m ensurepip && \
+    python3 -m venv $VIRTUAL_ENV && \
+    python3 -m ensurepip --upgrade && \
     rm -r /usr/lib/python*/ensurepip && \
     # follow https://til.simonwillison.net/python/pip-tools to update hashes
-    pip3 install --require-hashes -r requirements.txt --no-cache --upgrade && \
-    pipenv install --python 3.11 --system
+    python3 -m pip install --require-hashes -r requirements.txt --no-cache --upgrade && \
+    python3 -m pipenv install --python 3.12 --system
 
 COPY tools /var/tools/
 COPY config/* /var/config/
