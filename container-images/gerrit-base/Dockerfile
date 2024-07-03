@@ -6,7 +6,7 @@ RUN apk update && \
       coreutils \
       curl \
       openssh-keygen \
-      openjdk17
+      openjdk21
 
 RUN mkdir -p /var/gerrit/bin && \
     mkdir -p /var/gerrit/etc && \
