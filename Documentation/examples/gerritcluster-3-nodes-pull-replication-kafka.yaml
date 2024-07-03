@@ -22,6 +22,12 @@ metadata:
   name: gerrit
   namespace: gerrit
 spec:
+  containerImages:
+      imagePullPolicy: Always
+      gerritImages:
+        registry: docker.io
+        org: avilaplana
+        tag: latest
   eventsBroker:
     brokerType: KAFKA
     kafkaConfig:
