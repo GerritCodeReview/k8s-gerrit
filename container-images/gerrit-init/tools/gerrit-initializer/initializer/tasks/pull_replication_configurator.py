@@ -63,3 +63,5 @@ class PullReplicationConfigurator:
             MNT_PATH, "etc/config/replication.config"
         )
         self._configure_remotes(replication_config_configmap)
+        # TODO here we need to replace in the replication.config the EVENT_BROKER_GROUP_ID with the right value i.e gerrit-0-pull-replication
+        # TODO here we need to replace in the gerrit.config the INSTANCE_ID_PLACEHOLDER with the right value i.e gerrit-0

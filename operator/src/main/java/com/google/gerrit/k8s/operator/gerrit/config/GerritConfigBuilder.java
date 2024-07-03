@@ -195,6 +195,12 @@ public class GerritConfigBuilder extends ConfigBuilder {
               eventsBroker.getKafkaConfig().getConnectString()));
       requiredOptions.add(
           new RequiredOption<Boolean>("plugin", "events-kafka", "sendStreamEvents", true));
+      requiredOptions.add(
+          new RequiredOption<String>(
+              "plugin", "events-kafka", "groupId", "INSTANCE_ID_PLACEHOLDER"));
+      requiredOptions.add(
+          new RequiredOption<String>(
+              "plugin", "events-kafka", "topic", "stream_event_" + gerrit.getSpec().getServerId()));
     }
     return requiredOptions;
   }
