@@ -33,6 +33,11 @@ public class PullReplicationPluginConfigBuilder extends ConfigBuilder {
 
   private static List<RequiredOption<?>> collectRequiredOptions(Gerrit gerrit) {
     List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    requiredOptions.add(
+        new RequiredOption<String>(
+            "replication", "eventbrokertopic", "stream_event" + gerrit.getSpec().getServerId()));
+    requiredOptions.add(
+        new RequiredOption<String>("replication", "eventBrokerGroupId", "EVENT_BROKER_GROUP_ID"));
     requiredOptions.add(new RequiredOption<Boolean>("replication", "consumeStreamEvents", false));
     requiredOptions.add(new RequiredOption<String>("replication", "syncRefs", "ALL REFS ASYNC"));
     return requiredOptions;
