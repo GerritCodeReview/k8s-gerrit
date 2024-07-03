@@ -22,6 +22,12 @@ metadata:
   name: gerrit
   namespace: gerrit
 spec:
+  containerImages:
+      imagePullPolicy: Always
+      gerritImages:
+        registry: docker.io
+        org: avilaplana
+        tag: latest
   eventsBroker:
     brokerType: KAFKA
     kafkaConfig:
@@ -130,5 +136,6 @@ spec:
             [replication]
               lockErrorMaxRetries = 5
               maxRetries = 5
+              maxApiPayloadSize = 40000          
 
       secretRef: gerrit-secure-config
