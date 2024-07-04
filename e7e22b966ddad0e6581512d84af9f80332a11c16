@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e9153c3_b7568e28",
+        "filename": "container-images/gerrit-init/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-07-04T08:10:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5a53b6_0ed6f3b1",
+      "revId": "e7e22b966ddad0e6581512d84af9f80332a11c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00f14011_d19c53cc",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-04T06:47:18Z",
       "side": 1,
       "message": "Will the entrypoint also use the virtual env? Otherwise it might miss dependencies.",
+      "revId": "e7e22b966ddad0e6581512d84af9f80332a11c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92fc5ea7_9d8939b0",
+        "filename": "container-images/gerrit-init/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-07-04T08:10:52Z",
+      "side": 1,
+      "message": "Setting the environment variable VIRTUAL_ENV and prepending $VIRTUAL_ENV/bin to the PATH is recommended in https://pythonspeed.com/articles/activate-virtualenv-dockerfile/ to activate a venv in a container.\n\nBuilding the container and running\n\n`docker image inspect \u003ccontainer image\u003e`\n\nyields this configuration\n\n```\n\"Config\": {\n    \"Hostname\": \"\",\n    \"Domainname\": \"\",\n    \"User\": \"gerrit\",\n    \"AttachStdin\": false,\n    \"AttachStdout\": false,\n    \"AttachStderr\": false,\n    \"ExposedPorts\": {\n        \"29418/tcp\": {},\n        \"8080/tcp\": {}\n    },\n    \"Tty\": false,\n    \"OpenStdin\": false,\n    \"StdinOnce\": false,\n    \"Env\": [\n        \"PATH\u003d/opt/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\",\n        \"LC_ALL\u003dC.UTF-8\",\n        \"LANG\u003dC.UTF-8\",\n        \"VIRTUAL_ENV\u003d/opt/venv\"\n    ],\n    \"Cmd\": [\n        \"-s\",\n        \"/var/gerrit\",\n        \"-c\",\n        \"/var/config/gerrit-init.yaml\",\n        \"init\"\n    ],\n    \"ArgsEscaped\": true,\n    \"Image\": \"\",\n    \"Volumes\": null,\n    \"WorkingDir\": \"/var/tools\",\n    \"Entrypoint\": [\n        \"python3\",\n        \"/var/tools/gerrit-initializer\"\n    ],\n    \"OnBuild\": null,\n    \"Labels\": null\n},\n```\n\nwhich seems ok to me",
+      "parentUuid": "00f14011_d19c53cc",
       "revId": "e7e22b966ddad0e6581512d84af9f80332a11c16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
