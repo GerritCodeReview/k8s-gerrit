@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f5a53b6_0ed6f3b1",
+        "filename": "container-images/gerrit-init/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-04T06:47:18Z",
+      "side": 1,
+      "message": "I would guess that you will also have to update the Pipfile / Pipfile.lock in the dependencies directory, since now a newer python version is being used.",
+      "revId": "e7e22b966ddad0e6581512d84af9f80332a11c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f14011_d19c53cc",
+        "filename": "container-images/gerrit-init/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-04T06:47:18Z",
+      "side": 1,
+      "message": "Will the entrypoint also use the virtual env? Otherwise it might miss dependencies.",
+      "revId": "e7e22b966ddad0e6581512d84af9f80332a11c16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
