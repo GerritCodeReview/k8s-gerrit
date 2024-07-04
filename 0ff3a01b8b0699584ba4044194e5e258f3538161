@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a511f73_a7683889",
+        "filename": "container-images/git-gc/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-04T06:49:30Z",
+      "side": 1,
+      "message": "Possible optimization: Combine both RUN blocks you added and remove curl after you finished using it. That would make the container smaller and leaner.\nAlternatively, use the `ADD` command to download jgit. Then curl is not needed at all.",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "0ff3a01b8b0699584ba4044194e5e258f3538161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
