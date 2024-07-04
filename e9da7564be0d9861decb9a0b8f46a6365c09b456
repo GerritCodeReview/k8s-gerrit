@@ -22,6 +22,30 @@
       },
       "revId": "e9da7564be0d9861decb9a0b8f46a6365c09b456",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce0c160_bf42685a",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-07-04T10:43:00Z",
+      "side": 1,
+      "message": "I tried a smoke test running gerrit 3.9.5 on java 21 and it seems to work\n\nI started preparing another change updating gerrit to 3.10.0, though https://archive-ci.gerritforge.com/view/Plugins-stable-3.10/ currently returns 404, so at the moment I lack a way to download 3.10 plugins from the CI",
+      "parentUuid": "0dfd90d0_1b53d9ac",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "e9da7564be0d9861decb9a0b8f46a6365c09b456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
