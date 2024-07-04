@@ -22,6 +22,30 @@
       },
       "revId": "0ff3a01b8b0699584ba4044194e5e258f3538161",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e13a687_c43945ae",
+        "filename": "container-images/git-gc/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-07-04T08:11:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a511f73_a7683889",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "0ff3a01b8b0699584ba4044194e5e258f3538161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
