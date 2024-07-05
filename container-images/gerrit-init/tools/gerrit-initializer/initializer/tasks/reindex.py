@@ -44,9 +44,6 @@ class GerritAbstractReindexer(abc.ABC):
         self.gerrit_config = git.GitConfigParser(
             os.path.join(MNT_PATH, "etc/config/gerrit.config")
         )
-        self.is_online_reindex = self.gerrit_config.get_boolean(
-            "index.onlineUpgrade", True
-        )
         self.is_replica = self.gerrit_config.get_boolean("container.replica", False)
 
         self.configured_indices = self._parse_gerrit_index_config()
@@ -133,11 +130,6 @@ class GerritAbstractReindexer(abc.ABC):
         not_ready_indices = self._get_not_ready_indices()
         if not_ready_indices:
             self.reindex(not_ready_indices)
-
-        if not self.is_online_reindex and self._indexes_need_update():
-            LOG.info("Not all indices are up-to-date.")
-            self.reindex()
-            return
 
         LOG.info("Skipping reindexing.")
 
