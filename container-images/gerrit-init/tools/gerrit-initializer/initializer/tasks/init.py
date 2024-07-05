@@ -38,10 +38,6 @@ class GerritInit:
         self.gerrit_config = git.GitConfigParser(
             os.path.join(MNT_PATH, "etc/config/gerrit.config")
         )
-        self.is_online_reindex = self.gerrit_config.get_boolean(
-            "index.onlineUpgrade", True
-        )
-        self.force_offline_reindex = False
         self.installed_plugins = self._get_installed_plugins()
 
         self.is_replica = self.gerrit_config.get_boolean("container.replica")
@@ -82,14 +78,7 @@ class GerritInit:
             installed_version,
             provided_version,
         )
-        installed_minor_version = installed_version.split(".")[0:2]
-        provided_minor_version = provided_version.split(".")[0:2]
 
-        if (
-            not self.is_online_reindex
-            and installed_minor_version != provided_minor_version
-        ):
-            self.force_offline_reindex = True
         return installed_version != provided_version
 
     def _needs_init(self):
@@ -225,4 +214,4 @@ class GerritInit:
             if self.is_replica:
                 self._symlink_mounted_site_components()
 
-        get_reindexer(self.site, self.config).start(self.force_offline_reindex)
+        get_reindexer(self.site, self.config).start(False)
