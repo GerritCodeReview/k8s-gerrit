@@ -31,12 +31,12 @@ def _run_download_plugins(args):
 def _run_init(args):
     config = InitConfig().parse(args.config)
     match config.cluster_mode:
-        case ClusterMode.HIGH_AVAILABILITY.value:
+        case ClusterMode.HIGH_AVAILABILITY:
             GerritInitHA(args.site, config).execute()
-        case ClusterMode.MULTISITE.value:
+        case ClusterMode.MULTISITE:
             GerritInitMultisite(args.site, config).execute()
         case _:
-            raise ValueError(f"Invalid clusterMode: {config.cluster_mode}")
+            raise ValueError(f"Invalid clusterMode: {config.cluster_mode.name}")
 
 
 def _run_reindex(args):

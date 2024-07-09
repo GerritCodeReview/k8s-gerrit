@@ -95,13 +95,13 @@ class AbstractPluginInstaller(ABC):
         required = REQUIRED_PLUGINS.copy()
         if self.config.is_ha:
             required.extend(REQUIRED_HA_PLUGINS)
-        elif self.config.cluster_mode == ClusterMode.MULTISITE.value:
+        elif self.config.cluster_mode == ClusterMode.MULTISITE:
             required.extend(REQUIRED_MULTISITE_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
         LOG.info(
             "Requiring plugins (ClusterMode: %s): %s",
-            self.config.cluster_mode,
+            self.config.cluster_mode.name,
             required,
         )
         return required
@@ -110,12 +110,14 @@ class AbstractPluginInstaller(ABC):
         required = []
         if self.config.is_ha:
             required.extend(REQUIRED_HA_LIBS)
-        elif self.config.cluster_mode == ClusterMode.MULTISITE.value:
+        elif self.config.cluster_mode == ClusterMode.MULTISITE:
             required.extend(REQUIRED_MULTISITE_LIBS)
         elif self.config.refdb:
             required.append("global-refdb")
         LOG.info(
-            "Requiring libs (ClusterMode: %s): %s", self.config.cluster_mode, required
+            "Requiring libs (ClusterMode: %s): %s",
+            self.config.cluster_mode.name,
+            required,
         )
         return required
 
