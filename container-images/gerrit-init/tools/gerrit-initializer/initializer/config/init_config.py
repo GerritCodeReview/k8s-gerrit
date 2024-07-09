@@ -60,7 +60,7 @@ class InitConfig:
         self.is_ha = "highAvailability" in config and config["highAvailability"]
 
         if "clusterMode" in config:
-            self.cluster_mode = config["clusterMode"]
+            self.cluster_mode = ClusterMode[config["clusterMode"]]
 
         if "refdb" in config:
             self.refdb = config["refdb"]
