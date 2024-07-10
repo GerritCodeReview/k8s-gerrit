@@ -16,6 +16,93 @@
       "message": "In order to make this change works there are 2 key points that are very important:\n\n1. Plugin `events-kafka` needs to have the property `plugin.@PLUGIN@.groupId` [1] set otherwise the `gerrit init` process will fail [2]\n\n2. Plugin `pull-replication` needs to have the property `replication.eventBrokerGroupId` set [3] to decouple the `internal pull-replication consumer` form the rest of consumers that the Gerrit instance might have.\n\nIn the current approach the Java classes set place holders as follows:\n\n- In the replication.config:\n\n```\n[replication]\n  eventBrokerGroupId \u003d EVENT_BROKER_GROUP_ID\n  ...\n```\n\n- In the gerrit.config:\n\n```\n[plugin \"events-kafka\"]\n  \tgroupId \u003d EVENT_BROKER_GROUP_ID\n  \t...\n\n```\n\nAnd the place holders are replaced with the right values in the gerrit-init (python code) because they are coupled with each gerrit instance. For instance in gerrit-0:\n\n\n- In the replication.config:\n\n```\n[replication]\n\teventbrokergroupid \u003d gerrit-0-pull-replication\n\t...\n```\n\n- In the gerrit.config:\n\n```\n[plugin \"events-kafka\"]\n\tgroupId \u003d gerrit-0\n  \t...\n  \n```\n\nComing from the conversation had in the change 413963 `Add multi-site setup into the Gerrit installation`  @thomas.draebing@sap.com raised fair concerns about this approach and mentioned that one cleaner solution could be to make updates in the plugins:\n- comment regarding events-kafka [4]\n- comment regarding pull-replication [5]\n\nCurrently, we acknowledge that our solution is not perfect. However, we believe that changing the plugins is beyond the scope of this stream of work. Such changes could pose a significant obstacle to the multisite use case, primarily because any updates to the plugins would need to be explained to the community, potentially leading to long debates.\n\nWe propose to move on and face the updates of the plugins in follow-up work or rethink new approaches.\n\n\nReferences:\n[1] https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/stable-3.9/src/main/resources/Documentation/config.md\n[2] https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/stable-3.9/src/main/java/com/googlesource/gerrit/plugins/kafka/InitConfig.java#84\n[3] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.9/src/main/resources/Documentation/config.md\n[4] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/413963/25..35/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java#b226\n[5] https://gerrit-review.googlesource.com/c/k8s-gerrit/+/413963/25..35/container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py#b52",
       "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8f2f98d_6fd4a6a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-10T06:54:05Z",
+      "side": 1,
+      "message": "Ok fine. Could you add TODO comments to the respective place in the python scripts? I would suggest to prepare the change of the defaults on master of the plugin, since it is a breaking change for everybody using the current default. As soon as we reach the release containing the change, we can adapt the process here.",
+      "parentUuid": "f4d712bf_3cb59a8e",
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea01790a_d3a5d21b",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-10T06:54:05Z",
+      "side": 1,
+      "message": "nit: From the method name, this is a side effect, that the path is relative to the site.",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f03f61_161f24a2",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-10T06:54:05Z",
+      "side": 1,
+      "message": "As discussed earlier, this is the default. The issue is only that the default is only applied when using interactive gerrit init. Fixing that, i.e. applying the default when using batch init, would not be a breaking change IMO and we would get rid of this workaround.\nI am fine with doing that later in the interest of time, but at least add a TODO comment here. Thanks!",
+      "range": {
+        "startLine": 93,
+        "startChar": 50,
+        "endLine": 93,
+        "endChar": 88
+      },
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55ae73b7_2163df30",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/EventsBrokerConfig.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-10T06:54:05Z",
+      "side": 1,
+      "message": "Include brokerType into `hashCode` etc.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
