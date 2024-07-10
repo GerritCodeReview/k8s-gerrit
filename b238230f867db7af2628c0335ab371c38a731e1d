@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f95b24ee_1dca1198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:01:25Z",
+      "side": 1,
+      "message": "as a",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e29ed7b3_04438a88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:01:25Z",
+      "side": 1,
+      "message": "Mention that this is a base for the final online reindex with the \u0027reuse\u0027 option?",
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "042bc83d_5c6b4a13",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerSpec.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:01:25Z",
+      "side": 1,
+      "message": "This can all be replaced with a single line:\n```\nif (obj instanceof GerritIndexerSpec) {\n```\n\nbecause \u0027null instanceof C\u0027 is always `false`. We don\u0027t deal with class hierarchies here so we don\u0027t need to compare classes.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 51
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd76ab74_6c2c5b6b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerSpec.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:01:25Z",
+      "side": 1,
+      "message": "[optional]\n\n```suggestion\n    return String.format(\"GerritIndexerSpec [cluster\u003d%s, resources\u003d%s, configFiles\u003d%s, storage\u003d%s]\", cluster, resources, configFiles, storage);\n```",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 14
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "571b8a5b_6d10e38a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerStorage.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:01:25Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 51
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aed847ca_d0f6f2cf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerVolumeRef.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:01:25Z",
+      "side": 1,
+      "message": "same here... \n\nwhere does this pattern come from?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
