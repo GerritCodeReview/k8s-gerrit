@@ -95,7 +95,8 @@ class TestGerritReindex:
                 "-s /var/gerrit -c /var/config/gerrit-init.yaml init"
             )
         )
-        os.remove(os.path.join(temp_site, "index", "gerrit_index.config"))
+
+        container_run_endless.exec_run(("rm -rf /var/gerrit/index/gerrit_index.config"))
 
         exit_code, _ = container_run_endless.exec_run(
             (
