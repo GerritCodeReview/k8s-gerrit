@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "380dd12a_2fc5a0dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-10T15:56:42Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com, please can you create the issues describing the problem?",
+      "parentUuid": "c8f2f98d_6fd4a6a9",
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea01790a_d3a5d21b",
@@ -49,6 +67,30 @@
       "writtenOn": "2024-07-10T06:54:05Z",
       "side": 1,
       "message": "nit: From the method name, this is a side effect, that the path is relative to the site.",
+      "range": {
+        "startLine": 62,
+        "startChar": 18,
+        "endLine": 62,
+        "endChar": 40
+      },
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c9978c_79294253",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-10T15:56:42Z",
+      "side": 1,
+      "message": "Good one.",
+      "parentUuid": "ea01790a_d3a5d21b",
       "range": {
         "startLine": 62,
         "startChar": 18,
@@ -82,6 +124,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e75be4e_72718468",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-10T15:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45f03f61_161f24a2",
+      "range": {
+        "startLine": 93,
+        "startChar": 50,
+        "endLine": 93,
+        "endChar": 88
+      },
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55ae73b7_2163df30",
@@ -95,6 +161,30 @@
       "writtenOn": "2024-07-10T06:54:05Z",
       "side": 1,
       "message": "Include brokerType into `hashCode` etc.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 3
+      },
+      "revId": "aa8b839cd749e4affa2887cd8162ef87cbf518cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2089621_1684a21a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/EventsBrokerConfig.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-10T15:56:42Z",
+      "side": 1,
+      "message": "Good catch.",
+      "parentUuid": "55ae73b7_2163df30",
       "range": {
         "startLine": 40,
         "startChar": 0,
