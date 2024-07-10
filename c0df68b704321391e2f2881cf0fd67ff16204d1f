@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "51ce38d1_11a64a1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T13:30:40Z",
+      "side": 1,
+      "message": "Many commit message in this series contain too long lines which render badly in Gerrit UI.",
+      "revId": "c0df68b704321391e2f2881cf0fd67ff16204d1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57f7636f_d756c6d0",
         "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
         "patchSetId": 1
