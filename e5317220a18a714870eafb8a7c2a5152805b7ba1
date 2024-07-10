@@ -69,6 +69,24 @@
       "message": "Images are missing",
       "revId": "e5317220a18a714870eafb8a7c2a5152805b7ba1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb959ef5_629fbc86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T14:17:45Z",
+      "side": 1,
+      "message": "Images are still missing",
+      "parentUuid": "26a153ec_54925cb6",
+      "revId": "e5317220a18a714870eafb8a7c2a5152805b7ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
