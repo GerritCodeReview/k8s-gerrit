@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0e522a5_17b54c99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T13:50:43Z",
+      "side": 1,
+      "message": "I may deserve a place here 😊\n```\nAlso-by: Saša Živkov \u003csasa.zivkov@sap.com\u003e\n```\n\nOr in the \"Author\" of the commit message.",
+      "revId": "e5317220a18a714870eafb8a7c2a5152805b7ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
