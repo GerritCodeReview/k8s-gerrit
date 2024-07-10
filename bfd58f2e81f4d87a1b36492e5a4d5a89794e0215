@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e327a129_b5ee76a1",
+        "filename": "container-images/gerrit-indexer/tools/start",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-10T13:35:53Z",
+      "side": 1,
+      "message": "How does a numeric sort make sense here when the input is alphanumeric:\n```\n/var/gerrit/index $ find . -type d -name \"changes_*\" \n./changes_0079\n./changes_0085\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 11,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "bfd58f2e81f4d87a1b36492e5a4d5a89794e0215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
