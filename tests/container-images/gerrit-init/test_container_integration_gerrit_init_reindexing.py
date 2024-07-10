@@ -106,8 +106,7 @@ class TestGerritReindex:
         )
         assert exit_code == 0
 
-        exit_code, _ = container_run_endless.exec_run("/var/gerrit/bin/gerrit.sh start")
-        assert exit_code == 0
+        self._assertGerritStarts(container_run_endless)
 
     def test_gerrit_init_fixes_not_ready_indices(self, container_run_endless):
         container_run_endless.exec_run(
@@ -131,8 +130,7 @@ class TestGerritReindex:
         )
         assert exit_code == 0
 
-        exit_code, _ = container_run_endless.exec_run("/var/gerrit/bin/gerrit.sh start")
-        assert exit_code == 0
+        self._assertGerritStarts(container_run_endless)
 
     def test_gerrit_init_fixes_outdated_indices(self, container_run_endless, temp_site):
         container_run_endless.exec_run(
@@ -157,5 +155,11 @@ class TestGerritReindex:
         )
         assert exit_code == 0
 
+        self._assertGerritStarts(container_run_endless)
+
+    def _assertGerritStarts(self, container_run_endless):
+        container_run_endless.exec_run(
+            "git config -f /var/gerrit/etc/gerrit.config sshd.listenAddress off"
+        )
         exit_code, _ = container_run_endless.exec_run("/var/gerrit/bin/gerrit.sh start")
         assert exit_code == 0
