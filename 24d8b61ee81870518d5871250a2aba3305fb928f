@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21471a76_6fad5c4b",
+        "filename": "tests/container-images/gerrit-init/test_container_integration_gerrit_init_reindexing.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-07-11T14:55:19Z",
+      "side": 1,
+      "message": "`gerrit_index.config` is a file, so the `r`ecursive option makes no sense.",
+      "range": {
+        "startLine": 99,
+        "startChar": 44,
+        "endLine": 99,
+        "endChar": 47
+      },
+      "revId": "24d8b61ee81870518d5871250a2aba3305fb928f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
