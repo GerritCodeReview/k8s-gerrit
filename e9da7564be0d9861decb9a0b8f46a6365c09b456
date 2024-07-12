@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84176f46_8c96c9ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T09:10:27Z",
+      "side": 1,
+      "message": "You will need to adapt the structure test in `tests/container-images/gerrit-base/test_container_structure_gerrit_base.py`",
+      "revId": "e9da7564be0d9861decb9a0b8f46a6365c09b456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dfd90d0_1b53d9ac",
         "filename": "container-images/gerrit-base/Dockerfile",
         "patchSetId": 2
