@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d061f88_d990349a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T08:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1847dfb0_e49a7964",
+      "revId": "f0eb68b0acb337ebf12e0991452b5c2ded8b62e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23204ad7_76d51329",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-05-15T08:51:10Z",
       "side": 1,
       "message": "This renames from \"gitgc\" to \"gitgarbagecollections\". How is this related to the commit message?",
+      "revId": "f0eb68b0acb337ebf12e0991452b5c2ded8b62e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d6a4ab_a1b5caf7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GitGcAdmissionWebhook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T08:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23204ad7_76d51329",
       "revId": "f0eb68b0acb337ebf12e0991452b5c2ded8b62e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b18329c_eb01292e",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritAdmissionWebhookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T08:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2ea2536_69ff8f7a",
+      "range": {
+        "startLine": 157,
+        "startChar": 87,
+        "endLine": 157,
+        "endChar": 94
+      },
+      "revId": "f0eb68b0acb337ebf12e0991452b5c2ded8b62e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b58b19b_7e7d086b",
@@ -71,6 +131,30 @@
       "writtenOn": "2024-05-15T08:51:10Z",
       "side": 1,
       "message": "This should also be a constant",
+      "range": {
+        "startLine": 236,
+        "startChar": 28,
+        "endLine": 236,
+        "endChar": 49
+      },
+      "revId": "f0eb68b0acb337ebf12e0991452b5c2ded8b62e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a11ff06_5c332781",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/GitGcAdmissionWebhookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T08:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b58b19b_7e7d086b",
       "range": {
         "startLine": 236,
         "startChar": 28,
