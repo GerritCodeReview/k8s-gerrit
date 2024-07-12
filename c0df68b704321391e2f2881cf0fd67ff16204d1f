@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e5a925f_0d20be13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T10:08:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51ce38d1_11a64a1d",
+      "revId": "c0df68b704321391e2f2881cf0fd67ff16204d1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57f7636f_d756c6d0",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-07-10T13:28:35Z",
       "side": 1,
       "message": "Now that the value passed to the `start` method is hardcoded to `False`, is this line still needed?",
+      "revId": "c0df68b704321391e2f2881cf0fd67ff16204d1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cecf2b55_1bffa955",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T10:08:30Z",
+      "side": 1,
+      "message": "Yes, this line is required. We still want to reindex under some circumstances, but do not enforce it anymore. We could discuss to remove the force flag. I would do that in a different change then, so that it would be easy to revert, if we need to do that again under some circumstance.",
+      "parentUuid": "57f7636f_d756c6d0",
       "revId": "c0df68b704321391e2f2881cf0fd67ff16204d1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
