@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00398f94_d5847f39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T08:40:19Z",
+      "side": 1,
+      "message": "Could you rebase your change on the fix for validating webhooks: https://gerrit-review.googlesource.com/c/k8s-gerrit/+/425498?",
+      "revId": "5049535cb95c1ef6508546cbf917e2acd08c0339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
