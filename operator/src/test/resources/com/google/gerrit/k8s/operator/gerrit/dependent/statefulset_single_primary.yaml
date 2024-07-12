@@ -46,7 +46,7 @@ spec:
               command:
               - /bin/ash
               - -c
-              - kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null
+              - jstack $(pidof java) > /var/gerrit/logs/td_$(date +%Y-%m-%dT%H:%M); kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null
         livenessProbe:
           httpGet:
             path: /config/server/healthcheck~status
