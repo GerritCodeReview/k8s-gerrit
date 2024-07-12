@@ -63,6 +63,30 @@
       },
       "revId": "e9da7564be0d9861decb9a0b8f46a6365c09b456",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9b91609_5c31c24b",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-12T09:10:49Z",
+      "side": 1,
+      "message": "I have also tested it and it seems to work.",
+      "parentUuid": "9ce0c160_bf42685a",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "e9da7564be0d9861decb9a0b8f46a6365c09b456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
