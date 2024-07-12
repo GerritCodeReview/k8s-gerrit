@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb9e693_3e1bc9f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-07-12T09:41:34Z",
+      "side": 1,
+      "message": "Tested:\nUse case 1: mode REPLICA\n```\nError from server: error when creating \"Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml\": admission webhook \"gerritclusters.v1beta10.validator.google.com\" denied the request: Gerrit Cluster in multisite mode should be configured as Primary Gerrit and have spec.gerrits[0].specs.replicas value \u003e 1.\n```\n\nUser case 2: No refdb object\n\n```\nError from server: error when creating \"Documentation/examples/gerritcluster-3-nodes-pr-kafka-multisite.yaml\": admission webhook \"gerritclusters.v1beta10.validator.google.com\" denied the request: A Ref-Database is required to horizontally scale a primary Gerrit: .spec.refdb.database !\u003d NONE\n```",
+      "revId": "73b933ab3b09550205a8ae867bccc8f3e2d7c0db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
