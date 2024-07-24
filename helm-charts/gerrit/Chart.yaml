@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 3.9.4
+appVersion: 3.10.0
 description: |-
     Gerrit is a free, web-based team code collaboration tool. Software developers
     in a team can review each other's modifications on their source code using
