@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.Constants;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
@@ -90,8 +91,8 @@ public class GerritConfigBuilder extends ConfigBuilder {
               "gerrit",
               "installDbModule",
               Set.of("com.googlesource.gerrit.plugins.multisite.GitModule")));
-    } else if (!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
-            && gerrit.getSpec().getMode().equals(GerritMode.PRIMARY)
+    } else if ((!gerrit.getSpec().getRefdb().getDatabase().equals(RefDatabase.NONE)
+            && gerrit.getSpec().getMode().equals(GerritMode.PRIMARY))
         || gerrit.getSpec().isHighlyAvailablePrimary()) {
       requiredOptions.add(
           new RequiredOption<Set<String>>(
@@ -99,7 +100,8 @@ public class GerritConfigBuilder extends ConfigBuilder {
               "installModule",
               Set.of("com.gerritforge.gerrit.globalrefdb.validation.LibModule")));
     }
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (gerrit.getSpec().isHighlyAvailablePrimary()
+        && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       requiredOptions.add(
           new RequiredOption<Set<String>>(
               "gerrit",
@@ -146,7 +148,8 @@ public class GerritConfigBuilder extends ConfigBuilder {
   private static RequiredOption<Set<String>> javaOptions(Gerrit gerrit) {
     Set<String> javaOptions = new HashSet<>();
     javaOptions.add("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore");
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (gerrit.getSpec().isHighlyAvailablePrimary()
+        && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       javaOptions.add("-Djava.net.preferIPv4Stack=true");
     }
     if (gerrit.getSpec().getDebug().isEnabled()) {

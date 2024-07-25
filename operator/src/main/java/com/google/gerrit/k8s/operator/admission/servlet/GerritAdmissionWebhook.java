@@ -111,7 +111,9 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   }
 
   private boolean noRefDbConfiguredForMultiPrimary(Gerrit gerrit) {
-    return (gerrit.getSpec().isHighlyAvailablePrimary() || clusterMode == ClusterMode.MULTISITE)
+    return ((gerrit.getSpec().isHighlyAvailablePrimary()
+                && clusterMode == ClusterMode.HIGH_AVAILABILITY)
+            || clusterMode == ClusterMode.MULTISITE)
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 
