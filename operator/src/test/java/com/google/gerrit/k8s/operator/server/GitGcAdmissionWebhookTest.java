@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.admission.servlet.GitGcAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
@@ -64,6 +65,7 @@ public class GitGcAdmissionWebhookTest {
 
   @BeforeAll
   public void setup() throws Exception {
+    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
     server = new TestAdmissionWebhookServer();
 
     kubernetesServer.before();
