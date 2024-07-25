@@ -99,7 +99,8 @@ public class GerritStatefulSet
               != null;
       ContainerImageConfig images = gerrit.getSpec().getContainerImages();
 
-      if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      if (gerrit.getSpec().isHighlyAvailablePrimary()
+          && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
         initContainers.add(
             NfsInitContainerFactory.create(
                 hasIdmapdConfig, images, List.of(GerritClusterSharedVolumeMountFactory.create())));
@@ -310,7 +311,8 @@ public class GerritStatefulSet
     Set<VolumeMount> volumeMounts = new HashSet<>();
     volumeMounts.add(
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (gerrit.getSpec().isHighlyAvailablePrimary()
+        && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       volumeMounts.add(GerritClusterSharedVolumeMountFactory.create());
     }
     if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
@@ -388,7 +390,8 @@ public class GerritStatefulSet
       containerPorts.add(new ContainerPort(SSH_PORT, null, null, "ssh", null));
     }
 
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (gerrit.getSpec().isHighlyAvailablePrimary()
+        && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       containerPorts.add(new ContainerPort(JGROUPS_PORT, null, null, "jgroups", null));
     }
 
@@ -404,7 +407,8 @@ public class GerritStatefulSet
     envVars.add(getPodNameEnvVar());
     envVars.addAll(gerrit.getSpec().getEnvVars());
 
-    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+    if (gerrit.getSpec().isHighlyAvailablePrimary()
+        && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       envVars.add(
           new EnvVarBuilder()
               .withName("GERRIT_URL")
