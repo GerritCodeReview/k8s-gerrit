@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.admission.servlet;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
@@ -89,6 +91,7 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   private boolean noRefDbConfiguredForHA(Gerrit gerrit) {
     return gerrit.getSpec().isHighlyAvailablePrimary()
+        && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY
         && gerrit.getSpec().getRefdb().getDatabase().equals(GlobalRefDbConfig.RefDatabase.NONE);
   }
 

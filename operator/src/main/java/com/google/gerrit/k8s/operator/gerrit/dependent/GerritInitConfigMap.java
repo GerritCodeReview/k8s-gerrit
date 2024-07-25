@@ -24,6 +24,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritInitConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
@@ -67,7 +68,9 @@ public class GerritInitConfigMap
     config.setLibs(gerrit.getSpec().getLibs());
     config.setPluginCacheEnabled(gerrit.getSpec().getStorage().getPluginCache().isEnabled());
     config.setPluginCacheDir(PLUGIN_CACHE_MOUNT_PATH);
-    config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
+    config.setHighlyAvailable(
+        gerrit.getSpec().isHighlyAvailablePrimary()
+            && OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY);
 
     switch (gerrit.getSpec().getRefdb().getDatabase()) {
       case ZOOKEEPER:
