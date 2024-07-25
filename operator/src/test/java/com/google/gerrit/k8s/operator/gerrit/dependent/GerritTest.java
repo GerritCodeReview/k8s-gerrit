@@ -16,6 +16,8 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
@@ -47,6 +49,7 @@ public class GerritTest {
   @BeforeAll
   public void setup() throws Exception {
     kubernetesServer.before();
+    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
   }
 
   @ParameterizedTest

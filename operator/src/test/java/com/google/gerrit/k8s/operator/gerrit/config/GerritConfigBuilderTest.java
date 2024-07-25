@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.api.model.Constants;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritSpec;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
@@ -25,9 +27,17 @@ import java.util.Map;
 import java.util.Set;
 import org.assertj.core.util.Arrays;
 import org.eclipse.jgit.lib.Config;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class GerritConfigBuilderTest {
+  @BeforeAll
+  public void setup() {
+    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+  }
 
   @Test
   public void emptyGerritConfigContainsAllPresetConfiguration() {
