@@ -16,6 +16,24 @@
       "message": "The file permissions for the files copied from the bazel-bin dir, are strange. If I remove execution permissions, I am not allowed to read anymore although I own that file. Have to check, how to properly publish them with bazel.",
       "revId": "51f298754530d610d99317aa111b2cdff3883d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1472fff2_2bb9201b",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T11:24:44Z",
+      "side": 0,
+      "message": "The CRDs are now packaged in a tar-file. That works well.",
+      "parentUuid": "d9e14ba2_8c117172",
+      "revId": "51f298754530d610d99317aa111b2cdff3883d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
