@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15dec9bf_321f7fa1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T08:18:25Z",
+      "side": 1,
+      "message": "I don\u0027t believe that would work, since that tag would just say that the executed rule should not run next to other rules, but the `operator-tests-e2e` rule runs all E2E tests and thus they would still be executed in parallel.\n\nI Believe the best way for now is to use a specific config for E2E tests that can be referenced when running the tests.",
+      "parentUuid": "656ef73b_810644da",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ec237ab_2ad3e30c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -94,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5f02e9_19d238d2",
+        "filename": "Documentation/operator-dev.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T08:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ea5ff2f_4eaf34c0",
+      "range": {
+        "startLine": 20,
+        "startChar": 4,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a557ca3_ad4277cc",
@@ -107,6 +155,30 @@
       "writtenOn": "2024-06-04T11:29:41Z",
       "side": 1,
       "message": "nit: trailing whitespaces",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 4
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61c4e00f_dfd720c9",
+        "filename": "Documentation/operator-dev.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T08:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a557ca3_ad4277cc",
       "range": {
         "startLine": 40,
         "startChar": 0,

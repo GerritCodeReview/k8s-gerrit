@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30037524_40876274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T08:18:25Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com I have rebased this series on the multisite changes and fixed the resulting build failures/conflicts. I have also looked a bit more into the OCI image build and added a bit of functionality. Thanks for starting this!",
+      "revId": "09bb40a9798820efa76288e69183530e62cd1f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

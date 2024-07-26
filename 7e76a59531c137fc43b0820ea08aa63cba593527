@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "048f5718_f5eda05b",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T08:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bcdf5fc_15cd6173",
+      "range": {
+        "startLine": 27,
+        "startChar": 36,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a8c8858_0c468562",
@@ -208,6 +232,24 @@
       "side": 1,
       "message": "I will try to figure out how to do it.",
       "parentUuid": "fb7bcbfb_247b93a0",
+      "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d809536d_ceddde63",
+        "filename": "operator/BUILD.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-07-26T08:18:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dd5b79a_6de5a054",
       "revId": "7e76a59531c137fc43b0820ea08aa63cba593527",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
