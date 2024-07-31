@@ -1,0 +1,17 @@
+contents:
+  packages:
+    - python3
+    - py3-requests
+    - py3-yaml
+
+paths:
+  - path: /var/mnt
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/mnt/git
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755

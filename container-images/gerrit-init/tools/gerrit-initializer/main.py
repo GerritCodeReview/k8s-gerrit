@@ -16,6 +16,7 @@
 
 
 import argparse
+
 from initializer.config.cluster_mode import ClusterMode
 from initializer.tasks import download_plugins, reindex, validate_notedb
 from initializer.tasks.init_ha import GerritInitHA

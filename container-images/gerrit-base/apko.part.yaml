@@ -1,0 +1,41 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/v3.20/community
+  packages:
+    - coreutils
+    - curl
+    - openssh-keygen
+    - openjdk21
+environment:
+  PATH: "/usr/lib/jvm/java-21-openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+paths:
+  - path: /var/gerrit
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/gerrit/bin
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/gerrit/etc
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/gerrit/plugins
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/plugins
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/war
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
