@@ -7,7 +7,7 @@ or to have a copy of branches of a project that was forked in the local Gerrit.
 
 ## Content
 
-* base image
+* git
 * `fetch-job.sh`: script executing the fetches
 
 ## Start

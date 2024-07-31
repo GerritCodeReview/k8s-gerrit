@@ -1,0 +1,4 @@
+exports_files(
+    ["apko.part.yaml"],
+    visibility = ["//visibility:public"],
+)

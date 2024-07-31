@@ -15,18 +15,38 @@ module(
 bazel_dep(name = "aspect_bazel_lib", version = "2.7.0")
 bazel_dep(name = "rules_jvm_external", version = "6.0")
 bazel_dep(name = "contrib_rules_jvm", version = "0.26.0")
+bazel_dep(name = "rules_apko", version = "1.3.0")
+bazel_dep(name = "rules_multirun", version = "0.9.0")
 bazel_dep(name = "rules_oci", version = "1.7.6")
 bazel_dep(name = "rules_pkg", version = "1.0.1")
+bazel_dep(name = "rules_python", version = "0.34.0")
+
+# Workaround to install rules_apko 1.3.0
+archive_override(
+    module_name = "rules_apko",
+    integrity = "sha256-++EunVeKUUy/shvxDcGCdpvOsIVC69M9nuVgvSgK4HI=",
+    strip_prefix = "rules_apko-1.3.0",
+    urls = [
+        "https://github.com/chainguard-dev/rules_apko/releases/download/v1.3.0/rules_apko-v1.3.0.tar.gz",
+    ],
+)
+
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
 
 # =========================================
 # Java dependencies
 # =========================================
 
 FABRIC8_K8S_CLIENT_VERSION = "6.11.0"
+
 FLOGGER_VERSION = "0.8"
+
 GUICE_VERSION = "5.1.0"
+
 JETTY_VERSION = "11.0.15"
+
 JOSDK_VERSION = "4.8.3"
+
 LOG4J_VERSION = "2.23.0"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
@@ -93,6 +113,162 @@ JUNIT_PLATFORM_VERSION = "1.10.2"
 
 use_repo(maven, "maven", "unpinned_maven")
 
+# =========================================
+# Jgit
+# =========================================
+
+JGIT_VER = "6.10.0.202406032230-r"
+
+http_file(
+    name = "jgit-cli",
+    executable = True,
+    sha256 = "c9139e4ddbf6b74d1ae80d253857e778b7cf5f35678f5a2e0f051ad8f1546f21",
+    url = "https://repo1.maven.org/maven2/org/eclipse/jgit/org.eclipse.jgit.pgm/%s/org.eclipse.jgit.pgm-%s.sh" % (JGIT_VER, JGIT_VER),
+)
+
+# =========================================
+# Gerrit and its plugins
+# =========================================
+
+GERRIT_VER = "3.10.0"
+
+http_file(
+    name = "gerrit-war",
+    sha256 = "9a5697091425aa0daec339b6fd58b5e4ae43ea599452c71f65093f956d5847eb",
+    url = "https://gerrit-releases.storage.googleapis.com/gerrit-%s.war" % GERRIT_VER,
+)
+
+GERRIT_BRANCH = "stable-3.10"
+
+BASE_URL = "https://gerrit-ci.gerritforge.com/view/Plugins-%s/job/" % GERRIT_BRANCH
+
+http_file(
+    name = "healthcheck-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-healthcheck-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar",
+        BASE_URL +
+        "plugin-healthcheck-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/healthcheck/healthcheck.jar",
+    ],
+)
+
+http_file(
+    name = "global-refdb-plugin-jar",
+    urls = [
+        BASE_URL +
+        "module-global-refdb-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/global-refdb/global-refdb.jar",
+        BASE_URL +
+        "module-global-refdb-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/global-refdb/global-refdb.jar",
+    ],
+)
+
+http_file(
+    name = "high-availability-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-high-availability-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar",
+        BASE_URL +
+        "plugin-high-availability-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/high-availability/high-availability.jar",
+    ],
+)
+
+http_file(
+    name = "zookeeper-refdb-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-zookeeper-refdb-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar",
+        BASE_URL +
+        "plugin-zookeeper-refdb-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/zookeeper-refdb/zookeeper-refdb.jar",
+    ],
+)
+
+http_file(
+    name = "spanner-refdb-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-spanner-refdb-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar",
+        BASE_URL +
+        "plugin-spanner-refdb-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar",
+        BASE_URL +
+        "plugin-spanner-refdb-bazel-master-master" +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar",
+    ],
+)
+
+http_file(
+    name = "pull-replication-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-pull-replication-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar",
+        BASE_URL +
+        "plugin-pull-replication-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar",
+    ],
+)
+
+http_file(
+    name = "events-broker-plugin-jar",
+    urls = [
+        BASE_URL +
+        "module-events-broker-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar",
+        BASE_URL +
+        "module-events-broker-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar",
+    ],
+)
+
+http_file(
+    name = "events-kafka-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-events-kafka-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-kafka/events-kafka.jar",
+        BASE_URL +
+        "plugin-events-kafka-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-kafka/events-kafka.jar",
+    ],
+)
+
+http_file(
+    name = "websession-broker-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-websession-broker-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar",
+        BASE_URL +
+        "plugin-websession-broker-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar",
+    ],
+)
+
+http_file(
+    name = "multi-site-plugin-jar",
+    urls = [
+        BASE_URL +
+        "plugin-multi-site-bazel-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar",
+        BASE_URL +
+        "plugin-multi-site-bazel-master-" + GERRIT_BRANCH +
+        "/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar",
+    ],
+)
+
+# =========================================
+# Java 17 Distroless image
+# =========================================
+
 DISTROLESS_JAVA_DIGEST = "sha256:9c42eb0c1a00cfe17ddffd6eb4a4ae625f065add2a890bfc8aa98cbd8730c3ce"
 
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
@@ -102,3 +278,34 @@ oci.pull(
     image = "gcr.io/distroless/java17",
 )
 use_repo(oci, "distroless_java")
+
+# =========================================
+# Apko cache
+# =========================================
+
+apk = use_extension("@rules_apko//apko:extensions.bzl", "apko")
+apk.translate_lock(
+    name = "apache-git-http-backend_lock",
+    lock = "//container-images/apache-git-http-backend:apko.lock.json",
+)
+use_repo(apk, "apache-git-http-backend_lock")
+apk.translate_lock(
+    name = "gerrit_lock",
+    lock = "//container-images/gerrit:apko.lock.json",
+)
+use_repo(apk, "gerrit_lock")
+apk.translate_lock(
+    name = "fetch-job_lock",
+    lock = "//container-images/fetch-job:apko.lock.json",
+)
+use_repo(apk, "fetch-job_lock")
+apk.translate_lock(
+    name = "gerrit-init_lock",
+    lock = "//container-images/gerrit-init:apko.lock.json",
+)
+use_repo(apk, "gerrit-init_lock")
+apk.translate_lock(
+    name = "git-gc_lock",
+    lock = "//container-images/git-gc:apko.lock.json",
+)
+use_repo(apk, "git-gc_lock")
