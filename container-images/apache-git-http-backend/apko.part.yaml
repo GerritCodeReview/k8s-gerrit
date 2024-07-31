@@ -1,0 +1,27 @@
+contents:
+  packages:
+    - apache2
+    - apache2-ctl
+    - apache2-utils
+    - git-daemon
+    - logrotate
+
+paths:
+  - path: /var/gerrit
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/gerrit/git
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+  - path: /var/log/apache2
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755
+
+accounts:
+  run-as: 0

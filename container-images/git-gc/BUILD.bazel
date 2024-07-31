@@ -1,0 +1,83 @@
+load("@aspect_bazel_lib//lib:yq.bzl", "yq")
+load("@rules_apko//apko:defs.bzl", "apko_image", "apko_lock")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+yq(
+    name = "merge-base",
+    srcs = [
+        "apko.part.yaml",
+        "//container-images/base:apko.part.yaml",
+    ],
+    outs = ["apko.yaml"],
+    expression = ". as $item ireduce ({}; . *+ $item )",
+)
+
+apko_lock(
+    name = "lock",
+    config = ":merge-base",
+    lockfile_name = "apko.lock.json",
+)
+
+apko_image(
+    name = "apko-git-gc",
+    architecture = select({
+        "@platforms//cpu:arm64": "arm64",
+        "@platforms//cpu:x86_64": "amd64",
+    }),
+    config = "apko.yaml",
+    contents = "@git-gc_lock//:contents",
+    tag = "git-gc:latest",
+)
+
+pkg_files(
+    name = "jgit_file",
+    srcs = ["@jgit-cli//file"],
+    attributes = pkg_attributes("0755", "root", "root", 0, 0),
+    renames = {
+        "@jgit-cli//file": "jgit",
+    },
+)
+
+pkg_tar(
+    name = "jgit_layer",
+    srcs = [":jgit_file"],
+    mode = "0755",
+    package_dir = "/usr/bin",
+)
+
+pkg_tar(
+    name = "gc-script_layer",
+    srcs = [
+        "tools/gc.sh",
+    ],
+    package_dir = "/var/tools",
+)
+
+pkg_tar(
+    name = "gc-preserve_layer",
+    srcs = [
+        "tools/git-gc-preserve",
+    ],
+    package_dir = "/usr/bin",
+)
+
+oci_image(
+    name = "git-gc",
+    base = ":apko-git-gc",
+    entrypoint = [
+        "/var/tools/gc.sh",
+    ],
+    tars = [
+        ":jgit_layer",
+        ":gc-script_layer",
+        ":gc-preserve_layer",
+    ],
+)
+
+oci_tarball(
+    name = "build",
+    image = ":git-gc",
+    repo_tags = ["git-gc:latest"],
+)

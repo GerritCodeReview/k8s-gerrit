@@ -1,0 +1,5 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/v3.20/community
+  packages:
+    - yq
