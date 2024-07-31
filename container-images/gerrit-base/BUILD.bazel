@@ -1,0 +1,169 @@
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+exports_files(["apko.part.yaml"])
+
+pkg_files(
+    name = "gerrit-war_file",
+    srcs = ["@gerrit-war//file"],
+    renames = {
+        "@gerrit-war//file": "gerrit.war",
+    },
+)
+
+pkg_tar(
+    name = "gerrit-war_layer",
+    srcs = [":gerrit-war_file"],
+    package_dir = "/var/war",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "healthcheck-jar_file",
+    srcs = ["@healthcheck-plugin-jar//file"],
+    renames = {
+        "@healthcheck-plugin-jar//file": "healthcheck.jar",
+    },
+)
+
+pkg_tar(
+    name = "healthcheck-plugin-jar_layer",
+    srcs = [":healthcheck-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "global-refdb-jar_file",
+    srcs = ["@global-refdb-plugin-jar//file"],
+    renames = {
+        "@global-refdb-plugin-jar//file": "global-refdb.jar",
+    },
+)
+
+pkg_tar(
+    name = "global-refdb-plugin-jar_layer",
+    srcs = [":global-refdb-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "high-availability-jar_file",
+    srcs = ["@high-availability-plugin-jar//file"],
+    renames = {
+        "@high-availability-plugin-jar//file": "high-availability.jar",
+    },
+)
+
+pkg_tar(
+    name = "high-availability-plugin-jar_layer",
+    srcs = [":high-availability-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "zookeeper-refdb-jar_file",
+    srcs = ["@zookeeper-refdb-plugin-jar//file"],
+    renames = {
+        "@zookeeper-refdb-plugin-jar//file": "zookeeper-refdb.jar",
+    },
+)
+
+pkg_tar(
+    name = "zookeeper-refdb-plugin-jar_layer",
+    srcs = [":zookeeper-refdb-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "spanner-refdb-jar_file",
+    srcs = ["@spanner-refdb-plugin-jar//file"],
+    renames = {
+        "@spanner-refdb-plugin-jar//file": "spanner-refdb.jar",
+    },
+)
+
+pkg_tar(
+    name = "spanner-refdb-plugin-jar_layer",
+    srcs = [":spanner-refdb-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "pull-replication-jar_file",
+    srcs = ["@pull-replication-plugin-jar//file"],
+    renames = {
+        "@pull-replication-plugin-jar//file": "pull-replication.jar",
+    },
+)
+
+pkg_tar(
+    name = "pull-replication-plugin-jar_layer",
+    srcs = [":pull-replication-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "events-broker-jar_file",
+    srcs = ["@events-broker-plugin-jar//file"],
+    renames = {
+        "@events-broker-plugin-jar//file": "event-broker.jar",
+    },
+)
+
+pkg_tar(
+    name = "events-broker-plugin-jar_layer",
+    srcs = [":events-broker-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "events-kafka-jar_file",
+    srcs = ["@events-kafka-plugin-jar//file"],
+    renames = {
+        "@events-kafka-plugin-jar//file": "events-kafka.jar",
+    },
+)
+
+pkg_tar(
+    name = "events-kafka-plugin-jar_layer",
+    srcs = [":events-kafka-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "websession-broker-jar_file",
+    srcs = ["@websession-broker-plugin-jar//file"],
+    renames = {
+        "@websession-broker-plugin-jar//file": "websession-broker.jar",
+    },
+)
+
+pkg_tar(
+    name = "websession-broker-plugin-jar_layer",
+    srcs = [":websession-broker-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)
+
+pkg_files(
+    name = "multi-site-jar_file",
+    srcs = ["@multi-site-plugin-jar//file"],
+    renames = {
+        "@multi-site-plugin-jar//file": "multi-site.jar",
+    },
+)
+
+pkg_tar(
+    name = "multi-site-plugin-jar_layer",
+    srcs = [":multi-site-jar_file"],
+    package_dir = "/var/plugins",
+    visibility = ["//visibility:public"],
+)

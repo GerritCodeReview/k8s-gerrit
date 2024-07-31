@@ -19,3 +19,7 @@ test:e2e --local_test_jobs=1
 
 # User-specific .bazelrc
 try-import %workspace%/user.bazelrc
+
+# Provide version based on git describe output
+build --workspace_status_command "tools/workspace-status.sh"
+run --workspace_status_command "tools/workspace-status.sh"
