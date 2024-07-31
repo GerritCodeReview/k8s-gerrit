@@ -1,0 +1,26 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/v3.20/main
+  packages:
+    - git
+
+archs:
+  - arm64
+  - amd64
+
+os-release:
+  id: alpine
+  version-id: "3.20.2"
+  name: "Alpine"
+
+environment:
+  LC_ALL: C.UTF-8
+  LANG: C.UTF-8
+
+accounts:
+  users:
+    - username: gerrit
+      uid: 1000
+      gid: 100
+      shell: /bin/ash
+  run-as: gerrit

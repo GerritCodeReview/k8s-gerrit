@@ -34,86 +34,53 @@ how to build and deploy the Gerrit Operator and how to use it to install Gerrit.
 This project provides the sources for docker images used by the helm-charts.
 The images are also provided on [Dockerhub](https://hub.docker.com/u/k8sgerrit).
 
-The project also provides scripts to build and publish the images so that custom
-versions can be used by the helm-charts. This requires however a docker registry
-that can be accessed from the Kubernetes cluster, on which Gerrit will be
-deployed. The functionality of the scripts is described in the following sub-
-sections.
-
 ## Building images
 
-To build all images, the `build`-script in the root directory of the project can
-be used:
+To build all container images, run:
 
 ```
-./build
+bazelisk run //:build_all
 ```
 
-If a specific image should be built, the image name can be specified as an argument.
-Multiple images can be specified at once:
+To build a specific image, run e.g.:
 
 ```
-./build gerrit git-gc
+bazelisk run //container-images/git-gc:build
 ```
 
-The build-script usually uses the `latest`-tag to tag the images. By using the
-`--tag TAG`-option, a custom tag can be defined:
+The build usually uses a combined version of the built in Gerrit version and the
+output of `git describe` in this repository. However, the version can be overridden:
 
 ```
-./build --tag test
+bazelisk run //:build_all -- --tag latest
 ```
-
-The version of Gerrit built into the images can be changed by providing a download
-URL for a `.war`-file containing Gerrit:
-
-```
-./build --gerrit-url https://example.com/gerrit.war
-```
-
-The version of a health-check plugin built into the images can be changed by
-providing a download URL for a `.jar`-file containing the plugin:
-
-```
-./build --healthcheck-jar-url https://example.com/healthcheck.jar
-```
-
-The build script will in addition tag the image with the output of
-`git describe --dirty`.
-
-The single component images inherit a base image. The `Dockerfile` for the base
-image can be found in the `./base`-directory. It will be
-automatically built by the `./build`-script. If the component images are built
-manually, the base image has to be built first with the target
-`base:latest`, since it is not available in a registry and thus has
-to exist locally.
 
 ## Publishing images
 
-The publish script in the root directory of the project can be used to push the
-built images to the configured registry. To do so, log in first, before executing
-the script.
+Bazel can be used to push the built container images to a registry. To do so,
+log in first:
 
 ```
 docker login <registry>
 ```
 
-To configure the registry and image version, the respective values can be
-configured via env variables `REGISTRY` and `TAG`. In addition, these values can
-also be passed as command line options named `--registry` and `--tag` in which
-case they override the values from env variables:
+To publish all container images, run:
 
 ```
-./publish <component-name>
+bazelisk run //:publish_all
 ```
 
-The `<component-name>` is one of: `apache-git-http-backend`, `git-gc`, `gerrit`
-or `gerrit-init`.
-
-Adding the `--update-latest`-flag will also update the images tagged `latest` in
-the repository:
+To publish a single container image, run:
 
 ```
-./publish --update-latest <component-name>
+bazelisk run //container-images/git-gc:publish
+```
+
+The build usually uses a combined version of the built in Gerrit version and the
+output of `git describe` in this repository. However, the version can be overridden:
+
+```
+bazelisk run //:publish_all -- --tag latest
 ```
 
 ## Running images in Docker
