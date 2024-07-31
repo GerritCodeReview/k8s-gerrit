@@ -1,0 +1,86 @@
+load("@aspect_bazel_lib//lib:yq.bzl", "yq")
+load("@rules_apko//apko:defs.bzl", "apko_image", "apko_lock")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+yq(
+    name = "merge-base",
+    srcs = [
+        "//container-images/base:apko.part.yaml",
+        "//container-images/gerrit-base:apko.part.yaml",
+    ],
+    outs = ["apko.yaml"],
+    expression = ". as $item ireduce ({}; . *+ $item )",
+)
+
+apko_lock(
+    name = "lock",
+    config = ":merge-base",
+    lockfile_name = "apko.lock.json",
+)
+
+apko_image(
+    name = "apko-gerrit",
+    architecture = select({
+        "@platforms//cpu:arm64": "arm64",
+        "@platforms//cpu:x86_64": "amd64",
+    }),
+    config = "apko.yaml",
+    contents = "@gerrit_lock//:contents",
+    tag = "gerrit:latest",
+)
+
+pkg_tar(
+    name = "start-script_layer",
+    srcs = ["tools/start"],
+    package_dir = "/var/tools",
+)
+
+pkg_tar(
+    name = "config_layer",
+    srcs = ["etc/security.properties"],
+    package_dir = "/var/jvm/etc",
+)
+
+oci_image(
+    name = "gerrit",
+    base = ":apko-gerrit",
+    entrypoint = [
+        "ash",
+        "/var/tools/start",
+    ],
+    exposed_ports = [
+        "29418",
+        "8080",
+    ],
+    tars = [
+        "//container-images/gerrit-base:gerrit-war_layer",
+        "//container-images/gerrit-base:healthcheck-plugin-jar_layer",
+        "//container-images/gerrit-base:global-refdb-plugin-jar_layer",
+        "//container-images/gerrit-base:high-availability-plugin-jar_layer",
+        "//container-images/gerrit-base:zookeeper-refdb-plugin-jar_layer",
+        "//container-images/gerrit-base:spanner-refdb-plugin-jar_layer",
+        "//container-images/gerrit-base:pull-replication-plugin-jar_layer",
+        "//container-images/gerrit-base:events-broker-plugin-jar_layer",
+        "//container-images/gerrit-base:events-kafka-plugin-jar_layer",
+        "//container-images/gerrit-base:websession-broker-plugin-jar_layer",
+        "//container-images/gerrit-base:multi-site-plugin-jar_layer",
+        ":start-script_layer",
+        ":config_layer",
+    ],
+)
+
+oci_tarball(
+    name = "build",
+    image = ":gerrit",
+    repo_tags = ["gerrit:latest"],
+    visibility = ["//visibility:public"],
+)
+
+oci_push(
+    name = "publish",
+    image = ":gerrit",
+    repository = "docker.io/k8sgerrit/gerrit",
+    remote_tags = "//:full-version",
+    visibility = ["//visibility:public"],
+)
