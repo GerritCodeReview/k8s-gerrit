@@ -1,7 +1,6 @@
-load("@aspect_bazel_lib//lib:copy_to_directory.bzl", "copy_to_directory")
 load("@aspect_bazel_lib//lib:tar.bzl", "tar")
 load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", "java_test_suite")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball", "oci_push")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 load("@rules_pkg//pkg:mappings.bzl", "pkg_files")
 load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("//tools/bzl:genrule2.bzl", "genrule2")
@@ -365,5 +364,5 @@ oci_tarball(
 oci_push(
     name = "publish",
     image = ":gerrit-operator-image",
-    repository = "docker.io/tdraebingdev/gerrit-operator",
+    repository = "docker.io/k8sgerrit/gerrit-operator",
 )

@@ -6,7 +6,8 @@ plugins.
 
 ## Content
 
-* gerrit-base image
+* git
+* pyhton3
 
 ## Setup and configuration
 

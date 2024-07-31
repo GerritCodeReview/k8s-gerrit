@@ -1,0 +1,14 @@
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/v3.20/community
+  packages:
+    - coreutils
+    - openjdk21
+environment:
+  PATH: "/usr/lib/jvm/java-21-openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+paths:
+  - path: /var/log/git
+    type: directory
+    uid: 1000
+    gid: 100
+    permissions: 0o755

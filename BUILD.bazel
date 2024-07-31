@@ -1,4 +1,57 @@
+load("@rules_multirun//:defs.bzl", "multirun")
+load("//tools/bzl:genrule2.bzl", "genrule2")
+
 exports_files(
     ["maven_install.json"],
     visibility = ["//visibility:public"],
+)
+
+genrule2(
+    name = "version",
+    outs = ["version.txt"],
+    cmd = "grep 'STABLE_GIT_DESCRIBE' bazel-out/stable-status.txt | cut -d' ' -f2 > $(location version.txt)",
+    stamp = 1,
+    visibility = ["//visibility:public"],
+)
+
+genrule2(
+    name = "gerrit-version",
+    srcs = ["@gerrit-war//file"],
+    outs = ["version-gerrit.txt"],
+    cmd = "unzip -p $(location @gerrit-war//file) WEB-INF/lib/com_google_gerrit_common_libversion.jar | " +
+        "bsdtar -xOf - com/google/gerrit/common/Version > $(location version-gerrit.txt)",
+    stamp = 1,
+    visibility = ["//visibility:public"],
+)
+
+genrule2(
+    name = "full-version",
+    srcs = [":version", ":gerrit-version"],
+    outs = ["version-full.txt"],
+    cmd = "echo \"$$(cat $(location :gerrit-version))-" +
+        "$$(cat $(location :version))\" > $(location version-full.txt)",
+    stamp = 1,
+    visibility = ["//visibility:public"],
+)
+
+multirun(
+  name = "build_all",
+  commands = [
+    "//container-images/apache-git-http-backend:build",
+    "//container-images/fetch-job:build",
+    "//container-images/gerrit:build",
+    "//container-images/gerrit-init:build",
+    "//container-images/git-gc:build",
+  ]
+)
+
+multirun(
+  name = "publish_all",
+  commands = [
+    "//container-images/apache-git-http-backend:publish",
+    "//container-images/fetch-job:publish",
+    "//container-images/gerrit:publish",
+    "//container-images/gerrit-init:publish",
+    "//container-images/git-gc:publish",
+  ]
 )

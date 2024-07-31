@@ -1,0 +1,17 @@
+load("//tools/bzl:genrule2.bzl", "genrule2")
+
+# TODO: Ideally we should use bazel to build the python application and use that
+# to build it into the image. This currently fails, because this would require
+# native build environments for all supported platforms.
+genrule2(
+    name = "gerrit-initializer-srcs",
+    srcs = [
+        "__main__.py",
+        "main.py",
+    ] + glob([
+        "initializer/**/*.py",
+    ]),
+    outs = ["gerrit-initalizer-srcs.tar"],
+    cmd = "tar -czvhf $(OUTS) -C container-images/gerrit-init/tools/gerrit-initializer .",
+    visibility = ["//:__subpackages__"],
+)
