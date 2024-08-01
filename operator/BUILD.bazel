@@ -359,10 +359,13 @@ oci_tarball(
     name = "build",
     image = ":gerrit-operator-image",
     repo_tags = ["gerrit-operator:latest"],
+    visibility = ["//visibility:public"],
 )
 
 oci_push(
     name = "publish",
     image = ":gerrit-operator-image",
-    repository = "docker.io/k8sgerrit/gerrit-operator",
+    repository = "docker.io/tdraebingdev/gerrit-operator",
+    remote_tags = "//:version",
+    visibility = ["//visibility:public"],
 )
