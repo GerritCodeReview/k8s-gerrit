@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritHeadlessService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -45,11 +46,12 @@ public class GerritIstioServiceEntries
     super(ServiceEntry.class);
   }
 
-  private ServiceEntry desired(String podName, GerritNetwork gerritNetwork) {
+  private ServiceEntry desired(
+      String name, String podName, GerritNetwork gerritNetwork, String host) {
     String namespace = gerritNetwork.getMetadata().getNamespace();
     return new ServiceEntryBuilder()
         .withNewMetadata()
-        .withName(podName)
+        .withName(name)
         .withNamespace(namespace)
         .withLabels(
             GerritCluster.getLabels(
@@ -58,11 +60,7 @@ public class GerritIstioServiceEntries
         .withNewSpec()
         .withLocation(ServiceEntryLocation.MESH_INTERNAL)
         .withResolution(ServiceEntryResolution.DNS)
-        .withHosts(
-            getServiceHost(
-                podName,
-                new GerritService().getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
-                namespace))
+        .withHosts(host)
         .withPorts(
             List.of(
                 new PortBuilder()
@@ -109,7 +107,29 @@ public class GerritIstioServiceEntries
 
       for (int i = 0; i < sts.getSpec().getReplicas(); i++) {
         String podName = String.format("%s-%d", primaryGerritName, i);
-        serviceEntries.put(podName, desired(podName, gerritNetwork));
+        String namespace = gerritNetwork.getMetadata().getNamespace();
+        serviceEntries.put(
+            podName,
+            desired(
+                podName,
+                podName,
+                gerritNetwork,
+                getServiceHost(
+                    podName,
+                    new GerritService()
+                        .getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
+                    namespace)));
+        serviceEntries.put(
+            podName + "-headless",
+            desired(
+                podName + "-headless",
+                podName,
+                gerritNetwork,
+                getServiceHost(
+                    podName,
+                    new GerritHeadlessService()
+                        .getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
+                    namespace)));
       }
     }
     return serviceEntries;
