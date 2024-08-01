@@ -20,6 +20,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritHeadlessService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -62,6 +63,11 @@ public class GerritIstioServiceEntries
             getServiceHost(
                 podName,
                 new GerritService().getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
+                namespace),
+            getServiceHost(
+                podName,
+                new GerritHeadlessService()
+                    .getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
                 namespace))
         .withPorts(
             List.of(
