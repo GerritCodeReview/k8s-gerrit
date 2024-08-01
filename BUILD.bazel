@@ -42,6 +42,8 @@ multirun(
     "//container-images/gerrit:build",
     "//container-images/gerrit-init:build",
     "//container-images/git-gc:build",
+    "//operator:build",
+    "//operator:crds",
   ]
 )
 
@@ -53,5 +55,7 @@ multirun(
     "//container-images/gerrit:publish",
     "//container-images/gerrit-init:publish",
     "//container-images/git-gc:publish",
+    "//operator:publish",
+    "//operator:crds",
   ]
 )
