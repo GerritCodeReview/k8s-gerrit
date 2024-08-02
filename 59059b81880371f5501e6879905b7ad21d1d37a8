@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72030a3e_9cac5bbf",
+        "filename": "BUILD.bazel",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-02T07:42:44Z",
+      "side": 1,
+      "message": "It should be the other way around: first k8sgerrit than gerrit",
+      "revId": "59059b81880371f5501e6879905b7ad21d1d37a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
