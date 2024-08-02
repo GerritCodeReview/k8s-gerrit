@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f37765a0_da9a1906",
+        "filename": "operator/BUILD.bazel",
+        "patchSetId": 9
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-02T07:43:23Z",
+      "side": 1,
+      "message": "k8sgerrit",
+      "range": {
+        "startLine": 368,
+        "startChar": 28,
+        "endLine": 368,
+        "endChar": 40
+      },
+      "revId": "d424b4e5ee749916e02acb1d16b10b7a365a6985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
