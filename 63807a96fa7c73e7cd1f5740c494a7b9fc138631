@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a7fe4d6_c62804f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-08-15T04:15:09Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t believe that would work, since that tag would just say that the executed rule should not run next to other rules, but the operator-tests-e2e rule runs all E2E tests and thus they would still be executed in parallel.\n\nYou could split the test execution for each E2E file in its own Bazel rule. That way `exclusive` tag would force that every rule would be executed exclusively and not in parallel.\n\nWe are doing it `gerrit` itself and in number of plugins, e.g. `replication` plugin, something like this should work (I haven\u0027t tested it):\n\n```\n[java_test_suite(\n    name \u003d f[:f.index(\".\")].replace(\"/\", \"_\"),\n    srcs \u003d [f],\n    size \u003d \"large\",\n    tag \u003d [\"exclusive\"],\n    resource_strip_prefix \u003d \"operator/src/test/resources\",\n    resources \u003d glob([\"src/test/resources/**\"]),\n    runner \u003d \"junit5\",\n    runtime_deps \u003d JUNIT5_DEPS,\n    deps \u003d [\n        [...]\n    ]\n) for f in glob([\"src/test/java/**/*E2E.java\"])]\n```",
+      "parentUuid": "15dec9bf_321f7fa1",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 42
+      },
+      "revId": "63807a96fa7c73e7cd1f5740c494a7b9fc138631",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ec237ab_2ad3e30c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
