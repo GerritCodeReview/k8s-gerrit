@@ -69,6 +69,24 @@
       "parentUuid": "57f7636f_d756c6d0",
       "revId": "c0df68b704321391e2f2881cf0fd67ff16204d1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc91ab3_853e63c7",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-19T13:23:45Z",
+      "side": 1,
+      "message": "Resolve since no further comment.",
+      "parentUuid": "cecf2b55_1bffa955",
+      "revId": "c0df68b704321391e2f2881cf0fd67ff16204d1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
