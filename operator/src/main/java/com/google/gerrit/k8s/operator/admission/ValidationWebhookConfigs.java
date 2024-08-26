@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.admission;
 
-import static com.google.gerrit.k8s.operator.Constants.CUSTOM_RESOURCES;
+import static com.google.gerrit.k8s.operator.Constants.RESOURCES_WITH_VALIDATING_WEBHOOK;
 
 import com.google.gerrit.k8s.operator.LifecycleManager;
 import com.google.inject.Inject;
@@ -31,7 +31,7 @@ public class ValidationWebhookConfigs {
       ValidationWebhookConfigApplier.Factory configApplierFactory) {
     this.configAppliers = new ArrayList<>();
 
-    for (String customResourceName : CUSTOM_RESOURCES) {
+    for (String customResourceName : RESOURCES_WITH_VALIDATING_WEBHOOK) {
       this.configAppliers.add(configApplierFactory.create(customResourceName));
     }
 

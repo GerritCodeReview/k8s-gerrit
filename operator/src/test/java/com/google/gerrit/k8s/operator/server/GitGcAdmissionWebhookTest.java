@@ -20,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.admission.servlet.GitGcAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollectionSpec;
@@ -227,7 +228,14 @@ public class GitGcAdmissionWebhookTest {
       throws MalformedURLException, IOException {
     HttpURLConnection http =
         (HttpURLConnection)
-            new URL("http://localhost:" + PORT + "/admission/v1beta1/gitgc").openConnection();
+            new URL(
+                    "http://localhost:"
+                        + PORT
+                        + "/admission/"
+                        + Constants.VERSION
+                        + "/"
+                        + Constants.GIT_GC_KIND)
+                .openConnection();
     http.setRequestMethod(HttpMethod.POST.asString());
     http.setRequestProperty("Content-Type", "application/json");
     http.setDoOutput(true);

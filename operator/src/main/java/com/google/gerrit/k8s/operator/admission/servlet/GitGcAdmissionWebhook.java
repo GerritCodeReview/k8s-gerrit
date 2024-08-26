@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.admission.servlet;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.inject.Inject;
@@ -104,11 +105,6 @@ public class GitGcAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
 
   @Override
   public String getName() {
-    return "gitgc";
-  }
-
-  @Override
-  public String getVersion() {
-    return "v1beta1";
+    return Constants.GIT_GC_KIND;
   }
 }

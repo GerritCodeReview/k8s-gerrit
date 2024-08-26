@@ -51,6 +51,8 @@ public class OperatorModule extends AbstractModule {
     bind(LifecycleManager.class);
     bind(GerritOperator.class);
 
+    bind(ClusterMode.class).toInstance(clusterMode);
+
     install(new AdmissionWebhookModule());
 
     Multibinder<Reconciler> reconcilers = Multibinder.newSetBinder(binder(), Reconciler.class);
