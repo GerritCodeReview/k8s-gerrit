@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcb84b31_8835b70f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gitgc/dependent/GitGarbageCollectionCronJob.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:03:05Z",
+      "side": 1,
+      "message": "this path also used elsewhere should be extracted to a constant (in another change)",
+      "range": {
+        "startLine": 128,
+        "startChar": 78,
+        "endLine": 128,
+        "endChar": 93
+      },
+      "revId": "3a3986b8100f43d55a9bb23723d8780318786d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
