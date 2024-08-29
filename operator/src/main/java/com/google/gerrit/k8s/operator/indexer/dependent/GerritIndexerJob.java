@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.indexer.dependent;
 
+import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
+
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -76,7 +78,7 @@ public class GerritIndexerJob
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")
         .withNewSecurityContext()
-        .withFsGroup(100L)
+        .withFsGroup(GERRIT_USER_GROUP_ID)
         .endSecurityContext()
         .withInitContainers(buildGerritInitContainer(gerritIndexer, gerritCluster))
         .withContainers(buildGerritIndexerContainer(gerritIndexer, gerritCluster))
