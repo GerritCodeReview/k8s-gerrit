@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "045f53e6_fc882a98",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T11:52:26Z",
+      "side": 1,
+      "message": "```suggestion\npreparing the new index version outside of the Gerrit primary server process. The design\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 47,
+        "endLine": 102,
+        "endChar": 68
+      },
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63aa1fc1_ea775d37",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T11:52:26Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 171,
+        "startChar": 21,
+        "endLine": 171,
+        "endChar": 23
+      },
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19592629_238602f4",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T11:52:26Z",
+      "side": 1,
+      "message": "```suggestion\nis not anymore possible without recreating the old index version.\n```",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 24
+      },
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39a20af7_a95bad7b",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T11:52:26Z",
+      "side": 1,
+      "message": "I think there\u0027s a more efficient way to provide an up-to-date index to a new primary pod: create an index snapshot in an existing primary pod and copy it to the new primary pod.",
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f37496e_e4cbbad4",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T11:52:26Z",
+      "side": 1,
+      "message": "... which are described in the following sections",
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
