@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "077e438f_c4530f5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:39:48Z",
+      "side": 1,
+      "message": "mention that these commands need to be run from the root of the working tree, if run from operator/ this fails with\n\n```\n$ bazelisk test operator:operator-tests\nINFO: Invocation ID: 394557e0-a192-4c17-bc95-0d581d329008\nERROR: no such package \u0027operator/operator\u0027: BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package.\n - /Users/d029788/SAPDevelop/git/k8s-gerrit/operator/operator\nINFO: Elapsed time: 0.725s\nINFO: 0 processes.\nERROR: Build did NOT complete successfully\nERROR: Couldn\u0027t start the build. Unable to run tests\n```\n\nrunning the unit tests fails for me on macos:\n\n```\n\n$ bazelisk test operator:operator-tests\nINFO: Invocation ID: b11ba534-be1f-43ef-929c-fe213ab2d855\nINFO: Analyzed 16 targets (0 packages loaded, 0 targets configured).\nERROR: /Users/d029788/SAPDevelop/git/k8s-gerrit/operator/BUILD.bazel:198:16: Building operator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest-class.jar (1 source file) failed: (Exit 1): java failed: error executing Javac command (from target //operator:src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest) external/rules_java~~toolchains~remotejdk21_macos_aarch64/bin/java \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 19 arguments skipped)\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:43: error: cannot find symbol\npublic class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractTest {\n                                                       ^\n  symbol: class AdmissionWebhookAbstractTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:51: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                                                            ^\n  symbol:   variable NAMESPACE\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:51: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                              ^\n  symbol:   variable kubernetesServer\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:55: error: cannot find symbol\n    HttpURLConnection http \u003d sendAdmissionRequest(cluster);\n                             ^\n  symbol:   method sendAdmissionRequest(GerritCluster)\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:65: error: cannot find symbol\n    HttpURLConnection http2 \u003d sendAdmissionRequest(gerritCluster.build());\n                              ^\n  symbol:   method sendAdmissionRequest(GerritCluster)\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:83: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                                                            ^\n  symbol:   variable NAMESPACE\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:83: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                              ^\n  symbol:   variable kubernetesServer\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:95: error: cannot find symbol\n    HttpURLConnection http2 \u003d sendAdmissionRequest(gerritCluster.build());\n                              ^\n  symbol:   method sendAdmissionRequest(GerritCluster)\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:113: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                                                            ^\n  symbol:   variable NAMESPACE\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:113: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                              ^\n  symbol:   variable kubernetesServer\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:116: error: cannot find symbol\n    HttpURLConnection http \u003d sendAdmissionRequest(gerritCluster.build());\n                             ^\n  symbol:   method sendAdmissionRequest(GerritCluster)\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:126: error: cannot find symbol\n    HttpURLConnection http2 \u003d sendAdmissionRequest(gerritCluster.build());\n                              ^\n  symbol:   method sendAdmissionRequest(GerritCluster)\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:141: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                                                            ^\n  symbol:   variable NAMESPACE\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:141: error: cannot find symbol\n        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);\n                              ^\n  symbol:   variable kubernetesServer\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:147: error: cannot find symbol\n    HttpURLConnection http2 \u003d sendAdmissionRequest(gerritCluster.build());\n                              ^\n  symbol:   method sendAdmissionRequest(GerritCluster)\n  location: class GerritClusterAdmissionWebhookTest\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:158: error: method does not override or implement a method from a supertype\n  @Override\n  ^\noperator/src/test/java/com/google/gerrit/k8s/operator/server/GerritClusterAdmissionWebhookTest.java:163: error: method does not override or implement a method from a supertype\n  @Override\n  ^\nUse --verbose_failures to see the command lines of failed build steps.\nINFO: Elapsed time: 7.727s, Critical Path: 6.09s\nINFO: 18 processes: 11 internal, 4 darwin-sandbox, 3 worker.\nERROR: Build did NOT complete successfully\n```",
+      "revId": "2960bac9193448e15188b5cc7e1ac1e834fd6e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fca23b2f_62575691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:39:48Z",
+      "side": 1,
+      "message": "this fails for me on macos:\n\n```\n$ bazelisk build operator:crds\nINFO: Invocation ID: 8a3b4f30-032f-48ec-b654-19a52f590835\nERROR: /Users/xxxxxxx/SAPDevelop/git/k8s-gerrit/operator/BUILD.bazel:325:10: in pkg_files rule //operator:crd_files:\nTraceback (most recent call last):\n\tFile \"/Users/xxxxxxx/SAPDevelop/.cache/bazel/0a46ccd6985d2f0647a8704d6c6df551/external/rules_pkg~/pkg/mappings.bzl\", line 248, column 29, in _pkg_files_impl\n\t\t_do_strip_prefix(\n\tFile \"/Users/xxxxxxx/SAPDevelop/.cache/bazel/0a46ccd6985d2f0647a8704d6c6df551/external/rules_pkg~/pkg/mappings.bzl\", line 164, column 13, in _do_strip_prefix\n\t\tfail(failmsg)\nError in fail: Could not strip prefix \u0027target/classes/META-INF/fabric8\u0027 from file \u003csource file operator/bin/target/classes/META-INF/fabric8/gerritclusters.gerritoperator.google.com-v1.yml\u003e (@@//operator:bin/target/classes/META-INF/fabric8/gerritclusters.gerritoperator.google.com-v1.yml)\nERROR: /Users/xxxxxxx/SAPDevelop/git/k8s-gerrit/operator/BUILD.bazel:325:10: Analysis of target \u0027//operator:crd_files\u0027 failed\nERROR: Analysis of target \u0027//operator:crds\u0027 failed; build aborted: Analysis failed\n```",
+      "revId": "2960bac9193448e15188b5cc7e1ac1e834fd6e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33d4ac19_86c7ba8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:39:48Z",
+      "side": 1,
+      "message": "this yields an unexpected EOF on macos, not sure if this is a problem or not:\n\n```\n$ bazelisk run operator:build\nINFO: Invocation ID: 4626d548-df18-4f69-ad52-8da9b382ac44\nINFO: Analyzed target //operator:build (0 packages loaded, 0 targets configured).\nINFO: Found 1 target...\nTarget //operator:build up-to-date:\n  bazel-bin/operator/build/tarball.tar\nINFO: Elapsed time: 1.544s, Critical Path: 0.01s\nINFO: 1 process: 1 internal.\nINFO: Build completed successfully, 1 total action\nINFO: Running command line: bazel-bin/operator/build.sh\nc9cce2843851: Loading layer [\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003e]     240B/240B\nunexpected EOF\n```",
+      "revId": "2960bac9193448e15188b5cc7e1ac1e834fd6e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
