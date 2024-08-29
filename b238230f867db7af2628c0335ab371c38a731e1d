@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3bdc8c54_f38c91a4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerSpec.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T07:55:57Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "96cf0d94_773550b0",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 51
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd76ab74_6c2c5b6b",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerSpec.java",
         "patchSetId": 8
