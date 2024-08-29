@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c70d2d6_3b84859c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49a96614_20af3d1b",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "363994ad2ac736e571e5f222c756065092bb7a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2163494_a50a05ff",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c34bfaf_e19b1aec",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/OperatorUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2163494_a50a05ff",
+      "revId": "363994ad2ac736e571e5f222c756065092bb7a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5a673ce_301569f4",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-05-17T11:29:42Z",
       "side": 1,
       "message": "define a constant PARENT_DIR \u003d \"../\" and use PARENT_DIR.size() in line 39 to avoid magic number ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "363994ad2ac736e571e5f222c756065092bb7a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a950d74_ab383e0e",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/OperatorUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5a673ce_301569f4",
       "range": {
         "startLine": 38,
         "startChar": 35,
