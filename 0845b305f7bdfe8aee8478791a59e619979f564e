@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a98f13_4fa478ac",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 1515,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T08:54:45Z",
+      "side": 1,
+      "message": "It will use the default provided in line 1522 (i.e. `shared/indexes`)",
+      "parentUuid": "dfb5c0d8_7749ccb7",
+      "range": {
+        "startLine": 1515,
+        "startChar": 111,
+        "endLine": 1515,
+        "endChar": 179
+      },
+      "revId": "0845b305f7bdfe8aee8478791a59e619979f564e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "991d8b76_f8100cf9",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-29T07:55:57Z",
       "side": 1,
       "message": "use a constant ?",
+      "range": {
+        "startLine": 79,
+        "startChar": 21,
+        "endLine": 79,
+        "endChar": 25
+      },
+      "revId": "0845b305f7bdfe8aee8478791a59e619979f564e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "389dd380_c0ac2791",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T08:54:45Z",
+      "side": 1,
+      "message": "Makes sense. I would do it in a separate change, since this is used in all pod specs. So we should use the constant everywhere.\n\nDoen in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/436042",
+      "parentUuid": "991d8b76_f8100cf9",
       "range": {
         "startLine": 79,
         "startChar": 21,
