@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.gitgc.dependent;
 
+import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
@@ -87,7 +89,7 @@ public class GitGarbageCollectionCronJob
                 gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
             .withRestartPolicy("OnFailure")
             .withNewSecurityContext()
-            .withFsGroup(100L)
+            .withFsGroup(GERRIT_USER_GROUP_ID)
             .endSecurityContext()
             .addAllToInitContainers(initContainers)
             .addToContainers(buildGitGcContainer(gitGc, gerritCluster))
