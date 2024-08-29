@@ -154,6 +154,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d8fc8a_f69fd579",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerSpec.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:25:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3bdc8c54_f38c91a4",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 51
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd76ab74_6c2c5b6b",
@@ -191,6 +215,30 @@
       "side": 1,
       "message": "I would prefer to keep the Eclipse-generated method",
       "parentUuid": "bd76ab74_6c2c5b6b",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 14
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a1e0a29_d4c9fa5b",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerSpec.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:25:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "65d40041_38844f3e",
       "range": {
         "startLine": 79,
         "startChar": 0,
@@ -285,6 +333,30 @@
       "side": 1,
       "message": "Eclipse",
       "parentUuid": "aed847ca_d0f6f2cf",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "b238230f867db7af2628c0335ab371c38a731e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b14df86_7cb9ee83",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/indexer/GerritIndexerVolumeRef.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:25:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dfebc602_02fa93d1",
       "range": {
         "startLine": 70,
         "startChar": 0,
