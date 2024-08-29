@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f3b6d7e_6d2a4b74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-08-29T12:12:37Z",
+      "side": 1,
+      "message": "nit: reformat commit message",
+      "revId": "243462c3a9258e48a9f2e37bb8b89cbeb80b2055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
