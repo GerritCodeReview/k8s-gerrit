@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14c71ccb_1bc71eb1",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "045f53e6_fc882a98",
+      "range": {
+        "startLine": 102,
+        "startChar": 47,
+        "endLine": 102,
+        "endChar": 68
+      },
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63aa1fc1_ea775d37",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-08-29T11:52:26Z",
       "side": 1,
       "message": "its",
+      "range": {
+        "startLine": 171,
+        "startChar": 21,
+        "endLine": 171,
+        "endChar": 23
+      },
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4be5a37_5c58bd51",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63aa1fc1_ea775d37",
       "range": {
         "startLine": 171,
         "startChar": 21,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aca2dc3c_b284a34c",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19592629_238602f4",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 254,
+        "endChar": 24
+      },
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39a20af7_a95bad7b",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56a423a_3a9bbe1d",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:58:07Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "39a20af7_a95bad7b",
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f37496e_e4cbbad4",
@@ -100,6 +190,24 @@
       "writtenOn": "2024-08-29T11:52:26Z",
       "side": 1,
       "message": "... which are described in the following sections",
+      "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b293249b_c42693db",
+        "filename": "Documentation/operator-index-upgrade.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-08-29T12:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f37496e_e4cbbad4",
       "revId": "f5aa1331c5feb05e4a21e13505968778861261c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
