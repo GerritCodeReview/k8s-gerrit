@@ -19,6 +19,7 @@ import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -127,12 +128,12 @@ public class ReceiverDeployment
   }
 
   public static Map<String, String> getSelectorLabels(Receiver receiver) {
-    return GerritCluster.getSelectorLabels(
+    return GerritClusterLabelFactory.createSelectorLabels(
         receiver.getMetadata().getName(), getComponentName(receiver));
   }
 
   public static Map<String, String> getLabels(Receiver receiver) {
-    return GerritCluster.getLabels(
+    return GerritClusterLabelFactory.create(
         receiver.getMetadata().getName(),
         getComponentName(receiver),
         ReceiverReconciler.class.getSimpleName());

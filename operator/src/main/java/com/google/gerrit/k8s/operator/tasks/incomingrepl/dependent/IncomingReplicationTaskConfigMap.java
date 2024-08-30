@@ -16,8 +16,8 @@ package com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -41,7 +41,7 @@ public class IncomingReplicationTaskConfigMap
   public ConfigMap desired(
       IncomingReplicationTask incomingReplTask, Context<IncomingReplicationTask> context) {
     Map<String, String> labels =
-        GerritCluster.getLabels(
+        GerritClusterLabelFactory.create(
             incomingReplTask.getMetadata().getName(),
             getName(incomingReplTask),
             this.getClass().getSimpleName());

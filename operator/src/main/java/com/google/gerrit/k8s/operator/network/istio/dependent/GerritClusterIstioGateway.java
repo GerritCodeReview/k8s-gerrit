@@ -14,8 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.GatewayBuilder;
@@ -41,7 +41,7 @@ public class GerritClusterIstioGateway
         .withName(NAME)
         .withNamespace(gerritNetwork.getMetadata().getNamespace())
         .withLabels(
-            GerritCluster.getLabels(
+            GerritClusterLabelFactory.create(
                 gerritNetwork.getMetadata().getName(), NAME, this.getClass().getSimpleName()))
         .endMetadata()
         .withNewSpec()

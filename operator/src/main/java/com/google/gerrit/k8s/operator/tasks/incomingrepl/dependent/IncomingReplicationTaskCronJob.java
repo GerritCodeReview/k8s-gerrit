@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -122,7 +123,7 @@ public class IncomingReplicationTaskCronJob
 
   private static Map<String, String> getLabels(IncomingReplicationTask incomingReplTask) {
     String name = incomingReplTask.getMetadata().getName();
-    return GerritCluster.getLabels(
+    return GerritClusterLabelFactory.create(
         name, getComponentName(name), IncomingReplicationTaskReconciler.class.getSimpleName());
   }
 

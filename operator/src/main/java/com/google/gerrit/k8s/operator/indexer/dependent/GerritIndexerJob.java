@@ -20,6 +20,7 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
+import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -99,7 +100,7 @@ public class GerritIndexerJob
 
   private static Map<String, String> getLabels(GerritIndexer gerritIndexer) {
     String name = gerritIndexer.getMetadata().getName();
-    return GerritCluster.getLabels(
+    return GerritClusterLabelFactory.create(
         name, getComponentName(name), GerritIndexerReconciler.class.getSimpleName());
   }
 
