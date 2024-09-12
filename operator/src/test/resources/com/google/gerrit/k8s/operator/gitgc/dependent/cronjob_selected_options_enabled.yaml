@@ -73,6 +73,13 @@ spec:
             - -B
             - -R
             - -P
+            lifecycle:
+              preStop:
+                exec:
+                  command:
+                  - /bin/ash
+                  - -c
+                  - "boot_time=$(grep btime /proc/stat | awk '{print $2}') && echo \"boot time: $boot_time\" && dmesg | grep -iE \"error|fail|panic|critical|warning\""
             volumeMounts:
             - name: shared
               subPath: git
