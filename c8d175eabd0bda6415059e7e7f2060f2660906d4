@@ -16,6 +16,24 @@
       "message": "The fact that this gets repeated 5 times in this change (error prone, hard to maintain etc..) makes me think if we shall start using some kind of yaml (pre)processors which would enable us to factor-out common parts. Maybe `yq` can help, or we could have a custom python based yaml preprocessor.\nThis is, of course, not mean to be done in the context of this change but eventually we shall address this topic.",
       "revId": "c8d175eabd0bda6415059e7e7f2060f2660906d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "566626d9_fa99b5fd",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/gitgc/dependent/cronjob_all_default.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T13:13:02Z",
+      "side": 1,
+      "message": "I spent most time on finding the correct yaml serialization from the error message of a failing junit test if the generated yaml doesn\u0027t match the test resource which gives object representations expressed using classes of the fabric8 Java kubernetes API client:\n\n(the error message prints this as one single, very long line which I had to format manually to spot the difference between the generated yaml and the test resource)\n\n```\nCronJob(\n  apiVersion\u003dbatch/v1, \n  kind\u003dCronJob, \n  metadata\u003dObjectMeta(\n    annotations\u003d{app.kubernetes.io/managed-by\u003dgerrit-operator}, \n    creationTimestamp\u003dnull, \n    deletionGracePeriodSeconds\u003dnull, \n    deletionTimestamp\u003dnull, \n    finalizers\u003d[], \n    generateName\u003dnull, \n    generation\u003dnull, \n    labels\u003d{app.kubernetes.io/managed-by\u003dgerrit-operator, app.kubernetes.io/name\u003dgerrit, app.kubernetes.io/part-of\u003dgerrit, app.kubernetes.io/created-by\u003dGitGarbageCollectionCronJob, app.kubernetes.io/instance\u003dgerrit, app.kubernetes.io/version\u003dunknown, app.kubernetes.io/component\u003dGitGc}, \n    managedFields\u003d[], \n    name\u003dgitgc, \n    namespace\u003dgerrit, \n    ownerReferences\u003d[\n      OwnerReference(\n        apiVersion\u003dgerritoperator.google.com/v1beta10, \n        blockOwnerDeletion\u003dnull, \n        controller\u003dnull, \n        kind\u003dGitGarbageCollection, \n        name\u003dgitgc, \n        uid\u003dabcd1234, \n        additionalProperties\u003d{}\n      )\n    ], \n    resourceVersion\u003dnull, \n    selfLink\u003dnull, \n    uid\u003dnull, \n    additionalProperties\u003d{}\n  ), \n  ...\n```\n\nIf we compare yaml instead of the object representations it would be much easier to spot how test resources need to be changed to match a new feature in the implementation. Tried that using `io.fabric8.kubernetes.client.utils.Serialization.asYaml()` but this naive approach fails since sorting of yaml is different. This means we would need to sort yaml before comparison. I can try to implement this in another change.",
+      "parentUuid": "c29c838a_66100051",
+      "revId": "c8d175eabd0bda6415059e7e7f2060f2660906d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -46,6 +46,30 @@
       },
       "revId": "4a3b38392e3d693d8d9a5c3236a93cf3f51d589b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3024784_094a6c5d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gitgc/dependent/GitGarbageCollectionCronJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T13:13:02Z",
+      "side": 1,
+      "message": "tested that it works",
+      "parentUuid": "4cd37bba_dcb5ef50",
+      "range": {
+        "startLine": 159,
+        "startChar": 27,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "4a3b38392e3d693d8d9a5c3236a93cf3f51d589b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
