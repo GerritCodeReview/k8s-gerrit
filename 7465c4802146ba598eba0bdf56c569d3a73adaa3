@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccd5f543_1d29f924",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T14:43:51Z",
+      "side": 1,
+      "message": "How about gerrit-maintenance similar to [git maintenance](https://git-scm.com/docs/git-maintenance) ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e945fc_6f3fe7a7",
+        "filename": "container-images/gerrit-housekeeper/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T14:43:51Z",
+      "side": 1,
+      "message": "nit: remove empty line ?",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b05e609_7db94248",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T14:43:51Z",
+      "side": 1,
+      "message": "s/sss/ss/",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 72,
+        "endChar": 40
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5067f333_e1953023",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T14:43:51Z",
+      "side": 1,
+      "message": "Using module `datetime` we can express this as:\n```\nMAX_AGE_GC_LOCK_SEC \u003d datetime.timedelta(hours\u003d12)\n```\n\n`_is_file_stale()` using datetime:\n```\ndef _is_file_stale(self, file, max_age):\n    mtime \u003d datetime.fromtimestamp(os.stat(file).st_mtime)\n    return mtime + max_age \u003c datetime.now()\n```",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e280c514_ac9cd565",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T14:43:51Z",
+      "side": 1,
+      "message": "we should also integrate gc-preserve into this python implementation (in another change)",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c806f93a_305600b0",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T14:43:51Z",
+      "side": 1,
+      "message": "I\u0027d extract this to a generator function `_find_all_projects` yielding all projects and call `_gc_specified_projects(self, _find_all_projects, skips)` instead of the duplicate code below",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 46
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
