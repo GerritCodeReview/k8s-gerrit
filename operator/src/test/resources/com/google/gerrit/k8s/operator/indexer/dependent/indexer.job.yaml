@@ -58,7 +58,6 @@ spec:
           name: gerrit-site
         - mountPath: /var/mnt/git
           name: repositories
-          readOnly: true
           subPath: git
       containers:
       - name: gerrit-indexer
@@ -82,7 +81,6 @@ spec:
           name: gerrit-site
         - mountPath: /var/mnt/git
           name: repositories
-          readOnly: true
           subPath: git
       restartPolicy: OnFailure
       volumes:
