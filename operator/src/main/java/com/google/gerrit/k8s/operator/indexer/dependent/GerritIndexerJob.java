@@ -191,8 +191,7 @@ public class GerritIndexerJob
         new VolumeMountBuilder()
             .withName(repoVolumeName(gerritIndexer))
             .withMountPath("/var/mnt/git")
-            .withSubPath(repoPath)
-            .withReadOnly(true);
+            .withSubPath(repoPath);
     if (repoPath == null) {
       repoVolumeMount.withSubPath("git");
     } else {
