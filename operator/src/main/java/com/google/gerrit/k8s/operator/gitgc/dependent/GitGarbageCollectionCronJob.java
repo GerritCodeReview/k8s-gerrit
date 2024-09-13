@@ -149,6 +149,17 @@ public class GitGarbageCollectionCronJob
                     .getGerritImages()
                     .getFullImageName("git-gc"))
             .withResources(gitGc.getSpec().getResources())
+            .withNewLifecycle()
+            .withNewPreStop()
+            .withNewExec()
+            .withCommand(
+                "/bin/ash",
+                "-c",
+                "boot_time=$(grep btime /proc/stat | awk '{print $2}') && echo \"boot time: $boot_time\""
+                    + " && dmesg | grep -iE \"error|fail|panic|critical|warning\"")
+            .endExec()
+            .endPreStop()
+            .endLifecycle()
             .withVolumeMounts(volumeMounts);
 
     ArrayList<String> args = new ArrayList<>();
