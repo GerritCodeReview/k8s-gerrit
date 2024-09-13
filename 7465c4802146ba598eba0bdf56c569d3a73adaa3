@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60c0a478_f1e42bd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "Add `README.md` and describe the purpose of the image",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1e945fc_6f3fe7a7",
         "filename": "container-images/gerrit-housekeeper/Dockerfile",
         "patchSetId": 1
@@ -37,6 +54,92 @@
       "writtenOn": "2024-09-13T14:43:51Z",
       "side": 1,
       "message": "nit: remove empty line ?",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800138bf_38abab71",
+        "filename": "container-images/gerrit-housekeeper/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "nit: unnecessary empty line",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adf71847_db475a82",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "* What about the `help` text for each option?\n\n* existence of `-p` and `-P` but for completely different purposes wasn\u0027t the best choice and it might be time to clean up this? For short option names it is often the case that the lowercase represents the positive case and uppercase the negative case, for example: `-v` is verbose-mode and `-V` is no-verbose-mode.\n\nI don\u0027t have a good proposal for short option names except to drop them completely. Short option names are only useful for interactive work and for frequently used commands, like `ls -l`. For scripting, it is anyway best practice to use long option names as the resulting code is easier to read:\n```\ngc -p foo -P\n```\n\nvs\n\n```\ngc --project foo --preserve-packs\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 76
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14f71634_7c028dab",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "maybe `create_bitmap`",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b27d4ae0_2a887e6e",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "maybe `skip_project`",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 11
+      },
       "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -116,6 +219,52 @@
         "startChar": 0,
         "endLine": 63,
         "endChar": 46
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fac97b8_a650f230",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "This will only traverse Git repositories directly under `/var/gerrit/git`. We must traverse recursively in order to find all Git repositories.\n\nFurther, to be safe, we should only consider those directories whose extension is `.git`.\n\noptional (maybe for another change):\nA possible optimization would be to stop recursive traversing inside a Git repository as we know that there will be no Git repositories inside a Git repository.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 37
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b41dcef0_c215147b",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2024-09-13T14:54:53Z",
+      "side": 1,
+      "message": "The boilerplate code `config_write.set_value` can be factored out, for example:\n```\nCONFIGS \u003d [\n  (\"core\", \"logAllRefUpdates\", True),\n  (\"gc\", \"auto\", 0),\n  (\"gc, autoPackLimit\", 0),\n  ...\n]\n\nfor section, key, value in [CONFIGS]:\n  config_writer.set_value(section, key, value)\n```",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 73
       },
       "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
