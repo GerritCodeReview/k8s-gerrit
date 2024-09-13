@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9d4ffd7_a3381a69",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gitgc/dependent/GitGarbageCollectionCronJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-13T07:00:02Z",
+      "side": 1,
+      "message": "I doubt that this will work, since this requires root permissions, but the container uses the gerrit user.",
+      "range": {
+        "startLine": 159,
+        "startChar": 27,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "4a3b38392e3d693d8d9a5c3236a93cf3f51d589b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
