@@ -1,10 +1,10 @@
-# Copyright (C) 2018 The Android Open Source Project
+# Copyright (C) 2024 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http:#www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,12 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-get_image_list(){
-  echo  "apache-git-http-backend" \
-        "gerrit-indexer" \
-        "gerrit-init" \
-        "gerrit-maintenance" \
-        "gerrit" \
-        "git-gc" \
-        "fetch-job"
-}
+import os
+
+from datetime import datetime
+
+
+class Util:
+    @staticmethod
+    def is_file_stale(file, max_age):
+        return (
+            datetime.fromtimestamp(os.stat(file).st_mtime) + max_age
+            < datetime.now().timestamp()
+        )
