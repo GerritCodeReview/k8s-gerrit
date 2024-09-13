@@ -22,6 +22,30 @@
       },
       "revId": "4a3b38392e3d693d8d9a5c3236a93cf3f51d589b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cd37bba_dcb5ef50",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gitgc/dependent/GitGarbageCollectionCronJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-13T08:48:25Z",
+      "side": 1,
+      "message": "I tried to run this command in a running gc container and it worked:\n\n```\n\u003c\u003cK9s-Shell\u003e\u003e Pod: gerrit/gitgc-xxxx-28769760-sdrsp | Container: git-gc\n\n/ $ boot_time\u003d$(grep btime /proc/stat | awk \u0027{print $2}\u0027) \u0026\u0026 echo \"boot time: $boot_time\" \u0026\u0026 dmesg | grep -iE \"error|fail|panic|critical|warning\"\nboot time: 1725861629\n[    1.108048] ACPI: _OSC evaluation for CPUs failed, trying _PDC\n[    1.143180] acpi PNP0A03:00: fail to add MMCONFIG information, can\u0027t access extended configuration space under this bridge\n[    2.746607] i8042: Warning: Keylock active\n[    3.016408] RAS: Correctable Errors collector initialized.\n[    3.857247] GPT: Use GNU Parted to correct GPT errors.\n[    5.368116] systemd[1]: Failed to populate /etc with preset unit settings, ignoring: Read-only file system\n```",
+      "parentUuid": "e9d4ffd7_a3381a69",
+      "range": {
+        "startLine": 159,
+        "startChar": 27,
+        "endLine": 159,
+        "endChar": 32
+      },
+      "revId": "4a3b38392e3d693d8d9a5c3236a93cf3f51d589b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
