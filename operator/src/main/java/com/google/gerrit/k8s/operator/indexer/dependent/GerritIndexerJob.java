@@ -75,6 +75,8 @@ public class GerritIndexerJob
         .withLabels(getLabels(gerritIndexer))
         .endMetadata()
         .withNewSpec()
+        .withAffinity(gerritIndexer.getSpec().getAffinity())
+        .withTolerations(gerritIndexer.getSpec().getTolerations())
         .addAllToImagePullSecrets(
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")

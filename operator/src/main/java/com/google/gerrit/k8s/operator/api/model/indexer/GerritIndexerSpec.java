@@ -14,16 +14,38 @@
 
 package com.google.gerrit.k8s.operator.api.model.indexer;
 
+import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import io.fabric8.kubernetes.api.model.Toleration;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class GerritIndexerSpec {
   private String cluster;
+  private List<Toleration> tolerations = new ArrayList<>();
+  private Affinity affinity;
   private ResourceRequirements resources = new ResourceRequirements();
   private Map<String, String> configFiles = new HashMap<>();
   private GerritIndexerStorage storage = new GerritIndexerStorage();
+
+  public List<Toleration> getTolerations() {
+    return tolerations;
+  }
+
+  public void setTolerations(List<Toleration> tolerations) {
+    this.tolerations = tolerations;
+  }
+
+  public Affinity getAffinity() {
+    return affinity;
+  }
+
+  public void setAffinity(Affinity affinity) {
+    this.affinity = affinity;
+  }
 
   public String getCluster() {
     return cluster;
@@ -59,7 +81,7 @@ public class GerritIndexerSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cluster, configFiles, resources, storage);
+    return Objects.hash(affinity, cluster, configFiles, resources, storage, tolerations);
   }
 
   @Override
@@ -68,16 +90,22 @@ public class GerritIndexerSpec {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     GerritIndexerSpec other = (GerritIndexerSpec) obj;
-    return Objects.equals(cluster, other.cluster)
+    return Objects.equals(affinity, other.affinity)
+        && Objects.equals(cluster, other.cluster)
         && Objects.equals(configFiles, other.configFiles)
         && Objects.equals(resources, other.resources)
-        && Objects.equals(storage, other.storage);
+        && Objects.equals(storage, other.storage)
+        && Objects.equals(tolerations, other.tolerations);
   }
 
   @Override
   public String toString() {
     return "GerritIndexerSpec [cluster="
         + cluster
+        + ", tolerations="
+        + tolerations
+        + ", affinity="
+        + affinity
         + ", resources="
         + resources
         + ", configFiles="
