@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-    - name: v1beta9
+    - name: v1beta10
       schema:
         openAPIV3Schema:
           properties:
@@ -435,6 +435,19 @@ spec:
                         type: object
                     type: object
                   type: array
+                eventsBroker:
+                  properties:
+                    brokerType:
+                      enum:
+                        - KAFKA
+                        - NONE
+                      type: string
+                    kafkaConfig:
+                      properties:
+                        connectString:
+                          type: string
+                      type: object
+                  type: object
                 fluentBitSidecar:
                   properties:
                     config:

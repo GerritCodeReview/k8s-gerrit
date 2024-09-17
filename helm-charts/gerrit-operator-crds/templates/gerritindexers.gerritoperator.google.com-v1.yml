@@ -9,123 +9,239 @@ spec:
     kind: GerritIndexer
     plural: gerritindexers
     shortNames:
-    - gi
+      - gi
     singular: gerritindexer
   scope: Namespaced
   versions:
-  - name: v1beta10
-    schema:
-      openAPIV3Schema:
-        properties:
-          spec:
-            properties:
-              cluster:
-                type: string
-              configFiles:
-                additionalProperties:
+    - name: v1beta11
+      schema:
+        openAPIV3Schema:
+          properties:
+            spec:
+              properties:
+                cluster:
                   type: string
-                type: object
-              resources:
-                properties:
-                  claims:
-                    items:
+                configFiles:
+                  additionalProperties:
+                    type: string
+                  type: object
+                resources:
+                  properties:
+                    claims:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+                storage:
+                  properties:
+                    output:
                       properties:
-                        name:
+                        persistentVolumeClaim:
+                          type: string
+                        subPath:
                           type: string
                       type: object
-                    type: array
-                  limits:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                  requests:
-                    additionalProperties:
-                      anyOf:
-                      - type: integer
-                      - type: string
-                      x-kubernetes-int-or-string: true
-                    type: object
-                type: object
-              storage:
-                properties:
-                  output:
-                    properties:
-                      persistentVolumeClaim:
-                        type: string
-                      subPath:
-                        type: string
-                    type: object
-                  repositories:
-                    properties:
-                      persistentVolumeClaim:
-                        type: string
-                      subPath:
-                        type: string
-                    type: object
-                  site:
-                    properties:
-                      persistentVolumeClaim:
-                        type: string
-                      subPath:
-                        type: string
-                    type: object
-                type: object
-            type: object
-          status:
-            properties:
-              apiVersion:
-                type: string
-              code:
-                type: integer
-              details:
-                properties:
-                  causes:
-                    items:
+                    repositories:
                       properties:
-                        field:
+                        persistentVolumeClaim:
                           type: string
-                        message:
-                          type: string
-                        reason:
+                        subPath:
                           type: string
                       type: object
-                    type: array
-                  group:
+                    site:
+                      properties:
+                        persistentVolumeClaim:
+                          type: string
+                        subPath:
+                          type: string
+                      type: object
+                  type: object
+              type: object
+            status:
+              properties:
+                apiVersion:
+                  type: string
+                code:
+                  type: integer
+                details:
+                  properties:
+                    causes:
+                      items:
+                        properties:
+                          field:
+                            type: string
+                          message:
+                            type: string
+                          reason:
+                            type: string
+                        type: object
+                      type: array
+                    group:
+                      type: string
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                    retryAfterSeconds:
+                      type: integer
+                    uid:
+                      type: string
+                  type: object
+                kind:
+                  type: string
+                message:
+                  type: string
+                metadata:
+                  properties:
+                    continue:
+                      type: string
+                    remainingItemCount:
+                      type: integer
+                    resourceVersion:
+                      type: string
+                    selfLink:
+                      type: string
+                  type: object
+                reason:
+                  type: string
+                status:
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
+    - name: v1beta10
+      schema:
+        openAPIV3Schema:
+          properties:
+            spec:
+              properties:
+                cluster:
+                  type: string
+                configFiles:
+                  additionalProperties:
                     type: string
-                  kind:
-                    type: string
-                  name:
-                    type: string
-                  retryAfterSeconds:
-                    type: integer
-                  uid:
-                    type: string
-                type: object
-              kind:
-                type: string
-              message:
-                type: string
-              metadata:
-                properties:
-                  continue:
-                    type: string
-                  remainingItemCount:
-                    type: integer
-                  resourceVersion:
-                    type: string
-                  selfLink:
-                    type: string
-                type: object
-              reason:
-                type: string
-              status:
-                type: string
-            type: object
-        type: object
-    served: true
-    storage: true
-    subresources:
-      status: {}
+                  type: object
+                resources:
+                  properties:
+                    claims:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                        type: object
+                      type: array
+                    limits:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                    requests:
+                      additionalProperties:
+                        anyOf:
+                          - type: integer
+                          - type: string
+                        x-kubernetes-int-or-string: true
+                      type: object
+                  type: object
+                storage:
+                  properties:
+                    output:
+                      properties:
+                        persistentVolumeClaim:
+                          type: string
+                        subPath:
+                          type: string
+                      type: object
+                    repositories:
+                      properties:
+                        persistentVolumeClaim:
+                          type: string
+                        subPath:
+                          type: string
+                      type: object
+                    site:
+                      properties:
+                        persistentVolumeClaim:
+                          type: string
+                        subPath:
+                          type: string
+                      type: object
+                  type: object
+              type: object
+            status:
+              properties:
+                apiVersion:
+                  type: string
+                code:
+                  type: integer
+                details:
+                  properties:
+                    causes:
+                      items:
+                        properties:
+                          field:
+                            type: string
+                          message:
+                            type: string
+                          reason:
+                            type: string
+                        type: object
+                      type: array
+                    group:
+                      type: string
+                    kind:
+                      type: string
+                    name:
+                      type: string
+                    retryAfterSeconds:
+                      type: integer
+                    uid:
+                      type: string
+                  type: object
+                kind:
+                  type: string
+                message:
+                  type: string
+                metadata:
+                  properties:
+                    continue:
+                      type: string
+                    remainingItemCount:
+                      type: integer
+                    resourceVersion:
+                      type: string
+                    selfLink:
+                      type: string
+                  type: object
+                reason:
+                  type: string
+                status:
+                  type: string
+              type: object
+          type: object
+      served: true
+      storage: false
+      subresources:
+        status: {}
