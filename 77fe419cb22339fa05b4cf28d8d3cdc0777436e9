@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ac558a_ded9a7c1",
+        "filename": "crd/deprecated/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-17T07:43:09Z",
+      "side": 1,
+      "message": "Where does this come from ?\nDoesn\u0027t seem to be related to this change.",
+      "revId": "77fe419cb22339fa05b4cf28d8d3cdc0777436e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
