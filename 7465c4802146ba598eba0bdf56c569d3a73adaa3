@@ -41,6 +41,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c325101_f003b6b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccd5f543_1d29f924",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a28412_102bf6d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60c0a478_f1e42bd4",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1e945fc_6f3fe7a7",
@@ -75,6 +117,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d2117c7_5d7f1648",
+        "filename": "container-images/gerrit-housekeeper/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e945fc_6f3fe7a7",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "647f7fca_03b7c12d",
+        "filename": "container-images/gerrit-housekeeper/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800138bf_38abab71",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adf71847_db475a82",
@@ -88,6 +166,30 @@
       "writtenOn": "2024-09-13T14:54:53Z",
       "side": 1,
       "message": "* What about the `help` text for each option?\n\n* existence of `-p` and `-P` but for completely different purposes wasn\u0027t the best choice and it might be time to clean up this? For short option names it is often the case that the lowercase represents the positive case and uppercase the negative case, for example: `-v` is verbose-mode and `-V` is no-verbose-mode.\n\nI don\u0027t have a good proposal for short option names except to drop them completely. Short option names are only useful for interactive work and for frequently used commands, like `ls -l`. For scripting, it is anyway best practice to use long option names as the resulting code is easier to read:\n```\ngc -p foo -P\n```\n\nvs\n\n```\ngc --project foo --preserve-packs\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 76
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31876ddc_d6398d2b",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done.\n\nNow `-k` is used (from `keep`)",
+      "parentUuid": "adf71847_db475a82",
       "range": {
         "startLine": 39,
         "startChar": 0,
@@ -146,6 +248,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9875348_7578bb9d",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Then we would have to change the option name, since click requires function parameters to match the full option name.",
+      "parentUuid": "b27d4ae0_2a887e6e",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a18c9359_421aebc0",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "see previous answer",
+      "parentUuid": "14f71634_7c028dab",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b05e609_7db94248",
         "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
         "patchSetId": 1
@@ -157,6 +307,30 @@
       "writtenOn": "2024-09-13T14:43:51Z",
       "side": 1,
       "message": "s/sss/ss/",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 72,
+        "endChar": 40
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb177b0_4b1a9a5e",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/housekeeper.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b05e609_7db94248",
       "range": {
         "startLine": 72,
         "startChar": 37,
@@ -184,6 +358,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c169caf_57e5cc8a",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5067f333_e1953023",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e280c514_ac9cd565",
@@ -203,6 +395,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbc8ba1a_f6e66f26",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Can this then also used as a custom git command?",
+      "parentUuid": "e280c514_ac9cd565",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c806f93a_305600b0",
         "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
         "patchSetId": 1
@@ -214,6 +424,30 @@
       "writtenOn": "2024-09-13T14:43:51Z",
       "side": 1,
       "message": "I\u0027d extract this to a generator function `_find_all_projects` yielding all projects and call `_gc_specified_projects(self, _find_all_projects, skips)` instead of the duplicate code below",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 46
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47f4ee52_189a1489",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c806f93a_305600b0",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -247,6 +481,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a1ed848_ddc7cf34",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fac97b8_a650f230",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 37
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b41dcef0_c215147b",
@@ -260,6 +518,30 @@
       "writtenOn": "2024-09-13T14:54:53Z",
       "side": 1,
       "message": "The boilerplate code `config_write.set_value` can be factored out, for example:\n```\nCONFIGS \u003d [\n  (\"core\", \"logAllRefUpdates\", True),\n  (\"gc\", \"auto\", 0),\n  (\"gc, autoPackLimit\", 0),\n  ...\n]\n\nfor section, key, value in [CONFIGS]:\n  config_writer.set_value(section, key, value)\n```",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 73
+      },
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8286188_909f2e9f",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T13:47:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b41dcef0_c215147b",
       "range": {
         "startLine": 113,
         "startChar": 0,
