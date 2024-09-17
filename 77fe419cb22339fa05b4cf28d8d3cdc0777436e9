@@ -16,6 +16,24 @@
       "message": "Where does this come from ?\nDoesn\u0027t seem to be related to this change.",
       "revId": "77fe419cb22339fa05b4cf28d8d3cdc0777436e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1df4500_59584c82",
+        "filename": "crd/deprecated/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-17T08:24:54Z",
+      "side": 1,
+      "message": "Since this is a new CRD version, we have to override the deprecated version. This was added in v1beta10 which will now be the new deprecated version.",
+      "parentUuid": "14ac558a_ded9a7c1",
+      "revId": "77fe419cb22339fa05b4cf28d8d3cdc0777436e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
