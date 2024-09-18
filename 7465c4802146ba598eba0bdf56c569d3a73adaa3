@@ -413,6 +413,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e0c7f34_8fa8254f",
+        "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-18T21:12:36Z",
+      "side": 1,
+      "message": "Martin [proposed on discord](https://discord.com/channels/775374026587373568/1108408660704645220/1279116672405475430) that it might be simpler to not wrap git gc but instead call preserve-packs before running git gc",
+      "parentUuid": "cbc8ba1a_f6e66f26",
+      "revId": "7465c4802146ba598eba0bdf56c569d3a73adaa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c806f93a_305600b0",
         "filename": "container-images/gerrit-housekeeper/housekeeper/projects/gc.py",
         "patchSetId": 1
