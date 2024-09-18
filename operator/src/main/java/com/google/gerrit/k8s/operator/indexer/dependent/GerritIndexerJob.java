@@ -83,7 +83,7 @@ public class GerritIndexerJob
         .withNewSecurityContext()
         .withFsGroup(GERRIT_USER_GROUP_ID)
         .endSecurityContext()
-        .withInitContainers(buildGerritInitContainer(gerritIndexer, gerritCluster))
+        .withInitContainers(buildInitContainers(gerritIndexer, gerritCluster))
         .withContainers(buildGerritIndexerContainer(gerritIndexer, gerritCluster))
         .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
         .endSpec()
@@ -110,20 +110,32 @@ public class GerritIndexerJob
     return String.format("gerrit-indexer-%s", gerritIndexerName);
   }
 
-  private Container buildGerritInitContainer(
+  private List<Container> buildInitContainers(
       GerritIndexer gerritIndexer, GerritCluster gerritCluster) {
-    return new ContainerBuilder()
-        .withName("gerrit-init")
-        .withImage(
-            gerritCluster
-                .getSpec()
-                .getContainerImages()
-                .getGerritImages()
-                .getFullImageName("gerrit-init"))
-        .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
-        .withResources(gerritIndexer.getSpec().getResources())
-        .withVolumeMounts(buildGerritInitVolumeMounts(gerritIndexer))
-        .build();
+    ArrayList<Container> initContainers = new ArrayList<>();
+    if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster
+            .getSpec()
+            .getStorage()
+            .getStorageClasses()
+            .getNfsWorkaround()
+            .isChownOnStartup()) {
+      initContainers.add(gerritCluster.createNfsInitContainer());
+    }
+    initContainers.add(
+        new ContainerBuilder()
+            .withName("gerrit-init")
+            .withImage(
+                gerritCluster
+                    .getSpec()
+                    .getContainerImages()
+                    .getGerritImages()
+                    .getFullImageName("gerrit-init"))
+            .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
+            .withResources(gerritIndexer.getSpec().getResources())
+            .withVolumeMounts(buildGerritInitVolumeMounts(gerritIndexer))
+            .build());
+    return initContainers;
   }
 
   private Container buildGerritIndexerContainer(
