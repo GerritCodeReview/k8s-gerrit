@@ -90,9 +90,23 @@ public class GerritIndexerJob
         .addAllToImagePullSecrets(
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")
+<<<<<<< PATCH SET (d4dcfc Allow to use NFS workaround in GerritIndexer)
+        .withNewSecurityContext()
+        .withFsGroup(GERRIT_USER_GROUP_ID)
+        .endSecurityContext()
+        .withInitContainers(buildInitContainers(gerritIndexer, gerritCluster))
+        .withContainers(buildGerritIndexerContainer(gerritIndexer, gerritCluster))
+||||||| BASE
+        .withNewSecurityContext()
+        .withFsGroup(GERRIT_USER_GROUP_ID)
+        .endSecurityContext()
+        .withInitContainers(buildGerritInitContainer(gerritIndexer, gerritCluster))
+        .withContainers(buildGerritIndexerContainer(gerritIndexer, gerritCluster))
+=======
         .withSecurityContext(GerritSecurityContext.forPod())
         .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
         .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
+>>>>>>> BASE      (e38f10 Mount EmptyDir volume to "/tmp" dir in Indexer containers)
         .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
         .endSpec()
         .endTemplate()
@@ -118,6 +132,49 @@ public class GerritIndexerJob
     return String.format("gerrit-indexer-%s", gerritIndexerName);
   }
 
+<<<<<<< PATCH SET (d4dcfc Allow to use NFS workaround in GerritIndexer)
+  private List<Container> buildInitContainers(
+      GerritIndexer gerritIndexer, GerritCluster gerritCluster) {
+    ArrayList<Container> initContainers = new ArrayList<>();
+    if (gerritCluster.getSpec().getStorage().getStorageClasses().getNfsWorkaround().isEnabled()
+        && gerritCluster
+            .getSpec()
+            .getStorage()
+            .getStorageClasses()
+            .getNfsWorkaround()
+            .isChownOnStartup()) {
+      initContainers.add(gerritCluster.createNfsInitContainer());
+    }
+    initContainers.add(
+        new ContainerBuilder()
+            .withName("gerrit-init")
+            .withImage(
+                gerritCluster
+                    .getSpec()
+                    .getContainerImages()
+                    .getGerritImages()
+                    .getFullImageName("gerrit-init"))
+            .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
+            .withResources(gerritIndexer.getSpec().getResources())
+            .withVolumeMounts(buildGerritInitVolumeMounts(gerritIndexer))
+            .build());
+    return initContainers;
+||||||| BASE
+  private Container buildGerritInitContainer(
+      GerritIndexer gerritIndexer, GerritCluster gerritCluster) {
+    return new ContainerBuilder()
+        .withName("gerrit-init")
+        .withImage(
+            gerritCluster
+                .getSpec()
+                .getContainerImages()
+                .getGerritImages()
+                .getFullImageName("gerrit-init"))
+        .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
+        .withResources(gerritIndexer.getSpec().getResources())
+        .withVolumeMounts(buildGerritInitVolumeMounts(gerritIndexer))
+        .build();
+=======
   private Container buildGerritInitContainer(
       GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
     return new ContainerBuilder()
@@ -133,6 +190,7 @@ public class GerritIndexerJob
         .withResources(indexerSpec.getResources())
         .withVolumeMounts(buildGerritInitVolumeMounts(indexerSpec))
         .build();
+>>>>>>> BASE      (e38f10 Mount EmptyDir volume to "/tmp" dir in Indexer containers)
   }
 
   private Container buildGerritIndexerContainer(
