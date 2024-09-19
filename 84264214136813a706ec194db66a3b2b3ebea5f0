@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12f41903_f6196305",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-09-19T14:09:01Z",
+      "side": 1,
+      "message": "It would be nice to split out the code which deals with a single repository into its own program. That would make it easier to run things for one repo without having to add special switches to do that. \n\nIt also would make it possible to then have different smart top level project selection strategies in different scripts. For example, the simple strategy here is to mainly loop over all projects, but some people might want to have different top level scripts which target different groups of projects so they can run that at different intervals. Some people might want strategies which analyze the states of repos to see which repos are in the need of the most work, and to then prioritize those. So having the per repo cleanup logic separate would make it a lot easier to pursue different approaches.",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62f284e6_07459e7e",
         "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
         "patchSetId": 6
