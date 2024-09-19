@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62f284e6_07459e7e",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-19T11:21:11Z",
+      "side": 1,
+      "message": "```suggestion\n                f\"Pruning stale \u0027gc.pid\u0027 lock file older than %s: %s\", str(MAX_AGE_GC_LOCK), gc_lock_path\n```",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b976026c_0c6adc8b",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-19T11:21:11Z",
+      "side": 1,
+      "message": "```suggestion\n                    f\"Pruning stale incoming pack/index file older than %s: %s\",\n                    str(MAX_AGE_INCOMING_PACKS), file,\n                )\n```",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 1
+      },
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e54080c_4f1363d9",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-19T11:21:11Z",
+      "side": 1,
+      "message": "make this a constant ?",
+      "range": {
+        "startLine": 182,
+        "startChar": 29,
+        "endLine": 182,
+        "endChar": 31
+      },
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6bdb93_2893df55",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-19T11:21:11Z",
+      "side": 1,
+      "message": "add a comment why this is needed ?",
+      "range": {
+        "startLine": 257,
+        "startChar": 42,
+        "endLine": 257,
+        "endChar": 55
+      },
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
