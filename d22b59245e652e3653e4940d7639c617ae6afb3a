@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bdfe117_5df2fd89",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-09-19T15:13:49Z",
+      "side": 1,
+      "message": "It would be valuable to be able to put this info in a separate config file so that policy could be edited without having to edit the implementation script.\n\nTo enhance such an approach, it might be worth considering adding a configuration item for anything that is policy and then moving it to the config file.",
+      "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
