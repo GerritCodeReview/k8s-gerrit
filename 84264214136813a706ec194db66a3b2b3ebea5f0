@@ -20,6 +20,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f799fa24_50cf29cb",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "I believe that what you would like to have (as I understand it) is already supported.\n\na) GC all projects in a Gerrit site:\n\n```sh\npython ./gerrit-maintenance -d $SITE projects gc\n```\n\nb) GC a single project:\n\n```sh\npython ./gerrit-maintenance -d $SITE projects gc -p repo1.git\n```\n\nc) GC a set of projects\n\n```sh\npython ./gerrit-maintenance -d $SITE projects gc -p repo1.git -p repo2.git\n```\n\nd) GC all projects except of some\n\n```sh\npython ./gerrit-maintenance -d $SITE projects gc -s repo1.git -s repo2.git\n```\n\nThat means if you have some other tool selecting projects to GC, you could already use this tool to GC the selected repositories.\n\nI guess, what you meant is to have something like this instead of b):\n\n```sh\npython ./gerrit-maintenance -d $SITE projects gc repo1.git\n```\n\ni.e. making the repo an argument instead of an option. Not sure, if that small change would provide that much advantage.\n\nOr even:\n\n```sh\npython ./gerrit-maintenance projects gc path/to/repo1.git\n```\n\ni.e. getting rid of the built-in assumption about a Gerrit-site (which I believe would not fit the overall scope of this tool, which is to maintain a Gerrit site).\n\nIf I got you wrong, I would appreciate an example on how you would imagine to call the tool in the given scenarios.",
+      "parentUuid": "12f41903_f6196305",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "119329f0_c3bfbe8e",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "I believe that this is support",
+      "parentUuid": "12f41903_f6196305",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62f284e6_07459e7e",
         "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
         "patchSetId": 6
@@ -37,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25a4d4b5_94c178fe",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "f-Strings should not be used for logging, since they are not lazily constructed: https://pylint.readthedocs.io/en/latest/user_guide/messages/warning/logging-fstring-interpolation.html",
+      "parentUuid": "62f284e6_07459e7e",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b976026c_0c6adc8b",
         "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
         "patchSetId": 6
@@ -48,6 +102,30 @@
       "writtenOn": "2024-09-19T11:21:11Z",
       "side": 1,
       "message": "```suggestion\n                    f\"Pruning stale incoming pack/index file older than %s: %s\",\n                    str(MAX_AGE_INCOMING_PACKS), file,\n                )\n```",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 1
+      },
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ec29ef1_91a4d578",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "See above answer",
+      "parentUuid": "b976026c_0c6adc8b",
       "range": {
         "startLine": 167,
         "startChar": 0,
@@ -81,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "751f8b7a_a8105fd9",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e54080c_4f1363d9",
+      "range": {
+        "startLine": 182,
+        "startChar": 29,
+        "endLine": 182,
+        "endChar": 31
+      },
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd6bdb93_2893df55",
@@ -94,6 +196,30 @@
       "writtenOn": "2024-09-19T11:21:11Z",
       "side": 1,
       "message": "add a comment why this is needed ?",
+      "range": {
+        "startLine": 257,
+        "startChar": 42,
+        "endLine": 257,
+        "endChar": 55
+      },
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e43eb19_6fdf93cd",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd6bdb93_2893df55",
       "range": {
         "startLine": 257,
         "startChar": 42,

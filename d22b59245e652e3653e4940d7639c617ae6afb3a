@@ -34,6 +34,24 @@
       "parentUuid": "6bdfe117_5df2fd89",
       "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7c74324_541a3540",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-20T09:04:19Z",
+      "side": 1,
+      "message": "It has also bothered me a bit, that we use a quite opinionated configuration here (which is based on our experiences at SAP and Shawn\u0027s original script this is based on).\nI would suggest the following: We remove the part setting configuration entirely from the GC script. We add a separate CLI command that allows to batch apply repository configuration to one/a set/all repositories in a Gerrit site based on a provided configuration file.",
+      "parentUuid": "43bbbf2f_83e0bbe5",
+      "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
