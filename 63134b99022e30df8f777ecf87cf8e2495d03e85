@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5016c1d4_00df045c",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-09-22T23:13:13Z",
+      "side": 1,
+      "message": "GitConfigParser implements `__enter__` and `__exit__` [1] hence \n we can use `with` to ensure the writer is released.\n\n[1] https://github.com/gitpython-developers/GitPython/blob/main/git/config.py#L403\n```suggestion\n        with repo.config_writer(\"repository\") as config_writer:\n            config_writer.read()\n\n            for section, key, value in GIT_CONFIG_OPTS:\n                config_writer.set_value(section, key, value)\n\n            config_writer.set_value(\"repack\", \"writebitmaps\", self.create_bitmap)\n\n            config_writer.write()\n```",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 31
+      },
+      "revId": "63134b99022e30df8f777ecf87cf8e2495d03e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
