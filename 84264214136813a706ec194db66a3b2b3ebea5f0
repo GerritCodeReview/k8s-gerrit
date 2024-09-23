@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d226c5d_89dc093c",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-23T06:44:57Z",
+      "side": 1,
+      "message": "That perfectly fits our experience (e.g. see special handling of pack-refs). And now I also understand what you want to achieve and I believe that that is indeed a good idea.\n\nI also already thought that these scripts should move into its own repository or as you said to the gerrit/contrib dir.\n\nLet me prepare a change in the gerrit project and bring it to broader attention.",
+      "parentUuid": "85a0c450_7ff43079",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62f284e6_07459e7e",
         "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
         "patchSetId": 6
