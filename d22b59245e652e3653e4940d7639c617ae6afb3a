@@ -52,6 +52,24 @@
       "parentUuid": "43bbbf2f_83e0bbe5",
       "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd052ad3_48c824c1",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-09-23T02:20:33Z",
+      "side": 1,
+      "message": "I\u0027ve never like the idea that you have to apply a configuration to a repo just to be able to gc it. Perhaps that is an outdated method of doing things. All git commands seem to support using [-c \u003cname\u003e\u003d\u003cvalue\u003e], so why are we setting values in the repos directly. If we want to additionally set values in the repo, that can be done, but it seems this shouldn\u0027t be required just to run gc.",
+      "parentUuid": "f7c74324_541a3540",
+      "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

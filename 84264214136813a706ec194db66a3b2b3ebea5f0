@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85a0c450_7ff43079",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-09-23T02:20:33Z",
+      "side": 1,
+      "message": "My thought is that git gc (and jgit gc are deficient). These tools don\u0027t do certain cleanups that they should. It would be nice to push all the cleanups to those tools eventually. Until then, it would be nice to have a universal tool which has all the needed missing pieces that those tools don\u0027t have.\n\nMy suggestion for that tool is that it be mostly a drop in replacement for git gc, even if it calls those tools, or other plumbing under the hood. That would mean that ideally it would provide essentially the same interface as git gc. This means, we should be able to just run the program in a repo (using the current working dir) and it should just work. If I want the program to run on a directory other than the current directory, I should just use the git interface of --git-dir when calling the program. This would set a clear simple boundary on  how to interface with the tool.\n\nAs for behavior, it would therefor be nice if any additional behavior that is not \"cleaning\" up the repo, such as iterating over a set of repos, or writing repo configurations, would be in a wrapper. This would make the interface clearer, and make it easier to develop these very different behaviors independently.\n\nThis may not be what you want in your tool, and that\u0027s OK. I am just hoping that such a framework with such an architecture could get developed by the community. If this is not a good place for that, then maybe such a thing is better off in the gerrit/contrib directory eventually?",
+      "parentUuid": "f799fa24_50cf29cb",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62f284e6_07459e7e",
         "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
         "patchSetId": 6
