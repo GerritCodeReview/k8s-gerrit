@@ -92,6 +92,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9df5f048_2d08dfa5",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-24T12:50:23Z",
+      "side": 1,
+      "message": "Done here: https://gerrit-review.googlesource.com/c/gerrit/+/437803\n\nStill WIP, but mostly finished.",
+      "parentUuid": "5d226c5d_89dc093c",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2194f86_691e387d",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-09-24T12:50:23Z",
+      "side": 1,
+      "message": "Done here: https://gerrit-review.googlesource.com/c/gerrit/+/437803\n\nStill WIP, but mostly finished.",
+      "parentUuid": "5d226c5d_89dc093c",
+      "revId": "84264214136813a706ec194db66a3b2b3ebea5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62f284e6_07459e7e",
         "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
         "patchSetId": 6
