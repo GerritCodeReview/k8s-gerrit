@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87044790_de066180",
+        "filename": "container-images/gerrit-indexer/tools/start",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-01T13:39:25Z",
+      "side": 1,
+      "message": "I think this is equivalent to adding the option -T, see https://stackoverflow.com/questions/23698183/how-to-force-cp-to-overwrite-directory-instead-of-creating-another-one-inside\n\n```suggestion\n    cp -RT /var/gerrit/index/$LATEST_INDEX $OUTPUT/$LATEST_INDEX\n```\n\nanother potentially faster solution would be to use `rsync` instead of `cp`",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 51
+      },
+      "revId": "b799282ac761542f31617ef3ede3ec95c3828c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
