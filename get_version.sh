@@ -32,6 +32,12 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --platform)
+    shift
+    PLATFORM=$1
+    shift
+    ;;
+
   *)
     break
   esac
@@ -42,9 +48,10 @@ getK8sVersion() {
 }
 
 getGerritVersion() {
+    PLATFORM=${PLATFORM:-linux/amd64}  # Default value if PLATFORM is not set
     GERRIT_VERSION="$(
         docker run \
-            --platform=linux/amd64 \
+            --platform=$PLATFORM \
             --entrypoint '/bin/sh' \
             gerrit-base:$(getK8sVersion) \
             -c 'java -jar /var/gerrit/bin/gerrit.war version'

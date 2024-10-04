@@ -80,6 +80,12 @@ providing a download URL for a `.jar`-file containing the plugin:
 The build script will in addition tag the image with the output of
 `git describe --dirty`.
 
+The target platform for the image build can be specified by using the `--platform PLATFORM` option. This allows you to build images for different architectures such as ARM or x86. By default, the platform is set to linux/amd64.
+
+```
+./build --platform linux/arm64
+```
+
 The single component images inherit a base image. The `Dockerfile` for the base
 image can be found in the `./base`-directory. It will be
 automatically built by the `./build`-script. If the component images are built
