@@ -16,9 +16,11 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [--platform PLATFORM] [IMAGE]"
     exit 1
 }
+
+PLATFORM="linux/amd64"  # Default platform
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -55,6 +57,12 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --platform)
+    shift
+    PLATFORM=$1
+    shift
+    ;;
+
   *)
     break
   esac
@@ -64,7 +72,7 @@ done
 source container-images/publish_list
 IMAGES=$(get_image_list)
 
-DOCKER_BUILD_OPTS="--platform=linux/amd64"
+DOCKER_BUILD_OPTS="--platform=$PLATFORM"
 test -n "$NO_CACHE" && DOCKER_BUILD_OPTS="$DOCKER_BUILD_OPTS --no-cache"
 
 if test -n "$GERRIT_WAR_URL"; then
