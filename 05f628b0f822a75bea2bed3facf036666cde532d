@@ -16,6 +16,29 @@
       "message": "nit: split line to stay in 100 char line length",
       "revId": "05f628b0f822a75bea2bed3facf036666cde532d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "095966a6_2afaad86",
+        "filename": "build",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-07T07:53:38Z",
+      "side": 1,
+      "message": "The get-version.sh script also needs to be adapted, since it fails to read the correct Gerrit version (I got an empty version string when building for platform `linux/arm64`: `./build --platform linux/arm64`",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 51
+      },
+      "revId": "05f628b0f822a75bea2bed3facf036666cde532d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
