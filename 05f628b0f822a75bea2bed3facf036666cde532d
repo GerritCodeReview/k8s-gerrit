@@ -39,6 +39,30 @@
       },
       "revId": "05f628b0f822a75bea2bed3facf036666cde532d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "307c3588_a106bc2b",
+        "filename": "build",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-10-07T09:50:16Z",
+      "side": 1,
+      "message": "Good one. Please, let me know if I am missing something. I tried to follow the code and now I think it should be ok.",
+      "parentUuid": "095966a6_2afaad86",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 51
+      },
+      "revId": "05f628b0f822a75bea2bed3facf036666cde532d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
