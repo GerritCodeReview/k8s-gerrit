@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9052504_5aeb7f05",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-08T11:26:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aab74f9a_ad6381d2",
+      "revId": "2b800cc2753dbda385ed2d865127b79e1f1b5f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4312c7b8_88288276",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-08T09:55:46Z",
       "side": 1,
       "message": "version of istioctl and the one used in the cluster should match otherwise we could end up with errors (and I hit some when trying with this combination of versions\n\n```\n$ istioctl version\nclient version: 1.23.2\ncontrol plane version: 1.20.3\ndata plane version: 1.20.3 (5 proxies)\n```",
+      "revId": "2b800cc2753dbda385ed2d865127b79e1f1b5f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e4701a5_d4e31227",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-08T11:26:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4312c7b8_88288276",
       "revId": "2b800cc2753dbda385ed2d865127b79e1f1b5f7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
