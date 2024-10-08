@@ -46,7 +46,7 @@ public class OperatorModule extends AbstractModule {
   @Override
   protected void configure() {
     install(new EnvModule());
-    install(new ServerModule());
+    install(new ServerModule(clusterMode));
 
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
     bind(LifecycleManager.class);

@@ -22,14 +22,19 @@ import static org.hamcrest.Matchers.equalTo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritMultisiteAdmissionWebhook;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritMultisiteClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.HttpURLConnection;
 import org.eclipse.jgit.lib.Config;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -111,12 +116,19 @@ public class GerritMultisiteClusterAdmissionWebhookTest extends AdmissionWebhook
   }
 
   @Override
-  protected ClusterMode getClusterMode() {
-    return ClusterMode.MULTISITE;
-  }
-
-  @Override
   protected String getCustomResource() {
     return Constants.GERRIT_CLUSTER_KIND;
+  }
+
+  @BeforeAll
+  public void setup() throws Exception {
+    server = new TestAdmissionWebhookServer();
+
+    kubernetesServer.before();
+
+    OperatorContext.createInstance(ClusterMode.MULTISITE);
+    server.registerWebhook(new GerritMultisiteClusterAdmissionWebhook());
+    server.registerWebhook(new GerritMultisiteAdmissionWebhook());
+    server.start();
   }
 }

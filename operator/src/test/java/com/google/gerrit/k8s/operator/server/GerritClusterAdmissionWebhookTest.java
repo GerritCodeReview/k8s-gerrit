@@ -21,12 +21,16 @@ import static org.hamcrest.Matchers.equalTo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplateSpec;
 import com.google.gerrit.k8s.operator.test.ReceiverUtil;
+import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -35,6 +39,7 @@ import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.HttpURLConnection;
 import org.eclipse.jgit.lib.Config;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -156,12 +161,19 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
   }
 
   @Override
-  protected ClusterMode getClusterMode() {
-    return ClusterMode.HIGH_AVAILABILITY;
-  }
-
-  @Override
   protected String getCustomResource() {
     return Constants.GERRIT_CLUSTER_KIND;
+  }
+
+  @BeforeAll
+  public void setup() throws Exception {
+    server = new TestAdmissionWebhookServer();
+
+    kubernetesServer.before();
+
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY);
+    server.registerWebhook(new GerritClusterAdmissionWebhook());
+    server.registerWebhook(new GerritAdmissionWebhook());
+    server.start();
   }
 }

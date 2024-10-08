@@ -21,12 +21,17 @@ import static org.hamcrest.Matchers.equalTo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.HttpURLConnection;
 import org.eclipse.jgit.lib.Config;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -73,8 +78,15 @@ public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
     return Constants.GERRIT_KIND;
   }
 
-  @Override
-  protected ClusterMode getClusterMode() {
-    return ClusterMode.HIGH_AVAILABILITY;
+  @BeforeAll
+  public void setup() throws Exception {
+    server = new TestAdmissionWebhookServer();
+
+    kubernetesServer.before();
+
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY);
+    server.registerWebhook(new GerritClusterAdmissionWebhook());
+    server.registerWebhook(new GerritAdmissionWebhook());
+    server.start();
   }
 }
