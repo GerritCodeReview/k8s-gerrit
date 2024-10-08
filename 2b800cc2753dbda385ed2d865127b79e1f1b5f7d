@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab74f9a_ad6381d2",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-08T08:42:35Z",
+      "side": 1,
+      "message": "Add `yq` and `java 17`",
+      "revId": "2b800cc2753dbda385ed2d865127b79e1f1b5f7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
