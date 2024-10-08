@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd8f7d2c_d5e39b0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-08T14:15:03Z",
+      "side": 1,
+      "message": "The issue is that istio doesn\u0027t accept `localhost` and `127.0.0.1` is also not working. Thus, I used the wildcard for the hostname, which will in turn be used by the operator to configure the canonicalWebUrl. Let me check whether adding an entry to `/etc/resolve` would also work.",
+      "parentUuid": "dfad32f3_8177c118",
+      "revId": "c825eacc96ec3aff0dd06d078bb68e442417c86a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e396c742_84a31c24",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-10-08T12:06:53Z",
       "side": 1,
       "message": "if we install it to the folder where it\u0027s installed by default if you run `curl -sL https://istio.io/downloadIstioctl | sh -` we don\u0027t need to sudo\n```suggestion\ntar -xf /tmp/istioctl.tar.gz -C ~/.istioctl/bin/\n```",
+      "revId": "c825eacc96ec3aff0dd06d078bb68e442417c86a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a1a844b_d126fd0b",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-10-08T14:15:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e396c742_84a31c24",
       "revId": "c825eacc96ec3aff0dd06d078bb68e442417c86a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
