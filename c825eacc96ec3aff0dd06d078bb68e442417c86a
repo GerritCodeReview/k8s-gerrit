@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfad32f3_8177c118",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-08T12:52:18Z",
+      "side": 1,
+      "message": "I noticed that this setup sets `canonicalWebUrl \u003d http://*/` which looks weird and causes clone to fail with the error\n\n```\ngit clone \"http://*/test\"\nCloning into \u0027test\u0027...\nfatal: unable to access \u0027http://*/test/\u0027: URL rejected: Bad hostname\n```",
+      "revId": "c825eacc96ec3aff0dd06d078bb68e442417c86a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e396c742_84a31c24",
