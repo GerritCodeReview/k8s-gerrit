@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e396c742_84a31c24",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-08T12:06:53Z",
+      "side": 1,
+      "message": "if we install it to the folder where it\u0027s installed by default if you run `curl -sL https://istio.io/downloadIstioctl | sh -` we don\u0027t need to sudo\n```suggestion\ntar -xf /tmp/istioctl.tar.gz -C ~/.istioctl/bin/\n```",
+      "revId": "c825eacc96ec3aff0dd06d078bb68e442417c86a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
