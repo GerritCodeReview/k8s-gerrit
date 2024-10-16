@@ -30,6 +30,9 @@
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
   - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+  - [IndexConfig](#indexconfig)
+  - [IndexType](#indextype)
+  - [ElasticSearchConfig](#elasticsearchconfig)
   - [EventsBrokerConfig](#eventsbrokerconfig)
   - [BrokerType](#brokertype)
   - [KafkaConfig](#kafkaconfig)
@@ -83,7 +86,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: GerritCluster
 
 ---
@@ -100,7 +103,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -169,6 +172,14 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+
+  index:
+    type: LUCENE
+    elasticsearch:
+      server: es.example.com
+      config: |-
+        [elasticsearch]
+          codec = default
 
   fluentBitSidecar:
     enabled: true
@@ -408,7 +419,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: Gerrit
 
 ---
@@ -425,7 +436,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -619,6 +630,14 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+
+  index:
+    type: LUCENE
+    elasticsearch:
+      server: es.example.com
+      config: |-
+        [elasticsearch]
+          codec = default
 ```
 
 ## Receiver
@@ -626,7 +645,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: Receiver
 
 ---
@@ -643,7 +662,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: Receiver
 metadata:
   name: receiver
@@ -754,7 +773,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -771,7 +790,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -815,7 +834,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: GerritNetwork
 
 ---
@@ -831,7 +850,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -864,7 +883,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -880,7 +899,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -939,7 +958,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta11 \
+**Version**: v1beta12 \
 **Kind**: GerritIndexer
 
 ---
@@ -955,7 +974,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1010,6 +1029,7 @@ spec:
 | `containerImages` | [`ContainerImageConfig`](#containerimageconfig) | Container images used inside GerritCluster |
 | `ingress` | [`GerritClusterIngressConfig`](#gerritclusteringressconfig) | Ingress traffic handling in GerritCluster |
 | `refdb` | [`GlobalRefDbConfig`](#globalrefdbconfig) | The Global RefDB used by Gerrit |
+| `index` | [`IndexConfig`](#indexconfig) | The search index used by Gerrit |
 | `fluentBitSidecar` | [`FluentBitSidecarConfig`](#fluentbitsidecarconfig) | The Fluent Bit sidecar for application logging |
 | `serverId` | `String` | The serverId to be used for all Gerrit instances (default: `<namespace>/<name>`) |
 | `gerrits` | [`GerritTemplate`](#gerrittemplate)-Array | A list of Gerrit instances to be installed in the GerritCluster. Only a single primary Gerrit and a single Gerrit Replica is permitted. |
@@ -1165,6 +1185,30 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 |---|---|---|
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
+
+## IndexConfig
+
+Note, that the operator will not deploy or operate the search index. It will only
+configure Gerrit to use it.
+
+| Field | Type | Description |
+|---|---|---|
+| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`. (default: `LUCENE`) |
+| `elasticsearch` | [`ElasticSearchConfig`](#elasticsearchconfig) | Configuration of elasticsearch. Only used if elasticsearch was configured to be used for the search index. |
+
+## IndexType
+
+| Value | Description|
+|---|---|
+| `LUCENE` | Lucene will be used for the search index |
+| `ELASTICSEARCH` | Elasticsearch will be used for the search index (Requires Elasticsearch instance to be available.) |
+
+## ElasticSearchConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `server` | `String` | URL to use for connecting to Elasticsearch |
+| `config` | `String` | Config snippet used for the `elasticsearch` section in `gerrit.config` |
 
 ## EventsBrokerConfig
 
