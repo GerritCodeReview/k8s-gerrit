@@ -42,6 +42,11 @@ spec:
     zookeeper:
       connectString: zookeeper.example.com
 
+  index:
+    type: ELASTICSEARCH
+    elasticsearch:
+      server: http://elasticsearch.example.com:9200
+
   serviceAccount: gerrit
   replicas: 2
   service:

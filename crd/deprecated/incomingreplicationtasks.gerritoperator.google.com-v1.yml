@@ -11,7 +11,7 @@ spec:
     singular: incomingreplicationtask
   scope: Namespaced
   versions:
-    - name: v1beta10
+    - name: v1beta11
       schema:
         openAPIV3Schema:
           properties:
