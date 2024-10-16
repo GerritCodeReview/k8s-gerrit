@@ -79,6 +79,7 @@ public class GerritTemplate implements KubernetesResource {
     gerritSpec.setIngress(ingressConfig);
     gerritSpec.setServerId(getServerId(gerritCluster));
     gerritSpec.setFluentBitSidecar(gerritCluster.getSpec().getFluentBitSidecar());
+    gerritSpec.setIndex(gerritCluster.getSpec().getIndex());
 
     if (gerritCluster.getSpec().getGerrits().stream()
         .anyMatch(g -> g.getSpec().getMode().equals(GerritMode.PRIMARY))) {
