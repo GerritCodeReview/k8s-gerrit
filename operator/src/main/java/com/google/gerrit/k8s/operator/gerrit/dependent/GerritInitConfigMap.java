@@ -80,6 +80,8 @@ public class GerritInitConfigMap
         break;
     }
 
+    config.setIndexType(gerrit.getSpec().getIndex().getType());
+
     config.setClusterMode(OperatorContext.getClusterMode());
 
     ObjectMapper mapper =

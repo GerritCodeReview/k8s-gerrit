@@ -99,6 +99,8 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_MULTISITE_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
+        if self.config.index_type == "ELASTICSEARCH":
+            required.append("index-elasticsearch")
         LOG.info(
             "Requiring plugins (ClusterMode: %s): %s",
             self.config.cluster_mode.name,
@@ -114,6 +116,8 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_MULTISITE_LIBS)
         elif self.config.refdb:
             required.append("global-refdb")
+        if self.config.index_type == "ELASTICSEARCH":
+            required.append("index-elasticsearch")
         LOG.info(
             "Requiring libs (ClusterMode: %s): %s",
             self.config.cluster_mode.name,

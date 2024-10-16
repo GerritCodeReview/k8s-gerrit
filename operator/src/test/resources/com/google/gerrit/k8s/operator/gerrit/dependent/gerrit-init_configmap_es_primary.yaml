@@ -10,7 +10,7 @@ data:
       data: null
     libs: []
     refdb: "zookeeper"
-    indexType: "LUCENE"
+    indexType: "ELASTICSEARCH"
     clusterMode: "HIGH_AVAILABILITY"
     highAvailability: true
 kind: ConfigMap

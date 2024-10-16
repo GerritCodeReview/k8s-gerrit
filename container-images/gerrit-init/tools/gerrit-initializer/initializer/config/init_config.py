@@ -30,6 +30,7 @@ class InitConfig:
 
         self.is_ha = False
         self.refdb = False
+        self.index_type = "LUCENE"
         self.cluster_mode = ClusterMode.HIGH_AVAILABILITY
 
     def parse(self, config_file):
@@ -64,6 +65,9 @@ class InitConfig:
 
         if "refdb" in config:
             self.refdb = config["refdb"]
+
+        if "indexType" in config:
+            self.index_type = config["indexType"].upper()
 
         return self
 

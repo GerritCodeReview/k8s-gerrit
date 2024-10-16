@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +31,8 @@ public class GerritInitConfig {
   private boolean isHighlyAvailable;
 
   private String refdb;
+
+  private IndexType indexType = IndexType.LUCENE;
 
   private ClusterMode clusterMode;
 
@@ -91,6 +94,14 @@ public class GerritInitConfig {
     this.refdb = refdb;
   }
 
+  public IndexType getIndexType() {
+    return indexType;
+  }
+
+  public void setIndexType(IndexType indexType) {
+    this.indexType = indexType;
+  }
+
   public ClusterMode getClusterMode() {
     return clusterMode;
   }
@@ -109,6 +120,7 @@ public class GerritInitConfig {
         pluginCacheEnabled,
         plugins,
         refdb,
+        indexType,
         clusterMode);
   }
 
@@ -125,6 +137,7 @@ public class GerritInitConfig {
         && pluginCacheEnabled == other.pluginCacheEnabled
         && Objects.equals(plugins, other.plugins)
         && Objects.equals(refdb, other.refdb)
+        && Objects.equals(indexType, other.indexType)
         && clusterMode == other.clusterMode;
   }
 
@@ -144,6 +157,8 @@ public class GerritInitConfig {
         + isHighlyAvailable
         + ", refdb="
         + refdb
+        + ", indexType="
+        + indexType
         + ", clusterMode="
         + clusterMode
         + "]";

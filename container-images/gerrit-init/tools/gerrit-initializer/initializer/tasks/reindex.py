@@ -15,8 +15,8 @@
 # limitations under the License.
 
 import abc
-import enum
 import os.path
+import shutil
 import subprocess
 import sys
 
@@ -28,11 +28,6 @@ LOG = log.get_logger("reindex")
 MNT_PATH = "/var/mnt"
 INDEXES_PRIMARY = set(["accounts", "changes", "groups", "projects"])
 INDEXES_REPLICA = set(["groups"])
-
-
-class IndexType(enum.Enum):
-    LUCENE = enum.auto()
-    ELASTICSEARCH = enum.auto()
 
 
 class GerritAbstractReindexer(abc.ABC):
@@ -50,6 +45,10 @@ class GerritAbstractReindexer(abc.ABC):
 
     @abc.abstractmethod
     def _get_indices(self):
+        pass
+
+    @abc.abstractmethod
+    def _prepare(self):
         pass
 
     def _parse_gerrit_index_config(self):
@@ -82,20 +81,18 @@ class GerritAbstractReindexer(abc.ABC):
         not_ready_indices.extend(index_set.difference(self.configured_indices.keys()))
         return not_ready_indices
 
-    def _indexes_need_update(self):
+    def _get_missing_indices(self):
         indices = self._get_indices()
 
+        missing_indices = []
+        index_set = INDEXES_REPLICA if self.is_replica else INDEXES_PRIMARY
         if not indices:
-            return True
+            return index_set
 
-        for index, index_attrs in self.configured_indices.items():
-            if (
-                index not in indices
-                or index_attrs["latest_write"] != indices[index]
-                or index_attrs["read"] != index_attrs["latest_write"]
-            ):
-                return True
-        return False
+        for index in index_set:
+            if index not in indices:
+                missing_indices.append(index)
+        return missing_indices
 
     def reindex(self, indices=None):
         LOG.info("Starting to reindex.")
@@ -118,6 +115,9 @@ class GerritAbstractReindexer(abc.ABC):
         LOG.info("Finished reindexing.")
 
     def start(self, is_forced):
+        self._prepare()
+        self.configured_indices = self._parse_gerrit_index_config()
+
         if is_forced:
             self.reindex()
             return
@@ -127,14 +127,24 @@ class GerritAbstractReindexer(abc.ABC):
             self.reindex()
             return
 
+        missing_indices = self._get_missing_indices()
+        if missing_indices:
+            LOG.info("Missing at least one index. Reindexing all.")
+            self.reindex(missing_indices)
+            return
+
         not_ready_indices = self._get_not_ready_indices()
         if not_ready_indices:
             self.reindex(not_ready_indices)
+            return
 
         LOG.info("Skipping reindexing.")
 
 
 class GerritLuceneReindexer(GerritAbstractReindexer):
+    def _prepare(self):
+        pass
+
     def _get_indices(self):
         file_list = os.listdir(os.path.join(self.gerrit_site_path, "index"))
         file_list.remove("gerrit_index.config")
@@ -184,17 +194,25 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
 
         return es_indices
 
+    def _prepare(self):
+        index_mnt_path = f"{MNT_PATH}/index"
+        index_site_path = f"{self.gerrit_site_path}/index"
+        if os.path.exists(index_site_path):
+            if os.path.islink(index_site_path):
+                os.unlink(index_site_path)
+            elif os.path.isdir(index_site_path):
+                shutil.rmtree(index_site_path)
+        LOG.info(os.path.exists(index_site_path))
+        os.symlink(index_mnt_path, index_site_path, target_is_directory=True)
+
 
 def get_reindexer(gerrit_site_path, config):
     gerrit_config = git.GitConfigParser(
         os.path.join(gerrit_site_path, "etc", "gerrit.config")
     )
-    index_type = gerrit_config.get("index.type", default=IndexType.LUCENE.name)
 
-    if IndexType[index_type.upper()] is IndexType.LUCENE:
-        return GerritLuceneReindexer(gerrit_site_path, config)
-
-    if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
+    indexModule = gerrit_config.get("gerrit.installIndexModule")
+    if indexModule and indexModule.startswith("com.google.gerrit.elasticsearch"):
         return GerritElasticSearchReindexer(gerrit_site_path, config)
 
-    raise RuntimeError(f"Unknown index type {index_type}.")
+    return GerritLuceneReindexer(gerrit_site_path, config)

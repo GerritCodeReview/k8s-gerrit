@@ -1,0 +1,78 @@
+apiVersion: v1
+data:
+  healthcheck.config: |-
+    [healthcheck "auth"]
+        enabled = false
+    [healthcheck "querychanges"]
+        enabled = false
+  gerrit.config: |-
+    [cache]
+        directory = cache
+    [container]
+        user = gerrit
+        replica = false
+        javaHome = /usr/lib/jvm/java-11-openjdk
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+        javaOptions=-Djava.net.preferIPv4Stack=true
+    [elasticsearch]
+        server = http://elasticsearch.example.com:9200
+        username = elastic
+        numberOfShards = 1
+        numberOfReplicas = 1
+        maxResultWindow = 2147483647
+        connectTimeout = 1
+        socketTimeout = 30
+        codec = default
+    [gerrit]
+        basepath = git
+        serverId = server-1
+        installModule = com.gerritforge.gerrit.globalrefdb.validation.LibModule
+        installDbModule = com.ericsson.gerrit.plugins.highavailability.ValidationModule
+        installIndexModule = com.google.gerrit.elasticsearch.ElasticIndexModule
+        canonicalWebUrl = https://example.com/
+    [httpd]
+        listenUrl = proxy-https://*:8080/
+    [sshd]
+        listenAddress = *:29418
+        advertisedAddress = example.com:29418
+  high-availability.config: |-
+    [main]
+        sharedDirectory = shared
+    [peerInfo]
+        strategy = jgroups
+    [jgroups]
+        clusterName = gerrit
+        kubernetes = true
+    [jgroups"kubernetes"]
+        namespace = gerrit
+        label = app.kubernetes.io/instance=gerrit
+        label = app.kubernetes.io/name=gerrit
+        label = app.kubernetes.io/component=gerrit-statefulset-gerrit
+        label = app.kubernetes.io/part-of=gerrit
+        label = app.kubernetes.io/managed-by=gerrit-operator
+    [cache]
+        synchronize = true
+    [event]
+        synchronize = true
+    [index]
+        synchronize = true
+        synchronizeForced = false
+    [healthcheck]
+        enable = true
+    [ref-database]
+        enabled = true
+  zookeeper-refdb.config: |-
+    [ref-database "zookeeper"]
+      connectString = zookeeper.example.com
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: gerrit-configmap
+    app.kubernetes.io/created-by: GerritConfigMap
+    app.kubernetes.io/instance: gerrit
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit
+    app.kubernetes.io/version: unknown
+  name: gerrit-configmap
+  namespace: gerrit
