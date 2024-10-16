@@ -14,7 +14,7 @@ metadata:
   annotations:
     app.kubernetes.io/managed-by: gerrit-operator
   ownerReferences:
-  - apiVersion: gerritoperator.google.com/v1beta11
+  - apiVersion: gerritoperator.google.com/v1beta12
     kind: GitGarbageCollection
     name: gitgc
     uid: abcd1234

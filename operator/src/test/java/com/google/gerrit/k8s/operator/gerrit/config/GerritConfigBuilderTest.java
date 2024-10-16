@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritSpec;
+import com.google.gerrit.k8s.operator.api.model.shared.ElasticSearchConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.Map;
 import java.util.Set;
@@ -74,9 +77,61 @@ public class GerritConfigBuilderTest {
         cfg.getString("gerrit", null, "canonicalWebUrl").equals("http://gerrit.example.com/"));
   }
 
+  @Test
+  public void validElasticsearchConfigIsParsed() {
+    assertEsConfig("[elasticsearch]\n  codec = default");
+    assertEsConfig("[elasticsearch]\n # test comment\n codec = default");
+    assertEsConfig("[elasticsearch]\n codec = default # test comment");
+    assertEsConfig("[elasticsearch]\n\n codec = default");
+
+    Gerrit gerrit = createGerritWithElasticSearch("[elasticsearch]\n username = \"hash#tag\"");
+    Config cfg = new GerritConfigBuilder(gerrit).build();
+    assertTrue(cfg.getString("elasticsearch", null, "username").equals("hash#tag"));
+
+    gerrit = createGerritWithElasticSearch(null);
+    cfg = new GerritConfigBuilder(gerrit).build();
+    assertTrue(cfg.getString("elasticsearch", null, "server").equals("http://es.example.com"));
+  }
+
+  @Test
+  public void invalidElasticsearchConfigCausesError() {
+    assertThrows(
+        IllegalStateException.class,
+        () ->
+            new GerritConfigBuilder(createGerritWithElasticSearch("[invalid]\n  codec = default"))
+                .build());
+    assertThrows(
+        IllegalStateException.class,
+        () ->
+            new GerritConfigBuilder(createGerritWithElasticSearch("[invalid]\n  invalidText"))
+                .build());
+  }
+
+  private void assertEsConfig(String esConfig) {
+    Gerrit gerrit = createGerritWithElasticSearch(esConfig);
+    Config cfg = new GerritConfigBuilder(gerrit).build();
+    assertTrue(cfg.getString("elasticsearch", null, "server").equals("http://es.example.com"));
+    assertTrue(cfg.getString("elasticsearch", null, "codec").equals("default"));
+  }
+
   private Gerrit createGerrit(String configText) {
     GerritSpec gerritSpec = new GerritSpec();
     gerritSpec.setConfigFiles(Map.of("gerrit.config", configText));
+    Gerrit gerrit = new Gerrit();
+    gerrit.setSpec(gerritSpec);
+    return gerrit;
+  }
+
+  private Gerrit createGerritWithElasticSearch(String esConfigText) {
+    IndexConfig indexConfig = new IndexConfig();
+    indexConfig.setType(IndexType.ELASTICSEARCH);
+    ElasticSearchConfig esConfig = new ElasticSearchConfig();
+    esConfig.setServer("http://es.example.com");
+    esConfig.setConfig(esConfigText);
+    indexConfig.setElasticsearch(esConfig);
+
+    GerritSpec gerritSpec = new GerritSpec();
+    gerritSpec.setIndex(indexConfig);
     Gerrit gerrit = new Gerrit();
     gerrit.setSpec(gerritSpec);
     return gerrit;
