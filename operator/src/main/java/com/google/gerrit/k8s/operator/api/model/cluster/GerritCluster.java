@@ -90,6 +90,11 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
   }
 
   @JsonIgnore
+  public static VolumeMount getIndexConfigVolumeMount() {
+    return getSharedVolumeMount("index", "/var/mnt/index");
+  }
+
+  @JsonIgnore
   public static VolumeMount getSharedVolumeMount(String subPath, String mountPath) {
     return new VolumeMountBuilder()
         .withName(SHARED_VOLUME_NAME)

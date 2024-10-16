@@ -24,6 +24,7 @@ from zipfile import ZipFile
 
 import requests
 
+from .reindex import IndexType, get_index_type
 from ..helpers import log
 from ..config.cluster_mode import ClusterMode
 
@@ -99,6 +100,8 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_MULTISITE_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
+        if get_index_type(self.site) == IndexType.ELASTICSEARCH:
+            required.append("index-elasticsearch")
         LOG.info(
             "Requiring plugins (ClusterMode: %s): %s",
             self.config.cluster_mode.name,
@@ -114,6 +117,8 @@ class AbstractPluginInstaller(ABC):
             required.extend(REQUIRED_MULTISITE_LIBS)
         elif self.config.refdb:
             required.append("global-refdb")
+        if get_index_type(self.site) == IndexType.ELASTICSEARCH:
+            required.append("index-elasticsearch")
         LOG.info(
             "Requiring libs (ClusterMode: %s): %s",
             self.config.cluster_mode.name,
