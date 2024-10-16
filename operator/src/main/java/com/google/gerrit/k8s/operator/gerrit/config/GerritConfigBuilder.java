@@ -23,8 +23,10 @@ import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
+import com.google.gerrit.k8s.operator.api.model.shared.ElasticSearchConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,8 +54,12 @@ public class GerritConfigBuilder extends ConfigBuilder {
     List<RequiredOption<?>> requiredOptions = new ArrayList<>();
     requiredOptions.addAll(cacheSection(gerrit));
     requiredOptions.addAll(containerSection(gerrit));
+    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
+      requiredOptions.addAll(elasticsearchSection(gerrit));
+    }
     requiredOptions.addAll(gerritSection(gerrit));
     requiredOptions.addAll(httpdSection(gerrit));
+    requiredOptions.addAll(indexSection(gerrit));
     requiredOptions.addAll(sshdSection(gerrit));
     requiredOptions.addAll(eventsBrokerSection(gerrit));
     requiredOptions.addAll(webSessionBrokerSection(gerrit));
@@ -75,6 +81,35 @@ public class GerritConfigBuilder extends ConfigBuilder {
     requiredOptions.add(
         new RequiredOption<String>("container", "javaHome", "/usr/lib/jvm/java-11-openjdk"));
     requiredOptions.add(javaOptions(gerrit));
+    return requiredOptions;
+  }
+
+  private static List<RequiredOption<?>> elasticsearchSection(Gerrit gerrit) {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    ElasticSearchConfig esConfig = gerrit.getSpec().getIndex().getElasticsearch();
+    requiredOptions.add(
+        new RequiredOption<String>("elasticsearch", "server", esConfig.getServer()));
+    requiredOptions.add(
+        new RequiredOption<String>("elasticsearch", "username", esConfig.getUsername()));
+    if (esConfig.getPrefix() != null && !esConfig.getPrefix().isBlank()) {
+      requiredOptions.add(
+          new RequiredOption<String>("elasticsearch", "prefix", esConfig.getPrefix()));
+    }
+    requiredOptions.add(
+        new RequiredOption<Integer>(
+            "elasticsearch", "numberOfShards", esConfig.getNumberOfShards()));
+    requiredOptions.add(
+        new RequiredOption<Integer>(
+            "elasticsearch", "numberOfReplicas", esConfig.getNumberOfReplicas()));
+    requiredOptions.add(
+        new RequiredOption<Integer>(
+            "elasticsearch", "maxResultWindow", esConfig.getMaxResultWindow()));
+    requiredOptions.add(
+        new RequiredOption<Integer>(
+            "elasticsearch", "connectTimeout", esConfig.getConnectTimeout()));
+    requiredOptions.add(
+        new RequiredOption<Integer>("elasticsearch", "socketTimeout", esConfig.getSocketTimeout()));
+    requiredOptions.add(new RequiredOption<String>("elasticsearch", "codec", esConfig.getCodec()));
     return requiredOptions;
   }
 
@@ -113,6 +148,16 @@ public class GerritConfigBuilder extends ConfigBuilder {
               "installDbModule",
               Set.of("com.ericsson.gerrit.plugins.highavailability.ValidationModule")));
     }
+    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
+      requiredOptions.add(
+          new RequiredOption<Set<String>>(
+              "gerrit",
+              "installIndexModule",
+              Set.of(
+                  gerrit.getSpec().getMode() == GerritMode.REPLICA
+                      ? "com.google.gerrit.elasticsearch.ReplicaElasticIndexModule"
+                      : "com.google.gerrit.elasticsearch.ElasticIndexModule")));
+    }
 
     IngressConfig ingressConfig = gerrit.getSpec().getIngress();
     if (ingressConfig.isEnabled()) {
@@ -136,6 +181,19 @@ public class GerritConfigBuilder extends ConfigBuilder {
     IngressConfig ingressConfig = gerrit.getSpec().getIngress();
     if (ingressConfig.isEnabled()) {
       requiredOptions.add(listenUrl(ingressConfig.getUrl()));
+    }
+    return requiredOptions;
+  }
+
+  private static List<RequiredOption<?>> indexSection(Gerrit gerrit) {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    IndexType indexType = gerrit.getSpec().getIndex().getType();
+    GerritMode gerritMode = gerrit.getSpec().getMode();
+    if (indexType == IndexType.ELASTICSEARCH && gerritMode == GerritMode.REPLICA) {
+      requiredOptions.add(
+          new RequiredOption<Boolean>("index", "scheduledIndexer", "enabled", false));
+      requiredOptions.add(
+          new RequiredOption<Boolean>("index", "scheduledIndexer", "runOnStartup", false));
     }
     return requiredOptions;
   }

@@ -45,8 +45,22 @@ public class HighAvailabilityPluginConfigBuilder extends ConfigBuilder {
         new RequiredOption<Set<String>>("jgroups", "kubernetes", "label", getLabels(gerrit)));
     requiredOptions.add(new RequiredOption<Boolean>("cache", "synchronize", true));
     requiredOptions.add(new RequiredOption<Boolean>("event", "synchronize", true));
-    requiredOptions.add(new RequiredOption<Boolean>("index", "synchronize", true));
-    requiredOptions.add(new RequiredOption<Boolean>("index", "synchronizeForced", false));
+    switch (gerrit.getSpec().getIndex().getType()) {
+      case LUCENE:
+        {
+          requiredOptions.add(new RequiredOption<Boolean>("index", "synchronize", true));
+          requiredOptions.add(new RequiredOption<Boolean>("index", "synchronizeForced", false));
+          break;
+        }
+      case ELASTICSEARCH:
+        {
+          requiredOptions.add(new RequiredOption<Boolean>("index", "synchronize", false));
+          break;
+        }
+      default:
+        // Ignore, and let the user decide.
+        break;
+    }
     requiredOptions.add(new RequiredOption<Boolean>("healthcheck", "enable", true));
     requiredOptions.add(new RequiredOption<Boolean>("ref-database", "enabled", true));
     return requiredOptions;

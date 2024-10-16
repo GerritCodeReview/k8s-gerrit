@@ -24,6 +24,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModule;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritModuleData;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -310,6 +311,9 @@ public class GerritStatefulSet
         new VolumeMountBuilder().withName(SITE_VOLUME_NAME).withMountPath("/var/gerrit").build());
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
+    }
+    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
+      volumeMounts.add(GerritCluster.getIndexConfigVolumeMount());
     }
     if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());

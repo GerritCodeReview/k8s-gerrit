@@ -22,6 +22,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class GerritClusterSpec {
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
   private EventsBrokerConfig eventsBroker = new EventsBrokerConfig();
+  private IndexConfig index = new IndexConfig();
   private String serverId = "";
   private List<GerritTemplate> gerrits = new ArrayList<>();
   private ReceiverTemplate receiver;
@@ -77,6 +79,14 @@ public class GerritClusterSpec {
 
   public void setEventsBroker(EventsBrokerConfig eventsBroker) {
     this.eventsBroker = eventsBroker;
+  }
+
+  public IndexConfig getIndex() {
+    return index;
+  }
+
+  public void setIndex(IndexConfig index) {
+    this.index = index;
   }
 
   public String getServerId() {
@@ -126,6 +136,7 @@ public class GerritClusterSpec {
         eventsBroker,
         fluentBitSidecar,
         gerrits,
+        index,
         ingress,
         receiver,
         refdb,
@@ -144,6 +155,7 @@ public class GerritClusterSpec {
         && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(gerrits, other.gerrits)
+        && Objects.equals(index, other.index)
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(receiver, other.receiver)
         && Objects.equals(refdb, other.refdb)
@@ -164,6 +176,8 @@ public class GerritClusterSpec {
         + refdb
         + ", eventsBroker="
         + eventsBroker
+        + ", index="
+        + index
         + ", serverId="
         + serverId
         + ", gerrits="
