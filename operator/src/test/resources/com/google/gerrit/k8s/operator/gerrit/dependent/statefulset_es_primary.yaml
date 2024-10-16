@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit
+    app.kubernetes.io/created-by: GerritReconciler
+    app.kubernetes.io/instance: gerrit
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-statefulset-gerrit
+  name: gerrit
+  namespace: gerrit
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: gerrit-operator
+      app.kubernetes.io/name: gerrit
+      app.kubernetes.io/part-of: gerrit
+      app.kubernetes.io/instance: gerrit
+      app.kubernetes.io/component: gerrit-statefulset-gerrit
+  serviceName: gerrit
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: gerrit
+        app.kubernetes.io/created-by: GerritReconciler
+        app.kubernetes.io/instance: gerrit
+        app.kubernetes.io/version: unknown
+        app.kubernetes.io/component: gerrit-statefulset-gerrit
+    spec:
+      containers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: GERRIT_URL
+          value: http://$(POD_NAME).gerrit.gerrit.svc.cluster.local:8080
+        image: docker.io/k8sgerrit/gerrit:latest
+        imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/ash
+              - -c
+              - jstack $(pidof java) > /var/gerrit/logs/td_$(date +%Y-%m-%dT%H:%M); kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null
+        livenessProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: 8080
+        name: gerrit
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 29418
+          name: ssh
+        - containerPort: 7800
+          name: jgroups
+        readinessProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: 8080
+        startupProbe:
+          httpGet:
+            path: /config/server/healthcheck~status
+            port: 8080
+        volumeMounts:
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/mnt/index
+          name: shared
+          subPath: index
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        - mountPath: /var/mnt/git
+          name: shared
+          subPath: git
+        - mountPath: /var/mnt/shared
+          name: shared
+          subPath: shared
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
+      initContainers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: GERRIT_URL
+          value: http://$(POD_NAME).gerrit.gerrit.svc.cluster.local:8080
+        image: docker.io/k8sgerrit/gerrit-init:latest
+        imagePullPolicy: Always
+        name: gerrit-init
+        volumeMounts:
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/config
+          name: gerrit-init-config
+        - mountPath: /var/mnt/index
+          name: shared
+          subPath: index
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        - mountPath: /var/mnt/git
+          name: shared
+          subPath: git
+        - mountPath: /var/mnt/shared
+          name: shared
+          subPath: shared
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
+      securityContext:
+        fsGroup: 100
+      serviceAccount: gerrit
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: shared
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      - name: gerrit-secure-config
+        secret:
+          secretName: gerrit-secure-config
+      - configMap:
+          name: gerrit-configmap
+        name: gerrit-config
+      - configMap:
+          name: gerrit-init-configmap
+        name: gerrit-init-config
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: gerrit
+        app.kubernetes.io/instance: gerrit
+        app.kubernetes.io/component: gerrit-statefulset-gerrit
+      name: gerrit-site
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: default

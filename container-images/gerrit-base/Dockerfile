@@ -62,6 +62,10 @@ RUN curl -f -k -o /var/plugins/websession-broker.jar ${WEBSESSION_BROKER_URL}
 ARG MULTI_SITE_URL=https://gerrit-ci.gerritforge.com/job/plugin-multi-site-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar
 RUN curl -f -k -o /var/plugins/multi-site.jar ${MULTI_SITE_URL}
 
+# Download index-elasticsearch lib
+ARG INDEX_ELASTICSEARCH_URL=https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/index-elasticsearch/index-elasticsearch.jar
+RUN curl -f -k -o /var/plugins/index-elasticsearch.jar ${INDEX_ELASTICSEARCH_URL}
+
 # Allow incoming traffic
 EXPOSE 29418 8080
 
