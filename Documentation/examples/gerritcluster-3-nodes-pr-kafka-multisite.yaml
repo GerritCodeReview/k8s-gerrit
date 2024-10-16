@@ -16,7 +16,7 @@ data:
 type: Opaque
 
 ---
-apiVersion: "gerritoperator.google.com/v1beta11"
+apiVersion: "gerritoperator.google.com/v1beta12"
 kind: GerritCluster
 metadata:
   name: gerrit
