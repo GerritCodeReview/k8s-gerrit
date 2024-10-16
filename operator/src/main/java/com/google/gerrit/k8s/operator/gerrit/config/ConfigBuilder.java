@@ -72,6 +72,9 @@ public abstract class ConfigBuilder {
       if (opt.getExpected() instanceof String) {
         config.setString(
             opt.getSection(), opt.getSubSection(), opt.getKey(), (String) opt.getExpected());
+      } else if (opt.getExpected() instanceof Integer) {
+        config.setInt(
+            opt.getSection(), opt.getSubSection(), opt.getKey(), (Integer) opt.getExpected());
       } else if (opt.getExpected() instanceof Boolean) {
         config.setBoolean(
             opt.getSection(), opt.getSubSection(), opt.getKey(), (Boolean) opt.getExpected());

@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ public class GerritSpec extends GerritTemplateSpec {
   private IngressConfig ingress = new IngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
   private EventsBrokerConfig eventsBroker = new EventsBrokerConfig();
+  private IndexConfig index = new IndexConfig();
   private String serverId = "";
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
   private int sshdAdvertisedReadPort = 0;
@@ -78,6 +80,14 @@ public class GerritSpec extends GerritTemplateSpec {
     this.eventsBroker = eventsBroker;
   }
 
+  public IndexConfig getIndex() {
+    return index;
+  }
+
+  public void setIndex(IndexConfig index) {
+    this.index = index;
+  }
+
   public String getServerId() {
     return serverId;
   }
@@ -104,32 +114,35 @@ public class GerritSpec extends GerritTemplateSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        super.hashCode(),
-        containerImages,
-        fluentBitSidecar,
-        ingress,
-        refdb,
-        eventsBroker,
-        serverId,
-        sshdAdvertisedReadPort,
-        storage);
+    final int prime = 31;
+    int result = super.hashCode();
+    result =
+        prime * result
+            + Objects.hash(
+                containerImages,
+                eventsBroker,
+                fluentBitSidecar,
+                index,
+                ingress,
+                refdb,
+                serverId,
+                sshdAdvertisedReadPort,
+                storage);
+    return result;
   }
 
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (obj == null) return false;
+    if (!super.equals(obj)) return false;
     if (getClass() != obj.getClass()) return false;
     GerritSpec other = (GerritSpec) obj;
-    if (!super.equals(other)) {
-      return false;
-    }
     return Objects.equals(containerImages, other.containerImages)
+        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
+        && Objects.equals(index, other.index)
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(refdb, other.refdb)
-        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(serverId, other.serverId)
         && sshdAdvertisedReadPort == other.sshdAdvertisedReadPort
         && Objects.equals(storage, other.storage);
@@ -147,6 +160,8 @@ public class GerritSpec extends GerritTemplateSpec {
         + refdb
         + ", eventsBroker="
         + eventsBroker
+        + ", index="
+        + index
         + ", serverId="
         + serverId
         + ", fluentBitSidecar="

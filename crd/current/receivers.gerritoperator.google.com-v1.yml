@@ -13,7 +13,7 @@ spec:
     singular: receiver
   scope: Namespaced
   versions:
-  - name: v1beta11
+  - name: v1beta12
     schema:
       openAPIV3Schema:
         properties:
