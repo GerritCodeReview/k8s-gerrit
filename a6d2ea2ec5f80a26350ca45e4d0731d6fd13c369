@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f691af8_e7f1a7cb",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-21T08:36:17Z",
+      "side": 1,
+      "message": "IndexType needs to be added to the documentation\n\nLooks like the class in Gerrit core is semantically broken and should be replaced by some dynamic loading since it currently only supports lucene but there is elasticsearch support in this libmodule. Don\u0027t know why fake is a thing there.",
+      "range": {
+        "startLine": 216,
+        "startChar": 43,
+        "endLine": 216,
+        "endChar": 66
+      },
+      "revId": "a6d2ea2ec5f80a26350ca45e4d0731d6fd13c369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
