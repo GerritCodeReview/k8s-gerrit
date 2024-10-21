@@ -27,7 +27,6 @@ class GerritInitMultisite(GerritInit):
         super().__init__(site, config)
 
     def _symlink_mounted_site_components(self):
-        self._symlink_index()
         self._symlink_or_make_data_dir()
 
     def _symlink_configuration(self):

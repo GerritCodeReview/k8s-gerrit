@@ -33,7 +33,6 @@ class GerritInitHA(GerritInit):
 
     def _symlink_mounted_site_components(self):
         self._symlink_git_and_shared_volume()
-        self._symlink_index()
         self._symlink_or_make_data_dir()
 
     def _symlink_configuration(self):
