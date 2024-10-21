@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b59e86_057dbc95",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-21T09:02:02Z",
+      "side": 1,
+      "message": "Define a variable BRANCH, set it to master and use it to define the branch name in all these URLs ?",
+      "range": {
+        "startLine": 18,
+        "startChar": 82,
+        "endLine": 18,
+        "endChar": 88
+      },
+      "revId": "ed8c847b810ce3de002c108a3685a039799590cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
