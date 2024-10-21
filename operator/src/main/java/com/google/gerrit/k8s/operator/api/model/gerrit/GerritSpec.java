@@ -104,32 +104,33 @@ public class GerritSpec extends GerritTemplateSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hash(
-        super.hashCode(),
-        containerImages,
-        fluentBitSidecar,
-        ingress,
-        refdb,
-        eventsBroker,
-        serverId,
-        sshdAdvertisedReadPort,
-        storage);
+    final int prime = 31;
+    int result = super.hashCode();
+    result =
+        prime * result
+            + Objects.hash(
+                containerImages,
+                eventsBroker,
+                fluentBitSidecar,
+                ingress,
+                refdb,
+                serverId,
+                sshdAdvertisedReadPort,
+                storage);
+    return result;
   }
 
   @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
-    if (obj == null) return false;
+    if (!super.equals(obj)) return false;
     if (getClass() != obj.getClass()) return false;
     GerritSpec other = (GerritSpec) obj;
-    if (!super.equals(other)) {
-      return false;
-    }
     return Objects.equals(containerImages, other.containerImages)
+        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(refdb, other.refdb)
-        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(serverId, other.serverId)
         && sshdAdvertisedReadPort == other.sshdAdvertisedReadPort
         && Objects.equals(storage, other.storage);
