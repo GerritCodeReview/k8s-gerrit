@@ -123,12 +123,12 @@ public class GerritClusterSpec {
   public int hashCode() {
     return Objects.hash(
         containerImages,
+        eventsBroker,
         fluentBitSidecar,
         gerrits,
         ingress,
         receiver,
         refdb,
-        eventsBroker,
         scheduledTasks,
         serverId,
         storage);
@@ -141,12 +141,12 @@ public class GerritClusterSpec {
     if (getClass() != obj.getClass()) return false;
     GerritClusterSpec other = (GerritClusterSpec) obj;
     return Objects.equals(containerImages, other.containerImages)
+        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(gerrits, other.gerrits)
         && Objects.equals(ingress, other.ingress)
         && Objects.equals(receiver, other.receiver)
         && Objects.equals(refdb, other.refdb)
-        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(scheduledTasks, other.scheduledTasks)
         && Objects.equals(serverId, other.serverId)
         && Objects.equals(storage, other.storage);
