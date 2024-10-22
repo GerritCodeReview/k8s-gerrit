@@ -16,49 +16,48 @@
 
 
 import argparse
+import os.path
+
 from initializer.config.cluster_mode import ClusterMode
+from initializer.constants import MNT_PATH
+from initializer.helpers import git
 from initializer.tasks import download_plugins, reindex, validate_notedb
 from initializer.tasks.init_ha import GerritInitHA
 from initializer.tasks.init_multisite import GerritInitMultisite
 from initializer.config.init_config import InitConfig
 
 
+def _parse_gerrit_config():
+    return git.GitConfigParser(os.path.join(MNT_PATH, "etc/config/gerrit.config"))
+
+
 def _run_download_plugins(args):
     config = InitConfig().parse(args.config)
-    download_plugins.get_installer(args.site, config).execute()
+    download_plugins.get_installer(_parse_gerrit_config(), config).execute()
 
 
 def _run_init(args):
     config = InitConfig().parse(args.config)
     match config.cluster_mode:
         case ClusterMode.HIGH_AVAILABILITY:
-            GerritInitHA(args.site, config).execute()
+            GerritInitHA(_parse_gerrit_config(), config).execute()
         case ClusterMode.MULTISITE:
-            GerritInitMultisite(args.site, config).execute()
+            GerritInitMultisite(_parse_gerrit_config(), config).execute()
         case _:
             raise ValueError(f"Invalid clusterMode: {config.cluster_mode.name}")
 
 
 def _run_reindex(args):
     config = InitConfig().parse(args.config)
-    reindex.get_reindexer(args.site, config).start(args.force)
+    reindex.get_reindexer(_parse_gerrit_config(), config).start(args.force)
 
 
-def _run_validate_notedb(args):
-    validate_notedb.NoteDbValidator(args.site).wait_until_valid()
+def _run_validate_notedb():
+    validate_notedb.NoteDbValidator().wait_until_valid()
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-s",
-        "--site",
-        help="Path to Gerrit site",
-        dest="site",
-        action="store",
-        default="/var/gerrit",
-        required=True,
-    )
     parser.add_argument(
         "-c",
         "--config",

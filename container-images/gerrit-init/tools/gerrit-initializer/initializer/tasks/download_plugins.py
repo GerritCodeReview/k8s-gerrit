@@ -24,6 +24,7 @@ from zipfile import ZipFile
 
 import requests
 
+from ..constants import SITE_PLUGIN_PATH, SITE_LIB_PATH
 from ..helpers import log
 from ..config.cluster_mode import ClusterMode
 
@@ -57,32 +58,30 @@ class MissingRequiredPluginException(Exception):
 
 
 class AbstractPluginInstaller(ABC):
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, gerrit_config, config):
+        self.gerrit_config = gerrit_config
         self.config = config
 
         self.required_plugins = self._get_required_plugins()
         self.required_libs = self._get_required_libs()
 
-        self.plugin_dir = os.path.join(site, "plugins")
-        self.lib_dir = os.path.join(site, "lib")
         self.plugins_changed = False
 
     def _create_plugins_dir(self):
-        if not os.path.exists(self.plugin_dir):
-            os.makedirs(self.plugin_dir)
-            LOG.info("Created plugin installation directory: %s", self.plugin_dir)
+        if not os.path.exists(SITE_PLUGIN_PATH):
+            os.makedirs(SITE_PLUGIN_PATH)
+            LOG.info("Created plugin installation directory: %s", SITE_PLUGIN_PATH)
 
     def _create_lib_dir(self):
-        if not os.path.exists(self.lib_dir):
-            os.makedirs(self.lib_dir)
-            LOG.info("Created lib installation directory: %s", self.lib_dir)
+        if not os.path.exists(SITE_LIB_PATH):
+            os.makedirs(SITE_LIB_PATH)
+            LOG.info("Created lib installation directory: %s", SITE_LIB_PATH)
 
     def _get_installed_plugins(self):
-        return self._get_installed_jars(self.plugin_dir)
+        return self._get_installed_jars(SITE_PLUGIN_PATH)
 
     def _get_installed_libs(self):
-        return self._get_installed_jars(self.lib_dir)
+        return self._get_installed_jars(SITE_LIB_PATH)
 
     @staticmethod
     def _get_installed_jars(dir):
@@ -126,14 +125,14 @@ class AbstractPluginInstaller(ABC):
             if plugin in self.config.get_plugin_names():
                 continue
 
-            self._install_required_jar(plugin, self.plugin_dir)
+            self._install_required_jar(plugin, SITE_PLUGIN_PATH)
 
     def _install_required_libs(self):
         for lib in self.required_libs:
             if lib in self.config.get_lib_names():
                 continue
 
-            self._install_required_jar(lib, self.lib_dir)
+            self._install_required_jar(lib, SITE_LIB_PATH)
 
     def _install_required_jar(self, jar, target_dir):
         with ZipFile("/var/war/gerrit.war", "r") as war:
@@ -169,14 +168,14 @@ class AbstractPluginInstaller(ABC):
 
     def _install_plugins_from_war(self):
         for plugin in self.config.get_packaged_plugins():
-            self._install_plugin_from_war(plugin["name"], self.plugin_dir)
+            self._install_plugin_from_war(plugin["name"], SITE_PLUGIN_PATH)
 
     def _install_plugin_from_war(self, plugin, target_dir):
         LOG.info("Installing packaged plugin %s.", plugin)
         with ZipFile("/var/war/gerrit.war", "r") as war:
-            war.extract(f"WEB-INF/plugins/{plugin}.jar", self.plugin_dir)
+            war.extract(f"WEB-INF/plugins/{plugin}.jar", SITE_PLUGIN_PATH)
 
-        source_file = f"{self.plugin_dir}/WEB-INF/plugins/{plugin}.jar"
+        source_file = f"{SITE_PLUGIN_PATH}/WEB-INF/plugins/{plugin}.jar"
         target_file = os.path.join(target_dir, f"{plugin}.jar")
         if not os.path.exists(target_file) or self._get_file_sha(
             source_file
@@ -184,7 +183,7 @@ class AbstractPluginInstaller(ABC):
             os.rename(source_file, target_file)
             self.plugins_changed = True
 
-        shutil.rmtree(os.path.join(self.plugin_dir, "WEB-INF"), ignore_errors=True)
+        shutil.rmtree(os.path.join(SITE_PLUGIN_PATH, "WEB-INF"), ignore_errors=True)
 
     @staticmethod
     def _get_file_sha(file):
@@ -204,14 +203,14 @@ class AbstractPluginInstaller(ABC):
         wanted_plugins = list(self.config.get_plugins())
         wanted_plugins.extend(self.required_plugins)
         self._remove_unwanted(
-            wanted_plugins, self._get_installed_plugins(), self.plugin_dir
+            wanted_plugins, self._get_installed_plugins(), SITE_PLUGIN_PATH
         )
 
     def _remove_unwanted_libs(self):
         wanted_libs = list(self.config.get_libs())
         wanted_libs.extend(self.required_libs)
         wanted_libs.extend(self.config.get_plugins_installed_as_lib())
-        self._remove_unwanted(wanted_libs, self._get_installed_libs(), self.lib_dir)
+        self._remove_unwanted(wanted_libs, self._get_installed_libs(), SITE_LIB_PATH)
 
     @staticmethod
     def _remove_unwanted(wanted, installed, dir):
@@ -221,11 +220,11 @@ class AbstractPluginInstaller(ABC):
                 LOG.info("Removed plugin %s", plugin)
 
     def _symlink_plugins_to_lib(self):
-        if not os.path.exists(self.lib_dir):
-            os.makedirs(self.lib_dir)
+        if not os.path.exists(SITE_LIB_PATH):
+            os.makedirs(SITE_LIB_PATH)
         else:
-            for f in os.listdir(self.lib_dir):
-                path = os.path.join(self.lib_dir, f)
+            for f in os.listdir(SITE_LIB_PATH):
+                path = os.path.join(SITE_LIB_PATH, f)
                 if (
                     os.path.islink(path)
                     and os.path.splitext(f)[0]
@@ -234,10 +233,10 @@ class AbstractPluginInstaller(ABC):
                     os.unlink(path)
                     LOG.info("Removed symlink %s", f)
         for lib in self.config.get_plugins_installed_as_lib():
-            plugin_path = os.path.join(self.plugin_dir, f"{lib}.jar")
+            plugin_path = os.path.join(SITE_PLUGIN_PATH, f"{lib}.jar")
             if os.path.exists(plugin_path):
                 try:
-                    os.symlink(plugin_path, os.path.join(self.lib_dir, f"{lib}.jar"))
+                    os.symlink(plugin_path, os.path.join(SITE_LIB_PATH, f"{lib}.jar"))
                 except FileExistsError:
                     continue
             else:
@@ -288,10 +287,10 @@ class AbstractPluginInstaller(ABC):
             )
 
     def _install_plugin(self, plugin):
-        self._install_jar(plugin, self.plugin_dir)
+        self._install_jar(plugin, SITE_PLUGIN_PATH)
 
     def _install_lib(self, lib):
-        self._install_jar(lib, self.lib_dir)
+        self._install_jar(lib, SITE_LIB_PATH)
 
     @abstractmethod
     def _install_jar(self, plugin, target_dir):
@@ -392,8 +391,8 @@ class CachedPluginInstaller(AbstractPluginInstaller):
         LOG.debug("Removed download lock %s", lock_path)
 
 
-def get_installer(site, config):
+def get_installer(gerrit_config, config):
     plugin_installer = (
         CachedPluginInstaller if config.plugin_cache_enabled else PluginInstaller
     )
-    return plugin_installer(site, config)
+    return plugin_installer(gerrit_config, config)
