@@ -18,6 +18,7 @@ import subprocess
 import sys
 
 from abc import abstractmethod
+from ..constants import MNT_PATH, SITE_PATH, SITE_PLUGIN_PATH
 from ..helpers import git, log
 from .download_plugins import get_installer
 from .pull_replication_configurator import PullReplicationConfigurator
@@ -25,23 +26,19 @@ from .reindex import get_reindexer
 from .validate_notedb import NoteDbValidator
 
 LOG = log.get_logger("init")
-MNT_PATH = "/var/mnt"
+PID_FILE = f"{SITE_PATH}/logs/gerrit.pid"
 
 
 class GerritInit:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, gerrit_config, config):
         self.config = config
 
-        self.plugin_installer = get_installer(self.site, self.config)
+        self.gerrit_config = gerrit_config
 
-        self.gerrit_config = git.GitConfigParser(
-            os.path.join(MNT_PATH, "etc/config/gerrit.config")
-        )
+        self.plugin_installer = get_installer(self.gerrit_config, self.config)
         self.installed_plugins = self._get_installed_plugins()
 
         self.is_replica = self.gerrit_config.get_boolean("container.replica")
-        self.pid_file = f"{self.site}/logs/gerrit.pid"
 
     @abstractmethod
     def _symlink_mounted_site_components(self):
@@ -59,18 +56,19 @@ class GerritInit:
         return version_process.stdout.decode().strip()
 
     def _get_installed_plugins(self):
-        plugin_path = os.path.join(self.site, "plugins")
         installed_plugins = set()
 
-        if os.path.exists(plugin_path):
-            for f in os.listdir(plugin_path):
-                if os.path.isfile(os.path.join(plugin_path, f)) and f.endswith(".jar"):
+        if os.path.exists(SITE_PLUGIN_PATH):
+            for f in os.listdir(SITE_PLUGIN_PATH):
+                if os.path.isfile(os.path.join(SITE_PLUGIN_PATH, f)) and f.endswith(
+                    ".jar"
+                ):
                     installed_plugins.add(os.path.splitext(f)[0])
 
         return installed_plugins
 
     def _gerrit_war_updated(self):
-        installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
+        installed_war_path = os.path.join(SITE_PATH, "bin", "gerrit.war")
         installed_version = self._get_gerrit_version(installed_war_path)
         provided_version = self._get_gerrit_version("/var/war/gerrit.war")
         LOG.info(
@@ -82,7 +80,7 @@ class GerritInit:
         return installed_version != provided_version
 
     def _needs_init(self):
-        installed_war_path = os.path.join(self.site, "bin", "gerrit.war")
+        installed_war_path = os.path.join(SITE_PATH, "bin", "gerrit.war")
         if not os.path.exists(installed_war_path):
             LOG.info("Gerrit is not yet installed. Initializing new site.")
             return True
@@ -122,7 +120,7 @@ class GerritInit:
         os.symlink(src, target)
 
     def _symlink_or_make_data_dir(self):
-        data_dir = f"{self.site}/data"
+        data_dir = f"{SITE_PATH}/data"
         if os.path.exists(data_dir):
             for file_or_dir in os.listdir(data_dir):
                 abs_path = os.path.join(data_dir, file_or_dir)
@@ -142,7 +140,7 @@ class GerritInit:
                     self._symlink(abs_mounted_path, abs_path)
 
     def _remove_auto_generated_ssh_keys(self):
-        etc_dir = f"{self.site}/etc"
+        etc_dir = f"{SITE_PATH}/etc"
         if not os.path.exists(etc_dir):
             return
 
@@ -154,21 +152,19 @@ class GerritInit:
     def execute(self):
         if not self.is_replica:
             self._symlink_mounted_site_components()
-        elif not NoteDbValidator(MNT_PATH).check():
+        elif not NoteDbValidator().check():
             LOG.info("NoteDB not ready. Initializing repositories.")
             self._symlink_mounted_site_components()
         self._symlink_configuration()
 
-        if os.path.exists(self.pid_file):
-            os.remove(self.pid_file)
+        if os.path.exists(PID_FILE):
+            os.remove(PID_FILE)
 
         self.plugin_installer.execute()
         self._symlink_configuration()
 
         if PullReplicationConfigurator.has_pull_replication():
-            PullReplicationConfigurator(
-                self.site, self.config
-            ).configure_pull_replication()
+            PullReplicationConfigurator(self.config).configure_pull_replication()
 
         if self._needs_init():
             if self.gerrit_config:
@@ -187,7 +183,7 @@ class GerritInit:
 
             flags = f"--no-auto-start --batch {dev_option}"
 
-            command = f"java -jar /var/war/gerrit.war init {flags} -d {self.site}"
+            command = f"java -jar /var/war/gerrit.war init {flags} -d {SITE_PATH}"
 
             init_process = subprocess.run(
                 command.split(), stdout=subprocess.PIPE, check=True
@@ -205,10 +201,10 @@ class GerritInit:
 
             if PullReplicationConfigurator.has_pull_replication():
                 PullReplicationConfigurator(
-                    self.site, self.config
+                    self.config
                 ).configure_gerrit_configuration()
 
             if self.is_replica:
                 self._symlink_mounted_site_components()
 
-        get_reindexer(self.site, self.config).start(False)
+        get_reindexer(self.gerrit_config, self.config).start(False)
