@@ -34,6 +34,24 @@
       "parentUuid": "ca223aa8_8130a0a6",
       "revId": "2bd350434f7b8b194d31bc4ac3107dd5dab1dcd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10942c16_a75b9ccd",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritSpec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-22T12:22:36Z",
+      "side": 1,
+      "message": "ok, though I\u0027d then rephrase the commit message to something like \"Regenerate equals() and hashCode() methods\"",
+      "parentUuid": "53b532d0_d06aa3e5",
+      "revId": "2bd350434f7b8b194d31bc4ac3107dd5dab1dcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
