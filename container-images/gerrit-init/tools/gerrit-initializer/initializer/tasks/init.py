@@ -157,11 +157,6 @@ class GerritInit:
                 os.remove(full_path)
 
     def execute(self):
-        # Required for migration away from NFS-based log storage, when using the
-        # Gerrit-Operator and to provide backwards compatibility for the helm-
-        # charts
-        self._symlink(f"{MNT_PATH}/logs", f"{self.site}/logs", required=False)
-
         if not self.is_replica:
             self._symlink_mounted_site_components()
         elif not NoteDbValidator(MNT_PATH).check():
