@@ -14,16 +14,15 @@
 
 import os
 
+from ..constants import MNT_PATH, SITE_PATH
 from ..helpers import log, git, git_config_witer
 
 LOG = log.get_logger("init")
-MNT_PATH = "/var/mnt"
 EVENT_BROKER_GROUP_ID = "EVENT_BROKER_GROUP_ID"
 
 
 class PullReplicationConfigurator:
-    def __init__(self, site, config):
-        self.site = site
+    def __init__(self, config):
         self.config = config
         self.pod_name = os.environ.get("POD_NAME")
         self.pod_id = self._get_pod_identifier()
@@ -53,7 +52,7 @@ class PullReplicationConfigurator:
         config_writer.remove_subsection(
             "remote", f"{self.pod_name_prefix}-{self.pod_id}"
         )
-        config_writer.write_config(os.path.join(self.site, "etc/replication.config"))
+        config_writer.write_config(os.path.join(SITE_PATH, "etc/replication.config"))
         LOG.info(
             f'Set pull replication for remote "{self.pod_name_prefix}-{self.pod_id}"'
         )
@@ -77,7 +76,7 @@ class PullReplicationConfigurator:
             MNT_PATH, "etc/config/replication.config"
         )
         self._configure_remotes(replication_config_configmap)
-        target_path = os.path.join(self.site, "etc/replication.config")
+        target_path = os.path.join(SITE_PATH, "etc/replication.config")
         # TODO: Update pull-replication plugin configuration to set a default value
         #  in property replication.eventBrokerGroupId
         self._replace_content_and_write(
@@ -88,9 +87,9 @@ class PullReplicationConfigurator:
 
     def configure_gerrit_configuration(self):
         LOG.info(f"Setting gerrit configuration for pod-idx: {self.pod_id}")
-        self._remove_symlink(os.path.join(self.site, "etc/gerrit.config"))
+        self._remove_symlink(os.path.join(SITE_PATH, "etc/gerrit.config"))
         gerrit_config_configmap = os.path.join(MNT_PATH, "etc/config/gerrit.config")
-        target_path = os.path.join(self.site, "etc/gerrit.config")
+        target_path = os.path.join(SITE_PATH, "etc/gerrit.config")
         # TODO: Update events-kafka plugin configuration to set a default value
         #  in property plugin.@PLUGIN@.groupId when init is run in batch mode.
         self._replace_content_and_write(

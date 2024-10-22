@@ -14,23 +14,23 @@
 
 import os
 
+from ..constants import MNT_PATH, SITE_PATH
 from ..helpers import log
 from .init import GerritInit
 
 
 LOG = log.get_logger("init")
-MNT_PATH = "/var/mnt"
 
 
 class GerritInitMultisite(GerritInit):
-    def __init__(self, site, config):
-        super().__init__(site, config)
+    def __init__(self, gerrit_config, config):
+        super().__init__(gerrit_config, config)
 
     def _symlink_mounted_site_components(self):
         self._symlink_or_make_data_dir()
 
     def _symlink_configuration(self):
-        etc_dir = f"{self.site}/etc"
+        etc_dir = f"{SITE_PATH}/etc"
         if not os.path.exists(etc_dir):
             os.makedirs(etc_dir)
         for config_type in ["config", "secret"]:

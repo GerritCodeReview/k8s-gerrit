@@ -28,4 +28,4 @@ RUN mkdir -p /var/mnt/git \
 USER gerrit
 
 ENTRYPOINT ["python3", "/var/tools/gerrit-initializer"]
-CMD ["-s", "/var/gerrit", "-c", "/var/config/gerrit-init.yaml", "init"]
+CMD ["-c", "/var/config/gerrit-init.yaml", "init"]
