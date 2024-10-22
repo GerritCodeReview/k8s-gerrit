@@ -23,10 +23,11 @@ import sys
 
 import requests
 
+from ..constants import MNT_PATH, SITE_PATH
 from ..helpers import git, log
 
 LOG = log.get_logger("reindex")
-MNT_PATH = "/var/mnt"
+INDEX_CONFIG_PATH = f"{SITE_PATH}/index/gerrit_index.config"
 INDEXES_PRIMARY = set(["accounts", "changes", "groups", "projects"])
 INDEXES_REPLICA = set(["groups"])
 
@@ -37,14 +38,10 @@ class IndexType(enum.Enum):
 
 
 class GerritAbstractReindexer(abc.ABC):
-    def __init__(self, gerrit_site_path, config):
-        self.gerrit_site_path = gerrit_site_path
-        self.index_config_path = f"{self.gerrit_site_path}/index/gerrit_index.config"
-        self.init_config = config
+    def __init__(self, gerrit_config, initializer_config):
+        self.init_config = initializer_config
 
-        self.gerrit_config = git.GitConfigParser(
-            os.path.join(MNT_PATH, "etc/config/gerrit.config")
-        )
+        self.gerrit_config = gerrit_config
         self.is_replica = self.gerrit_config.get_boolean("container.replica", False)
 
         self.configured_indices = self._parse_gerrit_index_config()
@@ -59,8 +56,8 @@ class GerritAbstractReindexer(abc.ABC):
 
     def _parse_gerrit_index_config(self):
         indices = {}
-        if os.path.exists(self.index_config_path):
-            config = git.GitConfigParser(self.index_config_path)
+        if os.path.exists(INDEX_CONFIG_PATH):
+            config = git.GitConfigParser(INDEX_CONFIG_PATH)
             options = config.list()
             for opt in options:
                 name, version = opt["subsection"].rsplit("_", 1)
@@ -102,7 +99,7 @@ class GerritAbstractReindexer(abc.ABC):
 
     def reindex(self, indices=None):
         LOG.info("Starting to reindex.")
-        command = f"java -jar /var/war/gerrit.war reindex -d {self.gerrit_site_path}"
+        command = f"java -jar /var/war/gerrit.war reindex -d {SITE_PATH}"
 
         if indices:
             command += " ".join([f" --index {i}" for i in indices])
@@ -152,7 +149,7 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
         pass
 
     def _get_indices(self):
-        file_list = os.listdir(os.path.join(self.gerrit_site_path, "index"))
+        file_list = os.listdir(os.path.join(SITE_PATH, "index"))
         file_list.remove("gerrit_index.config")
         lucene_indices = {}
         for index in file_list:
@@ -171,7 +168,7 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
     def _get_elasticsearch_config(self):
         es_config = {}
         gerrit_config = git.GitConfigParser(
-            os.path.join(self.gerrit_site_path, "etc", "gerrit.config")
+            os.path.join(SITE_PATH, "etc", "gerrit.config")
         )
         es_config["prefix"] = gerrit_config.get(
             "elasticsearch.prefix", default=""
@@ -202,7 +199,7 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
 
     def _prepare(self):
         index_mnt_path = f"{MNT_PATH}/index"
-        index_site_path = f"{self.gerrit_site_path}/index"
+        index_site_path = f"{SITE_PATH}/index"
         if os.path.exists(index_site_path):
             if os.path.islink(index_site_path):
                 os.unlink(index_site_path)
@@ -212,18 +209,14 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
         os.symlink(index_mnt_path, index_site_path, target_is_directory=True)
 
 
-def get_reindexer(gerrit_site_path, config):
-    if get_index_type(gerrit_site_path) == IndexType.ELASTICSEARCH:
-        return GerritElasticSearchReindexer(gerrit_site_path, config)
+def get_reindexer(gerrit_config, initializer_config):
+    if get_index_type(gerrit_config) == IndexType.ELASTICSEARCH:
+        return GerritElasticSearchReindexer(gerrit_config, initializer_config)
 
-    return GerritLuceneReindexer(gerrit_site_path, config)
+    return GerritLuceneReindexer(gerrit_config, initializer_config)
 
 
-def get_index_type(gerrit_site_path):
-    gerrit_config = git.GitConfigParser(
-        os.path.join(gerrit_site_path, "etc", "gerrit.config")
-    )
-
+def get_index_type(gerrit_config):
     indexModule = gerrit_config.get("gerrit.installIndexModule")
     if indexModule and indexModule.startswith("com.google.gerrit.elasticsearch"):
         return IndexType.ELASTICSEARCH
