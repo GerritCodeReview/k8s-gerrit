@@ -39,6 +39,14 @@ spec:
           volume-type: ssd
           aws-availability-zone: us-east-1
 
+  index:
+    type: ELASTICSEARCH
+    elasticsearch:
+      server: http://elasticsearch.example.com:9200
+      config: |-
+        [elasticsearch]
+          codec = default
+
   gerrits:
   - metadata:
       name: gerrit

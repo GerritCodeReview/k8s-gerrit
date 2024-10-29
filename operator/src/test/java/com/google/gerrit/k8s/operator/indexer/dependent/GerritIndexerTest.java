@@ -92,7 +92,7 @@ public class GerritIndexerTest {
         .get()
         .withPath(GET_GERRIT_CLUSTER_PATH)
         .andReturn(HttpURLConnection.HTTP_OK, gerritCluster)
-        .always();
+        .times(2);
 
     kubernetesServer
         .expect()
@@ -101,7 +101,7 @@ public class GerritIndexerTest {
         .andReturn(
             HttpURLConnection.HTTP_OK,
             gerritCluster.getSpec().getGerrits().get(0).toGerrit(gerritCluster))
-        .always();
+        .times(2);
   }
 
   private Context<GerritIndexer> getContext(
@@ -131,6 +131,16 @@ public class GerritIndexerTest {
             "../indexer.yaml",
             "../gerritcluster_minimal.yaml",
             "indexer.job.yaml",
-            "indexer.configmap.yaml"));
+            "indexer.configmap.yaml"),
+        Arguments.of(
+            "../indexer_es.yaml",
+            "../gerritcluster_minimal.yaml",
+            "indexer_es.job.yaml",
+            "indexer_es.configmap.yaml"),
+        Arguments.of(
+            "../indexer.yaml",
+            "../gerritcluster_es.yaml",
+            "indexer_es.job.yaml",
+            "indexer_es.configmap.yaml"));
   }
 }

@@ -20,6 +20,8 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
+import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexerSpec;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
@@ -56,6 +58,11 @@ public class GerritIndexerJob
             .withName(gerritIndexer.getSpec().getCluster())
             .get();
 
+    GerritIndexerSpec indexerSpec = gerritIndexer.getSpec();
+    if (indexerSpec.getIndex() == null) {
+      indexerSpec.setIndex(gerritCluster.getSpec().getIndex());
+    }
+
     return new JobBuilder()
         .withApiVersion("batch/v1")
         .withNewMetadata()
@@ -75,16 +82,16 @@ public class GerritIndexerJob
         .withLabels(getLabels(gerritIndexer))
         .endMetadata()
         .withNewSpec()
-        .withAffinity(gerritIndexer.getSpec().getAffinity())
-        .withTolerations(gerritIndexer.getSpec().getTolerations())
+        .withAffinity(indexerSpec.getAffinity())
+        .withTolerations(indexerSpec.getTolerations())
         .addAllToImagePullSecrets(
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")
         .withNewSecurityContext()
         .withFsGroup(GERRIT_USER_GROUP_ID)
         .endSecurityContext()
-        .withInitContainers(buildGerritInitContainer(gerritIndexer, gerritCluster))
-        .withContainers(buildGerritIndexerContainer(gerritIndexer, gerritCluster))
+        .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
+        .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
         .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
         .endSpec()
         .endTemplate()
@@ -111,7 +118,7 @@ public class GerritIndexerJob
   }
 
   private Container buildGerritInitContainer(
-      GerritIndexer gerritIndexer, GerritCluster gerritCluster) {
+      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
     return new ContainerBuilder()
         .withName("gerrit-init")
         .withImage(
@@ -121,29 +128,34 @@ public class GerritIndexerJob
                 .getGerritImages()
                 .getFullImageName("gerrit-init"))
         .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
-        .withResources(gerritIndexer.getSpec().getResources())
-        .withVolumeMounts(buildGerritInitVolumeMounts(gerritIndexer))
+        .withResources(indexerSpec.getResources())
+        .withVolumeMounts(buildGerritInitVolumeMounts(indexerSpec))
         .build();
   }
 
   private Container buildGerritIndexerContainer(
-      GerritIndexer gerritIndexer, GerritCluster gerritCluster) {
-    return new ContainerBuilder()
-        .withName("gerrit-indexer")
-        .withImage(
-            gerritCluster
-                .getSpec()
-                .getContainerImages()
-                .getGerritImages()
-                .getFullImageName("gerrit-indexer"))
-        .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
-        .withArgs("--output", "/indexes")
-        .withResources(gerritIndexer.getSpec().getResources())
-        .withVolumeMounts(buildGerritIndexerVolumeMounts(gerritIndexer))
-        .build();
+      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
+    ContainerBuilder builder =
+        new ContainerBuilder()
+            .withName("gerrit-indexer")
+            .withImage(
+                gerritCluster
+                    .getSpec()
+                    .getContainerImages()
+                    .getGerritImages()
+                    .getFullImageName("gerrit-indexer"))
+            .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
+            .withResources(indexerSpec.getResources())
+            .withVolumeMounts(buildGerritIndexerVolumeMounts(indexerSpec));
+
+    if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
+      builder.withArgs("--output", "/indexes");
+    }
+
+    return builder.build();
   }
 
-  private List<VolumeMount> buildGerritInitVolumeMounts(GerritIndexer gerritIndexer) {
+  private List<VolumeMount> buildGerritInitVolumeMounts(GerritIndexerSpec indexerSpec) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     volumeMounts.add(
@@ -152,26 +164,29 @@ public class GerritIndexerJob
             .withMountPath("/var/config")
             .build());
 
-    volumeMounts.addAll(buildCommonVolumeMounts(gerritIndexer));
+    volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
 
     return volumeMounts;
   }
 
-  private List<VolumeMount> buildGerritIndexerVolumeMounts(GerritIndexer gerritIndexer) {
+  private List<VolumeMount> buildGerritIndexerVolumeMounts(GerritIndexerSpec indexerSpec) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
-    volumeMounts.add(
-        new VolumeMountBuilder()
-            .withName(outputVolumeName(gerritIndexer))
-            .withSubPath(gerritIndexer.getSpec().getStorage().getOutput().getSubPath())
-            .withMountPath("/indexes")
-            .build());
 
-    volumeMounts.addAll(buildCommonVolumeMounts(gerritIndexer));
+    if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(outputVolumeName(indexerSpec))
+              .withSubPath(indexerSpec.getStorage().getOutput().getSubPath())
+              .withMountPath("/indexes")
+              .build());
+    }
+
+    volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
 
     return volumeMounts;
   }
 
-  private List<VolumeMount> buildCommonVolumeMounts(GerritIndexer gerritIndexer) {
+  private List<VolumeMount> buildCommonVolumeMounts(GerritIndexerSpec indexerSpec) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     volumeMounts.add(
@@ -180,7 +195,7 @@ public class GerritIndexerJob
             .withMountPath("/var/mnt/etc/config")
             .build());
 
-    String siteSubPath = gerritIndexer.getSpec().getStorage().getSite().getSubPath();
+    String siteSubPath = indexerSpec.getStorage().getSite().getSubPath();
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-site")
@@ -188,10 +203,10 @@ public class GerritIndexerJob
             .withSubPath(siteSubPath)
             .build());
 
-    String repoPath = gerritIndexer.getSpec().getStorage().getRepositories().getSubPath();
+    String repoPath = indexerSpec.getStorage().getRepositories().getSubPath();
     VolumeMountBuilder repoVolumeMount =
         new VolumeMountBuilder()
-            .withName(repoVolumeName(gerritIndexer))
+            .withName(repoVolumeName(indexerSpec))
             .withMountPath("/var/mnt/git")
             .withSubPath(repoPath);
     if (repoPath == null) {
@@ -204,14 +219,14 @@ public class GerritIndexerJob
   }
 
   private List<Volume> buildVolumes(GerritIndexer gerritIndexer, GerritCluster gerritCluster) {
+    GerritIndexerSpec indexerSpec = gerritIndexer.getSpec();
     List<Volume> volumes = new ArrayList<>();
 
     volumes.add(
         new VolumeBuilder()
             .withName("gerrit-site")
             .withNewPersistentVolumeClaim()
-            .withClaimName(
-                gerritIndexer.getSpec().getStorage().getSite().getPersistentVolumeClaim())
+            .withClaimName(indexerSpec.getStorage().getSite().getPersistentVolumeClaim())
             .endPersistentVolumeClaim()
             .build());
 
@@ -239,30 +254,39 @@ public class GerritIndexerJob
             .endConfigMap()
             .build());
 
-    if (isSeparateOutputVolume(gerritIndexer)) {
-      volumes.add(
-          new VolumeBuilder()
-              .withName(repoVolumeName(gerritIndexer))
-              .withNewPersistentVolumeClaim()
-              .withClaimName(
-                  gerritIndexer.getSpec().getStorage().getRepositories().getPersistentVolumeClaim())
-              .endPersistentVolumeClaim()
-              .build());
-      volumes.add(
-          new VolumeBuilder()
-              .withName(outputVolumeName(gerritIndexer))
-              .withNewPersistentVolumeClaim()
-              .withClaimName(
-                  gerritIndexer.getSpec().getStorage().getOutput().getPersistentVolumeClaim())
-              .endPersistentVolumeClaim()
-              .build());
+    if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
+      if (isSeparateOutputVolume(indexerSpec)) {
+        volumes.add(
+            new VolumeBuilder()
+                .withName(repoVolumeName(indexerSpec))
+                .withNewPersistentVolumeClaim()
+                .withClaimName(
+                    indexerSpec.getStorage().getRepositories().getPersistentVolumeClaim())
+                .endPersistentVolumeClaim()
+                .build());
+        volumes.add(
+            new VolumeBuilder()
+                .withName(outputVolumeName(indexerSpec))
+                .withNewPersistentVolumeClaim()
+                .withClaimName(indexerSpec.getStorage().getOutput().getPersistentVolumeClaim())
+                .endPersistentVolumeClaim()
+                .build());
+      } else {
+        volumes.add(
+            new VolumeBuilder()
+                .withName(outputVolumeName(indexerSpec))
+                .withNewPersistentVolumeClaim()
+                .withClaimName(
+                    indexerSpec.getStorage().getRepositories().getPersistentVolumeClaim())
+                .endPersistentVolumeClaim()
+                .build());
+      }
     } else {
       volumes.add(
           new VolumeBuilder()
-              .withName(outputVolumeName(gerritIndexer))
+              .withName(repoVolumeName(indexerSpec))
               .withNewPersistentVolumeClaim()
-              .withClaimName(
-                  gerritIndexer.getSpec().getStorage().getRepositories().getPersistentVolumeClaim())
+              .withClaimName(indexerSpec.getStorage().getRepositories().getPersistentVolumeClaim())
               .endPersistentVolumeClaim()
               .build());
     }
@@ -270,28 +294,27 @@ public class GerritIndexerJob
     return volumes;
   }
 
-  private String outputVolumeName(GerritIndexer gerritIndexer) {
+  private String outputVolumeName(GerritIndexerSpec indexerSpec) {
     String outputVolumeName = "index-output";
 
-    if (!isSeparateOutputVolume(gerritIndexer)) {
+    if (!isSeparateOutputVolume(indexerSpec)) {
       outputVolumeName = "shared";
     }
     return outputVolumeName;
   }
 
-  private String repoVolumeName(GerritIndexer gerritIndexer) {
+  private String repoVolumeName(GerritIndexerSpec indexerSpec) {
     String repoVolumeName = "repositories";
 
-    if (!isSeparateOutputVolume(gerritIndexer)) {
+    if (!isSeparateOutputVolume(indexerSpec)) {
       repoVolumeName = "shared";
     }
     return repoVolumeName;
   }
 
-  private boolean isSeparateOutputVolume(GerritIndexer gerritIndexer) {
-    String outputPvc = gerritIndexer.getSpec().getStorage().getOutput().getPersistentVolumeClaim();
+  private boolean isSeparateOutputVolume(GerritIndexerSpec indexerSpec) {
+    String outputPvc = indexerSpec.getStorage().getOutput().getPersistentVolumeClaim();
 
-    return !outputPvc.equals(
-        gerritIndexer.getSpec().getStorage().getRepositories().getPersistentVolumeClaim());
+    return !outputPvc.equals(indexerSpec.getStorage().getRepositories().getPersistentVolumeClaim());
   }
 }

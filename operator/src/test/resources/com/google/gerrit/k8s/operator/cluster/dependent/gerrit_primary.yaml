@@ -1,9 +1,9 @@
-apiVersion: gerritoperator.google.com/v1beta12
+apiVersion: gerritoperator.google.com/v1beta13
 kind: Gerrit
 metadata:
   name: gerrit
   annotations:
-    gerritoperator.google.com/apiVersion: gerritoperator.google.com/v1beta12
+    gerritoperator.google.com/apiVersion: gerritoperator.google.com/v1beta13
 spec:
   configFiles: {}
   containerImages:

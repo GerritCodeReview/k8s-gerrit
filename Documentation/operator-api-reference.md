@@ -86,7 +86,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: GerritCluster
 
 ---
@@ -103,7 +103,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -419,7 +419,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: Gerrit
 
 ---
@@ -436,7 +436,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -645,7 +645,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: Receiver
 
 ---
@@ -662,7 +662,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: Receiver
 metadata:
   name: receiver
@@ -773,7 +773,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -790,7 +790,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -834,7 +834,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: GerritNetwork
 
 ---
@@ -850,7 +850,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -883,7 +883,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -899,7 +899,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -958,7 +958,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta12 \
+**Version**: v1beta13 \
 **Kind**: GerritIndexer
 
 ---
@@ -974,13 +974,20 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
   namespace: gerrit
 spec:
   cluster: gerrit-cluster
+  index:
+    type: LUCENE
+    elasticsearch:
+      server: es.example.com
+      config: |-
+        [elasticsearch]
+          codec = default
   resources:
     requests:
       cpu: 2
@@ -1548,6 +1555,7 @@ compared to the parent object. All other options can still be configured.
 | Field | Type | Description |
 |---|---|---|
 | `cluster` | `String` | Name of the GerritCluster serving the repositories to be indexed (mandatory) |
+| `index` | `IndexConfig` | Overrides the `IndexConfig` in the `GerritCluster`. Meant for migration scenarios. (default: `null`, i.e. `IndexConfig` from `GerritCluster` will be used) |
 | `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GerritIndexer container |
 | `configFiles` | `Map<String, String>` | Configuration files to be mounted in to `$SITE/etc` |
 | `storage` | [`GerritIndexerStorage`](#gerritindexerstorage) | Storage configuration of the GerritIndexer job |
