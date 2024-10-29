@@ -16,9 +16,11 @@ package com.google.gerrit.k8s.operator.indexer.dependent;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gerrit.GerritSpec;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
+import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -49,11 +51,16 @@ public class GerritIndexerConfigMap
       configFiles.put("gerrit.config", "");
     }
 
+    IndexConfig indexerIndexConfig = gerritIndexer.getSpec().getIndex();
+    Gerrit primary = getPrimaryGerrit(gerritIndexer, context);
+    if (indexerIndexConfig != null) {
+      GerritSpec primarySpec = primary.getSpec();
+      primarySpec.setIndex(indexerIndexConfig);
+      primary.setSpec(primarySpec);
+    }
+
     configFiles.put(
-        "gerrit.config",
-        new GerritConfigBuilder(gerritIndexer, getPrimaryGerrit(gerritIndexer, context))
-            .build()
-            .toText());
+        "gerrit.config", new GerritConfigBuilder(gerritIndexer, primary).build().toText());
 
     return new ConfigMapBuilder()
         .withApiVersion("v1")

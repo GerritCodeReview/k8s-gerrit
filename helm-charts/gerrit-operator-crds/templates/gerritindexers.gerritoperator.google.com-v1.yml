@@ -13,7 +13,7 @@ spec:
     singular: gerritindexer
   scope: Namespaced
   versions:
-    - name: v1beta12
+    - name: v1beta13
       schema:
         openAPIV3Schema:
           properties:
@@ -353,6 +353,21 @@ spec:
                   additionalProperties:
                     type: string
                   type: object
+                index:
+                  properties:
+                    elasticsearch:
+                      properties:
+                        config:
+                          type: string
+                        server:
+                          type: string
+                      type: object
+                    type:
+                      enum:
+                        - ELASTICSEARCH
+                        - LUCENE
+                      type: string
+                  type: object
                 resources:
                   properties:
                     claims:
@@ -472,7 +487,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta11
+    - name: v1beta12
       schema:
         openAPIV3Schema:
           properties:
