@@ -13,7 +13,7 @@ spec:
     singular: gerritindexer
   scope: Namespaced
   versions:
-    - name: v1beta12
+    - name: v1beta13
       schema:
         openAPIV3Schema:
           properties:
@@ -472,7 +472,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta11
+    - name: v1beta12
       schema:
         openAPIV3Schema:
           properties:

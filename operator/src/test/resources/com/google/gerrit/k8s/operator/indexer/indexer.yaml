@@ -1,4 +1,4 @@
-apiVersion: "gerritoperator.google.com/v1beta12"
+apiVersion: "gerritoperator.google.com/v1beta13"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
