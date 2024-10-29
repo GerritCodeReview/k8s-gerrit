@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b577f65_c399ce46",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-29T14:52:10Z",
+      "side": 1,
+      "message": "yep, thanks for this good catch, see https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy",
+      "revId": "a5d26a92344047b3356d60184e77e64a59f74926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
