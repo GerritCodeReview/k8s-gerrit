@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "68e5f953_7af81fa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3693978
+      },
+      "writtenOn": "2024-10-29T15:48:46Z",
+      "side": 1,
+      "message": "Thanks for the quick review! I would also be interested submitting a few tweaks to this chart to make it more flexible for different deployment strategies. I don\u0027t know if you all prefer to have a design doc/discussion about changes prior to submitting patchsets for the chart. I recognize that I am a \"random developer from the internet\" submitting code and don\u0027t want to step on any toes.",
+      "revId": "a5d26a92344047b3356d60184e77e64a59f74926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3b577f65_c399ce46",
         "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
         "patchSetId": 1
