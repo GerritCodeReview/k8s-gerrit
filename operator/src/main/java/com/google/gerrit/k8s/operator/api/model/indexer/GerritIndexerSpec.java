@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.indexer;
 
+import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -30,6 +31,7 @@ public class GerritIndexerSpec {
   private ResourceRequirements resources = new ResourceRequirements();
   private Map<String, String> configFiles = new HashMap<>();
   private GerritIndexerStorage storage = new GerritIndexerStorage();
+  private IndexConfig index;
 
   public List<Toleration> getTolerations() {
     return tolerations;
@@ -79,9 +81,17 @@ public class GerritIndexerSpec {
     this.storage = storage;
   }
 
+  public IndexConfig getIndex() {
+    return index;
+  }
+
+  public void setIndex(IndexConfig index) {
+    this.index = index;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(affinity, cluster, configFiles, resources, storage, tolerations);
+    return Objects.hash(affinity, cluster, configFiles, index, resources, storage, tolerations);
   }
 
   @Override
@@ -93,6 +103,7 @@ public class GerritIndexerSpec {
     return Objects.equals(affinity, other.affinity)
         && Objects.equals(cluster, other.cluster)
         && Objects.equals(configFiles, other.configFiles)
+        && Objects.equals(index, other.index)
         && Objects.equals(resources, other.resources)
         && Objects.equals(storage, other.storage)
         && Objects.equals(tolerations, other.tolerations);
@@ -112,6 +123,8 @@ public class GerritIndexerSpec {
         + configFiles
         + ", storage="
         + storage
+        + ", index="
+        + index
         + "]";
   }
 }

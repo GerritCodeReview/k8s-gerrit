@@ -5,6 +5,13 @@ metadata:
   namespace: gerrit
 spec:
   cluster: gerrit
+  index:
+    type: ELASTICSEARCH
+    elasticsearch:
+      server: http://elasticsearch.example.com:9200
+      config: |-
+        [elasticsearch]
+          codec = default
   resources:
     requests:
       cpu: 2

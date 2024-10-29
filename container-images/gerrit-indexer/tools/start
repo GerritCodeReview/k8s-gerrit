@@ -37,10 +37,16 @@ while test $# -gt 0 ; do
   esac
 done
 
+INDEX_TYPE="LUCENE"
+INDEX_MODULE="$(git config --file /var/gerrit/etc/gerrit.config gerrit.installIndexModule | tr '[:upper:]' '[:lower:]')"
+if [ "$INDEX_MODULE" = "elasticsearch" ]; then
+  INDEX_TYPE="ELASTICSEARCH"
+fi
+
 JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
 java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
 
-if test -n "$OUTPUT"; then
+if [ "$INDEX_TYPE" = "LUCENE" ] && test -n "$OUTPUT"; then
   INDEXES=$(java -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit --list)
   for INDEX in $INDEXES; do
     LATEST_INDEX=$(

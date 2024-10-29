@@ -200,6 +200,9 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
     def _prepare(self):
         index_mnt_path = f"{MNT_PATH}/index"
         index_site_path = f"{SITE_PATH}/index"
+        if not os.path.exists(index_mnt_path):
+            LOG.warning("No mounted index directory found in %s", index_mnt_path)
+            return
         if os.path.exists(index_site_path):
             if os.path.islink(index_site_path):
                 os.unlink(index_site_path)
