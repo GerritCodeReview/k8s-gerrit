@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ebeb3d95_398e73a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-10-30T00:34:08Z",
+      "side": 1,
+      "message": "Thanks for starting to contribute to k8s-gerrit. How about explaining your ideas in an email to the repo-discuss mailing list [1] and discussing them there ?\n\n[1] https://groups.google.com/g/repo-discuss",
+      "parentUuid": "68e5f953_7af81fa9",
+      "revId": "a5d26a92344047b3356d60184e77e64a59f74926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3b577f65_c399ce46",
         "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
         "patchSetId": 1
