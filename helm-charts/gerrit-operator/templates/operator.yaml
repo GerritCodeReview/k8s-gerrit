@@ -18,6 +18,14 @@ kind: Deployment
 metadata:
   name: gerrit-operator
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.deploymentLabels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   selector:
     matchLabels:
@@ -28,6 +36,13 @@ spec:
     metadata:
       labels:
         app: gerrit-operator
+        {{- if .Values.podLabels }}
+        {{- toYaml .Values.podLabels | nindent 8 }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: gerrit-operator
       {{- with .Values.image.imagePullSecrets }}
@@ -72,4 +87,16 @@ spec:
       - name: ssl
         secret:
           secretName: gerrit-operator-ssl
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
