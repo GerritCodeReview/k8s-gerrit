@@ -5,6 +5,9 @@ image:
   imagePullSecrets: []
   # - name: my-secret-1
 
+# Install the Gerrit CRDs along with the operator
+installCRDs: true
+
 ingress:
   # Which ingress provider to use (options: NONE, INGRESS, ISTIO, AMBASSADOR)
   type: NONE
