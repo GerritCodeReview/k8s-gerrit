@@ -20,3 +20,14 @@ externalKeyStore:
 
 cluster:
   mode: HIGH_AVAILABILITY
+
+# Additional configuration for the operator Deployment
+deploymentAnnotations: {}
+deploymentLabels: {}
+
+# Additional configuration for the operator Pod
+podAnnotations: {}
+podLabels: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
