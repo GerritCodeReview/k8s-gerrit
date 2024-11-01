@@ -20,14 +20,16 @@ public class OperatorContext {
   private static OperatorContext instance;
 
   private final ClusterMode clusterMode;
+  private final String clusterDomain;
 
-  private OperatorContext(ClusterMode clusterMode) {
+  private OperatorContext(ClusterMode clusterMode, String clusterDomain) {
     this.clusterMode = clusterMode;
+    this.clusterDomain = clusterDomain;
   }
 
-  public static void createInstance(ClusterMode clusterMode) {
+  public static void createInstance(ClusterMode clusterMode, String clusterDomain) {
     if (instance == null) {
-      instance = new OperatorContext(clusterMode);
+      instance = new OperatorContext(clusterMode, clusterDomain);
     }
   }
 
@@ -36,5 +38,12 @@ public class OperatorContext {
       throw new UnsupportedOperationException("The Operation Context must be initialised");
     }
     return instance.clusterMode;
+  }
+
+  public static String getClusterDomain() {
+    if (instance == null) {
+      throw new UnsupportedOperationException("The Operation Context must be initialised");
+    }
+    return instance.clusterDomain;
   }
 }

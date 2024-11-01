@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.JGROUPS_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritHeadlessService;
@@ -83,7 +84,7 @@ public class GerritIstioServiceEntries
   }
 
   private String getServiceHost(String podName, String serviceName, String namespace) {
-    return String.format("%s.%s.%s.svc.cluster.local", podName, serviceName, namespace);
+    return String.format("%s.%s.%s.svc.%s", podName, serviceName, namespace, OperatorContext.getClusterDomain());
   }
 
   @Override
