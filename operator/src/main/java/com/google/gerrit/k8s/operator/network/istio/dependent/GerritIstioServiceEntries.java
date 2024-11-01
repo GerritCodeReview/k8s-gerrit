@@ -83,7 +83,8 @@ public class GerritIstioServiceEntries
   }
 
   private String getServiceHost(String podName, String serviceName, String namespace) {
-    return String.format("%s.%s.%s.svc.cluster.local", podName, serviceName, namespace);
+    String clusterDomain = System.getenv().getOrDefault("CLUSTER_DOMAIN", "cluster.local");
+    return String.format("%s.%s.%s.svc.%s", podName, serviceName, namespace, clusterDomain);
   }
 
   @Override
