@@ -12,6 +12,9 @@ ingress:
   # Which ingress provider to use (options: NONE, INGRESS, ISTIO, AMBASSADOR)
   type: NONE
 
+# Tells the operator the cluster domain for the kubernetes cluster
+clusterDomain: cluster.local
+
 ## Required to use an external/persistent keystore, otherwise a keystore using
 ## self-signed certificates will be generated
 externalKeyStore:
