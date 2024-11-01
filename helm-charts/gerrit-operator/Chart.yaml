@@ -10,3 +10,4 @@ dependencies:
 - name: gerrit-operator-crds
   version: 0.1.0
   repository: "file://../gerrit-operator-crds"
+  condition: installCRDs
