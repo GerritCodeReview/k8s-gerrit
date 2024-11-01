@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.JGROUPS_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -82,7 +83,8 @@ public abstract class GerritAbstractService
   }
 
   public String getHostname(String name, String namespace) {
-    return String.format("%s.%s.svc.cluster.local", getName(name), namespace);
+    return String.format(
+        "%s.%s.svc.%s", getName(name), namespace, OperatorContext.getClusterDomain());
   }
 
   public String getUrl(Gerrit gerrit) {

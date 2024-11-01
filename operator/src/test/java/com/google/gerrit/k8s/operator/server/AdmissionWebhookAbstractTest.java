@@ -73,7 +73,7 @@ public abstract class AdmissionWebhookAbstractTest {
 
     kubernetesServer.before();
 
-    OperatorContext.createInstance(getClusterMode());
+    OperatorContext.createInstance(getClusterMode(), "cluster.local");
     server.registerWebhook(new GerritClusterAdmissionWebhook(getClusterMode()));
     server.registerWebhook(new GerritAdmissionWebhook(getClusterMode()));
     server.start();

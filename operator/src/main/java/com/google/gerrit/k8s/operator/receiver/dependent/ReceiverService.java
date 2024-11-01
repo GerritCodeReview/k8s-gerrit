@@ -16,6 +16,7 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.gerrit.k8s.operator.receiver.dependent.ReceiverDeployment.HTTP_PORT;
 
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
@@ -76,7 +77,8 @@ public class ReceiverService
   }
 
   public static String getHostname(String receiverName, String namespace) {
-    return String.format("%s.%s.svc.cluster.local", getName(receiverName), namespace);
+    return String.format(
+        "%s.%s.svc.%s", getName(receiverName), namespace, OperatorContext.getClusterDomain());
   }
 
   private static List<ServicePort> getServicePorts(Receiver receiver) {

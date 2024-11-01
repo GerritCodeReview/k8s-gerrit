@@ -12,6 +12,9 @@ ingress:
   # Which ingress provider to use (options: NONE, INGRESS, ISTIO, AMBASSADOR)
   type: NONE
 
+# What cluster domain to use for generated resources
+clusterDomain: cluster.local
+
 ## Required to use an external/persistent keystore, otherwise a keystore using
 ## self-signed certificates will be generated
 externalKeyStore:
