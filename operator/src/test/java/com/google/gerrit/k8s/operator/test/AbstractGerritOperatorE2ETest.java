@@ -89,7 +89,7 @@ public abstract class AbstractGerritOperatorE2ETest {
 
     client.resource(receiverCredentials).inNamespace(operator.getNamespace()).createOrReplace();
 
-    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY, "cluster.local");
 
     gerritCluster = new TestGerritCluster(client, operator.getNamespace());
     gerritCluster.setIngressType(getIngressType());

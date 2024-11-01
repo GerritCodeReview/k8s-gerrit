@@ -60,7 +60,7 @@ public class GerritIndexerTest {
 
   @BeforeAll
   public void setup() throws Exception {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     kubernetesServer.before();
   }
 

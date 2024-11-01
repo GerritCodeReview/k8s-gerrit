@@ -30,11 +30,12 @@ public class Main {
   public static void main(String[] args) throws Exception {
     try {
       String getClusterModeEnv = System.getenv("CLUSTER_MODE");
+      String clusterDomain = System.getenv().getOrDefault("CLUSTER_DOMAIN", "cluster.local");
       ClusterMode clusterMode =
           getClusterModeEnv == null
               ? ClusterMode.HIGH_AVAILABILITY
               : ClusterMode.valueOf(getClusterModeEnv.toUpperCase());
-      OperatorContext.createInstance(clusterMode);
+      OperatorContext.createInstance(clusterMode, clusterDomain);
       logger.atInfo().log("Cluster mode: %s", clusterMode);
 
       Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule(clusterMode));

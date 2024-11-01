@@ -32,7 +32,7 @@ public class GerritClusterIstioTest {
   @MethodSource("provideYamlManifests")
   public void expectedGerritClusterIstioComponentsCreated(
       String inputFile, String expectedGatewayOutputFile, String expectedVirtualServiceOutputFile) {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     GerritNetwork gerritNetwork =
         ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
     GerritClusterIstioGateway gatewayDependent = new GerritClusterIstioGateway();

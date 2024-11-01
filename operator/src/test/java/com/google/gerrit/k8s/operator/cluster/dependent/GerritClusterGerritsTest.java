@@ -42,7 +42,7 @@ public class GerritClusterGerritsTest {
       String expectedGerritMaintenanceOutputFile)
       throws ConfigInvalidException {
 
-    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     GerritCluster gerritCluster =
         ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), inputFile);
     ClusterManagedGerrit clusterManagedGerrit = new ClusterManagedGerrit();
