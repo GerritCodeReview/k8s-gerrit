@@ -80,7 +80,8 @@ public abstract class GerritAbstractService
   }
 
   public String getHostname(String name, String namespace) {
-    return String.format("%s.%s.svc.cluster.local", getName(name), namespace);
+    String clusterDomain = System.getenv().getOrDefault("CLUSTER_DOMAIN", "cluster.local");
+    return String.format("%s.%s.svc.%s", getName(name), namespace, clusterDomain);
   }
 
   public String getUrl(Gerrit gerrit) {

@@ -76,7 +76,8 @@ public class ReceiverService
   }
 
   public static String getHostname(String receiverName, String namespace) {
-    return String.format("%s.%s.svc.cluster.local", getName(receiverName), namespace);
+    String clusterDomain = System.getenv().getOrDefault("CLUSTER_DOMAIN", "cluster.local");
+    return String.format("%s.%s.svc.%s", getName(receiverName), namespace, clusterDomain);
   }
 
   private static List<ServicePort> getServicePorts(Receiver receiver) {
