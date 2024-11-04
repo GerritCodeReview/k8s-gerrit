@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3c69020_bd82a174",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3693978
+      },
+      "writtenOn": "2024-11-04T16:20:48Z",
+      "side": 1,
+      "message": "Done, see additional changes:\nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/441301/1\nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/441302/1",
+      "parentUuid": "0c51c549_8ddd255f",
+      "revId": "6b6bc79ae5c2e8a295b0e23909aa67bcd1fc1f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1982d25_eb1099aa",
@@ -31,6 +49,30 @@
       "writtenOn": "2024-11-04T08:23:53Z",
       "side": 1,
       "message": "Instead of prefixing with `deployment`, this should become a parent key:\n\n```\ndeployment:\n\tannotations: {}\n\tlabels: {}\n```\n\nConsidering that this chart does not manage much more than the deployment, we could also just omit it:\n\n```suggestion\nannotations: {}\nlabels: {}\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "6b6bc79ae5c2e8a295b0e23909aa67bcd1fc1f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "045147c0_63fa5d62",
+        "filename": "helm-charts/gerrit-operator/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3693978
+      },
+      "writtenOn": "2024-11-04T16:20:48Z",
+      "side": 1,
+      "message": "I went with the subkey since it makes the configuration more consistent. The pod and the deployment both have configuratble labels and annotations. The initial reason for using the prefix is that it make the helm templating a bit cleaner.\n\nFWIW this also give clear configuration for the different components if the operator ever does need additional resources.",
+      "parentUuid": "f1982d25_eb1099aa",
       "range": {
         "startLine": 25,
         "startChar": 0,
