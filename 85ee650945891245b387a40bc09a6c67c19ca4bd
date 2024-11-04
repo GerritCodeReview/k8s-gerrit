@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a67c9012_99e00a18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-04T14:13:56Z",
+      "side": 1,
+      "message": "JDK21 was already used. In other changes just submitted we removed the gerrit and gerrit-replica helm-charts and also moved to use the master branches from Gerrit and its plugins, since we had some cases now, where essential fixes were only available in master. Do you need a 3.11 release? If yes, we should consider creating a stable-3.11 branch.",
+      "revId": "85ee650945891245b387a40bc09a6c67c19ca4bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
