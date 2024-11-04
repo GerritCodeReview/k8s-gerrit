@@ -20,3 +20,8 @@ externalKeyStore:
 
 cluster:
   mode: HIGH_AVAILABILITY
+
+# Additional configuration for the operator Deployment
+deployment:
+  annotations: {}
+  labels: {}
