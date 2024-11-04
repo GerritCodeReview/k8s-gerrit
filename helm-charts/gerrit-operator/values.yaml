@@ -25,3 +25,8 @@ cluster:
 deployment:
   annotations: {}
   labels: {}
+
+# Additional configuration for the operator Pod
+pod:
+  annotations: {}
+  labels: {}
