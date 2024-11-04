@@ -38,6 +38,17 @@ spec:
     metadata:
       labels:
         app: gerrit-operator
+        {{- if and .Values.deployment .Values.deployment.pod }}
+        {{- with .Values.deployment.pod.labels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- end }}
+      {{- if and .Values.deployment .Values.deployment.pod }}
+      {{- with .Values.deployment.pod.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
     spec:
       serviceAccountName: gerrit-operator
       {{- with .Values.image.imagePullSecrets }}
