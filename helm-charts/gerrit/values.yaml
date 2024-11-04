@@ -292,7 +292,7 @@ gerrit:
           directory = cache
         [container]
           user = gerrit # FIXED
-          javaHome = /usr/lib/jvm/java-17-openjdk # FIXED
+          javaHome = /usr/lib/jvm/java-21-openjdk # FIXED
           javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore # FIXED
           javaOptions = -Xms200m
           # Has to be lower than 'gerrit.resources.limits.memory'. Also

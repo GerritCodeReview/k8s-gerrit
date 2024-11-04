@@ -27,7 +27,7 @@ from kubernetes.stream import stream
 
 PLUGINS = ["avatars-gravatar", "uploadvalidator"]
 LIBS = ["global-refdb"]
-GERRIT_VERSION = "3.10"
+GERRIT_VERSION = "3.11"
 
 
 @pytest.fixture(scope="module")
