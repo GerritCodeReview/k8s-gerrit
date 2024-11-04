@@ -30,3 +30,6 @@ deployment:
 pod:
   annotations: {}
   labels: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
