@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b014281d_eaabd5ec",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritAbstractService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-04T08:35:45Z",
+      "side": 1,
+      "message": "I would suggest moving that to the `OperatorContext` class, which is a Singleton created for the purpose of providing operator level configurations to the reconcilers. It would be even more elegant to use Guice and the existing `EnvModule` but that is unfortunately not supported by the way JOSDK instantiates dependent resource classes.",
+      "revId": "e843e70781a542b5ed412b45aa4fcb2289746f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
