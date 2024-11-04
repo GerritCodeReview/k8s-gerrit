@@ -46,6 +46,6 @@ def test_gitgc_contains_gc_script(container_run):
 
 @pytest.mark.structure
 def test_gitgc_has_entrypoint(gitgc_image):
-    entrypoint = gitgc_image.attrs["ContainerConfig"]["Entrypoint"]
+    entrypoint = gitgc_image.attrs["Config"]["Entrypoint"]
     assert len(entrypoint) == 1
     assert entrypoint[0] == "/var/tools/gc.sh"

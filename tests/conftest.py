@@ -28,7 +28,7 @@ import pytest
 sys.path.append(os.path.join(os.path.dirname(__file__), "helpers"))
 
 # pylint: disable=C0103
-pytest_plugins = ["fixtures.credentials", "fixtures.cluster", "fixtures.helm.gerrit"]
+pytest_plugins = ["fixtures.credentials"]
 
 # Base images that are not published and thus only tagged with "latest"
 BASE_IMGS = ["base", "gerrit-base"]
@@ -65,79 +65,9 @@ class PasswordPromptAction(argparse.Action):
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--registry",
-        action="store",
-        default="",
-        help="Container registry to push (if --push=true) and pull container images"
-        + "from for tests on Kubernetes clusters (default: '')",
-    )
-    parser.addoption(
-        "--registry-user",
-        action="store",
-        default="",
-        help="Username for container registry (default: '')",
-    )
-    parser.addoption(
-        "--registry-pwd",
-        action="store",
-        default="",
-        help="Password for container registry (default: '')",
-    )
-    parser.addoption(
-        "--org",
-        action="store",
-        default="k8sgerrit",
-        help="Docker organization (default: 'k8sgerrit')",
-    )
-    parser.addoption(
-        "--push",
-        action="store_true",
-        help="If set, the docker images will be pushed to the registry configured"
-        + "by --registry (default: false)",
-    )
-    parser.addoption(
-        "--tag",
-        action="store",
-        default=None,
-        help="Tag of cached container images to test. Missing images will be built."
-        + "(default: All container images will be built)",
-    )
-    parser.addoption(
         "--build-cache",
         action="store_true",
         help="If set, the docker cache will be used when building container images.",
-    )
-    parser.addoption(
-        "--kubeconfig",
-        action="store",
-        default=None,
-        help="Kubeconfig to use for cluster connection. If none is given the currently"
-        + "configured context is used.",
-    )
-    parser.addoption(
-        "--rwm-storageclass",
-        action="store",
-        default="shared-storage",
-        help="Name of the storageclass used for ReadWriteMany access."
-        + "(default: shared-storage)",
-    )
-    parser.addoption(
-        "--ingress-url",
-        action="store",
-        default=None,
-        help="URL of the ingress domain used by the cluster.",
-    )
-    parser.addoption(
-        "--gerrit-user",
-        action="store",
-        default="admin",
-        help="Gerrit admin username to be used for smoke tests. (default: admin)",
-    )
-    parser.addoption(
-        "--gerrit-pwd",
-        action=PasswordPromptAction,
-        default="secret",
-        help="Gerrit admin password to be used for smoke tests. (default: secret)",
     )
     parser.addoption(
         "--skip-slow", action="store_true", help="If set, skip slow tests."
@@ -167,11 +97,6 @@ def pytest_runtest_setup(item):
 
 
 @pytest.fixture(scope="session")
-def tag_of_cached_container(request):
-    return request.config.getoption("--tag")
-
-
-@pytest.fixture(scope="session")
 def docker_client():
     return docker.from_env()
 
@@ -192,48 +117,15 @@ def container_images(repository_root):
 
 
 @pytest.fixture(scope="session")
-def docker_registry(request):
-    registry = request.config.getoption("--registry")
-    if registry and not registry[-1] == "/":
-        registry += "/"
-    return registry
-
-
-@pytest.fixture(scope="session")
-def docker_org(request):
-    org = request.config.getoption("--org")
-    if org and not org[-1] == "/":
-        org += "/"
-    return org
-
-
-@pytest.fixture(scope="session")
-def docker_tag(tag_of_cached_container, repository_root):
-    if tag_of_cached_container:
-        return tag_of_cached_container
-    return git.Repository(repository_root).describe(dirty_suffix="-dirty")
-
-
-@pytest.fixture(scope="session")
 def docker_build(
     request,
     docker_client,
-    tag_of_cached_container,
-    docker_registry,
-    docker_org,
-    docker_tag,
 ):
     def docker_build(image, name):
         if name in BASE_IMGS:
             image_name = f"{name}:latest"
         else:
-            image_name = f"{docker_registry}{docker_org}{name}:{docker_tag}"
-
-        if tag_of_cached_container:
-            try:
-                return docker_client.images.get(image_name)
-            except docker.errors.ImageNotFound:
-                print(f"Image {image_name} could not be loaded. Building it now.")
+            image_name = f"{name}:test"
 
         no_cache = not request.config.getoption("--build-cache")
 
@@ -247,28 +139,6 @@ def docker_build(
         return build[0]
 
     return docker_build
-
-
-@pytest.fixture(scope="session")
-def docker_login(request, docker_client, docker_registry):
-    username = request.config.getoption("--registry-user")
-    if username:
-        docker_client.login(
-            username=username,
-            password=request.config.getoption("--registry-pwd"),
-            registry=docker_registry,
-        )
-
-
-@pytest.fixture(scope="session")
-def docker_push(
-    request, docker_client, docker_registry, docker_login, docker_org, docker_tag
-):
-    def docker_push(image):
-        docker_repository = f"{docker_registry}{docker_org}{image}"
-        docker_client.images.push(docker_repository, tag=docker_tag)
-
-    return docker_push
 
 
 @pytest.fixture(scope="session")
@@ -293,43 +163,25 @@ def gerrit_base_image(container_images, docker_build, base_image):
 
 
 @pytest.fixture(scope="session")
-def gitgc_image(request, container_images, docker_build, docker_push, base_image):
-    gitgc_image = docker_build(container_images["git-gc"], "git-gc")
-    if request.config.getoption("--push"):
-        docker_push("git-gc")
-    return gitgc_image
+def gitgc_image(container_images, docker_build, base_image):
+    return docker_build(container_images["git-gc"], "git-gc")
 
 
 @pytest.fixture(scope="session")
-def apache_git_http_backend_image(
-    request, container_images, docker_build, docker_push, base_image
-):
-    apache_git_http_backend_image = docker_build(
+def apache_git_http_backend_image(container_images, docker_build, base_image):
+    return docker_build(
         container_images["apache-git-http-backend"], "apache-git-http-backend"
     )
-    if request.config.getoption("--push"):
-        docker_push("apache-git-http-backend")
-    return apache_git_http_backend_image
 
 
 @pytest.fixture(scope="session")
-def gerrit_image(
-    request, container_images, docker_build, docker_push, base_image, gerrit_base_image
-):
-    gerrit_image = docker_build(container_images["gerrit"], "gerrit")
-    if request.config.getoption("--push"):
-        docker_push("gerrit")
-    return gerrit_image
+def gerrit_image(container_images, docker_build, base_image, gerrit_base_image):
+    return docker_build(container_images["gerrit"], "gerrit")
 
 
 @pytest.fixture(scope="session")
-def gerrit_init_image(
-    request, container_images, docker_build, docker_push, base_image, gerrit_base_image
-):
-    gerrit_init_image = docker_build(container_images["gerrit-init"], "gerrit-init")
-    if request.config.getoption("--push"):
-        docker_push("gerrit-init")
-    return gerrit_init_image
+def gerrit_init_image(container_images, docker_build, base_image, gerrit_base_image):
+    return docker_build(container_images["gerrit-init"], "gerrit-init")
 
 
 @pytest.fixture(scope="session")
