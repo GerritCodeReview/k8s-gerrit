@@ -21,7 +21,7 @@ from abc import abstractmethod
 from ..helpers import git, log
 from .download_plugins import get_installer
 from .pull_replication_configurator import PullReplicationConfigurator
-from .reindex import IndexType, get_reindexer
+from .reindex import get_reindexer
 from .validate_notedb import NoteDbValidator
 
 LOG = log.get_logger("init")
@@ -121,11 +121,6 @@ class GerritInit:
 
         os.symlink(src, target)
 
-    def _symlink_index(self):
-        index_type = self.gerrit_config.get("index.type", default=IndexType.LUCENE.name)
-        if IndexType[index_type.upper()] is IndexType.ELASTICSEARCH:
-            self._symlink(f"{MNT_PATH}/index", f"{self.site}/index")
-
     def _symlink_or_make_data_dir(self):
         data_dir = f"{self.site}/data"
         if os.path.exists(data_dir):
@@ -157,11 +152,6 @@ class GerritInit:
                 os.remove(full_path)
 
     def execute(self):
-        # Required for migration away from NFS-based log storage, when using the
-        # Gerrit-Operator and to provide backwards compatibility for the helm-
-        # charts
-        self._symlink(f"{MNT_PATH}/logs", f"{self.site}/logs", required=False)
-
         if not self.is_replica:
             self._symlink_mounted_site_components()
         elif not NoteDbValidator(MNT_PATH).check():

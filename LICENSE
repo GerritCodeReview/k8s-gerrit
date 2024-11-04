@@ -214,11 +214,6 @@ https://github.com/docker/docker-py \
 Copyright 2016 Docker, Inc \
 Apache 2 license (https://github.com/docker/docker-py/blob/master/LICENSE)
 
-Kubernetes Python CLient \
-https://github.com/kubernetes-client/python \
-Copyright (c) 2014 The Kubernetes Authors \
-Apache 2 license (https://github.com/kubernetes-client/python/blob/master/LICENSE)
-
 Passlib \
 https://bitbucket.org/ecollins/passlib/wiki/Home \
 Copyright (c) 2008-2017 Assurance Technologies, LLC.
@@ -230,30 +225,15 @@ https://github.com/libgit2/pygit2 \
 pygit2 is Copyright (C) the pygit2 contributors unless otherwise stated. \
 GPL2 (https://github.com/libgit2/pygit2/blob/master/COPYING)
 
-pyOpenSSL \
-https://github.com/pyca/pyopenssl \
-Copyright (c) 2001 The pyOpenSSL developers \
-Apache 2 license (https://github.com/pyca/pyopenssl/blob/master/LICENSE)
-
 PyTest \
 https://github.com/pytest-dev/pytest \
 Copyright (c) 2004-2017 Holger Krekel and others \
 MIT License (https://github.com/pytest-dev/pytest/blob/master/LICENSE)
 
-python-chromedriver-autoinstaller \
-https://github.com/yeongbin-jo/python-chromedriver-autoinstaller \
-Copyright (c) 2022 Yeongbin Jo \
-MIT License (https://github.com/yeongbin-jo/python-chromedriver-autoinstaller/blob/master/LICENSE)
-
 Requests \
 https://github.com/requests/requests \
 Copyright 2018 Kenneth Reitz \
 Apache 2 license (https://github.com/requests/requests/blob/master/LICENSE)
-
-Selenium \
-https://github.com/SeleniumHQ/selenium \
-Copyright 2022 Software Freedom Conservancy (SFC) \
-Apache 2 license (https://github.com/SeleniumHQ/selenium/blob/trunk/LICENSE)
 
 Ambassador \
 https://github.com/emissary-ingress/emissary \

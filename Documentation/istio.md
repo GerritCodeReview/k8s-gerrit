@@ -4,10 +4,6 @@ Istio provides an alternative way to control ingress traffic into the cluster.
 In addition, it allows to finetune the traffic inside the cluster and provides
 a huge repertoire of load balancing and routing mechanisms.
 
-***note
-Currently, only the Gerrit replica chart allows using istio out of the box.
-***
-
 ## Install istio
 
 An example configuration based on the default profile provided by istio can be

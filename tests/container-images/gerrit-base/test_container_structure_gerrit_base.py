@@ -96,5 +96,5 @@ def test_gerrit_base_war_dir_permissions(container_run):
 
 @pytest.mark.structure
 def test_gerrit_base_has_entrypoint(gerrit_base_image):
-    entrypoint = gerrit_base_image.attrs["ContainerConfig"]["Entrypoint"]
+    entrypoint = gerrit_base_image.attrs["Config"]["Entrypoint"]
     assert "/var/tools/start" in entrypoint

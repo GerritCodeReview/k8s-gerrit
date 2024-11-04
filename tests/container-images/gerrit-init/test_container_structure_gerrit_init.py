@@ -69,6 +69,6 @@ def test_gerrit_init_contains_expected_tools(container_run, expected_tool):
 
 @pytest.mark.structure
 def test_gerrit_init_has_entrypoint(gerrit_init_image):
-    entrypoint = gerrit_init_image.attrs["ContainerConfig"]["Entrypoint"]
+    entrypoint = gerrit_init_image.attrs["Config"]["Entrypoint"]
     assert len(entrypoint) >= 1
     assert entrypoint == ["python3", "/var/tools/gerrit-initializer"]

@@ -56,6 +56,6 @@ def test_apache_git_http_backend_contains_repo_creation_cgi_script(container_run
 
 @pytest.mark.structure
 def test_apache_git_http_backend_has_entrypoint(apache_git_http_backend_image):
-    entrypoint = apache_git_http_backend_image.attrs["ContainerConfig"]["Entrypoint"]
+    entrypoint = apache_git_http_backend_image.attrs["Config"]["Entrypoint"]
     assert len(entrypoint) == 2
     assert entrypoint[1] == "/var/tools/start"

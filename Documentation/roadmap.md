@@ -195,13 +195,3 @@
   and other barely being fetched. It is not trivial to configure Gerrit to work
   optimally for all repositories. Being able to shard at least the Gerrit Replicas
   would help to optimally serve all repositories.
-
-## Helm charts
-
-Only limited support is planned for the `gerrit` and `gerrit-replica` helm-charts
-as soon as the Gerrit Operator reaches version 1.0. The reason is that the double
-maintenance of all features would not be feasible with the current number of
-contributors. The Gerrit Operator will support all features that are provided by
-the helm charts. If community members would like to adopt maintainership of the
-helm-charts, this would be very much appreciated and the helm-charts could then
-continued to be supported.
