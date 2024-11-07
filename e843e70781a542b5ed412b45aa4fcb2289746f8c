@@ -34,6 +34,24 @@
       "parentUuid": "b014281d_eaabd5ec",
       "revId": "e843e70781a542b5ed412b45aa4fcb2289746f8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e75089e_23005e56",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritAbstractService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 3693978
+      },
+      "writtenOn": "2024-11-07T13:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34cb75f3_56e50334",
+      "revId": "e843e70781a542b5ed412b45aa4fcb2289746f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
