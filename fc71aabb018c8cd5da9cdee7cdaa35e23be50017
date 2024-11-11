@@ -16,6 +16,24 @@
       "message": "Probably want a better pattern for constructing this before the argument list gets out of hand.",
       "revId": "fc71aabb018c8cd5da9cdee7cdaa35e23be50017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d0d7a98_634982e2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-11T08:41:01Z",
+      "side": 1,
+      "message": "Agree. That should be part of a separate change.",
+      "parentUuid": "eb9ecaa9_80eec75a",
+      "revId": "fc71aabb018c8cd5da9cdee7cdaa35e23be50017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
