@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09cacbcc_05a7d848",
+        "filename": "helm-charts/gerrit-operator/templates/operator.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-11T08:26:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2b411ed8_3175d282",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 41
+      },
+      "revId": "62633b073f04017a5a868b493072bfc2afdd9815",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3116916_4c026958",
