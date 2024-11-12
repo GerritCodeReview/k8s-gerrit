@@ -1,0 +1,307 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3106bcdf_4e5a04ee",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "Link the respective sections in the documentation.",
+      "range": {
+        "startLine": 696,
+        "startChar": 0,
+        "endLine": 698,
+        "endChar": 28
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e41ac53_4f807316",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "Should we really duplicate this section or just refer to the section above (has to be adapted to reduce the scope to just installing istio)? There should not really be a difference.",
+      "range": {
+        "startLine": 700,
+        "startChar": 0,
+        "endLine": 700,
+        "endChar": 9
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7421a1ba_506b0724",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "The commands in the HA-minikube section avoid using hardcoded `/tmp`. That would be preferable.",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18ce40b4_4de3b86b",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "Here you could also refer to the section for HA-minikube.",
+      "range": {
+        "startLine": 754,
+        "startChar": 0,
+        "endLine": 766,
+        "endChar": 3
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b8fd41f_8d41072d",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "This is true independent of using multisite or not. Could you add it to the provided istio profile and make this comment in a broader context?",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e3eeb1_0513b3e1",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "```suggestion\nAn example of a kafka deployment can be found\n[here](https://github.com/lydtechconsulting/kafka-kubernetes-demo/blob/v1.0.0/resources/kafka.yml).\nWhen installing it, make sure to set the namespace as described in the [Prerequisites](#prerequisites-2).\n```",
+      "range": {
+        "startLine": 786,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 50
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12f170f4_ee4e477f",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "```suggestion\nTo connect and excecute operations in kafka, please spin up an image as client:\n```",
+      "range": {
+        "startLine": 789,
+        "startChar": 72,
+        "endLine": 789,
+        "endChar": 79
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dda8d96_f71e936e",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "```suggestion\nAfter that it is possible to connect to the image to test consuming of the messages in a topic, i.e. for\n```",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "896dab16_3a432110",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "Could you split the commands into multiple lines? And please leave a blank line before a code block (following the existing style). E.g.:\n\n\n\n```suggestion\nkubectl \\\n\t--namespace gerrit \\\n\texec \\\n\t--stdin \\\n\t--tty \\\n\tmy-kafka \\\n\t-- \\\n\t/bin/kafka-topics \\\n\t\t--bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 \\\n\t\t--list\n```",
+      "range": {
+        "startLine": 801,
+        "startChar": 0,
+        "endLine": 803,
+        "endChar": 3
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c0f5f9_6192366c",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "This is also true for the HA-setup.\nIn general, these sections dealing with 3rd party software should go to separate files. That makes it easier to reuse them.",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 810,
+        "endChar": 13
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "200556ff_80a4e59c",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3cb56ef_eb1cbfe2",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c8e6c27_0276acc8",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "I would strongly suggest to automate that, e.g. by executing that sync during the initContainer run. Or by creating a snapshot of the volume used by gerrit-0 and apply it to the other pods\u0027 volumes. This could be done by the operator.\n\nTopic for a different change though.",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0317c515_624fbcd9",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "There is nothing multisite specific here. Could you rather create a separate documentation file that provides teh example of a monitoring stack to be used with Gerrit in k8s?",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e2026cb_98aca527",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-12T10:38:00Z",
+      "side": 1,
+      "message": "Secret. Rather use a placeholder here",
+      "range": {
+        "startLine": 890,
+        "startChar": 16,
+        "endLine": 890,
+        "endChar": 40
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
