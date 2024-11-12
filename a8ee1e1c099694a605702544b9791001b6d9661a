@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76bbf385_d32e70df",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3106bcdf_4e5a04ee",
+      "range": {
+        "startLine": 696,
+        "startChar": 0,
+        "endLine": 698,
+        "endChar": 28
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e41ac53_4f807316",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "927badd9_6f2c69c3",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "I think you are totally right.",
+      "parentUuid": "1e41ac53_4f807316",
+      "range": {
+        "startLine": 700,
+        "startChar": 0,
+        "endLine": 700,
+        "endChar": 9
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7421a1ba_506b0724",
@@ -60,6 +108,24 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "The commands in the HA-minikube section avoid using hardcoded `/tmp`. That would be preferable.",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b63e29_c9ab6942",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7421a1ba_506b0724",
       "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -127,6 +193,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ba01cd4_c9bd0479",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e3eeb1_0513b3e1",
+      "range": {
+        "startLine": 786,
+        "startChar": 0,
+        "endLine": 787,
+        "endChar": 50
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12f170f4_ee4e477f",
@@ -140,6 +230,30 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "```suggestion\nTo connect and excecute operations in kafka, please spin up an image as client:\n```",
+      "range": {
+        "startLine": 789,
+        "startChar": 72,
+        "endLine": 789,
+        "endChar": 79
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0789a7e_cea3ad5a",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12f170f4_ee4e477f",
       "range": {
         "startLine": 789,
         "startChar": 72,
@@ -167,6 +281,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01de2822_efb4d122",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dda8d96_f71e936e",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "896dab16_3a432110",
@@ -180,6 +312,30 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "Could you split the commands into multiple lines? And please leave a blank line before a code block (following the existing style). E.g.:\n\n\n\n```suggestion\nkubectl \\\n\t--namespace gerrit \\\n\texec \\\n\t--stdin \\\n\t--tty \\\n\tmy-kafka \\\n\t-- \\\n\t/bin/kafka-topics \\\n\t\t--bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 \\\n\t\t--list\n```",
+      "range": {
+        "startLine": 801,
+        "startChar": 0,
+        "endLine": 803,
+        "endChar": 3
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88510797_0015b948",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "896dab16_3a432110",
       "range": {
         "startLine": 801,
         "startChar": 0,
@@ -230,6 +386,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6b41332_ca1d28d8",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "200556ff_80a4e59c",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3cb56ef_eb1cbfe2",
@@ -247,6 +421,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "086652ff_7a961ee4",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3cb56ef_eb1cbfe2",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c8e6c27_0276acc8",
@@ -260,6 +452,24 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "I would strongly suggest to automate that, e.g. by executing that sync during the initContainer run. Or by creating a snapshot of the volume used by gerrit-0 and apply it to the other pods\u0027 volumes. This could be done by the operator.\n\nTopic for a different change though.",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95ba667_89404aed",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Yes I agree. @diego.sessona@gmail.com mentioned that approach a while ago when we met. Definitively, that is something to be addressed.",
+      "parentUuid": "6c8e6c27_0276acc8",
       "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -294,6 +504,30 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "Secret. Rather use a placeholder here",
+      "range": {
+        "startLine": 890,
+        "startChar": 16,
+        "endLine": 890,
+        "endChar": 40
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b642ccd_854e2f3f",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-11-12T13:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e2026cb_98aca527",
       "range": {
         "startLine": 890,
         "startChar": 16,
