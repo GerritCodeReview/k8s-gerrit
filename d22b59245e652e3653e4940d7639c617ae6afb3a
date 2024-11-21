@@ -70,6 +70,24 @@
       "parentUuid": "f7c74324_541a3540",
       "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb40fcf4_5e791a1c",
+        "filename": "container-images/gerrit-maintenance/tools/projects/gc.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-21T14:49:24Z",
+      "side": 1,
+      "message": "I suggest we first finish this straight-forward port from bash to python and then implement a better configuration approach in another change",
+      "parentUuid": "dd052ad3_48c824c1",
+      "revId": "d22b59245e652e3653e4940d7639c617ae6afb3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
