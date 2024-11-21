@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64719ab5_8fce94ca",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-21T15:52:34Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be ELASTICSEARCH if the elasticsearch node is present in line 178 ?",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7aafa283_f71ce458",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-21T15:52:34Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a057e0e4_6ee22528",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-21T15:52:34Z",
+      "side": 1,
+      "message": "how is this related to elasticsearch ?",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
