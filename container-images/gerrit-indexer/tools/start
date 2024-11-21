@@ -49,6 +49,10 @@ if test -n "$OUTPUT"; then
       sort | \
       tail -n1
     )
-    cp -R /var/gerrit/index/$LATEST_INDEX $OUTPUT/$LATEST_INDEX
+    SHARED_INDEX_TARGET=/var/gerrit/index/$LATEST_INDEX
+    echo "Pruning $SHARED_INDEX_TARGET"
+    rm -rf $SHARED_INDEX_TARGET
+    echo "Copying $LATEST_INDEX to $SHARED_INDEX_TARGET"
+    cp -R SHARED_INDEX_TARGET $OUTPUT/$LATEST_INDEX
   done
 fi
