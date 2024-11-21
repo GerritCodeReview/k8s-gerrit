@@ -22,6 +22,30 @@
       },
       "revId": "b799282ac761542f31617ef3ede3ec95c3828c01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce41eed_42432e4c",
+        "filename": "container-images/gerrit-indexer/tools/start",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-21T13:58:13Z",
+      "side": 1,
+      "message": "`cp -RT` doesn\u0027t delete files that are in the target dir, but not in the source dir, which might leave unwanted files.",
+      "parentUuid": "87044790_de066180",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 51
+      },
+      "revId": "b799282ac761542f31617ef3ede3ec95c3828c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
