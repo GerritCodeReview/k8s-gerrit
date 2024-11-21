@@ -46,6 +46,30 @@
       },
       "revId": "b799282ac761542f31617ef3ede3ec95c3828c01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ac0677f_cda1a563",
+        "filename": "container-images/gerrit-indexer/tools/start",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-21T14:33:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9ce41eed_42432e4c",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 51
+      },
+      "revId": "b799282ac761542f31617ef3ede3ec95c3828c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
