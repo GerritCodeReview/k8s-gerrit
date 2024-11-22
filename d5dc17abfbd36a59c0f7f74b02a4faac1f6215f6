@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f655f2b_4e93ad81",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-22T08:31:33Z",
+      "side": 1,
+      "message": "In the example, I am using the defaults (wherever a default exists). Here this is LUCENE. The elasticsearch section will be ignored in that case. However, I think it is still important to show here, since all options should be listed in the API reference",
+      "parentUuid": "64719ab5_8fce94ca",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7aafa283_f71ce458",
         "filename": "Documentation/operator-api-reference.md",
         "patchSetId": 9
