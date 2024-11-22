@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "343cb447_7ef710d4",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-22T10:21:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0f655f2b_4e93ad81",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7aafa283_f71ce458",
@@ -49,6 +67,24 @@
       "writtenOn": "2024-11-21T15:52:34Z",
       "side": 1,
       "message": "see above",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed3edad1_f6a86f61",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-11-22T10:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aafa283_f71ce458",
       "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
