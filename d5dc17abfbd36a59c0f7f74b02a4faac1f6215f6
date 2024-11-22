@@ -68,6 +68,24 @@
       "message": "how is this related to elasticsearch ?",
       "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a685ff_be67d9e1",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2024-11-22T08:38:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a057e0e4_6ee22528",
+      "revId": "d5dc17abfbd36a59c0f7f74b02a4faac1f6215f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
