@@ -16,10 +16,11 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.config.TestOperatorContext;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
+import com.google.gerrit.k8s.operator.network.IngressType;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class GerritClusterGerritsTest {
       String expectedGerritReplicaOutputFile)
       throws ConfigInvalidException {
 
-    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+    TestOperatorContext.create(Constants.ClusterMode.HIGH_AVAILABILITY, IngressType.INGRESS);
     GerritCluster gerritCluster =
         ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), inputFile);
     ClusterManagedGerrit clusterManagedGerrit = new ClusterManagedGerrit();

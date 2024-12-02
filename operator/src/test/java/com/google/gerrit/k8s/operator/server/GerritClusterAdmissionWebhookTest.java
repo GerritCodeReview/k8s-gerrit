@@ -26,6 +26,8 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplateSpec;
+import com.google.gerrit.k8s.operator.config.TestOperatorContext;
+import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.ReceiverUtil;
 import com.google.gerrit.k8s.operator.test.TestGerrit;
 import com.google.gerrit.k8s.operator.test.TestGerritCluster;
@@ -156,8 +158,8 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
   }
 
   @Override
-  protected ClusterMode getClusterMode() {
-    return ClusterMode.HIGH_AVAILABILITY;
+  protected void initOperatorContext() {
+    TestOperatorContext.create(ClusterMode.HIGH_AVAILABILITY, IngressType.INGRESS);
   }
 
   @Override

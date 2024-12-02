@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator;
 
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigs;
 import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.Guice;
@@ -24,23 +22,12 @@ import com.google.inject.Stage;
 import io.javaoperatorsdk.operator.OperatorException;
 
 public class Main {
-
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   public static void main(String[] args) throws Exception {
     try {
-      String getClusterModeEnv = System.getenv("CLUSTER_MODE");
-      ClusterMode clusterMode =
-          getClusterModeEnv == null
-              ? ClusterMode.HIGH_AVAILABILITY
-              : ClusterMode.valueOf(getClusterModeEnv.toUpperCase());
-      OperatorContext.createInstance(clusterMode);
-      logger.atInfo().log("Cluster mode: %s", clusterMode);
-
-      Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule(clusterMode));
+      Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule());
       injector.getInstance(HttpServer.class).start();
       injector.getInstance(ValidationWebhookConfigs.class).apply();
-      injector.getInstance(GerritOperator.class).start();
+      injector.getInstance(GerritOperator.class).init();
     } catch (OperatorException e) {
       System.exit(1);
     }

@@ -16,16 +16,15 @@ package com.google.gerrit.k8s.operator.test;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.OperatorContext;
+import com.google.gerrit.k8s.operator.ReconcilerSetProvider;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
-import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
+import com.google.gerrit.k8s.operator.config.TestOperatorContext;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
-import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
@@ -34,7 +33,6 @@ import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
-import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.junit.LocallyRunOperatorExtension;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -71,7 +69,7 @@ public abstract class AbstractGerritOperatorE2ETest {
           .withReconciler(gerritReconciler)
           .withReconciler(new GitGarbageCollectionReconciler(client))
           .withReconciler(new ReceiverReconciler(client))
-          .withReconciler(getGerritNetworkReconciler())
+          .withReconciler(ReconcilerSetProvider.getGerritNetworkReconciler())
           .withReconciler(new IncomingReplicationTaskReconciler())
           .build();
 
@@ -87,10 +85,10 @@ public abstract class AbstractGerritOperatorE2ETest {
 
     client.resource(receiverCredentials).inNamespace(operator.getNamespace()).createOrReplace();
 
-    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+    TestOperatorContext.create(Constants.ClusterMode.HIGH_AVAILABILITY, getIngressType());
 
     gerritCluster = new TestGerritCluster(client, operator.getNamespace());
-    gerritCluster.setIngressType(getIngressType());
+    gerritCluster.configureIngress();
     gerritCluster.deploy();
   }
 
@@ -141,10 +139,6 @@ public abstract class AbstractGerritOperatorE2ETest {
             .withData(Map.of(".dockerconfigjson", data))
             .build();
     client.resource(imagePullSecret).createOrReplace();
-  }
-
-  public Reconciler<GerritNetwork> getGerritNetworkReconciler() {
-    return new GerritNetworkReconcilerProvider(getIngressType()).get();
   }
 
   protected abstract IngressType getIngressType();
