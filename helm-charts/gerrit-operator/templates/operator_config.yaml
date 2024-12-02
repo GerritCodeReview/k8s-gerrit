@@ -1,0 +1,8 @@
+apiVersion: "gerritoperator.google.com/v1beta13"
+kind: GerritOperatorConfig
+metadata:
+  name: gerrit-operator-config
+  namespace: {{ .Release.Namespace }}
+spec:
+    ingressType: {{ .Values.ingress.type }}
+    clusterMode: {{ .Values.cluster.mode }}

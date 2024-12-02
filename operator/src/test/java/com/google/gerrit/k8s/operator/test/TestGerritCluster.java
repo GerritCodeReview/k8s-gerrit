@@ -36,6 +36,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.SharedStorage;
 import com.google.gerrit.k8s.operator.api.model.shared.StorageClassConfig;
+import com.google.gerrit.k8s.operator.config.OperatorContext;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.urswolfer.gerrit.client.rest.GerritAuthData;
 import com.urswolfer.gerrit.client.rest.GerritRestApiFactory;
@@ -83,8 +84,8 @@ public class TestGerritCluster {
     return cluster.getMetadata().getNamespace();
   }
 
-  public void setIngressType(IngressType type) {
-    switch (type) {
+  public void configureIngress() {
+    switch (OperatorContext.getIngressType()) {
       case INGRESS:
         hostname = testProps.getIngressDomain();
         enableIngress();

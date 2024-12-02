@@ -21,11 +21,11 @@ import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_
 import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMember;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMemberWithSsh;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.config.OperatorContext;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.receiver.dependent.ReceiverService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;

@@ -1,4 +1,4 @@
-// Copyright (C) 2023 The Android Open Source Project
+// Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,4 @@
 
 package com.google.gerrit.k8s.operator;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
-
-public class EnvModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(String.class)
-        .annotatedWith(Names.named("Namespace"))
-        .toInstance(firstNonNull(System.getenv("NAMESPACE"), "default"));
-  }
-}
+public @interface ReconcilerSet {}

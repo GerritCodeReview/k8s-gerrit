@@ -19,8 +19,8 @@ import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.config.OperatorContext;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -38,17 +38,12 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
   public static final String GERRIT_MULTISITE_MISCONFIGURED =
       "Gerrit Cluster in multisite mode should be configured as Primary Gerrit and have spec.gerrits[0].specs.replicas value > 1.";
 
-  private final ClusterMode clusterMode;
-
-  @Inject
-  public GerritClusterAdmissionWebhook(ClusterMode clusterMode) {
-    this.clusterMode = clusterMode;
-  }
-
   private static final long serialVersionUID = 1L;
 
   @Override
   public Status validate(HasMetadata resource) {
+    ClusterMode clusterMode = OperatorContext.getClusterMode();
+
     if (!(resource instanceof GerritCluster)) {
       return new StatusBuilder()
           .withCode(HttpServletResponse.SC_BAD_REQUEST)
@@ -98,7 +93,7 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
       }
     }
 
-    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook(clusterMode);
+    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
       if (status.getCode() != HttpServletResponse.SC_OK) {

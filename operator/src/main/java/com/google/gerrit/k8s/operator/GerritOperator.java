@@ -17,6 +17,9 @@ package com.google.gerrit.k8s.operator;
 import static com.google.gerrit.k8s.operator.server.HttpServer.PORT;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.k8s.operator.api.model.config.GerritOperatorConfig;
+import com.google.gerrit.k8s.operator.api.model.config.GerritOperatorConfigSpec;
+import com.google.gerrit.k8s.operator.config.GerritOperatorConfigReconciler;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -27,8 +30,9 @@ import io.fabric8.kubernetes.api.model.ServicePortBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.Operator;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import java.time.Duration;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Singleton
 public class GerritOperator {
@@ -39,39 +43,31 @@ public class GerritOperator {
   private final KubernetesClient client;
   private final LifecycleManager lifecycleManager;
 
-  @SuppressWarnings("rawtypes")
-  private final Set<Reconciler> reconcilers;
+  private final ReconcilerSetProvider reconcilerProvider;
 
   private final String namespace;
 
   private Operator operator;
+  private boolean started;
   private Service svc;
 
   @Inject
-  @SuppressWarnings("rawtypes")
   public GerritOperator(
       LifecycleManager lifecycleManager,
       KubernetesClient client,
-      Set<Reconciler> reconcilers,
+      ReconcilerSetProvider reconcilerProvider,
       @Named("Namespace") String namespace) {
     this.lifecycleManager = lifecycleManager;
     this.client = client;
-    this.reconcilers = reconcilers;
+    this.reconcilerProvider = reconcilerProvider;
     this.namespace = namespace;
   }
 
-  public void start() throws Exception {
-    operator =
-        new Operator(
-            overrider ->
-                overrider
-                    .withSSABasedCreateUpdateMatchForDependentResources(false)
-                    .withKubernetesClient(client));
-    for (Reconciler<?> reconciler : reconcilers) {
-      logger.atInfo().log("Registering reconciler: %s", reconciler.getClass().getSimpleName());
-      operator.register(reconciler);
-    }
-    operator.start();
+  public void init() throws Exception {
+    GerritOperatorConfig operatorConfig = getInitialGerritOperatorConfig();
+    // The GerritOperatorConfigReconciler will apply the configuration, register the Reconcilers and
+    // start the operator thread.
+    new GerritOperatorConfigReconciler(this).reconcile(operatorConfig, null);
     lifecycleManager.addShutdownHook(
         new Runnable() {
           @Override
@@ -82,9 +78,63 @@ public class GerritOperator {
     applyService();
   }
 
+  public void start() {
+    if (!started) {
+      logger.atInfo().log("Starting operator.");
+      operator =
+          new Operator(
+              overrider ->
+                  overrider
+                      .withSSABasedCreateUpdateMatchForDependentResources(false)
+                      .withCloseClientOnStop(false)
+                      .withKubernetesClient(client));
+      registerReconcilers();
+      operator.start();
+      started = true;
+      logger.atInfo().log("Operator has been started.");
+    }
+  }
+
+  public void stop() {
+    if (started) {
+      logger.atInfo().log("Stopping operator.");
+      operator.stop();
+      started = false;
+    }
+  }
+
+  public void restart() {
+    stop();
+    start();
+  }
+
   public void shutdown() {
     client.resource(svc).delete();
-    operator.stop();
+    operator.stop(Duration.ofSeconds(10));
+    client.close();
+  }
+
+  private GerritOperatorConfig getInitialGerritOperatorConfig() {
+    List<GerritOperatorConfig> operatorConfigs =
+        client.resources(GerritOperatorConfig.class).inNamespace(namespace).list().getItems();
+    if (operatorConfigs.isEmpty()) {
+      GerritOperatorConfig cfg = new GerritOperatorConfig();
+      cfg.setSpec(new GerritOperatorConfigSpec());
+      return cfg;
+    } else if (operatorConfigs.size() > 1) {
+      logger.atWarning().log(
+          "More than one GerritOpertaorConfig found. Using %s.",
+          operatorConfigs.get(0).getMetadata().getName());
+    }
+    return operatorConfigs.get(0);
+  }
+
+  private void registerReconcilers() {
+    operator.register(new GerritOperatorConfigReconciler(this));
+    for (Reconciler<?> reconciler : reconcilerProvider.get()) {
+      logger.atInfo().log("Registering reconciler: %s", reconciler.getClass().getSimpleName());
+      operator.register(reconciler);
+    }
   }
 
   private void applyService() {

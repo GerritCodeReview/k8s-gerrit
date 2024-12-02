@@ -12,29 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.k8s.operator;
+package com.google.gerrit.k8s.operator.config;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.network.IngressType;
 
-public class OperatorContext {
-  private static OperatorContext instance;
-
-  private final ClusterMode clusterMode;
-
-  private OperatorContext(ClusterMode clusterMode) {
-    this.clusterMode = clusterMode;
-  }
-
-  public static void createInstance(ClusterMode clusterMode) {
-    if (instance == null) {
-      instance = new OperatorContext(clusterMode);
-    }
-  }
-
-  public static ClusterMode getClusterMode() {
-    if (instance == null) {
-      throw new UnsupportedOperationException("The Operation Context must be initialised");
-    }
-    return instance.clusterMode;
+public class TestOperatorContext {
+  public static void create(ClusterMode clusterMode, IngressType ingressType) {
+    OperatorContext.createInstance(clusterMode, ingressType);
   }
 }

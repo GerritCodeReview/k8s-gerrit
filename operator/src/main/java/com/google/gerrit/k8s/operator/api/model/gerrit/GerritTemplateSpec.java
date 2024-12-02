@@ -16,8 +16,8 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.shared.HttpSshServiceConfig;
+import com.google.gerrit.k8s.operator.config.OperatorContext;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;

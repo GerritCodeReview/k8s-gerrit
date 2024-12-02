@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
@@ -28,6 +27,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
 import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
+import com.google.gerrit.k8s.operator.config.OperatorContext;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

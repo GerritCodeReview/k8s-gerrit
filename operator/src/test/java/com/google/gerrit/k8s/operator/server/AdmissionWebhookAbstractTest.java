@@ -18,8 +18,6 @@ import static com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer.POR
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
@@ -73,9 +71,9 @@ public abstract class AdmissionWebhookAbstractTest {
 
     kubernetesServer.before();
 
-    OperatorContext.createInstance(getClusterMode());
-    server.registerWebhook(new GerritClusterAdmissionWebhook(getClusterMode()));
-    server.registerWebhook(new GerritAdmissionWebhook(getClusterMode()));
+    initOperatorContext();
+    server.registerWebhook(new GerritClusterAdmissionWebhook());
+    server.registerWebhook(new GerritAdmissionWebhook());
     server.start();
   }
 
@@ -149,5 +147,5 @@ public abstract class AdmissionWebhookAbstractTest {
 
   protected abstract String getCustomResource();
 
-  protected abstract ClusterMode getClusterMode();
+  protected abstract void initOperatorContext();
 }
