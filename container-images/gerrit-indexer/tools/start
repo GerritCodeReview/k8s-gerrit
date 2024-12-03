@@ -59,6 +59,6 @@ if [ "$INDEX_TYPE" = "LUCENE" ] && test -n "$OUTPUT"; then
     echo "Pruning $SHARED_INDEX_TARGET"
     rm -rf $SHARED_INDEX_TARGET
     echo "Copying $LATEST_INDEX to $SHARED_INDEX_TARGET"
-    cp -R SHARED_INDEX_TARGET $OUTPUT/$LATEST_INDEX
+    cp -R $SHARED_INDEX_TARGET $OUTPUT/$LATEST_INDEX
   done
 fi
