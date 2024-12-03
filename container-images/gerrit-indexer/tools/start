@@ -55,10 +55,11 @@ if [ "$INDEX_TYPE" = "LUCENE" ] && test -n "$OUTPUT"; then
       sort | \
       tail -n1
     )
-    SHARED_INDEX_TARGET=/var/gerrit/index/$LATEST_INDEX
+    LATEST_INDEX=${LATEST_INDEX#"./"}
+    SHARED_INDEX_TARGET=$OUTPUT/$LATEST_INDEX
     echo "Pruning $SHARED_INDEX_TARGET"
     rm -rf $SHARED_INDEX_TARGET
     echo "Copying $LATEST_INDEX to $SHARED_INDEX_TARGET"
-    cp -R SHARED_INDEX_TARGET $OUTPUT/$LATEST_INDEX
+    cp -R /var/gerrit/index/$LATEST_INDEX $SHARED_INDEX_TARGET
   done
 fi
