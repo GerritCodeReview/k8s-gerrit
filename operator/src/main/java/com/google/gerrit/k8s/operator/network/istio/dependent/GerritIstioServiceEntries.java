@@ -24,11 +24,11 @@ import com.google.gerrit.k8s.operator.gerrit.dependent.GerritHeadlessService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import io.fabric8.istio.api.networking.v1beta1.PortBuilder;
 import io.fabric8.istio.api.networking.v1beta1.ServiceEntry;
 import io.fabric8.istio.api.networking.v1beta1.ServiceEntryBuilder;
 import io.fabric8.istio.api.networking.v1beta1.ServiceEntryLocation;
 import io.fabric8.istio.api.networking.v1beta1.ServiceEntryResolution;
+import io.fabric8.istio.api.networking.v1beta1.ServicePortBuilder;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
@@ -63,17 +63,17 @@ public class GerritIstioServiceEntries
         .withHosts(host)
         .withPorts(
             List.of(
-                new PortBuilder()
+                new ServicePortBuilder()
                     .withName("ssh-primary")
                     .withNumber(SSH_PORT)
                     .withProtocol("TCP")
                     .build(),
-                new PortBuilder()
+                new ServicePortBuilder()
                     .withName("http")
                     .withNumber(HTTP_PORT)
                     .withProtocol("HTTP")
                     .build(),
-                new PortBuilder()
+                new ServicePortBuilder()
                     .withName("jgroups")
                     .withNumber(JGROUPS_PORT)
                     .withProtocol("TCP")

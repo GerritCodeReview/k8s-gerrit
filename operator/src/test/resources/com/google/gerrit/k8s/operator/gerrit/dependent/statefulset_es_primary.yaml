@@ -81,27 +81,27 @@ spec:
             path: /config/server/healthcheck~status
             port: 8080
         volumeMounts:
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        - mountPath: /var/mnt/shared
+          name: shared
+          subPath: shared
         - mountPath: /home/gerrit
           subPath: home
           name: tmp
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
-        - mountPath: /var/mnt/index
-          name: shared
-          subPath: index
-        - mountPath: /var/gerrit
-          name: gerrit-site
-        - mountPath: /tmp
-          subPath: tmp
-          name: tmp
         - mountPath: /var/mnt/git
           name: shared
           subPath: git
-        - mountPath: /var/mnt/shared
+        - mountPath: /tmp
+          subPath: tmp
+          name: tmp
+        - mountPath: /var/mnt/index
           name: shared
-          subPath: shared
-        - mountPath: /var/mnt/etc/secret
-          name: gerrit-secure-config
+          subPath: index
       initContainers:
       - env:
         - name: POD_NAME
@@ -125,29 +125,29 @@ spec:
             drop:
             - ALL
         volumeMounts:
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
+        - mountPath: /var/config
+          name: gerrit-init-config
+        - mountPath: /var/gerrit
+          name: gerrit-site
+        - mountPath: /var/mnt/shared
+          name: shared
+          subPath: shared
         - mountPath: /home/gerrit
           subPath: home
           name: tmp
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
-        - mountPath: /var/config
-          name: gerrit-init-config
-        - mountPath: /var/mnt/index
-          name: shared
-          subPath: index
-        - mountPath: /var/gerrit
-          name: gerrit-site
-        - mountPath: /tmp
-          subPath: tmp
-          name: tmp
         - mountPath: /var/mnt/git
           name: shared
           subPath: git
-        - mountPath: /var/mnt/shared
+        - mountPath: /tmp
+          subPath: tmp
+          name: tmp
+        - mountPath: /var/mnt/index
           name: shared
-          subPath: shared
-        - mountPath: /var/mnt/etc/secret
-          name: gerrit-secure-config
+          subPath: index
       securityContext:
         fsGroup: 100
         runAsGroup: 100

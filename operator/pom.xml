@@ -15,12 +15,12 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
-		<fabric8.version>6.11.0</fabric8.version>
+		<fabric8.version>6.13.4</fabric8.version>
 		<flogger.version>0.8</flogger.version>
 		<guice.version>5.1.0</guice.version>
-		<javaoperatorsdk.version>4.8.3</javaoperatorsdk.version>
+		<javaoperatorsdk.version>4.9.7</javaoperatorsdk.version>
 		<jetty.version>11.0.15</jetty.version>
-		<log42.version>2.23.0</log42.version>
+		<log42.version>2.24.1</log42.version>
 		<lombok.version>1.18.30</lombok.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>

@@ -111,14 +111,14 @@ spec:
           failureThreshold: 3
 
         volumeMounts:
+        - name: shared
+          subPath: git
+          mountPath: /var/gerrit/git
         - name: apache-run-dir
           mountPath: /run/apache2
         - name: apache-credentials
           mountPath: /var/apache/credentials/.htpasswd
           subPath: .htpasswd
-        - name: shared
-          subPath: git
-          mountPath: /var/gerrit/git
       volumes:
       - name: shared
         persistentVolumeClaim:
