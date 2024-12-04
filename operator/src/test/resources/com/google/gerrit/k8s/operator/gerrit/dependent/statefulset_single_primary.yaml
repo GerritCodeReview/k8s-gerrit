@@ -2,35 +2,35 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app.kubernetes.io/component: gerrit-statefulset-gerrit
-    app.kubernetes.io/created-by: GerritReconciler
-    app.kubernetes.io/instance: gerrit
     app.kubernetes.io/managed-by: gerrit-operator
     app.kubernetes.io/name: gerrit
     app.kubernetes.io/part-of: gerrit
+    app.kubernetes.io/created-by: GerritReconciler
+    app.kubernetes.io/instance: gerrit
     app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-statefulset-gerrit
   name: gerrit
   namespace: gerrit
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/component: gerrit-statefulset-gerrit
-      app.kubernetes.io/instance: gerrit
       app.kubernetes.io/managed-by: gerrit-operator
       app.kubernetes.io/name: gerrit
       app.kubernetes.io/part-of: gerrit
+      app.kubernetes.io/instance: gerrit
+      app.kubernetes.io/component: gerrit-statefulset-gerrit
   serviceName: gerrit
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: gerrit-statefulset-gerrit
-        app.kubernetes.io/created-by: GerritReconciler
-        app.kubernetes.io/instance: gerrit
         app.kubernetes.io/managed-by: gerrit-operator
         app.kubernetes.io/name: gerrit
         app.kubernetes.io/part-of: gerrit
+        app.kubernetes.io/created-by: GerritReconciler
+        app.kubernetes.io/instance: gerrit
         app.kubernetes.io/version: unknown
+        app.kubernetes.io/component: gerrit-statefulset-gerrit
     spec:
       containers:
       - env:
@@ -66,15 +66,15 @@ spec:
             path: /config/server/healthcheck~status
             port: 8080
         volumeMounts:
-        - mountPath: /var/mnt/etc/config
-          name: gerrit-config
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
         - mountPath: /var/gerrit
           name: gerrit-site
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
         - mountPath: /var/mnt/git
           name: shared
           subPath: git
-        - mountPath: /var/mnt/etc/secret
-          name: gerrit-secure-config
       initContainers:
       - env:
         - name: POD_NAME
@@ -85,17 +85,17 @@ spec:
         imagePullPolicy: Always
         name: gerrit-init
         volumeMounts:
-        - mountPath: /var/mnt/etc/config
-          name: gerrit-config
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
         - mountPath: /var/config
           name: gerrit-init-config
         - mountPath: /var/gerrit
           name: gerrit-site
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
         - mountPath: /var/mnt/git
           name: shared
           subPath: git
-        - mountPath: /var/mnt/etc/secret
-          name: gerrit-secure-config
       securityContext:
         fsGroup: 100
       serviceAccount: gerrit
@@ -121,11 +121,11 @@ spec:
     kind: PersistentVolumeClaim
     metadata:
       labels:
-        app.kubernetes.io/component: gerrit-statefulset-gerrit
-        app.kubernetes.io/instance: gerrit
         app.kubernetes.io/managed-by: gerrit-operator
         app.kubernetes.io/name: gerrit
         app.kubernetes.io/part-of: gerrit
+        app.kubernetes.io/instance: gerrit
+        app.kubernetes.io/component: gerrit-statefulset-gerrit
       name: gerrit-site
     spec:
       accessModes:

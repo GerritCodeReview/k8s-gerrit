@@ -2067,8 +2067,8 @@ spec:
                                   type: object
                                 type: array
                             required:
-                              - schedule
                               - config
+                              - schedule
                             type: object
                         type: object
                       type: array

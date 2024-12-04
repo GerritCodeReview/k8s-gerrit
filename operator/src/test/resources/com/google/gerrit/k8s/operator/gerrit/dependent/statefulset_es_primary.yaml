@@ -70,21 +70,21 @@ spec:
             path: /config/server/healthcheck~status
             port: 8080
         volumeMounts:
-        - mountPath: /var/mnt/etc/config
-          name: gerrit-config
-        - mountPath: /var/mnt/index
-          name: shared
-          subPath: index
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
         - mountPath: /var/gerrit
           name: gerrit-site
-        - mountPath: /var/mnt/git
-          name: shared
-          subPath: git
         - mountPath: /var/mnt/shared
           name: shared
           subPath: shared
-        - mountPath: /var/mnt/etc/secret
-          name: gerrit-secure-config
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/mnt/git
+          name: shared
+          subPath: git
+        - mountPath: /var/mnt/index
+          name: shared
+          subPath: index
       initContainers:
       - env:
         - name: POD_NAME
@@ -97,23 +97,23 @@ spec:
         imagePullPolicy: Always
         name: gerrit-init
         volumeMounts:
-        - mountPath: /var/mnt/etc/config
-          name: gerrit-config
+        - mountPath: /var/mnt/etc/secret
+          name: gerrit-secure-config
         - mountPath: /var/config
           name: gerrit-init-config
-        - mountPath: /var/mnt/index
-          name: shared
-          subPath: index
         - mountPath: /var/gerrit
           name: gerrit-site
-        - mountPath: /var/mnt/git
-          name: shared
-          subPath: git
         - mountPath: /var/mnt/shared
           name: shared
           subPath: shared
-        - mountPath: /var/mnt/etc/secret
-          name: gerrit-secure-config
+        - mountPath: /var/mnt/etc/config
+          name: gerrit-config
+        - mountPath: /var/mnt/git
+          name: shared
+          subPath: git
+        - mountPath: /var/mnt/index
+          name: shared
+          subPath: index
       securityContext:
         fsGroup: 100
       serviceAccount: gerrit

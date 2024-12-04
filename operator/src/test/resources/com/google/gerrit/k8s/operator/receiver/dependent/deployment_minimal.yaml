@@ -56,12 +56,12 @@ spec:
             port: 80
 
         volumeMounts:
-        - name: apache-credentials
-          mountPath: /var/apache/credentials/.htpasswd
-          subPath: .htpasswd
         - name: shared
           subPath: git
           mountPath: /var/gerrit/git
+        - name: apache-credentials
+          mountPath: /var/apache/credentials/.htpasswd
+          subPath: .htpasswd
       volumes:
       - name: shared
         persistentVolumeClaim:
