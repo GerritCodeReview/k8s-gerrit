@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-    - name: v1beta12
+    - name: v1beta13
       schema:
         openAPIV3Schema:
           properties:
@@ -2067,8 +2067,8 @@ spec:
                                   type: object
                                 type: array
                             required:
-                              - schedule
                               - config
+                              - schedule
                             type: object
                         type: object
                       type: array

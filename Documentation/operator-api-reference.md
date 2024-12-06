@@ -86,7 +86,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: GerritCluster
 
 ---
@@ -103,7 +103,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -419,7 +419,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: Gerrit
 
 ---
@@ -436,7 +436,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -645,7 +645,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: Receiver
 
 ---
@@ -662,7 +662,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: Receiver
 metadata:
   name: receiver
@@ -773,7 +773,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -790,7 +790,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -834,7 +834,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: GerritNetwork
 
 ---
@@ -850,7 +850,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -883,7 +883,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -899,7 +899,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -958,7 +958,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta13 \
+**Version**: v1beta14 \
 **Kind**: GerritIndexer
 
 ---
@@ -974,7 +974,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
