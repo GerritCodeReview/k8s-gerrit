@@ -28,17 +28,25 @@ import java.util.Objects;
 public class GerritProbe extends Probe {
   private static final long serialVersionUID = 1L;
 
-  private static final HTTPGetAction HTTP_GET_ACTION =
-      new HTTPGetActionBuilder()
-          .withPath("/config/server/healthcheck~status")
-          .withPort(new IntOrString(GerritStatefulSet.HTTP_PORT))
-          .build();
-
   @JsonIgnore private ExecAction exec;
 
   @JsonIgnore private GRPCAction grpc;
 
   @JsonIgnore private TCPSocketAction tcpSocket;
+
+  @JsonIgnore
+  public Probe forGerrit(Gerrit gerrit) {
+    setHttpGetAction(gerrit.getSpec().getIngress().getPathPrefix());
+    return this;
+  }
+
+  private void setHttpGetAction(String pathprefix) {
+    super.setHttpGet(
+        new HTTPGetActionBuilder()
+            .withPath(pathprefix + "/config/server/healthcheck~status")
+            .withPort(new IntOrString(GerritStatefulSet.HTTP_PORT))
+            .build());
+  }
 
   @Override
   public void setExec(ExecAction exec) {
@@ -52,7 +60,7 @@ public class GerritProbe extends Probe {
 
   @Override
   public void setHttpGet(HTTPGetAction httpGet) {
-    super.setHttpGet(HTTP_GET_ACTION);
+    super.setHttpGet(null);
   }
 
   @Override
@@ -68,11 +76,6 @@ public class GerritProbe extends Probe {
   @Override
   public GRPCAction getGrpc() {
     return null;
-  }
-
-  @Override
-  public HTTPGetAction getHttpGet() {
-    return HTTP_GET_ACTION;
   }
 
   @Override

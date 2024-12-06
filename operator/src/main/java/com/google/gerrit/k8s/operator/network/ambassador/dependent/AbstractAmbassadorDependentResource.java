@@ -44,11 +44,12 @@ public abstract class AbstractAmbassadorDependentResource<T extends HasMetadata>
   }
 
   public MappingSpec getCommonSpec(GerritNetwork gerritnetwork, String serviceName) {
+    String prefix = gerritnetwork.getSpec().getIngress().getPathPrefix();
     MappingSpec spec =
         new MappingSpecBuilder()
             .withAmbassadorId(getAmbassadorIds(gerritnetwork))
             .withHost(gerritnetwork.getSpec().getIngress().getHost())
-            .withPrefix("/")
+            .withPrefix(prefix == null || prefix.isBlank() ? "/" : prefix)
             .withService(serviceName)
             .withBypassAuth(true)
             .withRewrite("") // important - so the prefix doesn't get overwritten to "/"
