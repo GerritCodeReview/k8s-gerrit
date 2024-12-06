@@ -32,13 +32,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class GerritConfigBuilder extends ConfigBuilder {
-  private static final Pattern PROTOCOL_PATTERN = Pattern.compile("^(https?)://.+");
   private static final String ES_SECTION_NAME = "elasticsearch";
 
   public GerritConfigBuilder(Gerrit gerrit) {
@@ -184,7 +181,7 @@ public class GerritConfigBuilder extends ConfigBuilder {
     List<RequiredOption<?>> requiredOptions = new ArrayList<>();
     IngressConfig ingressConfig = gerrit.getSpec().getIngress();
     if (ingressConfig.isEnabled()) {
-      requiredOptions.add(listenUrl(ingressConfig.getUrl()));
+      requiredOptions.add(listenUrl(ingressConfig));
     }
     return requiredOptions;
   }
@@ -231,18 +228,13 @@ public class GerritConfigBuilder extends ConfigBuilder {
     return new RequiredOption<Set<String>>("container", "javaOptions", javaOptions);
   }
 
-  private static RequiredOption<String> listenUrl(String url) {
+  private static RequiredOption<String> listenUrl(IngressConfig ingressConfig) {
     StringBuilder listenUrlBuilder = new StringBuilder();
     listenUrlBuilder.append("proxy-");
-    Matcher protocolMatcher = PROTOCOL_PATTERN.matcher(url);
-    if (protocolMatcher.matches()) {
-      listenUrlBuilder.append(protocolMatcher.group(1));
-    } else {
-      throw new IllegalStateException(
-          String.format("Unknown protocol used for canonicalWebUrl: %s", url));
-    }
+    listenUrlBuilder.append(ingressConfig.isTlsEnabled() ? "https" : "http");
     listenUrlBuilder.append("://*:");
     listenUrlBuilder.append(HTTP_PORT);
+    listenUrlBuilder.append(ingressConfig.getPathPrefix());
     listenUrlBuilder.append("/");
     return new RequiredOption<String>("httpd", "listenUrl", listenUrlBuilder.toString());
   }
