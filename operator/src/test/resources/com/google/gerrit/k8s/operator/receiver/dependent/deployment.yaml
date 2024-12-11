@@ -59,6 +59,9 @@ spec:
       priorityClassName: prio
       securityContext:
         fsGroup: 100
+        runAsGroup: 100
+        runAsUser: 1000
+        runAsNonRoot: true
       imagePullSecrets: []
       initContainers: []
       containers:

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.indexer.dependent;
 
-import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
-
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -23,6 +21,7 @@ import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexerSpec;
 import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.components.GerritSecurityContext;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritInitConfigMap;
 import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -87,9 +86,7 @@ public class GerritIndexerJob
         .addAllToImagePullSecrets(
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")
-        .withNewSecurityContext()
-        .withFsGroup(GERRIT_USER_GROUP_ID)
-        .endSecurityContext()
+        .withSecurityContext(GerritSecurityContext.forPod())
         .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
         .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
         .withVolumes(buildVolumes(gerritIndexer, gerritCluster))

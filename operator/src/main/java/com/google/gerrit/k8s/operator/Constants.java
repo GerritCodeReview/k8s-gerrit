@@ -27,6 +27,7 @@ public class Constants extends AbstractModule {
   public static final String[] RESOURCES_WITH_VALIDATING_WEBHOOK =
       new String[] {GERRIT_CLUSTER_KIND, GERRIT_KIND, GIT_GC_KIND};
 
+  public static final long GERRIT_USER_ID = 1000L;
   public static final long GERRIT_USER_GROUP_ID = 100L;
 
   public enum ClusterMode {
