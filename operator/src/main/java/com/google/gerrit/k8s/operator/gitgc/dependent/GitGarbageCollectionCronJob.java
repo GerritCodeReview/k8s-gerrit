@@ -138,6 +138,7 @@ public class GitGarbageCollectionCronJob
     ContainerBuilder gitGcContainerBuilder =
         new ContainerBuilder()
             .withName("git-gc")
+            .withSecurityContext(GerritSecurityContext.forContainer())
             .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
             .withImage(
                 gerritCluster

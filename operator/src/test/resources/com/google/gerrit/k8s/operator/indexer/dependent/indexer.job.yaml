@@ -43,6 +43,10 @@ spec:
         runAsNonRoot: true
       initContainers:
       - name: gerrit-init
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 1000
+          runAsNonRoot: true
         image: docker.io/k8sgerrit/gerrit-init:latest
         imagePullPolicy: Always
         resources:
@@ -64,6 +68,10 @@ spec:
           subPath: git
       containers:
       - name: gerrit-indexer
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 1000
+          runAsNonRoot: true
         image: docker.io/k8sgerrit/gerrit-indexer:latest
         imagePullPolicy: Always
         args: ["--output", "/indexes"]

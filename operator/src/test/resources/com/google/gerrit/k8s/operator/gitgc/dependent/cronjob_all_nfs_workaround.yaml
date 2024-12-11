@@ -75,6 +75,10 @@ spec:
               mountPath: /etc/idmapd.conf
           containers:
           - name: git-gc
+            securityContext:
+              runAsGroup: 100
+              runAsUser: 1000
+              runAsNonRoot: true
             imagePullPolicy: Always
             image: docker.io/k8sgerrit/git-gc:latest
             resources:

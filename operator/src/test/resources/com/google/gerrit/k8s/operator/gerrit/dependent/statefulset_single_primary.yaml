@@ -52,6 +52,10 @@ spec:
             path: /config/server/healthcheck~status
             port: 8080
         name: gerrit
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 1000
+          runAsNonRoot: true
         ports:
         - containerPort: 8080
           name: http
@@ -84,6 +88,10 @@ spec:
         image: docker.io/k8sgerrit/gerrit-init:latest
         imagePullPolicy: Always
         name: gerrit-init
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 1000
+          runAsNonRoot: true
         volumeMounts:
         - mountPath: /var/mnt/etc/config
           name: gerrit-config

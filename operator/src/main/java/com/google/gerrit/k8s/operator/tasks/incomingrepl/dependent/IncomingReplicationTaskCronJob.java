@@ -131,6 +131,7 @@ public class IncomingReplicationTaskCronJob
     ContainerBuilder taskContainerBuilder =
         new ContainerBuilder()
             .withName("incoming-replication")
+            .withSecurityContext(GerritSecurityContext.forContainer())
             .withImagePullPolicy(
                 incomingReplTask.getSpec().getContainerImages().getImagePullPolicy())
             .withImage(

@@ -17,11 +17,21 @@ package com.google.gerrit.k8s.operator.components;
 import com.google.gerrit.k8s.operator.Constants;
 import io.fabric8.kubernetes.api.model.PodSecurityContext;
 import io.fabric8.kubernetes.api.model.PodSecurityContextBuilder;
+import io.fabric8.kubernetes.api.model.SecurityContext;
+import io.fabric8.kubernetes.api.model.SecurityContextBuilder;
 
 public class GerritSecurityContext {
   public static PodSecurityContext forPod() {
     return new PodSecurityContextBuilder()
         .withFsGroup(Constants.GERRIT_USER_GROUP_ID)
+        .withRunAsGroup(Constants.GERRIT_USER_GROUP_ID)
+        .withRunAsNonRoot(true)
+        .withRunAsUser(Constants.GERRIT_USER_ID)
+        .build();
+  }
+
+  public static SecurityContext forContainer() {
+    return new SecurityContextBuilder()
         .withRunAsGroup(Constants.GERRIT_USER_GROUP_ID)
         .withRunAsNonRoot(true)
         .withRunAsUser(Constants.GERRIT_USER_ID)

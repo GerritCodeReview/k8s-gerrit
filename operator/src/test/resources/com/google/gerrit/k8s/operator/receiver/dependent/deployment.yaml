@@ -66,6 +66,10 @@ spec:
       initContainers: []
       containers:
       - name: apache-git-http-backend
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 1000
+          runAsNonRoot: true
         imagePullPolicy: Always
         image: docker.io/k8sgerrit/apache-git-http-backend:latest
         ports:

@@ -118,6 +118,7 @@ public class GerritIndexerJob
       GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
     return new ContainerBuilder()
         .withName("gerrit-init")
+        .withSecurityContext(GerritSecurityContext.forContainer())
         .withImage(
             gerritCluster
                 .getSpec()
@@ -135,6 +136,7 @@ public class GerritIndexerJob
     ContainerBuilder builder =
         new ContainerBuilder()
             .withName("gerrit-indexer")
+            .withSecurityContext(GerritSecurityContext.forContainer())
             .withImage(
                 gerritCluster
                     .getSpec()

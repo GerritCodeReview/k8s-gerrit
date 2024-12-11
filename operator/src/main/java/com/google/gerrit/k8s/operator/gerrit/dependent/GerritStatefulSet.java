@@ -80,6 +80,7 @@ public class GerritStatefulSet
       Container fluentBitSidecarContainer =
           new ContainerBuilder()
               .withName("fluentbit-logger")
+              .withSecurityContext(GerritSecurityContext.forContainer())
               .withEnv(getEnvVars(gerrit))
               .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
               .withImage(gerrit.getSpec().getFluentBitSidecar().getImage())
@@ -157,6 +158,7 @@ public class GerritStatefulSet
         .withSecurityContext(GerritSecurityContext.forPod())
         .addNewInitContainer()
         .withName("gerrit-init")
+        .withSecurityContext(GerritSecurityContext.forContainer())
         .withEnv(getEnvVars(gerrit))
         .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
@@ -167,6 +169,7 @@ public class GerritStatefulSet
         .addAllToInitContainers(initContainers)
         .addNewContainer()
         .withName("gerrit")
+        .withSecurityContext(GerritSecurityContext.forContainer())
         .withImagePullPolicy(gerrit.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
             gerrit.getSpec().getContainerImages().getGerritImages().getFullImageName("gerrit"))

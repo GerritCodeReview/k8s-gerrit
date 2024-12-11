@@ -99,6 +99,7 @@ public class ReceiverDeployment
         .addAllToInitContainers(initContainers)
         .addNewContainer()
         .withName("apache-git-http-backend")
+        .withSecurityContext(GerritSecurityContext.forContainer())
         .withImagePullPolicy(receiver.getSpec().getContainerImages().getImagePullPolicy())
         .withImage(
             receiver
