@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
+import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_ID;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
@@ -97,6 +98,9 @@ public class ReceiverDeployment
         .withPriorityClassName(receiver.getSpec().getPriorityClassName())
         .addAllToImagePullSecrets(receiver.getSpec().getContainerImages().getImagePullSecrets())
         .withNewSecurityContext()
+        .withRunAsNonRoot()
+        .withRunAsUser(GERRIT_USER_ID)
+        .withRunAsGroup(GERRIT_USER_GROUP_ID)
         .withFsGroup(GERRIT_USER_GROUP_ID)
         .endSecurityContext()
         .addAllToInitContainers(initContainers)

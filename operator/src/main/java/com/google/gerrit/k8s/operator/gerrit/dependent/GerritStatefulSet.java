@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
+import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_ID;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
@@ -156,6 +157,9 @@ public class GerritStatefulSet
         .withTerminationGracePeriodSeconds(gerrit.getSpec().getGracefulStopTimeout())
         .addAllToImagePullSecrets(gerrit.getSpec().getContainerImages().getImagePullSecrets())
         .withNewSecurityContext()
+        .withRunAsNonRoot()
+        .withRunAsUser(GERRIT_USER_ID)
+        .withRunAsGroup(GERRIT_USER_GROUP_ID)
         .withFsGroup(GERRIT_USER_GROUP_ID)
         .endSecurityContext()
         .addNewInitContainer()

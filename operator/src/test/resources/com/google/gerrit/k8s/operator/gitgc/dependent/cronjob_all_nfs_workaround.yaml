@@ -54,6 +54,9 @@ spec:
           restartPolicy: OnFailure
           securityContext:
             fsGroup: 100
+            runAsGroup: 100
+            runAsUser: 1000
+            runAsNonRoot: true
           initContainers:
           - name: nfs-init
             imagePullPolicy: Always

@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent;
 
 import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
+import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_ID;
 import static com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent.IncomingReplicationTaskConfigMap.CONFIG_FILE_NAME;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
@@ -92,6 +93,9 @@ public class IncomingReplicationTaskCronJob
                 incomingReplTask.getSpec().getContainerImages().getImagePullSecrets())
             .withRestartPolicy("OnFailure")
             .withNewSecurityContext()
+            .withRunAsNonRoot()
+            .withRunAsUser(GERRIT_USER_ID)
+            .withRunAsGroup(GERRIT_USER_GROUP_ID)
             .withFsGroup(GERRIT_USER_GROUP_ID)
             .endSecurityContext()
             .addAllToInitContainers(initContainers)

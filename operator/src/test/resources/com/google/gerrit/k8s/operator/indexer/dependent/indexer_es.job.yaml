@@ -38,6 +38,9 @@ spec:
     spec:
       securityContext:
         fsGroup: 100
+        runAsGroup: 100
+        runAsUser: 1000
+        runAsNonRoot: true
       initContainers:
       - name: gerrit-init
         image: docker.io/k8sgerrit/gerrit-init:latest
