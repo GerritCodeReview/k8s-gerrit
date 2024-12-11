@@ -59,6 +59,7 @@ spec:
           runAsUser: 1000
           runAsNonRoot: true
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
         ports:
         - containerPort: 8080
           name: http
@@ -106,6 +107,7 @@ spec:
           runAsUser: 1000
           runAsNonRoot: true
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
         volumeMounts:
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
