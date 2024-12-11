@@ -47,6 +47,7 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         image: docker.io/k8sgerrit/gerrit-init:latest
         imagePullPolicy: Always
         resources:
@@ -72,6 +73,7 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         image: docker.io/k8sgerrit/gerrit-indexer:latest
         imagePullPolicy: Always
         resources:

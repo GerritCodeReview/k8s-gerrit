@@ -58,6 +58,7 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         ports:
         - containerPort: 8080
           name: http
@@ -104,6 +105,7 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
