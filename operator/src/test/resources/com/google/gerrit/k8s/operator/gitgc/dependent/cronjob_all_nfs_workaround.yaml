@@ -80,6 +80,7 @@ spec:
               runAsUser: 1000
               runAsNonRoot: true
               readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
             imagePullPolicy: Always
             image: docker.io/k8sgerrit/git-gc:latest
             resources:

@@ -36,6 +36,7 @@ public class GerritSecurityContext {
         .withRunAsNonRoot(true)
         .withRunAsUser(Constants.GERRIT_USER_ID)
         .withReadOnlyRootFilesystem(true)
+        .withAllowPrivilegeEscalation(false)
         .build();
   }
 }
