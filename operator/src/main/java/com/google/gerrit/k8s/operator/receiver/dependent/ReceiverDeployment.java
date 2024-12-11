@@ -23,6 +23,8 @@ import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerPort;
+import io.fabric8.kubernetes.api.model.EmptyDirVolumeSourceBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -40,6 +42,7 @@ import java.util.Set;
 @KubernetesDependent
 public class ReceiverDeployment
     extends CRUDReconcileAddKubernetesDependentResource<Deployment, Receiver> {
+  private static final Quantity APACHE_RUN_DIR_SIZE_LIMIT = new Quantity("50Mi");
   public static final int HTTP_PORT = 8080;
 
   public ReceiverDeployment() {
@@ -157,6 +160,13 @@ public class ReceiverDeployment
       volumes.add(GerritCluster.getNfsImapdConfigVolume());
     }
 
+    volumes.add(
+        new VolumeBuilder()
+            .withEmptyDir(
+                new EmptyDirVolumeSourceBuilder().withSizeLimit(APACHE_RUN_DIR_SIZE_LIMIT).build())
+            .withName("apache-run-dir")
+            .build());
+
     return volumes;
   }
 
@@ -176,6 +186,9 @@ public class ReceiverDeployment
     if (nfsWorkaround.isEnabled() && nfsWorkaround.getIdmapdConfig() != null) {
       volumeMounts.add(GerritCluster.getNfsImapdConfigVolumeMount());
     }
+
+    volumeMounts.add(
+        new VolumeMountBuilder().withName("apache-run-dir").withMountPath("/run/apache2").build());
 
     return volumeMounts;
   }

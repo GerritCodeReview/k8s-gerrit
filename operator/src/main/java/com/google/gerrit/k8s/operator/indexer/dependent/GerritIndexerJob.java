@@ -27,7 +27,9 @@ import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
+import io.fabric8.kubernetes.api.model.EmptyDirVolumeSourceBuilder;
 import io.fabric8.kubernetes.api.model.LabelSelectorBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -41,6 +43,7 @@ import java.util.Map;
 
 public class GerritIndexerJob
     extends CRUDReconcileAddKubernetesDependentResource<Job, GerritIndexer> {
+  private static final Quantity HOME_DIR_SIZE_LIMIT = new Quantity("500", "Mi");
 
   public GerritIndexerJob() {
     super(Job.class);
@@ -189,6 +192,9 @@ public class GerritIndexerJob
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     volumeMounts.add(
+        new VolumeMountBuilder().withName("home").withMountPath("/home/gerrit").build());
+
+    volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
             .withMountPath("/var/mnt/etc/config")
@@ -289,6 +295,13 @@ public class GerritIndexerJob
               .endPersistentVolumeClaim()
               .build());
     }
+
+    volumes.add(
+        new VolumeBuilder()
+            .withEmptyDir(
+                new EmptyDirVolumeSourceBuilder().withSizeLimit(HOME_DIR_SIZE_LIMIT).build())
+            .withName("home")
+            .build());
 
     return volumes;
   }

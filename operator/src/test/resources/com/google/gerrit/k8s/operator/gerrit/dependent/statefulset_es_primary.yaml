@@ -58,6 +58,7 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         ports:
         - containerPort: 8080
           name: http
@@ -74,6 +75,8 @@ spec:
             path: /config/server/healthcheck~status
             port: 8080
         volumeMounts:
+        - mountPath: /home/gerrit
+          name: home
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/mnt/index
@@ -104,7 +107,10 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         volumeMounts:
+        - mountPath: /home/gerrit
+          name: home
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/config
@@ -139,6 +145,9 @@ spec:
       - configMap:
           name: gerrit-configmap
         name: gerrit-config
+      - name: home
+        emptyDir:
+          sizeLimit: 500Mi
       - configMap:
           name: gerrit-init-configmap
         name: gerrit-init-config

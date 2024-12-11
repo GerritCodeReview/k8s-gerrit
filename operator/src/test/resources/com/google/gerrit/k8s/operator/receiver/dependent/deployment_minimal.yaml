@@ -48,6 +48,7 @@ spec:
           runAsGroup: 100
           runAsUser: 1000
           runAsNonRoot: true
+          readOnlyRootFilesystem: true
         imagePullPolicy: Always
         image: docker.io/k8sgerrit/apache-git-http-backend:latest
         ports:
@@ -63,6 +64,8 @@ spec:
             port: 8080
 
         volumeMounts:
+        - name: apache-run-dir
+          mountPath: /run/apache2
         - name: apache-credentials
           mountPath: /var/apache/credentials/.htpasswd
           subPath: .htpasswd
@@ -76,3 +79,6 @@ spec:
       - name: apache-credentials
         secret:
           secretName: apache-credentials
+      - name: apache-run-dir
+        emptyDir:
+          sizeLimit: 50Mi
