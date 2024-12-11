@@ -33,6 +33,9 @@ spec:
           restartPolicy: OnFailure
           securityContext:
             fsGroup: 100
+            runAsGroup: 100
+            runAsUser: 1000
+            runAsNonRoot: true
           containers:
           - name: incoming-replication
             imagePullPolicy: Always

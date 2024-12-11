@@ -116,6 +116,9 @@ spec:
           name: gerrit-secure-config
       securityContext:
         fsGroup: 100
+        runAsGroup: 100
+        runAsUser: 1000
+        runAsNonRoot: true
       serviceAccount: gerrit
       terminationGracePeriodSeconds: 30
       volumes:

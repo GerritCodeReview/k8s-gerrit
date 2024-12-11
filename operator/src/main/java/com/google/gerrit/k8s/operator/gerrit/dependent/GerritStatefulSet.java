@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
@@ -27,6 +25,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.components.GerritPodSecurityContext;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -155,9 +154,7 @@ public class GerritStatefulSet
         .withPriorityClassName(gerrit.getSpec().getPriorityClassName())
         .withTerminationGracePeriodSeconds(gerrit.getSpec().getGracefulStopTimeout())
         .addAllToImagePullSecrets(gerrit.getSpec().getContainerImages().getImagePullSecrets())
-        .withNewSecurityContext()
-        .withFsGroup(GERRIT_USER_GROUP_ID)
-        .endSecurityContext()
+        .withSecurityContext(new GerritPodSecurityContext())
         .addNewInitContainer()
         .withName("gerrit-init")
         .withEnv(getEnvVars(gerrit))

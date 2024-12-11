@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent;
 
-import static com.google.gerrit.k8s.operator.Constants.GERRIT_USER_GROUP_ID;
 import static com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent.IncomingReplicationTaskConfigMap.CONFIG_FILE_NAME;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
@@ -22,6 +21,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.NfsWorkaroundConfig;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.components.GerritPodSecurityContext;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
@@ -91,9 +91,7 @@ public class IncomingReplicationTaskCronJob
             .addAllToImagePullSecrets(
                 incomingReplTask.getSpec().getContainerImages().getImagePullSecrets())
             .withRestartPolicy("OnFailure")
-            .withNewSecurityContext()
-            .withFsGroup(GERRIT_USER_GROUP_ID)
-            .endSecurityContext()
+            .withSecurityContext(new GerritPodSecurityContext())
             .addAllToInitContainers(initContainers)
             .addToContainers(buildTaskContainer(incomingReplTask, context))
             .withVolumes(getVolumes(incomingReplTask))
