@@ -41,7 +41,7 @@ import java.util.Set;
 @KubernetesDependent
 public class ReceiverDeployment
     extends CRUDReconcileAddKubernetesDependentResource<Deployment, Receiver> {
-  public static final int HTTP_PORT = 80;
+  public static final int HTTP_PORT = 8080;
 
   public ReceiverDeployment() {
     super(Deployment.class);

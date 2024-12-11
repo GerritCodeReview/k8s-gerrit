@@ -24,7 +24,10 @@ COPY tools/project_admin.sh /var/cgi/project_admin.sh
 RUN mkdir -p /var/gerrit/git && \
     mkdir -p /var/log/apache2 && \
     chown -R gerrit:users /var/gerrit/git && \
-    chown -R gerrit:users /var/log/apache2
+    chown -R gerrit:users /var/log/apache2 && \
+    chown -R gerrit:users /run/apache2
+
+USER gerrit
 
 # Start
 ENTRYPOINT ["ash", "/var/tools/start"]

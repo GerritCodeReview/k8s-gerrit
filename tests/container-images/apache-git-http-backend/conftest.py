@@ -33,7 +33,7 @@ class GitBackendContainer:
     def start(self):
         self.container = self.docker_client.containers.run(
             image=self.image.id,
-            ports={"80": self.port},
+            ports={"8080": self.port},
             volumes={
                 self.apache_credentials_dir: {
                     "bind": "/var/apache/credentials",

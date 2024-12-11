@@ -16,7 +16,7 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 80
+    targetPort: 8080
   selector:
     app.kubernetes.io/managed-by: gerrit-operator
     app.kubernetes.io/name: gerrit
