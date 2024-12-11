@@ -31,8 +31,10 @@ import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentRe
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.ContainerPort;
+import io.fabric8.kubernetes.api.model.EmptyDirVolumeSourceBuilder;
 import io.fabric8.kubernetes.api.model.EnvVar;
 import io.fabric8.kubernetes.api.model.EnvVarBuilder;
+import io.fabric8.kubernetes.api.model.Quantity;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -60,6 +62,7 @@ public class GerritStatefulSet
   private static final SimpleDateFormat RFC3339 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
   private static final String SITE_VOLUME_NAME = "gerrit-site";
+  private static final Quantity HOME_DIR_SIZE_LIMIT = new Quantity("500", "Mi");
   public static final int HTTP_PORT = 8080;
   public static final int SSH_PORT = 29418;
   public static final int JGROUPS_PORT = 7800;
@@ -302,6 +305,13 @@ public class GerritStatefulSet
               .build());
     }
 
+    volumes.add(
+        new VolumeBuilder()
+            .withEmptyDir(
+                new EmptyDirVolumeSourceBuilder().withSizeLimit(HOME_DIR_SIZE_LIMIT).build())
+            .withName("home")
+            .build());
+
     return volumes;
   }
 
@@ -318,6 +328,9 @@ public class GerritStatefulSet
     if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
       volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
     }
+    volumeMounts.add(
+        new VolumeMountBuilder().withName("home").withMountPath("/home/gerrit").build());
+
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-config")
