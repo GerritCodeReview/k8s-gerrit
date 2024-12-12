@@ -36,6 +36,8 @@ spec:
             runAsGroup: 100
             runAsUser: 1000
             runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
           containers:
           - name: incoming-replication
             securityContext:
@@ -44,6 +46,8 @@ spec:
               runAsNonRoot: true
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
             imagePullPolicy: Always
             image: docker.io/k8sgerrit/fetch-job:latest
             volumeMounts:
