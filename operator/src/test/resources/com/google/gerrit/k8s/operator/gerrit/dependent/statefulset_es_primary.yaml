@@ -60,6 +60,8 @@ spec:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
         ports:
         - containerPort: 8080
           name: http
@@ -108,6 +110,8 @@ spec:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
         volumeMounts:
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
@@ -131,6 +135,8 @@ spec:
         runAsGroup: 100
         runAsUser: 1000
         runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccount: gerrit
       terminationGracePeriodSeconds: 30
       volumes:
