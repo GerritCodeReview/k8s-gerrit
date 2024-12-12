@@ -17,16 +17,23 @@ package com.google.gerrit.k8s.operator.components;
 import com.google.gerrit.k8s.operator.Constants;
 import io.fabric8.kubernetes.api.model.PodSecurityContext;
 import io.fabric8.kubernetes.api.model.PodSecurityContextBuilder;
+import io.fabric8.kubernetes.api.model.SeccompProfile;
+import io.fabric8.kubernetes.api.model.SeccompProfileBuilder;
 import io.fabric8.kubernetes.api.model.SecurityContext;
 import io.fabric8.kubernetes.api.model.SecurityContextBuilder;
 
 public class GerritSecurityContext {
+  private static final SeccompProfile DEFAULT_SEC_COMP_PROFILE =
+      new SeccompProfileBuilder().withType("RuntimeDefault").build();
+  ;
+
   public static PodSecurityContext forPod() {
     return new PodSecurityContextBuilder()
         .withFsGroup(Constants.GERRIT_USER_GROUP_ID)
         .withRunAsGroup(Constants.GERRIT_USER_GROUP_ID)
         .withRunAsNonRoot(true)
         .withRunAsUser(Constants.GERRIT_USER_ID)
+        .withSeccompProfile(DEFAULT_SEC_COMP_PROFILE)
         .build();
   }
 
@@ -37,6 +44,7 @@ public class GerritSecurityContext {
         .withRunAsUser(Constants.GERRIT_USER_ID)
         .withReadOnlyRootFilesystem(true)
         .withAllowPrivilegeEscalation(false)
+        .withSeccompProfile(DEFAULT_SEC_COMP_PROFILE)
         .build();
   }
 }

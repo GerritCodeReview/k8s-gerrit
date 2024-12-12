@@ -40,6 +40,8 @@ spec:
         runAsGroup: 100
         runAsUser: 1000
         runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       imagePullSecrets: []
       initContainers: []
       containers:
@@ -50,6 +52,8 @@ spec:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
         imagePullPolicy: Always
         image: docker.io/k8sgerrit/apache-git-http-backend:latest
         ports:

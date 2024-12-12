@@ -57,6 +57,8 @@ spec:
             runAsGroup: 100
             runAsUser: 1000
             runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
           containers:
           - name: git-gc
             securityContext:
@@ -65,6 +67,8 @@ spec:
               runAsNonRoot: true
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
             imagePullPolicy: Always
             lifecycle:
               preStop:

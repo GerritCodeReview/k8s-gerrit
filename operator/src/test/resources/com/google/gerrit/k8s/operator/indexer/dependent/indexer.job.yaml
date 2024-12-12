@@ -41,6 +41,8 @@ spec:
         runAsGroup: 100
         runAsUser: 1000
         runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: gerrit-init
         securityContext:
@@ -49,6 +51,8 @@ spec:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
         image: docker.io/k8sgerrit/gerrit-init:latest
         imagePullPolicy: Always
         resources:
@@ -78,6 +82,8 @@ spec:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
         image: docker.io/k8sgerrit/gerrit-indexer:latest
         imagePullPolicy: Always
         args: ["--output", "/indexes"]
