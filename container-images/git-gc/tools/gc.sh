@@ -86,20 +86,9 @@ log_opts()
 
 log()
 {
-  # Rotate the $LOG if current date is different from the last modification of $LOG
-  if test -f "$LOG" ; then
-    TODAY=$(date +%Y-%m-%d)
-    LOG_LAST_MODIFIED=$(date +%Y-%m-%d -r $LOG)
-    if test "$TODAY" != "$LOG_LAST_MODIFIED" ; then
-      mv "$LOG" "$LOG.$LOG_LAST_MODIFIED"
-      gzip "$LOG.$LOG_LAST_MODIFIED"
-    fi
-  fi
-
   # Do not log an empty line
   if [[ ! "$1" =~ ^[[:space:]]*$ ]]; then
     echo $1
-    echo $1 >>$LOG
   fi
 }
 
@@ -257,7 +246,6 @@ shift $(($OPTIND - 1))
 test $# -gt 0 && usage
 
 TOP=/var/gerrit/git
-LOG=/var/log/git/gc.log
 set_gc_command
 
 OUT=$(date +"%D %r Started") && log "$OUT"

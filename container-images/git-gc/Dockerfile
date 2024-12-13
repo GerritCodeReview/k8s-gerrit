@@ -14,9 +14,7 @@ RUN apk update && \
     chmod 0755 /var/tools/jgit && \
     ln -sf /var/tools/jgit /usr/bin/jgit
 
-RUN mkdir -p /var/log/git && \
-    chown gerrit:users /var/log/git && \
-    ln -sf /var/tools/git-gc-preserve /usr/bin/git-gc-preserve
+RUN ln -sf /var/tools/git-gc-preserve /usr/bin/git-gc-preserve
 
 USER gerrit
 
