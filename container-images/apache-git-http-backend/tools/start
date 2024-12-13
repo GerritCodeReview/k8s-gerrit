@@ -14,5 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-/usr/sbin/apachectl start \
-  && tail -F -q -n +1 /var/log/apache2/*.log
+source /usr/sbin/envvars
+httpd -D FOREGROUND

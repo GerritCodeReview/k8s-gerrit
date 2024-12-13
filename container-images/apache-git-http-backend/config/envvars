@@ -34,8 +34,8 @@ unset HOME
 # /etc/init.d/apache2, /etc/logrotate.d/apache2, etc.
 export APACHE_RUN_USER=gerrit
 export APACHE_RUN_GROUP=users
-# Only /var/log/apache2 is handled by /etc/logrotate.d/apache2.
-export APACHE_LOG_DIR=/var/log/apache2$SUFFIX
+# Only log to stdout
+export APACHE_LOG_DIR=/dev/stdout
 
 ## Uncomment the following line to use the system default locale instead:
 #. /etc/default/locale
