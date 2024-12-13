@@ -45,6 +45,9 @@ public class GerritSecurityContext {
         .withReadOnlyRootFilesystem(true)
         .withAllowPrivilegeEscalation(false)
         .withSeccompProfile(DEFAULT_SEC_COMP_PROFILE)
+        .withNewCapabilities()
+        .addToDrop("ALL")
+        .endCapabilities()
         .build();
   }
 }

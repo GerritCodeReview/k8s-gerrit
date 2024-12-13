@@ -69,6 +69,9 @@ spec:
               allowPrivilegeEscalation: false
               seccompProfile:
                 type: RuntimeDefault
+              capabilities:
+                drop:
+                - ALL
             imagePullPolicy: Always
             lifecycle:
               preStop:
