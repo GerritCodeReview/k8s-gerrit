@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.SharedStorage.ExternalPVCConfig;
+import com.google.gerrit.k8s.operator.components.GerritSecurityContext;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.Namespaced;
@@ -166,6 +167,7 @@ public class GerritCluster extends CustomResource<GerritClusterSpec, GerritClust
         .withImage(imageConfig.getBusyBox().getBusyBoxImage())
         .withCommand(List.of("sh", "-c"))
         .withArgs(args.toString().trim())
+        .withSecurityContext(GerritSecurityContext.forNFSWorkaroundInitContainer())
         .withVolumeMounts(volumeMounts)
         .build();
   }
