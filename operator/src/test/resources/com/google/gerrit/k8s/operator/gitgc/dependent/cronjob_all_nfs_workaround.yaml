@@ -63,6 +63,19 @@ spec:
           - name: nfs-init
             imagePullPolicy: Always
             image: docker.io/busybox:latest
+            securityContext:
+              runAsGroup: 0
+              runAsUser: 0
+              runAsNonRoot: false
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop:
+                - ALL
+                add:
+                - CHOWN
             command:
             - sh
             - -c
