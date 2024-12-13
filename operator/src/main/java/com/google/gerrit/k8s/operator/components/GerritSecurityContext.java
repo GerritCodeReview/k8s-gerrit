@@ -50,4 +50,19 @@ public class GerritSecurityContext {
         .endCapabilities()
         .build();
   }
+
+  public static SecurityContext forNFSWorkaroundInitContainer() {
+    return new SecurityContextBuilder()
+        .withRunAsUser(0L)
+        .withRunAsGroup(0L)
+        .withRunAsNonRoot(false) // Must run as root to be able to chown the NFS mount
+        .withReadOnlyRootFilesystem(true)
+        .withAllowPrivilegeEscalation(false)
+        .withSeccompProfile(DEFAULT_SEC_COMP_PROFILE)
+        .withNewCapabilities()
+        .addToDrop("ALL")
+        .addToAdd("CHOWN")
+        .endCapabilities()
+        .build();
+  }
 }
