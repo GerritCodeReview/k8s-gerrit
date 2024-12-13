@@ -48,6 +48,9 @@ spec:
               allowPrivilegeEscalation: false
               seccompProfile:
                 type: RuntimeDefault
+              capabilities:
+                drop:
+                - ALL
             imagePullPolicy: Always
             image: docker.io/k8sgerrit/fetch-job:latest
             volumeMounts:

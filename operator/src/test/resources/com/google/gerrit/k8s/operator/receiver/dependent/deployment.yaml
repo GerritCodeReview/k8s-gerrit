@@ -76,6 +76,9 @@ spec:
           allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
         imagePullPolicy: Always
         image: docker.io/k8sgerrit/apache-git-http-backend:latest
         ports:

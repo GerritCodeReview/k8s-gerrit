@@ -62,6 +62,9 @@ spec:
           allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
         ports:
         - containerPort: 8080
           name: http
@@ -111,6 +114,9 @@ spec:
           allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
         volumeMounts:
         - mountPath: /home/gerrit
           name: home

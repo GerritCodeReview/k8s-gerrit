@@ -53,6 +53,9 @@ spec:
           allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
         image: docker.io/k8sgerrit/gerrit-init:latest
         imagePullPolicy: Always
         resources:
@@ -84,6 +87,9 @@ spec:
           allowPrivilegeEscalation: false
           seccompProfile:
             type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
         image: docker.io/k8sgerrit/gerrit-indexer:latest
         imagePullPolicy: Always
         args: ["--output", "/indexes"]
