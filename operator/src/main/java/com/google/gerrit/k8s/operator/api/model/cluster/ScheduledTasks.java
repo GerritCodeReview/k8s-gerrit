@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.cluster;
 
+import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpecTemplate;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTaskTemplate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.Objects;
 
 public class ScheduledTasks {
   private List<IncomingReplicationTaskTemplate> incomingReplication = new ArrayList<>();
+  private GerritMaintenanceSpecTemplate gerritMaintenance;
 
   public List<IncomingReplicationTaskTemplate> getIncomingReplication() {
     return incomingReplication;
@@ -30,9 +32,17 @@ public class ScheduledTasks {
     this.incomingReplication = incomingReplTasks;
   }
 
+  public GerritMaintenanceSpecTemplate getGerritMaintenance() {
+    return gerritMaintenance;
+  }
+
+  public void setGerritMaintenance(GerritMaintenanceSpecTemplate gerritMaintenance) {
+    this.gerritMaintenance = gerritMaintenance;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(incomingReplication);
+    return Objects.hash(gerritMaintenance, incomingReplication);
   }
 
   @Override
@@ -41,11 +51,16 @@ public class ScheduledTasks {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     ScheduledTasks other = (ScheduledTasks) obj;
-    return Objects.equals(incomingReplication, other.incomingReplication);
+    return Objects.equals(gerritMaintenance, other.gerritMaintenance)
+        && Objects.equals(incomingReplication, other.incomingReplication);
   }
 
   @Override
   public String toString() {
-    return "ScheduledTasks [incomingReplTasks=" + incomingReplication + "]";
+    return "ScheduledTasks [incomingReplication="
+        + incomingReplication
+        + ", gerritMaintenance="
+        + gerritMaintenance
+        + "]";
   }
 }

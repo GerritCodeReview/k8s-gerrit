@@ -25,6 +25,7 @@ import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
+import com.google.gerrit.k8s.operator.maintenance.GerritMaintenanceReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
@@ -73,6 +74,7 @@ public abstract class AbstractGerritOperatorE2ETest {
           .withReconciler(new ReceiverReconciler(client))
           .withReconciler(getGerritNetworkReconciler())
           .withReconciler(new IncomingReplicationTaskReconciler())
+          .withReconciler(new GerritMaintenanceReconciler())
           .build();
 
   @BeforeEach
