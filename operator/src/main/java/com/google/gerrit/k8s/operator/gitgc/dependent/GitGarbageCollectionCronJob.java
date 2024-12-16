@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class GitGarbageCollectionCronJob
     extends CRUDReconcileAddKubernetesDependentResource<CronJob, GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

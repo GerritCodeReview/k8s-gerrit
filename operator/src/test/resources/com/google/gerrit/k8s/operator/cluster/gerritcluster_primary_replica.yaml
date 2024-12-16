@@ -1,7 +1,8 @@
-apiVersion: "gerritoperator.google.com/v1beta13"
+apiVersion: "gerritoperator.google.com/v1beta14"
 kind: GerritCluster
 metadata:
   name: gerrit
+  namespace: gerrit
 spec:
   containerImages: {}
 
@@ -67,3 +68,39 @@ spec:
       libs: []
       configFiles: {}
       secretRef: gerrit-secure-config
+
+  scheduledTasks:
+    gerritMaintenance:
+      projects:
+        gc:
+        - name: gc-all
+          schedule: "0 */3 * * *"
+          args:
+          - "--pack-all-refs"
+          exclude:
+          - "excluded"
+        - name: gc-selected
+          schedule: "0 * * * *"
+          gitOptions: |-
+            [gc]
+              auto = 0
+          include:
+          - "selected"
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: "cloud.google.com/gke-nodepool"
+                    operator: In
+                    values:
+                    - "gerrit"
+          tolerations:
+          - key: "key"
+            operator: "Equal"
+            value: "value"
+            effect: "NoSchedule"
