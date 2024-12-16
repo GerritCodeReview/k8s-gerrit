@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Version(Constants.VERSION)
 @ShortNames("gitgc")
 @Plural("gitgcs")
+@Deprecated
 public class GitGarbageCollection
     extends CustomResource<GitGarbageCollectionSpec, GitGarbageCollectionStatus>
     implements Namespaced {
