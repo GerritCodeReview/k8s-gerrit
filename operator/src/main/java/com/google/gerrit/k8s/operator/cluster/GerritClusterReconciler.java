@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.cluster;
 
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_MAINTENANCE_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler.CLUSTER_MANAGED_RECEIVER_EVENT_SOURCE;
@@ -25,12 +26,14 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritClusterStatus;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
+import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritMaintenance;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedIncomingReplicationTask;
@@ -87,6 +90,9 @@ import java.util.stream.Collectors;
       @Dependent(
           type = ClusterManagedIncomingReplicationTask.class,
           useEventSourceWithName = CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE),
+      @Dependent(
+          type = ClusterManagedGerritMaintenance.class,
+          useEventSourceWithName = CLUSTER_MANAGED_GERRIT_MAINTENANCE_EVENT_SOURCE),
     })
 public class GerritClusterReconciler
     implements Reconciler<GerritCluster>, EventSourceInitializer<GerritCluster> {
@@ -98,6 +104,8 @@ public class GerritClusterReconciler
       "cluster-managed-gerrit-network";
   public static final String CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE =
       "cluster-managed-incoming-repl-task";
+  public static final String CLUSTER_MANAGED_GERRIT_MAINTENANCE_EVENT_SOURCE =
+      "cluster-managed-gerrit-maintenance";
 
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritCluster> context) {
@@ -127,6 +135,11 @@ public class GerritClusterReconciler
                 InformerConfiguration.from(IncomingReplicationTask.class, context).build(),
                 context);
 
+    InformerEventSource<GerritMaintenance, GerritCluster>
+        clusterManagedGerritMaintenanceEventSource =
+            new InformerEventSource<>(
+                InformerConfiguration.from(GerritMaintenance.class, context).build(), context);
+
     Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(CM_EVENT_SOURCE, cmEventSource);
     eventSources.put(PVC_EVENT_SOURCE, pvcEventSource);
@@ -136,6 +149,9 @@ public class GerritClusterReconciler
         CLUSTER_MANAGED_GERRIT_NETWORK_EVENT_SOURCE, clusterManagedGerritNetworkEventSource);
     eventSources.put(
         CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE, clusterManagedIncomingReplTaskEventSource);
+    eventSources.put(
+        CLUSTER_MANAGED_GERRIT_MAINTENANCE_EVENT_SOURCE,
+        clusterManagedGerritMaintenanceEventSource);
     return eventSources;
   }
 
