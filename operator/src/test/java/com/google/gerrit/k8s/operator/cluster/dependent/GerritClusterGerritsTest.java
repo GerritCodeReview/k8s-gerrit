@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
@@ -37,7 +38,8 @@ public class GerritClusterGerritsTest {
   public void expectedGerritClusterGerritsCreated(
       String inputFile,
       String expectedGerritPrimaryOutputFile,
-      String expectedGerritReplicaOutputFile)
+      String expectedGerritReplicaOutputFile,
+      String expectedGerritMaintenanceOutputFile)
       throws ConfigInvalidException {
 
     OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
@@ -77,11 +79,21 @@ public class GerritClusterGerritsTest {
         default:
       }
     }
+    GerritMaintenance expectedGerritMaintenance =
+        ReconcilerUtils.loadYaml(
+            GerritMaintenance.class, this.getClass(), expectedGerritMaintenanceOutputFile);
+    ClusterManagedGerritMaintenance gerritMaintenanceReconciler =
+        new ClusterManagedGerritMaintenance();
+    assertThat(gerritMaintenanceReconciler.desired(gerritCluster, null))
+        .isEqualTo(expectedGerritMaintenance);
   }
 
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../gerritcluster_primary_replica.yaml", "gerrit_primary.yaml", "gerrit_replica.yaml"));
+            "../gerritcluster_primary_replica.yaml",
+            "gerrit_primary.yaml",
+            "gerrit_replica.yaml",
+            "gerrit_maintenance.yaml"));
   }
 }

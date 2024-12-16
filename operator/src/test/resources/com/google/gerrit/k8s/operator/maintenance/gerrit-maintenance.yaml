@@ -1,0 +1,34 @@
+apiVersion: "gerritoperator.google.com/v1beta14"
+kind: GerritMaintenance
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  projects:
+    gc:
+      - name: "gc all"
+        schedule: "0 */3 * * *"
+        args:
+        - "--pack-all-refs"
+        # exclude:
+        # - "hana-epm-fpa"
+      - name: "gc orca_cloud"
+        schedule: "0 * * * *"
+        gitOptions: |-
+          [gc]
+            auto = 0
+        include:
+        - "orca_cloud"
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: "cloud.google.com/gke-nodepool"
+                  operator: In
+                  values:
+                  - "gerrit"

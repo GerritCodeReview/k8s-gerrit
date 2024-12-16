@@ -1,0 +1,51 @@
+apiVersion: "gerritoperator.google.com/v1beta14"
+kind: GerritMaintenance
+metadata:
+  name: gerrit-gerrit-maintenance
+  namespace: gerrit
+spec:
+  containerImages: {}
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+    sharedStorage:
+      size: 1Gi
+      volumeName: "vol"
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+  projects:
+    gc:
+    - name: "gc all"
+      schedule: "0 */3 * * *"
+      args:
+      - "--pack-all-refs"
+      exclude:
+      - "excluded"
+    - name: "gc selected"
+      schedule: "0 * * * *"
+      gitOptions: |-
+        [gc]
+          auto = 0
+      include:
+      - "selected"
+      resources:
+        limits:
+          cpu: "100m"
+          memory: "128Mi"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "cloud.google.com/gke-nodepool"
+                operator: In
+                values:
+                - "gerrit"
+      tolerations:
+      - key: "key"
+        operator: "Equal"
+        value: "value"
+        effect: "NoSchedule"
