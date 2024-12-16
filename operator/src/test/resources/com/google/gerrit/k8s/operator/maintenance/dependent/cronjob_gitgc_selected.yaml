@@ -1,0 +1,89 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gc-selected
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: gerrit-maintenance-gerrit-gerrit-maintenance-projects-gc-gc-selected
+    app.kubernetes.io/created-by: GerritMaintenanceReconciler
+    app.kubernetes.io/instance: gerrit-maintenance-gerrit-gerrit-maintenance-projects-gc-gc-selected
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: gerrit-maintenance-gerrit-gerrit-maintenance-projects-gc
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            cluster-autoscaler.kubernetes.io/safe-to-evict: false
+            sidecar.istio.io/inject: false
+          labels:
+            app.kubernetes.io/managed-by: gerrit-operator
+            app.kubernetes.io/name: gerrit
+            app.kubernetes.io/part-of: gerrit-maintenance-gerrit-gerrit-maintenance-projects-gc-gc-selected
+            app.kubernetes.io/created-by: GerritMaintenanceReconciler
+            app.kubernetes.io/instance: gerrit-maintenance-gerrit-gerrit-maintenance-projects-gc-gc-selected
+            app.kubernetes.io/version: unknown
+            app.kubernetes.io/component: gerrit-maintenance-gerrit-gerrit-maintenance-projects-gc
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            fsGroup: 100
+            runAsGroup: 100
+            runAsUser: 1000
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: "cloud.google.com/gke-nodepool"
+                    operator: In
+                    values:
+                    - "gerrit"
+          tolerations:
+          - key: "key"
+            operator: "Equal"
+            value: "value"
+            effect: "NoSchedule"
+          containers:
+          - name: git-gc
+            securityContext:
+              runAsGroup: 100
+              runAsUser: 1000
+              runAsNonRoot: true
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop:
+                - ALL
+            imagePullPolicy: Always
+            image: docker.io/k8sgerrit/gerrit-maintenance:latest
+            args:
+            - "-d"
+            - "/var/gerrit/git"
+            - "projects"
+            - "--project"
+            - "selected"
+            - "gc"
+            - "-c gc.auto=0"
+            resources:
+              limits:
+                cpu: "100m"
+                memory: "128Mi"
+            volumeMounts:
+            - name: shared
+              subPath: git
+              mountPath: /var/gerrit/git
+          volumes:
+          - name: shared
+            persistentVolumeClaim:
+              claimName: shared-pvc
