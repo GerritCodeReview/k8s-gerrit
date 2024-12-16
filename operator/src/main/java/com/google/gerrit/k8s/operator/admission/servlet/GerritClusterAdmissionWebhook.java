@@ -19,6 +19,9 @@ import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
+import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
+import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpec;
+import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpecTemplate;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -101,6 +104,20 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
     GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook(clusterMode);
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
+      if (status.getCode() != HttpServletResponse.SC_OK) {
+        return status;
+      }
+    }
+
+    GerritMaintenanceSpecTemplate gmSpecTemplate =
+        gerritCluster.getSpec().getScheduledTasks().getGerritMaintenance();
+    if (gmSpecTemplate != null) {
+      GerritMaintenanceAdmissionWebhook gerritMaintenanceAdmission =
+          new GerritMaintenanceAdmissionWebhook();
+      GerritMaintenanceSpec spec = gmSpecTemplate.toGerritMaintenanceSpec(gerritCluster);
+      GerritMaintenance maintenance = new GerritMaintenance();
+      maintenance.setSpec(spec);
+      Status status = gerritMaintenanceAdmission.validate(maintenance);
       if (status.getCode() != HttpServletResponse.SC_OK) {
         return status;
       }

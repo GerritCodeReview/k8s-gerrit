@@ -17,15 +17,16 @@ package com.google.gerrit.k8s.operator;
 import com.google.inject.AbstractModule;
 
 public class Constants extends AbstractModule {
-  public static final String VERSION = "v1beta13";
+  public static final String VERSION = "v1beta14";
 
   // The resource kind always has to be plural for use in webhooks
   public static final String GERRIT_CLUSTER_KIND = "gerritclusters";
   public static final String GERRIT_KIND = "gerrits";
   public static final String GIT_GC_KIND = "gitgarbagecollections";
+  public static final String GERRIT_MAINTENANCE_KIND = "gerritmaintenances";
 
   public static final String[] RESOURCES_WITH_VALIDATING_WEBHOOK =
-      new String[] {GERRIT_CLUSTER_KIND, GERRIT_KIND, GIT_GC_KIND};
+      new String[] {GERRIT_CLUSTER_KIND, GERRIT_KIND, GIT_GC_KIND, GERRIT_MAINTENANCE_KIND};
 
   public static final long GERRIT_USER_ID = 1000L;
   public static final long GERRIT_USER_GROUP_ID = 100L;

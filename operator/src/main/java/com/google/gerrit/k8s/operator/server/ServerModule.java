@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.server.FileSystemKeyStoreProvider.K
 
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
+import com.google.gerrit.k8s.operator.admission.servlet.GerritMaintenanceAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GitGcAdmissionWebhook;
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
@@ -36,5 +37,6 @@ public class ServerModule extends AbstractModule {
     admissionWebhookServlets.addBinding().to(GerritClusterAdmissionWebhook.class);
     admissionWebhookServlets.addBinding().to(GitGcAdmissionWebhook.class);
     admissionWebhookServlets.addBinding().to(GerritAdmissionWebhook.class);
+    admissionWebhookServlets.addBinding().to(GerritMaintenanceAdmissionWebhook.class);
   }
 }
