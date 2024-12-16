@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 
 @Singleton
 @ControllerConfiguration
+@Deprecated
 public class GitGarbageCollectionReconciler
     implements Reconciler<GitGarbageCollection>,
         EventSourceInitializer<GitGarbageCollection>,
