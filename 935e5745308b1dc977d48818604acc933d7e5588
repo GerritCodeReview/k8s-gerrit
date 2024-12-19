@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "970bf85e_081e441d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-19T13:04:20Z",
+      "side": 1,
+      "message": "Add Gerrit-Maintenance CR to operator-api-reference.md ?",
+      "revId": "935e5745308b1dc977d48818604acc933d7e5588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85f9756b_b0162966",
+        "filename": "container-images/gerrit-maintenance/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2024-12-19T13:04:20Z",
+      "side": 1,
+      "message": "How about downloading this folder as an archive which is more efficient ?\n\n```suggestion\nRUN mkdir /var/tools/maintenance \u0026\u0026 curl -s -L https://gerrit.googlesource.com/gerrit/+archive/refs/heads/master/contrib/maintenance.tar.gz | tar xvzf - -C /var/tools/maintenance/\n```",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "935e5745308b1dc977d48818604acc933d7e5588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
