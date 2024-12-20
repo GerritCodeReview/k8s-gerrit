@@ -19,6 +19,7 @@ import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.Matcher.Result;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.GenericKubernetesResourceMatcher;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class KubernetesDependentCustomResource<
@@ -28,30 +29,22 @@ public abstract class KubernetesDependentCustomResource<
     super(resourceType);
   }
 
-  protected R setApiVersionAnnotation(R updated, P primary) {
-    ObjectMeta meta = updated.getMetadata();
-    Map<String, String> actualAnnotations = meta.getAnnotations();
-    actualAnnotations.put("gerritoperator.google.com/apiVersion", primary.getApiVersion());
-    meta.setAnnotations(actualAnnotations);
-    updated.setMetadata(meta);
-    return updated;
+  @Override
+  protected void addMetadata(
+      boolean forMatch, R actualResource, final R target, P primary, Context<P> context) {
+    super.addMetadata(forMatch, actualResource, target, primary, context);
+    ObjectMeta metadata = target.getMetadata();
+    Map<String, String> annotations = metadata.getAnnotations();
+    if (annotations == null) {
+      annotations = new HashMap<>();
+      metadata.setAnnotations(annotations);
+    }
+    annotations.put("gerritoperator.google.com/apiVersion", primary.getApiVersion());
   }
 
   @Override
   public Result<R> match(R actualResource, R desired, P primary, Context<P> context) {
     return GenericKubernetesResourceMatcher.match(
         desired, actualResource, true, false, true, context);
-  }
-
-  @Override
-  public R create(R target, P primary, Context<P> context) {
-    R newResource = super.create(target, primary, context);
-    return setApiVersionAnnotation(newResource, primary);
-  }
-
-  @Override
-  public R update(R actual, R target, P primary, Context<P> context) {
-    R updatedActual = super.update(actual, target, primary, context);
-    return setApiVersionAnnotation(updatedActual, primary);
   }
 }
