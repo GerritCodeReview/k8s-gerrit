@@ -1,0 +1,81 @@
+{{- if .Values.storageMigration }}
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: gerrit-cluster-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: GerritCluster
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: gerrit-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: Gerrit
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: gerrit-indexers-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: GerritIndexer
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: gerrit-maintenance-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: GerritMaintenance
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: gerrit-network-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: GerritNetwork
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: gitgc-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: GerritGarbageCollection
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: incoming-repl-task-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: IncomingReplicationTask
+---
+kind: StorageVersionMigration
+apiVersion: storagemigration.k8s.io/v1alpha1
+metadata:
+  name: receiver-crd-migration
+spec:
+  resource:
+    group: gerritoperator.google.com
+    version: v1beta13
+    resource: Receiver
+{{- end }}

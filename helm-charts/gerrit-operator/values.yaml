@@ -34,3 +34,6 @@ deployment:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+gerrit-operator-crds:
+  storageMigration: false
