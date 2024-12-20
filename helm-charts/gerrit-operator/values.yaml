@@ -34,3 +34,6 @@ deployment:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+crds:
+  storageMigration: false

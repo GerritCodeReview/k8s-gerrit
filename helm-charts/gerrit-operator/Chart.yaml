@@ -8,6 +8,7 @@ sources:
 version : 0.1.0
 dependencies:
 - name: gerrit-operator-crds
+  alias: crds
   version: 0.1.0
   repository: "file://../gerrit-operator-crds"
   condition: installCRDs
