@@ -62,6 +62,7 @@ public class GerritStatefulSet
   private static final SimpleDateFormat RFC3339 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
   private static final String SITE_VOLUME_NAME = "gerrit-site";
+  private static final String TMP_VOLUME_NAME = "tmp";
   private static final Quantity HOME_DIR_SIZE_LIMIT = new Quantity("500", "Mi");
   public static final int HTTP_PORT = 8080;
   public static final int SSH_PORT = 29418;
@@ -309,7 +310,7 @@ public class GerritStatefulSet
         new VolumeBuilder()
             .withEmptyDir(
                 new EmptyDirVolumeSourceBuilder().withSizeLimit(HOME_DIR_SIZE_LIMIT).build())
-            .withName("home")
+            .withName(TMP_VOLUME_NAME)
             .build());
 
     return volumes;
@@ -329,7 +330,13 @@ public class GerritStatefulSet
       volumeMounts.add(GerritCluster.getGitRepositoriesVolumeMount());
     }
     volumeMounts.add(
-        new VolumeMountBuilder().withName("home").withMountPath("/home/gerrit").build());
+        new VolumeMountBuilder().withName(TMP_VOLUME_NAME).withMountPath("/home/gerrit").build());
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(TMP_VOLUME_NAME)
+            .withMountPath("/tmp")
+            .withSubPath("tmp")
+            .build());
 
     volumeMounts.add(
         new VolumeMountBuilder()
