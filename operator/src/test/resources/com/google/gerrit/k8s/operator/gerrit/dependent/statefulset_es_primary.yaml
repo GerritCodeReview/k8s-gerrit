@@ -81,15 +81,18 @@ spec:
             path: /config/server/healthcheck~status
             port: 8080
         volumeMounts:
-        - mountPath: /home/gerrit
-          name: home
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/mnt/index
           name: shared
           subPath: index
+        - mountPath: /home/gerrit
+          name: tmp
         - mountPath: /var/gerrit
           name: gerrit-site
+        - mountPath: /tmp
+          subPath: tmp
+          name: tmp
         - mountPath: /var/mnt/git
           name: shared
           subPath: git
@@ -121,8 +124,6 @@ spec:
             drop:
             - ALL
         volumeMounts:
-        - mountPath: /home/gerrit
-          name: home
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/config
@@ -130,8 +131,13 @@ spec:
         - mountPath: /var/mnt/index
           name: shared
           subPath: index
+        - mountPath: /home/gerrit
+          name: tmp
         - mountPath: /var/gerrit
           name: gerrit-site
+        - mountPath: /tmp
+          subPath: tmp
+          name: tmp
         - mountPath: /var/mnt/git
           name: shared
           subPath: git
@@ -153,15 +159,15 @@ spec:
       - name: shared
         persistentVolumeClaim:
           claimName: shared-pvc
+      - name: tmp
+        emptyDir:
+          sizeLimit: 500Mi
       - name: gerrit-secure-config
         secret:
           secretName: gerrit-secure-config
       - configMap:
           name: gerrit-configmap
         name: gerrit-config
-      - name: home
-        emptyDir:
-          sizeLimit: 500Mi
       - configMap:
           name: gerrit-init-configmap
         name: gerrit-init-config

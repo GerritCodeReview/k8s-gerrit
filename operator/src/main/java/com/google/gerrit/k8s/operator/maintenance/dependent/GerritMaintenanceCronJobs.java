@@ -48,7 +48,8 @@ public class GerritMaintenanceCronJobs
       List<GitGcTask> gcTasks = List.copyOf(projectsTasks.getGc());
       checkForConflict(gcTasks);
       for (GitGcTask gcTask : gcTasks) {
-        cronJobs.put(gcTask.getName(), GitGarbageCollectionCronJob.desired(primary, gcTask, context));
+        cronJobs.put(
+            gcTask.getName(), GitGarbageCollectionCronJob.desired(primary, gcTask, context));
       }
     }
     return cronJobs;
