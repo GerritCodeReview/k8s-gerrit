@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5557938_2210a1bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-13T13:29:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "08ba7d0b_a0aa9a82",
+      "revId": "9009ca1f829994d2fb08a04cec44e504880496c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49734f87_2005946c",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a3cc60a_38c793a7",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-13T13:29:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "49734f87_2005946c",
+      "revId": "9009ca1f829994d2fb08a04cec44e504880496c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18f7824a_5b41dbfc",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-01-09T08:29:57Z",
       "side": 1,
       "message": "couldn\u0027t this clash if a `tmp/` directory is created under `/home/gerrit`, I think then `/home/gerrit/tmp` and `/tmp` would refer to the same physical directory. This looks at least confusing. This could be fixed e.g. by specifying subPath `home` for this mount.",
+      "revId": "9009ca1f829994d2fb08a04cec44e504880496c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "836d741c_9cdf8b5e",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/gerrit/dependent/statefulset_es_primary.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-01-13T13:29:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f7824a_5b41dbfc",
       "revId": "9009ca1f829994d2fb08a04cec44e504880496c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
