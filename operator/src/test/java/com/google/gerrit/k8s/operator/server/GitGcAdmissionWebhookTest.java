@@ -30,7 +30,7 @@ import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -60,15 +60,13 @@ public class GitGcAdmissionWebhookTest {
           HasMetadata.getPlural(GitGarbageCollection.class));
   private TestAdmissionWebhookServer server;
 
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
+  @Rule public KubernetesMockServer kubernetesServer = new KubernetesMockServer();
 
   @BeforeAll
   public void setup() throws Exception {
     server = new TestAdmissionWebhookServer();
 
-    kubernetesServer.before();
-
-    GitGcAdmissionWebhook webhook = new GitGcAdmissionWebhook(kubernetesServer.getClient());
+    GitGcAdmissionWebhook webhook = new GitGcAdmissionWebhook(kubernetesServer.createClient());
     server.registerWebhook(webhook);
     server.start();
   }
