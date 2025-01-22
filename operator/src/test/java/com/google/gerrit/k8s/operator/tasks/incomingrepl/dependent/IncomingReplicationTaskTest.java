@@ -24,7 +24,7 @@ import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -37,7 +37,6 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.Rule;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -46,12 +45,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class IncomingReplicationTaskTest {
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
-
-  @BeforeAll
-  public void setup() throws Exception {
-    kubernetesServer.before();
-  }
+  @Rule public KubernetesMockServer kubernetesServer = new KubernetesMockServer();
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -113,7 +107,7 @@ public class IncomingReplicationTaskTest {
         new Controller<IncomingReplicationTask>(
             reconciler,
             new BaseConfigurationService().getConfigurationFor(reconciler),
-            kubernetesServer.getClient());
+            kubernetesServer.createClient());
 
     return new DefaultContext<IncomingReplicationTask>(
         new GenericRetryExecution(new GenericRetry()), controller, primary);
