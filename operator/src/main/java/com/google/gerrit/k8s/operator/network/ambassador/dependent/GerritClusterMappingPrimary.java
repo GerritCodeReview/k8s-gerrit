@@ -20,7 +20,7 @@ import io.getambassador.v2.MappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
-@KubernetesDependent(resourceDiscriminator = GerritClusterMappingPrimaryDiscriminator.class)
+@KubernetesDependent
 public class GerritClusterMappingPrimary extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
