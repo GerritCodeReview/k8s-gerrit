@@ -41,18 +41,17 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMapping
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
-import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
+import io.javaoperatorsdk.operator.api.config.informer.InformerEventSourceConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides an Ambassador-based implementation for GerritNetworkReconciler.
@@ -101,7 +100,7 @@ import java.util.Map;
  * https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md
  */
 @Singleton
-@ControllerConfiguration(
+@Workflow(
     dependents = {
       @Dependent(
           name = GERRIT_MAPPING,
@@ -144,21 +143,22 @@ import java.util.Map;
           type = GerritClusterHost.class,
           reconcilePrecondition = CreateHostCondition.class),
     })
-public class GerritAmbassadorReconciler
-    implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
+public class GerritAmbassadorReconciler implements Reconciler<GerritNetwork> {
 
   public static final String MAPPING_EVENT_SOURCE = "mapping-event-source";
 
   // Because we have multiple dependent resources of the same type `Mapping`, we need to specify
   // a named event source.
   @Override
-  public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritNetwork> context) {
+  public List<EventSource<?, GerritNetwork>> prepareEventSources(
+      EventSourceContext<GerritNetwork> context) {
     InformerEventSource<Mapping, GerritNetwork> mappingEventSource =
         new InformerEventSource<>(
-            InformerConfiguration.from(Mapping.class, context).build(), context);
+            InformerEventSourceConfiguration.from(Mapping.class, GerritNetwork.class).build(),
+            context);
 
-    Map<String, EventSource> eventSources = new HashMap<>();
-    eventSources.put(MAPPING_EVENT_SOURCE, mappingEventSource);
+    List<EventSource<?, GerritNetwork>> eventSources = new ArrayList<>();
+    eventSources.add(mappingEventSource);
     return eventSources;
   }
 
