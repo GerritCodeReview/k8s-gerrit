@@ -16,6 +16,23 @@
       "message": "Maybe provide here an example how git gc is run",
       "revId": "b9e7bc1420eb9d2aabe5a2dac5cb9a1f65602abc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49fc7e48_7149f112",
+        "filename": "container-images/gerrit-maintenance/tools/gerrit-maintenance.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T11:43:40Z",
+      "side": 1,
+      "message": "This implies that `gerrit-maintenance.py` is used to perform git gc. However the documentation in the `README.md` says that actually many subcommands are (or will be) provided:\n```\nUse `/var/tools/gerrit-maintenance.py` to start the CLI. Dependent on the\n  subcommand different tasks may be performed.\n```\n\nMaybe I just do not understand the design but this seems like a global option of the `gerrit-maintenance` tool? There will be (sub)commands which do not require `-p` option?",
+      "revId": "b9e7bc1420eb9d2aabe5a2dac5cb9a1f65602abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
