@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c71aa7_f6a796a7",
+        "filename": "container-images/gerrit-maintenance/README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-01-24T11:38:15Z",
+      "side": 1,
+      "message": "Maybe provide here an example how git gc is run",
+      "revId": "b9e7bc1420eb9d2aabe5a2dac5cb9a1f65602abc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
