@@ -31,3 +31,11 @@ helm upgrade nfs-subdir-external-provisioner \
 kubectl apply -f ldap
 kubectl apply -f ingress
 istioctl install -f "$SCRIPTPATH/../../istio/gerrit.profile.yaml"
+
+helm repo add opensearch https://opensearch-project.github.io/helm-charts/
+helm repo update
+kubectl apply -f opensearch/resources
+helm upgrade --install opensearch \
+    -f opensearch/opensearch.values.yaml \
+    --namespace opensearch \
+    opensearch/opensearch

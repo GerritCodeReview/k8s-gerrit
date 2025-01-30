@@ -1,0 +1,56 @@
+clusterName: "gerrit-opensearch-cluster"
+nodeGroup: "master"
+
+masterService: "gerrit-opensearch-cluster-master"
+
+roles:
+  - master
+
+replicas: 3
+
+config:
+  opensearch.yml: |
+    cluster.name: gerrit-opensearch-cluster
+
+    # Bind to all interfaces because we don't know what IP address Docker will assign to us.
+    network.host: 0.0.0.0
+
+    plugins.security.disabled: true
+
+envFrom:
+  - secretRef:
+      name: opensearch-admin-secret
+
+image:
+  repository: "opensearchproject/opensearch"
+  tag: "2.18.0"
+  pullPolicy: "IfNotPresent"
+
+opensearchJavaOpts: "-Xmx512M -Xms512M"
+
+resources:
+  requests:
+    cpu: "1"
+    memory: "1Gi"
+
+rbac:
+  create: true
+  serviceAccountAnnotations: {}
+  serviceAccountName: opensearch
+  automountServiceAccountToken: false
+
+persistence:
+  enabled: true
+  enableInitChown: true
+  labels:
+    enabled: false
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  annotations: {}
+
+extraVolumes:
+  - name: opensearch-admin-secret
+    secret:
+      secretName: opensearch-admin-secret
+      defaultMode: 420
