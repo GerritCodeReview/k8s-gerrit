@@ -94,7 +94,9 @@ public class GerritIstioVirtualService
           new HTTPRouteBuilder()
               .withName("receiver-" + gerritNetwork.getSpec().getReceiver().getName());
       if (gerritNetwork.hasGerritReplica()) {
-        receiverRouteBuilder = receiverRouteBuilder.withMatch(getReceiverMatches());
+        receiverRouteBuilder =
+            receiverRouteBuilder.withMatch(
+                getReceiverMatches(gerritNetwork.getSpec().getIngress().getPathPrefix()));
       }
 
       routes.add(
@@ -108,7 +110,13 @@ public class GerritIstioVirtualService
           new HTTPRouteBuilder()
               .withName("gerrit-replica-" + gerritNetwork.getSpec().getGerritReplica().getName());
       if (gerritNetwork.hasPrimaryGerrit()) {
-        routeBuilder = routeBuilder.withMatch(getGerritReplicaMatches());
+        routeBuilder =
+            routeBuilder.withMatch(
+                getGerritReplicaMatches(gerritNetwork.getSpec().getIngress().getPathPrefix()));
+      } else {
+        routeBuilder =
+            routeBuilder.withMatch(
+                getDefaultMatch(gerritNetwork.getSpec().getIngress().getPathPrefix()));
       }
       routes.add(
           routeBuilder
@@ -126,7 +134,8 @@ public class GerritIstioVirtualService
                 .withName(
                     "forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
                 .withRoute(dest)
-                .withMatch(getGerritForbiddenMatches())
+                .withMatch(
+                    getGerritForbiddenMatches(gerritNetwork.getSpec().getIngress().getPathPrefix()))
                 .withNewFault()
                 .withNewAbort()
                 .withNewHTTPFaultInjectionAbortHttpStatusErrorType()
@@ -144,6 +153,7 @@ public class GerritIstioVirtualService
           new HTTPRouteBuilder()
               .withName("gerrit-primary-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
               .withRoute(dest)
+              .withMatch(getDefaultMatch(gerritNetwork.getSpec().getIngress().getPathPrefix()))
               .build());
     }
 
@@ -162,26 +172,41 @@ public class GerritIstioVirtualService
         .build();
   }
 
-  private List<HTTPMatchRequest> getGerritForbiddenMatches() {
+  private List<HTTPMatchRequest> getDefaultMatch(String pathPrefix) {
+    List<HTTPMatchRequest> matches = new ArrayList<>();
+    if (pathPrefix != null && !pathPrefix.isBlank()) {
+      matches.add(
+          new HTTPMatchRequestBuilder()
+              .withNewUri()
+              .withNewStringMatchPrefixType()
+              .withPrefix(pathPrefix)
+              .endStringMatchPrefixType()
+              .endUri()
+              .build());
+    }
+    return matches;
+  }
+
+  private List<HTTPMatchRequest> getGerritForbiddenMatches(String pathPrefix) {
     List<HTTPMatchRequest> matches = new ArrayList<>();
     matches.add(
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(GERRIT_FORBIDDEN_URL_PATTERN)
+            .withRegex(pathPrefix + GERRIT_FORBIDDEN_URL_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .build());
     return matches;
   }
 
-  private List<HTTPMatchRequest> getGerritReplicaMatches() {
+  private List<HTTPMatchRequest> getGerritReplicaMatches(String pathPrefix) {
     List<HTTPMatchRequest> matches = new ArrayList<>();
     matches.add(
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(INFO_REFS_PATTERN)
+            .withRegex(pathPrefix + INFO_REFS_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .withQueryParams(
@@ -201,7 +226,7 @@ public class GerritIstioVirtualService
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(UPLOAD_PACK_URL_PATTERN)
+            .withRegex(pathPrefix + UPLOAD_PACK_URL_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .withIgnoreUriCase()
@@ -226,18 +251,20 @@ public class GerritIstioVirtualService
         .build();
   }
 
-  private List<HTTPMatchRequest> getReceiverMatches() {
+  private List<HTTPMatchRequest> getReceiverMatches(String pathPrefix) {
     List<HTTPMatchRequest> matches = new ArrayList<>();
     matches.add(
         new HTTPMatchRequestBuilder()
             .withUri(
-                new StringMatchBuilder().withNewStringMatchRegexType(PROJECTS_URL_PATTERN).build())
+                new StringMatchBuilder()
+                    .withNewStringMatchRegexType(pathPrefix + PROJECTS_URL_PATTERN)
+                    .build())
             .build());
     matches.add(
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(RECEIVE_PACK_URL_PATTERN)
+            .withRegex(pathPrefix + RECEIVE_PACK_URL_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .build());
@@ -245,7 +272,7 @@ public class GerritIstioVirtualService
         new HTTPMatchRequestBuilder()
             .withNewUri()
             .withNewStringMatchRegexType()
-            .withRegex(INFO_REFS_PATTERN)
+            .withRegex(pathPrefix + INFO_REFS_PATTERN)
             .endStringMatchRegexType()
             .endUri()
             .withQueryParams(

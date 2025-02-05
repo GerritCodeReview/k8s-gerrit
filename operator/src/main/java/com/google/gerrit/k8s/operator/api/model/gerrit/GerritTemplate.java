@@ -74,6 +74,7 @@ public class GerritTemplate implements KubernetesResource {
     IngressConfig ingressConfig = new IngressConfig();
     ingressConfig.setEnabled(gerritCluster.getSpec().getIngress().isEnabled());
     ingressConfig.setHost(gerritCluster.getSpec().getIngress().getHost());
+    ingressConfig.setPathPrefix(gerritCluster.getSpec().getIngress().getPathPrefix());
     ingressConfig.setTlsEnabled(gerritCluster.getSpec().getIngress().getTls().isEnabled());
     ingressConfig.setSsh(gerritCluster.getSpec().getIngress().getSsh());
     gerritSpec.setIngress(ingressConfig);

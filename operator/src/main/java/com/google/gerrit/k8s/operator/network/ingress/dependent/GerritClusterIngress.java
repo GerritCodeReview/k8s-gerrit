@@ -210,13 +210,14 @@ public class GerritClusterIngress
         new ServiceBackendPortBuilder().withName(GerritService.HTTP_PORT_NAME).build();
 
     GerritService gerritService = new GerritService();
+    String pathPrefix = gerritNetwork.getSpec().getIngress().getPathPrefix();
     List<HTTPIngressPath> paths = new ArrayList<>();
     // Order matters, since routing rules will be applied in order!
     if (!gerritNetwork.hasPrimaryGerrit() && gerritNetwork.hasGerritReplica()) {
       paths.add(
           new HTTPIngressPathBuilder()
               .withPathType("Prefix")
-              .withPath("/")
+              .withPath(pathPrefix + "/")
               .withNewBackend()
               .withNewService()
               .withName(gerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName()))
@@ -230,7 +231,7 @@ public class GerritClusterIngress
       paths.add(
           new HTTPIngressPathBuilder()
               .withPathType("Prefix")
-              .withPath(UPLOAD_PACK_URL_PATTERN)
+              .withPath(pathPrefix + UPLOAD_PACK_URL_PATTERN)
               .withNewBackend()
               .withNewService()
               .withName(gerritService.getName(gerritNetwork.getSpec().getGerritReplica().getName()))
@@ -243,7 +244,7 @@ public class GerritClusterIngress
       paths.add(
           new HTTPIngressPathBuilder()
               .withPathType("Prefix")
-              .withPath("/")
+              .withPath(pathPrefix + "/")
               .withNewBackend()
               .withNewService()
               .withName(gerritService.getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()))
@@ -271,12 +272,13 @@ public class GerritClusterIngress
             .endService()
             .endBackend();
 
+    String pathPrefix = gerritNetwork.getSpec().getIngress().getPathPrefix();
     if (gerritNetwork.hasGerritReplica()) {
       for (String path : List.of(PROJECTS_URL_PATTERN, RECEIVE_PACK_URL_PATTERN)) {
-        paths.add(builder.withPath(path).build());
+        paths.add(builder.withPath(pathPrefix + path).build());
       }
     } else {
-      paths.add(builder.withPath("/").build());
+      paths.add(builder.withPath(pathPrefix + "/").build());
     }
     return paths;
   }
