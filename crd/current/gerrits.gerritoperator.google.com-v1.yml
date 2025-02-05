@@ -13,7 +13,7 @@ spec:
     singular: gerrit
   scope: Namespaced
   versions:
-  - name: v1beta14
+  - name: v1beta15
     schema:
       openAPIV3Schema:
         properties:
@@ -479,6 +479,8 @@ spec:
                   enabled:
                     type: boolean
                   host:
+                    type: string
+                  pathPrefix:
                     type: string
                   ssh:
                     properties:
