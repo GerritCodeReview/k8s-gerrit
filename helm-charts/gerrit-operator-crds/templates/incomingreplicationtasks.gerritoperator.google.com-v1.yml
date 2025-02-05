@@ -11,7 +11,7 @@ spec:
     singular: incomingreplicationtask
   scope: Namespaced
   versions:
-    - name: v1beta14
+    - name: v1beta15
       schema:
         openAPIV3Schema:
           properties:
@@ -570,7 +570,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta13
+    - name: v1beta14
       schema:
         openAPIV3Schema:
           properties:
@@ -971,6 +971,8 @@ spec:
                         properties:
                           name:
                             type: string
+                          request:
+                            type: string
                         type: object
                       type: array
                     limits:
@@ -1069,8 +1071,8 @@ spec:
                     type: object
                   type: array
               required:
-                - schedule
                 - config
+                - schedule
               type: object
             status:
               properties:

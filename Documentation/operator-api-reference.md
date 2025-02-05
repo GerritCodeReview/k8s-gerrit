@@ -86,7 +86,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: GerritCluster
 
 ---
@@ -103,7 +103,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -152,6 +152,7 @@ spec:
   ingress:
     enabled: true
     host: example.com
+    pathPrefix: ""
     annotations: {}
     tls:
       enabled: false
@@ -419,7 +420,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: Gerrit
 
 ---
@@ -436,7 +437,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -645,7 +646,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: Receiver
 
 ---
@@ -662,7 +663,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: Receiver
 metadata:
   name: receiver
@@ -773,7 +774,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -790,7 +791,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -834,7 +835,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: GerritNetwork
 
 ---
@@ -850,7 +851,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -883,7 +884,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -899,7 +900,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -958,7 +959,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta14 \
+**Version**: v1beta15 \
 **Kind**: GerritIndexer
 
 ---
@@ -974,7 +975,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta14"
+apiVersion: "gerritoperator.google.com/v1beta15"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1132,6 +1133,7 @@ Extends [StorageConfig](#StorageConfig).
 |---|---|---|
 | `enabled` | `boolean` | Whether to configure an ingress provider to manage the ingress traffic in the GerritCluster (default: `false`) |
 | `host` | `string` | Hostname to be used by the ingress. For each Gerrit deployment a new subdomain using the name of the respective Gerrit CustomResource will be used. |
+| `pathPrefix` | `string` | Optional URL path prefix. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
 | `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
@@ -1380,6 +1382,7 @@ pod restarts before Gerrit is ready.
 | Field | Type | Description |
 |---|---|---|
 | `host` | `string` | Hostname that is being used by the ingress provider for this Gerrit instance. |
+| `pathPrefix` | `string` | Optional URL path prefix. |
 | `tlsEnabled` | `boolean` | Whether the ingress provider enables TLS. (default: `false`) |
 
 ## ReceiverTemplate

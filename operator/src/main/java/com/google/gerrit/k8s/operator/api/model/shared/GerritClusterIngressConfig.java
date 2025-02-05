@@ -20,6 +20,7 @@ import java.util.Objects;
 public class GerritClusterIngressConfig {
   private boolean enabled = false;
   private String host;
+  private String pathPrefix = "";
   private Map<String, String> annotations;
   private GerritIngressTlsConfig tls = new GerritIngressTlsConfig();
   private GerritIngressSshConfig ssh = new GerritIngressSshConfig();
@@ -40,6 +41,14 @@ public class GerritClusterIngressConfig {
 
   public void setHost(String host) {
     this.host = host;
+  }
+
+  public String getPathPrefix() {
+    return pathPrefix;
+  }
+
+  public void setPathPrefix(String pathPrefix) {
+    this.pathPrefix = pathPrefix;
   }
 
   public Map<String, String> getAnnotations() {
@@ -84,7 +93,7 @@ public class GerritClusterIngressConfig {
 
   @Override
   public int hashCode() {
-    return Objects.hash(ambassador, annotations, enabled, host, istio, ssh, tls);
+    return Objects.hash(ambassador, annotations, enabled, host, istio, pathPrefix, ssh, tls);
   }
 
   @Override
@@ -98,6 +107,7 @@ public class GerritClusterIngressConfig {
         && enabled == other.enabled
         && Objects.equals(host, other.host)
         && Objects.equals(istio, other.istio)
+        && Objects.equals(pathPrefix, other.pathPrefix)
         && Objects.equals(ssh, other.ssh)
         && Objects.equals(tls, other.tls);
   }
@@ -108,6 +118,8 @@ public class GerritClusterIngressConfig {
         + enabled
         + ", host="
         + host
+        + ", pathPrefix="
+        + pathPrefix
         + ", annotations="
         + annotations
         + ", tls="
