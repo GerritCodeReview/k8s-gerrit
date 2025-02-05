@@ -13,7 +13,7 @@ spec:
     singular: receiver
   scope: Namespaced
   versions:
-    - name: v1beta13
+    - name: v1beta14
       schema:
         openAPIV3Schema:
           properties:
@@ -535,6 +535,8 @@ spec:
                       items:
                         properties:
                           name:
+                            type: string
+                          request:
                             type: string
                         type: object
                       type: array

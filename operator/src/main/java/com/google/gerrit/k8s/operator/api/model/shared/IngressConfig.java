@@ -20,6 +20,7 @@ import java.util.Objects;
 public class IngressConfig {
   private boolean enabled;
   private String host;
+  private String pathPrefix = "";
   private boolean tlsEnabled;
   private GerritIngressSshConfig ssh = new GerritIngressSshConfig();
 
@@ -37,6 +38,14 @@ public class IngressConfig {
 
   public void setHost(String host) {
     this.host = host;
+  }
+
+  public String getPathPrefix() {
+    return pathPrefix;
+  }
+
+  public void setPathPrefix(String pathPrefix) {
+    this.pathPrefix = pathPrefix;
   }
 
   public boolean isTlsEnabled() {
@@ -59,12 +68,14 @@ public class IngressConfig {
   public String getUrl() {
     String protocol = isTlsEnabled() ? "https" : "http";
     String hostname = getHost();
-    return String.format("%s://%s/", protocol, hostname);
+    String pathPrefix =
+        getPathPrefix() == null || getPathPrefix().isBlank() ? "/" : getPathPrefix();
+    return String.format("%s://%s%s", protocol, hostname, pathPrefix);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enabled, host, ssh, tlsEnabled);
+    return Objects.hash(enabled, host, pathPrefix, ssh, tlsEnabled);
   }
 
   @Override
@@ -75,6 +86,7 @@ public class IngressConfig {
     IngressConfig other = (IngressConfig) obj;
     return enabled == other.enabled
         && Objects.equals(host, other.host)
+        && Objects.equals(pathPrefix, other.pathPrefix)
         && Objects.equals(ssh, other.ssh)
         && tlsEnabled == other.tlsEnabled;
   }
@@ -85,6 +97,8 @@ public class IngressConfig {
         + enabled
         + ", host="
         + host
+        + ", pathPrefix="
+        + pathPrefix
         + ", tlsEnabled="
         + tlsEnabled
         + ", ssh="
