@@ -167,7 +167,7 @@ spec:
       proxyMetadata: {}
     enablePrometheusMerge: true
   profile: default
-  tag: 1.20.3
+  tag: 1.24.2
   values:
     base:
       enableCRDTemplates: false
@@ -221,7 +221,6 @@ spec:
         enabled: false
       network: ""
       omitSidecarInjectorConfigMap: false
-      oneNamespace: false
       operatorManageWebhooks: false
       pilotCertProvider: istiod
       priorityClassName: ""
@@ -270,7 +269,6 @@ spec:
         lightstep: {}
         stackdriver: {}
         zipkin: {}
-      useMCP: false
     istiodRemote:
       injectionURL: ""
     pilot:
@@ -280,8 +278,6 @@ spec:
       configMap: true
       cpu:
         targetAverageUtilization: 80
-      enableProtocolSniffingForInbound: true
-      enableProtocolSniffingForOutbound: true
       env: {}
       image: pilot
       keepaliveMaxServerConnectionAge: 24h
@@ -291,22 +287,10 @@ spec:
       traceSampling: 1
     sidecarInjectorWebhook:
       enableNamespacesByDefault: false
-      objectSelector:
-        autoInject: true
-        enabled: false
       rewriteAppHTTPProbe: true
     telemetry:
       enabled: true
       v2:
         enabled: true
-        metadataExchange:
-          wasmEnabled: false
         prometheus:
           enabled: true
-          wasmEnabled: false
-        stackdriver:
-          configOverride: {}
-          enabled: false
-          logging: false
-          monitoring: false
-          topology: false

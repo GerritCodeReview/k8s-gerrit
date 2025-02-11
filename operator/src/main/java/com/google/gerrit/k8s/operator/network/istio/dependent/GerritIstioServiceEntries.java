@@ -27,8 +27,8 @@ import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentRe
 import io.fabric8.istio.api.api.networking.v1alpha3.ServiceEntryLocation;
 import io.fabric8.istio.api.api.networking.v1alpha3.ServiceEntryResolution;
 import io.fabric8.istio.api.api.networking.v1alpha3.ServicePortBuilder;
-import io.fabric8.istio.api.networking.v1beta1.ServiceEntry;
-import io.fabric8.istio.api.networking.v1beta1.ServiceEntryBuilder;
+import io.fabric8.istio.api.networking.v1.ServiceEntry;
+import io.fabric8.istio.api.networking.v1.ServiceEntryBuilder;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
