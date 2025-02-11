@@ -22,8 +22,8 @@ import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentRe
 import io.fabric8.istio.api.api.networking.v1alpha3.LoadBalancerSettingsSimpleLB;
 import io.fabric8.istio.api.api.networking.v1alpha3.TrafficPolicy;
 import io.fabric8.istio.api.api.networking.v1alpha3.TrafficPolicyBuilder;
-import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
-import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
+import io.fabric8.istio.api.networking.v1.DestinationRule;
+import io.fabric8.istio.api.networking.v1.DestinationRuleBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
