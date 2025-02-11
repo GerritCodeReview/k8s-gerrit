@@ -20,8 +20,8 @@ import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentRe
 import io.fabric8.istio.api.api.networking.v1alpha3.Server;
 import io.fabric8.istio.api.api.networking.v1alpha3.ServerBuilder;
 import io.fabric8.istio.api.api.networking.v1alpha3.ServerTLSSettingsTLSmode;
-import io.fabric8.istio.api.networking.v1beta1.Gateway;
-import io.fabric8.istio.api.networking.v1beta1.GatewayBuilder;
+import io.fabric8.istio.api.networking.v1.Gateway;
+import io.fabric8.istio.api.networking.v1.GatewayBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import java.util.ArrayList;
 import java.util.List;
