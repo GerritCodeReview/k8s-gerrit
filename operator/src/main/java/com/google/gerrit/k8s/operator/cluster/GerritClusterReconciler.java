@@ -34,6 +34,7 @@ import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingRepli
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerrit;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritMaintenance;
+import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritMaintenanceCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetworkCondition;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedIncomingReplicationTask;
@@ -92,6 +93,7 @@ import java.util.stream.Collectors;
           useEventSourceWithName = CLUSTER_MANAGED_INC_REPL_TASK_EVENT_SOURCE),
       @Dependent(
           type = ClusterManagedGerritMaintenance.class,
+          reconcilePrecondition = ClusterManagedGerritMaintenanceCondition.class,
           useEventSourceWithName = CLUSTER_MANAGED_GERRIT_MAINTENANCE_EVENT_SOURCE),
     })
 public class GerritClusterReconciler

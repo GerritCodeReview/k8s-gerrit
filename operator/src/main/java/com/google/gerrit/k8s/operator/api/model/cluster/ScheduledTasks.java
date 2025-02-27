@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.cluster;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpecTemplate;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTaskTemplate;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ import java.util.Objects;
 
 public class ScheduledTasks {
   private List<IncomingReplicationTaskTemplate> incomingReplication = new ArrayList<>();
+
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private GerritMaintenanceSpecTemplate gerritMaintenance;
 
   public List<IncomingReplicationTaskTemplate> getIncomingReplication() {
