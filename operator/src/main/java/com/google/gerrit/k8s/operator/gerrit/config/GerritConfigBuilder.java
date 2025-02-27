@@ -215,6 +215,7 @@ public class GerritConfigBuilder extends ConfigBuilder {
   private static RequiredOption<Set<String>> javaOptions(Gerrit gerrit) {
     Set<String> javaOptions = new HashSet<>();
     javaOptions.add("-Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore");
+    javaOptions.add("-Djava.io.tmpdir=/var/gerrit/tmp/java");
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       javaOptions.add("-Djava.net.preferIPv4Stack=true");
     }
