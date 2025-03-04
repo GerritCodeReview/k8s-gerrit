@@ -34,5 +34,9 @@ data:
       installModule = com.gerritforge.gerrit.globalrefdb.validation.LibModule
       installDbModule = com.ericsson.gerrit.plugins.highavailability.ValidationModule
       installIndexModule=com.google.gerrit.elasticsearch.ElasticIndexModule
+    [plugins]
+      mandatory = healthcheck
+      mandatory = high-availability
+      mandatory = index-elasticsearch
     [sshd]
       listenAddress = *:29418

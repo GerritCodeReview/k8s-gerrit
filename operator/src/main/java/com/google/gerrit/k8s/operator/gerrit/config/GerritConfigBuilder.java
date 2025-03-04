@@ -63,6 +63,7 @@ public class GerritConfigBuilder extends ConfigBuilder {
     requiredOptions.addAll(gerritSection(gerrit));
     requiredOptions.addAll(httpdSection(gerrit));
     requiredOptions.addAll(indexSection(gerrit));
+    requiredOptions.addAll(pluginsSection(gerrit));
     requiredOptions.addAll(sshdSection(gerrit));
     requiredOptions.addAll(eventsBrokerSection(gerrit));
     requiredOptions.addAll(webSessionBrokerSection(gerrit));
@@ -199,6 +200,41 @@ public class GerritConfigBuilder extends ConfigBuilder {
       requiredOptions.add(
           new RequiredOption<Boolean>("index", "scheduledIndexer", "runOnStartup", false));
     }
+    return requiredOptions;
+  }
+
+  private static List<RequiredOption<?>> pluginsSection(Gerrit gerrit) {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    Set<String> mandatoryPlugins = new HashSet<>();
+    mandatoryPlugins.add("healthcheck");
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      mandatoryPlugins.add("high-availability");
+    }
+    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
+      mandatoryPlugins.add("index-elasticsearch");
+    }
+    RefDatabase refDb = gerrit.getSpec().getRefdb().getDatabase();
+    switch (refDb) {
+      case NONE:
+        break;
+      case ZOOKEEPER:
+        mandatoryPlugins.add("zookeeper-refdb");
+        break;
+      case SPANNER:
+        mandatoryPlugins.add("spanner-refdb");
+        break;
+      default:
+        throw new IllegalStateException("Unknown refdb database type: " + refDb);
+    }
+    if (gerrit.getSpec().getEventsBroker().getBrokerType() == EventsBrokerConfig.BrokerType.KAFKA) {
+      mandatoryPlugins.add("events-kafka");
+    }
+    if (OperatorContext.getClusterMode() == Constants.ClusterMode.MULTISITE) {
+      mandatoryPlugins.add("multi-site");
+      mandatoryPlugins.add("pull-replication");
+      mandatoryPlugins.add("websession-broker");
+    }
+    requiredOptions.add(new RequiredOption<Set<String>>("plugins", "mandatory", mandatoryPlugins));
     return requiredOptions;
   }
 
