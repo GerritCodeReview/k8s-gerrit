@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105fbd24_d22da06a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-03-05T08:26:02Z",
+      "side": 1,
+      "message": "```suggestion\nConfigure which plugins are mandatory for the chosen Gerrit setup\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "4151909d104b631aca9a5f42793fd8375761930c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
