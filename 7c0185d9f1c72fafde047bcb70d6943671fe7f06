@@ -16,6 +16,23 @@
       "message": "CI validation succeeded",
       "revId": "7c0185d9f1c72fafde047bcb70d6943671fe7f06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76db8111_bf2036f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-03-05T12:21:09Z",
+      "side": 1,
+      "message": "Manual validation confirms that subpaths are working.",
+      "revId": "7c0185d9f1c72fafde047bcb70d6943671fe7f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
