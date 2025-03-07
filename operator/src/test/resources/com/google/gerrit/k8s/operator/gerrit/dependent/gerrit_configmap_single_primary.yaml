@@ -20,6 +20,8 @@ data:
         canonicalWebUrl = https://example.com/
     [httpd]
         listenUrl = proxy-https://*:8080/
+    [plugins]
+        mandatory = healthcheck
     [sshd]
         listenAddress = *:29418
         advertisedAddress = example.com:29418

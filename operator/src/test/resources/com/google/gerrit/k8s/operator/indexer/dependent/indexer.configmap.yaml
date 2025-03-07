@@ -30,5 +30,8 @@ data:
       serverId = gerrit/gerrit
       installModule = com.gerritforge.gerrit.globalrefdb.validation.LibModule
       installDbModule = com.ericsson.gerrit.plugins.highavailability.ValidationModule
+    [plugins]
+      mandatory = healthcheck
+      mandatory = high-availability
     [sshd]
       listenAddress = *:29418
