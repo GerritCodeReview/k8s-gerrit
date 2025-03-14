@@ -21,13 +21,13 @@ spec:
   selector:
     matchLabels:
       app: gerrit-operator
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: gerrit-operator
     spec:
-      strategy:
-        type: Recreate
       serviceAccountName: gerrit-operator
       containers:
       - name: operator
