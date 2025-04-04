@@ -34,8 +34,11 @@ public class GerritClusterAmbassadorTest {
   @MethodSource("provideYamlManifests")
   public void expectedGerritClusterAmbassadorComponentsCreated(
       String inputFile, Map<String, String> expectedOutputFileNames)
-      throws ClassNotFoundException, NoSuchMethodException, InstantiationException,
-          IllegalAccessException, InvocationTargetException {
+      throws ClassNotFoundException,
+          NoSuchMethodException,
+          InstantiationException,
+          IllegalAccessException,
+          InvocationTargetException {
     GerritNetwork gerritNetwork =
         ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
 

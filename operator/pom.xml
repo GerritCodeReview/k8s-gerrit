@@ -29,6 +29,7 @@
 		<docker.registry>docker.io</docker.registry>
 		<docker.org>k8sgerrit</docker.org>
 
+
 		<test.docker.registry>docker.io</test.docker.registry>
 		<test.docker.org>k8sgerritdev</test.docker.org>
 	</properties>
@@ -41,7 +42,6 @@
 					<plugin>
 						<groupId>com.google.cloud.tools</groupId>
 						<artifactId>jib-maven-plugin</artifactId>
-						<version>3.3.1</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
@@ -82,7 +82,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>properties-maven-plugin</artifactId>
-						<version>1.1.0</version>
+						<version>1.2.1</version>
 						<executions>
 							<execution>
 								<phase>initialize</phase>
@@ -99,7 +99,7 @@
 					</plugin>
 					<plugin>
 						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>2.22.2</version>
+						<version>3.5.3</version>
 						<executions>
 							<execution>
 								<phase>integration-test</phase>
@@ -255,6 +255,15 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.google.cloud.tools</groupId>
+					<artifactId>jib-maven-plugin</artifactId>
+					<version>3.4.5</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>io.fabric8</groupId>
@@ -276,7 +285,7 @@
 			<plugin>
 				<groupId>com.spotify.fmt</groupId>
 				<artifactId>fmt-maven-plugin</artifactId>
-				<version>2.19</version>
+				<version>2.25</version>
 				<executions>
 					<execution>
 						<goals>
@@ -288,7 +297,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.4.2</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -303,7 +312,6 @@
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
-				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -359,7 +367,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>3.1.1</version>
+				<version>3.5.0</version>
 				<executions>
 					<execution>
 						<id>combine-crd-versions</id>
@@ -376,12 +384,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.10.0</version>
+				<version>3.14.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
+				<version>3.5.3</version>
 				<configuration>
 					<includes>
 						<include>**/*Test.java</include>
@@ -392,7 +400,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.4.0</version>
+				<version>3.6.0</version>
 				<executions>
 					<execution>
 						<id>add-source</id>
