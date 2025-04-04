@@ -33,8 +33,11 @@ public abstract class AbstractKeyStoreProvider implements KeyStoreProvider {
 
   @Override
   public final String getCertificate()
-      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
-          CertificateException, IOException {
+      throws CertificateEncodingException,
+          KeyStoreException,
+          NoSuchAlgorithmException,
+          CertificateException,
+          IOException {
     StringBuilder cert = new StringBuilder();
     cert.append(CERT_PREFIX);
     cert.append("\n");

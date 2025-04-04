@@ -78,8 +78,11 @@ public class ValidationWebhookConfigApplier {
   }
 
   public ValidatingWebhook webhook()
-      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
-          CertificateException, IOException {
+      throws CertificateEncodingException,
+          KeyStoreException,
+          NoSuchAlgorithmException,
+          CertificateException,
+          IOException {
     return new ValidatingWebhookBuilder()
         .withName(customResourceName.toLowerCase() + "." + VERSION + ".validator.google.com")
         .withAdmissionReviewVersions("v1", "v1beta1")
@@ -101,8 +104,11 @@ public class ValidationWebhookConfigApplier {
   }
 
   private String caBundle()
-      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
-          CertificateException, IOException {
+      throws CertificateEncodingException,
+          KeyStoreException,
+          NoSuchAlgorithmException,
+          CertificateException,
+          IOException {
     return Base64.getEncoder().encodeToString(keyStoreProvider.getCertificate().getBytes());
   }
 
@@ -121,7 +127,10 @@ public class ValidationWebhookConfigApplier {
   }
 
   public void apply()
-      throws KeyStoreException, NoSuchProviderException, IOException, NoSuchAlgorithmException,
+      throws KeyStoreException,
+          NoSuchProviderException,
+          IOException,
+          NoSuchAlgorithmException,
           CertificateException {
     logger.atInfo().log("Applying webhook config %s", cfg);
     client.resource(cfg).createOrReplace();

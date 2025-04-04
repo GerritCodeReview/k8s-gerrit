@@ -27,6 +27,9 @@ public interface KeyStoreProvider {
   String getKeyStorePassword() throws IOException;
 
   String getCertificate()
-      throws CertificateEncodingException, KeyStoreException, NoSuchAlgorithmException,
-          CertificateException, IOException;
+      throws CertificateEncodingException,
+          KeyStoreException,
+          NoSuchAlgorithmException,
+          CertificateException,
+          IOException;
 }
