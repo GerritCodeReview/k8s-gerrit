@@ -17,7 +17,7 @@
 
 		<fabric8.version>6.13.4</fabric8.version>
 		<flogger.version>0.8</flogger.version>
-		<guice.version>5.1.0</guice.version>
+		<guice.version>7.0.0</guice.version>
 		<javaoperatorsdk.version>4.9.7</javaoperatorsdk.version>
 		<jetty.version>11.0.25</jetty.version>
 		<log42.version>2.24.3</log42.version>
