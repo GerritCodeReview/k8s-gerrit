@@ -16,6 +16,24 @@
       "message": "seems like an unrelated change",
       "revId": "3b7fd6ee616aeef9cb564da465e8c8071fb9b453",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdbfe8e7_f25b3c85",
+        "filename": "operator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-04-07T07:18:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baf19751_9a59f651",
+      "revId": "3b7fd6ee616aeef9cb564da465e8c8071fb9b453",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
