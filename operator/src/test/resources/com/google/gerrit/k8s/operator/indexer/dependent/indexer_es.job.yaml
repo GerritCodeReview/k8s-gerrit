@@ -69,7 +69,11 @@ spec:
         - mountPath: /var/config
           name: gerrit-init-config
         - mountPath: /home/gerrit
-          name: home
+          subPath: home
+          name: tmp
+        - mountPath: /tmp
+          subPath: tmp
+          name: tmp
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/gerrit
@@ -101,7 +105,11 @@ spec:
             memory: 6Gi
         volumeMounts:
         - mountPath: /home/gerrit
-          name: home
+          subPath: home
+          name: tmp
+        - mountPath: /tmp
+          subPath: tmp
+          name: tmp
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/gerrit
@@ -123,6 +131,6 @@ spec:
       - name: repositories
         persistentVolumeClaim:
           claimName: gerrit-repos-pvc
-      - name: home
+      - name: tmp
         emptyDir:
           sizeLimit: 500Mi

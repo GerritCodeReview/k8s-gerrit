@@ -44,6 +44,7 @@ import java.util.Map;
 public class GerritIndexerJob
     extends CRUDReconcileAddKubernetesDependentResource<Job, GerritIndexer> {
   private static final Quantity HOME_DIR_SIZE_LIMIT = new Quantity("500", "Mi");
+  private static final String TMP_VOLUME_NAME = "tmp";
 
   public GerritIndexerJob() {
     super(Job.class);
@@ -192,7 +193,17 @@ public class GerritIndexerJob
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     volumeMounts.add(
-        new VolumeMountBuilder().withName("home").withMountPath("/home/gerrit").build());
+        new VolumeMountBuilder()
+            .withName(TMP_VOLUME_NAME)
+            .withMountPath("/home/gerrit")
+            .withSubPath("home")
+            .build());
+    volumeMounts.add(
+        new VolumeMountBuilder()
+            .withName(TMP_VOLUME_NAME)
+            .withMountPath("/tmp")
+            .withSubPath("tmp")
+            .build());
 
     volumeMounts.add(
         new VolumeMountBuilder()
@@ -300,7 +311,7 @@ public class GerritIndexerJob
         new VolumeBuilder()
             .withEmptyDir(
                 new EmptyDirVolumeSourceBuilder().withSizeLimit(HOME_DIR_SIZE_LIMIT).build())
-            .withName("home")
+            .withName(TMP_VOLUME_NAME)
             .build());
 
     return volumes;
