@@ -36,6 +36,7 @@ import io.fabric8.kubernetes.api.model.VolumeMount;
 import io.fabric8.kubernetes.api.model.VolumeMountBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.api.model.batch.v1.JobBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,51 +54,62 @@ public class GerritIndexerJob
   @Override
   protected Job desired(GerritIndexer gerritIndexer, Context<GerritIndexer> context) {
     String ns = gerritIndexer.getMetadata().getNamespace();
+    KubernetesClient client = context.getClient();
     GerritCluster gerritCluster =
-        context
-            .getClient()
+        client
             .resources(GerritCluster.class)
             .inNamespace(ns)
             .withName(gerritIndexer.getSpec().getCluster())
             .get();
+
+    Job existingJob =
+        client.batch().v1().jobs().inNamespace(ns).withName(getName(gerritIndexer)).get();
 
     GerritIndexerSpec indexerSpec = gerritIndexer.getSpec();
     if (indexerSpec.getIndex() == null) {
       indexerSpec.setIndex(gerritCluster.getSpec().getIndex());
     }
 
-    return new JobBuilder()
-        .withApiVersion("batch/v1")
-        .withNewMetadata()
-        .withName(getName(gerritIndexer))
-        .withNamespace(ns)
-        .withLabels(getLabels(gerritIndexer))
-        .endMetadata()
-        .withNewSpec()
-        .withManualSelector(true)
-        .withSelector(new LabelSelectorBuilder().withMatchLabels(getLabels(gerritIndexer)).build())
-        .withNewTemplate()
-        .withNewMetadata()
-        .withAnnotations(
-            Map.of(
-                "cluster-autoscaler.kubernetes.io/safe-to-evict", "false",
-                "sidecar.istio.io/inject", "false"))
-        .withLabels(getLabels(gerritIndexer))
-        .endMetadata()
-        .withNewSpec()
-        .withAffinity(indexerSpec.getAffinity())
-        .withTolerations(indexerSpec.getTolerations())
-        .addAllToImagePullSecrets(
-            gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
-        .withRestartPolicy("OnFailure")
-        .withSecurityContext(GerritSecurityContext.forPod())
-        .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
-        .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
-        .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
-        .endSpec()
-        .endTemplate()
-        .endSpec()
-        .build();
+    Job desired =
+        new JobBuilder()
+            .withApiVersion("batch/v1")
+            .withNewMetadata()
+            .withName(getName(gerritIndexer))
+            .withNamespace(ns)
+            .withLabels(getLabels(gerritIndexer))
+            .endMetadata()
+            .withNewSpec()
+            .withManualSelector(true)
+            .withSelector(
+                new LabelSelectorBuilder().withMatchLabels(getLabels(gerritIndexer)).build())
+            .withNewTemplate()
+            .withNewMetadata()
+            .withAnnotations(
+                Map.of(
+                    "cluster-autoscaler.kubernetes.io/safe-to-evict", "false",
+                    "sidecar.istio.io/inject", "false"))
+            .withLabels(getLabels(gerritIndexer))
+            .endMetadata()
+            .withNewSpec()
+            .withAffinity(indexerSpec.getAffinity())
+            .withTolerations(indexerSpec.getTolerations())
+            .addAllToImagePullSecrets(
+                gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
+            .withRestartPolicy("OnFailure")
+            .withSecurityContext(GerritSecurityContext.forPod())
+            .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
+            .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
+            .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
+            .endSpec()
+            .endTemplate()
+            .endSpec()
+            .build();
+
+    if (existingJob != null && !desired.getSpec().equals(existingJob.getSpec())) {
+      client.resource(existingJob).delete();
+    }
+
+    return desired;
   }
 
   public static String getName(GerritIndexer gerritIndexer) {
