@@ -6,7 +6,6 @@ It is only used in the build process and not published on Dockerhub.
 ## Content
 
 * base image
-* curl
 * openssh-keygen
 * OpenJDK 11
 * gerrit.war
