@@ -44,7 +44,7 @@ if [ "$INDEX_MODULE" = "elasticsearch" ]; then
 fi
 
 JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)
-java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
+java ${JAVA_OPTIONS} -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit --read-only-disk-caches
 
 if [ "$INDEX_TYPE" = "LUCENE" ] && test -n "$OUTPUT"; then
   INDEXES=$(java -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit --list)
