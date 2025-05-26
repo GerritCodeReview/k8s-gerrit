@@ -31,6 +31,7 @@ public class GerritMaintenanceTestHelper {
     List<GitGcTask> gcTasks = new ArrayList<>();
     for (Set<String> projects : projectSets) {
       GitGcTask gitGc = new GitGcTask();
+      gitGc.setName(RandomStringUtils.insecure().nextAlphabetic(10).toLowerCase());
       gitGc.setInclude(projects);
       gcTasks.add(gitGc);
     }
@@ -40,7 +41,7 @@ public class GerritMaintenanceTestHelper {
     GerritMaintenance gm = new GerritMaintenance();
     gm.setMetadata(
         new ObjectMetaBuilder()
-            .withName(RandomStringUtils.randomAlphabetic(10))
+            .withName(RandomStringUtils.insecure().nextAlphabetic(10).toLowerCase())
             .withNamespace(namespace)
             .build());
     gm.setSpec(spec);
