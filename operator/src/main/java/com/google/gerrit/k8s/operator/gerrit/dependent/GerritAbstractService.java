@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.HTTP_PORT;
+import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.JGROUPS_PORT;
 import static com.google.gerrit.k8s.operator.gerrit.dependent.GerritStatefulSet.SSH_PORT;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
@@ -38,6 +39,7 @@ public abstract class GerritAbstractService
 
   public static final String HTTP_PORT_NAME = "http";
   public static final String SSH_PORT_NAME = "ssh";
+  public static final String JGROUPS_PORT_NAME = "jgroups";
 
   abstract ServiceSpec getSpec(Gerrit gerrit);
 
@@ -102,6 +104,14 @@ public abstract class GerritAbstractService
               .withName(SSH_PORT_NAME)
               .withPort(gerrit.getSpec().getService().getSshPort())
               .withNewTargetPort(SSH_PORT)
+              .build());
+    }
+    if (gerrit.getSpec().isHighlyAvailablePrimary()) {
+      ports.add(
+          new ServicePortBuilder()
+              .withName(JGROUPS_PORT_NAME)
+              .withPort(JGROUPS_PORT)
+              .withNewTargetPort(JGROUPS_PORT)
               .build());
     }
     return ports;
