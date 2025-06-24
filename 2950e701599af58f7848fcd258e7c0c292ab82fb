@@ -16,6 +16,24 @@
       "message": "instead of cloning the repo you can download an archive of a folder in a given version using gitiles REST API:\n\ne.g.\nhttps://gerrit.googlesource.com/gerrit/+archive/refs/heads/master/contrib/maintenance.tar.gz\n\nto download a tar.gz for the folder `contrib/maintenance` in the `refs/heads/master` branch of the `gerrit` repo\n\nor\n\nhttps://gerrit.googlesource.com/gerrit/+/c296569b9b4965ad887bb1fcbe0b5d4a0b5b7399/contrib/maintenance/\n\nto download the same folder for commit `c296569b9b4965ad887bb1fcbe0b5d4a0b5b7399`\n\nThe documentation in https://gerrit.googlesource.com/gitiles/+/refs/heads/master/Documentation/api-reference.md should mention that also a folder in a given version can be downloaded as an archive.",
       "revId": "2950e701599af58f7848fcd258e7c0c292ab82fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17218f4_ef176ad6",
+        "filename": "container-images/gerrit-maintenance/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-24T13:52:37Z",
+      "side": 1,
+      "message": "pushed https://gerrit-review.googlesource.com/c/gitiles/+/486421 to add this to the gitiles api documentation",
+      "parentUuid": "c63d7b14_f2c885ab",
+      "revId": "2950e701599af58f7848fcd258e7c0c292ab82fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
