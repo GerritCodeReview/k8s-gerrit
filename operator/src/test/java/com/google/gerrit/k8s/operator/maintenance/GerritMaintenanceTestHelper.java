@@ -32,6 +32,7 @@ public class GerritMaintenanceTestHelper {
     for (Set<String> projects : projectSets) {
       GitGcTask gitGc = new GitGcTask();
       gitGc.setName(RandomStringUtils.insecure().nextAlphabetic(10).toLowerCase());
+      gitGc.setSchedule("0 0 * * *");
       gitGc.setInclude(projects);
       gcTasks.add(gitGc);
     }

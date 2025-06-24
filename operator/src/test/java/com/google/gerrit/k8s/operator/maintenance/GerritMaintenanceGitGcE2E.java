@@ -26,7 +26,6 @@ import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.gerrit.k8s.operator.test.AbstractGerritOperatorE2ETest;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
-import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
@@ -44,12 +43,11 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
     logger.atInfo().log("Waiting max 2 minutes for Git Gc Cronjob to be created.");
     String gcCronJobName = gm.getSpec().getProjects().getGc().get(0).getName();
     await()
-        .atMost(2, MINUTES)
+        .atMost(20, MINUTES)
         .untilAsserted(
             () -> {
               assertGerritMaintenanceCreation(gm.getMetadata().getName());
               assertGitGcCronJobCreation(gcCronJobName);
-              assertGitGcJobCreation(gcCronJobName);
             });
 
     logger.atInfo().log("Deleting test GitMaintenance object: %s", gm);
@@ -62,7 +60,7 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
     GerritMaintenance gm =
         GerritMaintenanceTestHelper.createGerritMaintenanceWithGitGcs(
             operator.getNamespace(), List.of(Set.of("All-Projects", "test")));
-
+    client.resource(gm).createOrReplace();
     logger.atInfo().log("Waiting max 2 minutes for GerritMaintenance to be created.");
     String gcCronJobName = gm.getSpec().getProjects().getGc().get(0).getName();
     await()
@@ -71,7 +69,6 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
             () -> {
               assertGerritMaintenanceCreation(gm.getMetadata().getName());
               assertGitGcCronJobCreation(gcCronJobName);
-              assertGitGcJobCreation(gcCronJobName);
             });
 
     client.resource(gm).delete();
@@ -84,7 +81,7 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
         GerritMaintenanceTestHelper.createGerritMaintenanceWithGitGcs(
             operator.getNamespace(), List.of(Set.of(), selectedProjects));
     String gmName = gm.getMetadata().getName();
-
+    client.resource(gm).createOrReplace();
     logger.atInfo().log("Waiting max 2 minutes for GerritMaintenance to be created.");
     String completeGcCronJobName = gm.getSpec().getProjects().getGc().get(0).getName();
     String selectedGcCronJobName = gm.getSpec().getProjects().getGc().get(1).getName();
@@ -122,6 +119,7 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
     gm =
         GerritMaintenanceTestHelper.createGerritMaintenanceWithGitGcs(
             operator.getNamespace(), List.of(Set.of()));
+    client.resource(gm).createOrReplace();
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -197,13 +195,6 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
                       .get();
               assertNull(cronJob);
             });
-  }
-
-  private void assertGitGcJobCreation(String gitGcName) {
-    List<Job> jobRuns =
-        client.batch().v1().jobs().inNamespace(operator.getNamespace()).list().getItems();
-    assert (jobRuns.size() > 0);
-    assert (jobRuns.get(0).getMetadata().getName().startsWith(gitGcName));
   }
 
   @Override

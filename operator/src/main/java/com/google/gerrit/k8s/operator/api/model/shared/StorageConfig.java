@@ -18,8 +18,8 @@ import java.util.Objects;
 
 public class StorageConfig {
 
-  private StorageClassConfig storageClasses;
-  private SharedStorage sharedStorage;
+  private StorageClassConfig storageClasses = new StorageClassConfig();
+  private SharedStorage sharedStorage = new SharedStorage();
 
   public StorageConfig() {}
 
