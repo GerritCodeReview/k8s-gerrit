@@ -34,6 +34,24 @@
       "parentUuid": "c63d7b14_f2c885ab",
       "revId": "2950e701599af58f7848fcd258e7c0c292ab82fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70c004d5_1c2ef551",
+        "filename": "container-images/gerrit-maintenance/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-24T14:24:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b17218f4_ef176ad6",
+      "revId": "2950e701599af58f7848fcd258e7c0c292ab82fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
