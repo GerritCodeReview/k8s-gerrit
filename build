@@ -90,6 +90,7 @@ docker_build(){
     docker build \
         $DOCKER_BUILD_OPTS \
         --build-arg TAG=$REV \
+        --build-arg GERRIT_VER="$(./get_version.sh --output GERRIT --platform $PLATFORM)" \
         -t k8sgerrit/$IMAGE:$TAG \
         ./container-images/$IMAGE
 
