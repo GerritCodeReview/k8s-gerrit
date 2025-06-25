@@ -16,6 +16,24 @@
       "message": "this URL works in a browser if you have a valid gerrit session cookie, using curl you need to authenticate:\n\n```suggestion\n    curl https://gerrit.googlesource.com/a/gerrit/+archive/${GERRIT_VER}/contrib/maintenance.tar.gz | \\\n```",
       "revId": "a9a3c4905f056ebdbe24748e557335ce13731a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9880fb33_11681351",
+        "filename": "container-images/gerrit-maintenance/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-25T06:23:22Z",
+      "side": 1,
+      "message": "No, it works, since gerrit-review allows anonymous access. If we would do basic auth, the build would be more complicated ,since we don\u0027t want to have credentials in the finished container image.",
+      "parentUuid": "69cb5ead_4bd7562d",
+      "revId": "a9a3c4905f056ebdbe24748e557335ce13731a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
