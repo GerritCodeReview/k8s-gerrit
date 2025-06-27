@@ -52,6 +52,24 @@
       "parentUuid": "9880fb33_11681351",
       "revId": "a9a3c4905f056ebdbe24748e557335ce13731a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc32597b_7d1c72b9",
+        "filename": "container-images/gerrit-maintenance/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-06-27T11:58:25Z",
+      "side": 1,
+      "message": "But it works when using curl when building the container, locally on my machine and in our CI. Not sure why though.",
+      "parentUuid": "a6a5b9ca_508872ce",
+      "revId": "a9a3c4905f056ebdbe24748e557335ce13731a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
