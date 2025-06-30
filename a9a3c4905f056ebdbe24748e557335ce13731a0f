@@ -70,6 +70,24 @@
       "parentUuid": "a6a5b9ca_508872ce",
       "revId": "a9a3c4905f056ebdbe24748e557335ce13731a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc2dc660_2651380c",
+        "filename": "container-images/gerrit-maintenance/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-06-30T08:02:17Z",
+      "side": 1,
+      "message": "Acknowledged\n\nok, then let\u0027s try it like this",
+      "parentUuid": "dc32597b_7d1c72b9",
+      "revId": "a9a3c4905f056ebdbe24748e557335ce13731a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
