@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87df8bbe_7039bd2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-31T13:27:55Z",
+      "side": 1,
+      "message": "fixed tests by adapting stop hooks in expected resources in tests",
+      "revId": "b920d96fbc51045e81a0578dc84a664358e77ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
