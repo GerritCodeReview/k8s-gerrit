@@ -183,7 +183,7 @@ public class GerritStatefulSet
         .withCommand(
             "/bin/ash",
             "-c",
-            "jstack $(pidof java) > /var/gerrit/logs/td_$(date +%Y-%m-%dT%H:%M); kill -2 $(pidof java) && tail --pid=$(pidof java) -f /dev/null")
+            "kill -s SIGTERM $(pidof java); jstack $(pidof java) > /var/gerrit/logs/td_$(date +%Y-%m-%dT%H:%M); tail --pid=$(pidof java) -f /dev/null")
         .endExec()
         .endPreStop()
         .endLifecycle()
