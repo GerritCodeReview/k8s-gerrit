@@ -162,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6071dc53_4e2a012a",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2025-08-15T19:01:53Z",
+      "side": 1,
+      "message": "I\u0027m fine with either / don\u0027t strongly feel about this. Just wanted to point out that it may be confusing for the somewhat-new user (but maybe somewhat-new users shouldn\u0027t be deploying production Gerrit instances to begin with haha). Feel free to close comment as noop.",
+      "parentUuid": "902f85b3_ea35a7df",
+      "range": {
+        "startLine": 667,
+        "startChar": 36,
+        "endLine": 667,
+        "endChar": 86
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89d694d4_f25f05c0",
         "filename": "Documentation/operator.md",
         "patchSetId": 13
