@@ -295,6 +295,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14784782_109641a2",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T19:24:46Z",
+      "side": 1,
+      "message": "The source-IP propagation is a *must-have* in multi-site as you may need to know where the incoming traffic is coming from in order to be served by the most suitable site.\n\nI acknowledge that at the moment you rely on source IP-based routing, and therefore this note is also relevant in your HA case.",
+      "parentUuid": "3820173d_bf185273",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1e3eeb1_0513b3e1",
