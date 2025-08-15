@@ -16,6 +16,29 @@
       "message": "I don\u0027t believe Diego is working on it anymore, but I think it\u0027s important to get this merged :-). @thomas.draebing@sap.com would have time to review and merge it?",
       "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bcc1ad8_4be7ca74",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2025-08-15T18:29:22Z",
+      "side": 1,
+      "message": "is this referring to just the minikube setup or MULTISITE mode in general? in Discord, Luca suggested that the MULTISITE work is complete and production ready. Would be awesome to clarify / maybe remove this part from the docs if MULTISITE is indeed production ready?",
+      "range": {
+        "startLine": 658,
+        "startChar": 56,
+        "endLine": 658,
+        "endChar": 82
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
