@@ -63,6 +63,92 @@
       },
       "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c910fb81_ec403c3a",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2025-08-15T18:39:46Z",
+      "side": 1,
+      "message": "This is untrue. The prerequisites section mentions a requirement for a RWM storage class, which is not required for MULTISITE mode",
+      "range": {
+        "startLine": 667,
+        "startChar": 36,
+        "endLine": 667,
+        "endChar": 86
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d694d4_f25f05c0",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2025-08-15T18:39:46Z",
+      "side": 1,
+      "message": "kind:GerritCluster allows specifying the broker config: https://gerrit.googlesource.com/k8s-gerrit/+/HEAD/Documentation/operator-api-reference.md#eventsbrokerconfig\n\nI assume that the broker config set in kind:GerritCluster is not copied over into the gerrit config by the operator? Worth mentioning this nuance here maybe?",
+      "range": {
+        "startLine": 669,
+        "startChar": 67,
+        "endLine": 670,
+        "endChar": 69
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c64984_8c55f329",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2025-08-15T18:39:46Z",
+      "side": 1,
+      "message": "might be helpful to mention \"why\" this is necessary",
+      "range": {
+        "startLine": 757,
+        "startChar": 91,
+        "endLine": 759,
+        "endChar": 0
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d5e11cd_18ddf4c9",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2025-08-15T18:39:46Z",
+      "side": 1,
+      "message": "instance",
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
