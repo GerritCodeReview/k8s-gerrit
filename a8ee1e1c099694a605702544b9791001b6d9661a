@@ -279,6 +279,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3820173d_bf185273",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:56:59Z",
+      "side": 1,
+      "message": "Round-robin would not work, of course; however, you could use policies based on the Gerrit cookie and those *should work* if you have the correct settings on NFS.",
+      "parentUuid": "32d93af3_9a0081e7",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1e3eeb1_0513b3e1",
         "filename": "Documentation/operator.md",
         "patchSetId": 11

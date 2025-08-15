@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "825a8e9a_13591441",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:56:59Z",
+      "side": 1,
+      "message": "\u003e Would be awesome to clarify / maybe remove this part from the docs if MULTISITE is indeed production ready?\n\nPlease read the multi-site documentation at [1] and you\u0027ll understand that _work-in-progress_ means that there is more work to do. You are welcome to help implementing what\u0027s missing.\n\nIn my experience, no products are really *DONE* until they are obsolete and removed from production, therefore the statement should stay and isn\u0027t contradicting that it is production-ready.\n\nSAP isn\u0027t running multi-site, that\u0027s why @thomas.draebing@sap.com cannot confirm the statement; however, GerritHub.io has been running multi-site for almost a decade, and we have several clients running it successfully in production.\n\n[1] https://gerrit.googlesource.com/plugins/multi-site/+/refs/heads/master/DESIGN.md",
+      "parentUuid": "c7b4b564_659ab7ea",
+      "range": {
+        "startLine": 658,
+        "startChar": 56,
+        "endLine": 658,
+        "endChar": 82
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c910fb81_ec403c3a",
@@ -102,6 +126,30 @@
       "writtenOn": "2025-08-15T18:39:46Z",
       "side": 1,
       "message": "This is untrue. The prerequisites section mentions a requirement for a RWM storage class, which is not required for MULTISITE mode",
+      "range": {
+        "startLine": 667,
+        "startChar": 36,
+        "endLine": 667,
+        "endChar": 86
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "902f85b3_ea35a7df",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:56:59Z",
+      "side": 1,
+      "message": "We have two options here:\n1. Copy and paste all the pre-reqs and remove the non-relevant ones\n2. Rely on the skills of the reader to judge the ones not relevant",
+      "parentUuid": "c910fb81_ec403c3a",
       "range": {
         "startLine": 667,
         "startChar": 36,
@@ -135,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abdcba3a_13ce2b34",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:56:59Z",
+      "side": 1,
+      "message": "I believe you\u0027re reading it wrong: the statement does not say that `EventsBrokerConfig` isn\u0027t working, but rather that you have to define the connection string for the events-kafka plugin.\n\nThe way you decide to do, depends on you. This is a guide for *one way* to do it, not *THE WAY* you should do it.",
+      "parentUuid": "89d694d4_f25f05c0",
+      "range": {
+        "startLine": 669,
+        "startChar": 67,
+        "endLine": 670,
+        "endChar": 69
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52c64984_8c55f329",
@@ -158,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a83ddec_47bfe293",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:56:59Z",
+      "side": 1,
+      "message": "It\u0027s mentioned at L764, with the link to the client source IP propagation.",
+      "parentUuid": "52c64984_8c55f329",
+      "range": {
+        "startLine": 757,
+        "startChar": 91,
+        "endLine": 759,
+        "endChar": 0
+      },
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d5e11cd_18ddf4c9",
@@ -171,6 +267,24 @@
       "writtenOn": "2025-08-15T18:39:46Z",
       "side": 1,
       "message": "instance",
+      "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59a8bf58_ac0e3395",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:56:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d5e11cd_18ddf4c9",
       "revId": "9a5c7de3a2c557552540060b323e1289f876ce33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
