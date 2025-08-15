@@ -200,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24afea3e_b11a7251",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-08-15T18:39:27Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "170f594a_c4f8d2ea",
+      "range": {
+        "startLine": 776,
+        "startChar": 23,
+        "endLine": 776,
+        "endChar": 29
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b8fd41f_8d41072d",
@@ -594,6 +618,24 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "There is nothing multisite specific here. Could you rather create a separate documentation file that provides teh example of a monitoring stack to be used with Gerrit in k8s?",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b03562a_bfe69fc7",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-08-15T18:39:27Z",
+      "side": 1,
+      "message": "Can be done in a separate change.",
+      "parentUuid": "0317c515_624fbcd9",
       "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
