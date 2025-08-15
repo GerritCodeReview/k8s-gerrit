@@ -153,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f10c08_7e5399c1",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:22:49Z",
+      "side": 1,
+      "message": "True, but it was repeated here for completeness and ease of reading. Making documentation easier to follow is always best.",
+      "parentUuid": "18ce40b4_4de3b86b",
+      "range": {
+        "startLine": 754,
+        "startChar": 0,
+        "endLine": 766,
+        "endChar": 3
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b8fd41f_8d41072d",
@@ -166,6 +190,24 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "This is true independent of using multisite or not. Could you add it to the provided istio profile and make this comment in a broader context?",
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23d3debf_6e61a184",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:22:49Z",
+      "side": 1,
+      "message": "\u003e This is true independent of using multisite or not. Could you add it to the provided istio profile and make this comment in a broader context?\n\nWell, not necessarily. With HA you *could* rely on other balancing policies, but with multi-site *you have to* use the client source-IP based balancing.",
+      "parentUuid": "9b8fd41f_8d41072d",
       "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -359,6 +401,30 @@
       "writtenOn": "2024-11-12T10:38:00Z",
       "side": 1,
       "message": "This is also true for the HA-setup.\nIn general, these sections dealing with 3rd party software should go to separate files. That makes it easier to reuse them.",
+      "range": {
+        "startLine": 810,
+        "startChar": 0,
+        "endLine": 810,
+        "endChar": 13
+      },
+      "revId": "a8ee1e1c099694a605702544b9791001b6d9661a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b05997b_c7c747c0",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-15T18:22:49Z",
+      "side": 1,
+      "message": "\u003e This is also true for the HA-setup.\n\u003e In general, these sections dealing with 3rd party software should go to separate files. That makes it easier to reuse them.\n\nTrue, but it is repeated here for completeness and ease of reading.",
+      "parentUuid": "37c0f5f9_6192366c",
       "range": {
         "startLine": 810,
         "startChar": 0,
