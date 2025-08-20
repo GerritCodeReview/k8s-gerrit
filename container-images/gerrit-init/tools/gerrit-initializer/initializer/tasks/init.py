@@ -207,4 +207,8 @@ class GerritInit:
             if self.is_replica:
                 self._symlink_mounted_site_components()
 
+        # Ensure that the temporary directory for Java exists
+        java_tmp_dir = os.path.join(SITE_PATH, "tmp", "java")
+        os.makedirs(java_tmp_dir, exist_ok=True)
+
         get_reindexer(self.gerrit_config, self.config).start(False)
