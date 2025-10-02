@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3a255d21_d1868d82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3693978
+      },
+      "writtenOn": "2025-10-02T18:26:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50202179_79335533",
+      "revId": "fc71aabb018c8cd5da9cdee7cdaa35e23be50017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eb9ecaa9_80eec75a",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/OperatorContext.java",
         "patchSetId": 5
