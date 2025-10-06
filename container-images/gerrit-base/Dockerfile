@@ -42,10 +42,6 @@ RUN curl -f -k -o /var/plugins/zookeeper-refdb.jar ${ZOOKEEPER_REFDB_URL}
 ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/job/plugin-spanner-refdb-bazel-master-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
 RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 
-# Download pull-replication plugin
-ARG PULL_REPLICATION_URL=https://gerrit-ci.gerritforge.com/job/plugin-pull-replication-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/pull-replication/pull-replication.jar
-RUN curl -f -k -o /var/plugins/pull-replication.jar ${PULL_REPLICATION_URL}
-
 # Download events-broker lib
 ARG EVENTS_BROKER_URL=https://gerrit-ci.gerritforge.com/job/module-events-broker-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar
 RUN curl -f -k -o /var/plugins/events-broker.jar ${EVENTS_BROKER_URL}
@@ -57,10 +53,6 @@ RUN curl -f -k -o /var/plugins/events-kafka.jar ${EVENTS_KAFKA_URL}
 # Download websession-broker plugin
 ARG WEBSESSION_BROKER_URL=https://gerrit-ci.gerritforge.com/job/plugin-websession-broker-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar
 RUN curl -f -k -o /var/plugins/websession-broker.jar ${WEBSESSION_BROKER_URL}
-
-# Download multi-site plugin
-ARG MULTI_SITE_URL=https://gerrit-ci.gerritforge.com/job/plugin-multi-site-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/multi-site/multi-site.jar
-RUN curl -f -k -o /var/plugins/multi-site.jar ${MULTI_SITE_URL}
 
 # Download index-elasticsearch lib
 ARG INDEX_ELASTICSEARCH_URL=https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/index-elasticsearch/index-elasticsearch.jar
