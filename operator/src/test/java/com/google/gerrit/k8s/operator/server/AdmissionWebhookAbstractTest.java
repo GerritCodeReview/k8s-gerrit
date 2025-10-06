@@ -75,7 +75,7 @@ public abstract class AdmissionWebhookAbstractTest {
 
     OperatorContext.createInstance(getClusterMode());
     server.registerWebhook(new GerritClusterAdmissionWebhook(getClusterMode()));
-    server.registerWebhook(new GerritAdmissionWebhook(getClusterMode()));
+    server.registerWebhook(new GerritAdmissionWebhook());
     server.start();
   }
 

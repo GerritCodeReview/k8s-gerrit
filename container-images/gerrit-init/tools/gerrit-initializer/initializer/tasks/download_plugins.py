@@ -36,19 +36,6 @@ MAX_CACHED_VERSIONS = 5
 REQUIRED_PLUGINS = ["healthcheck"]
 REQUIRED_HA_PLUGINS = ["high-availability"]
 REQUIRED_HA_LIBS = ["high-availability", "global-refdb"]
-REQUIRED_MULTISITE_LIBS = [
-    "events-broker",
-    "global-refdb",
-    "multi-site",
-    "pull-replication",
-]
-REQUIRED_MULTISITE_PLUGINS = [
-    "events-kafka",
-    "multi-site",
-    "pull-replication",
-    "websession-broker",
-]
-
 
 class InvalidPluginException(Exception):
     """Exception to be raised, if the downloaded plugin is not valid."""
@@ -95,8 +82,6 @@ class AbstractPluginInstaller(ABC):
         required = REQUIRED_PLUGINS.copy()
         if self.config.is_ha:
             required.extend(REQUIRED_HA_PLUGINS)
-        elif self.config.cluster_mode == ClusterMode.MULTISITE:
-            required.extend(REQUIRED_MULTISITE_PLUGINS)
         if self.config.refdb:
             required.append(f"{self.config.refdb}-refdb")
         if get_index_type(self.gerrit_config) == IndexType.ELASTICSEARCH:
@@ -112,8 +97,6 @@ class AbstractPluginInstaller(ABC):
         required = []
         if self.config.is_ha:
             required.extend(REQUIRED_HA_LIBS)
-        elif self.config.cluster_mode == ClusterMode.MULTISITE:
-            required.extend(REQUIRED_MULTISITE_LIBS)
         elif self.config.refdb:
             required.append("global-refdb")
         if get_index_type(self.gerrit_config) == IndexType.ELASTICSEARCH:
