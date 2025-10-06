@@ -23,7 +23,6 @@ from initializer.constants import MNT_PATH
 from initializer.helpers import git
 from initializer.tasks import download_plugins, reindex, validate_notedb
 from initializer.tasks.init_ha import GerritInitHA
-from initializer.tasks.init_multisite import GerritInitMultisite
 from initializer.config.init_config import InitConfig
 
 
@@ -41,8 +40,6 @@ def _run_init(args):
     match config.cluster_mode:
         case ClusterMode.HIGH_AVAILABILITY:
             GerritInitHA(_parse_gerrit_config(), config).execute()
-        case ClusterMode.MULTISITE:
-            GerritInitMultisite(_parse_gerrit_config(), config).execute()
         case _:
             raise ValueError(f"Invalid clusterMode: {config.cluster_mode.name}")
 

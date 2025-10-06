@@ -28,15 +28,6 @@ class PullReplicationConfigurator:
         self.pod_id = self._get_pod_identifier()
         self.pod_name_prefix = self._get_pod_name_prefix()
 
-    @staticmethod
-    def has_pull_replication():
-        return os.path.exists(
-            os.path.join(MNT_PATH, "etc/config/replication.config")
-        ) and (
-            os.path.exists("/var/gerrit/lib/pull-replication.jar")
-            or os.path.exists("/var/gerrit/plugins/pull-replication.jar")
-        )
-
     def _get_pod_identifier(self):
         # POD_INDEX is available in K8s only from version v1.28,
         # so we retrieve it from POD_NAME that is already exposed as env var
@@ -69,21 +60,6 @@ class PullReplicationConfigurator:
 
         with open(target_path, "w") as file:
             file.write(content)
-
-    def configure_pull_replication(self):
-        LOG.info(f"Setting pull replication configuration for pod-idx: {self.pod_id}")
-        replication_config_configmap = os.path.join(
-            MNT_PATH, "etc/config/replication.config"
-        )
-        self._configure_remotes(replication_config_configmap)
-        target_path = os.path.join(SITE_PATH, "etc/replication.config")
-        # TODO: Update pull-replication plugin configuration to set a default value
-        #  in property replication.eventBrokerGroupId
-        self._replace_content_and_write(
-            target_path,
-            target_path,
-            {EVENT_BROKER_GROUP_ID: f"{self.pod_name}-pull-replication"},
-        )
 
     def configure_gerrit_configuration(self):
         LOG.info(f"Setting gerrit configuration for pod-idx: {self.pod_id}")

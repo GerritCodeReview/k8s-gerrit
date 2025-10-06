@@ -163,9 +163,6 @@ class GerritInit:
         self.plugin_installer.execute()
         self._symlink_configuration()
 
-        if PullReplicationConfigurator.has_pull_replication():
-            PullReplicationConfigurator(self.config).configure_pull_replication()
-
         if self._needs_init():
             if self.gerrit_config:
                 LOG.info("Existing gerrit.config found.")
@@ -198,11 +195,6 @@ class GerritInit:
 
             self._remove_auto_generated_ssh_keys()
             self._symlink_configuration()
-
-            if PullReplicationConfigurator.has_pull_replication():
-                PullReplicationConfigurator(
-                    self.config
-                ).configure_gerrit_configuration()
 
             if self.is_replica:
                 self._symlink_mounted_site_components()
