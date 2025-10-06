@@ -40,12 +40,10 @@ REQUIRED_MULTISITE_LIBS = [
     "events-broker",
     "global-refdb",
     "multi-site",
-    "pull-replication",
 ]
 REQUIRED_MULTISITE_PLUGINS = [
     "events-kafka",
     "multi-site",
-    "pull-replication",
     "websession-broker",
 ]
 
