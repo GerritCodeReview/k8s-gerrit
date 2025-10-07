@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb643ea_2ca42ece",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T17:21:32Z",
+      "side": 1,
+      "message": "Why can\u0027t we keep the events-broker and just remove Kafka?",
+      "revId": "a4463e25e947250c83d695ce2f2412d7543208a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
