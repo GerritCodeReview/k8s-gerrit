@@ -16,7 +16,6 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
-import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,9 +69,6 @@ public class GerritInitConfigMap
     config.setHighlyAvailable(gerrit.getSpec().isHighlyAvailablePrimary());
 
     switch (gerrit.getSpec().getRefdb().getDatabase()) {
-      case ZOOKEEPER:
-        config.setRefdb(ZOOKEEPER.toString().toLowerCase(Locale.US));
-        break;
       case SPANNER:
         config.setRefdb(SPANNER.toString().toLowerCase(Locale.US));
         break;

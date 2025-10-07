@@ -20,7 +20,6 @@ import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.SpannerRefDbPluginConfigBuilder;
-import com.google.gerrit.k8s.operator.gerrit.config.ZookeeperRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
@@ -60,11 +59,6 @@ public class GerritConfigMap
     }
 
     switch (gerrit.getSpec().getRefdb().getDatabase()) {
-      case ZOOKEEPER:
-        configFiles.put(
-            "zookeeper-refdb.config",
-            new ZookeeperRefDbPluginConfigBuilder(gerrit).build().toText());
-        break;
       case SPANNER:
         configFiles.put(
             "spanner-refdb.config", new SpannerRefDbPluginConfigBuilder(gerrit).build().toText());

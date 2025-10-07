@@ -29,7 +29,6 @@
   - [GlobalRefDbConfig](#globalrefdbconfig)
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
-  - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
   - [ElasticSearchConfig](#elasticsearchconfig)
@@ -169,9 +168,6 @@ spec:
       projectName: ""
       instance: ""
       database: ""
-    zookeeper:
-      connectString: ""
-      rootNode: ""
 
   index:
     type: LUCENE
@@ -627,9 +623,6 @@ spec:
       projectName: ""
       instance: ""
       database: ""
-    zookeeper:
-      connectString: ""
-      rootNode: ""
 
   index:
     type: LUCENE
@@ -1165,9 +1158,8 @@ global refdb. It will only configure Gerrit to use it.
 
 | Field | Type | Description |
 |---|---|---|
-| `database` | [`RefDatabase`](#refdatabase) | Which database to use for the global refdb. Choices: `NONE`, `SPANNER`, `ZOOKEEPER`. (default: `NONE`) |
+| `database` | [`RefDatabase`](#refdatabase) | Which database to use for the global refdb. Choices: `NONE`, `SPANNER`. (default: `NONE`) |
 | `spanner` | [`SpannerRefDbConfig`](#spannerrefdbconfig) | Configuration of spanner. Only used if spanner was configured to be used for the global refdb. |
-| `zookeeper` | [`ZookeeperRefDbConfig`](#zookeeperrefdbconfig) | Configuration of zookeeper. Only used, if zookeeper was configured to be used for the global refdb. |
 
 ## RefDatabase
 
@@ -1175,7 +1167,6 @@ global refdb. It will only configure Gerrit to use it.
 |---|---|
 | `NONE` | No global refdb will be used. Not allowed, if a primary Gerrit with 2 or more instances will be installed. |
 | `SPANNER` | Spanner will be used as a global refdb |
-| `ZOOKEEPER` | Zookeeper will be used as a global refdb |
 
 ## SpannerRefDbConfig
 
@@ -1186,13 +1177,6 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 | `projectName` | `String` | Spanner project name to be used |
 | `instance` | `String` | Spanner instance name to be used |
 | `database` | `String` | Spanner database name to be used |
-
-## ZookeeperRefDbConfig
-
-| Field | Type | Description |
-|---|---|---|
-| `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
-| `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
 
 ## IndexConfig
 

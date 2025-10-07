@@ -18,7 +18,6 @@ import java.util.Objects;
 
 public class GlobalRefDbConfig {
   private RefDatabase database = RefDatabase.NONE;
-  private ZookeeperRefDbConfig zookeeper;
   private SpannerRefDbConfig spanner;
 
   public RefDatabase getDatabase() {
@@ -27,14 +26,6 @@ public class GlobalRefDbConfig {
 
   public void setDatabase(RefDatabase database) {
     this.database = database;
-  }
-
-  public ZookeeperRefDbConfig getZookeeper() {
-    return zookeeper;
-  }
-
-  public void setZookeeper(ZookeeperRefDbConfig zookeeper) {
-    this.zookeeper = zookeeper;
   }
 
   public SpannerRefDbConfig getSpanner() {
@@ -47,7 +38,7 @@ public class GlobalRefDbConfig {
 
   @Override
   public int hashCode() {
-    return Objects.hash(database, spanner, zookeeper);
+    return Objects.hash(database, spanner);
   }
 
   @Override
@@ -56,25 +47,16 @@ public class GlobalRefDbConfig {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     GlobalRefDbConfig other = (GlobalRefDbConfig) obj;
-    return database == other.database
-        && Objects.equals(spanner, other.spanner)
-        && Objects.equals(zookeeper, other.zookeeper);
+    return database == other.database && Objects.equals(spanner, other.spanner);
   }
 
   @Override
   public String toString() {
-    return "GlobalRefDbConfig [database="
-        + database
-        + ", zookeeper="
-        + zookeeper
-        + ", spanner="
-        + spanner
-        + "]";
+    return "GlobalRefDbConfig [database=" + database + ", spanner=" + spanner + "]";
   }
 
   public enum RefDatabase {
     NONE,
-    ZOOKEEPER,
     SPANNER,
   }
 }
