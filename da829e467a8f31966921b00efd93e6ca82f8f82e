@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ecf4d10_c767872b",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T09:01:18Z",
+      "side": 0,
+      "message": "Did you remove this by mistake? IMHO it should stay.",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 21
+      },
+      "revId": "da829e467a8f31966921b00efd93e6ca82f8f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2195e282_c9b54871",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T09:01:18Z",
+      "side": 0,
+      "message": "I believe this should stay, otherwise the `clusterMode` won\u0027t be set.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "da829e467a8f31966921b00efd93e6ca82f8f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "295d0703_73c5ae6a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/gerrit/GerritTemplateSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T09:01:18Z",
+      "side": 0,
+      "message": "This isn\u0027t related to multi-site, so I believe it should stay.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 77
+      },
+      "revId": "da829e467a8f31966921b00efd93e6ca82f8f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
