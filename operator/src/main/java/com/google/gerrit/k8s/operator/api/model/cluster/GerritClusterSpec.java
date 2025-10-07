@@ -17,7 +17,6 @@ package com.google.gerrit.k8s.operator.api.model.cluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.receiver.ReceiverTemplate;
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
@@ -33,7 +32,6 @@ public class GerritClusterSpec {
   private ContainerImageConfig containerImages = new ContainerImageConfig();
   private GerritClusterIngressConfig ingress = new GerritClusterIngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
-  private EventsBrokerConfig eventsBroker = new EventsBrokerConfig();
   private IndexConfig index = new IndexConfig();
   private String serverId = "";
   private List<GerritTemplate> gerrits = new ArrayList<>();
@@ -71,14 +69,6 @@ public class GerritClusterSpec {
 
   public void setRefdb(GlobalRefDbConfig refdb) {
     this.refdb = refdb;
-  }
-
-  public EventsBrokerConfig getEventsBroker() {
-    return eventsBroker;
-  }
-
-  public void setEventsBroker(EventsBrokerConfig eventsBroker) {
-    this.eventsBroker = eventsBroker;
   }
 
   public IndexConfig getIndex() {
@@ -133,7 +123,6 @@ public class GerritClusterSpec {
   public int hashCode() {
     return Objects.hash(
         containerImages,
-        eventsBroker,
         fluentBitSidecar,
         gerrits,
         index,
@@ -152,7 +141,6 @@ public class GerritClusterSpec {
     if (getClass() != obj.getClass()) return false;
     GerritClusterSpec other = (GerritClusterSpec) obj;
     return Objects.equals(containerImages, other.containerImages)
-        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(gerrits, other.gerrits)
         && Objects.equals(index, other.index)
@@ -174,8 +162,6 @@ public class GerritClusterSpec {
         + ingress
         + ", refdb="
         + refdb
-        + ", eventsBroker="
-        + eventsBroker
         + ", index="
         + index
         + ", serverId="

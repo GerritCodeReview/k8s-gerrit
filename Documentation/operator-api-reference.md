@@ -33,9 +33,7 @@
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
   - [ElasticSearchConfig](#elasticsearchconfig)
-  - [EventsBrokerConfig](#eventsbrokerconfig)
   - [BrokerType](#brokertype)
-  - [KafkaConfig](#kafkaconfig)
   - [FluentBitSidecarConfig](#fluentbitsidecarconfig)
   - [GerritTemplate](#gerrittemplate)
   - [GerritTemplateSpec](#gerrittemplatespec)
@@ -1218,29 +1216,6 @@ configure Gerrit to use it.
 |---|---|---|
 | `server` | `String` | URL to use for connecting to Elasticsearch |
 | `config` | `String` | Config snippet used for the `elasticsearch` section in `gerrit.config` |
-
-## EventsBrokerConfig
-
-Note, that the operator will not deploy or operate the broker used for the
-events broker. It will only configure Gerrit to use it.
-
-| Field         | Type                                            | Description                                                                                         |
-|---------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| `brokerType`  | [`BrokerType`](#brokertype)                     | Which broker to use for events broker. Choices: `NONE`, `KAFKA`. (default: `NONE`)                  |
-| `kafkaConfig` | [`KafkaConfig`](#kafkaconfig)                   | Configuration of Kafka. Only used if Kafka was configured to be used for the events broker.         |
-
-## BrokerType
-
-| Value   | Description                         |
-|---------|-------------------------------------|
-| `NONE`  | No broker will be used.             |
-| `KAFKA` | Kafka will be used as events broker |
-
-## KafkaConfig
-
-| Field           | Type     | Description                                                          |
-|-----------------|----------|----------------------------------------------------------------------|
-| `connectString` | `String` | Hostname and port of Kafka to be used, e.g. `kafka.example.com:9092` |
 
 ## FluentBitSidecarConfig
 

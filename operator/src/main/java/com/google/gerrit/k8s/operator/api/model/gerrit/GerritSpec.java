@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.google.gerrit.k8s.operator.api.model.shared.ContainerImageConfig;
-import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.FluentBitSidecarConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritStorageConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
@@ -28,7 +27,6 @@ public class GerritSpec extends GerritTemplateSpec {
   private GerritStorageConfig storage = new GerritStorageConfig();
   private IngressConfig ingress = new IngressConfig();
   private GlobalRefDbConfig refdb = new GlobalRefDbConfig();
-  private EventsBrokerConfig eventsBroker = new EventsBrokerConfig();
   private IndexConfig index = new IndexConfig();
   private String serverId = "";
   private FluentBitSidecarConfig fluentBitSidecar = new FluentBitSidecarConfig();
@@ -72,14 +70,6 @@ public class GerritSpec extends GerritTemplateSpec {
     this.refdb = refdb;
   }
 
-  public EventsBrokerConfig getEventsBroker() {
-    return eventsBroker;
-  }
-
-  public void setEventsBroker(EventsBrokerConfig eventsBroker) {
-    this.eventsBroker = eventsBroker;
-  }
-
   public IndexConfig getIndex() {
     return index;
   }
@@ -120,7 +110,6 @@ public class GerritSpec extends GerritTemplateSpec {
         prime * result
             + Objects.hash(
                 containerImages,
-                eventsBroker,
                 fluentBitSidecar,
                 index,
                 ingress,
@@ -138,7 +127,6 @@ public class GerritSpec extends GerritTemplateSpec {
     if (getClass() != obj.getClass()) return false;
     GerritSpec other = (GerritSpec) obj;
     return Objects.equals(containerImages, other.containerImages)
-        && Objects.equals(eventsBroker, other.eventsBroker)
         && Objects.equals(fluentBitSidecar, other.fluentBitSidecar)
         && Objects.equals(index, other.index)
         && Objects.equals(ingress, other.ingress)
@@ -158,8 +146,6 @@ public class GerritSpec extends GerritTemplateSpec {
         + ingress
         + ", refdb="
         + refdb
-        + ", eventsBroker="
-        + eventsBroker
         + ", index="
         + index
         + ", serverId="
