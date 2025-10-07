@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "21e0d54d_adb7bacb",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T10:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4ecd06f_6d2e23cf",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "41e80832e982ed1c2a6d3cb22b63ebcc5ee3d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "aa1ee3b0_5bbc97d5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ac37ee_1a0be315",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/pull_replication_configurator.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T10:10:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2dac89c0_116a688b",
+      "revId": "41e80832e982ed1c2a6d3cb22b63ebcc5ee3d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bba9e85_0365ccfc",
@@ -71,6 +113,30 @@
       "writtenOn": "2025-10-07T09:01:18Z",
       "side": 1,
       "message": "I don\u0027t believe we need this refactoring of the cluster mode: we can keep it with a single option for now, the high-availability.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 56
+      },
+      "revId": "41e80832e982ed1c2a6d3cb22b63ebcc5ee3d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fe37146_9c640299",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T10:10:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3bba9e85_0365ccfc",
       "range": {
         "startLine": 78,
         "startChar": 4,
