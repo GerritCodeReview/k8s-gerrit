@@ -572,12 +572,12 @@ the high-availability plugin, if the Primary Gerrit is scaled to 2 or more pod
 replicas. However, there are some prerequisites.
 
 First, a database to be used for the global refdb is required. In this example,
-zookeeper will be used:
+spanner will be used:
 
 ```sh
-kubectl create ns zookeeper
-kubectl label namespace zookeeper istio-injection=enabled
-helm upgrade --install zookeeper oci://registry-1.docker.io/bitnamicharts/zookeeper -n zookeeper
+kubectl create ns spanner
+kubectl label namespace spanner istio-injection=enabled
+helm upgrade --install spanner oci://registry-1.docker.io/bitnamicharts/spanner -n spanner
 ```
 
 Now, the GerritCluster can be configured to use the Global RefDB
@@ -588,7 +588,7 @@ kubectl apply -f Documentation/examples/5-gerritcluster-refdb.yaml
 ```
 
 This will configure Gerrit to install the global-refdb lib module and the plugin
-with the configured implementation, in this example Zookeeper. The Gerrit Operator
+with the configured implementation, in this example Spanner. The Gerrit Operator
 will also set some basic authentication to enable the connection to the database.
 
 For Gerrit to be able to discover its peers, it has to have permissions to get

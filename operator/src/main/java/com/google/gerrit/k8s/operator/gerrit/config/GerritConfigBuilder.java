@@ -190,9 +190,6 @@ public class GerritConfigBuilder extends ConfigBuilder {
     switch (refDb) {
       case NONE:
         break;
-      case ZOOKEEPER:
-        mandatoryPlugins.add("zookeeper-refdb");
-        break;
       case SPANNER:
         mandatoryPlugins.add("spanner-refdb");
         break;

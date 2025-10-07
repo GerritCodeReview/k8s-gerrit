@@ -38,7 +38,6 @@ spec:
   refdb:
     database: NONE
     spanner: null
-    zookeeper: null
   replicas: 2
   secretRef: gerrit-secure-config
   serverId: server-1
