@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.admission.servlet;
 
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
-import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
@@ -76,9 +75,6 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
     if (missingRefdbConfig(gerrit)) {
       String refDbName = "";
       switch (gerrit.getSpec().getRefdb().getDatabase()) {
-        case ZOOKEEPER:
-          refDbName = ZOOKEEPER.toString().toLowerCase(Locale.US);
-          break;
         case SPANNER:
           refDbName = SPANNER.toString().toLowerCase(Locale.US);
           break;
@@ -107,8 +103,6 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
   private boolean missingRefdbConfig(Gerrit gerrit) {
     GlobalRefDbConfig refDbConfig = gerrit.getSpec().getRefdb();
     switch (refDbConfig.getDatabase()) {
-      case ZOOKEEPER:
-        return refDbConfig.getZookeeper() == null;
       case SPANNER:
         return refDbConfig.getSpanner() == null;
       default:

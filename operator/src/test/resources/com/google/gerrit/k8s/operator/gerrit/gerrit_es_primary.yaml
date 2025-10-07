@@ -38,9 +38,10 @@ spec:
     tlsEnabled: true
 
   refdb:
-    database: ZOOKEEPER
-    zookeeper:
-      connectString: zookeeper.example.com
+    database: SPANNER
+    spanner:
+      database: global-refdb
+      instance: spanner-instance
 
   index:
     type: ELASTICSEARCH
