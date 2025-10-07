@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ff51be_b31439df",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/EventsBrokerConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T10:53:50Z",
+      "side": 0,
+      "message": "We could also remove the whole `EventsBrokerConfig`. Happy to do that",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "93cb11e5d2ded0504b408922cf7f610917f5a21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
