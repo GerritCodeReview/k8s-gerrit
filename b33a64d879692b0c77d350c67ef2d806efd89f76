@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28af78a2_08221dc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T17:24:42Z",
+      "side": 1,
+      "message": "Is this really needed?\nWe still have multi-site in:\n- stable-3.12\n- future stable-3.* once the BSL will convert into OS",
+      "revId": "b33a64d879692b0c77d350c67ef2d806efd89f76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
