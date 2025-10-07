@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce1f706b_4a577a13",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T13:27:45Z",
+      "side": 0,
+      "message": "Have a look if it makes sense now",
+      "parentUuid": "a33ebb74_d0b079f5",
+      "revId": "93cb11e5d2ded0504b408922cf7f610917f5a21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23ff51be_b31439df",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/EventsBrokerConfig.java",
         "patchSetId": 1
@@ -55,6 +73,30 @@
       "side": 0,
       "message": "Yes, please do.",
       "parentUuid": "23ff51be_b31439df",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "93cb11e5d2ded0504b408922cf7f610917f5a21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00b4b92b_27fe5877",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/EventsBrokerConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T13:27:45Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "602bce95_ca513e8e",
       "range": {
         "startLine": 19,
         "startChar": 13,
