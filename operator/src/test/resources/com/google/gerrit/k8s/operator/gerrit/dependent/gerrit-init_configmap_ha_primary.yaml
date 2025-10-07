@@ -9,7 +9,7 @@ data:
       installAsLibrary: false
       data: null
     libs: []
-    refdb: "zookeeper"
+    refdb: "spanner"
     clusterMode: "HIGH_AVAILABILITY"
     highAvailability: true
 kind: ConfigMap

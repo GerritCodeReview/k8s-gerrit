@@ -652,7 +652,6 @@ spec:
                     enum:
                     - NONE
                     - SPANNER
-                    - ZOOKEEPER
                     type: string
                   spanner:
                     properties:
@@ -661,13 +660,6 @@ spec:
                       instance:
                         type: string
                       projectName:
-                        type: string
-                    type: object
-                  zookeeper:
-                    properties:
-                      connectString:
-                        type: string
-                      rootNode:
                         type: string
                     type: object
                 type: object

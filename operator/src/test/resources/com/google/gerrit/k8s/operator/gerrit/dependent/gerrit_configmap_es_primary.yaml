@@ -31,7 +31,6 @@ data:
         mandatory = healthcheck
         mandatory = high-availability
         mandatory = index-elasticsearch
-        mandatory = zookeeper-refdb
     [sshd]
         listenAddress = *:29418
         advertisedAddress = example.com:29418
@@ -60,9 +59,6 @@ data:
         enable = true
     [ref-database]
         enabled = true
-  zookeeper-refdb.config: |-
-    [ref-database "zookeeper"]
-      connectString = zookeeper.example.com
 kind: ConfigMap
 metadata:
   labels:
