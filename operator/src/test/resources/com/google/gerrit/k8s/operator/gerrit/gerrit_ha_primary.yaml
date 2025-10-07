@@ -38,9 +38,9 @@ spec:
     tlsEnabled: true
 
   refdb:
-    database: ZOOKEEPER
-    zookeeper:
-      connectString: zookeeper.example.com
+    database: SPANNER
+    spanner:
+      database: spannerdb
 
   serviceAccount: gerrit
   replicas: 2
