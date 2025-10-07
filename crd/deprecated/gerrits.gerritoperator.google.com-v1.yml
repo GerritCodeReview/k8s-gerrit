@@ -439,14 +439,8 @@ spec:
                   properties:
                     brokerType:
                       enum:
-                        - KAFKA
                         - NONE
                       type: string
-                    kafkaConfig:
-                      properties:
-                        connectString:
-                          type: string
-                      type: object
                   type: object
                 fluentBitSidecar:
                   properties:
