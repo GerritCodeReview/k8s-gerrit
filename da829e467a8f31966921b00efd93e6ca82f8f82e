@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "890b0d0a_07db2d47",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T17:18:12Z",
+      "side": 0,
+      "message": "See my comments on the cluster mode.",
+      "parentUuid": "b3ca8e92_da329673",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 21
+      },
+      "revId": "da829e467a8f31966921b00efd93e6ca82f8f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2195e282_c9b54871",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/admission/servlet/GerritAdmissionWebhook.java",
         "patchSetId": 2

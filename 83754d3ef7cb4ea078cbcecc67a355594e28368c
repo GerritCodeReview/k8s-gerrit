@@ -46,6 +46,30 @@
       },
       "revId": "83754d3ef7cb4ea078cbcecc67a355594e28368c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83159dcf_59be5612",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/Constants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T17:18:12Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com I believe the cluster mode should be kept as we (GerritForge) may maintain the stable branch of k8s-gerrit *with* multi-site. Keeping the ClusterMode would help reducing the conflicts when merging up.",
+      "parentUuid": "ef39597e_d3358973",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "83754d3ef7cb4ea078cbcecc67a355594e28368c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

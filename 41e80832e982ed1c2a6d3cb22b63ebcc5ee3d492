@@ -102,6 +102,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2baa618_bf74cb3f",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/main.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-07T17:18:12Z",
+      "side": 1,
+      "message": "Why not keeping the cluster_mode? With the BSL, the multi-site *will eventually* be open-source anyway. Also, we could maintain a stable-3.12 branch and people could still use it with multi-site.\n\nRefactoring the cluster_mode, removing it, adding it again later, it would be just confusing and create more conflicts.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 80
+      },
+      "revId": "41e80832e982ed1c2a6d3cb22b63ebcc5ee3d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3bba9e85_0365ccfc",
         "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/server/AdmissionWebhookAbstractTest.java",
         "patchSetId": 2
