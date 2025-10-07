@@ -16,6 +16,24 @@
       "message": "Looks like this file was added unintentionally",
       "revId": "da829e467a8f31966921b00efd93e6ca82f8f82e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65796675_deeb2c2d",
+        "filename": "docker-machine-driver-hyperkit",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T10:31:40Z",
+      "side": 0,
+      "message": "ops, sorry",
+      "parentUuid": "02d1b3f7_45c1b3c5",
+      "revId": "da829e467a8f31966921b00efd93e6ca82f8f82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
