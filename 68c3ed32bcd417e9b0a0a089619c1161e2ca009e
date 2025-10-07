@@ -136,6 +136,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "314a9a0e_6148f8dc",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-07T13:08:57Z",
+      "side": 0,
+      "message": "Will do in a separate change",
+      "parentUuid": "e8a7751c_63c6acdf",
+      "revId": "68c3ed32bcd417e9b0a0a089619c1161e2ca009e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e409f76_afa5c58d",
