@@ -19,27 +19,14 @@ import java.util.Objects;
 public class EventsBrokerConfig {
 
   private BrokerType brokerType = BrokerType.NONE;
-  private KafkaConfig kafkaConfig;
-
-  public KafkaConfig getKafkaConfig() {
-    return kafkaConfig;
-  }
-
-  public void setKafkaConfig(KafkaConfig kafkaConfig) {
-    this.kafkaConfig = kafkaConfig;
-  }
 
   public BrokerType getBrokerType() {
     return brokerType;
   }
 
-  public void setBrokerType(BrokerType brokerType) {
-    this.brokerType = brokerType;
-  }
-
   @Override
   public int hashCode() {
-    return Objects.hash(brokerType, kafkaConfig);
+    return Objects.hash(brokerType);
   }
 
   @Override
@@ -48,16 +35,15 @@ public class EventsBrokerConfig {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     EventsBrokerConfig other = (EventsBrokerConfig) obj;
-    return brokerType == other.brokerType && Objects.equals(kafkaConfig, other.kafkaConfig);
+    return brokerType == other.brokerType;
   }
 
   @Override
   public String toString() {
-    return "EventsBrokerConfig [[brokerType=" + brokerType + ", kafkaConfig=" + kafkaConfig + "]";
+    return "EventsBrokerConfig [[brokerType=" + brokerType + "]";
   }
 
   public enum BrokerType {
-    NONE,
-    KAFKA
+    NONE
   }
 }

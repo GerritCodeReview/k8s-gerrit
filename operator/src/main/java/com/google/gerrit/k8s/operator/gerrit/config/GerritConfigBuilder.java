@@ -60,7 +60,6 @@ public class GerritConfigBuilder extends ConfigBuilder {
     requiredOptions.addAll(indexSection(gerrit));
     requiredOptions.addAll(pluginsSection(gerrit));
     requiredOptions.addAll(sshdSection(gerrit));
-    requiredOptions.addAll(eventsBrokerSection(gerrit));
     return requiredOptions;
   }
 
@@ -209,9 +208,6 @@ public class GerritConfigBuilder extends ConfigBuilder {
       default:
         throw new IllegalStateException("Unknown refdb database type: " + refDb);
     }
-    if (gerrit.getSpec().getEventsBroker().getBrokerType() == EventsBrokerConfig.BrokerType.KAFKA) {
-      mandatoryPlugins.add("events-kafka");
-    }
     requiredOptions.add(new RequiredOption<Set<String>>("plugins", "mandatory", mandatoryPlugins));
     return requiredOptions;
   }
@@ -274,28 +270,5 @@ public class GerritConfigBuilder extends ConfigBuilder {
     }
     return new RequiredOption<String>(
         "sshd", "advertisedAddress", gerrit.getSpec().getIngress().getHost() + ":" + port);
-  }
-
-  private static List<RequiredOption<?>> eventsBrokerSection(Gerrit gerrit) {
-    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
-    EventsBrokerConfig eventsBroker = gerrit.getSpec().getEventsBroker();
-    if (eventsBroker.getBrokerType() == EventsBrokerConfig.BrokerType.KAFKA) {
-      requiredOptions.add(
-          new RequiredOption<String>(
-              "plugin",
-              "events-kafka",
-              "bootstrapServers",
-              eventsBroker.getKafkaConfig().getConnectString()));
-      requiredOptions.add(
-          new RequiredOption<String>("plugin", "events-kafka", "numberOfSubscribers", "7"));
-      requiredOptions.add(
-          new RequiredOption<Boolean>("plugin", "events-kafka", "sendStreamEvents", false));
-      requiredOptions.add(
-          new RequiredOption<String>("plugin", "events-kafka", "groupId", "EVENT_BROKER_GROUP_ID"));
-      requiredOptions.add(
-          new RequiredOption<String>(
-              "plugin", "events-kafka", "topic", "stream_event_" + gerrit.getSpec().getServerId()));
-    }
-    return requiredOptions;
   }
 }
