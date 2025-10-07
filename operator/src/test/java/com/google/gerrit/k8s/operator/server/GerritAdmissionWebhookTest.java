@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import io.fabric8.kubernetes.api.model.DefaultKubernetesResourceList;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
@@ -71,10 +70,5 @@ public class GerritAdmissionWebhookTest extends AdmissionWebhookAbstractTest {
   @Override
   protected String getCustomResource() {
     return Constants.GERRIT_KIND;
-  }
-
-  @Override
-  protected ClusterMode getClusterMode() {
-    return ClusterMode.HIGH_AVAILABILITY;
   }
 }

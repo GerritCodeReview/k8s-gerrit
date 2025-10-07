@@ -76,8 +76,6 @@ public class GerritInitConfigMap
         break;
     }
 
-    config.setClusterMode(OperatorContext.getClusterMode());
-
     ObjectMapper mapper =
         new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));
     try {

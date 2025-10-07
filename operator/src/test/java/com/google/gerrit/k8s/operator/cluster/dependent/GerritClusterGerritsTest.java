@@ -15,7 +15,6 @@ package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
@@ -42,7 +41,7 @@ public class GerritClusterGerritsTest {
       String expectedGerritMaintenanceOutputFile)
       throws ConfigInvalidException {
 
-    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance();
     GerritCluster gerritCluster =
         ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), inputFile);
     ClusterManagedGerrit clusterManagedGerrit = new ClusterManagedGerrit();

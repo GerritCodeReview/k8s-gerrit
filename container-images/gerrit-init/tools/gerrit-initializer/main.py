@@ -18,7 +18,6 @@
 import argparse
 import os.path
 
-from initializer.config.cluster_mode import ClusterMode
 from initializer.constants import MNT_PATH
 from initializer.helpers import git
 from initializer.tasks import download_plugins, reindex, validate_notedb

@@ -20,7 +20,6 @@ import static com.google.gerrit.k8s.operator.network.Constants.PROJECTS_URL_PATT
 import static com.google.gerrit.k8s.operator.network.Constants.RECEIVE_PACK_URL_PATTERN;
 import static com.google.gerrit.k8s.operator.network.Constants.UPLOAD_PACK_URL_PATTERN;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.network.NetworkMember;
@@ -128,26 +127,24 @@ public class GerritIstioVirtualService
       HTTPRouteDestination dest =
           getGerritHTTPDestinations(gerritNetwork.getSpec().getPrimaryGerrit(), namespace);
 
-      if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
-        routes.add(
-            new HTTPRouteBuilder()
-                .withName(
-                    "forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
-                .withRoute(dest)
-                .withMatch(
-                    getGerritForbiddenMatches(gerritNetwork.getSpec().getIngress().getPathPrefix()))
-                .withNewFault()
-                .withNewAbort()
-                .withNewHTTPFaultInjectionAbortHttpStatusErrorType()
-                .withHttpStatus(403)
-                .endHTTPFaultInjectionAbortHttpStatusErrorType()
-                .withNewPercentage()
-                .withValue(100D)
-                .endPercentage()
-                .endAbort()
-                .endFault()
-                .build());
-      }
+      routes.add(
+          new HTTPRouteBuilder()
+              .withName(
+                  "forbidden-routes-" + gerritNetwork.getSpec().getPrimaryGerrit().getName())
+              .withRoute(dest)
+              .withMatch(
+                  getGerritForbiddenMatches(gerritNetwork.getSpec().getIngress().getPathPrefix()))
+              .withNewFault()
+              .withNewAbort()
+              .withNewHTTPFaultInjectionAbortHttpStatusErrorType()
+              .withHttpStatus(403)
+              .endHTTPFaultInjectionAbortHttpStatusErrorType()
+              .withNewPercentage()
+              .withValue(100D)
+              .endPercentage()
+              .endAbort()
+              .endFault()
+              .build());
 
       routes.add(
           new HTTPRouteBuilder()

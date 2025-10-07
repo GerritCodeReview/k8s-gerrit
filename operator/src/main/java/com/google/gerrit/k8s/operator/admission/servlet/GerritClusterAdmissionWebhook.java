@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.admission.servlet;
 
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -23,7 +22,6 @@ import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpec;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpecTemplate;
 import com.google.gerrit.k8s.operator.server.ValidatingAdmissionWebhookServlet;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -37,13 +35,6 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
-
-  private final ClusterMode clusterMode;
-
-  @Inject
-  public GerritClusterAdmissionWebhook(ClusterMode clusterMode) {
-    this.clusterMode = clusterMode;
-  }
 
   private static final long serialVersionUID = 1L;
 
@@ -86,7 +77,7 @@ public class GerritClusterAdmissionWebhook extends ValidatingAdmissionWebhookSer
           .build();
     }
 
-    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook(clusterMode);
+    GerritAdmissionWebhook gerritAdmission = new GerritAdmissionWebhook();
     for (GerritTemplate gerrit : gerritCluster.getSpec().getGerrits()) {
       Status status = gerritAdmission.validate(gerrit.toGerrit(gerritCluster));
       if (status.getCode() != HttpServletResponse.SC_OK) {

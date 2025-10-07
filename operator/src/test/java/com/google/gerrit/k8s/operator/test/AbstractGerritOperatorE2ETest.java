@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.test;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
@@ -89,7 +88,7 @@ public abstract class AbstractGerritOperatorE2ETest {
 
     client.resource(receiverCredentials).inNamespace(operator.getNamespace()).createOrReplace();
 
-    OperatorContext.createInstance(Constants.ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance();
 
     gerritCluster = new TestGerritCluster(client, operator.getNamespace());
     gerritCluster.setIngressType(getIngressType());

@@ -16,7 +16,6 @@ package com.google.gerrit.k8s.operator.indexer.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
@@ -60,7 +59,7 @@ public class GerritIndexerTest {
 
   @BeforeAll
   public void setup() throws Exception {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY);
+    OperatorContext.createInstance();
     kubernetesServer.before();
   }
 

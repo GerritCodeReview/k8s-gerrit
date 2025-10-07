@@ -14,27 +14,12 @@
 
 package com.google.gerrit.k8s.operator;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-
 public class OperatorContext {
   private static OperatorContext instance;
 
-  private final ClusterMode clusterMode;
-
-  private OperatorContext(ClusterMode clusterMode) {
-    this.clusterMode = clusterMode;
-  }
-
-  public static void createInstance(ClusterMode clusterMode) {
+  public static void createInstance() {
     if (instance == null) {
-      instance = new OperatorContext(clusterMode);
+      instance = new OperatorContext();
     }
-  }
-
-  public static ClusterMode getClusterMode() {
-    if (instance == null) {
-      throw new UnsupportedOperationException("The Operation Context must be initialised");
-    }
-    return instance.clusterMode;
   }
 }

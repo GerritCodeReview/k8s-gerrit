@@ -10,7 +10,6 @@ data:
       data: null
     libs: []
     refdb: null
-    clusterMode: "HIGH_AVAILABILITY"
     highAvailability: false
 kind: ConfigMap
 metadata:

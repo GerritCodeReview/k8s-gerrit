@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.GerritMode;
@@ -153,11 +152,6 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
     assertThat(
         response2.getResponse().getStatus().getCode(),
         is(equalTo(HttpServletResponse.SC_CONFLICT)));
-  }
-
-  @Override
-  protected ClusterMode getClusterMode() {
-    return ClusterMode.HIGH_AVAILABILITY;
   }
 
   @Override

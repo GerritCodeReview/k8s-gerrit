@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator;
 
-import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.admission.AdmissionWebhookModule;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -35,12 +34,6 @@ import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 
 public class OperatorModule extends AbstractModule {
 
-  private final ClusterMode clusterMode;
-
-  public OperatorModule(ClusterMode clusterMode) {
-    this.clusterMode = clusterMode;
-  }
-
   @SuppressWarnings("rawtypes")
   @Override
   protected void configure() {
@@ -50,8 +43,6 @@ public class OperatorModule extends AbstractModule {
     bind(KubernetesClient.class).toInstance(getKubernetesClient());
     bind(LifecycleManager.class);
     bind(GerritOperator.class);
-
-    bind(ClusterMode.class).toInstance(clusterMode);
 
     install(new AdmissionWebhookModule());
 

@@ -30,8 +30,4 @@ public class Constants extends AbstractModule {
 
   public static final long GERRIT_USER_ID = 1000L;
   public static final long GERRIT_USER_GROUP_ID = 100L;
-
-  public enum ClusterMode {
-    HIGH_AVAILABILITY
-  }
 }
