@@ -46,10 +46,6 @@ RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 ARG EVENTS_BROKER_URL=https://gerrit-ci.gerritforge.com/job/module-events-broker-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar
 RUN curl -f -k -o /var/plugins/events-broker.jar ${EVENTS_BROKER_URL}
 
-# Download websession-broker plugin
-ARG WEBSESSION_BROKER_URL=https://gerrit-ci.gerritforge.com/job/plugin-websession-broker-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/websession-broker/websession-broker.jar
-RUN curl -f -k -o /var/plugins/websession-broker.jar ${WEBSESSION_BROKER_URL}
-
 # Download index-elasticsearch lib
 ARG INDEX_ELASTICSEARCH_URL=https://gerrit-ci.gerritforge.com/job/module-index-elasticsearch-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/index-elasticsearch/index-elasticsearch.jar
 RUN curl -f -k -o /var/plugins/index-elasticsearch.jar ${INDEX_ELASTICSEARCH_URL}
