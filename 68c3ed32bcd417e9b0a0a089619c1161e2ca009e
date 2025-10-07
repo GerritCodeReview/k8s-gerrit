@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2671a66a_7dc1163d",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-07T11:06:47Z",
+      "side": 0,
+      "message": "There are currently no requirments for an event-broker in any setup. Thus, I would prefer to remove this. However, since there are also options related to this in the CRDs, we would need to create a new API version. Thus, I would propose to remove the event-broker implementation in a separate change.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 67
+      },
+      "revId": "68c3ed32bcd417e9b0a0a089619c1161e2ca009e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73654c8e_24c49ffe",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-07T11:06:47Z",
+      "side": 0,
+      "message": "This is only required for multisite and should be removed.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 77
+      },
+      "revId": "68c3ed32bcd417e9b0a0a089619c1161e2ca009e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a7751c_63c6acdf",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/init.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-07T11:06:47Z",
+      "side": 0,
+      "message": "I would prefer to remove the separation between GerritInit and GerritInitHA. Could be done in a separate change.",
+      "revId": "68c3ed32bcd417e9b0a0a089619c1161e2ca009e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e409f76_afa5c58d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/main.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-07T11:06:47Z",
+      "side": 0,
+      "message": "Since we only have a single option we should remove this match-case-statement. Can be done in a separate change.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 80
+      },
+      "revId": "68c3ed32bcd417e9b0a0a089619c1161e2ca009e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
