@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecffc43e_66eccf51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-08T06:39:11Z",
+      "side": 1,
+      "message": "An alternative less invasive way of continuing. However, it would require that Gerritforge as before would be available to provide some support for the mutlisite setup in k8sgerrit.",
+      "revId": "39824b6aa037001ee327e1f0276bf8431d43f036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
