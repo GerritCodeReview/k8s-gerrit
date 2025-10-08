@@ -90,6 +90,9 @@ spec:
       # This way plugins are installed from the Gerrit-war file
       - name: download-commands
       - name: delete-project
+      - name: zookeeper-refdb
+        url:
+        sha1:
 
       configFiles:
         # Some configuration options are specific to the k8sgerrit setup. These

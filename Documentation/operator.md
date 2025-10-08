@@ -635,7 +635,10 @@ kubectl label namespace zookeeper istio-injection=enabled
 helm upgrade --install zookeeper oci://registry-1.docker.io/bitnamicharts/zookeeper -n zookeeper
 ```
 
-Now, the GerritCluster can be configured to use the Global RefDB
+Now, the GerritCluster can be configured to use the Global RefDB. Since the
+zookeeper plugin is not maintained in the opensource project at the moment,
+configure a URL from where to download the plugin in `Documentation/examples/5-gerritcluster-refdb.yaml`.
+Then run:
 
 ```sh
 diff Documentation/examples/4-gerritcluster-ha-replica.yaml Documentation/examples/5-gerritcluster-refdb.yaml
@@ -654,8 +657,8 @@ For that purpose, a ServiceAccount with the corresponding role needs to be creat
 kubectl apply -f Documentation/examples/gerrit.rbac.yaml
 ```
 
-Now, the primary Gerrit can be scaled up. The ServiceAccount also has to be
-referenced:
+Now, the primary Gerrit can be scaled up (Don't forget to also add the
+zookeeper-refdb plugin URL). The ServiceAccount also has to be referenced:
 
 ```sh
 diff Documentation/examples/5-gerritcluster-refdb.yaml Documentation/examples/6-gerritcluster-ha-primary.yaml
