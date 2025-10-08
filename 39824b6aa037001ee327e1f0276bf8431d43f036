@@ -69,6 +69,24 @@
       "message": "```suggestion\nor in the list of plugins to download as configured in the GerritCluster CustomResource:\n```",
       "revId": "39824b6aa037001ee327e1f0276bf8431d43f036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d52ddea_094fe4b1",
+        "filename": "Documentation/operator.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-08T11:14:29Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3657dcde_a5e6835c",
+      "revId": "39824b6aa037001ee327e1f0276bf8431d43f036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
