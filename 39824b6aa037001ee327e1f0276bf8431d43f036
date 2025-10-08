@@ -34,6 +34,24 @@
       "parentUuid": "ecffc43e_66eccf51",
       "revId": "39824b6aa037001ee327e1f0276bf8431d43f036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cfa3edf_9099afab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-08T07:18:45Z",
+      "side": 1,
+      "message": "\u003e \u003e An alternative less invasive way of continuing. However, it would require that Gerritforge as before would be available to provide some support for the mutlisite setup in k8sgerrit.\n\u003e \n\u003e I am more than happy to commit to supporting a stable-3.12 branch for the Gerrit Community as OS.\n\nAlso on master we are planning to keep improving the multi-site support.",
+      "parentUuid": "3f1482b9_170f051c",
+      "revId": "39824b6aa037001ee327e1f0276bf8431d43f036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
