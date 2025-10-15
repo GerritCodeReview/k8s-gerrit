@@ -403,6 +403,18 @@ It is defined by an environment variable called `CLUSTER_MODE`, that can have th
 By default, the mode is set to `HIGH_AVAILABILITY`.
 
 In case of provision Gerrit in `MULTISITE` mode, only `ISTIO` will be supported as ingress provider.
+If the `MULTISITE` mode is used, the following plugins have to be available either
+in the container image (not the case by default), in the gerrit.war file in the container image
+or in the list of plugins to download as configured in the GerritCluster CustomResource:
+
+- `events-kafka`
+- `multisite`
+- `pull-replication`
+- `websession-broker`
+
+The reason, they are not available in the container images is, that these plugins
+are currently not actively maintained under the Apache 2 license. If that changes,
+the plugins will be readded to the container images.
 
 It can be configured either by:
 
