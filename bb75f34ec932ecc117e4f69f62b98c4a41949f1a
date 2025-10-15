@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37115619_e4b078c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-15T06:05:07Z",
+      "side": 1,
+      "message": "Please approve this change to allow functioning builds again!",
+      "revId": "bb75f34ec932ecc117e4f69f62b98c4a41949f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
