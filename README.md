@@ -49,6 +49,15 @@ URL for a `.war`-file containing Gerrit:
 ./build --gerrit-url https://example.com/gerrit.war
 ```
 
+The version of plugins and modules built into the images can be changed by providing
+the Gerrit branch. By default, the branch is set to `master`:
+```
+./build --branch stable-3.13
+```
+
+Note, if you do not include the `--gerrit-url` option, the image will automatically use
+the Gerrit release that corresponds to the selected `--branch`.
+
 The version of a health-check plugin built into the images can be changed by
 providing a download URL for a `.jar`-file containing the plugin:
 
