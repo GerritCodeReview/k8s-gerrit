@@ -632,7 +632,16 @@ zookeeper will be used:
 ```sh
 kubectl create ns zookeeper
 kubectl label namespace zookeeper istio-injection=enabled
-helm upgrade --install zookeeper oci://registry-1.docker.io/bitnamicharts/zookeeper -n zookeeper
+
+helm repo add rhcharts https://ricardo-aires.github.io/helm-charts/
+helm repo update
+helm upgrade --install zookeeper rhcharts/zookeeper \
+  --version 0.2.0 \
+  --namespace zookeeper \
+  --set image.repository=confluentinc/cp-zookeeper \
+  --set image.tag=7.3.0 \
+  --set replicaCount=1 \
+  --set persistence.enabled=false
 ```
 
 Now, the GerritCluster can be configured to use the Global RefDB. Since the
