@@ -31,7 +31,7 @@ spec:
   refdb:
     database: ZOOKEEPER
     zookeeper:
-      connectString: zookeeper.zookeeper.svc.cluster.local:2181
+      connectString: zookeeper-headless.zookeeper.svc.cluster.local:2181
 
   # All Gerrit instances in the GerritCluster serve the same repositories and
   # thus have to use the same serverId, which has to be set centrally here.
