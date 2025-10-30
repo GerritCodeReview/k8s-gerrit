@@ -220,6 +220,9 @@ public class GerritConfigBuilder extends ConfigBuilder {
       case SPANNER:
         mandatoryPlugins.add("spanner-refdb");
         break;
+      case DYNAMODB:
+        mandatoryPlugins.add("aws-dynamodb-refdb");
+        break;
       default:
         throw new IllegalStateException("Unknown refdb database type: " + refDb);
     }

@@ -38,6 +38,10 @@ RUN curl -f -k -o /var/plugins/high-availability.jar ${HA_JAR_URL}
 ARG SPANNER_REFDB_URL=https://gerrit-ci.gerritforge.com/job/plugin-spanner-refdb-bazel-master-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/spanner-refdb/spanner-refdb.jar
 RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${SPANNER_REFDB_URL}
 
+# Download dyanmo-refdb plugin
+ARG DYNAMODB_REFDB_URL=https://gerrit-ci.gerritforge.com/job/plugin-aws-dynamodb-refdb-gh-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/aws-dynamodb-refdb/aws-dynamodb-refdb.jar
+RUN curl -f -k -o /var/plugins/spanner-refdb.jar ${DYNAMODB_REFDB_URL}
+
 # Download events-broker lib
 ARG EVENTS_BROKER_URL=https://gerrit-ci.gerritforge.com/job/module-events-broker-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/bazel-bin/plugins/events-broker/events-broker.jar
 RUN curl -f -k -o /var/plugins/events-broker.jar ${EVENTS_BROKER_URL}
