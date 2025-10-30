@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster.PLUGIN_CACHE_MOUNT_PATH;
+import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.DYNAMODB;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
@@ -75,6 +76,9 @@ public class GerritInitConfigMap
         break;
       case SPANNER:
         config.setRefdb(SPANNER.toString().toLowerCase(Locale.US));
+        break;
+      case DYNAMODB:
+        config.setRefdb(DYNAMODB.toString().toLowerCase(Locale.US));
         break;
       default:
         break;
