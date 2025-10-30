@@ -19,6 +19,7 @@ import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.gerrit.config.DyanmoRefDbPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.GerritConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.HighAvailabilityPluginConfigBuilder;
 import com.google.gerrit.k8s.operator.gerrit.config.MultisitePluginConfigBuilder;
@@ -72,6 +73,10 @@ public class GerritConfigMap
       case SPANNER:
         configFiles.put(
             "spanner-refdb.config", new SpannerRefDbPluginConfigBuilder(gerrit).build().toText());
+        break;
+      case DYNAMODB:
+        configFiles.put(
+            "aws-dynamodb-refdb.config", new DyanmoRefDbPluginConfigBuilder(gerrit).build().toText());
         break;
       default:
         break;

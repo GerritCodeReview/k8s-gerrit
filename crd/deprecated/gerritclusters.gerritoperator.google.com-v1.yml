@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-    - name: v1beta14
+    - name: v1beta15
       schema:
         openAPIV3Schema:
           properties:
@@ -713,8 +713,6 @@ spec:
                                   properties:
                                     name:
                                       type: string
-                                    request:
-                                      type: string
                                   type: object
                                 type: array
                               limits:
@@ -917,6 +915,8 @@ spec:
                             type: string
                           type: object
                       type: object
+                    pathPrefix:
+                      type: string
                     ssh:
                       properties:
                         enabled:
@@ -1480,8 +1480,6 @@ spec:
                                 properties:
                                   name:
                                     type: string
-                                  request:
-                                    type: string
                                 type: object
                               type: array
                             limits:
@@ -1948,8 +1946,6 @@ spec:
                                         items:
                                           properties:
                                             name:
-                                              type: string
-                                            request:
                                               type: string
                                           type: object
                                         type: array
@@ -2431,8 +2427,6 @@ spec:
                                     items:
                                       properties:
                                         name:
-                                          type: string
-                                        request:
                                           type: string
                                       type: object
                                     type: array

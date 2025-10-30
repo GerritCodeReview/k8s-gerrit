@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.admission.servlet;
 
+import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.DYNAMODB;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.SPANNER;
 import static com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase.ZOOKEEPER;
 
@@ -93,6 +94,9 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         case SPANNER:
           refDbName = SPANNER.toString().toLowerCase(Locale.US);
           break;
+        case DYNAMODB:
+          refDbName = DYNAMODB.toString().toLowerCase(Locale.US);
+          break;
         default:
           break;
       }
@@ -131,6 +135,8 @@ public class GerritAdmissionWebhook extends ValidatingAdmissionWebhookServlet {
         return refDbConfig.getZookeeper() == null;
       case SPANNER:
         return refDbConfig.getSpanner() == null;
+      case DYNAMODB:
+        return refDbConfig.getDynamo() == null;
       default:
         return false;
     }
