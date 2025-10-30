@@ -30,6 +30,7 @@
   - [RefDatabase](#refdatabase)
   - [SpannerRefDbConfig](#spannerrefdbconfig)
   - [ZookeeperRefDbConfig](#zookeeperrefdbconfig)
+  - [DynamoDbRefDbConfig](#dynamodbrefdbconfig)
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
   - [ElasticSearchConfig](#elasticsearchconfig)
@@ -86,7 +87,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: GerritCluster
 
 ---
@@ -103,7 +104,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -173,6 +174,12 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+    dynamoDb:
+      region: ""
+      endpoint: ""
+      lockTableName: ""
+      refsDbTableName: ""
+      profileName: ""
 
   index:
     type: LUCENE
@@ -420,7 +427,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: Gerrit
 
 ---
@@ -437,7 +444,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -631,6 +638,12 @@ spec:
     zookeeper:
       connectString: ""
       rootNode: ""
+    dynamoDb:
+      region: ""
+      endpoint: ""
+      lockTableName: ""
+      refsDbTableName: ""
+      profileName: ""
 
   index:
     type: LUCENE
@@ -646,7 +659,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: Receiver
 
 ---
@@ -663,7 +676,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: Receiver
 metadata:
   name: receiver
@@ -774,7 +787,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -791,7 +804,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -835,7 +848,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: GerritNetwork
 
 ---
@@ -851,7 +864,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -884,7 +897,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -900,7 +913,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -959,7 +972,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta15 \
+**Version**: v1beta16 \
 **Kind**: GerritIndexer
 
 ---
@@ -975,7 +988,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta15"
+apiVersion: "gerritoperator.google.com/v1beta16"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1164,19 +1177,21 @@ Extends [StorageConfig](#StorageConfig).
 Note, that the operator will not deploy or operate the database used for the
 global refdb. It will only configure Gerrit to use it.
 
-| Field | Type | Description |
-|---|---|---|
-| `database` | [`RefDatabase`](#refdatabase) | Which database to use for the global refdb. Choices: `NONE`, `SPANNER`, `ZOOKEEPER`. (default: `NONE`) |
-| `spanner` | [`SpannerRefDbConfig`](#spannerrefdbconfig) | Configuration of spanner. Only used if spanner was configured to be used for the global refdb. |
-| `zookeeper` | [`ZookeeperRefDbConfig`](#zookeeperrefdbconfig) | Configuration of zookeeper. Only used, if zookeeper was configured to be used for the global refdb. |
+| Field       | Type                                            | Description                                                                                                       |
+|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| `database`  | [`RefDatabase`](#refdatabase)                   | Which database to use for the global refdb. Choices: `NONE`, `SPANNER`, `ZOOKEEPER`, `DYNAMODB`. (default: `NONE`) |
+| `spanner`   | [`SpannerRefDbConfig`](#spannerrefdbconfig)     | Configuration of spanner. Only used if spanner was configured to be used for the global refdb.                    |
+| `zookeeper` | [`ZookeeperRefDbConfig`](#zookeeperrefdbconfig) | Configuration of zookeeper. Only used, if zookeeper was configured to be used for the global refdb.               |
+| `dyanmoDb`  | [`DyanmoDbRefDbConfig`](#dyanmodbrefdbconfig)   | Configuration of dyanmoDb. Only used, if dyanmoDb was configured to be used for the global refdb.                 |
 
 ## RefDatabase
 
-| Value | Description|
-|---|---|
-| `NONE` | No global refdb will be used. Not allowed, if a primary Gerrit with 2 or more instances will be installed. |
-| `SPANNER` | Spanner will be used as a global refdb |
-| `ZOOKEEPER` | Zookeeper will be used as a global refdb |
+| Value       | Description                                                                                                |
+|-------------|------------------------------------------------------------------------------------------------------------|
+| `NONE`      | No global refdb will be used. Not allowed, if a primary Gerrit with 2 or more instances will be installed. |
+| `SPANNER`   | Spanner will be used as a global refdb                                                                     |
+| `ZOOKEEPER` | Zookeeper will be used as a global refdb                                                                   |
+| `DYNAMODB`  | DynamoDb will be used as a global refdb                                                                    |
 
 ## SpannerRefDbConfig
 
@@ -1194,6 +1209,16 @@ Note that the spanner ref-db plugin requires google credentials to be mounted to
 |---|---|---|
 | `connectString` | `String` | Hostname and port of the zookeeper instance to be used, e.g. `zookeeper.example.com:2181` |
 | `rootNode` | `String` | Root node that will be used to store the global refdb data. Will be set automatically, if `GerritCluster` is being used. |
+
+## DynamoDbRefDbConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `region` | `String` | AWS region to connect to. Default: When not specified this value is provided via the default Region Provider Chain.                                                                                                                                                                                                                                                                                                       |
+| `endpoint` | `String` | When defined, it will override the default dynamodb endpoint will connect to it, rather than connecting to AWS. This is useful when developing or testing, in order to connect locally.                                                                                                                                                                                                                                   |
+| `locksTableName` | `String` | The name of the dynamoDB table used to store distribute locking. See [DynamoDB lock client](https://github.com/awslabs/amazon-dynamodb-lock-client)                                                                                                                                                                                                                                                                       |
+| `refsDbTableName` | `String` | The name of the dynamoDB table used to store git refs and their associated sha1.                                                                                                                                                                                                                                                                                                                                          |
+| `profileName` | `String` | The name of the aws configuration and credentials profile used to connect to the DynamoDb. See [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) Default: When not specified credentials are provided via the Default Credentials Provider Chain, as explained [here](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html) |
 
 ## IndexConfig
 

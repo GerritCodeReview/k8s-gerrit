@@ -1,9 +1,9 @@
-apiVersion: gerritoperator.google.com/v1beta15
+apiVersion: gerritoperator.google.com/v1beta16
 kind: Gerrit
 metadata:
   name: gerrit-replica
   annotations:
-    gerritoperator.google.com/apiVersion: gerritoperator.google.com/v1beta15
+    gerritoperator.google.com/apiVersion: gerritoperator.google.com/v1beta16
 spec:
   configFiles: {}
   containerImages:
@@ -37,6 +37,7 @@ spec:
     database: NONE
     spanner: null
     zookeeper: null
+    dynamoDb: null
   replicas: 2
   secretRef: gerrit-secure-config
   serverId:  server-1

@@ -20,6 +20,7 @@ public class GlobalRefDbConfig {
   private RefDatabase database = RefDatabase.NONE;
   private ZookeeperRefDbConfig zookeeper;
   private SpannerRefDbConfig spanner;
+  private DynamoRefDbConfig dynamoDb;
 
   public RefDatabase getDatabase() {
     return database;
@@ -45,9 +46,17 @@ public class GlobalRefDbConfig {
     this.spanner = spanner;
   }
 
+  public DynamoRefDbConfig getDynamoDb() {
+    return dynamoDb;
+  }
+
+  public void setDynamo(DynamoRefDbConfig dynamoDb) {
+    this.dynamoDb = dynamoDb;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(database, spanner, zookeeper);
+    return Objects.hash(database, spanner, zookeeper, dynamoDb);
   }
 
   @Override
@@ -58,7 +67,8 @@ public class GlobalRefDbConfig {
     GlobalRefDbConfig other = (GlobalRefDbConfig) obj;
     return database == other.database
         && Objects.equals(spanner, other.spanner)
-        && Objects.equals(zookeeper, other.zookeeper);
+        && Objects.equals(zookeeper, other.zookeeper)
+        && Objects.equals(dynamoDb, other.dynamoDb);
   }
 
   @Override
@@ -69,6 +79,8 @@ public class GlobalRefDbConfig {
         + zookeeper
         + ", spanner="
         + spanner
+        + ", dynamodb="
+        + dynamoDb
         + "]";
   }
 
@@ -76,5 +88,6 @@ public class GlobalRefDbConfig {
     NONE,
     ZOOKEEPER,
     SPANNER,
+    DYNAMODB
   }
 }
