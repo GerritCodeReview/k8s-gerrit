@@ -13,7 +13,7 @@ spec:
     singular: gerritnetwork
   scope: Namespaced
   versions:
-    - name: v1beta15
+    - name: v1beta16
       schema:
         openAPIV3Schema:
           properties:
@@ -141,7 +141,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta14
+    - name: v1beta15
       schema:
         openAPIV3Schema:
           properties:
@@ -182,6 +182,8 @@ spec:
                             type: string
                           type: object
                       type: object
+                    pathPrefix:
+                      type: string
                     ssh:
                       properties:
                         enabled:
