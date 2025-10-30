@@ -55,6 +55,7 @@
   implementation. The following implementations are supported:
   - [spanner-refdb](https://gerrit.googlesource.com/plugins/spanner-refdb)
   - [zookeeper-refdb](https://gerrit.googlesource.com/plugins/zookeeper-refdb)
+  - [dynamodb-refdb](https://gerrit.googlesource.com/plugins/aws-dynamodb-refdb/)
 
   \
   The Gerrit Operator does not set up the database used for the Global RefDB. It
