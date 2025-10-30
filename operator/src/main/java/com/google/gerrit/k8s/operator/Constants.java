@@ -17,7 +17,7 @@ package com.google.gerrit.k8s.operator;
 import com.google.inject.AbstractModule;
 
 public class Constants extends AbstractModule {
-  public static final String VERSION = "v1beta15";
+  public static final String VERSION = "v1beta16";
 
   // The resource kind always has to be plural for use in webhooks
   public static final String GERRIT_CLUSTER_KIND = "gerritclusters";
