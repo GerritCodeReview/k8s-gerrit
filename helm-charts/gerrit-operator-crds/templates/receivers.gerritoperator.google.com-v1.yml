@@ -13,7 +13,7 @@ spec:
     singular: receiver
   scope: Namespaced
   versions:
-    - name: v1beta15
+    - name: v1beta16
       schema:
         openAPIV3Schema:
           properties:
@@ -687,7 +687,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta14
+    - name: v1beta15
       schema:
         openAPIV3Schema:
           properties:
@@ -1057,6 +1057,8 @@ spec:
                       type: boolean
                     host:
                       type: string
+                    pathPrefix:
+                      type: string
                     ssh:
                       properties:
                         enabled:
@@ -1209,8 +1211,6 @@ spec:
                       items:
                         properties:
                           name:
-                            type: string
-                          request:
                             type: string
                         type: object
                       type: array
