@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4965281_a0f8d278",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-31T09:18:30Z",
+      "side": 1,
+      "message": "Specify that the default is `master`?",
+      "revId": "8dcfaeb26fa46f4e059196ab78b049c3661a0d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
