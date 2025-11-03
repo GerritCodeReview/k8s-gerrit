@@ -795,32 +795,47 @@ Please read more on how to preserve the original client source IP on the [istio 
 
 ### Kafka
 
-An example of a kafka deployment can be found
-[here](https://github.com/lydtechconsulting/kafka-kubernetes-demo/blob/v1.0.0/resources/kafka.yml).
-When installing it, make sure to set the namespace as described in the [Prerequisites](#prerequisites-2).
+This is an example of a kafka deployment:
+
+```
+kubectl create ns kafka
+kubectl label namespace kafka istio-injection=enabled
+
+helm repo add rhcharts https://ricardo-aires.github.io/helm-charts/
+helm repo update
+helm upgrade --install kafka rhcharts/kafka \
+  --version 0.2.0 \
+  --namespace kafka \
+  --set image.repository=confluentinc/cp-kafka \
+  --set image.tag=7.3.0 \
+  --set replicaCount=1 \
+  --set persistence.enabled=false
+```
 
 To connect and excecute operations in kafka, please spin up an image as client:
 ```sh
 kubectl \
-  run my-kafka \
-  --rm \
-  -i \
-  --tty \
-  --image confluentinc/cp-kafka /bin/bash \
-  --namespace gerrit
-```
-
-fter that it is possible to connect to the image to test consuming of the messages in a topic, i.e.
-for the `gerrit` topic:
-```sh
-kubectl \
-  --namespace gerrit \
+  --namespace kafka \
   exec \
   --stdin \
   --tty \
-  my-kafka -- \
-  /bin/kafka-console-consumer \
-  --bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 \
+  kafka-0 -- \
+  /bin/kafka-topics \
+  --bootstrap-server kafka-headless.kafka.svc.cluster.local:9092 \
+  /bin/bash
+```
+
+After that it is possible to connect to the image to test consuming of the messages in a topic, i.e.
+for the `gerrit` topic:
+```sh
+kubectl \
+  --namespace kafka \
+  exec \
+  --stdin \
+  --tty \
+  kafka-0 -- \
+  /bin/kafka-topics \
+  --bootstrap-server kafka-headless.kafka.svc.cluster.local:9092 \
   --from-beginning \
   --topic gerrit
 ```
@@ -828,25 +843,26 @@ kubectl \
 Or to list all the topics:
 ```sh
 kubectl \
-  --namespace gerrit \
+  --namespace kafka \
   exec \
   --stdin \
   --tty \
-  my-kafka -- \
+  kafka-0 -- \
   /bin/kafka-topics \
-  --bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 \
+  --bootstrap-server kafka-headless.kafka.svc.cluster.local:9092 \
   --list
 ```
 
 Or to list the group_ids:
 ```sh
 kubectl \
-  --namespace gerrit \
+  --namespace kafka \
   exec \
   --stdin \
   --tty \
-  my-kafka -- \
-  /bin/kafka-consumer-groups --bootstrap-server kafka-service.kafka-zk.svc.cluster.local:9092 \
+  kafka-0 -- \
+  /bin/kafka-consumer-groups \
+  --bootstrap-server kafka-headless.kafka.svc.cluster.local:9092 \
   --list
 ```
 
