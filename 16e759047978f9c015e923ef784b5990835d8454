@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "711295e5_f3f22a05",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/DynamoRefDbConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-03T08:33:24Z",
+      "side": 1,
+      "message": "Would like to test changes with Lombok lib.",
+      "revId": "16e759047978f9c015e923ef784b5990835d8454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

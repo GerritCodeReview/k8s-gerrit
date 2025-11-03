@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b10d45e_4077a03f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/GlobalRefDbConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-03T08:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9caad73_0af098d4",
+      "range": {
+        "startLine": 23,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "97442911f9394be1e350518abbc1891c49e922c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23470d4d_a76ea69a",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-03T07:41:41Z",
       "side": 1,
       "message": "This was apparently also not staged.",
+      "range": {
+        "startLine": 22,
+        "startChar": 52,
+        "endLine": 22,
+        "endChar": 82
+      },
+      "revId": "97442911f9394be1e350518abbc1891c49e922c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be2fbc7_fac71f83",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritConfigMap.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-03T08:33:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23470d4d_a76ea69a",
       "range": {
         "startLine": 22,
         "startChar": 52,
