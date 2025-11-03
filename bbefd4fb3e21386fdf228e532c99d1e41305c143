@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7d14bf5_eb660f7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "```suggestion\nAdd aws-dynamodb-refdb plugin as refdb implementation to the Operator\n```",
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a63cb088_2f8d2e36",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "Document DynamoRefDbConfig explaining options for this implementation ?",
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d256ac9_46bc8622",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "add dynamodb as another option ?",
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3426df2e_25ee7410",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "```suggestion\nRUN curl -f -k -o /var/plugins/aws-dynamodb-refdb.jar ${DYNAMODB_REFDB_URL}\n```",
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "175ecaa9_ffc4c030",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/DynamoRefDbConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "options need to be documented in API docs",
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4eac938_f0b0c387",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/GlobalRefDbConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "name seems inconsistent\n```suggestion\n  public DynamoRefDbConfig getDynamoDb() {\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 27,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4d1d2cc_4df308e4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/DyanmoRefDbPluginConfigBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-03T23:28:11Z",
+      "side": 1,
+      "message": "```suggestion\npublic class DynamoDbRefDbPluginConfigBuilder extends ConfigBuilder {\n```",
+      "revId": "bbefd4fb3e21386fdf228e532c99d1e41305c143",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
