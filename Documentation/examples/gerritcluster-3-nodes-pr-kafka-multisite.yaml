@@ -22,6 +22,8 @@ metadata:
   name: gerrit
   namespace: gerrit
 spec:
+  containerImages:
+    imagePullPolicy: IfNotPresent
   eventsBroker:
     brokerType: KAFKA
     kafkaConfig:
