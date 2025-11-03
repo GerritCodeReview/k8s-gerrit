@@ -27,7 +27,7 @@ spec:
   eventsBroker:
     brokerType: KAFKA
     kafkaConfig:
-      connectString: kafka-service.kafka-zk.svc.cluster.local:9092
+      connectString: kafka-headless.kafka.svc.cluster.local:9092
 
   storage:
     storageClasses:
