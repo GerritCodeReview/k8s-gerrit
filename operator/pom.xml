@@ -20,7 +20,7 @@
 		<guice.version>7.0.0</guice.version>
 		<javaoperatorsdk.version>4.9.7</javaoperatorsdk.version>
 		<jetty.version>11.0.25</jetty.version>
-		<log42.version>2.24.3</log42.version>
+		<log42.version>2.25.3</log42.version>
 		<lombok.version>1.18.38</lombok.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
