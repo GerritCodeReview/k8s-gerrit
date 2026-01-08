@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.server;
 
-import static com.google.gerrit.k8s.operator.GerritOperator.SERVICE_NAME;
+import static com.google.gerrit.k8s.operator.config.dependent.GerritOperatorService.SERVICE_NAME;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

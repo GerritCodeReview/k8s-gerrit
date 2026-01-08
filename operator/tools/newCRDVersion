@@ -49,7 +49,7 @@ OLD="$(yq e '.spec.versions[0].name' $SCRIPT_PATH/../../crd/current/gerritcluste
 
 sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/$OLD/$NEW/g" "$API_PATH/Constants.java"
 
-find $SCRIPT_PATH/.. $SCRIPT_PATH/../../Documentation/examples \
+find $SCRIPT_PATH/.. $SCRIPT_PATH/../../Documentation/examples $SCRIPT_PATH/../../helm-charts/gerrit-operator/templates \
     -name '*.yaml' \
     -type f \
     -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s#gerritoperator.google.com/$OLD#gerritoperator.google.com/$NEW#g" {} ';'

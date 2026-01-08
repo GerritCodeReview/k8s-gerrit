@@ -142,15 +142,11 @@ next subheading.
 
 #### gerrit-operator
 
-This chart installs the `gerrit-operator-crds` chart as a dependency, and the
-following k8s resources:
-- Deployment
-- ServiceAccount
-- ClusterRole
-- ClusterRoleBinding
+This chart installs the `gerrit-operator-crds` chart as a dependency, and will
+then install the deployment running the Gerrit Operator with all required
+components.
 
-The operator itself creates a Service resource and a
-ValidationWebhookConfigurations resource behind the scenes.
+The operator can optionally set up validating webhooks if enabled.
 
 You will need to modify the values in `helm-charts/gerrit-operator/values.yaml`
 to point the chart to the registry/org that is hosting the Docker container

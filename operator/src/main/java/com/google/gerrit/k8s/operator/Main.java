@@ -16,7 +16,6 @@ package com.google.gerrit.k8s.operator;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.admission.ValidationWebhookConfigs;
 import com.google.gerrit.k8s.operator.server.HttpServer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -39,7 +38,6 @@ public class Main {
 
       Injector injector = Guice.createInjector(Stage.PRODUCTION, new OperatorModule(clusterMode));
       injector.getInstance(HttpServer.class).start();
-      injector.getInstance(ValidationWebhookConfigs.class).apply();
       injector.getInstance(GerritOperator.class).start();
     } catch (OperatorException e) {
       System.exit(1);

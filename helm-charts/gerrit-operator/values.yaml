@@ -34,3 +34,6 @@ deployment:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+config:
+  enableValidatingWebhook: false
