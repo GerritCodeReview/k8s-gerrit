@@ -20,6 +20,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "08ac926d_425cdf3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-03T08:01:35Z",
+      "side": 1,
+      "message": "```suggestion\nAdd aws-dynamodb-refdb plugin as global-refdb implementation to the Operator\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "78dc1b5c920e276497cb2712f03bffa48bc39654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb3c6df1_c02f67dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-03T08:01:35Z",
+      "side": 1,
+      "message": "why ? the operator lives in k8s-gerrit ...",
+      "parentUuid": "46707e3e_1ccf50ae",
+      "revId": "78dc1b5c920e276497cb2712f03bffa48bc39654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b39f4f6_57815638",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritInitConfigMap.java",
         "patchSetId": 9
