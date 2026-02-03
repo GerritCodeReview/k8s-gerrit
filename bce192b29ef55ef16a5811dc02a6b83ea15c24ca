@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ad177c1_50206884",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-02-03T15:03:50Z",
+      "side": 1,
+      "message": "Not really If I get this comment right. \nI have adjusted the formatting. I hope thats what u meant.",
+      "parentUuid": "33cd2d8e_c8503f12",
+      "range": {
+        "startLine": 1179,
+        "startChar": 0,
+        "endLine": 1186,
+        "endChar": 0
+      },
+      "revId": "bce192b29ef55ef16a5811dc02a6b83ea15c24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08fe7888_4ab202fa",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-01-19T13:57:57Z",
       "side": 1,
       "message": "Please don\u0027t download that version, since it is not under open-source license. Similar to other such components, users will be required to provide those plugins themselves, i.e. just remove the download completely.",
+      "range": {
+        "startLine": 42,
+        "startChar": 87,
+        "endLine": 42,
+        "endChar": 89
+      },
+      "revId": "bce192b29ef55ef16a5811dc02a6b83ea15c24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b51f9e1f_c68c4bce",
+        "filename": "container-images/gerrit-base/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-02-03T15:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08fe7888_4ab202fa",
       "range": {
         "startLine": 42,
         "startChar": 87,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e72997c0_f1b62bbd",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 8
+      },
+      "lineNbr": 1576,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-02-03T15:03:50Z",
+      "side": 1,
+      "message": "yes it is possible. I would still like to keep it configurable.  If not set, it would be computed for you or you can override this behaviour by setting this variable. let me know, what is your take on it?",
+      "parentUuid": "07ec3888_a97de36d",
+      "range": {
+        "startLine": 1576,
+        "startChar": 22,
+        "endLine": 1576,
+        "endChar": 30
+      },
+      "revId": "bce192b29ef55ef16a5811dc02a6b83ea15c24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce64677_3b7fc439",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0573b7a_7b7a8c97",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 8
+      },
+      "lineNbr": 1580,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-02-03T15:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce64677_3b7fc439",
+      "range": {
+        "startLine": 1580,
+        "startChar": 22,
+        "endLine": 1580,
+        "endChar": 33
+      },
+      "revId": "bce192b29ef55ef16a5811dc02a6b83ea15c24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d56e948_3f3a031f",
@@ -106,6 +202,30 @@
       "writtenOn": "2026-01-19T13:57:57Z",
       "side": 1,
       "message": "```suggestion\n  public void setDynamoDb(DynamoRefDbConfig dynamoDb) {\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 14,
+        "endLine": 53,
+        "endChar": 23
+      },
+      "revId": "bce192b29ef55ef16a5811dc02a6b83ea15c24ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d283e1cc_81b22ef5",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/GlobalRefDbConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-02-03T15:03:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d56e948_3f3a031f",
       "range": {
         "startLine": 53,
         "startChar": 14,
