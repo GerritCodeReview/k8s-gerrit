@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46707e3e_1ccf50ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-02-03T07:38:49Z",
+      "side": 1,
+      "message": "Move this change to dynamoDB plugin. Created by mistake in k8s-gerrit.",
+      "revId": "78dc1b5c920e276497cb2712f03bffa48bc39654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b39f4f6_57815638",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritInitConfigMap.java",
         "patchSetId": 9
