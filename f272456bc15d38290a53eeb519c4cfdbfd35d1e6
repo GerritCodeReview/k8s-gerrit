@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "986da578_1ef90c25",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-04T08:13:30Z",
+      "side": 1,
+      "message": "```suggestion\n| `dynamoDb` | [`DynamoDbRefDbConfig`](#dynamodbrefdbconfig) | Configuration of dynamoDb. Only used, if dynamoDb was configured to be used for the global refdb. |\n```",
+      "range": {
+        "startLine": 1183,
+        "startChar": 0,
+        "endLine": 1183,
+        "endChar": 162
+      },
+      "revId": "f272456bc15d38290a53eeb519c4cfdbfd35d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64b2faf0_ef7c6313",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-04T08:13:30Z",
+      "side": 1,
+      "message": "```suggestion\n| `endpoint` | `String` | When defined, it will override the default dynamodb endpoint and connect to it, rather than connecting to AWS. This is useful when developing or testing, in order to connect locally. |\n```",
+      "revId": "f272456bc15d38290a53eeb519c4cfdbfd35d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d043b4b4_e10615e7",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 1217,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-04T08:13:30Z",
+      "side": 1,
+      "message": "```suggestion\n| `locksTableName` | `String` | The name of the dynamoDB table used to store distributed locks. See [DynamoDB lock client](https://github.com/awslabs/amazon-dynamodb-lock-client) |\n```",
+      "revId": "f272456bc15d38290a53eeb519c4cfdbfd35d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f52a6c78_7f65c726",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/DyanmoDbRefDbPluginConfigBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-04T08:13:30Z",
+      "side": 1,
+      "message": "```suggestion\npublic class DynamoDbRefDbPluginConfigBuilder extends ConfigBuilder {\n```",
+      "revId": "f272456bc15d38290a53eeb519c4cfdbfd35d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29d965cb_297935ea",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/DyanmoDbRefDbPluginConfigBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-04T08:13:30Z",
+      "side": 1,
+      "message": "```suggestion\n  public DynamoDbRefDbPluginConfigBuilder(Gerrit gerrit) {\n```",
+      "revId": "f272456bc15d38290a53eeb519c4cfdbfd35d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
