@@ -16,6 +16,24 @@
       "message": "Unfortunately, the build is currently not working, because some Gerrit plugin builds were removed due to their transition to an open-core license model. We are currently discussing how to continue with this situation and will be able to bring in this change as quickly as possible.",
       "revId": "e58bbd5ea74b1893a011352638648fbbd37c4285",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "774992ee_70d1e21e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3693978
+      },
+      "writtenOn": "2026-02-17T04:40:18Z",
+      "side": 1,
+      "message": "No problem! I can more or less just keep rebasing the branch as needed when updating Gerrit for my team.\n\nWe also recently caught up in open-core relicensing shenanigans, so I feel that pain.\n\nLet me know if you have any additional comments/requests!",
+      "parentUuid": "d80e91a4_2c622e9a",
+      "revId": "e58bbd5ea74b1893a011352638648fbbd37c4285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
