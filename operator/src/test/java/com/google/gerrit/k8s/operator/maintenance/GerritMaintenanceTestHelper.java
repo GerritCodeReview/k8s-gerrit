@@ -1,5 +1,20 @@
+// Copyright (C) 2024 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.google.gerrit.k8s.operator.maintenance;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenanceSpec;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritProjectsTasks;
@@ -24,6 +39,8 @@ import java.util.Set;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class GerritMaintenanceTestHelper {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static GerritMaintenance createGerritMaintenanceWithGitGcs(
       String namespace, List<Set<String>> projectSets) {
     GerritMaintenanceSpec spec = new GerritMaintenanceSpec();
@@ -31,6 +48,8 @@ public class GerritMaintenanceTestHelper {
     List<GitGcTask> gcTasks = new ArrayList<>();
     for (Set<String> projects : projectSets) {
       GitGcTask gitGc = new GitGcTask();
+      gitGc.setName(RandomStringUtils.randomAlphabetic(10).toLowerCase());
+      gitGc.setSchedule("0 0 * * *");
       gitGc.setInclude(projects);
       gcTasks.add(gitGc);
     }
@@ -40,10 +59,11 @@ public class GerritMaintenanceTestHelper {
     GerritMaintenance gm = new GerritMaintenance();
     gm.setMetadata(
         new ObjectMetaBuilder()
-            .withName(RandomStringUtils.randomAlphabetic(10))
+            .withName(RandomStringUtils.randomAlphabetic(10).toLowerCase())
             .withNamespace(namespace)
             .build());
     gm.setSpec(spec);
+    logger.atInfo().log("Created GerritMaintenance: %s", gm);
     return gm;
   }
 }
