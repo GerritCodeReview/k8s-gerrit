@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d03dfa_6d87db25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-24T08:45:12Z",
+      "side": 1,
+      "message": "link to relevant 5.0 migration documentation:\n- discriminators are obsolete and replaced by generic mechanism to identify which resources on the cluster should be associated with which dependent resource implementationhttps://javaoperatorsdk.io/blog/2025/01/06/version-5-released/#resourcediscriminator-is-removed-and-related-changes\n- The managed workflow definition is now a separate @Workflow annotation; it is no longer part of @ControllerConfiguration https://javaoperatorsdk.io/blog/2025/01/06/version-5-released/#workflow-annotation\n- Both the EventSourceInitializer and ErrorStatusHandler interfaces are removed, and their methods moved directly under Reconciler https://javaoperatorsdk.io/blog/2025/01/06/version-5-released/#eventsourceinitializer-and-errorstatushandler-are-removed\n- InformerConfiguration is renamed to InformerEventSourceConfiguration. InformerEventSourceConfiguration doesn’t require EventSourceContext to be initialized anymore. https://javaoperatorsdk.io/blog/2025/01/06/version-5-released/#informereventsource-related-changes\n- explicit workflow invocation https://javaoperatorsdk.io/blog/2025/01/06/version-5-released/#explicit-workflow-invocation\n- server side apply (SSA) https://javaoperatorsdk.io/blog/2025/01/06/version-5-released/#server-side-apply-ssa\n- how to write tests using KubernetesMockServer https://developers.redhat.com/articles/2023/01/24/how-write-tests-fabric8-kubernetes-client#how_to_write_tests_using_fabric8_kubernetes_mock_server",
+      "revId": "8efb52e599d31a8bd3a3a50247a61b822b47f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1819c594_23672d00",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioVirtualService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-24T08:45:12Z",
+      "side": 1,
+      "message": "is this a downgrade ? I thought naively that `v1alpha3 \u003c v1beta1`",
+      "revId": "8efb52e599d31a8bd3a3a50247a61b822b47f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
