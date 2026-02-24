@@ -33,6 +33,24 @@
       "message": "is this a downgrade ? I thought naively that `v1alpha3 \u003c v1beta1`",
       "revId": "8efb52e599d31a8bd3a3a50247a61b822b47f1e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d89236ad_c7e7a4bc",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioVirtualService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-24T09:10:42Z",
+      "side": 1,
+      "message": "No. v1alpha3 and v1beta1 are identical. The frabric8 istio api changed to reduce duplication and thus removed v1beta1, since it is identical. I don\u0027t like that change, but have to live with that.",
+      "parentUuid": "1819c594_23672d00",
+      "revId": "8efb52e599d31a8bd3a3a50247a61b822b47f1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
