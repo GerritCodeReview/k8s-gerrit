@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e05d45f9_7d41292b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-24T08:50:05Z",
+      "side": 1,
+      "message": "link to relevant 5.2 release notes:\n- ResourceIDMapper for External Resources https://javaoperatorsdk.io/blog/2025/11/25/version-5.2-released/#resourceidmapper-for-external-resources",
+      "revId": "eee985d56dbb645a1650c5c8eb8146081e7e4726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
