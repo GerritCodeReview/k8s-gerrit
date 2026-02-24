@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a914c6c6_359a6b95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-24T08:51:48Z",
+      "side": 1,
+      "message": "```suggestion\nSee https://javaoperatorsdk.io/blog/2025/02/25/from-legacy-approach-to-server-side-apply/\n\nChange-Id: I7b1b983ad027cead017f6ba9e4df697bd6c01ef0\n```",
+      "revId": "d4a0b00893c28477fc8156e89116e22dbb586053",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
