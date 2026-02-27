@@ -25,7 +25,7 @@ import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = FluentBitConfigMapDiscriminator.class)
 public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final String FLUENT_BIT_SERVICE_CONFIG =
       """

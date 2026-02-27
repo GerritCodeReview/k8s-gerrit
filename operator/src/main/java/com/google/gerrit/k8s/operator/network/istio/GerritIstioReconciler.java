@@ -14,6 +14,10 @@
 
 package com.google.gerrit.k8s.operator.network.istio;
 
+import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler.ISTIO_DESTINATION_RULE_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler.ISTIO_SERVICE_ENTRIES_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler.ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE;
+
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.network.GerritClusterIngressCondition;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritClusterIstioGateway;
@@ -21,23 +25,35 @@ import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioDestina
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioServiceEntries;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioVirtualService;
 import com.google.inject.Singleton;
+import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
+import io.fabric8.istio.api.networking.v1beta1.ServiceEntry;
+import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
-import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
+import io.javaoperatorsdk.operator.processing.event.source.EventSource;
+import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
-@Workflow(
+@ControllerConfiguration(
     dependents = {
       @Dependent(
           name = "gerrit-destination-rules",
           type = GerritIstioDestinationRule.class,
-          reconcilePrecondition = GerritClusterIngressCondition.class),
+          reconcilePrecondition = GerritClusterIngressCondition.class,
+          useEventSourceWithName = ISTIO_DESTINATION_RULE_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-service-entries",
           type = GerritIstioServiceEntries.class,
-          reconcilePrecondition = GerritClusterIngressCondition.class),
+          reconcilePrecondition = GerritClusterIngressCondition.class,
+          useEventSourceWithName = ISTIO_SERVICE_ENTRIES_EVENT_SOURCE),
       @Dependent(
           name = "gerrit-istio-gateway",
           type = GerritClusterIstioGateway.class,
@@ -46,9 +62,38 @@ import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
           name = "gerrit-istio-virtual-service",
           type = GerritIstioVirtualService.class,
           reconcilePrecondition = GerritClusterIngressCondition.class,
-          dependsOn = {"gerrit-istio-gateway"})
+          dependsOn = {"gerrit-istio-gateway"},
+          useEventSourceWithName = ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE)
     })
-public class GerritIstioReconciler implements Reconciler<GerritNetwork> {
+public class GerritIstioReconciler
+    implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
+  public static final String ISTIO_DESTINATION_RULE_EVENT_SOURCE =
+      "gerrit-cluster-istio-destination-rule";
+  public static final String ISTIO_SERVICE_ENTRIES_EVENT_SOURCE =
+      "gerrit-cluster-istio-service-entries";
+  public static final String ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE =
+      "gerrit-cluster-istio-virtual-service";
+
+  @Override
+  public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritNetwork> context) {
+    InformerEventSource<DestinationRule, GerritNetwork> gerritIstioDestinationRuleEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(DestinationRule.class, context).build(), context);
+
+    InformerEventSource<ServiceEntry, GerritNetwork> gerritIstioServiceEntriesEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(ServiceEntry.class, context).build(), context);
+
+    InformerEventSource<VirtualService, GerritNetwork> virtualServiceEventSource =
+        new InformerEventSource<>(
+            InformerConfiguration.from(VirtualService.class, context).build(), context);
+
+    Map<String, EventSource> eventSources = new HashMap<>();
+    eventSources.put(ISTIO_DESTINATION_RULE_EVENT_SOURCE, gerritIstioDestinationRuleEventSource);
+    eventSources.put(ISTIO_SERVICE_ENTRIES_EVENT_SOURCE, gerritIstioServiceEntriesEventSource);
+    eventSources.put(ISTIO_VIRTUAL_SERVICE_EVENT_SOURCE, virtualServiceEventSource);
+    return eventSources;
+  }
 
   @Override
   public UpdateControl<GerritNetwork> reconcile(

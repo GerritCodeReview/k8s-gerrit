@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class NetworkMember {
   private String name;
-  private long httpPort = 8080L;
+  private int httpPort = 8080;
 
   public NetworkMember() {}
 
@@ -36,11 +36,11 @@ public class NetworkMember {
     this.name = name;
   }
 
-  public long getHttpPort() {
+  public int getHttpPort() {
     return httpPort;
   }
 
-  public void setHttpPort(long httpPort) {
+  public void setHttpPort(int httpPort) {
     this.httpPort = httpPort;
   }
 

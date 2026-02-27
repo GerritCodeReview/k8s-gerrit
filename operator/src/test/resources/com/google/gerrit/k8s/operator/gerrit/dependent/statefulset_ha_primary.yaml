@@ -152,21 +152,21 @@ spec:
       serviceAccount: gerrit
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: tmp
-        emptyDir:
-          sizeLimit: 500Mi
-      - configMap:
-          name: gerrit-init-configmap
-        name: gerrit-init-config
-      - configMap:
-          name: gerrit-configmap
-        name: gerrit-config
-      - name: gerrit-secure-config
-        secret:
-          secretName: gerrit-secure-config
       - name: shared
         persistentVolumeClaim:
           claimName: shared-pvc
+      - name: tmp
+        emptyDir:
+          sizeLimit: 500Mi
+      - name: gerrit-secure-config
+        secret:
+          secretName: gerrit-secure-config
+      - configMap:
+          name: gerrit-configmap
+        name: gerrit-config
+      - configMap:
+          name: gerrit-init-configmap
+        name: gerrit-init-config
   updateStrategy:
     rollingUpdate:
       partition: 0

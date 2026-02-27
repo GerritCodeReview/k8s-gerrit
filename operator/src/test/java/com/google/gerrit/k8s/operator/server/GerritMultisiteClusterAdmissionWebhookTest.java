@@ -43,7 +43,7 @@ public class GerritMultisiteClusterAdmissionWebhookTest extends AdmissionWebhook
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
 
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     GerritTemplate primary = TestGerrit.createGerritTemplate("gerrit", GerritMode.PRIMARY, cfg);
     GerritTemplate replica = TestGerrit.createGerritTemplate("gerrit", GerritMode.REPLICA, cfg);
     gerritCluster.addGerrit(primary);
@@ -68,7 +68,7 @@ public class GerritMultisiteClusterAdmissionWebhookTest extends AdmissionWebhook
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
 
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     GerritTemplate replica = TestGerrit.createGerritTemplate("gerrit", GerritMode.REPLICA, cfg);
     gerritCluster.addGerrit(replica);
 
@@ -92,7 +92,7 @@ public class GerritMultisiteClusterAdmissionWebhookTest extends AdmissionWebhook
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
 
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     GerritTemplate primary = TestGerrit.createGerritTemplate("gerrit", GerritMode.PRIMARY, cfg);
     primary.getSpec().setReplicas(1);
     gerritCluster.addGerrit(primary);

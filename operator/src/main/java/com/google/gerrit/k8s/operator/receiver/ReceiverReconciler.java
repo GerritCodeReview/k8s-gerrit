@@ -23,23 +23,24 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.javaoperatorsdk.operator.api.config.informer.InformerEventSourceConfiguration;
+import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
-import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Singleton
-@Workflow(
+@ControllerConfiguration(
     dependents = {
       @Dependent(name = "receiver-deployment", type = ReceiverDeployment.class),
       @Dependent(
@@ -47,7 +48,7 @@ import java.util.stream.Collectors;
           type = ReceiverService.class,
           dependsOn = {"receiver-deployment"})
     })
-public class ReceiverReconciler implements Reconciler<Receiver> {
+public class ReceiverReconciler implements Reconciler<Receiver>, EventSourceInitializer<Receiver> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String SECRET_EVENT_SOURCE_NAME = "secret-event-source";
   private final KubernetesClient client;
@@ -58,8 +59,7 @@ public class ReceiverReconciler implements Reconciler<Receiver> {
   }
 
   @Override
-  public List<EventSource<?, Receiver>> prepareEventSources(EventSourceContext<Receiver> context) {
-    List<EventSource<?, Receiver>> eventSources = new ArrayList<>();
+  public Map<String, EventSource> prepareEventSources(EventSourceContext<Receiver> context) {
     final SecondaryToPrimaryMapper<Secret> secretMapper =
         (Secret secret) ->
             context
@@ -75,12 +75,13 @@ public class ReceiverReconciler implements Reconciler<Receiver> {
 
     InformerEventSource<Secret, Receiver> secretEventSource =
         new InformerEventSource<>(
-            InformerEventSourceConfiguration.from(Secret.class, Receiver.class)
+            InformerConfiguration.from(Secret.class, context)
                 .withSecondaryToPrimaryMapper(secretMapper)
                 .build(),
             context);
 
-    eventSources.add(secretEventSource);
+    Map<String, EventSource> eventSources = new HashMap<>();
+    eventSources.put(SECRET_EVENT_SOURCE_NAME, secretEventSource);
     return eventSources;
   }
 

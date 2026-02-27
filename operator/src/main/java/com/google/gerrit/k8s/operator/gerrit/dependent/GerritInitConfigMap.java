@@ -35,7 +35,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 import java.util.Locale;
 import java.util.Map;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = GerritInitConfigMapDiscriminator.class)
 public class GerritInitConfigMap
     extends CRUDReconcileAddKubernetesDependentResource<ConfigMap, Gerrit> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
