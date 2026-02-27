@@ -22,7 +22,7 @@ import io.getambassador.v2.MappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = GerritClusterMappingPOSTReplicaDiscriminator.class)
 public class GerritClusterMappingPOSTReplica extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 

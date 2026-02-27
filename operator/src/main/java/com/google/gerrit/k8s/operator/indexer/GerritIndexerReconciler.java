@@ -19,13 +19,13 @@ import com.google.gerrit.k8s.operator.indexer.dependent.GerritIndexerConfigMap;
 import com.google.gerrit.k8s.operator.indexer.dependent.GerritIndexerJob;
 import com.google.inject.Singleton;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
-import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 
 @Singleton
-@Workflow(
+@ControllerConfiguration(
     dependents = {
       @Dependent(name = "gerrit-indexer-configmap", type = GerritIndexerConfigMap.class),
       @Dependent(

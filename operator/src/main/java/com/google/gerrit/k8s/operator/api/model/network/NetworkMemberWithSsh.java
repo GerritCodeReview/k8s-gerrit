@@ -18,7 +18,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.HttpSshServiceConfig;
 import java.util.Objects;
 
 public class NetworkMemberWithSsh extends NetworkMember {
-  private long sshPort = 29418L;
+  private int sshPort = 29418;
 
   public NetworkMemberWithSsh() {}
 
@@ -27,11 +27,11 @@ public class NetworkMemberWithSsh extends NetworkMember {
     this.sshPort = serviceConfig.getSshPort();
   }
 
-  public long getSshPort() {
+  public int getSshPort() {
     return sshPort;
   }
 
-  public void setSshPort(long sshPort) {
+  public void setSshPort(int sshPort) {
     this.sshPort = sshPort;
   }
 

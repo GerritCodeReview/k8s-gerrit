@@ -48,7 +48,7 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
     GerritTemplate gerrit1 = TestGerrit.createGerritTemplate("gerrit1", GerritMode.PRIMARY, cfg);
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     gerritCluster.addGerrit(gerrit1);
     GerritCluster cluster = gerritCluster.build();
 
@@ -80,7 +80,7 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
     GerritTemplate gerrit = TestGerrit.createGerritTemplate("gerrit1", GerritMode.PRIMARY, cfg);
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     gerritCluster.addGerrit(gerrit);
 
     ReceiverTemplate receiver = new ReceiverTemplate();
@@ -110,7 +110,7 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
     GerritTemplate gerrit1 = TestGerrit.createGerritTemplate("gerrit1", GerritMode.PRIMARY, cfg);
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     gerritCluster.addGerrit(gerrit1);
 
     HttpURLConnection http = sendAdmissionRequest(gerritCluster.build());
@@ -138,7 +138,7 @@ public class GerritClusterAdmissionWebhookTest extends AdmissionWebhookAbstractT
     cfg.fromText(TestGerrit.DEFAULT_GERRIT_CONFIG);
 
     TestGerritCluster gerritCluster =
-        new TestGerritCluster(kubernetesServer.createClient(), NAMESPACE);
+        new TestGerritCluster(kubernetesServer.getClient(), NAMESPACE);
     GerritTemplate primary = TestGerrit.createGerritTemplate("gerrit", GerritMode.PRIMARY, cfg);
     GerritTemplate replica = TestGerrit.createGerritTemplate("gerrit", GerritMode.REPLICA, cfg);
     gerritCluster.addGerrit(primary);

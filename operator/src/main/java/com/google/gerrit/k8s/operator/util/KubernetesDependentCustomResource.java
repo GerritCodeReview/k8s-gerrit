@@ -39,7 +39,8 @@ public abstract class KubernetesDependentCustomResource<
 
   @Override
   public Result<R> match(R actualResource, R desired, P primary, Context<P> context) {
-    return GenericKubernetesResourceMatcher.match(desired, actualResource, false, true, context);
+    return GenericKubernetesResourceMatcher.match(
+        desired, actualResource, true, false, true, context);
   }
 
   @Override

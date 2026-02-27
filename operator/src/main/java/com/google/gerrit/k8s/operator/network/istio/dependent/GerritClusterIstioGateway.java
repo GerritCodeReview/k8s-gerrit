@@ -17,11 +17,11 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
-import io.fabric8.istio.api.api.networking.v1alpha3.Server;
-import io.fabric8.istio.api.api.networking.v1alpha3.ServerBuilder;
-import io.fabric8.istio.api.api.networking.v1alpha3.ServerTLSSettingsTLSmode;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.GatewayBuilder;
+import io.fabric8.istio.api.networking.v1beta1.Server;
+import io.fabric8.istio.api.networking.v1beta1.ServerBuilder;
+import io.fabric8.istio.api.networking.v1beta1.ServerTLSSettingsTLSmode;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class GerritClusterIstioGateway
         new ServerBuilder()
             .withNewPort()
             .withName("http")
-            .withNumber(80L)
+            .withNumber(80)
             .withProtocol("HTTP")
             .endPort()
             .withHosts(gerritClusterHost)
@@ -73,7 +73,7 @@ public class GerritClusterIstioGateway
           new ServerBuilder()
               .withNewPort()
               .withName("https")
-              .withNumber(443L)
+              .withNumber(443)
               .withProtocol("HTTPS")
               .endPort()
               .withHosts(gerritClusterHost)

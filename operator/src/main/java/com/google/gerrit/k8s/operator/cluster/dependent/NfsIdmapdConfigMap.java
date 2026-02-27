@@ -23,7 +23,7 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = NfsIdmapdConfigMapDiscriminator.class)
 public class NfsIdmapdConfigMap
     extends CRUDReconcileAddKubernetesDependentResource<ConfigMap, GerritCluster> {
   public static final String NFS_IDMAPD_CM_NAME = "nfs-idmapd-config";

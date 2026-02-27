@@ -35,7 +35,7 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionRequest;
 import io.fabric8.kubernetes.api.model.admission.v1.AdmissionReview;
 import io.fabric8.kubernetes.client.CustomResource;
-import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -65,11 +65,13 @@ public abstract class AdmissionWebhookAbstractTest {
           NAMESPACE,
           HasMetadata.getPlural(GerritCluster.class));
 
-  @Rule protected KubernetesMockServer kubernetesServer = new KubernetesMockServer();
+  @Rule protected KubernetesServer kubernetesServer = new KubernetesServer();
 
   @BeforeAll
   public void setup() throws Exception {
     server = new TestAdmissionWebhookServer();
+
+    kubernetesServer.before();
 
     OperatorContext.createInstance(getClusterMode(), "cluster.local");
     server.registerWebhook(new GerritClusterAdmissionWebhook(getClusterMode()));

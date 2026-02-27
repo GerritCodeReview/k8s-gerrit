@@ -24,7 +24,7 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.HashMap;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = GerritClusterMappingGETReplicaDiscriminator.class)
 public class GerritClusterMappingGETReplica extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
@@ -53,7 +53,7 @@ public class GerritClusterMappingGETReplica extends AbstractAmbassadorDependentR
             .withNewQueryParameters()
             .withAdditionalProperties(
                 new HashMap<String, Object>(ImmutableMap.of("service", "git-upload-pack")))
-            .endQueryParameters()
+            .endV2QueryParameters()
             .withMethod("GET")
             .withPrefix(INFO_REFS_PATTERN)
             .withPrefixRegex(true)

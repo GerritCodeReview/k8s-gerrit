@@ -25,7 +25,7 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.Map;
 
-@KubernetesDependent
+@KubernetesDependent(resourceDiscriminator = SharedPVCDiscriminator.class)
 public class SharedPVC extends CRUDKubernetesDependentPVCResource<GerritCluster> {
 
   public static final String SHARED_PVC_NAME = "shared-pvc";
