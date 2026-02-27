@@ -78,7 +78,7 @@ public class GerritInitConfigMap
         config.setRefdb(SPANNER.toString().toLowerCase(Locale.US));
         break;
       case DYNAMODB:
-        config.setRefdb("aws-"+DYNAMODB.toString().toLowerCase(Locale.US));
+        config.setRefdb("aws-" + DYNAMODB.toString().toLowerCase(Locale.US));
         break;
       default:
         break;
