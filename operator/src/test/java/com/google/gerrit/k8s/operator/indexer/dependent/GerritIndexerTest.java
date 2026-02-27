@@ -112,7 +112,7 @@ public class GerritIndexerTest {
             kubernetesServer.createClient());
 
     return new DefaultContext<GerritIndexer>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary, false, false);
+        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private void assertDesiredConfigMapCreated(ConfigMap actual, ConfigMap expected) {

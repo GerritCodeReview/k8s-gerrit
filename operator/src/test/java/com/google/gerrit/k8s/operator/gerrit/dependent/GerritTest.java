@@ -103,7 +103,7 @@ public class GerritTest {
             kubernetesServer.createClient());
 
     return new DefaultContext<Gerrit>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary, false, false);
+        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {

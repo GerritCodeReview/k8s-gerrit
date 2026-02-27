@@ -15,13 +15,13 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
-		<fabric8.version>7.5.2</fabric8.version>
+		<fabric8.version>7.3.1</fabric8.version>
 		<flogger.version>0.8</flogger.version>
 		<guice.version>7.0.0</guice.version>
-		<javaoperatorsdk.version>5.2.3</javaoperatorsdk.version>
+		<javaoperatorsdk.version>5.1.0</javaoperatorsdk.version>
 		<jetty.version>11.0.25</jetty.version>
-		<log42.version>2.25.3</log42.version>
-		<sundrio.version>0.230.1</sundrio.version>
+		<log42.version>2.24.3</log42.version>
+		<sundrio.version>0.200.0</sundrio.version>
 		<lombok.version>1.18.38</lombok.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>

@@ -34,7 +34,6 @@ import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
-import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +41,7 @@ import java.util.Set;
 
 public class GerritIstioServiceEntries
     extends CRUDReconcileAddKubernetesDependentResource<ServiceEntry, GerritNetwork>
-    implements Deleter<GerritNetwork>,
-        BulkDependentResource<ServiceEntry, GerritNetwork, ResourceID> {
+    implements Deleter<GerritNetwork>, BulkDependentResource<ServiceEntry, GerritNetwork> {
 
   public GerritIstioServiceEntries() {
     super(ServiceEntry.class);
@@ -91,9 +89,9 @@ public class GerritIstioServiceEntries
   }
 
   @Override
-  public Map<ResourceID, ServiceEntry> desiredResources(
+  public Map<String, ServiceEntry> desiredResources(
       GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
-    Map<ResourceID, ServiceEntry> serviceEntries = new HashMap<>();
+    Map<String, ServiceEntry> serviceEntries = new HashMap<>();
     if (gerritNetwork.hasPrimaryGerrit()) {
       String primaryGerritName = gerritNetwork.getSpec().getPrimaryGerrit().getName();
 
@@ -112,7 +110,8 @@ public class GerritIstioServiceEntries
       for (int i = 0; i < sts.getSpec().getReplicas(); i++) {
         String podName = String.format("%s-%d", primaryGerritName, i);
         String namespace = gerritNetwork.getMetadata().getNamespace();
-        ServiceEntry se =
+        serviceEntries.put(
+            podName,
             desired(
                 podName,
                 podName,
@@ -121,9 +120,9 @@ public class GerritIstioServiceEntries
                     podName,
                     new GerritService()
                         .getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
-                    namespace));
-        serviceEntries.put(ResourceID.fromResource(se), se);
-        ServiceEntry headlessSe =
+                    namespace)));
+        serviceEntries.put(
+            podName + "-headless",
             desired(
                 podName + "-headless",
                 podName,
@@ -132,20 +131,19 @@ public class GerritIstioServiceEntries
                     podName,
                     new GerritHeadlessService()
                         .getName(gerritNetwork.getSpec().getPrimaryGerrit().getName()),
-                    namespace));
-        serviceEntries.put(ResourceID.fromResource(headlessSe), headlessSe);
+                    namespace)));
       }
     }
     return serviceEntries;
   }
 
   @Override
-  public Map<ResourceID, ServiceEntry> getSecondaryResources(
+  public Map<String, ServiceEntry> getSecondaryResources(
       GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     Set<ServiceEntry> serviceEntries = context.getSecondaryResources(ServiceEntry.class);
-    Map<ResourceID, ServiceEntry> result = new HashMap<>(serviceEntries.size());
+    Map<String, ServiceEntry> result = new HashMap<>(serviceEntries.size());
     for (ServiceEntry se : serviceEntries) {
-      result.put(ResourceID.fromResource(se), se);
+      result.put(se.getMetadata().getName(), se);
     }
     return result;
   }

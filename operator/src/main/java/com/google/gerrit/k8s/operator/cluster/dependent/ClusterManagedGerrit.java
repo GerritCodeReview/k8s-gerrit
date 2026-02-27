@@ -21,29 +21,26 @@ import com.google.gerrit.k8s.operator.util.KubernetesDependentCustomResource;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
-import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class ClusterManagedGerrit extends KubernetesDependentCustomResource<Gerrit, GerritCluster>
-    implements Deleter<GerritCluster>, BulkDependentResource<Gerrit, GerritCluster, ResourceID> {
+    implements Deleter<GerritCluster>, BulkDependentResource<Gerrit, GerritCluster> {
 
   public ClusterManagedGerrit() {
     super(Gerrit.class);
   }
 
   @Override
-  public Map<ResourceID, Gerrit> desiredResources(
+  public Map<String, Gerrit> desiredResources(
       GerritCluster gerritCluster, Context<GerritCluster> context) {
-    Map<ResourceID, Gerrit> gerrits = new HashMap<>();
+    Map<String, Gerrit> gerrits = new HashMap<>();
     for (GerritTemplate template : gerritCluster.getSpec().getGerrits()) {
-      Gerrit desired = desired(gerritCluster, template);
-      ResourceID id = ResourceID.fromResource(desired);
-      if (gerrits.get(id) != null) {
+      if (gerrits.get(template.getMetadata().getName()) != null) {
         throw new IllegalArgumentException("Each gerrit spec must use a different metadata.name");
       }
-      gerrits.put(id, desired);
+      gerrits.put(template.getMetadata().getName(), desired(gerritCluster, template));
     }
     return gerrits;
   }
@@ -53,12 +50,12 @@ public class ClusterManagedGerrit extends KubernetesDependentCustomResource<Gerr
   }
 
   @Override
-  public Map<ResourceID, Gerrit> getSecondaryResources(
+  public Map<String, Gerrit> getSecondaryResources(
       GerritCluster primary, Context<GerritCluster> context) {
     Set<Gerrit> gerrits = context.getSecondaryResources(Gerrit.class);
-    Map<ResourceID, Gerrit> result = new HashMap<>(gerrits.size());
+    Map<String, Gerrit> result = new HashMap<>(gerrits.size());
     for (Gerrit gerrit : gerrits) {
-      result.put(ResourceID.fromResource(gerrit), gerrit);
+      result.put(gerrit.getMetadata().getName(), gerrit);
     }
     return result;
   }

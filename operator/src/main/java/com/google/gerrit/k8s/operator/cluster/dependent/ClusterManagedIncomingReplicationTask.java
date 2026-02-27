@@ -22,7 +22,6 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
-import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,33 +30,33 @@ import java.util.Set;
 public class ClusterManagedIncomingReplicationTask
     extends KubernetesDependentCustomResource<IncomingReplicationTask, GerritCluster>
     implements Deleter<GerritCluster>,
-        BulkDependentResource<IncomingReplicationTask, GerritCluster, ResourceID> {
+        BulkDependentResource<IncomingReplicationTask, GerritCluster> {
 
   public ClusterManagedIncomingReplicationTask() {
     super(IncomingReplicationTask.class);
   }
 
   @Override
-  public Map<ResourceID, IncomingReplicationTask> desiredResources(
+  public Map<String, IncomingReplicationTask> desiredResources(
       GerritCluster primary, Context<GerritCluster> context) {
-    Map<ResourceID, IncomingReplicationTask> incomingReplTasks = new HashMap<>();
+    Map<String, IncomingReplicationTask> incomingReplTasks = new HashMap<>();
     for (IncomingReplicationTaskTemplate incomingReplTaskTemplate :
         primary.getSpec().getScheduledTasks().getIncomingReplication()) {
       IncomingReplicationTask incomingReplTask =
           incomingReplTaskTemplate.toIncomingReplicationTask(primary);
-      incomingReplTasks.put(ResourceID.fromResource(incomingReplTask), incomingReplTask);
+      incomingReplTasks.put(incomingReplTask.getMetadata().getName(), incomingReplTask);
     }
     return incomingReplTasks;
   }
 
   @Override
-  public Map<ResourceID, IncomingReplicationTask> getSecondaryResources(
+  public Map<String, IncomingReplicationTask> getSecondaryResources(
       GerritCluster primary, Context<GerritCluster> context) {
     Set<IncomingReplicationTask> incomingReplTasks =
         context.getSecondaryResources(IncomingReplicationTask.class);
-    Map<ResourceID, IncomingReplicationTask> result = new HashMap<>(incomingReplTasks.size());
+    Map<String, IncomingReplicationTask> result = new HashMap<>(incomingReplTasks.size());
     for (IncomingReplicationTask incomingReplTask : incomingReplTasks) {
-      result.put(ResourceID.fromResource(incomingReplTask), incomingReplTask);
+      result.put(incomingReplTask.getMetadata().getName(), incomingReplTask);
     }
     return result;
   }

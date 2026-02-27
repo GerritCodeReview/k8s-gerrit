@@ -411,17 +411,6 @@ spec:
                               fieldPath:
                                 type: string
                             type: object
-                          fileKeyRef:
-                            properties:
-                              key:
-                                type: string
-                              optional:
-                                type: boolean
-                              path:
-                                type: string
-                              volumeName:
-                                type: string
-                            type: object
                           resourceFieldRef:
                             properties:
                               containerName:

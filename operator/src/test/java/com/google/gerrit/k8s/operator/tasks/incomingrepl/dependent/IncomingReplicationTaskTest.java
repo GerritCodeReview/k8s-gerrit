@@ -31,7 +31,6 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.processing.Controller;
-import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
 import java.net.HttpURLConnection;
@@ -64,7 +63,7 @@ public class IncomingReplicationTaskTest {
     IncomingReplicationTask incomingReplTask =
         new ClusterManagedIncomingReplicationTask()
             .desiredResources(input, null)
-            .get(ResourceID.fromResource(expectedReplTask));
+            .get(expectedReplTask.getMetadata().getName());
     assertThat(incomingReplTask).isEqualTo(expectedReplTask);
 
     Secret testSecret =
@@ -111,7 +110,7 @@ public class IncomingReplicationTaskTest {
             kubernetesServer.createClient());
 
     return new DefaultContext<IncomingReplicationTask>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary, false, false);
+        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {

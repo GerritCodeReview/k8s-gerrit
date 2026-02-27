@@ -81,7 +81,7 @@ public class GitGarbageCollectionTest {
             kubernetesServer.createClient());
 
     return new DefaultContext<GitGarbageCollection>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary, false, false);
+        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {
