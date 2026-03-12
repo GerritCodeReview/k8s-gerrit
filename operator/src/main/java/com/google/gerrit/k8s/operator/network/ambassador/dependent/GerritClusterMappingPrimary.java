@@ -35,7 +35,7 @@ public class GerritClusterMappingPrimary extends AbstractAmbassadorDependentReso
 
     String primaryServiceName =
         gerritNetwork.getSpec().getPrimaryGerrit().getName()
-            + ":"
+            + ".svc.cluster.local.:"
             + gerritNetwork.getSpec().getPrimaryGerrit().getHttpPort();
 
     // Send all write traffic (non git fetch/clone traffic) to the Primary.

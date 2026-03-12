@@ -102,6 +102,7 @@ import java.util.Map;
  */
 @Singleton
 @ControllerConfiguration(
+    namespaces = {"gerrit-operator"},
     dependents = {
       @Dependent(
           name = GERRIT_MAPPING,

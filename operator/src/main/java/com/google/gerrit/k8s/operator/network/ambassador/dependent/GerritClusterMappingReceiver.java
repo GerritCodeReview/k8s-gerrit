@@ -39,7 +39,7 @@ public class GerritClusterMappingReceiver extends AbstractAmbassadorDependentRes
 
     String receiverServiceName =
         ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName())
-            + ":"
+            + ".svc.cluster.local.:"
             + gerritNetwork.getSpec().getReceiver().getHttpPort();
 
     Mapping mapping =

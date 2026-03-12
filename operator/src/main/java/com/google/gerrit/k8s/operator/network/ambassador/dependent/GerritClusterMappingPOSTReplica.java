@@ -37,7 +37,7 @@ public class GerritClusterMappingPOSTReplica extends AbstractAmbassadorDependent
 
     String replicaServiceName =
         gerritNetwork.getSpec().getGerritReplica().getName()
-            + ":"
+            + ".svc.cluster.local.:"
             + gerritNetwork.getSpec().getGerritReplica().getHttpPort();
 
     // Send fetch/clone POST requests to the Replica

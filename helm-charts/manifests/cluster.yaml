@@ -1,0 +1,128 @@
+apiVersion: "gerritoperator.google.com/v1beta15"
+kind: GerritCluster
+metadata:
+  name: gerrit
+  namespace: gerrit-operator
+spec:
+  containerImages:
+    gerritImages:
+      registry: docker.io
+      org: k8sgerrit
+      tag: v0.1-788-ga9a3c4905f-3.12.0-639-g649a7b4771
+
+  eventsBroker:
+    brokerType: KAFKA
+    kafkaConfig:
+      connectString: ephemeral-cluster-kafka-bootstrap.strimzi-kafka-operator:9092
+
+  storage:
+    storageClasses:
+      readWriteOnce: portworx-fada
+
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper.gerrit-operator.svc.cluster.local:2181
+
+  ingress:
+    enabled: true
+    host: gerrit-via-operator.dev.corp.arista.io
+    tls:
+      enabled: false
+      secret: ""
+    ambassador:
+      id: ["internal_proxy"]
+      createHost: false
+
+  serverId: "minikube-gerrit"
+
+  fluentBitSidecar:
+    enabled: false
+
+  gerrits:
+  - metadata:
+      name: gerrit
+      labels:
+        app: gerrit
+    spec:
+      serviceAccount: gerrit
+
+      replicas: 2
+
+      resources:
+        requests:
+          cpu: 1
+          memory: 5Gi
+        limits:
+          cpu: 1
+          memory: 6Gi
+
+      startupProbe:
+        initialDelaySeconds: 120
+        periodSeconds: 10
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 3
+
+      readinessProbe:
+        initialDelaySeconds: 120
+        periodSeconds: 10
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 3
+
+      livenessProbe:
+        initialDelaySeconds: 120
+        periodSeconds: 10
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 3
+
+      service:
+        type: NodePort
+        httpPort: 8080
+        sshPort: 29418
+
+      mode: PRIMARY
+
+      site:
+        size: 2Gi
+
+      plugins:
+      - name: download-commands
+      - name: delete-project
+
+      configFiles:
+        gerrit.config: |-
+            [index]
+              type = LUCENE
+            [auth]
+              type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+            [httpd]
+              requestLog = true
+              gracefulStopTimeout = 20s
+            [user]
+              name = Gerrit Code Review
+              email = gerrit@example.com
+              anonymousCoward = Unnamed User
+            [container]
+              javaOptions = -Xms200m
+              javaOptions = -Xmx4g
+            [plugin "events-kafka"]
+              autoCommitIntervalMs = 1000
+
+        replication.config: |-
+            [remote]
+              fetch = +refs/*:refs/*
+              mirror = true
+              timeout = 600
+              replicateProjectDeletions = true
+            [replication]
+              lockErrorMaxRetries = 5
+              maxRetries = 5
+
+        multi-site.config: |-
+            [index]
+              maxTries = 50
+
+      secretRef: gerrit-secure-config

@@ -39,7 +39,7 @@ public class GerritClusterMapping extends AbstractAmbassadorDependentResource<Ma
         gerritNetwork.hasGerritReplica()
             ? gerritNetwork.getSpec().getGerritReplica()
             : gerritNetwork.getSpec().getPrimaryGerrit();
-    String serviceName = gerrit.getName() + ":" + gerrit.getHttpPort();
+    String serviceName = gerrit.getName() + ".svc.cluster.local.:" + gerrit.getHttpPort();
     Mapping mapping =
         new MappingBuilder()
             .withNewMetadataLike(

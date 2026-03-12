@@ -26,8 +26,8 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<platform.os>linux</platform.os>
 		<platform.architecture>amd64</platform.architecture>
-		<docker.registry>docker.io</docker.registry>
-		<docker.org>k8sgerrit</docker.org>
+		<docker.registry>docker.corp.arista.io</docker.registry>
+		<!-- <docker.org>k8sgerrit</docker.org> -->
 
 		<test.docker.registry>docker.io</test.docker.registry>
 		<test.docker.org>k8sgerritdev</test.docker.org>
@@ -62,7 +62,7 @@
 										</platforms>
 									</from>
 									<to>
-										<image>${docker.registry}/${docker.org}/gerrit-operator</image>
+										<image>${docker.registry}/gerrit-operator</image>
 										<tags>
 											<tag>${project.version}</tag>
 										</tags>
