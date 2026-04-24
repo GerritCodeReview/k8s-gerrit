@@ -41,6 +41,8 @@ INDEX_TYPE="LUCENE"
 INDEX_MODULE="$(git config --file /var/gerrit/etc/gerrit.config gerrit.installIndexModule | tr '[:upper:]' '[:lower:]')"
 if [ "$INDEX_MODULE" = "elasticsearch" ]; then
   INDEX_TYPE="ELASTICSEARCH"
+elif [ "$INDEX_MODULE" = "opensearch" ]; then
+  INDEX_TYPE="OPENSEARCH"
 fi
 
 JAVA_OPTIONS=$(git config --file /var/gerrit/etc/gerrit.config --get-all container.javaOptions)

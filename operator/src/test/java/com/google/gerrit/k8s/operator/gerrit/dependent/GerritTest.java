@@ -134,6 +134,13 @@ public class GerritTest {
             "gerrit-init_configmap_ha_primary.yaml",
             "statefulset_es_primary.yaml",
             "service_ha_primary.yaml",
+            "headless_service_ha_primary.yaml"),
+        Arguments.of(
+            "../gerrit_os_primary.yaml",
+            "gerrit_configmap_os_primary.yaml",
+            "gerrit-init_configmap_ha_primary.yaml",
+            "statefulset_os_primary.yaml",
+            "service_ha_primary.yaml",
             "headless_service_ha_primary.yaml"));
   }
 }
