@@ -35,6 +35,7 @@ INDEXES_REPLICA = set(["groups"])
 class IndexType(enum.Enum):
     LUCENE = enum.auto()
     ELASTICSEARCH = enum.auto()
+    OPENSEARCH = enum.auto()
 
 
 class GerritAbstractReindexer(abc.ABC):
@@ -164,23 +165,24 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
         return lucene_indices
 
 
-class GerritElasticSearchReindexer(GerritAbstractReindexer):
-    def _get_elasticsearch_config(self):
-        es_config = {}
+class GerritRemoteIndexer(GerritAbstractReindexer):
+    def _get_config(self):
+        engine_config = {}
         gerrit_config = git.GitConfigParser(
             os.path.join(SITE_PATH, "etc", "gerrit.config")
         )
-        es_config["prefix"] = gerrit_config.get(
-            "elasticsearch.prefix", default=""
+        index_type = get_index_type(gerrit_config).name.lower()
+        engine_config["prefix"] = gerrit_config.get(
+            f"{index_type}.prefix", default=""
         ).lower()
-        es_config["server"] = gerrit_config.get(
-            "elasticsearch.server", default=""
+        engine_config["server"] = gerrit_config.get(
+            f"{index_type}.server", default=""
         ).lower()
-        return es_config
+        return engine_config
 
     def _get_indices(self):
-        es_config = self._get_elasticsearch_config()
-        url = f"{es_config['server']}/{es_config['prefix']}*"
+        engine_config = self._get_config()
+        url = f"{engine_config['server']}/{engine_config['prefix']}*"
         try:
             response = requests.get(url)
         except requests.exceptions.SSLError:
@@ -189,7 +191,7 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
         es_indices = {}
         for index, _ in response.json().items():
             try:
-                index = index.replace(es_config["prefix"], "", 1)
+                index = index.replace(engine_config["prefix"], "", 1)
                 (name, version) = index.split("_")
                 es_indices[name] = version
             except ValueError:
@@ -213,8 +215,11 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
 
 
 def get_reindexer(gerrit_config, initializer_config):
-    if get_index_type(gerrit_config) == IndexType.ELASTICSEARCH:
-        return GerritElasticSearchReindexer(gerrit_config, initializer_config)
+    if (
+        get_index_type(gerrit_config) == IndexType.ELASTICSEARCH
+        or get_index_type(gerrit_config) == IndexType.OPENSEARCH
+    ):
+        return GerritRemoteIndexer(gerrit_config, initializer_config)
 
     return GerritLuceneReindexer(gerrit_config, initializer_config)
 
@@ -223,5 +228,7 @@ def get_index_type(gerrit_config):
     indexModule = gerrit_config.get("gerrit.installIndexModule")
     if indexModule and indexModule.startswith("com.google.gerrit.elasticsearch"):
         return IndexType.ELASTICSEARCH
+    if indexModule and indexModule.startswith("com.google.gerrit.opensearch"):
+        return IndexType.OPENSEARCH
 
     return IndexType.LUCENE
