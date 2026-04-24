@@ -53,6 +53,7 @@ public class HighAvailabilityPluginConfigBuilder extends ConfigBuilder {
           break;
         }
       case ELASTICSEARCH:
+      case OPENSEARCH:
         {
           requiredOptions.add(new RequiredOption<Boolean>("index", "synchronize", false));
           break;
