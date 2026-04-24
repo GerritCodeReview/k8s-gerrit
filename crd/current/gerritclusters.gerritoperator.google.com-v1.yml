@@ -876,7 +876,7 @@ spec:
                 type: array
               index:
                 properties:
-                  elasticsearch:
+                  remoteIndexConfig:
                     properties:
                       config:
                         type: string
@@ -887,6 +887,7 @@ spec:
                     enum:
                     - ELASTICSEARCH
                     - LUCENE
+                    - OPENSEARCH
                     type: string
                 type: object
               ingress:
