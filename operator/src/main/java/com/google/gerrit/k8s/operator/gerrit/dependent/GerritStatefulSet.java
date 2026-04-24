@@ -323,7 +323,8 @@ public class GerritStatefulSet
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
-    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
+    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH
+        || gerrit.getSpec().getIndex().getType() == IndexType.OPENSEARCH) {
       volumeMounts.add(GerritCluster.getIndexConfigVolumeMount());
     }
     if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {

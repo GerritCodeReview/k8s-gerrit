@@ -7,7 +7,7 @@ spec:
   cluster: gerrit
   index:
     type: ELASTICSEARCH
-    elasticsearch:
+    engineConfig:
       server: http://elasticsearch.example.com:9200
       config: |-
         [elasticsearch]
