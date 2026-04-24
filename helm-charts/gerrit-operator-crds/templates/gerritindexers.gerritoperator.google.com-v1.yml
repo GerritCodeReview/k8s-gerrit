@@ -362,10 +362,18 @@ spec:
                         server:
                           type: string
                       type: object
+                    opensearch:
+                      properties:
+                        config:
+                          type: string
+                        server:
+                          type: string
+                      type: object
                     type:
                       enum:
                         - ELASTICSEARCH
                         - LUCENE
+                        - OPENSEARCH
                       type: string
                   type: object
                 resources:
@@ -487,7 +495,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta15
+    - name: v1beta16
       schema:
         openAPIV3Schema:
           properties:
@@ -836,9 +844,17 @@ spec:
                         server:
                           type: string
                       type: object
+                    opensearch:
+                      properties:
+                        config:
+                          type: string
+                        server:
+                          type: string
+                      type: object
                     type:
                       enum:
                         - ELASTICSEARCH
+                        - OPENSEARCH
                         - LUCENE
                       type: string
                   type: object

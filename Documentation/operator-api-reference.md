@@ -34,6 +34,7 @@
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
   - [ElasticSearchConfig](#elasticsearchconfig)
+  - [OpenSearchConfig](#opensearchconfig)
   - [EventsBrokerConfig](#eventsbrokerconfig)
   - [BrokerType](#brokertype)
   - [KafkaConfig](#kafkaconfig)
@@ -1224,8 +1225,9 @@ configure Gerrit to use it.
 
 | Field | Type | Description |
 |---|---|---|
-| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`. (default: `LUCENE`) |
+| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`, `OPENSEARCH`. (default: `LUCENE`) |
 | `elasticsearch` | [`ElasticSearchConfig`](#elasticsearchconfig) | Configuration of elasticsearch. Only used if elasticsearch was configured to be used for the search index. |
+| `opensearch` | [`OpenSearchConfig`](#opensearchconfig) | Configuration of opensearch. Only used if opensearch was configured to be used for the search index. |
 
 ## IndexType
 
@@ -1233,6 +1235,7 @@ configure Gerrit to use it.
 |---|---|
 | `LUCENE` | Lucene will be used for the search index |
 | `ELASTICSEARCH` | Elasticsearch will be used for the search index (Requires Elasticsearch instance to be available.) |
+| `OPENSEARCH` | Opensearch will be used for the search index (Requires Opensearch instance to be available.) |
 
 ## ElasticSearchConfig
 
@@ -1240,6 +1243,13 @@ configure Gerrit to use it.
 |---|---|---|
 | `server` | `String` | URL to use for connecting to Elasticsearch |
 | `config` | `String` | Config snippet used for the `elasticsearch` section in `gerrit.config` |
+
+## OpenSearchConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `server` | `String` | URL to use for connecting to Opensearch |
+| `config` | `String` | Config snippet used for the `opensearch` section in `gerrit.config` |
 
 ## EventsBrokerConfig
 
