@@ -15,6 +15,17 @@
 package com.google.gerrit.k8s.operator.api.model.shared;
 
 public enum IndexType {
-  LUCENE,
-  ELASTICSEARCH,
+  LUCENE(false),
+  ELASTICSEARCH(true),
+  OPENSEARCH(true);
+
+  private final boolean remote;
+
+  IndexType(boolean remote) {
+    this.remote = remote;
+  }
+
+  public boolean isRemote() {
+    return remote;
+  }
 }

@@ -13,7 +13,7 @@ spec:
     singular: receiver
   scope: Namespaced
   versions:
-    - name: v1beta17
+    - name: v1beta18
       schema:
         openAPIV3Schema:
           properties:
@@ -687,7 +687,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta16
+    - name: v1beta17
       schema:
         openAPIV3Schema:
           properties:

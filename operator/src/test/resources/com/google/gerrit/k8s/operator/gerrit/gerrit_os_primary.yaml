@@ -42,6 +42,14 @@ spec:
     zookeeper:
       connectString: zookeeper.example.com
 
+  index:
+    type: OPENSEARCH
+    remoteIndexConfig:
+      server: http://opensearch.example.com:9200
+      config: |-
+        [opensearch]
+          codec = default
+
   serviceAccount: gerrit
   replicas: 2
   service:
