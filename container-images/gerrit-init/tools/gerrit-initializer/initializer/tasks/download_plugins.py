@@ -101,6 +101,8 @@ class AbstractPluginInstaller(ABC):
             required.append(f"{self.config.refdb}-refdb")
         if get_index_type(self.gerrit_config) == IndexType.ELASTICSEARCH:
             required.append("index-elasticsearch")
+        if get_index_type(self.gerrit_config) == IndexType.OPENSEARCH:
+            required.append("index-opensearch")
         LOG.info(
             "Requiring plugins (ClusterMode: %s): %s",
             self.config.cluster_mode.name,
@@ -118,6 +120,8 @@ class AbstractPluginInstaller(ABC):
             required.append("global-refdb")
         if get_index_type(self.gerrit_config) == IndexType.ELASTICSEARCH:
             required.append("index-elasticsearch")
+        if get_index_type(self.gerrit_config) == IndexType.OPENSEARCH:
+            required.append("index-opensearch")
         LOG.info(
             "Requiring libs (ClusterMode: %s): %s",
             self.config.cluster_mode.name,
