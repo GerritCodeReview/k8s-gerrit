@@ -28,14 +28,13 @@ public class DynamoDbRefDbPluginConfigBuilder extends ConfigBuilder {
 
   private static List<RequiredOption<?>> collectRequiredOptions(Gerrit gerrit) {
     List<RequiredOption<?>> requiredOptions = new ArrayList<>();
-    String endpoint =
-            gerrit.getSpec().getRefdb().getDynamoDb().getEndpoint();
+    String endpoint = gerrit.getSpec().getRefdb().getDynamoDb().getEndpoint();
 
     if (endpoint == null || endpoint.isEmpty()) {
       endpoint =
-              "https://dynamodb."
-                      + gerrit.getSpec().getRefdb().getDynamoDb().getRegion()
-                      + ".amazonaws.com";
+          "https://dynamodb."
+              + gerrit.getSpec().getRefdb().getDynamoDb().getRegion()
+              + ".amazonaws.com";
     }
     requiredOptions.add(
         new RequiredOption<String>(
@@ -45,11 +44,7 @@ public class DynamoDbRefDbPluginConfigBuilder extends ConfigBuilder {
             gerrit.getSpec().getRefdb().getDynamoDb().getRegion()));
 
     requiredOptions.add(
-        new RequiredOption<String>(
-            "ref-database",
-            "aws-dynamodb-refdb",
-            "endpoint",
-            endpoint));
+        new RequiredOption<String>("ref-database", "aws-dynamodb-refdb", "endpoint", endpoint));
 
     requiredOptions.add(
         new RequiredOption<String>(

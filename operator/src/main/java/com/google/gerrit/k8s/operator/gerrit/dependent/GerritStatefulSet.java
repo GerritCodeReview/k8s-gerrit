@@ -183,7 +183,8 @@ public class GerritStatefulSet
         .withCommand(
             "/bin/ash",
             "-c",
-            "kill -s SIGTERM $(pidof java); jstack $(pidof java) > /var/gerrit/logs/td_$(date +%Y-%m-%dT%H:%M); tail --pid=$(pidof java) -f /dev/null")
+            "kill -s SIGTERM $(pidof java); jstack $(pidof java) > /var/gerrit/logs/td_$(date"
+                + " +%Y-%m-%dT%H:%M); tail --pid=$(pidof java) -f /dev/null")
         .endExec()
         .endPreStop()
         .endLifecycle()
@@ -323,7 +324,8 @@ public class GerritStatefulSet
     if (gerrit.getSpec().isHighlyAvailablePrimary()) {
       volumeMounts.add(GerritCluster.getHAShareVolumeMount());
     }
-    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
+    if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH
+        || gerrit.getSpec().getIndex().getType() == IndexType.OPENSEARCH) {
       volumeMounts.add(GerritCluster.getIndexConfigVolumeMount());
     }
     if (OperatorContext.getClusterMode() == ClusterMode.HIGH_AVAILABILITY) {
@@ -467,7 +469,8 @@ public class GerritStatefulSet
         gerrit.getStatus().getAppliedConfigMapVersions().get(configMapName);
     if (!configMapVersion.equals(knownConfigMapVersion)) {
       logger.atInfo().log(
-          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version known to Gerrit: %s",
+          "Looking up ConfigMap: %s; Installed configmap resource version: %s; Resource version"
+              + " known to Gerrit: %s",
           configMapName, configMapVersion, knownConfigMapVersion);
       return true;
     }
@@ -488,7 +491,8 @@ public class GerritStatefulSet
       String secVersion = gerritSecret.get().getMetadata().getResourceVersion();
       if (!secVersion.equals(gerrit.getStatus().getAppliedSecretVersions().get(secretName))) {
         logger.atFine().log(
-            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known to Gerrit: %s",
+            "Looking up Secret: %s; Installed secret resource version: %s; Resource version known"
+                + " to Gerrit: %s",
             secretName, secVersion, gerrit.getStatus().getAppliedSecretVersions().get(secretName));
         return true;
       }
