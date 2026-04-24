@@ -35,6 +35,7 @@ INDEXES_REPLICA = set(["groups"])
 class IndexType(enum.Enum):
     LUCENE = enum.auto()
     ELASTICSEARCH = enum.auto()
+    OPENSEARCH = enum.auto()
 
 
 class GerritAbstractReindexer(abc.ABC):
@@ -165,7 +166,7 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
 
 
 class GerritElasticSearchReindexer(GerritAbstractReindexer):
-    def _get_elasticsearch_config(self):
+    def _get_search_config(self):
         es_config = {}
         gerrit_config = git.GitConfigParser(
             os.path.join(SITE_PATH, "etc", "gerrit.config")
@@ -179,7 +180,7 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
         return es_config
 
     def _get_indices(self):
-        es_config = self._get_elasticsearch_config()
+        es_config = self._get_search_config()
         url = f"{es_config['server']}/{es_config['prefix']}*"
         try:
             response = requests.get(url)
@@ -212,9 +213,22 @@ class GerritElasticSearchReindexer(GerritAbstractReindexer):
         os.symlink(index_mnt_path, index_site_path, target_is_directory=True)
 
 
+class GerritOpenSearchReindexer(GerritElasticSearchReindexer):
+    def _get_search_config(self):
+        es_config = {}
+        gerrit_config = git.GitConfigParser(
+            os.path.join(SITE_PATH, "etc", "gerrit.config")
+        )
+        es_config["prefix"] = gerrit_config.get("opensearch.prefix", default="").lower()
+        es_config["server"] = gerrit_config.get("opensearch.server", default="").lower()
+        return es_config
+
+
 def get_reindexer(gerrit_config, initializer_config):
     if get_index_type(gerrit_config) == IndexType.ELASTICSEARCH:
         return GerritElasticSearchReindexer(gerrit_config, initializer_config)
+    if get_index_type(gerrit_config) == IndexType.OPENSEARCH:
+        return GerritOpenSearchReindexer(gerrit_config, initializer_config)
 
     return GerritLuceneReindexer(gerrit_config, initializer_config)
 
@@ -223,5 +237,7 @@ def get_index_type(gerrit_config):
     indexModule = gerrit_config.get("gerrit.installIndexModule")
     if indexModule and indexModule.startswith("com.google.gerrit.elasticsearch"):
         return IndexType.ELASTICSEARCH
+    if indexModule and indexModule.startswith("com.google.gerrit.opensearch"):
+        return IndexType.OPENSEARCH
 
     return IndexType.LUCENE

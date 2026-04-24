@@ -24,6 +24,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.ElasticSearchConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.OpenSearchConfig;
 import java.util.Map;
 import java.util.Set;
 import org.assertj.core.util.Arrays;
@@ -112,6 +113,54 @@ public class GerritConfigBuilderTest {
     Config cfg = new GerritConfigBuilder(gerrit).build();
     assertTrue(cfg.getString("elasticsearch", null, "server").equals("http://es.example.com"));
     assertTrue(cfg.getString("elasticsearch", null, "codec").equals("default"));
+  }
+
+  @Test
+  public void validOpenSearchConfigIsParsed() {
+    assertOsConfig("[opensearch]\n  codec = default");
+    assertOsConfig("[opensearch]\n # test comment\n codec = default");
+    assertOsConfig("[opensearch]\n codec = default # test comment");
+    assertOsConfig("[opensearch]\n\n codec = default");
+
+    Gerrit gerrit = createGerritWithOpenSearch("[opensearch]\n username = \"hash#tag\"");
+    Config cfg = new GerritConfigBuilder(gerrit).build();
+    assertTrue(cfg.getString("opensearch", null, "username").equals("hash#tag"));
+  }
+
+  @Test
+  public void invalidOpenSearchConfigCausesError() {
+    assertThrows(
+        IllegalStateException.class,
+        () ->
+            new GerritConfigBuilder(createGerritWithOpenSearch("[invalid]\n  codec = default"))
+                .build());
+    assertThrows(
+        IllegalStateException.class,
+        () ->
+            new GerritConfigBuilder(createGerritWithOpenSearch("[invalid]\n  invalidText"))
+                .build());
+  }
+
+  private void assertOsConfig(String osConfig) {
+    Gerrit gerrit = createGerritWithOpenSearch(osConfig);
+    Config cfg = new GerritConfigBuilder(gerrit).build();
+    assertTrue(cfg.getString("opensearch", null, "server").equals("http://os.example.com"));
+    assertTrue(cfg.getString("opensearch", null, "codec").equals("default"));
+  }
+
+  private Gerrit createGerritWithOpenSearch(String osConfigText) {
+    IndexConfig indexConfig = new IndexConfig();
+    indexConfig.setType(IndexType.OPENSEARCH);
+    OpenSearchConfig osConfig = new OpenSearchConfig();
+    osConfig.setServer("http://os.example.com");
+    osConfig.setConfig(osConfigText);
+    indexConfig.setOpenSearch(osConfig);
+
+    GerritSpec gerritSpec = new GerritSpec();
+    gerritSpec.setIndex(indexConfig);
+    Gerrit gerrit = new Gerrit();
+    gerrit.setSpec(gerritSpec);
+    return gerrit;
   }
 
   private Gerrit createGerrit(String configText) {

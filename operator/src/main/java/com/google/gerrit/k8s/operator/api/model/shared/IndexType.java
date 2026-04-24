@@ -17,4 +17,5 @@ package com.google.gerrit.k8s.operator.api.model.shared;
 public enum IndexType {
   LUCENE,
   ELASTICSEARCH,
+  OPENSEARCH,
 }
