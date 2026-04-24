@@ -355,7 +355,7 @@ spec:
                 type: object
               index:
                 properties:
-                  elasticsearch:
+                  engineConfig:
                     properties:
                       config:
                         type: string
@@ -366,6 +366,7 @@ spec:
                     enum:
                     - ELASTICSEARCH
                     - LUCENE
+                    - OPENSEARCH
                     type: string
                 type: object
               resources:
