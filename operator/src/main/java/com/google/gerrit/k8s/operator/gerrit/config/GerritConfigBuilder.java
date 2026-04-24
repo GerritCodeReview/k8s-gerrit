@@ -28,6 +28,7 @@ import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig.RefDatabase;
 import com.google.gerrit.k8s.operator.api.model.shared.IndexType;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
+import com.google.gerrit.k8s.operator.api.model.shared.OpenSearchConfig;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.lib.Config;
 
 public class GerritConfigBuilder extends ConfigBuilder {
   private static final String ES_SECTION_NAME = "elasticsearch";
+  private static final String OS_SECTION_NAME = "opensearch";
 
   public GerritConfigBuilder(Gerrit gerrit) {
     super(
@@ -56,6 +58,9 @@ public class GerritConfigBuilder extends ConfigBuilder {
     requiredOptions.addAll(containerSection(gerrit));
     if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
       requiredOptions.addAll(elasticsearchSection(gerrit));
+    }
+    if (gerrit.getSpec().getIndex().getType() == IndexType.OPENSEARCH) {
+      requiredOptions.addAll(opensearchSection(gerrit));
     }
     requiredOptions.addAll(gerritSection(gerrit));
     requiredOptions.addAll(httpdSection(gerrit));
@@ -97,7 +102,8 @@ public class GerritConfigBuilder extends ConfigBuilder {
         Set<String> sections = parsedEsConfig.getSections();
         if (sections.size() > 1 || !sections.toArray()[0].equals(ES_SECTION_NAME)) {
           throw new IllegalStateException(
-              "No section other than `[elasticsearch]` is allowed in the elasticsearch configuration.");
+              "No section other than `[elasticsearch]` is allowed in the elasticsearch"
+                  + " configuration.");
         }
         Set<String> keys = parsedEsConfig.getNames(ES_SECTION_NAME);
         for (String key : keys) {
@@ -110,6 +116,36 @@ public class GerritConfigBuilder extends ConfigBuilder {
         }
       } catch (ConfigInvalidException e) {
         throw new IllegalStateException("Invalid ElasticSearch config.", e);
+      }
+    }
+    return requiredOptions;
+  }
+
+  private static List<RequiredOption<?>> opensearchSection(Gerrit gerrit) {
+    List<RequiredOption<?>> requiredOptions = new ArrayList<>();
+    OpenSearchConfig osConfig = gerrit.getSpec().getIndex().getOpensearch();
+    requiredOptions.add(
+        new RequiredOption<String>(OS_SECTION_NAME, "server", osConfig.getServer()));
+    if (osConfig.getConfig() != null) {
+      try {
+        Config parsedOsConfig = new Config();
+        parsedOsConfig.fromText(osConfig.getConfig());
+        Set<String> sections = parsedOsConfig.getSections();
+        if (sections.size() > 1 || !sections.toArray()[0].equals(OS_SECTION_NAME)) {
+          throw new IllegalStateException(
+              "No section other than `[opensearch]` is allowed in the opensearch configuration.");
+        }
+        Set<String> keys = parsedOsConfig.getNames(OS_SECTION_NAME);
+        for (String key : keys) {
+          if (key.toLowerCase().equals("server")) {
+            continue;
+          }
+          requiredOptions.add(
+              new RequiredOption<String>(
+                  OS_SECTION_NAME, key, parsedOsConfig.getString(OS_SECTION_NAME, null, key)));
+        }
+      } catch (ConfigInvalidException e) {
+        throw new IllegalStateException("Invalid OpenSearch config.", e);
       }
     }
     return requiredOptions;
@@ -160,6 +196,16 @@ public class GerritConfigBuilder extends ConfigBuilder {
                       ? "com.google.gerrit.elasticsearch.ReplicaElasticIndexModule"
                       : "com.google.gerrit.elasticsearch.ElasticIndexModule")));
     }
+    if (gerrit.getSpec().getIndex().getType() == IndexType.OPENSEARCH) {
+      requiredOptions.add(
+          new RequiredOption<Set<String>>(
+              "gerrit",
+              "installIndexModule",
+              Set.of(
+                  gerrit.getSpec().getMode() == GerritMode.REPLICA
+                      ? "com.google.gerrit.opensearch.ReplicaOpenSearchIndexModule"
+                      : "com.google.gerrit.opensearch.OpenSearchIndexModule")));
+    }
 
     IngressConfig ingressConfig = gerrit.getSpec().getIngress();
     if (ingressConfig.isEnabled()) {
@@ -197,6 +243,12 @@ public class GerritConfigBuilder extends ConfigBuilder {
       requiredOptions.add(
           new RequiredOption<Boolean>("index", "scheduledIndexer", "runOnStartup", false));
     }
+    if (indexType == IndexType.OPENSEARCH && gerritMode == GerritMode.REPLICA) {
+      requiredOptions.add(
+          new RequiredOption<Boolean>("index", "scheduledIndexer", "enabled", false));
+      requiredOptions.add(
+          new RequiredOption<Boolean>("index", "scheduledIndexer", "runOnStartup", false));
+    }
     return requiredOptions;
   }
 
@@ -209,6 +261,9 @@ public class GerritConfigBuilder extends ConfigBuilder {
     }
     if (gerrit.getSpec().getIndex().getType() == IndexType.ELASTICSEARCH) {
       mandatoryPlugins.add("index-elasticsearch");
+    }
+    if (gerrit.getSpec().getIndex().getType() == IndexType.OPENSEARCH) {
+      mandatoryPlugins.add("index-opensearch");
     }
     RefDatabase refDb = gerrit.getSpec().getRefdb().getDatabase();
     switch (refDb) {

@@ -883,10 +883,18 @@ spec:
                       server:
                         type: string
                     type: object
+                  opensearch:
+                    properties:
+                      config:
+                        type: string
+                      server:
+                        type: string
+                    type: object
                   type:
                     enum:
                     - ELASTICSEARCH
                     - LUCENE
+                    - OPENSEARCH
                     type: string
                 type: object
               ingress:

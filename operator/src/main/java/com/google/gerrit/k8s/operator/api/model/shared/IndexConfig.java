@@ -19,6 +19,7 @@ import java.util.Objects;
 public class IndexConfig {
   private IndexType type = IndexType.LUCENE;
   private ElasticSearchConfig elasticsearch = new ElasticSearchConfig();
+  private OpenSearchConfig opensearch = new OpenSearchConfig();
 
   public IndexType getType() {
     return type;
@@ -36,9 +37,17 @@ public class IndexConfig {
     this.elasticsearch = elasticsearch;
   }
 
+  public OpenSearchConfig getOpensearch() {
+    return opensearch;
+  }
+
+  public void setOpenSearch(OpenSearchConfig opensearch) {
+    this.opensearch = opensearch;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(elasticsearch, type);
+    return Objects.hash(elasticsearch, opensearch, type);
   }
 
   @Override
@@ -47,11 +56,19 @@ public class IndexConfig {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     IndexConfig other = (IndexConfig) obj;
-    return Objects.equals(elasticsearch, other.elasticsearch) && type == other.type;
+    return Objects.equals(elasticsearch, other.elasticsearch)
+        && Objects.equals(opensearch, other.opensearch)
+        && type == other.type;
   }
 
   @Override
   public String toString() {
-    return "IndexConfig [type=" + type + ", elasticsearch=" + elasticsearch + "]";
+    return "IndexConfig [type="
+        + type
+        + ", elasticsearch="
+        + elasticsearch
+        + ", opensearch="
+        + opensearch
+        + "]";
   }
 }
