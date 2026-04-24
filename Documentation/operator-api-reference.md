@@ -33,7 +33,6 @@
   - [DynamoDbRefDbConfig](#dynamodbrefdbconfig)
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
-  - [ElasticSearchConfig](#elasticsearchconfig)
   - [EventsBrokerConfig](#eventsbrokerconfig)
   - [BrokerType](#brokertype)
   - [KafkaConfig](#kafkaconfig)
@@ -64,6 +63,7 @@
   - [NetworkMember](#networkmember)
   - [NetworkMemberWithSsh](#networkmemberwithssh)
   - [ScheduledTasks](#scheduledtasks)
+  - [SearchEngineConfig](#searchengineconfig)
   - [IncomingReplicationTaskTemplate](#incomingreplicationtasktemplate)
   - [IncomingReplicationTaskTemplateSpec](#incomingreplicationtasktemplatespec)
   - [IncomingReplicationConfig](#incomingreplicationconfig)
@@ -1224,8 +1224,8 @@ configure Gerrit to use it.
 
 | Field | Type | Description |
 |---|---|---|
-| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`. (default: `LUCENE`) |
-| `elasticsearch` | [`ElasticSearchConfig`](#elasticsearchconfig) | Configuration of elasticsearch. Only used if elasticsearch was configured to be used for the search index. |
+| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`, `OPENSEARCH`. (default: `LUCENE`) |
+| `engineConfig` | [`SearchEngineConfig`](#SearchEngineConfig) | Configuration of the search engine. Only used if elasticsearch or opensearch was configured to be used for the search index. |
 
 ## IndexType
 
@@ -1233,13 +1233,14 @@ configure Gerrit to use it.
 |---|---|
 | `LUCENE` | Lucene will be used for the search index |
 | `ELASTICSEARCH` | Elasticsearch will be used for the search index (Requires Elasticsearch instance to be available.) |
+| `OPENSEARCH` | Opensearch will be used for the search index (Requires Opensearch instance to be available.) |
 
-## ElasticSearchConfig
+## SearchEngineConfig
 
 | Field | Type | Description |
 |---|---|---|
-| `server` | `String` | URL to use for connecting to Elasticsearch |
-| `config` | `String` | Config snippet used for the `elasticsearch` section in `gerrit.config` |
+| `server` | `String` | URL to use for connecting to the search engine |
+| `config` | `String` | Config snippet used for the search section in `gerrit.config`, either `opensearch` or `elasticsearch` |
 
 ## EventsBrokerConfig
 
