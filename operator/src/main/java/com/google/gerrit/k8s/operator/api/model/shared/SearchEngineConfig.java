@@ -1,4 +1,4 @@
-// Copyright (C) 2024 The Android Open Source Project
+// Copyright (C) 2026 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ package com.google.gerrit.k8s.operator.api.model.shared;
 
 import java.util.Objects;
 
-public class ElasticSearchConfig {
+public class SearchEngineConfig {
   private String server;
   private String config;
 
@@ -46,12 +46,12 @@ public class ElasticSearchConfig {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    ElasticSearchConfig other = (ElasticSearchConfig) obj;
+    SearchEngineConfig other = (SearchEngineConfig) obj;
     return Objects.equals(config, other.config) && Objects.equals(server, other.server);
   }
 
   @Override
   public String toString() {
-    return "ElasticSearchConfig [server=" + server + ", config=" + config + "]";
+    return "SearchEngineConfig [server=" + server + ", config=" + config + "]";
   }
 }

@@ -43,11 +43,11 @@ spec:
       connectString: zookeeper.example.com
 
   index:
-    type: ELASTICSEARCH
+    type: OPENSEARCH
     engineConfig:
-      server: http://elasticsearch.example.com:9200
+      server: http://opensearch.example.com:9200
       config: |-
-        [elasticsearch]
+        [opensearch]
           codec = default
 
   serviceAccount: gerrit
