@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab58ad18_b4d62408",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4612090
+      },
+      "writtenOn": "2026-04-27T07:35:40Z",
+      "side": 1,
+      "message": "576661: Add OpenSearch as index backend option | https://gerrit-review.googlesource.com/c/k8s-gerrit/+/576661",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "802e0b83_a2c00c4f",
