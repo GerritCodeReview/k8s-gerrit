@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53cbb92d_90e21719",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 0,
+      "message": "You are changing the CRD API. Thus, you will need to create a new CRD version.",
+      "revId": "7410fe03ea7e7f5c94493e04d816e8281872a1d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "416a06ce_4743f82a",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/DynamoDbRefDbPluginConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 0,
+      "message": "Unrelated changes.",
+      "revId": "7410fe03ea7e7f5c94493e04d816e8281872a1d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

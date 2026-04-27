@@ -1,0 +1,244 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "802e0b83_a2c00c4f",
+        "filename": "container-images/gerrit-indexer/tools/start",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "```suggestion\nif [ \"$INDEX_MODULE\" \u003d \"elasticsearch\" ]; then\n  INDEX_TYPE\u003d\"ELASTICSEARCH\"\nelif [ \"$INDEX_MODULE\" \u003d \"opensearch\" ]; then\n  INDEX_TYPE\u003d\"OPENSEARCH\"\nfi\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 2
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ce47d11_bd8261c4",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "Either use a `match` statement or `elif`. Same below.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60502464_7aca975f",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "```suggestion\n    def _get_config(self):\n```\n\nMaybe consider to add another abstract layer instead of Opensearch inheriting elasticsearch. This would be semantically more correct.",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4de7848_f5a696b8",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "These options are basically mutually exclusive and exactly the same. I would consider to deprecate the `elasticsearch` key and add a new `remoteIndexConfig` key that can be used for both types. In the long run, that keeps our API cleaner.",
+      "range": {
+        "startLine": 879,
+        "startChar": 0,
+        "endLine": 892,
+        "endChar": 32
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b83eed65_c7de367c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/OpenSearchConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "Since this is exactly the same as ElasticSearchConfig, there should be no need for creating this class.",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8975d14f_afd0a2f9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "switch or if...else if",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffba7006_cb20e12c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50b77ab2_2f80a6e4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "This is basically the same as for elasticsearch and those two methods should be merged.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86560b36_c1b28387",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "We have a lot of sections that check on the index type. Maybe it makes sense to abstract that out into dedicated builder implementations.",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82d27b5c_f463168e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritInitConfigMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f9f72f_c89e973d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45fcccf_bb2bd3e4",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-27T07:27:29Z",
+      "side": 1,
+      "message": "merge into one conditional",
+      "range": {
+        "startLine": 327,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 5
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
