@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a489f24_83e5536a",
+        "filename": "container-images/gerrit-indexer/tools/start",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "802e0b83_a2c00c4f",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 2
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce47d11_bd8261c4",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 1,
       "message": "Either use a `match` statement or `elif`. Same below.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e7a673_aea8108b",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce47d11_bd8261c4",
       "range": {
         "startLine": 102,
         "startChar": 0,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a421b72_8cf8ba60",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "60502464_7aca975f",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4de7848_f5a696b8",
@@ -94,6 +160,30 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 1,
       "message": "These options are basically mutually exclusive and exactly the same. I would consider to deprecate the `elasticsearch` key and add a new `remoteIndexConfig` key that can be used for both types. In the long run, that keeps our API cleaner.",
+      "range": {
+        "startLine": 879,
+        "startChar": 0,
+        "endLine": 892,
+        "endChar": 32
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7deafbfe_5454c301",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "done as `engineConfig` (or maybe searchEngineConfig would be better?)",
+      "parentUuid": "b4de7848_f5a696b8",
       "range": {
         "startLine": 879,
         "startChar": 0,
@@ -121,6 +211,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ecdbd1e_b5185d58",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/api/model/shared/OpenSearchConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b83eed65_c7de367c",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8975d14f_afd0a2f9",
@@ -134,6 +242,30 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 1,
       "message": "switch or if...else if",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd0f292_f6fafc71",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8975d14f_afd0a2f9",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -174,6 +306,30 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 1,
       "message": "This is basically the same as for elasticsearch and those two methods should be merged.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7c5f4bb_96e491f3",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b77ab2_2f80a6e4",
       "range": {
         "startLine": 123,
         "startChar": 0,
@@ -248,6 +404,30 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 1,
       "message": "merge into one conditional",
+      "range": {
+        "startLine": 327,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 5
+      },
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "871d7db6_bd90019d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45fcccf_bb2bd3e4",
       "range": {
         "startLine": 327,
         "startChar": 4,
