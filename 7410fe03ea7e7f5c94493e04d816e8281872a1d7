@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a22eccd_e7736717",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:51:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "53cbb92d_90e21719",
+      "revId": "7410fe03ea7e7f5c94493e04d816e8281872a1d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "416a06ce_4743f82a",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 0,
       "message": "Unrelated changes.",
+      "revId": "7410fe03ea7e7f5c94493e04d816e8281872a1d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba575b53_f61c97cf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/DynamoDbRefDbPluginConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:51:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "416a06ce_4743f82a",
       "revId": "7410fe03ea7e7f5c94493e04d816e8281872a1d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

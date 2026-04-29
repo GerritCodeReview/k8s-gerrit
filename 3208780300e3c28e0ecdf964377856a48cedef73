@@ -293,6 +293,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "840f40e8_c9b052cf",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffba7006_cb20e12c",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50b77ab2_2f80a6e4",
@@ -357,6 +375,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ea6717_58afb78f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:51:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "86560b36_c1b28387",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82d27b5c_f463168e",
@@ -387,6 +423,24 @@
       "writtenOn": "2026-04-27T07:27:29Z",
       "side": 1,
       "message": "unrelated change",
+      "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5e75791_62b0e79f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-29T12:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1f9f72f_c89e973d",
       "revId": "3208780300e3c28e0ecdf964377856a48cedef73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
