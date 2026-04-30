@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54687df9_31c86c0b",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-30T15:25:51Z",
+      "side": 1,
+      "message": "This subclass has the only purpose to swap some option names. Otherwise, it duplicates the code from its superclass, which is then brittle to maintain.\nWhy don\u0027t we pass the option names to the constructor and have only one class? How to name that class? Maybe `GerritRemoteIndexer`? Then we pass the option names to it:\n```\nelasticReindexer \u003d GerritRemoteIndexer(\"elasticsearch\")\nopensearchReindexer \u003d GerritRemoteIndexer(\"opensearch\")\n```\n\nIf absolutely necessary we can also create two subclasses of the `GerritRemoteIndexer` and they would only pass the config option name from their constructor to the superclass.",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 24
+      },
+      "revId": "9fc20e8005017b227cd7c82950721df1b68c186c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
