@@ -22,6 +22,30 @@
       },
       "revId": "9fc20e8005017b227cd7c82950721df1b68c186c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "163cbc8c_691836c6",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-01T12:00:17Z",
+      "side": 1,
+      "message": "Done - reusing get_index_type instead of passing option names to the constructor.",
+      "parentUuid": "54687df9_31c86c0b",
+      "range": {
+        "startLine": 216,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 24
+      },
+      "revId": "9fc20e8005017b227cd7c82950721df1b68c186c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
