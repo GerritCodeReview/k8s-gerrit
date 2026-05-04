@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aefc77ad_d7a59c2d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "```suggestion\n        elif get_index_type(self.gerrit_config) \u003d\u003d IndexType.OPENSEARCH:\n            required.append(\"index-opensearch\")\n```\n\nGerrit wouldn\u0027t be able to work with 2 index modules anyways.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ec2fbd1_ad525e51",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "```suggestion\n        elif get_index_type(self.gerrit_config) \u003d\u003d IndexType.OPENSEARCH:\n            required.append(\"index-opensearch\")\n```",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 47
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d73d2a_70f64939",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "Instead of computing that again, pass it in the constructor.",
+      "range": {
+        "startLine": 176,
+        "startChar": 15,
+        "endLine": 176,
+        "endChar": 44
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbee7ace_edfdc417",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "```suggestion\n        index_type \u003d get_index_type(gerrit_config).name.lower()\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 9
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97bca4d6_1dc06272",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 11
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "engineConfig is pretty generic, but does not add a lot. Either just use `config` or `remoteIndexConfig`.",
+      "range": {
+        "startLine": 877,
+        "startChar": 0,
+        "endLine": 892,
+        "endChar": 28
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b2fa14_5f98e5f2",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "In principle the enum value equals the section name, so we could directly use it without the conversion.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 10
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a57a068e_2beb774e",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:13:42Z",
+      "side": 1,
+      "message": "Maybe add a `isRemote() method to the IndexType enum",
+      "range": {
+        "startLine": 326,
+        "startChar": 8,
+        "endLine": 327,
+        "endChar": 72
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
