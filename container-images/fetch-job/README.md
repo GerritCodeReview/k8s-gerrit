@@ -1,7 +1,7 @@
 # FetchJob container image
 
 Container to run a job that fetches from remote repositories to corresponding
-local repositories. Thi can be used to create copies of repositories hosted on
+local repositories. This can be used to create copies of repositories hosted on
 other git servers in the local Gerrit. This is useful for backing up repositories
 or to have a copy of branches of a project that was forked in the local Gerrit.
 
