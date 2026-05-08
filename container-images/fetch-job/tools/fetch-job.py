@@ -35,46 +35,24 @@ def parse_timeout(value):
     return int(value)
 
 
-def git(git_dir, *args, timeout=None):
-    cmd = ["git", f"--git-dir={git_dir}"] + list(args)
-    subprocess.run(cmd, check=True, timeout=timeout)
+class GitRepo:
+    def __init__(self, git_dir):
+        self._base = ["git", f"--git-dir={git_dir}"]
+
+    def config(self, *args, check=True):
+        subprocess.run(self._base + ["config"] + list(args), check=check)
+
+    def fetch(self, *args, timeout=None):
+        subprocess.run(self._base + ["fetch"] + list(args), check=True, timeout=timeout)
 
 
-def configure_remote(git_dir, remote_name, remote_url, refspec):
-    subprocess.run(
-        [
-            "git",
-            f"--git-dir={git_dir}",
-            "config",
-            f"remote.{remote_name}.url",
-            remote_url,
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "git",
-            f"--git-dir={git_dir}",
-            "config",
-            "--unset-all",
-            f"remote.{remote_name}.fetch",
-        ],
-        # exit code 5 means the key did not exist — that is fine on first run
-        check=False,
-    )
+def configure_remote(git_repo, remote_name, remote_url, refspec):
+    git_repo.config(f"remote.{remote_name}.url", remote_url)
+    # exit code 5 means the key did not exist — that is fine on first run
+    git_repo.config("--unset-all", f"remote.{remote_name}.fetch", check=False)
     refspecs = refspec if isinstance(refspec, list) else [refspec]
     for spec in refspecs:
-        subprocess.run(
-            [
-                "git",
-                f"--git-dir={git_dir}",
-                "config",
-                "--add",
-                f"remote.{remote_name}.fetch",
-                spec,
-            ],
-            check=True,
-        )
+        git_repo.config("--add", f"remote.{remote_name}.fetch", spec)
 
 
 def process_remote(remote):
@@ -89,18 +67,12 @@ def process_remote(remote):
             remote_name=remote_name
         )
 
-        remote_url = f"{server_url}/{remote_repo}"
-        git_dir = f"{GIT_HOME}/{local_repo}.git"
-
-        configure_remote(git_dir, remote_name, remote_url, refspec)
+        git_repo = GitRepo(f"{GIT_HOME}/{local_repo}.git")
+        configure_remote(git_repo, remote_name, f"{server_url}/{remote_repo}", refspec)
 
         print(f"Fetching {remote_repo} from {remote_name}")
         try:
-            subprocess.run(
-                ["git", f"--git-dir={git_dir}", "fetch", remote_name],
-                check=True,
-                timeout=timeout_seconds,
-            )
+            git_repo.fetch(remote_name, timeout=timeout_seconds)
         except subprocess.TimeoutExpired:
             print(
                 f"ERROR: fetch of {remote_repo} from {remote_name} timed out "
