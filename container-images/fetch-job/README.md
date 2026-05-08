@@ -28,6 +28,11 @@ remotes:
   - remoteRepo: project3
     localRepo: local/project3
     refSpec: "+refs/heads/*:refs/heads/remote/*"
+  - remoteRepo: project4
+    localRepo: local/project4
+    refSpec:
+      - +refs/heads/*:refs/heads/remote/*
+      - ^refs/heads/excluded-*
 ```
 
 You will need to mount the credentials used to authenticate with remote servers
