@@ -62,16 +62,19 @@ def configure_remote(git_dir, remote_name, remote_url, refspec):
         # exit code 5 means the key did not exist — that is fine on first run
         check=False,
     )
-    subprocess.run(
-        [
-            "git",
-            f"--git-dir={git_dir}",
-            "config",
-            f"remote.{remote_name}.fetch",
-            refspec,
-        ],
-        check=True,
-    )
+    refspecs = refspec if isinstance(refspec, list) else [refspec]
+    for spec in refspecs:
+        subprocess.run(
+            [
+                "git",
+                f"--git-dir={git_dir}",
+                "config",
+                "--add",
+                f"remote.{remote_name}.fetch",
+                spec,
+            ],
+            check=True,
+        )
 
 
 def process_remote(remote):
