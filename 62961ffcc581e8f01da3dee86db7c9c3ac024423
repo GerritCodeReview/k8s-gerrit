@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be266b01_eec5439d",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "aefc77ad_d7a59c2d",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ec2fbd1_ad525e51",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-04T07:13:42Z",
       "side": 1,
       "message": "```suggestion\n        elif get_index_type(self.gerrit_config) \u003d\u003d IndexType.OPENSEARCH:\n            required.append(\"index-opensearch\")\n```",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 47
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "521f7304_a83f19b0",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/download_plugins.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8ec2fbd1_ad525e51",
       "range": {
         "startLine": 123,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef43a8e6_3c692604",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2d73d2a_70f64939",
+      "range": {
+        "startLine": 176,
+        "startChar": 15,
+        "endLine": 176,
+        "endChar": 44
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbee7ace_edfdc417",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-05-04T07:13:42Z",
       "side": 1,
       "message": "```suggestion\n        index_type \u003d get_index_type(gerrit_config).name.lower()\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 9
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d27624ea_bdd301e0",
+        "filename": "container-images/gerrit-init/tools/gerrit-initializer/initializer/tasks/reindex.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "bbee7ace_edfdc417",
       "range": {
         "startLine": 174,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffb0d57e_63f3d790",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 11
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97bca4d6_1dc06272",
+      "range": {
+        "startLine": 877,
+        "startChar": 0,
+        "endLine": 892,
+        "endChar": 28
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44b2fa14_5f98e5f2",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a156861_b0fc8159",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/config/GerritConfigBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44b2fa14_5f98e5f2",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 10
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a57a068e_2beb774e",
@@ -152,6 +296,30 @@
       "writtenOn": "2026-05-04T07:13:42Z",
       "side": 1,
       "message": "Maybe add a `isRemote() method to the IndexType enum",
+      "range": {
+        "startLine": 326,
+        "startChar": 8,
+        "endLine": 327,
+        "endChar": 72
+      },
+      "revId": "62961ffcc581e8f01da3dee86db7c9c3ac024423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90981986_e8c22762",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-05-11T04:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a57a068e_2beb774e",
       "range": {
         "startLine": 326,
         "startChar": 8,
