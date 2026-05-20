@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class GerritIstioConfig {
   private Map<String, String> gatewaySelector = Map.of("istio", "ingressgateway");
+  private boolean mTLS;
 
   public Map<String, String> getGatewaySelector() {
     return gatewaySelector;
@@ -28,9 +29,17 @@ public class GerritIstioConfig {
     this.gatewaySelector = gatewaySelector;
   }
 
+  public boolean ismTLS() {
+    return mTLS;
+  }
+
+  public void setmTLS(boolean mTLS) {
+    this.mTLS = mTLS;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(gatewaySelector);
+    return Objects.hash(gatewaySelector, mTLS);
   }
 
   @Override
@@ -39,11 +48,11 @@ public class GerritIstioConfig {
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
     GerritIstioConfig other = (GerritIstioConfig) obj;
-    return Objects.equals(gatewaySelector, other.gatewaySelector);
+    return Objects.equals(gatewaySelector, other.gatewaySelector) && mTLS == other.mTLS;
   }
 
   @Override
   public String toString() {
-    return "GerritIstioConfig [gatewaySelector=" + gatewaySelector + "]";
+    return "GerritIstioConfig [gatewaySelector=" + gatewaySelector + ", mTLS=" + mTLS + "]";
   }
 }

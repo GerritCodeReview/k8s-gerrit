@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: primary-headless-service
+  namespace: gerrit
+spec:
+  host: primary.gerrit.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        useSourceIp: true
+    tls:
+      mode: ISTIO_MUTUAL

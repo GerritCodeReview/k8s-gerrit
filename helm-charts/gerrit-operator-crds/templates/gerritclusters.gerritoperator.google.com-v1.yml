@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-    - name: v1beta16
+    - name: v1beta17
       schema:
         openAPIV3Schema:
           properties:
@@ -914,6 +914,8 @@ spec:
                           additionalProperties:
                             type: string
                           type: object
+                        mTLS:
+                          type: boolean
                       type: object
                     pathPrefix:
                       type: string
@@ -2561,7 +2563,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta15
+    - name: v1beta16
       schema:
         openAPIV3Schema:
           properties:
@@ -4114,10 +4116,22 @@ spec:
                   properties:
                     database:
                       enum:
+                        - DYNAMODB
                         - NONE
                         - SPANNER
                         - ZOOKEEPER
                       type: string
+                    dynamoDb:
+                      properties:
+                        endpoint:
+                          type: string
+                        locksTableName:
+                          type: string
+                        refsDbTableName:
+                          type: string
+                        region:
+                          type: string
+                      type: object
                     spanner:
                       properties:
                         database:

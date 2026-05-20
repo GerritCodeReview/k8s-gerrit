@@ -17,13 +17,19 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplate;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritHeadlessService;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
+import io.fabric8.istio.api.networking.v1beta1.ClientTLSSettings;
+import io.fabric8.istio.api.networking.v1beta1.ClientTLSSettingsBuilder;
+import io.fabric8.istio.api.networking.v1beta1.ClientTLSSettingsTLSmode;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
+import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettings;
+import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsBuilder;
 import io.fabric8.istio.api.networking.v1beta1.LoadBalancerSettingsSimpleLB;
-import io.fabric8.istio.api.networking.v1beta1.TrafficPolicy;
-import io.fabric8.istio.api.networking.v1beta1.TrafficPolicyBuilder;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
@@ -39,54 +45,98 @@ public class GerritIstioDestinationRule
     super(DestinationRule.class);
   }
 
-  protected DestinationRule desired(
+  private DestinationRule desired(
       GerritNetwork gerritNetwork, String gerritName, boolean isReplica) {
 
     return new DestinationRuleBuilder()
-        .withNewMetadata()
-        .withName(getName(gerritName))
-        .withNamespace(gerritNetwork.getMetadata().getNamespace())
-        .withLabels(
-            GerritClusterLabelFactory.create(
-                gerritNetwork.getMetadata().getName(),
-                getName(gerritName),
-                this.getClass().getSimpleName()))
-        .endMetadata()
+        .withMetadata(getMetaData(gerritNetwork, gerritName, ""))
         .withNewSpec()
         .withHost(
             new GerritService().getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
-        .withTrafficPolicy(getTrafficPolicy(isReplica))
+        .withNewTrafficPolicy()
+        .withLoadBalancer(getLoadBalancerSettings(isReplica))
+        .endTrafficPolicy()
         .endSpec()
         .build();
   }
 
-  private TrafficPolicy getTrafficPolicy(boolean isReplica) {
+  private DestinationRule desiredHeadless(
+      GerritNetwork gerritNetwork, String gerritName, boolean isReplica) {
+
+    return new DestinationRuleBuilder()
+        .withMetadata(getMetaData(gerritNetwork, gerritName, "-headless-service"))
+        .withNewSpec()
+        .withHost(
+            new GerritHeadlessService()
+                .getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
+        .withNewTrafficPolicy()
+        .withLoadBalancer(getLoadBalancerSettings(isReplica))
+        .withTls(getTls(gerritNetwork))
+        .endTrafficPolicy()
+        .endSpec()
+        .build();
+  }
+
+  private DestinationRule desiredHeadlessPod(GerritNetwork gerritNetwork, String gerritName) {
+    return new DestinationRuleBuilder()
+        .withMetadata(getMetaData(gerritNetwork, gerritName, "-headless-pods"))
+        .withNewSpec()
+        .withHost(
+            "*."
+                + new GerritHeadlessService()
+                    .getHostname(gerritName, gerritNetwork.getMetadata().getNamespace()))
+        .withNewTrafficPolicy()
+        .withTls(getTls(gerritNetwork))
+        .endTrafficPolicy()
+        .endSpec()
+        .build();
+  }
+
+  private ObjectMeta getMetaData(
+      GerritNetwork gerritNetwork, String gerritName, String nameSuffix) {
+    return new ObjectMetaBuilder()
+        .withName(getName(gerritName, nameSuffix))
+        .withNamespace(gerritNetwork.getMetadata().getNamespace())
+        .withLabels(
+            GerritClusterLabelFactory.create(
+                gerritNetwork.getMetadata().getName(),
+                getName(gerritName, nameSuffix),
+                this.getClass().getSimpleName()))
+        .build();
+  }
+
+  private LoadBalancerSettings getLoadBalancerSettings(boolean isReplica) {
     if (isReplica) {
-      return new TrafficPolicyBuilder()
-          .withNewLoadBalancer()
+      return new LoadBalancerSettingsBuilder()
           .withNewLoadBalancerSettingsSimpleLbPolicy()
           .withSimple(LoadBalancerSettingsSimpleLB.LEAST_CONN)
           .endLoadBalancerSettingsSimpleLbPolicy()
-          .endLoadBalancer()
           .build();
     }
-    return new TrafficPolicyBuilder()
-        .withNewLoadBalancer()
+    return new LoadBalancerSettingsBuilder()
         .withNewLoadBalancerSettingsConsistentHashLbPolicy()
         .withNewConsistentHash()
         .withNewLoadBalancerSettingsConsistentHashLBUseSourceIpKey(true)
         .endConsistentHash()
         .endLoadBalancerSettingsConsistentHashLbPolicy()
-        .endLoadBalancer()
         .build();
   }
 
-  public static String getName(GerritTemplate gerrit) {
-    return gerrit.getMetadata().getName();
+  private ClientTLSSettings getTls(GerritNetwork gerritNetwork) {
+    return new ClientTLSSettingsBuilder()
+        .withMode(
+            gerritNetwork.getSpec().getIngress().getIstio().ismTLS()
+                ? ClientTLSSettingsTLSmode.ISTIO_MUTUAL
+                : ClientTLSSettingsTLSmode.DISABLE)
+        .build();
   }
 
-  public static String getName(String gerritName) {
-    return gerritName;
+  public static String getName(GerritTemplate gerrit, String suffix) {
+    return getName(gerrit.getMetadata().getName(), suffix);
+  }
+
+  public static String getName(String gerritName, String suffix) {
+    return gerritName + suffix;
   }
 
   @Override
@@ -95,11 +145,21 @@ public class GerritIstioDestinationRule
     Map<String, DestinationRule> drs = new HashMap<>();
     if (gerritNetwork.hasPrimaryGerrit()) {
       String primaryGerritName = gerritNetwork.getSpec().getPrimaryGerrit().getName();
-      drs.put(primaryGerritName, desired(gerritNetwork, primaryGerritName, false));
+      DestinationRule dstRule = desired(gerritNetwork, primaryGerritName, false);
+      drs.put(dstRule.getMetadata().getName(), dstRule);
+      DestinationRule dstRuleHeadless = desiredHeadless(gerritNetwork, primaryGerritName, false);
+      drs.put(dstRuleHeadless.getMetadata().getName(), dstRuleHeadless);
+      DestinationRule dstRuleHeadlessPod = desiredHeadlessPod(gerritNetwork, primaryGerritName);
+      drs.put(dstRuleHeadlessPod.getMetadata().getName(), dstRuleHeadlessPod);
     }
     if (gerritNetwork.hasGerritReplica()) {
       String gerritReplicaName = gerritNetwork.getSpec().getGerritReplica().getName();
-      drs.put(gerritReplicaName, desired(gerritNetwork, gerritReplicaName, true));
+      DestinationRule dstRule = desired(gerritNetwork, gerritReplicaName, true);
+      drs.put(dstRule.getMetadata().getName(), dstRule);
+      DestinationRule dstRuleHeadless = desiredHeadless(gerritNetwork, gerritReplicaName, true);
+      drs.put(dstRuleHeadless.getMetadata().getName(), dstRuleHeadless);
+      DestinationRule dstRuleHeadlessPod = desiredHeadlessPod(gerritNetwork, gerritReplicaName);
+      drs.put(dstRuleHeadlessPod.getMetadata().getName(), dstRuleHeadlessPod);
     }
     return drs;
   }

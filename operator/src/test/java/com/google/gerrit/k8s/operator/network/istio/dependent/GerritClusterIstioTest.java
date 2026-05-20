@@ -19,9 +19,12 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -31,7 +34,10 @@ public class GerritClusterIstioTest {
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedGerritClusterIstioComponentsCreated(
-      String inputFile, String expectedGatewayOutputFile, String expectedVirtualServiceOutputFile) {
+      String inputFile,
+      String expectedGatewayOutputFile,
+      String expectedVirtualServiceOutputFile,
+      List<String> expectedDestRuleFiles) {
     OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     GerritNetwork gerritNetwork =
         ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
@@ -47,6 +53,18 @@ public class GerritClusterIstioTest {
         ReconcilerUtils.loadYaml(
             VirtualService.class, this.getClass(), expectedVirtualServiceOutputFile);
     assertThat(virtualServiceResult.getSpec()).isEqualTo(expectedVirtualService.getSpec());
+
+    GerritIstioDestinationRule destRuleDependent = new GerritIstioDestinationRule();
+    Map<String, DestinationRule> destRuleResult =
+        destRuleDependent.desiredResources(gerritNetwork, null);
+
+    for (String expectedDestRuleFile : expectedDestRuleFiles) {
+      DestinationRule expectedDestRule =
+          ReconcilerUtils.loadYaml(DestinationRule.class, this.getClass(), expectedDestRuleFile);
+      assertThat(destRuleResult).containsKey(expectedDestRule.getMetadata().getName());
+      assertThat(destRuleResult.get(expectedDestRule.getMetadata().getName()).getSpec())
+          .isEqualTo(expectedDestRule.getSpec());
+    }
   }
 
   private static Stream<Arguments> provideYamlManifests() {
@@ -54,40 +72,93 @@ public class GerritClusterIstioTest {
         Arguments.of(
             "../../gerritnetwork_primary_replica_tls.yaml",
             "gateway_tls.yaml",
-            "virtualservice_primary_replica.yaml"),
+            "virtualservice_primary_replica.yaml",
+            List.of(
+                "destinationrule_primary.yaml",
+                "destinationrule_primary_headless.yaml",
+                "destinationrule_primary_headless_pods.yaml",
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
             "../../gerritnetwork_primary_replica.yaml",
             "gateway.yaml",
-            "virtualservice_primary_replica.yaml"),
+            "virtualservice_primary_replica.yaml",
+            List.of(
+                "destinationrule_primary.yaml",
+                "destinationrule_primary_headless.yaml",
+                "destinationrule_primary_headless_pods.yaml",
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
-            "../../gerritnetwork_primary.yaml", "gateway.yaml", "virtualservice_primary.yaml"),
+            "../../gerritnetwork_primary.yaml",
+            "gateway.yaml",
+            "virtualservice_primary.yaml",
+            List.of(
+                "destinationrule_primary.yaml",
+                "destinationrule_primary_headless.yaml",
+                "destinationrule_primary_headless_pods.yaml")),
         Arguments.of(
-            "../../gerritnetwork_replica.yaml", "gateway.yaml", "virtualservice_replica.yaml"),
+            "../../gerritnetwork_replica.yaml",
+            "gateway.yaml",
+            "virtualservice_replica.yaml",
+            List.of(
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
-            "../../gerritnetwork_receiver.yaml", "gateway.yaml", "virtualservice_receiver.yaml"),
+            "../../gerritnetwork_receiver.yaml",
+            "gateway.yaml",
+            "virtualservice_receiver.yaml",
+            List.of()),
         Arguments.of(
             "../../gerritnetwork_receiver_replica.yaml",
             "gateway.yaml",
-            "virtualservice_receiver_replica.yaml"),
+            "virtualservice_receiver_replica.yaml",
+            List.of(
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
             "../../gerritnetwork_receiver_replica_tls.yaml",
             "gateway_tls.yaml",
-            "virtualservice_receiver_replica.yaml"),
+            "virtualservice_receiver_replica.yaml",
+            List.of(
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
             "../../gerritnetwork_primary_ssh.yaml",
             "gateway_primary_ssh.yaml",
-            "virtualservice_primary_ssh.yaml"),
+            "virtualservice_primary_ssh.yaml",
+            List.of(
+                "destinationrule_primary.yaml",
+                "destinationrule_primary_headless.yaml",
+                "destinationrule_primary_headless_pods.yaml")),
         Arguments.of(
             "../../gerritnetwork_replica_ssh.yaml",
             "gateway_replica_ssh.yaml",
-            "virtualservice_replica_ssh.yaml"),
+            "virtualservice_replica_ssh.yaml",
+            List.of(
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
             "../../gerritnetwork_primary_replica_ssh.yaml",
             "gateway_primary_replica_ssh.yaml",
-            "virtualservice_primary_replica_ssh.yaml"),
+            "virtualservice_primary_replica_ssh.yaml",
+            List.of(
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")),
         Arguments.of(
             "../../gerritnetwork_receiver_replica_ssh.yaml",
             "gateway_receiver_replica_ssh.yaml",
-            "virtualservice_receiver_replica_ssh.yaml"));
+            "virtualservice_receiver_replica_ssh.yaml",
+            List.of(
+                "destinationrule_replica.yaml",
+                "destinationrule_replica_headless.yaml",
+                "destinationrule_replica_headless_pods.yaml")));
   }
 }
