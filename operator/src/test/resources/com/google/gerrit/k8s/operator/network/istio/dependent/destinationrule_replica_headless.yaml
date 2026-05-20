@@ -1,0 +1,12 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: replica-headless-service
+  namespace: gerrit
+spec:
+  host: replica.gerrit.svc.cluster.local
+  trafficPolicy:
+    loadBalancer:
+      simple: LEAST_CONN
+    tls:
+      mode: ISTIO_MUTUAL

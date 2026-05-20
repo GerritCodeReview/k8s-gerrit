@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: primary-headless-pods
+  namespace: gerrit
+spec:
+  host: '*.primary.gerrit.svc.cluster.local'
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

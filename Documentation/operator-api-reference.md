@@ -87,7 +87,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: GerritCluster
 
 ---
@@ -104,7 +104,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -164,6 +164,7 @@ spec:
     istio:
       gatewaySelector:
         istio: ingressgateway
+      mTLS: true
 
   refdb:
     database: NONE
@@ -426,7 +427,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: Gerrit
 
 ---
@@ -443,7 +444,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -657,7 +658,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: Receiver
 
 ---
@@ -674,7 +675,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: Receiver
 metadata:
   name: receiver
@@ -785,7 +786,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -802,7 +803,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -846,7 +847,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: GerritNetwork
 
 ---
@@ -862,7 +863,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -877,6 +878,7 @@ spec:
     istio:
       gatewaySelector:
         istio: ingressgateway
+      mTLS: true
   receiver:
     name: receiver
     httpPort: 80
@@ -895,7 +897,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -911,7 +913,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -970,7 +972,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta16 \
+**Version**: v1beta17 \
 **Kind**: GerritIndexer
 
 ---
@@ -986,7 +988,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1169,6 +1171,7 @@ Extends [StorageConfig](#StorageConfig).
 | Field | Type | Description |
 |---|---|---|
 | `gatewaySelector` | `Map<String, String>` | Labels used to select the Istio Ingressgateway Deployment to use (default: `istio: ingressgateway`) |
+| `mTLS` | `boolean` | Whether mTLS is enabled in the Istio service mesh (default: `false`) |
 
 ## GlobalRefDbConfig
 

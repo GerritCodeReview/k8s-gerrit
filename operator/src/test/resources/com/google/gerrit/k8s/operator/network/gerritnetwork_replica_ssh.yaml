@@ -1,4 +1,4 @@
-apiVersion: "gerritoperator.google.com/v1beta16"
+apiVersion: "gerritoperator.google.com/v1beta17"
 kind: GerritNetwork
 metadata:
   name: gerrit
@@ -11,6 +11,8 @@ spec:
       enabled: false
     ssh:
       enabled: true
+    istio:
+      mTLS: true
   gerritReplica:
     name: replica
     httpPort: 48080
