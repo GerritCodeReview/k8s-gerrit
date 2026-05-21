@@ -16,9 +16,11 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [--platform PLATFORM] [--branch GERRIT_BRANCH] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--tag TAG] [--no-cache] [--gerrit-url URL] [--base-image IMAGE] [--platform PLATFORM] [--branch GERRIT_BRANCH] [--buildah] [IMAGE]"
     exit 1
 }
+
+BUILD_TOOL="docker"
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -67,6 +69,11 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --buildah)
+    BUILD_TOOL="buildah"
+    shift
+    ;;
+
   *)
     break
   esac
@@ -79,25 +86,30 @@ IMAGES=$(get_image_list)
 PLATFORM=${PLATFORM:-linux/amd64}  # Default value if PLATFORM is not set
 GERRIT_BRANCH=${GERRIT_BRANCH:-master} # Default value if GERRIT_BRANCH is not set
 DOCKER_BUILD_OPTS="--platform=$PLATFORM"
+if [[ $BUILD_TOOL = buildah ]]; then
+    DOCKER_BUILD_OPTS="$DOCKER_BUILD_OPTS --isolation=chroot"
+    GERRIT_VER_OPTS="$GERRIT_VER_OPTS --no-docker"
+fi
 test -n "$NO_CACHE" && DOCKER_BUILD_OPTS="$DOCKER_BUILD_OPTS --no-cache"
 
 if test -n "$GERRIT_WAR_URL"; then
     BUILD_ARGS="--build-arg GERRIT_WAR_URL=$GERRIT_WAR_URL"
+    GERRIT_VER_OPTS="$GERRIT_VER_OPTS --gerrit-url $GERRIT_WAR_URL"
 fi
 
 if test -n "$HEALTHCHECK_JAR_URL"; then
     BUILD_ARGS="$BUILD_ARGS --build-arg HEALTHCHECK_JAR_URL=$HEALTHCHECK_JAR_URL"
 fi
 
-export REV="$(./get_version.sh --output K8SGERRIT --platform $PLATFORM)"
+export K8SGERRIT_VER="$(./get_version.sh --output K8SGERRIT)"
 
 docker_build(){
     IMAGE=$1
 
-    docker build \
+    $BUILD_TOOL build \
         $DOCKER_BUILD_OPTS \
-        --build-arg TAG=$REV \
-        --build-arg GERRIT_VER="$(./get_version.sh --output GERRIT --platform $PLATFORM)" \
+        --build-arg TAG=$K8SGERRIT_VER \
+        --build-arg GERRIT_VER="$GERRIT_VER" \
         -t k8sgerrit/$IMAGE:$TAG \
         ./container-images/$IMAGE
 
@@ -110,19 +122,21 @@ docker_build(){
 }
 
 docker_build_gerrit_base(){
-    BUILD_ARGS="$BUILD_ARGS --build-arg TAG=$REV --build-arg GERRIT_BRANCH=$GERRIT_BRANCH"
-    docker build \
+    BUILD_ARGS="$BUILD_ARGS --build-arg TAG=$K8SGERRIT_VER --build-arg GERRIT_BRANCH=$GERRIT_BRANCH"
+    $BUILD_TOOL build \
         $DOCKER_BUILD_OPTS \
         $BUILD_ARGS \
-        -t gerrit-base:$REV \
+        -t gerrit-base:$K8SGERRIT_VER \
         ./container-images/gerrit-base
     if test $? -ne 0; then
         echo -e "\n\nFailed to build gerrit-base image."
         exit 1
     fi
 
+    export GERRIT_VER="$(./get_version.sh --output GERRIT --platform $PLATFORM $GERRIT_VER_OPTS)"
+
     if test -z "$TAG"; then
-        export TAG="$(./get_version.sh --platform $PLATFORM)"
+        export TAG="$(./get_version.sh --platform $PLATFORM $GERRIT_VER_OPTS)"
     fi
 }
 
@@ -133,7 +147,7 @@ if test -n "$BASE_IMAGE"; then
     BASE_BUILD_ARGS="--build-arg BASE_IMAGE=$BASE_IMAGE"
 fi
 
-docker build $DOCKER_BUILD_OPTS $BASE_BUILD_ARGS -t base:$REV ./container-images/base
+$BUILD_TOOL build $DOCKER_BUILD_OPTS $BASE_BUILD_ARGS -t base:$K8SGERRIT_VER ./container-images/base
 if test $? -ne 0; then
     echo -e "\n\nFailed to build base image."
     exit 1
@@ -150,7 +164,7 @@ else
             docker_build_gerrit_base
         else
             if test -z "$TAG"; then
-                TAG="$REV-unknown"
+                TAG="$K8SGERRIT_VER-unknown"
             fi
             echo -e "\nNo Image containing Gerrit will be built." \
                     "The Gerrit-version can thus not be determinded." \

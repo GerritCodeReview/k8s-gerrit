@@ -15,6 +15,6 @@
 import pytest
 
 
-@pytest.mark.structure
+@pytest.mark.build
 def test_build_gerrit_init(gerrit_init_image):
     assert gerrit_init_image.id is not None

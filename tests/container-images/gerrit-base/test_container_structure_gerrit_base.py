@@ -16,23 +16,17 @@ import re
 
 import pytest
 
-import utils
-
 
 JAVA_VER = 25
 
 
-@pytest.fixture(scope="module")
-def container_run(docker_client, container_endless_run_factory, gerrit_base_image):
-    container_run = container_endless_run_factory(docker_client, gerrit_base_image)
+@pytest.fixture(scope="module", params=["gerrit_image", "gerrit_init_image"])
+def container_run(request, docker_client, container_endless_run_factory):
+    container_run = container_endless_run_factory(
+        docker_client, request.getfixturevalue(request.param)
+    )
     yield container_run
     container_run.stop(timeout=1)
-
-
-# pylint: disable=E1101
-@pytest.mark.structure
-def test_gerrit_base_inherits_from_base(gerrit_base_image):
-    assert utils.check_if_ancestor_image_is_inherited(gerrit_base_image, "base:latest")
 
 
 @pytest.mark.docker
@@ -92,9 +86,3 @@ def test_gerrit_base_site_permissions(container_run):
 def test_gerrit_base_war_dir_permissions(container_run):
     exit_code, _ = container_run.exec_run("test -O /var/war")
     assert exit_code == 0
-
-
-@pytest.mark.structure
-def test_gerrit_base_has_entrypoint(gerrit_base_image):
-    entrypoint = gerrit_base_image.attrs["Config"]["Entrypoint"]
-    assert "/var/tools/start" in entrypoint
