@@ -15,6 +15,6 @@
 import pytest
 
 
-@pytest.mark.structure
+@pytest.mark.build
 def test_build_apache_git_http_backend_image(apache_git_http_backend_image):
     assert apache_git_http_backend_image.id is not None

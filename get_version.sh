@@ -14,11 +14,12 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--output (K8SGERRIT | GERRIT | COMBINED)]"
+    echo >&2 "Usage: $me [--help] [--output (K8SGERRIT | GERRIT | COMBINED)] [--platform PLATFORM] [--gerrit-war-url GERRIT_WAR_URL] [--no-docker]"
     exit 1
 }
 
 OUTPUT="COMBINED"
+USE_DOCKER=true
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -38,6 +39,17 @@ while test $# -gt 0 ; do
     shift
     ;;
 
+  --no-docker)
+    USE_DOCKER=false
+    shift
+    ;;
+
+  --gerrit-url)
+    shift
+    GERRIT_WAR_URL=$1
+    shift
+    ;;
+
   *)
     break
   esac
@@ -47,7 +59,7 @@ getK8sVersion() {
     echo "$(git describe --always --dirty --abbrev=10)"
 }
 
-getGerritVersion() {
+getGerritVersionDocker() {
     PLATFORM=${PLATFORM:-linux/amd64}  # Default value if PLATFORM is not set
     GERRIT_VERSION="$(
         docker run \
@@ -62,6 +74,41 @@ getGerritVersion() {
         | tr -d '[:space:]'
     )"
     echo "$GERRIT_VERSION"
+}
+
+getGerritVersionNoDocker() {
+    GERRIT_BRANCH=${GERRIT_BRANCH:-main}
+    GERRIT_WAR_URL=${GERRIT_WAR_URL:-https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war}
+
+    # Create temporary directory for WAR file
+    TMP_DIR="./dist"
+	mkdir -p $TMP_DIR
+
+    GERRIT_WAR_FILE="$TMP_DIR/gerrit.war"
+
+    if ! test -f "$GERRIT_WAR_FILE"; then
+        if ! curl -f -k -s -S -o "$GERRIT_WAR_FILE" "$GERRIT_WAR_URL" 2>&1 >&2; then
+            echo "Error: Failed to download Gerrit WAR file from $GERRIT_WAR_URL" >&2
+            exit 1
+        fi
+    fi
+
+    GERRIT_VERSION="$(java -jar "$GERRIT_WAR_FILE" version | cut -d' ' -f3)"
+
+    if [ -z "$GERRIT_VERSION" ]; then
+        echo "Error: Could not extract Gerrit version from WAR file" >&2
+        exit 1
+    fi
+
+    echo "$GERRIT_VERSION"
+}
+
+getGerritVersion() {
+    if [ "$USE_DOCKER" = "true" ]; then
+        getGerritVersionDocker
+    else
+        getGerritVersionNoDocker
+    fi
 }
 
 case $OUTPUT in

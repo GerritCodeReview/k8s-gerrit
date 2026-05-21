@@ -15,9 +15,19 @@
 import pytest
 
 
-@pytest.fixture(scope="module")
-def container_run(docker_client, container_endless_run_factory, base_image):
-    container_run = container_endless_run_factory(docker_client, base_image)
+@pytest.fixture(
+    scope="module",
+    params=[
+        "apache_git_http_backend_image",
+        "gerrit_image",
+        "gerrit_init_image",
+        "gitgc_image",
+    ],
+)
+def container_run(request, docker_client, container_endless_run_factory):
+    container_run = container_endless_run_factory(
+        docker_client, request.getfixturevalue(request.param)
+    )
     yield container_run
     container_run.stop(timeout=1)
 

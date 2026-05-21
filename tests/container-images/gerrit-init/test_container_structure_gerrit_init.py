@@ -45,14 +45,6 @@ def expected_pip_package(request):
     return request.param
 
 
-# pylint: disable=E1101
-@pytest.mark.structure
-def test_gerrit_init_inherits_from_gerrit_base(gerrit_init_image):
-    assert utils.check_if_ancestor_image_is_inherited(
-        gerrit_init_image, "gerrit-base:latest"
-    )
-
-
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_init_contains_expected_scripts(container_run, expected_script):
@@ -68,6 +60,7 @@ def test_gerrit_init_contains_expected_tools(container_run, expected_tool):
 
 
 @pytest.mark.structure
+@pytest.mark.dockerinspect
 def test_gerrit_init_has_entrypoint(gerrit_init_image):
     entrypoint = gerrit_init_image.attrs["Config"]["Entrypoint"]
     assert len(entrypoint) >= 1
