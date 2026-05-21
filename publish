@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Copyright (C) 2018 The Android Open Source Project
 #
@@ -16,13 +16,14 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me [--help] [--update-latest] [--registry REGISTRY] [--org ORGANIZATION] [--no-push] [--tag TAG] [IMAGE]"
+    echo >&2 "Usage: $me [--help] [--buildah] [--update-latest] [--registry REGISTRY] [--org ORGANIZATION] [--no-push] [--tag TAG] [IMAGE]"
     exit 1
 }
 
 UPDATE_LATEST=false
 ORGANIZATION=k8sgerrit
 PUSH_IMAGES=true
+BUILD_TOOL=docker
 
 while test $# -gt 0 ; do
   case "$1" in
@@ -52,6 +53,10 @@ while test $# -gt 0 ; do
     TAG=$1
     shift
     ;;
+  --buildah)
+    BUILD_TOOL="buildah"
+    shift
+    ;;
   *)
     break
   esac
@@ -65,20 +70,26 @@ fi
 source container-images/publish_list
 IMAGES=$(get_image_list)
 
+if [[ "$BUILD_TOOL" = "docker" ]]; then
+	IMG_TAG_CMD="docker image tag"
+elif [[ "$BUILD_TOOL" = "buildah" ]]; then
+	IMG_TAG_CMD="buildah tag"
+fi
+
 test -n "$REGISTRY" && [[ "$REGISTRY" != */ ]] && REGISTRY="$REGISTRY/"
 
 publish_image(){
   IMAGE=$1
   if test "$UPDATE_LATEST" = "true" ; then
-    docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:latest
+    $IMG_TAG_CMD k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:latest
     if test "$PUSH_IMAGES" = "true" ; then
-      docker push "${REGISTRY}${ORGANIZATION}/$IMAGE:latest"
+      $BUILD_TOOL push "${REGISTRY}${ORGANIZATION}/$IMAGE:latest"
     fi
   fi
 
-  docker image tag k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG
+  $IMG_TAG_CMD k8sgerrit/$IMAGE:$TAG ${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG
   if test "$PUSH_IMAGES" = "true" ; then
-    docker push "${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG"
+    $BUILD_TOOL push "${REGISTRY}${ORGANIZATION}/$IMAGE:$TAG"
   fi
 }
 

@@ -70,6 +70,21 @@ def pytest_addoption(parser):
         help="If set, the docker cache will be used when building container images.",
     )
     parser.addoption(
+        "--tag",
+        action="store",
+        help="Tag of the images to test. If set, the build will be skipped.",
+    )
+    parser.addoption(
+        "--repo",
+        action="store",
+        help="Repository from where to pull the images. Only used when --tag is set.",
+    )
+    parser.addoption(
+        "--docker-host",
+        action="store",
+        help="Docker host to be used by docker client.",
+    )
+    parser.addoption(
         "--skip-slow", action="store_true", help="If set, skip slow tests."
     )
 
@@ -97,7 +112,11 @@ def pytest_runtest_setup(item):
 
 
 @pytest.fixture(scope="session")
-def docker_client():
+def docker_client(request):
+    if request.config.getoption("--docker-host"):
+        return docker.DockerClient(
+            base_url=request.config.getoption("--docker-host"),
+            version="1.41")
     return docker.from_env()
 
 
@@ -114,6 +133,21 @@ def container_images(repository_root):
             repository_root, "container-images", directory
         )
     return image_paths
+
+
+@pytest.fixture(scope="session")
+def docker_get(request, docker_client, docker_build):
+    def docker_get(image, name):
+        if request.config.getoption("--tag"):
+            if name in ["base", "gerrit-base"]:
+                return
+            return docker_client.images.get(
+                f"{request.config.getoption('--repo')}/{name}:{request.config.getoption('--tag')}",
+            )
+
+        return docker_build(image, name)
+
+    return docker_get
 
 
 @pytest.fixture(scope="session")
@@ -142,7 +176,7 @@ def docker_build(
 
 
 @pytest.fixture(scope="session")
-def docker_network(request, docker_client):
+def docker_network(docker_client):
     network = docker_client.networks.create(
         name="k8sgerrit-test-network", scope="local"
     )
@@ -153,35 +187,35 @@ def docker_network(request, docker_client):
 
 
 @pytest.fixture(scope="session")
-def base_image(container_images, docker_build):
-    return docker_build(container_images["base"], "base")
+def base_image(container_images, docker_get):
+    return docker_get(container_images["base"], "base")
 
 
 @pytest.fixture(scope="session")
-def gerrit_base_image(container_images, docker_build, base_image):
-    return docker_build(container_images["gerrit-base"], "gerrit-base")
+def gerrit_base_image(container_images, docker_get, base_image):
+    return docker_get(container_images["gerrit-base"], "gerrit-base")
 
 
 @pytest.fixture(scope="session")
-def gitgc_image(container_images, docker_build, base_image):
-    return docker_build(container_images["git-gc"], "git-gc")
+def gitgc_image(container_images, docker_get, base_image):
+    return docker_get(container_images["git-gc"], "git-gc")
 
 
 @pytest.fixture(scope="session")
-def apache_git_http_backend_image(container_images, docker_build, base_image):
-    return docker_build(
+def apache_git_http_backend_image(container_images, docker_get, base_image):
+    return docker_get(
         container_images["apache-git-http-backend"], "apache-git-http-backend"
     )
 
 
 @pytest.fixture(scope="session")
-def gerrit_image(container_images, docker_build, base_image, gerrit_base_image):
-    return docker_build(container_images["gerrit"], "gerrit")
+def gerrit_image(container_images, docker_get, base_image, gerrit_base_image):
+    return docker_get(container_images["gerrit"], "gerrit")
 
 
 @pytest.fixture(scope="session")
-def gerrit_init_image(container_images, docker_build, base_image, gerrit_base_image):
-    return docker_build(container_images["gerrit-init"], "gerrit-init")
+def gerrit_init_image(container_images, docker_get, base_image, gerrit_base_image):
+    return docker_get(container_images["gerrit-init"], "gerrit-init")
 
 
 @pytest.fixture(scope="session")

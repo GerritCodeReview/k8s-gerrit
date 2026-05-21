@@ -28,12 +28,57 @@
 		<platform.architecture>amd64</platform.architecture>
 		<docker.registry>docker.io</docker.registry>
 		<docker.org>k8sgerrit</docker.org>
+		<skip.docker.build>false</skip.docker.build>
 
 		<test.docker.registry>docker.io</test.docker.registry>
 		<test.docker.org>k8sgerritdev</test.docker.org>
 	</properties>
 
 	<profiles>
+		<profile>
+			<id>tar</id>
+			<properties>
+				<skip.docker.build>true</skip.docker.build>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>build-tar</id>
+								<phase>package</phase>
+								<goals>
+									<goal>buildTar</goal>
+								</goals>
+								<configuration>
+									<container>
+										<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
+									</container>
+									<containerizingMode>packaged</containerizingMode>
+									<from>
+										<image>gcr.io/distroless/java17-debian12</image>
+										<platforms>
+											<platform>
+												<architecture>${platform.architecture}</architecture>
+												<os>${platform.os}</os>
+											</platform>
+										</platforms>
+									</from>
+									<to>
+										<image>gerrit-operator</image>
+										<tags>
+											<tag>${project.version}</tag>
+										</tags>
+									</to>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>publish</id>
 			<build>
@@ -314,11 +359,13 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>docker-build</id>
 						<phase>package</phase>
 						<goals>
 							<goal>dockerBuild</goal>
 						</goals>
 						<configuration>
+							<skip>${skip.docker.build}</skip>
 							<container>
 								<mainClass>com.google.gerrit.k8s.operator.Main</mainClass>
 							</container>
