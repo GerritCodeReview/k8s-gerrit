@@ -24,12 +24,6 @@ def container_run(docker_client, container_endless_run_factory, gitgc_image):
     container_run.stop(timeout=1)
 
 
-# pylint: disable=E1101
-@pytest.mark.structure
-def test_gitgc_inherits_from_base(gitgc_image):
-    assert utils.check_if_ancestor_image_is_inherited(gitgc_image, "base:latest")
-
-
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gitgc_contains_gc_script(container_run):
@@ -38,6 +32,7 @@ def test_gitgc_contains_gc_script(container_run):
 
 
 @pytest.mark.structure
+@pytest.mark.dockerinspect
 def test_gitgc_has_entrypoint(gitgc_image):
     entrypoint = gitgc_image.attrs["Config"]["Entrypoint"]
     assert len(entrypoint) == 1

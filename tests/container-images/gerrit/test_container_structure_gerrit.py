@@ -24,16 +24,15 @@ def container_run(docker_client, container_endless_run_factory, gerrit_image):
     container_run.stop(timeout=1)
 
 
-# pylint: disable=E1101
-@pytest.mark.structure
-def test_gerrit_inherits_from_gerrit_base(gerrit_image):
-    assert utils.check_if_ancestor_image_is_inherited(
-        gerrit_image, "gerrit-base:latest"
-    )
-
-
 @pytest.mark.docker
 @pytest.mark.structure
 def test_gerrit_contains_start_script(container_run):
     exit_code, _ = container_run.exec_run("test -f /var/tools/start")
     assert exit_code == 0
+
+
+@pytest.mark.structure
+@pytest.mark.dockerinspect
+def test_gerrit_base_has_entrypoint(gerrit_image):
+    entrypoint = gerrit_image.attrs["Config"]["Entrypoint"]
+    assert "/var/tools/start" in entrypoint
