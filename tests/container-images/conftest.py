@@ -55,7 +55,7 @@ class GerritContainer:
     def start(self):
         self.container = self.docker_client.containers.run(
             image=self.image.id,
-            user="gerrit",
+            user="1000",
             volumes=self._define_volume_mounts(),
             ports={8080: str(self.port)},
             network=self.docker_network.name,
@@ -87,7 +87,7 @@ def container_endless_run_factory():
             image=image.id,
             entrypoint="/bin/ash",
             command=["-c", "tail -f /dev/null"],
-            user="gerrit",
+            user="1000",
             detach=True,
             auto_remove=True,
             platform="linux/amd64",
