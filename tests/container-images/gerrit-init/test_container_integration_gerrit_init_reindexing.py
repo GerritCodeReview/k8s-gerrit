@@ -31,7 +31,7 @@ def container_run_endless(request, docker_client, gerrit_init_image, temp_site):
         entrypoint="/bin/ash",
         command=["-c", "tail -f /dev/null"],
         volumes={str(temp_site): {"bind": "/var/gerrit", "mode": "rw"}},
-        user="gerrit",
+        user="1000",
         detach=True,
         auto_remove=True,
         platform="linux/amd64",

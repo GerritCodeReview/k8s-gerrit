@@ -28,7 +28,7 @@ def container_run_default(request, docker_client, gerrit_init_image, tmp_path_fa
     tmp_site_dir = tmp_path_factory.mktemp("gerrit_site")
     container_run = docker_client.containers.run(
         image=gerrit_init_image.id,
-        user="gerrit",
+        user="1000",
         volumes={tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"}},
         detach=True,
         auto_remove=True,
@@ -64,7 +64,7 @@ def container_run_endless(
         image=gerrit_init_image.id,
         entrypoint="/bin/ash",
         command=["-c", "tail -f /dev/null"],
-        user="gerrit",
+        user="1000",
         volumes={
             tmp_site_dir: {"bind": "/var/gerrit", "mode": "rw"},
             init_config_dir: {"bind": "/var/config", "mode": "rw"},
