@@ -244,6 +244,7 @@
 			<groupId>com.google.truth</groupId>
 			<artifactId>truth</artifactId>
 			<version>1.4.4</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
