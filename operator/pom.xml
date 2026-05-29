@@ -16,7 +16,7 @@
 		<revision>1.0.0-SNAPSHOT</revision>
 
 		<fabric8.version>6.13.4</fabric8.version>
-		<flogger.version>0.8</flogger.version>
+		<flogger.version>0.9</flogger.version>
 		<guice.version>7.0.0</guice.version>
 		<javaoperatorsdk.version>4.9.7</javaoperatorsdk.version>
 		<jetty.version>11.0.25</jetty.version>
