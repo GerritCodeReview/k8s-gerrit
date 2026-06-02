@@ -3,12 +3,13 @@ FROM base:${TAG}
 
 ARG GERRIT_VER=refs/heads/master
 
-RUN apk update && \
+RUN set -x && \
+    apk update && \
     apk add --no-cache \
       python3 \
       curl && \
     mkdir -p /var/tools && \
-    curl https://gerrit.googlesource.com/gerrit/+archive/${GERRIT_VER}/contrib/maintenance.tar.gz | \
+    curl -v https://gerrit.googlesource.com/gerrit/+archive/${GERRIT_VER}/contrib/maintenance.tar.gz | \
         tar -xzf - -C /var/tools && \
     apk del --purge curl
 
