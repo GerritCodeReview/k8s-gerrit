@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "03ee90c2_15fd4c9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-06-11T13:42:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae5500cd_cc5c88dd",
+      "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "25335a6d_cc67dde7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e32e56d_04e3cdee",
+        "filename": "container-images/fetch-job/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-06-11T13:42:30Z",
+      "side": 1,
+      "message": "The python version comes from the base image, which is 3.12 currently.",
+      "parentUuid": "8566dc85_8dec41a9",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 43
+      },
+      "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8da22d9c_55bec744",
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ba5eb0b_42ab64ae",
+        "filename": "container-images/fetch-job/dependencies/Pipfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-06-11T13:42:30Z",
+      "side": 1,
+      "message": "The python version comes from the base image, which is 3.12 currently.",
+      "parentUuid": "8da22d9c_55bec744",
+      "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29045ea6_a0e09573",
@@ -88,6 +148,24 @@
       "writtenOn": "2026-06-10T13:30:12Z",
       "side": 1,
       "message": "add a shebang and make the file executable ?\n```suggestion\n#!/usr/bin/env python3\n# Copyright (C) 2026 The Android Open Source Project\n```",
+      "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7536d6af_b1dc05ad",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-06-11T13:42:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29045ea6_a0e09573",
       "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +193,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42e1c0f8_93405bba",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-06-11T13:42:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a77358c5_c64a9f62",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66b36476_d4b0011b",
@@ -128,6 +230,24 @@
       "writtenOn": "2026-06-10T13:30:12Z",
       "side": 1,
       "message": "also print the target in case a repo is forked multiple times\n\n```suggestion\n        print(f\"Fetching {remote_repo} from {remote_name} into {git_dir}\")\n```",
+      "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "899ca1c9_f063043b",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-06-11T13:42:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66b36476_d4b0011b",
       "revId": "59cf37fb5f880b24edf1faddf6eb7048fbbf7719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
