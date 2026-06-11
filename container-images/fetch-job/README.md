@@ -8,11 +8,11 @@ or to have a copy of branches of a project that was forked in the local Gerrit.
 ## Content
 
 * base image
-* `fetch-job.sh`: script executing the fetches
+* `fetch-job.py`: script executing the fetches
 
 ## Start
 
-*  execution of the provided `fetch-job.sh`
+*  execution of the provided `fetch-job.py`
 
 ## Configuration
 
@@ -28,6 +28,11 @@ remotes:
   - remoteRepo: project3
     localRepo: local/project3
     refSpec: "+refs/heads/*:refs/heads/remote/*"
+  - remoteRepo: project4
+    localRepo: local/project4
+    refSpec:
+      - +refs/heads/*:refs/heads/remote/*
+      - ^refs/heads/excluded-*
 ```
 
 You will need to mount the credentials used to authenticate with remote servers

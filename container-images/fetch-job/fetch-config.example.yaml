@@ -9,3 +9,8 @@ remotes:
   - remoteRepo: project3
     localRepo: local/project3
     refSpec: +refs/heads/*:refs/heads/remote/*
+  - remoteRepo: project4
+    localRepo: local/project4
+    refSpec:
+      - +refs/heads/*:refs/heads/remote/*
+      - ^refs/heads/excluded-*
