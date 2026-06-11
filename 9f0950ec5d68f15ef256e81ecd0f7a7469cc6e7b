@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9043779d_00881e09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-06-11T11:38:19Z",
+      "side": 1,
+      "message": "```suggestion\ncan\u0027t work with the username when starting the container, but\n```",
+      "revId": "9f0950ec5d68f15ef256e81ecd0f7a7469cc6e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
