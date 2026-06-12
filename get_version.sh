@@ -77,7 +77,7 @@ getGerritVersionDocker() {
 }
 
 getGerritVersionNoDocker() {
-    GERRIT_BRANCH=${GERRIT_BRANCH:-main}
+    GERRIT_BRANCH=${GERRIT_BRANCH:-master}
     GERRIT_WAR_URL=${GERRIT_WAR_URL:-https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-${GERRIT_BRANCH}/lastSuccessfulBuild/artifact/gerrit/bazel-bin/release.war}
 
     # Create temporary directory for WAR file
