@@ -17,6 +17,8 @@ RUN apk update && \
     python3 -m pip install --require-hashes -r requirements.txt --no-cache --upgrade && \
     python3 -m pipenv install --python 3.12 --system
 
+ENV PYTHONUNBUFFERED=1
+
 COPY tools/* /var/tools/
 
 USER gerrit
