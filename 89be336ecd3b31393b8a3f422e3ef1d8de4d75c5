@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a4f9fd1_874e98fe",
+        "filename": "crd/current/gerritclusters.gerritoperator.google.com-v1.yml",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-06-16T11:35:04Z",
+      "side": 0,
+      "message": "Not all CRDs were updated. That is wrong. We always apply the same CRD version to all CRDs managed by the operator.",
+      "revId": "89be336ecd3b31393b8a3f422e3ef1d8de4d75c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

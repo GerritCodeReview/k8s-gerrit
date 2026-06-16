@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef1b907c_99a1e517",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-06-16T11:35:04Z",
+      "side": 1,
+      "message": "Constants.java should also be updated with the new version. Did you use the newCRDVersion script for the update?",
+      "revId": "f35392691e32835950fcb0a9d049a4ecde587ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
