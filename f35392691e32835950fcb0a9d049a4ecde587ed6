@@ -16,6 +16,24 @@
       "message": "Constants.java should also be updated with the new version. Did you use the newCRDVersion script for the update?",
       "revId": "f35392691e32835950fcb0a9d049a4ecde587ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ecbd0f_eeb09f96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-06-17T11:35:29Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/597061/1",
+      "parentUuid": "ef1b907c_99a1e517",
+      "revId": "f35392691e32835950fcb0a9d049a4ecde587ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
