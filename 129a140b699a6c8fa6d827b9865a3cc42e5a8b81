@@ -16,6 +16,23 @@
       "message": "Please squash this change with the parent. The parent does not work without it.",
       "revId": "129a140b699a6c8fa6d827b9865a3cc42e5a8b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34fa4f83_fa6d0d4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-06-17T13:13:53Z",
+      "side": 1,
+      "message": "When a change requires updating the API version this generated version update should be pushed as the first patchset, and the rest of the implementation should be added in subsequent patchsets of the same change. This can\u0027t be split into two changes since then the one updating the version wouldn\u0027t have any substantial change requiring the version update, and the other one effectively implementing the API change wouldn\u0027t change the version number which is bad either. Putting the generated version update into the first patchset helps reviewers to know which diffs really need to be reviewed.",
+      "revId": "129a140b699a6c8fa6d827b9865a3cc42e5a8b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
