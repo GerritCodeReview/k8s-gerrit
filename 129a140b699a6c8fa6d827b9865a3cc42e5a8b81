@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "862383a6_cec6dd45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-06-17T13:09:52Z",
+      "side": 1,
+      "message": "Please squash this change with the parent. The parent does not work without it.",
+      "revId": "129a140b699a6c8fa6d827b9865a3cc42e5a8b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
