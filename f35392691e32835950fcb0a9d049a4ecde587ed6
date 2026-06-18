@@ -34,6 +34,24 @@
       "parentUuid": "ef1b907c_99a1e517",
       "revId": "f35392691e32835950fcb0a9d049a4ecde587ed6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3b7ef5f_28d8c5ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-06-18T12:24:23Z",
+      "side": 1,
+      "message": "Squashed followup change into this one.",
+      "parentUuid": "d9ecbd0f_eeb09f96",
+      "revId": "f35392691e32835950fcb0a9d049a4ecde587ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
