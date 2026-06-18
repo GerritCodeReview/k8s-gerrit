@@ -77,13 +77,11 @@ def process_remote(remote):
         print(f"Fetching {remote_repo} from {remote_name} into {git_repo}")
         try:
             git_repo.fetch(remote_name, timeout=timeout_seconds)
-        except subprocess.TimeoutExpired:
+        except Exception as e:
             print(
-                f"ERROR: fetch of {remote_repo} from {remote_name} timed out "
-                f"after {timeout_seconds}s",
+                f"ERROR: fetch of {remote_repo} from {remote_name} failed: {e}",
                 file=sys.stderr,
             )
-            sys.exit(1)
 
 
 def main():
