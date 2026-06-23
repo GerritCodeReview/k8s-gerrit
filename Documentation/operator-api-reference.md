@@ -33,7 +33,6 @@
   - [DynamoDbRefDbConfig](#dynamodbrefdbconfig)
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
-  - [ElasticSearchConfig](#elasticsearchconfig)
   - [EventsBrokerConfig](#eventsbrokerconfig)
   - [BrokerType](#brokertype)
   - [KafkaConfig](#kafkaconfig)
@@ -64,6 +63,7 @@
   - [NetworkMember](#networkmember)
   - [NetworkMemberWithSsh](#networkmemberwithssh)
   - [ScheduledTasks](#scheduledtasks)
+  - [RemoteIndexConfig](#remoteindexconfig)
   - [IncomingReplicationTaskTemplate](#incomingreplicationtasktemplate)
   - [IncomingReplicationTaskTemplateSpec](#incomingreplicationtasktemplatespec)
   - [IncomingReplicationConfig](#incomingreplicationconfig)
@@ -87,7 +87,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: GerritCluster
 
 ---
@@ -104,7 +104,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -427,7 +427,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: Gerrit
 
 ---
@@ -444,7 +444,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -658,7 +658,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: Receiver
 
 ---
@@ -675,7 +675,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: Receiver
 metadata:
   name: receiver
@@ -786,7 +786,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -803,7 +803,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -847,7 +847,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: GerritNetwork
 
 ---
@@ -863,7 +863,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -897,7 +897,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -913,7 +913,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -972,7 +972,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta17 \
+**Version**: v1beta18 \
 **Kind**: GerritIndexer
 
 ---
@@ -988,7 +988,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta17"
+apiVersion: "gerritoperator.google.com/v1beta18"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1227,8 +1227,8 @@ configure Gerrit to use it.
 
 | Field | Type | Description |
 |---|---|---|
-| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`. (default: `LUCENE`) |
-| `elasticsearch` | [`ElasticSearchConfig`](#elasticsearchconfig) | Configuration of elasticsearch. Only used if elasticsearch was configured to be used for the search index. |
+| `type` | [`IndexType`](#indextype) | Which index type to use. Choices: `LUCENE`, `ELASTICSEARCH`, `OPENSEARCH`. (default: `LUCENE`) |
+| `remoteIndexConfig` | [`RemoteIndexConfig`](#RemoteIndexConfig) | Configuration of the search engine. Only used if elasticsearch or opensearch was configured to be used for the search index. |
 
 ## IndexType
 
@@ -1236,13 +1236,14 @@ configure Gerrit to use it.
 |---|---|
 | `LUCENE` | Lucene will be used for the search index |
 | `ELASTICSEARCH` | Elasticsearch will be used for the search index (Requires Elasticsearch instance to be available.) |
+| `OPENSEARCH` | Opensearch will be used for the search index (Requires Opensearch instance to be available.) |
 
-## ElasticSearchConfig
+## RemoteIndexConfig
 
 | Field | Type | Description |
 |---|---|---|
-| `server` | `String` | URL to use for connecting to Elasticsearch |
-| `config` | `String` | Config snippet used for the `elasticsearch` section in `gerrit.config` |
+| `server` | `String` | URL to use for connecting to the search engine |
+| `config` | `String` | Config snippet used for the search section in `gerrit.config`, either `opensearch` or `elasticsearch` |
 
 ## EventsBrokerConfig
 
