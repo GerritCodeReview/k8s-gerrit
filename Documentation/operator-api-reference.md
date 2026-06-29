@@ -182,8 +182,8 @@ spec:
       refsDbTableName: ""
 
   index:
-    type: LUCENE
-    elasticsearch:
+    type: ELASTICSEARCH
+    remoteIndexConfig:
       server: es.example.com
       config: |-
         [elasticsearch]
@@ -645,8 +645,8 @@ spec:
       refsDbTableName: ""
 
   index:
-    type: LUCENE
-    elasticsearch:
+    type: ELASTICSEARCH
+    remoteIndexConfig:
       server: es.example.com
       config: |-
         [elasticsearch]
@@ -996,8 +996,8 @@ metadata:
 spec:
   cluster: gerrit-cluster
   index:
-    type: LUCENE
-    elasticsearch:
+    type: ELASTICSEARCH
+    remoteIndexConfig:
       server: es.example.com
       config: |-
         [elasticsearch]
