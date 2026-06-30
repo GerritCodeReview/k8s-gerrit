@@ -120,12 +120,12 @@ spec:
           mountPath: /var/apache/credentials/.htpasswd
           subPath: .htpasswd
       volumes:
-      - name: shared
-        persistentVolumeClaim:
-          claimName: shared-pvc
       - name: apache-credentials
         secret:
           secretName: apache-credentials
+      - name: shared
+        persistentVolumeClaim:
+          claimName: shared-pvc
       - name: apache-run-dir
         emptyDir:
           sizeLimit: 50Mi

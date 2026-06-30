@@ -25,7 +25,7 @@ import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -56,12 +56,11 @@ public class GerritIndexerTest {
       String.format(
           "/apis/%s/namespaces/gerrit/%s/gerrit",
           HasMetadata.getApiVersion(Gerrit.class), HasMetadata.getPlural(Gerrit.class));
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
+  @Rule public KubernetesMockServer kubernetesServer = new KubernetesMockServer();
 
   @BeforeAll
   public void setup() throws Exception {
     OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-    kubernetesServer.before();
   }
 
   @ParameterizedTest
@@ -110,7 +109,7 @@ public class GerritIndexerTest {
         new Controller<GerritIndexer>(
             reconciler,
             new BaseConfigurationService().getConfigurationFor(reconciler),
-            kubernetesServer.getClient());
+            kubernetesServer.createClient());
 
     return new DefaultContext<GerritIndexer>(
         new GenericRetryExecution(new GenericRetry()), controller, primary);

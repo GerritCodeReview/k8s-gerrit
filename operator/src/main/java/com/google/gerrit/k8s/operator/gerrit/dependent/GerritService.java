@@ -19,7 +19,7 @@ import io.fabric8.kubernetes.api.model.ServiceSpec;
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
-@KubernetesDependent(resourceDiscriminator = GerritServiceDiscriminator.class)
+@KubernetesDependent
 public class GerritService extends GerritAbstractService {
   private static final String SERVICE_SUFFIX = "-service";
 

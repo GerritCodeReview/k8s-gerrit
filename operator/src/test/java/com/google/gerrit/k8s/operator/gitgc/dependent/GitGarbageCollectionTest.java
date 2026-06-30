@@ -21,7 +21,7 @@ import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -33,7 +33,6 @@ import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
 import java.net.HttpURLConnection;
 import java.util.stream.Stream;
 import org.junit.Rule;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,12 +46,7 @@ public class GitGarbageCollectionTest {
           "/apis/%s/namespaces/gerrit/%s/gerrit",
           HasMetadata.getApiVersion(GerritCluster.class),
           HasMetadata.getPlural(GerritCluster.class));
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
-
-  @BeforeAll
-  public void setup() throws Exception {
-    kubernetesServer.before();
-  }
+  @Rule public KubernetesMockServer kubernetesServer = new KubernetesMockServer();
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -72,7 +66,7 @@ public class GitGarbageCollectionTest {
         .once();
 
     Context<GitGarbageCollection> context =
-        getContext(new GitGarbageCollectionReconciler(kubernetesServer.getClient()), input);
+        getContext(new GitGarbageCollectionReconciler(kubernetesServer.createClient()), input);
     GitGarbageCollectionCronJob dependentCronjob = new GitGarbageCollectionCronJob();
     assertThat(dependentCronjob.desired(input, context))
         .isEqualTo(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
@@ -84,7 +78,7 @@ public class GitGarbageCollectionTest {
         new Controller<GitGarbageCollection>(
             reconciler,
             new BaseConfigurationService().getConfigurationFor(reconciler),
-            kubernetesServer.getClient());
+            kubernetesServer.createClient());
 
     return new DefaultContext<GitGarbageCollection>(
         new GenericRetryExecution(new GenericRetry()), controller, primary);
