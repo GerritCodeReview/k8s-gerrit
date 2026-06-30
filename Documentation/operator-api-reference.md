@@ -9,6 +9,7 @@
   - [GitGarbageCollection](#gitgarbagecollection)
   - [GerritNetwork](#gerritnetwork)
   - [IncomingReplicationTask](#incomingreplicationtask)
+  - [GerritOperatorConfig](#gerritoperatorconfig)
   - [GerritIndexer](#gerritindexer)
   - [GerritClusterSpec](#gerritclusterspec)
   - [GerritClusterStatus](#gerritclusterstatus)
@@ -33,6 +34,7 @@
   - [DynamoDbRefDbConfig](#dynamodbrefdbconfig)
   - [IndexConfig](#indexconfig)
   - [IndexType](#indextype)
+  - [RemoteIndexConfig](#remoteindexconfig)
   - [EventsBrokerConfig](#eventsbrokerconfig)
   - [BrokerType](#brokertype)
   - [KafkaConfig](#kafkaconfig)
@@ -63,7 +65,6 @@
   - [NetworkMember](#networkmember)
   - [NetworkMemberWithSsh](#networkmemberwithssh)
   - [ScheduledTasks](#scheduledtasks)
-  - [RemoteIndexConfig](#remoteindexconfig)
   - [IncomingReplicationTaskTemplate](#incomingreplicationtasktemplate)
   - [IncomingReplicationTaskTemplateSpec](#incomingreplicationtasktemplatespec)
   - [IncomingReplicationConfig](#incomingreplicationconfig)
@@ -73,6 +74,7 @@
   - [GerritIndexerSpec](#gerritindexerspec)
   - [GerritIndexerStorage](#gerritindexerstorage)
   - [GerritIndexerVolumeRef](#gerritindexervolumeref)
+  - [GerritOperatorConfigSpec](#gerritoperatorconfigspec)
 
 ## General Remarks
 
@@ -87,7 +89,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: GerritCluster
 
 ---
@@ -104,7 +106,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -427,7 +429,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: Gerrit
 
 ---
@@ -444,7 +446,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -658,7 +660,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: Receiver
 
 ---
@@ -675,7 +677,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: Receiver
 metadata:
   name: receiver
@@ -786,7 +788,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -803,7 +805,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -847,7 +849,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: GerritNetwork
 
 ---
@@ -863,7 +865,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -897,7 +899,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -913,7 +915,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -967,12 +969,42 @@ spec:
           aws-availability-zone: us-east-1
 ```
 
+
+## GerritOperatorConfig
+
+---
+
+**Group**: gerritoperator.google.com \
+**Version**: v1beta19 \
+**Kind**: GerritOperatorConfig
+
+---
+
+| Field | Type | Description |
+|---|---|---|
+| `apiVersion` | `String` | APIVersion of this resource |
+| `kind` | `String` | Kind of this resource |
+| `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource |
+| `spec` | [`GerritOperatorConfigSpec`](#gerritoperatorconfigspec) | Specification for GerritOperatorConfig |
+
+Example:
+
+```yaml
+apiVersion: "gerritoperator.google.com/v1beta19"
+kind: GerritOperatorConfig
+metadata:
+  name: example-operator-config
+  namespace: gerrit-operator
+spec:
+  enableValidatingWebhook: false
+```
+
 ## GerritIndexer
 
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta18 \
+**Version**: v1beta19 \
 **Kind**: GerritIndexer
 
 ---
@@ -988,7 +1020,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta18"
+apiVersion: "gerritoperator.google.com/v1beta19"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1601,3 +1633,12 @@ compared to the parent object. All other options can still be configured.
 |---|---|---|
 | `persistentVolumeClaim` | `String` | Name of the PersistentVolumeClaim that should be mounted (mandatory) |
 | `subPath` | `String` | Path in the volume to mount for the respective volume. (defaults: site: `null`; repositories: `git`; output: `shared/indexes`) |
+
+## GerritOperatorConfigSpec
+
+| Field | Type | Description |
+|---|---|---|
+| `enableValidatingWebhook` | `Boolean` | Enable validating webhook support of the operator. It is highly recommended to enable ValidatingWebhooks in production scenarios to avoid unintentional mistakes. |
+
+Note, that deleting the operator will not automatically remove the
+`ValidatingWebhookConfigurations`. This has to be done manually in that case.
