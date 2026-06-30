@@ -11,7 +11,7 @@ spec:
     singular: gerritmaintenance
   scope: Namespaced
   versions:
-    - name: v1beta18
+    - name: v1beta19
       schema:
         openAPIV3Schema:
           properties:
@@ -435,6 +435,9 @@ spec:
                                   type: string
                               type: object
                             type: array
+                        required:
+                          - name
+                          - schedule
                         type: object
                       type: array
                   type: object

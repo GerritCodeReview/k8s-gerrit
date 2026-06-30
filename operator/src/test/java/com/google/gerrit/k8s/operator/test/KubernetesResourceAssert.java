@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
 import io.fabric8.zjsonpatch.JsonDiff;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,6 +125,15 @@ public final class KubernetesResourceAssert {
         assertWithMessage(filename).that(yamlDiff(actualValue, expectedValue)).isEqualTo("[]");
       }
     }
+  }
+
+  /**
+   * Asserts that the {@code webhooks} of two {@link ValidatingWebhookConfiguration} objects are
+   * equal, ignoring metadata (server-injected fields).
+   */
+  public static void assertVWCWebhooksEqual(
+      ValidatingWebhookConfiguration actual, ValidatingWebhookConfiguration expected) {
+    assertUnordered(actual.getWebhooks(), expected.getWebhooks());
   }
 
   /**

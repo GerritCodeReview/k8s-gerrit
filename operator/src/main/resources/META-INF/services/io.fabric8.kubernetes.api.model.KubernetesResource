@@ -1,4 +1,5 @@
 com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster
+com.google.gerrit.k8s.operator.api.model.config.GerritOperatorConfig
 com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit
 com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection
 com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask

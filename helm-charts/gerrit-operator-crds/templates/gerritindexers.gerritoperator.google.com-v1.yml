@@ -13,7 +13,7 @@ spec:
     singular: gerritindexer
   scope: Namespaced
   versions:
-    - name: v1beta19
+    - name: v1beta20
       schema:
         openAPIV3Schema:
           properties:
@@ -494,7 +494,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta18
+    - name: v1beta19
       schema:
         openAPIV3Schema:
           properties:
@@ -842,6 +842,8 @@ spec:
                           type: string
                         server:
                           type: string
+                      required:
+                        - server
                       type: object
                     type:
                       enum:
@@ -915,6 +917,8 @@ spec:
                         type: string
                     type: object
                   type: array
+              required:
+                - cluster
               type: object
             status:
               properties:

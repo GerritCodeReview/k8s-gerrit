@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.test;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
+import com.google.gerrit.k8s.operator.api.model.config.GerritOperatorConfig;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
@@ -34,6 +35,7 @@ import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
@@ -340,6 +342,25 @@ public final class TestFixtures {
   public static final String AMBASSADOR_HOST_TLS_PATCH =
       AMBASSADOR_DEPENDENT + "/host_tls.patch.yaml";
 
+  private static final String CONFIG_RSRCS = "/com/google/gerrit/k8s/operator/config";
+  private static final String CONFIG_DEPENDENT = CONFIG_RSRCS + "/dependent";
+
+  public static final String OPERATOR_CONFIG_BASE =
+      CONFIG_RSRCS + "/gerritoperatorconfig_base.yaml";
+  public static final String OPERATOR_CONFIG_WEBHOOK_DISABLED_PATCH =
+      CONFIG_RSRCS + "/gerritoperatorconfig_webhook_disabled.patch.yaml";
+
+  public static final String VWC_BASE =
+      CONFIG_DEPENDENT + "/validatingwebhookconfiguration_base.yaml";
+  public static final String VWC_GERRITS_PATCH =
+      CONFIG_DEPENDENT + "/validatingwebhookconfiguration_gerrits.patch.yaml";
+  public static final String VWC_GITGCS_PATCH =
+      CONFIG_DEPENDENT + "/validatingwebhookconfiguration_gitgarbagecollections.patch.yaml";
+  public static final String VWC_MAINTENANCES_PATCH =
+      CONFIG_DEPENDENT + "/validatingwebhookconfiguration_gerritmaintenances.patch.yaml";
+
+  public static final String OPERATOR_SERVICE = CONFIG_DEPENDENT + "/gerritoperatorservice.yaml";
+
   private static final String INCOMINGREPL_RSRCS =
       "/com/google/gerrit/k8s/operator/tasks/incomingrepl";
   private static final String INCOMINGREPL_DEPENDENT = INCOMINGREPL_RSRCS + "/dependent";
@@ -579,6 +600,17 @@ public final class TestFixtures {
   /** {@link Service} fixture for the receiver service (shared across all test cases). */
   public static KubernetesResourceFixture<Service> receiverService() {
     return fixture(Service.class, TestFixtures.class, RECEIVER_SERVICE_BASE);
+  }
+
+  /** {@link GerritOperatorConfig} fixture from the base, with optional patches. */
+  public static KubernetesResourceFixture<GerritOperatorConfig> operatorConfig(String... patches) {
+    return fixture(GerritOperatorConfig.class, TestFixtures.class, OPERATOR_CONFIG_BASE, patches);
+  }
+
+  /** {@link ValidatingWebhookConfiguration} fixture from the base, with optional patches. */
+  public static KubernetesResourceFixture<ValidatingWebhookConfiguration>
+      validatingWebhookConfiguration(String... patches) {
+    return fixture(ValidatingWebhookConfiguration.class, TestFixtures.class, VWC_BASE, patches);
   }
 
   /** {@link GerritCluster} fixture for incoming replication task tests. */
