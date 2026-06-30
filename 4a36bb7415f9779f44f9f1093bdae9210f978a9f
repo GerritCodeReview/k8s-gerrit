@@ -46,6 +46,30 @@
       },
       "revId": "4a36bb7415f9779f44f9f1093bdae9210f978a9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b576ac_ddc4dd7f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/istio/dependent/GerritIstioDestinationRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-06-30T12:13:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "352fb259_de871137",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 76
+      },
+      "revId": "4a36bb7415f9779f44f9f1093bdae9210f978a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
