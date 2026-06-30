@@ -41,3 +41,11 @@ deployment:
   nodeSelector: {}
   tolerations: []
   affinity: {}
+
+# Commented out to enable a seamless transition. This causes the operator to use
+# the default configuration.
+# TODO(Thomas): Uncomment in v1beta21, since this is only required for the upgrade
+# between v1beta19 and v1beta20
+
+# config:
+#   enableValidatingWebhook: true

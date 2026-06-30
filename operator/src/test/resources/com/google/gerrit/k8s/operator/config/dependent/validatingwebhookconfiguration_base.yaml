@@ -1,0 +1,31 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: gerritclusters
+webhooks:
+  - name: gerritclusters.v1beta20.validator.google.com
+    admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      caBundle: bW9jay1jYS1idW5kbGU=
+      service:
+        name: gerrit-operator
+        namespace: gerrit-operator
+        path: /admission/v1beta20/gerritclusters
+        port: 8080
+    failurePolicy: Fail
+    matchPolicy: Equivalent
+    rules:
+      - apiGroups:
+          - gerritoperator.google.com
+        apiVersions:
+          - v1beta20
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - gerritclusters
+        scope: '*'
+    sideEffects: None
+    timeoutSeconds: 10

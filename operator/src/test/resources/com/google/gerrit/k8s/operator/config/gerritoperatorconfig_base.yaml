@@ -1,0 +1,7 @@
+apiVersion: gerritoperator.google.com/v1beta20
+kind: GerritOperatorConfig
+metadata:
+  name: gerrit-operator-cfg
+  namespace: gerrit-operator
+spec:
+  enableValidatingWebhook: true
