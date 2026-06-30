@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5170ae0_d4787a9d",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-06-30T12:12:14Z",
+      "side": 1,
+      "message": "I had to add this as the order of the expected and actual object was incorrect.\n\nEarlier it was:\n```\nExpected - shared, tmp, gerrit-secure-config, gerrit-config, gerrit-init-config\nActual   - tmp, gerrit-init-config, gerrit-config, gerrit-secure-config, shared",
+      "revId": "8268c0f86d2ab2cf5aaff4b5e79f180207031031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
