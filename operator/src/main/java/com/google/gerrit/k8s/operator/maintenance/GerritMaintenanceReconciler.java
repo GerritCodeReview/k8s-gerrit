@@ -18,13 +18,13 @@ import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.maintenance.dependent.GerritMaintenanceCronJobs;
 import com.google.inject.Singleton;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 
 @Singleton
-@ControllerConfiguration(
+@Workflow(
     dependents = {
       @Dependent(name = "gerrit-maintenance-cronjobs", type = GerritMaintenanceCronJobs.class)
     })

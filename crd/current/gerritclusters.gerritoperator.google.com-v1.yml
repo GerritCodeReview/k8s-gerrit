@@ -713,6 +713,8 @@ spec:
                                 properties:
                                   name:
                                     type: string
+                                  request:
+                                    type: string
                                 type: object
                               type: array
                             limits:
@@ -1480,6 +1482,8 @@ spec:
                               properties:
                                 name:
                                   type: string
+                                request:
+                                  type: string
                               type: object
                             type: array
                           limits:
@@ -1946,6 +1950,8 @@ spec:
                                       items:
                                         properties:
                                           name:
+                                            type: string
+                                          request:
                                             type: string
                                         type: object
                                       type: array
@@ -2427,6 +2433,8 @@ spec:
                                   items:
                                     properties:
                                       name:
+                                        type: string
+                                      request:
                                         type: string
                                     type: object
                                   type: array
