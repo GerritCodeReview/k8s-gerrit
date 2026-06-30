@@ -1,0 +1,12 @@
+
+{{- if .Values.config }}
+apiVersion: "gerritoperator.google.com/v1beta15"
+kind: GerritOperatorConfig
+metadata:
+  name: gerrit-operator-cfg
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{- with .Values.config }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
