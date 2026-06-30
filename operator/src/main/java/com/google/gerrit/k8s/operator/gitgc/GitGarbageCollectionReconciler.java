@@ -23,30 +23,26 @@ import com.google.gerrit.k8s.operator.gitgc.dependent.GitGarbageCollectionCronJo
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
+import io.javaoperatorsdk.operator.api.config.informer.InformerEventSourceConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
-import io.javaoperatorsdk.operator.api.reconciler.ErrorStatusHandler;
 import io.javaoperatorsdk.operator.api.reconciler.ErrorStatusUpdateControl;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
+import io.javaoperatorsdk.operator.api.reconciler.EventSourceUtils;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
 import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.SecondaryToPrimaryMapper;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Singleton
 @ControllerConfiguration
 @Deprecated
-public class GitGarbageCollectionReconciler
-    implements Reconciler<GitGarbageCollection>,
-        EventSourceInitializer<GitGarbageCollection>,
-        ErrorStatusHandler<GitGarbageCollection> {
+public class GitGarbageCollectionReconciler implements Reconciler<GitGarbageCollection> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final KubernetesClient client;
 
@@ -59,8 +55,11 @@ public class GitGarbageCollectionReconciler
   }
 
   @Override
-  public Map<String, EventSource> prepareEventSources(
+  public List<EventSource<?, GitGarbageCollection>> prepareEventSources(
       EventSourceContext<GitGarbageCollection> context) {
+    List<EventSource<?, GitGarbageCollection>> eventSources = new ArrayList<>();
+    eventSources.addAll(EventSourceUtils.dependentEventSources(context, dependentCronJob));
+
     final SecondaryToPrimaryMapper<GitGarbageCollection> specificProjectGitGcMapper =
         (GitGarbageCollection gc) ->
             context
@@ -71,10 +70,12 @@ public class GitGarbageCollectionReconciler
 
     InformerEventSource<GitGarbageCollection, GitGarbageCollection> gitGcEventSource =
         new InformerEventSource<>(
-            InformerConfiguration.from(GitGarbageCollection.class, context)
+            InformerEventSourceConfiguration.from(
+                    GitGarbageCollection.class, GitGarbageCollection.class)
                 .withSecondaryToPrimaryMapper(specificProjectGitGcMapper)
                 .build(),
             context);
+    eventSources.add(gitGcEventSource);
 
     final SecondaryToPrimaryMapper<GerritCluster> gerritClusterMapper =
         (GerritCluster cluster) ->
@@ -86,13 +87,12 @@ public class GitGarbageCollectionReconciler
 
     InformerEventSource<GerritCluster, GitGarbageCollection> gerritClusterEventSource =
         new InformerEventSource<>(
-            InformerConfiguration.from(GerritCluster.class, context)
+            InformerEventSourceConfiguration.from(GerritCluster.class, GitGarbageCollection.class)
                 .withSecondaryToPrimaryMapper(gerritClusterMapper)
                 .build(),
             context);
-
-    return EventSourceInitializer.nameEventSources(
-        gitGcEventSource, gerritClusterEventSource, dependentCronJob.initEventSource(context));
+    eventSources.add(gerritClusterEventSource);
+    return eventSources;
   }
 
   @Override
@@ -103,7 +103,7 @@ public class GitGarbageCollectionReconciler
     }
 
     dependentCronJob.reconcile(gitGc, context);
-    return UpdateControl.updateStatus(updateGitGcStatus(gitGc));
+    return UpdateControl.patchStatus(updateGitGcStatus(gitGc));
   }
 
   private GitGarbageCollection updateGitGcStatus(GitGarbageCollection gitGc) {
@@ -147,6 +147,6 @@ public class GitGarbageCollectionReconciler
     }
     gitGc.setStatus(status);
 
-    return ErrorStatusUpdateControl.updateStatus(gitGc);
+    return ErrorStatusUpdateControl.patchStatus(gitGc);
   }
 }
