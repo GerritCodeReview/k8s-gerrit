@@ -41,7 +41,7 @@ public class NetworkMember {
     return httpPort;
   }
 
-  public void setHttpPort(int httpPort) {
+  public void setHttpPort(long httpPort) {
     this.httpPort = httpPort;
   }
 

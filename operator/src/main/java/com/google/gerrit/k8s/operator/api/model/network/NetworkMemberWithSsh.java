@@ -31,7 +31,7 @@ public class NetworkMemberWithSsh extends NetworkMember {
     return sshPort;
   }
 
-  public void setSshPort(int sshPort) {
+  public void setSshPort(long sshPort) {
     this.sshPort = sshPort;
   }
 

@@ -21,7 +21,7 @@ import io.getambassador.v2.TCPMappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 
-@KubernetesDependent(resourceDiscriminator = GerritClusterTCPMappingSshDiscriminator.class)
+@KubernetesDependent
 public class GerritClusterTCPMappingSsh extends AbstractAmbassadorDependentResource<TCPMapping> {
 
   public static final String GERRIT_TCP_MAPPING_SSH = "gerrit-tcp-mapping-ssh";
