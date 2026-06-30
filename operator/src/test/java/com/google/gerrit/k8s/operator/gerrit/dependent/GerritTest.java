@@ -21,7 +21,7 @@ import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -30,10 +30,10 @@ import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.processing.Controller;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.Rule;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,12 +42,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class GerritTest {
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
-
-  @BeforeAll
-  public void setup() throws Exception {
-    kubernetesServer.before();
-  }
+  @Rule public KubernetesMockServer kubernetesServer = new KubernetesMockServer();
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -60,7 +55,7 @@ public class GerritTest {
       String expectedHeadlessServiceOutputFile) {
     Gerrit gerrit = ReconcilerUtils.loadYaml(Gerrit.class, this.getClass(), inputFile);
     Context<Gerrit> context =
-        getContext(new GerritReconciler(kubernetesServer.getClient()), gerrit);
+        getContext(new GerritReconciler(kubernetesServer.createClient()), gerrit);
 
     ConfigMap expectedGerritCm =
         ReconcilerUtils.loadYaml(
@@ -77,6 +72,10 @@ public class GerritTest {
     StatefulSet stsResult = stsDependent.desired(gerrit, context);
     StatefulSet expectedSts =
         ReconcilerUtils.loadYaml(StatefulSet.class, this.getClass(), expectedStatefulSetOutputFile);
+
+    sortPodVolumesByName(stsResult);
+    sortPodVolumesByName(expectedSts);
+
     assertThat(stsResult).isEqualTo(expectedSts);
 
     GerritService serviceDependent = new GerritService();
@@ -101,12 +100,27 @@ public class GerritTest {
     }
   }
 
+  private void sortPodVolumesByName(StatefulSet statefulSet) {
+    if (statefulSet.getSpec() == null
+        || statefulSet.getSpec().getTemplate() == null
+        || statefulSet.getSpec().getTemplate().getSpec() == null
+        || statefulSet.getSpec().getTemplate().getSpec().getVolumes() == null) {
+      return;
+    }
+    statefulSet
+        .getSpec()
+        .getTemplate()
+        .getSpec()
+        .getVolumes()
+        .sort(Comparator.comparing(v -> v.getName()));
+  }
+
   private Context<Gerrit> getContext(Reconciler<Gerrit> reconciler, Gerrit primary) {
     Controller<Gerrit> controller =
         new Controller<Gerrit>(
             reconciler,
             new BaseConfigurationService().getConfigurationFor(reconciler),
-            kubernetesServer.getClient());
+            kubernetesServer.createClient());
 
     return new DefaultContext<Gerrit>(
         new GenericRetryExecution(new GenericRetry()), controller, primary);
