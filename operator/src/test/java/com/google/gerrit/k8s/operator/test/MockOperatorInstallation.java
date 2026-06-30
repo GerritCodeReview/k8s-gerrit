@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.awaitility.Awaitility.await;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
@@ -123,6 +124,62 @@ public final class MockOperatorInstallation implements AutoCloseable {
    */
   public <T extends HasMetadata> T awaitResource(Class<T> type, String namespace, String name) {
     return awaitResource(type, namespace, name, DEFAULT_TIMEOUT);
+  }
+
+  /**
+   * Waits up to {@code timeout} for a cluster-scoped resource to appear in the mock store, then
+   * returns it.
+   *
+   * @throws org.awaitility.core.ConditionTimeoutException if the resource does not appear in time
+   */
+  public <T extends HasMetadata> T awaitClusterResource(
+      Class<T> type, String name, Duration timeout) {
+    return await()
+        .atMost(timeout)
+        .until(() -> server.getClient().resources(type).withName(name).get(), Objects::nonNull);
+  }
+
+  /**
+   * Waits up to 30 seconds for a cluster-scoped resource to appear, then returns it.
+   *
+   * @throws org.awaitility.core.ConditionTimeoutException if the resource does not appear in time
+   */
+  public <T extends HasMetadata> T awaitClusterResource(Class<T> type, String name) {
+    return awaitClusterResource(type, name, DEFAULT_TIMEOUT);
+  }
+
+  /**
+   * Asserts that a namespaced resource does NOT appear within the default timeout.
+   *
+   * <p>Waits briefly for the reconciler to run, then asserts the resource is absent.
+   */
+  public <T extends HasMetadata> void awaitAbsent(Class<T> type, String namespace, String name) {
+    await()
+        .pollDelay(Duration.ofSeconds(2))
+        .atMost(DEFAULT_TIMEOUT)
+        .untilAsserted(
+            () ->
+                assertThat(
+                        server
+                            .getClient()
+                            .resources(type)
+                            .inNamespace(namespace)
+                            .withName(name)
+                            .get())
+                    .isNull());
+  }
+
+  /**
+   * Asserts that a cluster-scoped resource does NOT appear within the default timeout.
+   *
+   * <p>Waits briefly for the reconciler to run, then asserts the resource is absent.
+   */
+  public <T extends HasMetadata> void awaitAbsent(Class<T> type, String name) {
+    await()
+        .pollDelay(Duration.ofSeconds(2))
+        .atMost(DEFAULT_TIMEOUT)
+        .untilAsserted(
+            () -> assertThat(server.getClient().resources(type).withName(name).get()).isNull());
   }
 
   @Override
