@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-    - name: v1beta19
+    - name: v1beta20
       schema:
         openAPIV3Schema:
           properties:
@@ -2595,7 +2595,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta18
+    - name: v1beta19
       schema:
         openAPIV3Schema:
           properties:
@@ -2640,6 +2640,8 @@ spec:
                       properties:
                         connectString:
                           type: string
+                      required:
+                        - connectString
                       type: object
                   type: object
                 fluentBitSidecar:
@@ -3126,6 +3128,8 @@ spec:
                                       type: boolean
                                     secretRef:
                                       type: string
+                                  required:
+                                    - secretRef
                                   type: object
                                 name:
                                   type: string
@@ -3133,6 +3137,8 @@ spec:
                                   type: string
                                 url:
                                   type: string
+                              required:
+                                - name
                               type: object
                             type: array
                           livenessProbe:
@@ -3211,6 +3217,8 @@ spec:
                                       type: boolean
                                     secretRef:
                                       type: string
+                                  required:
+                                    - secretRef
                                   type: object
                                 installAsLibrary:
                                   type: boolean
@@ -3220,6 +3228,8 @@ spec:
                                   type: string
                                 url:
                                   type: string
+                              required:
+                                - name
                               type: object
                             type: array
                           priorityClassName:
@@ -3454,6 +3464,9 @@ spec:
                           updatePartition:
                             type: integer
                         type: object
+                    required:
+                      - metadata
+                      - spec
                     type: object
                   type: array
                 index:
@@ -3464,6 +3477,8 @@ spec:
                           type: string
                         server:
                           type: string
+                      required:
+                        - server
                       type: object
                     type:
                       enum:
@@ -4146,6 +4161,8 @@ spec:
                             type: object
                           type: array
                       type: object
+                  required:
+                    - metadata
                   type: object
                 refdb:
                   properties:
@@ -4166,6 +4183,10 @@ spec:
                           type: string
                         region:
                           type: string
+                      required:
+                        - locksTableName
+                        - refsDbTableName
+                        - region
                       type: object
                     spanner:
                       properties:
@@ -4175,6 +4196,10 @@ spec:
                           type: string
                         projectName:
                           type: string
+                      required:
+                        - database
+                        - instance
+                        - projectName
                       type: object
                     zookeeper:
                       properties:
@@ -4182,6 +4207,9 @@ spec:
                           type: string
                         rootNode:
                           type: string
+                      required:
+                        - connectString
+                        - rootNode
                       type: object
                   type: object
                 scheduledTasks:
@@ -4578,6 +4606,9 @@ spec:
                                           type: string
                                       type: object
                                     type: array
+                                required:
+                                  - name
+                                  - schedule
                                 type: object
                               type: array
                           type: object

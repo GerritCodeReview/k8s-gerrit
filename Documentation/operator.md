@@ -33,7 +33,7 @@
     - [Adding a Gerrit Replica](#adding-a-gerrit-replica)
     - [Istio](#istio)
     - [High Availability](#high-availability)
-  - [Minikube multisite](#minikube-multisite)
+  - [Minikube Multisite](#minikube-multisite)
     - [Prerequisites](#prerequisites-2)
     - [Build images](#build-images-1)
     - [Istio](#istio-1)
@@ -154,15 +154,11 @@ next subheading.
 
 #### gerrit-operator
 
-This chart installs the `gerrit-operator-crds` chart as a dependency, and the
-following k8s resources:
-- Deployment
-- ServiceAccount
-- ClusterRole
-- ClusterRoleBinding
+This chart installs the `gerrit-operator-crds` chart as a dependency, and will
+then install the deployment running the Gerrit Operator with all required
+components.
 
-The operator itself creates a Service resource and a
-ValidationWebhookConfigurations resource behind the scenes.
+The operator can optionally set up validating webhooks if enabled.
 
 You will need to modify the values in `helm-charts/gerrit-operator/values.yaml`
 to point the chart to the registry/org that is hosting the Docker container
@@ -182,6 +178,11 @@ helm -n gerrit-operator install gerrit-operator helm-charts/gerrit-operator/
 
 The chart itself, and all the bundled namespaced resources, are installed in the
 `gerrit-operator` namespace, as per the `-n` option in the helm command.
+
+The chart also contains the GerritOperatorConfig resource that configures the
+operator and supplementary resources. This only works, if the CRD is already
+present, which it won't be during the first installation. Thus, the `helm install`
+command has to be executed twice in that case.
 
 ### Without the helm charts
 

@@ -13,7 +13,7 @@ spec:
     singular: gerritnetwork
   scope: Namespaced
   versions:
-    - name: v1beta18
+    - name: v1beta19
       schema:
         openAPIV3Schema:
           properties:
@@ -27,6 +27,8 @@ spec:
                       type: string
                     sshPort:
                       type: integer
+                  required:
+                    - name
                   type: object
                 ingress:
                   properties:
@@ -79,6 +81,8 @@ spec:
                       type: string
                     sshPort:
                       type: integer
+                  required:
+                    - name
                   type: object
                 receiver:
                   properties:
@@ -86,6 +90,8 @@ spec:
                       type: integer
                     name:
                       type: string
+                  required:
+                    - name
                   type: object
               type: object
             status:

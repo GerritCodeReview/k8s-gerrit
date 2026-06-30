@@ -1,0 +1,12 @@
+# TODO: Also check for the deprecated version
+{{- if .Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta20" }}
+apiVersion: "gerritoperator.google.com/v1beta20"
+kind: GerritOperatorConfig
+metadata:
+  name: gerrit-operator-cfg
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{- with .Values.config }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

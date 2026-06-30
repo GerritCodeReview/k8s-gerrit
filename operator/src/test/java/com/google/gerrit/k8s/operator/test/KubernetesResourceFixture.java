@@ -21,6 +21,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
+import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
 import io.fabric8.zjsonpatch.JsonPatch;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.io.IOException;
@@ -117,6 +118,11 @@ public class KubernetesResourceFixture<T extends KubernetesResource> {
     T expected = load();
     if (actual instanceof ConfigMap) {
       KubernetesResourceAssert.assertConfigMapDataEqual((ConfigMap) actual, (ConfigMap) expected);
+      return;
+    }
+    if (actual instanceof ValidatingWebhookConfiguration) {
+      KubernetesResourceAssert.assertVWCWebhooksEqual(
+          (ValidatingWebhookConfiguration) actual, (ValidatingWebhookConfiguration) expected);
       return;
     }
     try {
