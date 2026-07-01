@@ -30,6 +30,7 @@ import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhoo
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependentResource;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -42,7 +43,8 @@ import java.util.Set;
 
 public class ValidatingWebhookConfigurations
     extends KubernetesDependentResource<ValidatingWebhookConfiguration, GerritOperatorConfig>
-    implements BulkDependentResource<ValidatingWebhookConfiguration, GerritOperatorConfig> {
+    implements BulkDependentResource<
+        ValidatingWebhookConfiguration, GerritOperatorConfig, ResourceID> {
 
   private final KeyStoreProvider keyStoreProvider;
 
@@ -52,12 +54,13 @@ public class ValidatingWebhookConfigurations
   }
 
   @Override
-  public Map<String, ValidatingWebhookConfiguration> desiredResources(
+  public Map<ResourceID, ValidatingWebhookConfiguration> desiredResources(
       GerritOperatorConfig operatorConfig, Context<GerritOperatorConfig> context) {
-    Map<String, ValidatingWebhookConfiguration> webhookConfigs = new HashMap<>();
+    Map<ResourceID, ValidatingWebhookConfiguration> webhookConfigs = new HashMap<>();
     if (operatorConfig.getSpec().isEnableValidatingWebhook()) {
       for (String customResourceName : RESOURCES_WITH_VALIDATING_WEBHOOK) {
-        webhookConfigs.put(customResourceName, desired(operatorConfig, customResourceName));
+        ValidatingWebhookConfiguration vwc = desired(operatorConfig, customResourceName);
+        webhookConfigs.put(ResourceID.fromResource(vwc), vwc);
       }
     }
     return webhookConfigs;
@@ -112,13 +115,13 @@ public class ValidatingWebhookConfigurations
   }
 
   @Override
-  public Map<String, ValidatingWebhookConfiguration> getSecondaryResources(
+  public Map<ResourceID, ValidatingWebhookConfiguration> getSecondaryResources(
       GerritOperatorConfig operatorConfig, Context<GerritOperatorConfig> context) {
     Set<ValidatingWebhookConfiguration> vwcs =
         context.getSecondaryResources(ValidatingWebhookConfiguration.class);
-    Map<String, ValidatingWebhookConfiguration> result = new HashMap<>(vwcs.size());
+    Map<ResourceID, ValidatingWebhookConfiguration> result = new HashMap<>(vwcs.size());
     for (ValidatingWebhookConfiguration vwc : vwcs) {
-      result.put(vwc.getMetadata().getName(), vwc);
+      result.put(ResourceID.fromResource(vwc), vwc);
     }
     return result;
   }

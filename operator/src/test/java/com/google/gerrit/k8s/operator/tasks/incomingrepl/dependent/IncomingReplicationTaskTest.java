@@ -30,6 +30,7 @@ import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ public class IncomingReplicationTaskTest extends AbstractOperatorUnitTest {
     String secretRef =
         new ClusterManagedIncomingReplicationTask()
             .desiredResources(input, null)
-            .get(expectedTaskFixture.getName())
+            .get(ResourceID.fromResource(expectedTaskFixture.load()))
             .getSpec()
             .getSecretRef();
 
