@@ -43,12 +43,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class ValidatingWebhookConfigurations
     extends KubernetesDependentResource<ValidatingWebhookConfiguration, GerritOperatorConfig>
     implements Creator<ValidatingWebhookConfiguration, GerritOperatorConfig>,
         Updater<ValidatingWebhookConfiguration, GerritOperatorConfig>,
-        BulkDependentResource<ValidatingWebhookConfiguration, GerritOperatorConfig> {
+        BulkDependentResource<ValidatingWebhookConfiguration, GerritOperatorConfig, ResourceID> {
 
   private static KeyStoreProvider keyStoreProvider;
 
@@ -62,12 +63,13 @@ public class ValidatingWebhookConfigurations
   }
 
   @Override
-  public Map<String, ValidatingWebhookConfiguration> desiredResources(
+  public Map<ResourceID, ValidatingWebhookConfiguration> desiredResources(
       GerritOperatorConfig operatorConfig, Context<GerritOperatorConfig> context) {
-    Map<String, ValidatingWebhookConfiguration> webhookConfigs = new HashMap<>();
+    Map<ResourceID, ValidatingWebhookConfiguration> webhookConfigs = new HashMap<>();
     if (operatorConfig.getSpec().isEnableValidatingWebhook()) {
       for (String customResourceName : RESOURCES_WITH_VALIDATING_WEBHOOK) {
-        webhookConfigs.put(customResourceName, desired(operatorConfig, customResourceName));
+        ValidatingWebhookConfiguration vwc = desired(operatorConfig, customResourceName);
+        webhookConfigs.put(ResourceID.fromResource(vwc), vwc);
       }
     }
     return webhookConfigs;
@@ -140,14 +142,13 @@ public class ValidatingWebhookConfigurations
   }
 
   @Override
-  public Map<String, ValidatingWebhookConfiguration> getSecondaryResources(
+  public Map<ResourceID, ValidatingWebhookConfiguration> getSecondaryResources(
       GerritOperatorConfig operatorConfig, Context<GerritOperatorConfig> context) {
-    Map<String, ValidatingWebhookConfiguration> result = new HashMap<>();
-    for (String resourceName : RESOURCES_WITH_VALIDATING_WEBHOOK) {
-      String vwcName = resourceName.toLowerCase();
-      eventSource()
-          .flatMap(es -> es.get(new ResourceID(vwcName)))
-          .ifPresent(vwc -> result.put(vwcName, vwc));
+    Set<ValidatingWebhookConfiguration> vwcs =
+        context.getSecondaryResources(ValidatingWebhookConfiguration.class);
+    Map<ResourceID, ValidatingWebhookConfiguration> result = new HashMap<>(vwcs.size());
+    for (ValidatingWebhookConfiguration vwc : vwcs) {
+      result.put(ResourceID.fromResource(vwc), vwc);
     }
     return result;
   }
