@@ -33,13 +33,15 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class GerritIstioDestinationRule
     extends CRUDReconcileAddKubernetesDependentResource<DestinationRule, GerritNetwork>
-    implements Deleter<GerritNetwork>, BulkDependentResource<DestinationRule, GerritNetwork> {
+    implements Deleter<GerritNetwork>,
+        BulkDependentResource<DestinationRule, GerritNetwork, ResourceID> {
 
   public GerritIstioDestinationRule() {
     super(DestinationRule.class);
@@ -140,37 +142,37 @@ public class GerritIstioDestinationRule
   }
 
   @Override
-  public Map<String, DestinationRule> desiredResources(
+  public Map<ResourceID, DestinationRule> desiredResources(
       GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
-    Map<String, DestinationRule> drs = new HashMap<>();
+    Map<ResourceID, DestinationRule> drs = new HashMap<>();
     if (gerritNetwork.hasPrimaryGerrit()) {
       String primaryGerritName = gerritNetwork.getSpec().getPrimaryGerrit().getName();
       DestinationRule dstRule = desired(gerritNetwork, primaryGerritName, false);
-      drs.put(dstRule.getMetadata().getName(), dstRule);
+      drs.put(ResourceID.fromResource(dstRule), dstRule);
       DestinationRule dstRuleHeadless = desiredHeadless(gerritNetwork, primaryGerritName, false);
-      drs.put(dstRuleHeadless.getMetadata().getName(), dstRuleHeadless);
+      drs.put(ResourceID.fromResource(dstRuleHeadless), dstRuleHeadless);
       DestinationRule dstRuleHeadlessPod = desiredHeadlessPod(gerritNetwork, primaryGerritName);
-      drs.put(dstRuleHeadlessPod.getMetadata().getName(), dstRuleHeadlessPod);
+      drs.put(ResourceID.fromResource(dstRuleHeadlessPod), dstRuleHeadlessPod);
     }
     if (gerritNetwork.hasGerritReplica()) {
       String gerritReplicaName = gerritNetwork.getSpec().getGerritReplica().getName();
       DestinationRule dstRule = desired(gerritNetwork, gerritReplicaName, true);
-      drs.put(dstRule.getMetadata().getName(), dstRule);
+      drs.put(ResourceID.fromResource(dstRule), dstRule);
       DestinationRule dstRuleHeadless = desiredHeadless(gerritNetwork, gerritReplicaName, true);
-      drs.put(dstRuleHeadless.getMetadata().getName(), dstRuleHeadless);
+      drs.put(ResourceID.fromResource(dstRuleHeadless), dstRuleHeadless);
       DestinationRule dstRuleHeadlessPod = desiredHeadlessPod(gerritNetwork, gerritReplicaName);
-      drs.put(dstRuleHeadlessPod.getMetadata().getName(), dstRuleHeadlessPod);
+      drs.put(ResourceID.fromResource(dstRuleHeadlessPod), dstRuleHeadlessPod);
     }
     return drs;
   }
 
   @Override
-  public Map<String, DestinationRule> getSecondaryResources(
+  public Map<ResourceID, DestinationRule> getSecondaryResources(
       GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     Set<DestinationRule> drs = context.getSecondaryResources(DestinationRule.class);
-    Map<String, DestinationRule> result = new HashMap<>(drs.size());
+    Map<ResourceID, DestinationRule> result = new HashMap<>(drs.size());
     for (DestinationRule dr : drs) {
-      result.put(dr.getMetadata().getName(), dr);
+      result.put(ResourceID.fromResource(dr), dr);
     }
     return result;
   }
