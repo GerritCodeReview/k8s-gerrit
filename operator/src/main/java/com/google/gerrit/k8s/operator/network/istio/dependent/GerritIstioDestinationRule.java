@@ -27,13 +27,15 @@ import io.fabric8.istio.api.networking.v1beta1.DestinationRuleBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Deleter;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class GerritIstioDestinationRule
     extends CRUDReconcileAddKubernetesDependentResource<DestinationRule, GerritNetwork>
-    implements Deleter<GerritNetwork>, BulkDependentResource<DestinationRule, GerritNetwork> {
+    implements Deleter<GerritNetwork>,
+        BulkDependentResource<DestinationRule, GerritNetwork, ResourceID> {
 
   public GerritIstioDestinationRule() {
     super(DestinationRule.class);
@@ -90,27 +92,29 @@ public class GerritIstioDestinationRule
   }
 
   @Override
-  public Map<String, DestinationRule> desiredResources(
+  public Map<ResourceID, DestinationRule> desiredResources(
       GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
-    Map<String, DestinationRule> drs = new HashMap<>();
+    Map<ResourceID, DestinationRule> drs = new HashMap<>();
     if (gerritNetwork.hasPrimaryGerrit()) {
       String primaryGerritName = gerritNetwork.getSpec().getPrimaryGerrit().getName();
-      drs.put(primaryGerritName, desired(gerritNetwork, primaryGerritName, false));
+      DestinationRule dr = desired(gerritNetwork, primaryGerritName, false);
+      drs.put(ResourceID.fromResource(dr), dr);
     }
     if (gerritNetwork.hasGerritReplica()) {
       String gerritReplicaName = gerritNetwork.getSpec().getGerritReplica().getName();
-      drs.put(gerritReplicaName, desired(gerritNetwork, gerritReplicaName, true));
+      DestinationRule dr = desired(gerritNetwork, gerritReplicaName, true);
+      drs.put(ResourceID.fromResource(dr), dr);
     }
     return drs;
   }
 
   @Override
-  public Map<String, DestinationRule> getSecondaryResources(
+  public Map<ResourceID, DestinationRule> getSecondaryResources(
       GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
     Set<DestinationRule> drs = context.getSecondaryResources(DestinationRule.class);
-    Map<String, DestinationRule> result = new HashMap<>(drs.size());
+    Map<ResourceID, DestinationRule> result = new HashMap<>(drs.size());
     for (DestinationRule dr : drs) {
-      result.put(dr.getMetadata().getName(), dr);
+      result.put(ResourceID.fromResource(dr), dr);
     }
     return result;
   }

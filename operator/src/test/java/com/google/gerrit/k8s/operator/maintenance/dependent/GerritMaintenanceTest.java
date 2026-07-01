@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +42,11 @@ public class GerritMaintenanceTest {
     for (String file : expectedOutputFiles) {
       expected.add(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), file));
     }
-    Map<String, CronJob> cronJobs = new GerritMaintenanceCronJobs().desiredResources(input, null);
+    Map<ResourceID, CronJob> cronJobs =
+        new GerritMaintenanceCronJobs().desiredResources(input, null);
 
     for (CronJob expectedCronJob : expected) {
-      assertThat(cronJobs.get(expectedCronJob.getMetadata().getName())).isEqualTo(expectedCronJob);
+      assertThat(cronJobs.get(ResourceID.fromResource(expectedCronJob))).isEqualTo(expectedCronJob);
     }
   }
 

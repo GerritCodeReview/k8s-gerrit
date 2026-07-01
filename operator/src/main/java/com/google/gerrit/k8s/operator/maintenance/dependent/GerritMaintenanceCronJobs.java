@@ -22,6 +22,7 @@ import com.google.gerrit.k8s.operator.util.KubernetesDependentCustomResource;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.BulkDependentResource;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 
 public class GerritMaintenanceCronJobs
     extends KubernetesDependentCustomResource<CronJob, GerritMaintenance>
-    implements BulkDependentResource<CronJob, GerritMaintenance> {
+    implements BulkDependentResource<CronJob, GerritMaintenance, ResourceID> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GerritMaintenanceCronJobs() {
@@ -40,28 +41,28 @@ public class GerritMaintenanceCronJobs
   }
 
   @Override
-  public Map<String, CronJob> desiredResources(
+  public Map<ResourceID, CronJob> desiredResources(
       GerritMaintenance primary, Context<GerritMaintenance> context) {
-    Map<String, CronJob> cronJobs = new HashMap<>();
+    Map<ResourceID, CronJob> cronJobs = new HashMap<>();
     GerritProjectsTasks projectsTasks = primary.getSpec().getProjects();
     if (projectsTasks != null) {
       List<GitGcTask> gcTasks = List.copyOf(projectsTasks.getGc());
       checkForConflict(gcTasks);
       for (GitGcTask gcTask : gcTasks) {
-        cronJobs.put(
-            gcTask.getName(), GitGarbageCollectionCronJob.desired(primary, gcTask, context));
+        CronJob desired = GitGarbageCollectionCronJob.desired(primary, gcTask, context);
+        cronJobs.put(ResourceID.fromResource(desired), desired);
       }
     }
     return cronJobs;
   }
 
   @Override
-  public Map<String, CronJob> getSecondaryResources(
+  public Map<ResourceID, CronJob> getSecondaryResources(
       GerritMaintenance primary, Context<GerritMaintenance> context) {
     Set<CronJob> cronjobs = context.getSecondaryResources(CronJob.class);
-    Map<String, CronJob> result = new HashMap<>(cronjobs.size());
+    Map<ResourceID, CronJob> result = new HashMap<>(cronjobs.size());
     for (CronJob cj : cronjobs) {
-      result.put(cj.getMetadata().getName(), cj);
+      result.put(ResourceID.fromResource(cj), cj);
     }
     return result;
   }

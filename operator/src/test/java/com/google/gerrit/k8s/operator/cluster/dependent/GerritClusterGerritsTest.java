@@ -23,6 +23,7 @@ import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.gerrit.dependent.GerritConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
+import io.javaoperatorsdk.operator.processing.event.ResourceID;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -46,7 +47,7 @@ public class GerritClusterGerritsTest {
     GerritCluster gerritCluster =
         ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), inputFile);
     ClusterManagedGerrit clusterManagedGerrit = new ClusterManagedGerrit();
-    Map<String, Gerrit> gerrits = clusterManagedGerrit.desiredResources(gerritCluster, null);
+    Map<ResourceID, Gerrit> gerrits = clusterManagedGerrit.desiredResources(gerritCluster, null);
     for (Gerrit g : gerrits.values()) {
       switch (g.getSpec().getMode()) {
         case PRIMARY:
