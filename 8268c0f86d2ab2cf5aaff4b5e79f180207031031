@@ -16,6 +16,24 @@
       "message": "I had to add this as the order of the expected and actual object was incorrect.\n\nEarlier it was:\n```\nExpected - shared, tmp, gerrit-secure-config, gerrit-config, gerrit-init-config\nActual   - tmp, gerrit-init-config, gerrit-config, gerrit-secure-config, shared",
       "revId": "8268c0f86d2ab2cf5aaff4b5e79f180207031031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c8febaf_b0b1c29a",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-01T13:08:12Z",
+      "side": 1,
+      "message": "So far I have always done that in the yaml-files itself, but that was not a good solution. However, could you create a more generic helper, because this can affect lists of any kind.\n\nThen also check whether the changes in the yaml files used by the tests are actually still necessary, since these are also just reorderings.",
+      "parentUuid": "f5170ae0_d4787a9d",
+      "revId": "8268c0f86d2ab2cf5aaff4b5e79f180207031031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
