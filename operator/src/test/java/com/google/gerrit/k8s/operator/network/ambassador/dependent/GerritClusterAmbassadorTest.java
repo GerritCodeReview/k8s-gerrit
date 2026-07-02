@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import io.getambassador.v2.Host;
@@ -55,18 +55,18 @@ public class GerritClusterAmbassadorTest {
         Mapping result = dependent.desired(gerritNetwork, null);
         Mapping expected =
             ReconcilerUtils.loadYaml(Mapping.class, this.getClass(), expectedOutputFile);
-        assertThat(result.getSpec()).isEqualTo(expected.getSpec());
+        assertUnordered(result.getSpec(), expected.getSpec());
       } else if (dependentObject instanceof GerritClusterTLSContext) {
         GerritClusterTLSContext dependent = (GerritClusterTLSContext) dependentObject;
         TLSContext result = dependent.desired(gerritNetwork, null);
         TLSContext expected =
             ReconcilerUtils.loadYaml(TLSContext.class, this.getClass(), expectedOutputFile);
-        assertThat(result.getSpec()).isEqualTo(expected.getSpec());
+        assertUnordered(result.getSpec(), expected.getSpec());
       } else if (dependentObject instanceof GerritClusterHost) {
         GerritClusterHost dependent = (GerritClusterHost) dependentObject;
         Host result = dependent.desired(gerritNetwork, null);
         Host expected = ReconcilerUtils.loadYaml(Host.class, this.getClass(), expectedOutputFile);
-        assertThat(result.getSpec()).isEqualTo(expected.getSpec());
+        assertUnordered(result.getSpec(), expected.getSpec());
       }
     }
   }

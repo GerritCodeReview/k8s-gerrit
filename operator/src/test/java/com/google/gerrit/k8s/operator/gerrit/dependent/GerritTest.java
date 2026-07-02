@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -77,19 +78,21 @@ public class GerritTest {
     StatefulSet stsResult = stsDependent.desired(gerrit, context);
     StatefulSet expectedSts =
         ReconcilerUtils.loadYaml(StatefulSet.class, this.getClass(), expectedStatefulSetOutputFile);
-    assertThat(stsResult).isEqualTo(expectedSts);
+
+    assertUnordered(stsResult, expectedSts);
 
     GerritService serviceDependent = new GerritService();
     Service serviceResult = serviceDependent.desired(gerrit, context);
     Service expectedService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedServiceOutputFile);
-    assertThat(serviceResult).isEqualTo(expectedService);
+
+    assertUnordered(serviceResult, expectedService);
 
     GerritHeadlessService headlessServiceDependent = new GerritHeadlessService();
     Service headlessServiceResult = headlessServiceDependent.desired(gerrit, context);
     Service expectedHeadlessService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedHeadlessServiceOutputFile);
-    assertThat(headlessServiceResult).isEqualTo(expectedHeadlessService);
+    assertUnordered(headlessServiceResult, expectedHeadlessService);
   }
 
   private void assertDesiredConfigMapCreated(ConfigMap actual, ConfigMap expected) {
