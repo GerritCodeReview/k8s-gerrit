@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.indexer.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertEqualToExpectedIgnoringListOrder;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
@@ -76,8 +77,9 @@ public class GerritIndexerTest {
 
     Context<GerritIndexer> context = getContext(new GerritIndexerReconciler(), input);
     GerritIndexerJob dependentCronjob = new GerritIndexerJob();
-    assertThat(dependentCronjob.desired(input, context))
-        .isEqualTo(ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
+    assertEqualToExpectedIgnoringListOrder(
+        dependentCronjob.desired(input, context),
+        ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
 
     GerritIndexerConfigMap dependentConfigmap = new GerritIndexerConfigMap();
     assertDesiredConfigMapCreated(

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.gitgc.dependent;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertEqualToExpectedIgnoringListOrder;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
@@ -68,8 +68,9 @@ public class GitGarbageCollectionTest {
     Context<GitGarbageCollection> context =
         getContext(new GitGarbageCollectionReconciler(kubernetesServer.createClient()), input);
     GitGarbageCollectionCronJob dependentCronjob = new GitGarbageCollectionCronJob();
-    assertThat(dependentCronjob.desired(input, context))
-        .isEqualTo(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
+    assertEqualToExpectedIgnoringListOrder(
+        dependentCronjob.desired(input, context),
+        ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
   }
 
   private Context<GitGarbageCollection> getContext(

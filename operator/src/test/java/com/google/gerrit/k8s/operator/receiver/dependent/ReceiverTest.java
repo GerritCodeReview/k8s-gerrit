@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertEqualToExpectedIgnoringListOrder;
 
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.Service;
@@ -32,12 +32,14 @@ public class ReceiverTest {
       String inputFile, String expectedDeployment, String expectedService) {
     Receiver input = ReconcilerUtils.loadYaml(Receiver.class, this.getClass(), inputFile);
     ReceiverDeployment dependentDeployment = new ReceiverDeployment();
-    assertThat(dependentDeployment.desired(input, null))
-        .isEqualTo(ReconcilerUtils.loadYaml(Deployment.class, this.getClass(), expectedDeployment));
+    assertEqualToExpectedIgnoringListOrder(
+        dependentDeployment.desired(input, null),
+        ReconcilerUtils.loadYaml(Deployment.class, this.getClass(), expectedDeployment));
 
     ReceiverService dependentService = new ReceiverService();
-    assertThat(dependentService.desired(input, null))
-        .isEqualTo(ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedService));
+    assertEqualToExpectedIgnoringListOrder(
+        dependentService.desired(input, null),
+        ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedService));
   }
 
   private static Stream<Arguments> provideYamlManifests() {
