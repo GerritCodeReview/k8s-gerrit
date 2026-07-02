@@ -34,6 +34,24 @@
       "parentUuid": "f5170ae0_d4787a9d",
       "revId": "8268c0f86d2ab2cf5aaff4b5e79f180207031031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d88350e1_a037c038",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-02T09:20:30Z",
+      "side": 1,
+      "message": "Created a new change to address orderless assert matching.\nhttps://gerrit-review.googlesource.com/c/k8s-gerrit/+/603601",
+      "parentUuid": "6c8febaf_b0b1c29a",
+      "revId": "8268c0f86d2ab2cf5aaff4b5e79f180207031031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
