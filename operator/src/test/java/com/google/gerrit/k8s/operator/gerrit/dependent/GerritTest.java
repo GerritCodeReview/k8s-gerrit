@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -30,7 +31,6 @@ import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.processing.Controller;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.Rule;
@@ -73,22 +73,20 @@ public class GerritTest {
     StatefulSet expectedSts =
         ReconcilerUtils.loadYaml(StatefulSet.class, this.getClass(), expectedStatefulSetOutputFile);
 
-    sortPodVolumesByName(stsResult);
-    sortPodVolumesByName(expectedSts);
-
-    assertThat(stsResult).isEqualTo(expectedSts);
+    assertUnordered(stsResult, expectedSts);
 
     GerritService serviceDependent = new GerritService();
     Service serviceResult = serviceDependent.desired(gerrit, context);
     Service expectedService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedServiceOutputFile);
-    assertThat(serviceResult).isEqualTo(expectedService);
+
+    assertUnordered(serviceResult, expectedService);
 
     GerritHeadlessService headlessServiceDependent = new GerritHeadlessService();
     Service headlessServiceResult = headlessServiceDependent.desired(gerrit, context);
     Service expectedHeadlessService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedHeadlessServiceOutputFile);
-    assertThat(headlessServiceResult).isEqualTo(expectedHeadlessService);
+    assertUnordered(headlessServiceResult, expectedHeadlessService);
   }
 
   private void assertDesiredConfigMapCreated(ConfigMap actual, ConfigMap expected) {
@@ -98,21 +96,6 @@ public class GerritTest {
       assertThat(file.getValue().replaceAll("\\s+", "").trim())
           .isEqualTo(expected.getData().get(file.getKey()).replaceAll("\\s+", "").trim());
     }
-  }
-
-  private void sortPodVolumesByName(StatefulSet statefulSet) {
-    if (statefulSet.getSpec() == null
-        || statefulSet.getSpec().getTemplate() == null
-        || statefulSet.getSpec().getTemplate().getSpec() == null
-        || statefulSet.getSpec().getTemplate().getSpec().getVolumes() == null) {
-      return;
-    }
-    statefulSet
-        .getSpec()
-        .getTemplate()
-        .getSpec()
-        .getVolumes()
-        .sort(Comparator.comparing(v -> v.getName()));
   }
 
   private Context<Gerrit> getContext(Reconciler<Gerrit> reconciler, Gerrit primary) {
