@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
@@ -33,7 +34,7 @@ public class GerritClusterIngressTest {
         dependent.desired(
             ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile), null);
     Ingress expected = ReconcilerUtils.loadYaml(Ingress.class, this.getClass(), expectedOutputFile);
-    assertThat(result.getSpec()).isEqualTo(expected.getSpec());
+    assertUnordered(result.getSpec(), expected.getSpec());
     assertThat(result.getMetadata().getAnnotations())
         .containsExactlyEntriesIn(expected.getMetadata().getAnnotations());
   }
