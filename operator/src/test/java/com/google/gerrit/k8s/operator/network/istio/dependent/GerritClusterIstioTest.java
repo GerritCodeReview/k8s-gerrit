@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
@@ -45,14 +46,14 @@ public class GerritClusterIstioTest {
     Gateway gatewayResult = gatewayDependent.desired(gerritNetwork, null);
     Gateway expectedGateway =
         ReconcilerUtils.loadYaml(Gateway.class, this.getClass(), expectedGatewayOutputFile);
-    assertThat(gatewayResult.getSpec()).isEqualTo(expectedGateway.getSpec());
+    assertUnordered(gatewayResult.getSpec(), expectedGateway.getSpec());
 
     GerritIstioVirtualService virtualServiceDependent = new GerritIstioVirtualService();
     VirtualService virtualServiceResult = virtualServiceDependent.desired(gerritNetwork, null);
     VirtualService expectedVirtualService =
         ReconcilerUtils.loadYaml(
             VirtualService.class, this.getClass(), expectedVirtualServiceOutputFile);
-    assertThat(virtualServiceResult.getSpec()).isEqualTo(expectedVirtualService.getSpec());
+    assertUnordered(virtualServiceResult.getSpec(), expectedVirtualService.getSpec());
 
     GerritIstioDestinationRule destRuleDependent = new GerritIstioDestinationRule();
     Map<String, DestinationRule> destRuleResult =
@@ -62,8 +63,9 @@ public class GerritClusterIstioTest {
       DestinationRule expectedDestRule =
           ReconcilerUtils.loadYaml(DestinationRule.class, this.getClass(), expectedDestRuleFile);
       assertThat(destRuleResult).containsKey(expectedDestRule.getMetadata().getName());
-      assertThat(destRuleResult.get(expectedDestRule.getMetadata().getName()).getSpec())
-          .isEqualTo(expectedDestRule.getSpec());
+      assertUnordered(
+          destRuleResult.get(expectedDestRule.getMetadata().getName()).getSpec(),
+          expectedDestRule.getSpec());
     }
   }
 
