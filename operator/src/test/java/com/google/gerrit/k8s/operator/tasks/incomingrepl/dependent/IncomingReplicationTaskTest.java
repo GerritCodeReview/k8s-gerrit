@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.tasks.incomingrepl.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
@@ -90,15 +91,15 @@ public class IncomingReplicationTaskTest {
         getContext(new IncomingReplicationTaskReconciler(), incomingReplTask);
     CronJob cronJob = new IncomingReplicationTaskCronJob().desired(incomingReplTask, context);
 
-    assertThat(cronJob)
-        .isEqualTo(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
+    assertUnordered(
+        cronJob, ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
 
     IncomingReplicationTaskConfigMap incomingReplicationTaskConfigMap =
         new IncomingReplicationTaskConfigMap();
     ConfigMap configMap = incomingReplicationTaskConfigMap.desired(incomingReplTask, context);
 
-    assertThat(configMap)
-        .isEqualTo(ReconcilerUtils.loadYaml(ConfigMap.class, this.getClass(), expectedConfigMap));
+    assertUnordered(
+        configMap, ReconcilerUtils.loadYaml(ConfigMap.class, this.getClass(), expectedConfigMap));
   }
 
   private Context<IncomingReplicationTask> getContext(
