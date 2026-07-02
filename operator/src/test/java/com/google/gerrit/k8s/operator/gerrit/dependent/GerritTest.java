@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
@@ -77,19 +78,31 @@ public class GerritTest {
     StatefulSet stsResult = stsDependent.desired(gerrit, context);
     StatefulSet expectedSts =
         ReconcilerUtils.loadYaml(StatefulSet.class, this.getClass(), expectedStatefulSetOutputFile);
+<<<<<<< PATCH SET (9af0be8d565f666be0a51b29c7f3867fd68070b7 Add orderless assert for objects.)
+
+    assertUnordered(stsResult, expectedSts);
+||||||| BASE      (a787fc26a383bce457adb07884ecc14821515fd8 Revert^2 "Update JOSDK to 5.1.0")
+
+    sortPodVolumesByName(stsResult);
+    sortPodVolumesByName(expectedSts);
+
     assertThat(stsResult).isEqualTo(expectedSts);
+=======
+    assertThat(stsResult).isEqualTo(expectedSts);
+>>>>>>> BASE      (41fa704fa4405b5a5310e579560516f322da538c support CA certificates for incoming replication)
 
     GerritService serviceDependent = new GerritService();
     Service serviceResult = serviceDependent.desired(gerrit, context);
     Service expectedService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedServiceOutputFile);
-    assertThat(serviceResult).isEqualTo(expectedService);
+
+    assertUnordered(serviceResult, expectedService);
 
     GerritHeadlessService headlessServiceDependent = new GerritHeadlessService();
     Service headlessServiceResult = headlessServiceDependent.desired(gerrit, context);
     Service expectedHeadlessService =
         ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedHeadlessServiceOutputFile);
-    assertThat(headlessServiceResult).isEqualTo(expectedHeadlessService);
+    assertUnordered(headlessServiceResult, expectedHeadlessService);
   }
 
   private void assertDesiredConfigMapCreated(ConfigMap actual, ConfigMap expected) {

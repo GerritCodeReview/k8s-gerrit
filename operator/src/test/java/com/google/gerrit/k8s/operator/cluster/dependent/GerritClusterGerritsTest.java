@@ -14,6 +14,7 @@
 package com.google.gerrit.k8s.operator.cluster.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
@@ -84,8 +85,8 @@ public class GerritClusterGerritsTest {
             GerritMaintenance.class, this.getClass(), expectedGerritMaintenanceOutputFile);
     ClusterManagedGerritMaintenance gerritMaintenanceReconciler =
         new ClusterManagedGerritMaintenance();
-    assertThat(gerritMaintenanceReconciler.desired(gerritCluster, null))
-        .isEqualTo(expectedGerritMaintenance);
+    assertUnordered(
+        gerritMaintenanceReconciler.desired(gerritCluster, null), expectedGerritMaintenance);
   }
 
   private static Stream<Arguments> provideYamlManifests() {
