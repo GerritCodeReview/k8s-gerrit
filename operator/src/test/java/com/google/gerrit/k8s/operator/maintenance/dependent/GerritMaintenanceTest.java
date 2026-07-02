@@ -14,7 +14,7 @@
 
 package com.google.gerrit.k8s.operator.maintenance.dependent;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertEqualIgnoringOrder;
 
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
@@ -44,7 +44,8 @@ public class GerritMaintenanceTest {
     Map<String, CronJob> cronJobs = new GerritMaintenanceCronJobs().desiredResources(input, null);
 
     for (CronJob expectedCronJob : expected) {
-      assertThat(cronJobs.get(expectedCronJob.getMetadata().getName())).isEqualTo(expectedCronJob);
+      assertEqualIgnoringOrder(
+          cronJobs.get(expectedCronJob.getMetadata().getName()), expectedCronJob);
     }
   }
 
