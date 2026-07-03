@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "900b82c7_bc033366",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-03T07:53:20Z",
+      "side": 1,
+      "message": "Since we have hamcrest available already, you could use `containsInAnyOrder()`: https://www.baeldung.com/hamcrest-hasitems-contains-containsinanyorder#2-containsinanyorder",
+      "revId": "3fba28933a0f6513141727fd3cb5ac316cc72f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5da8afb0_fdf9c223",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/KubernetesResourceAssert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-03T07:53:20Z",
+      "side": 1,
+      "message": "```suggestion\n  public static void assertUnordered(Object actual, Object expected) {\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 21,
+        "endLine": 33,
+        "endChar": 45
+      },
+      "revId": "3fba28933a0f6513141727fd3cb5ac316cc72f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf69df07_e0e7f102",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/KubernetesResourceAssert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-03T07:53:20Z",
+      "side": 1,
+      "message": "Move to `canonicalizeObject()`",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "3fba28933a0f6513141727fd3cb5ac316cc72f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e2a2a78_87bc34f8",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/test/KubernetesResourceAssert.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-03T07:53:20Z",
+      "side": 1,
+      "message": "Move to `canonicalizeArray()`",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 25
+      },
+      "revId": "3fba28933a0f6513141727fd3cb5ac316cc72f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
