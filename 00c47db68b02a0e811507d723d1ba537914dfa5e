@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6899648c_a2d6fa6b",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-10T12:59:04Z",
+      "side": 1,
+      "message": "move this into own method, keep this method clean. Further, it should be possible to setup the `env` once and reuse it, instead of setting it up for every fetch call",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 48
+      },
+      "revId": "00c47db68b02a0e811507d723d1ba537914dfa5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
