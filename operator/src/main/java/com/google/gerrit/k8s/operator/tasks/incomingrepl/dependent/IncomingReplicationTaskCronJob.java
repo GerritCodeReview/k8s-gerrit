@@ -26,6 +26,7 @@ import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTask
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
 import io.fabric8.kubernetes.api.model.Container;
 import io.fabric8.kubernetes.api.model.ContainerBuilder;
+import io.fabric8.kubernetes.api.model.EnvVarBuilder;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
@@ -43,6 +44,7 @@ import java.util.Map;
 public class IncomingReplicationTaskCronJob
     extends CRUDReconcileAddKubernetesDependentResource<CronJob, IncomingReplicationTask> {
   private static final String CONFIGMAP_VOLUME_NAME = "incoming-repl-config";
+  private static final String CA_MOUNT_PATH = "/home/gerrit/ca.crt";
 
   public IncomingReplicationTaskCronJob() {
     super(CronJob.class);
@@ -127,23 +129,40 @@ public class IncomingReplicationTaskCronJob
 
   private Container buildTaskContainer(
       IncomingReplicationTask incomingReplTask, Context<IncomingReplicationTask> context) {
+    return new ContainerBuilder()
+        .withName("incoming-replication")
+        .withSecurityContext(GerritSecurityContext.forContainer())
+        .withImagePullPolicy(incomingReplTask.getSpec().getContainerImages().getImagePullPolicy())
+        .withImage(
+            incomingReplTask
+                .getSpec()
+                .getContainerImages()
+                .getGerritImages()
+                .getFullImageName("fetch-job"))
+        .withResources(incomingReplTask.getSpec().getResources())
+        .withVolumeMounts(getVolumeMounts(incomingReplTask, context))
+        .withEnv(getEnvVars(incomingReplTask, context))
+        .build();
+  }
 
-    ContainerBuilder taskContainerBuilder =
-        new ContainerBuilder()
-            .withName("incoming-replication")
-            .withSecurityContext(GerritSecurityContext.forContainer())
-            .withImagePullPolicy(
-                incomingReplTask.getSpec().getContainerImages().getImagePullPolicy())
-            .withImage(
-                incomingReplTask
-                    .getSpec()
-                    .getContainerImages()
-                    .getGerritImages()
-                    .getFullImageName("fetch-job"))
-            .withResources(incomingReplTask.getSpec().getResources())
-            .withVolumeMounts(getVolumeMounts(incomingReplTask, context));
-
-    return taskContainerBuilder.build();
+  private List<io.fabric8.kubernetes.api.model.EnvVar> getEnvVars(
+      IncomingReplicationTask incomingReplTask, Context<IncomingReplicationTask> context) {
+    List<io.fabric8.kubernetes.api.model.EnvVar> envVars = new ArrayList<>();
+    String secretRef = incomingReplTask.getSpec().getSecretRef();
+    if (secretRef != null && !secretRef.isBlank()) {
+      Secret secret =
+          context
+              .getClient()
+              .resources(Secret.class)
+              .inNamespace(incomingReplTask.getMetadata().getNamespace())
+              .withName(secretRef)
+              .get();
+      if (secret != null && secret.getData().containsKey("ca.crt")) {
+        envVars.add(
+            new EnvVarBuilder().withName("GIT_SSL_CAINFO").withValue(CA_MOUNT_PATH).build());
+      }
+    }
+    return envVars;
   }
 
   private List<VolumeMount> getVolumeMounts(
@@ -178,13 +197,23 @@ public class IncomingReplicationTaskCronJob
               .inNamespace(incomingReplTask.getMetadata().getNamespace())
               .withName(secretRef)
               .get();
-      if (secret != null && secret.getData().containsKey(".netrc")) {
-        volumeMounts.add(
-            new VolumeMountBuilder()
-                .withName(secretRef)
-                .withSubPath(".netrc")
-                .withMountPath("/home/gerrit/.netrc")
-                .build());
+      if (secret != null) {
+        if (secret.getData().containsKey(".netrc")) {
+          volumeMounts.add(
+              new VolumeMountBuilder()
+                  .withName(secretRef)
+                  .withSubPath(".netrc")
+                  .withMountPath("/home/gerrit/.netrc")
+                  .build());
+        }
+        if (secret.getData().containsKey("ca.crt")) {
+          volumeMounts.add(
+              new VolumeMountBuilder()
+                  .withName(secretRef)
+                  .withSubPath("ca.crt")
+                  .withMountPath(CA_MOUNT_PATH)
+                  .build());
+        }
       }
     }
     return volumeMounts;

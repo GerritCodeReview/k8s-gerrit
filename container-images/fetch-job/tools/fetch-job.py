@@ -17,6 +17,7 @@ import argparse
 import subprocess
 import sys
 import yaml
+import os
 
 GIT_HOME = "/var/gerrit/git"
 DEFAULT_CONFIG_FILE = "/var/gerrit/etc/incoming-replication.config.yaml"
