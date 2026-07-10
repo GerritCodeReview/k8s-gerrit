@@ -17,10 +17,12 @@ import argparse
 import subprocess
 import sys
 import yaml
+import os
 
 GIT_HOME = "/var/gerrit/git"
 DEFAULT_CONFIG_FILE = "/var/gerrit/etc/incoming-replication.config.yaml"
 DEFAULT_REFSPEC_TEMPLATE = "+refs/heads/*:refs/heads/{remote_name}/*"
+CA_CERT_PATH = "/home/gerrit/ca.crt"
 
 
 def parse_timeout(value):
@@ -44,7 +46,15 @@ class GitRepo:
         subprocess.run(self.base + ["config"] + list(args), check=check)
 
     def fetch(self, *args, timeout=None):
-        subprocess.run(self.base + ["fetch"] + list(args), check=True, timeout=timeout)
+        env = os.environ.copy()
+        if os.path.exists(CA_CERT_PATH):
+            env["GIT_SSL_CAINFO"] = CA_CERT_PATH
+        subprocess.run(
+            self.base + ["fetch"] + list(args),
+            check=True,
+            timeout=timeout,
+            env=env,
+        )
 
     def __str__(self):
         return self.git_dir

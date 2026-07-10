@@ -35,5 +35,19 @@ remotes:
       - ^refs/heads/excluded-*
 ```
 
-You will need to mount the credentials used to authenticate with remote servers
-to the container, e.g. by providing a .netrc file at `home/gerrit/.netrc`.
+## Authentication
+
+Mount a `.netrc` file at `/home/gerrit/.netrc` to provide credentials for
+authenticating with remote servers.
+
+## TLS/SSL
+
+If the remote server uses a certificate signed by a non-publicly-trusted CA
+(e.g. an internal CA), provide the CA certificate in PEM format at
+`/home/gerrit/ca.crt`. The fetch-job will automatically use it for all fetch
+operations if present.
+
+When using the Gerrit operator, both the `.netrc` and `ca.crt` files can be
+provided via the `secretRef` field of the `IncomingReplicationTask` resource.
+If the referenced secret contains a `.netrc` key and/or a `ca.crt` key, the
+operator will mount them at the expected paths automatically.

@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.Rule;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -105,6 +106,63 @@ public class IncomingReplicationTaskTest {
 
     assertThat(configMap)
         .isEqualTo(ReconcilerUtils.loadYaml(ConfigMap.class, this.getClass(), expectedConfigMap));
+  }
+
+  @Test
+  public void caCertMountedWhenPresentInSecret() throws Exception {
+    GerritCluster input =
+        ReconcilerUtils.loadYaml(
+            GerritCluster.class, this.getClass(), "../gerritcluster_incomingrepl.yaml");
+    IncomingReplicationTask incomingReplTask =
+        ReconcilerUtils.loadYaml(
+            IncomingReplicationTask.class, this.getClass(), "../incomingrepltask.yaml");
+
+    // Use a different secret name to avoid conflicting with the parameterized test mock
+    String testSecretName = "test-secret-with-ca-cert";
+    incomingReplTask.getSpec().setSecretRef(testSecretName);
+
+    Secret testSecret =
+        new SecretBuilder()
+            .withNewMetadata()
+            .withName(testSecretName)
+            .withNamespace(incomingReplTask.getMetadata().getNamespace())
+            .endMetadata()
+            .withData(
+                Map.of(
+                    ".netrc", "c2VjcmV0Cg==",
+                    "ca.crt", "Y2VydGlmaWNhdGUK"))
+            .build();
+
+    kubernetesServer
+        .expect()
+        .get()
+        .withPath(
+            String.format(
+                "/api/v1/namespaces/%s/secrets/%s",
+                incomingReplTask.getMetadata().getNamespace(), testSecretName))
+        .andReturn(HttpURLConnection.HTTP_OK, testSecret)
+        .always();
+
+    Context<IncomingReplicationTask> context =
+        getContext(new IncomingReplicationTaskReconciler(), incomingReplTask);
+    CronJob cronJob = new IncomingReplicationTaskCronJob().desired(incomingReplTask, context);
+
+    boolean hasCaCertMount =
+        cronJob
+            .getSpec()
+            .getJobTemplate()
+            .getSpec()
+            .getTemplate()
+            .getSpec()
+            .getContainers()
+            .get(0)
+            .getVolumeMounts()
+            .stream()
+            .anyMatch(
+                vm ->
+                    vm.getMountPath().equals("/home/gerrit/ca.crt")
+                        && vm.getSubPath().equals("ca.crt"));
+    assertThat(hasCaCertMount).isTrue();
   }
 
   private Context<IncomingReplicationTask> getContext(

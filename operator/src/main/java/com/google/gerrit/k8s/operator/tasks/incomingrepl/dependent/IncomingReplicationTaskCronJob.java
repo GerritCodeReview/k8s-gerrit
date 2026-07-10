@@ -178,13 +178,23 @@ public class IncomingReplicationTaskCronJob
               .inNamespace(incomingReplTask.getMetadata().getNamespace())
               .withName(secretRef)
               .get();
-      if (secret != null && secret.getData().containsKey(".netrc")) {
-        volumeMounts.add(
-            new VolumeMountBuilder()
-                .withName(secretRef)
-                .withSubPath(".netrc")
-                .withMountPath("/home/gerrit/.netrc")
-                .build());
+      if (secret != null) {
+        if (secret.getData().containsKey(".netrc")) {
+          volumeMounts.add(
+              new VolumeMountBuilder()
+                  .withName(secretRef)
+                  .withSubPath(".netrc")
+                  .withMountPath("/home/gerrit/.netrc")
+                  .build());
+        }
+        if (secret.getData().containsKey("ca.crt")) {
+          volumeMounts.add(
+              new VolumeMountBuilder()
+                  .withName(secretRef)
+                  .withSubPath("ca.crt")
+                  .withMountPath("/home/gerrit/ca.crt")
+                  .build());
+        }
       }
     }
     return volumeMounts;
