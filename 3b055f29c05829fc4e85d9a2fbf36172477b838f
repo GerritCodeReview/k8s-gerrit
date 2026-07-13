@@ -16,6 +16,24 @@
       "message": "I would rename this to `GIT_SSL_CAINFO` to match the env variable used by git to override [`http.sslCAInfo`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpsslCAInfo) to avoid confusion with the other env variable `GIT_SSL_CAPATH` which git uses to override [`http.sslCAPath`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpsslCAPath)\n```suggestion\nGIT_SSL_CAINFO \u003d \"/home/gerrit/ca.crt\"\n```\n\nNote that setting `GIT_SSL_CAINFO` replaces the default CA certificate bundle. If we would want to add custom CA certificates to the default CA certificate bundle we could mount the custom certificate files to files under `/etc/ssl/certs/` and set `GIT_SSL_CAPATH\u003d/etc/ssl/certs/`.",
       "revId": "3b055f29c05829fc4e85d9a2fbf36172477b838f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "379b7219_de32eccb",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-07-13T10:16:43Z",
+      "side": 1,
+      "message": "Updated name. Since each replication job handles one remote, it seems like we don\u0027t need to handle both, but I have now noted it in the README.",
+      "parentUuid": "1947dea4_d605f943",
+      "revId": "3b055f29c05829fc4e85d9a2fbf36172477b838f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
