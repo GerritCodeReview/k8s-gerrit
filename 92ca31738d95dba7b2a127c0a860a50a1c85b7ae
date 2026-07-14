@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ada449_5a9f957f",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-14T11:17:10Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to set it directly in the pod resource using the operator?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "92ca31738d95dba7b2a127c0a860a50a1c85b7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ccd0c9_6c59c8cb",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/tasks/incomingrepl/dependent/IncomingReplicationTaskTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-14T11:17:10Z",
+      "side": 1,
+      "message": "Never used.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 88
+      },
+      "revId": "92ca31738d95dba7b2a127c0a860a50a1c85b7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
