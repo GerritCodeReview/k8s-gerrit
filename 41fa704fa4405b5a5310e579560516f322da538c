@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "458bb7e7_e988da83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-07-14T13:35:17Z",
+      "side": 1,
+      "message": "Have you tested this? Does git see that env variable, since it is executed in a subprocess? Just to be sure.",
+      "revId": "41fa704fa4405b5a5310e579560516f322da538c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
