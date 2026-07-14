@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abb15896_22eb197e",
+        "filename": "container-images/fetch-job/tools/fetch-job.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-07-14T13:05:45Z",
+      "side": 1,
+      "message": "IncomingReplicationTaskCronJob doesn\u0027t currently have a way to access or update envvars. I thought this would be less invasive a change, but on second thought, it is more of something the operator should handle than a fetch-job script - updated accordingly.",
+      "parentUuid": "16ada449_5a9f957f",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "92ca31738d95dba7b2a127c0a860a50a1c85b7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91ccd0c9_6c59c8cb",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-07-14T11:17:10Z",
       "side": 1,
       "message": "Never used.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 88
+      },
+      "revId": "92ca31738d95dba7b2a127c0a860a50a1c85b7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08b9ecff_91b60c45",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/tasks/incomingrepl/dependent/IncomingReplicationTaskTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-07-14T13:05:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91ccd0c9_6c59c8cb",
       "range": {
         "startLine": 113,
         "startChar": 0,
