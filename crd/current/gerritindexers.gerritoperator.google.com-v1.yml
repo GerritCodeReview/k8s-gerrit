@@ -369,6 +369,8 @@ spec:
                     - OPENSEARCH
                     type: string
                 type: object
+              openSearchSecretRef:
+                type: string
               resources:
                 properties:
                   claims:

@@ -66,8 +66,9 @@ spec:
             cpu: 3
             memory: 6Gi
         volumeMounts:
-        - mountPath: /var/config
+        - mountPath: /var/config/gerrit-init.yaml
           name: gerrit-init-config
+          subPath: gerrit-init.yaml
         - mountPath: /home/gerrit
           subPath: home
           name: tmp
