@@ -25,6 +25,8 @@ import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.HasMetadata;
+import io.fabric8.kubernetes.api.model.Secret;
+import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
@@ -78,9 +80,9 @@ public class GerritIndexerTest {
 
     Context<GerritIndexer> context = getContext(new GerritIndexerReconciler(), input);
     GerritIndexerJob dependentCronjob = new GerritIndexerJob();
-    assertUnordered(
-        dependentCronjob.desired(input, context),
-        ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
+
+    Job actual = dependentCronjob.desired(input, context);
+    assertUnordered(actual, ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
 
     GerritIndexerConfigMap dependentConfigmap = new GerritIndexerConfigMap();
     assertDesiredConfigMapCreated(
@@ -89,6 +91,25 @@ public class GerritIndexerTest {
   }
 
   private void stubs(GerritCluster gerritCluster) {
+    Secret testSecret =
+        new SecretBuilder()
+            .withNewMetadata()
+            .withName("opensearch-tls-config")
+            .withNamespace("gerrit")
+            .endMetadata()
+            .withData(
+                Map.of(
+                    "ca.crt", "Y2VydA==",
+                    "truststore.jks", "dHJ1c3RzdG9yZQ=="))
+            .build();
+
+    kubernetesServer
+        .expect()
+        .get()
+        .withPath("/api/v1/namespaces/gerrit/secrets/opensearch-tls-config")
+        .andReturn(HttpURLConnection.HTTP_OK, testSecret)
+        .always();
+
     kubernetesServer
         .expect()
         .get()
@@ -143,6 +164,11 @@ public class GerritIndexerTest {
             "../indexer.yaml",
             "../gerritcluster_es.yaml",
             "indexer_es.job.yaml",
-            "indexer_es.configmap.yaml"));
+            "indexer_es.configmap.yaml"),
+        Arguments.of(
+            "../indexer_os.yaml",
+            "../gerritcluster_minimal.yaml",
+            "indexer_os.job.yaml",
+            "indexer_os.configmap.yaml"));
   }
 }

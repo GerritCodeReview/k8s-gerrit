@@ -32,6 +32,7 @@ public class GerritIndexerSpec {
   private Map<String, String> configFiles = new HashMap<>();
   private GerritIndexerStorage storage = new GerritIndexerStorage();
   private IndexConfig index;
+  private String openSearchSecretRef;
 
   public List<Toleration> getTolerations() {
     return tolerations;
@@ -89,9 +90,25 @@ public class GerritIndexerSpec {
     this.index = index;
   }
 
+  public String getOpenSearchSecretRef() {
+    return openSearchSecretRef;
+  }
+
+  public void setOpenSearchSecretRef(String openSearchSecretRef) {
+    this.openSearchSecretRef = openSearchSecretRef;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(affinity, cluster, configFiles, index, resources, storage, tolerations);
+    return Objects.hash(
+        affinity,
+        cluster,
+        configFiles,
+        index,
+        openSearchSecretRef,
+        resources,
+        storage,
+        tolerations);
   }
 
   @Override
@@ -104,6 +121,7 @@ public class GerritIndexerSpec {
         && Objects.equals(cluster, other.cluster)
         && Objects.equals(configFiles, other.configFiles)
         && Objects.equals(index, other.index)
+        && Objects.equals(openSearchSecretRef, other.openSearchSecretRef)
         && Objects.equals(resources, other.resources)
         && Objects.equals(storage, other.storage)
         && Objects.equals(tolerations, other.tolerations);
@@ -125,6 +143,8 @@ public class GerritIndexerSpec {
         + storage
         + ", index="
         + index
+        + ", openSearchSecretRef="
+        + openSearchSecretRef
         + "]";
   }
 }
