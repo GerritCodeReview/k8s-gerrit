@@ -16,6 +16,8 @@ package com.google.gerrit.k8s.operator.maintenance.dependent;
 
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
@@ -34,6 +36,7 @@ public class GerritMaintenanceTest {
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedCronJobCreated(String inputFile, List<String> expectedOutputFiles) {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     GerritMaintenance input =
         ReconcilerUtils.loadYaml(GerritMaintenance.class, this.getClass(), inputFile);
 

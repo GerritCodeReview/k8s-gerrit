@@ -16,6 +16,8 @@ package com.google.gerrit.k8s.operator.gitgc.dependent;
 
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
@@ -52,6 +54,7 @@ public class GitGarbageCollectionTest {
   @BeforeAll
   public void setup() throws Exception {
     kubernetesServer.before();
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
   }
 
   @ParameterizedTest

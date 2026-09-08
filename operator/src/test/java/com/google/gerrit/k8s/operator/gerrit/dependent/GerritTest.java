@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
 import io.fabric8.kubernetes.api.model.ConfigMap;
@@ -48,6 +50,7 @@ public class GerritTest {
   @BeforeAll
   public void setup() throws Exception {
     kubernetesServer.before();
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
   }
 
   @ParameterizedTest

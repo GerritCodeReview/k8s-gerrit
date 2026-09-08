@@ -16,6 +16,8 @@ package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import io.getambassador.v2.Host;
 import io.getambassador.v2.Mapping;
@@ -39,6 +41,7 @@ public class GerritClusterAmbassadorTest {
           InstantiationException,
           IllegalAccessException,
           InvocationTargetException {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     GerritNetwork gerritNetwork =
         ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
 
