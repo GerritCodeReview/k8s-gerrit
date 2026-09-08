@@ -32,6 +32,8 @@ public class GerritIndexerSpec {
   private Map<String, String> configFiles = new HashMap<>();
   private GerritIndexerStorage storage = new GerritIndexerStorage();
   private IndexConfig index;
+  private String caCertSecretRef;
+  private String trustStoreSecretRef;
 
   public List<Toleration> getTolerations() {
     return tolerations;
@@ -89,9 +91,34 @@ public class GerritIndexerSpec {
     this.index = index;
   }
 
+  public String getCaCertSecretRef() {
+    return caCertSecretRef;
+  }
+
+  public void setCaCertSecretRef(String caCertSecretRef) {
+    this.caCertSecretRef = caCertSecretRef;
+  }
+
+  public String getTrustStoreSecretRef() {
+    return trustStoreSecretRef;
+  }
+
+  public void setTrustStoreSecretRef(String trustStoreSecretRef) {
+    this.trustStoreSecretRef = trustStoreSecretRef;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(affinity, cluster, configFiles, index, resources, storage, tolerations);
+    return Objects.hash(
+        affinity,
+        caCertSecretRef,
+        cluster,
+        configFiles,
+        index,
+        resources,
+        storage,
+        tolerations,
+        trustStoreSecretRef);
   }
 
   @Override
@@ -101,12 +128,14 @@ public class GerritIndexerSpec {
     if (getClass() != obj.getClass()) return false;
     GerritIndexerSpec other = (GerritIndexerSpec) obj;
     return Objects.equals(affinity, other.affinity)
+        && Objects.equals(caCertSecretRef, other.caCertSecretRef)
         && Objects.equals(cluster, other.cluster)
         && Objects.equals(configFiles, other.configFiles)
         && Objects.equals(index, other.index)
         && Objects.equals(resources, other.resources)
         && Objects.equals(storage, other.storage)
-        && Objects.equals(tolerations, other.tolerations);
+        && Objects.equals(tolerations, other.tolerations)
+        && Objects.equals(trustStoreSecretRef, other.trustStoreSecretRef);
   }
 
   @Override
@@ -125,6 +154,10 @@ public class GerritIndexerSpec {
         + storage
         + ", index="
         + index
+        + ", caCertSecretRef="
+        + caCertSecretRef
+        + ", trustStoreSecretRef="
+        + trustStoreSecretRef
         + "]";
   }
 }

@@ -27,6 +27,7 @@ import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.utils.Serialization;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -78,9 +79,12 @@ public class GerritIndexerTest {
 
     Context<GerritIndexer> context = getContext(new GerritIndexerReconciler(), input);
     GerritIndexerJob dependentCronjob = new GerritIndexerJob();
-    assertUnordered(
-        dependentCronjob.desired(input, context),
-        ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
+
+    Job actual = dependentCronjob.desired(input, context);
+    System.out.println("=== Test case: " + inputFile + " / " + expectedJob + " ===");
+    System.out.println(Serialization.asYaml(actual));
+    System.out.println("=== End: " + expectedJob + " ===");
+    assertUnordered(actual, ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
 
     GerritIndexerConfigMap dependentConfigmap = new GerritIndexerConfigMap();
     assertDesiredConfigMapCreated(
@@ -143,6 +147,11 @@ public class GerritIndexerTest {
             "../indexer.yaml",
             "../gerritcluster_es.yaml",
             "indexer_es.job.yaml",
-            "indexer_es.configmap.yaml"));
+            "indexer_es.configmap.yaml"),
+        Arguments.of(
+            "../indexer_os.yaml",
+            "../gerritcluster_minimal.yaml",
+            "indexer_os.job.yaml",
+            "indexer_os.configmap.yaml"));
   }
 }

@@ -347,6 +347,8 @@ spec:
                           type: array
                       type: object
                   type: object
+                caCertSecretRef:
+                  type: string
                 cluster:
                   type: string
                 configFiles:
@@ -432,6 +434,8 @@ spec:
                         type: string
                     type: object
                   type: array
+                trustStoreSecretRef:
+                  type: string
               type: object
             status:
               properties:
