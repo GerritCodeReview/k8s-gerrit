@@ -1586,6 +1586,8 @@ compared to the parent object. All other options can still be configured.
 | `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GerritIndexer container |
 | `configFiles` | `Map<String, String>` | Configuration files to be mounted in to `$SITE/etc` |
 | `storage` | [`GerritIndexerStorage`](#gerritindexerstorage) | Storage configuration of the GerritIndexer job |
+| `caCertSecretRef` | `String` | Name of a Kubernetes secret containing a CA certificate (`ca.crt` key, PEM format) to be used for TLS verification when connecting to a remote index backend. Required when the remote index backend uses a non-publicly-trusted certificate. (default: `null`) |
+| `trustStoreSecretRef` | `String` | Name of a Kubernetes secret containing a Java truststore (`truststore.jks` key, JKS format) to be used for TLS verification by the Java reindex process when connecting to a remote index backend. Required when the remote index backend uses a non-publicly-trusted certificate. (default: `null`) |
 
 ## GerritIndexerStorage
 

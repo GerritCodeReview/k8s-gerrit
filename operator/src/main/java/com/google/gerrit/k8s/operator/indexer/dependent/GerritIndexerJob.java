@@ -45,6 +45,10 @@ public class GerritIndexerJob
     extends CRUDReconcileAddKubernetesDependentResource<Job, GerritIndexer> {
   private static final Quantity HOME_DIR_SIZE_LIMIT = new Quantity("500", "Mi");
   private static final String TMP_VOLUME_NAME = "tmp";
+  private static final String CA_CERT_VOLUME = "ca-cert";
+  private static final String CA_CERT_MOUNT_PATH = "/var/config/ca.crt";
+  private static final String TRUST_STORE_VOLUME = "index-plugin-config";
+  private static final String TRUST_STORE_MOUNT_PATH = "/var/mnt/data/index-opensearch";
 
   public GerritIndexerJob() {
     super(Job.class);
@@ -164,7 +168,8 @@ public class GerritIndexerJob
     volumeMounts.add(
         new VolumeMountBuilder()
             .withName("gerrit-init-config")
-            .withMountPath("/var/config")
+            .withMountPath("/var/config/gerrit-init.yaml")
+            .withSubPath("gerrit-init.yaml")
             .build());
 
     volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
@@ -231,6 +236,26 @@ public class GerritIndexerJob
       repoVolumeMount.withSubPath(repoPath);
     }
     volumeMounts.add(repoVolumeMount.build());
+
+    if (indexerSpec.getIndex().getType().isRemote()) {
+      String caCertSecretRef = indexerSpec.getCaCertSecretRef();
+      if (caCertSecretRef != null && !caCertSecretRef.isBlank()) {
+        volumeMounts.add(
+            new VolumeMountBuilder()
+                .withName(CA_CERT_VOLUME)
+                .withMountPath(CA_CERT_MOUNT_PATH)
+                .withSubPath("ca.crt")
+                .build());
+      }
+      String trustStoreSecretRef = indexerSpec.getTrustStoreSecretRef();
+      if (trustStoreSecretRef != null && !trustStoreSecretRef.isBlank()) {
+        volumeMounts.add(
+            new VolumeMountBuilder()
+                .withName(TRUST_STORE_VOLUME)
+                .withMountPath(TRUST_STORE_MOUNT_PATH)
+                .build());
+      }
+    }
     return volumeMounts;
   }
 
@@ -306,7 +331,28 @@ public class GerritIndexerJob
               .endPersistentVolumeClaim()
               .build());
     }
-
+    if (indexerSpec.getIndex().getType().isRemote()) {
+      String caCertSecretRef = indexerSpec.getCaCertSecretRef();
+      if (caCertSecretRef != null && !caCertSecretRef.isBlank()) {
+        volumes.add(
+            new VolumeBuilder()
+                .withName(CA_CERT_VOLUME)
+                .withNewSecret()
+                .withSecretName(caCertSecretRef)
+                .endSecret()
+                .build());
+      }
+      String trustStoreSecretRef = indexerSpec.getTrustStoreSecretRef();
+      if (trustStoreSecretRef != null && !trustStoreSecretRef.isBlank()) {
+        volumes.add(
+            new VolumeBuilder()
+                .withName(TRUST_STORE_VOLUME)
+                .withNewSecret()
+                .withSecretName(trustStoreSecretRef)
+                .endSecret()
+                .build());
+      }
+    }
     volumes.add(
         new VolumeBuilder()
             .withEmptyDir(
