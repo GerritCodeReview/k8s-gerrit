@@ -16,6 +16,8 @@ package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
@@ -30,6 +32,7 @@ public class ReceiverTest {
   @MethodSource("provideYamlManifests")
   public void expectedReceiverComponentsCreated(
       String inputFile, String expectedDeployment, String expectedService) {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     Receiver input = ReconcilerUtils.loadYaml(Receiver.class, this.getClass(), inputFile);
     ReceiverDeployment dependentDeployment = new ReceiverDeployment();
     assertUnordered(

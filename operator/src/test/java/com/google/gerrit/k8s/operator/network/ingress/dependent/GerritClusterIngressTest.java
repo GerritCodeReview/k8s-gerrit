@@ -17,6 +17,8 @@ package com.google.gerrit.k8s.operator.network.ingress.dependent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 
+import com.google.gerrit.k8s.operator.Constants.ClusterMode;
+import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
@@ -29,6 +31,7 @@ public class GerritClusterIngressTest {
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedGerritClusterIngressCreated(String inputFile, String expectedOutputFile) {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
     GerritClusterIngress dependent = new GerritClusterIngress();
     Ingress result =
         dependent.desired(
