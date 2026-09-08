@@ -78,9 +78,9 @@ public class GerritIndexerTest {
 
     Context<GerritIndexer> context = getContext(new GerritIndexerReconciler(), input);
     GerritIndexerJob dependentCronjob = new GerritIndexerJob();
-    assertUnordered(
-        dependentCronjob.desired(input, context),
-        ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
+
+    Job actual = dependentCronjob.desired(input, context);
+    assertUnordered(actual, ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
 
     GerritIndexerConfigMap dependentConfigmap = new GerritIndexerConfigMap();
     assertDesiredConfigMapCreated(
@@ -143,6 +143,11 @@ public class GerritIndexerTest {
             "../indexer.yaml",
             "../gerritcluster_es.yaml",
             "indexer_es.job.yaml",
-            "indexer_es.configmap.yaml"));
+            "indexer_es.configmap.yaml"),
+        Arguments.of(
+            "../indexer_os.yaml",
+            "../gerritcluster_minimal.yaml",
+            "indexer_os.job.yaml",
+            "indexer_os.configmap.yaml"));
   }
 }
