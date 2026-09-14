@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d85871_eee3b6de",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T13:40:43Z",
+      "side": 1,
+      "message": "I would actually combine those to an OpenSearchSecretRef.\n\nAlso, do we only need that in the Indexer or also in Gerrit? If we already have it in Gerrit due to the secret used by Gerrit, I would use the same mechanism and terminology here.",
+      "range": {
+        "startLine": 1589,
+        "startChar": 0,
+        "endLine": 1591,
+        "endChar": 0
+      },
+      "revId": "576bcf3d1f0afe115e2098805c541ae65c5191b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70fec3c6_96321cfa",
+        "filename": "crd/current/gerritindexers.gerritoperator.google.com-v1.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T13:40:43Z",
+      "side": 1,
+      "message": "This requires a CRD version upgrade.",
+      "revId": "576bcf3d1f0afe115e2098805c541ae65c5191b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
