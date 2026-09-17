@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d81837d6_9e3d2c03",
+        "filename": "Documentation/operator-api-reference.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-17T12:25:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d85871_eee3b6de",
+      "range": {
+        "startLine": 1589,
+        "startChar": 0,
+        "endLine": 1591,
+        "endChar": 0
+      },
+      "revId": "576bcf3d1f0afe115e2098805c541ae65c5191b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70fec3c6_96321cfa",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-14T13:40:43Z",
       "side": 1,
       "message": "This requires a CRD version upgrade.",
+      "revId": "576bcf3d1f0afe115e2098805c541ae65c5191b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07b7591_4d12648d",
+        "filename": "crd/current/gerritindexers.gerritoperator.google.com-v1.yml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-17T12:25:29Z",
+      "side": 1,
+      "message": "Code changes in base -\u003e patchset 4. 5 is the new CRD version, and 6 was removing some test print statements that slipped in to the commit.",
+      "parentUuid": "70fec3c6_96321cfa",
       "revId": "576bcf3d1f0afe115e2098805c541ae65c5191b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
