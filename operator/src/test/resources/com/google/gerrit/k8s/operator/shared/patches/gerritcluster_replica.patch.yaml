@@ -1,0 +1,14 @@
+- op: add
+  path: /spec/gerrits/-
+  value:
+    metadata:
+      name: gerrit-replica
+    spec:
+      mode: REPLICA
+      serviceAccount: gerrit
+      service:
+        sshPort: 39418
+      site:
+        size: 1Gi
+      plugins: []
+      secretRef: gerrit-secure-config
