@@ -1,0 +1,8 @@
+spec:
+  ingress:
+    enabled: true
+    host: example.com
+    pathPrefix: ""
+    tlsEnabled: true
+    ssh:
+      enabled: true
