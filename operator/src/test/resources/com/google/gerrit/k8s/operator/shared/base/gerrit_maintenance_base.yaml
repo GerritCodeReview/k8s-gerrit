@@ -1,0 +1,26 @@
+apiVersion: "gerritoperator.google.com/v1beta19"
+kind: GerritMaintenance
+metadata:
+  name: gerrit-gerrit-maintenance
+  namespace: gerrit
+spec:
+  containerImages: {}
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+    sharedStorage:
+      size: 1Gi
+      volumeName: "vol"
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+  projects:
+    gc:
+    - name: gc-all
+      schedule: "0 */3 * * *"
+      args:
+      - "--pack-all-refs"
+      exclude:
+      - "excluded"
