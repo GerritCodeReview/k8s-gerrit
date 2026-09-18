@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f52a96b3_0d65ddbb",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T13:12:19Z",
+      "side": 1,
+      "message": "any reason why are these not `private`?",
+      "revId": "bab29ddbcff0b34ca53a249129549338e63b1a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da8949e_698ff91d",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T13:12:19Z",
+      "side": 1,
+      "message": "what guarantees that `this.context` is not `null` here?",
+      "revId": "bab29ddbcff0b34ca53a249129549338e63b1a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c03e730_0afd50c9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T13:12:19Z",
+      "side": 1,
+      "message": "want to keep these?",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 33
+      },
+      "revId": "bab29ddbcff0b34ca53a249129549338e63b1a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
