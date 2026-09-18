@@ -1,0 +1,7 @@
+metadata:
+  name: gerrit-replica
+spec:
+  mode: REPLICA
+  plugins: []
+  service:
+    sshPort: 39418
