@@ -1,0 +1,24 @@
+- op: add
+  path: /spec/projects/gc/1/resources
+  value:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+- op: add
+  path: /spec/projects/gc/1/affinity
+  value:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "cloud.google.com/gke-nodepool"
+            operator: In
+            values:
+            - "gerrit"
+- op: add
+  path: /spec/projects/gc/1/tolerations
+  value:
+  - key: "key"
+    operator: "Equal"
+    value: "value"
+    effect: "NoSchedule"

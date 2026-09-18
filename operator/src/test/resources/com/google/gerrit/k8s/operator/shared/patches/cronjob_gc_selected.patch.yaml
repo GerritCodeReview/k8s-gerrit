@@ -1,0 +1,28 @@
+- op: replace
+  path: /metadata/name
+  value: gc-selected
+- op: replace
+  path: /metadata/labels/app.kubernetes.io~1part-of
+  value: git-gc-gc-selected
+- op: replace
+  path: /metadata/labels/app.kubernetes.io~1instance
+  value: git-gc-gc-selected
+- op: replace
+  path: /spec/schedule
+  value: "0 * * * *"
+- op: replace
+  path: /spec/jobTemplate/spec/template/metadata/labels/app.kubernetes.io~1part-of
+  value: git-gc-gc-selected
+- op: replace
+  path: /spec/jobTemplate/spec/template/metadata/labels/app.kubernetes.io~1instance
+  value: git-gc-gc-selected
+- op: replace
+  path: /spec/jobTemplate/spec/template/spec/containers/0/args
+  value:
+  - "-d"
+  - "/var/gerrit"
+  - "projects"
+  - "--project"
+  - "selected"
+  - "gc"
+  - "-c gc.auto=0"

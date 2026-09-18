@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/projects/gc/-
+  value:
+    name: gc-selected
+    schedule: "0 * * * *"
+    gitOptions: |-
+      [gc]
+        auto = 0
+    include:
+    - "selected"

@@ -297,6 +297,18 @@
 			<version>5.10.5</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.fabric8</groupId>
+			<artifactId>zjsonpatch</artifactId>
+			<version>7.5.2</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>

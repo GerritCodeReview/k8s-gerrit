@@ -1,0 +1,11 @@
+spec:
+  scheduledTasks:
+    gerritMaintenance:
+      projects:
+        gc:
+        - name: gc-all
+          schedule: "0 */3 * * *"
+          args:
+          - "--pack-all-refs"
+          exclude:
+          - "excluded"
