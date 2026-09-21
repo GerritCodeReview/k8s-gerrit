@@ -1,0 +1,4 @@
+spec:
+  disableBitmapIndex: true
+  disablePackRefs: true
+  preservePacks: true
