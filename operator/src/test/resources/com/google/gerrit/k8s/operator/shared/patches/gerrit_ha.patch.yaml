@@ -1,0 +1,6 @@
+spec:
+  replicas: 2
+  refdb:
+    database: ZOOKEEPER
+    zookeeper:
+      connectString: zookeeper.example.com

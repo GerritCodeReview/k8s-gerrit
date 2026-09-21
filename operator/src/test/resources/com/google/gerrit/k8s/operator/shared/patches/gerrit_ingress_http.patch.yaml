@@ -1,0 +1,5 @@
+spec:
+  ingress:
+    enabled: true
+    host: example.com
+    tlsEnabled: false

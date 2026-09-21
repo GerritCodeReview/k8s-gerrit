@@ -17,7 +17,10 @@ package com.google.gerrit.k8s.operator.test;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
+import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
+import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +75,52 @@ public final class TestFixtures {
       SHARED_PATCHES + "/gerrit_replica.patch.yaml";
   public static final String SHARED_PATCH_PRIMARY_WITH_REPLICA_GERRIT =
       SHARED_PATCHES + "/gerrit_primary_with_replica.patch.yaml";
+  public static final String SHARED_PATCH_HA_GERRIT =
+      SHARED_PATCHES + "/gerrit_ha.patch.yaml";
+  public static final String SHARED_PATCH_ES_GERRIT =
+      SHARED_PATCHES + "/gerrit_es.patch.yaml";
+  public static final String SHARED_PATCH_OS_GERRIT =
+      SHARED_PATCHES + "/gerrit_os.patch.yaml";
+  public static final String SHARED_PATCH_INGRESS_HTTP_GERRIT =
+      SHARED_PATCHES + "/gerrit_ingress_http.patch.yaml";
+  public static final String SHARED_PATCH_INGRESS_HTTPS_GERRIT =
+      SHARED_PATCHES + "/gerrit_ingress_https.patch.yaml";
+
+  private static final String GERRIT_DEPENDENT =
+      "/com/google/gerrit/k8s/operator/gerrit/dependent";
+
+  public static final String GERRIT_CONFIGMAP_BASE =
+      GERRIT_DEPENDENT + "/gerrit_configmap_base.yaml";
+  public static final String GERRIT_CONFIGMAP_HA_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_configmap_ha.patch.yaml";
+  public static final String GERRIT_CONFIGMAP_ES_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_configmap_es.patch.yaml";
+  public static final String GERRIT_CONFIGMAP_OS_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_configmap_os.patch.yaml";
+  public static final String GERRIT_CONFIGMAP_INGRESS_HTTP_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_configmap_ingress_http.patch.yaml";
+  public static final String GERRIT_CONFIGMAP_INGRESS_HTTPS_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_configmap_ingress_https.patch.yaml";
+
+  public static final String GERRIT_INIT_CONFIGMAP_BASE =
+      GERRIT_DEPENDENT + "/gerrit-init_configmap_base.yaml";
+  public static final String GERRIT_INIT_CONFIGMAP_HA_PATCH =
+      GERRIT_DEPENDENT + "/gerrit-init_configmap_ha.patch.yaml";
+
+  public static final String GERRIT_STATEFULSET_BASE =
+      GERRIT_DEPENDENT + "/gerrit_statefulset_base.yaml";
+  public static final String GERRIT_STATEFULSET_HA_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_statefulset_ha.patch.yaml";
+  public static final String GERRIT_STATEFULSET_INDEX_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_statefulset_index.patch.yaml";
+
+  public static final String GERRIT_SERVICE_BASE =
+      GERRIT_DEPENDENT + "/gerrit_service_base.yaml";
+  public static final String GERRIT_SERVICE_HA_PATCH =
+      GERRIT_DEPENDENT + "/gerrit_service_ha.patch.yaml";
+
+  public static final String GERRIT_HEADLESS_SERVICE_BASE =
+      GERRIT_DEPENDENT + "/gerrit_headless_service_base.yaml";
 
   /** {@link GerritCluster} fixture from the shared base, with optional shared patches. */
   public static KubernetesResourceFixture<GerritCluster> gerritCluster(
@@ -82,6 +131,31 @@ public final class TestFixtures {
   /** {@link Gerrit} fixture from the shared base, with optional patches. */
   public static KubernetesResourceFixture<Gerrit> gerrit(Class<?> context, String... patches) {
     return fixture(Gerrit.class, context, SHARED_BASE_GERRIT, patches);
+  }
+
+  /** {@link ConfigMap} fixture for the Gerrit configmap, with optional patches. */
+  public static KubernetesResourceFixture<ConfigMap> gerritConfigMap(String... patches) {
+    return fixture(ConfigMap.class, TestFixtures.class, GERRIT_CONFIGMAP_BASE, patches);
+  }
+
+  /** {@link ConfigMap} fixture for the Gerrit init configmap, with optional patches. */
+  public static KubernetesResourceFixture<ConfigMap> gerritInitConfigMap(String... patches) {
+    return fixture(ConfigMap.class, TestFixtures.class, GERRIT_INIT_CONFIGMAP_BASE, patches);
+  }
+
+  /** {@link StatefulSet} fixture for the Gerrit StatefulSet, with optional patches. */
+  public static KubernetesResourceFixture<StatefulSet> gerritStatefulSet(String... patches) {
+    return fixture(StatefulSet.class, TestFixtures.class, GERRIT_STATEFULSET_BASE, patches);
+  }
+
+  /** {@link Service} fixture for the Gerrit service, with optional patches. */
+  public static KubernetesResourceFixture<Service> gerritService(String... patches) {
+    return fixture(Service.class, TestFixtures.class, GERRIT_SERVICE_BASE, patches);
+  }
+
+  /** {@link Service} fixture for the Gerrit headless service, with optional patches. */
+  public static KubernetesResourceFixture<Service> gerritHeadlessService(String... patches) {
+    return fixture(Service.class, TestFixtures.class, GERRIT_HEADLESS_SERVICE_BASE, patches);
   }
 
   /** {@link GerritMaintenance} fixture from the shared base, with optional patches. */

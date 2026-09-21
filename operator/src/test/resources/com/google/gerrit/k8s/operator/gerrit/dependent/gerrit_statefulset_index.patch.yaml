@@ -1,0 +1,12 @@
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    mountPath: /var/mnt/index
+    name: shared
+    subPath: index
+- op: add
+  path: /spec/template/spec/initContainers/0/volumeMounts/-
+  value:
+    mountPath: /var/mnt/index
+    name: shared
+    subPath: index

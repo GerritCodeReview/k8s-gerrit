@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/ports/-
+  value:
+    name: jgroups
+    port: 7800
+    targetPort: 7800
