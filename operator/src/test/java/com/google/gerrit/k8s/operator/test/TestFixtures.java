@@ -16,11 +16,13 @@ package com.google.gerrit.k8s.operator.test;
 
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
+import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
+import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,8 @@ public final class TestFixtures {
 
   public static final String SHARED_PATCH_REPLICA_CLUSTER =
       SHARED_PATCHES + "/gerritcluster_replica.patch.yaml";
+  public static final String GERRIT_CLUSTER_NFS_PATCH =
+      SHARED_PATCHES + "/gerritcluster_nfs_workaround.patch.yaml";
   public static final String SHARED_PATCH_REPLICA_GERRIT =
       SHARED_PATCHES + "/gerrit_replica.patch.yaml";
   public static final String SHARED_PATCH_PRIMARY_WITH_REPLICA_GERRIT =
@@ -117,6 +121,23 @@ public final class TestFixtures {
   public static final String GERRIT_HEADLESS_SERVICE_BASE =
       GERRIT_DEPENDENT + "/gerrit_headless_service_base.yaml";
 
+  private static final String GITGC_RSRCS = "/com/google/gerrit/k8s/operator/gitgc";
+  private static final String GITGC_DEPENDENT = GITGC_RSRCS + "/dependent";
+
+  public static final String GITGC_BASE = GITGC_RSRCS + "/gitgc_base.yaml";
+  public static final String GITGC_SELECTED_PATCH = GITGC_RSRCS + "/gitgc_selected.patch.yaml";
+  public static final String GITGC_OPTIONS_PATCH = GITGC_RSRCS + "/gitgc_options.patch.yaml";
+
+  public static final String GITGC_CRONJOB_BASE = GITGC_DEPENDENT + "/cronjob_base.yaml";
+  public static final String GITGC_CRONJOB_ARGS_SELECTED_PATCH =
+      GITGC_DEPENDENT + "/cronjob_args_selected.patch.yaml";
+  public static final String GITGC_CRONJOB_ARGS_OPTIONS_PATCH =
+      GITGC_DEPENDENT + "/cronjob_args_options.patch.yaml";
+  public static final String GITGC_CRONJOB_ARGS_OPTIONS_APPEND_PATCH =
+      GITGC_DEPENDENT + "/cronjob_args_options_append.patch.yaml";
+  public static final String GITGC_CRONJOB_NFS_PATCH =
+      GITGC_DEPENDENT + "/cronjob_nfs_workaround.patch.yaml";
+
   /** {@link GerritCluster} fixture from the shared base, with optional shared patches. */
   public static KubernetesResourceFixture<GerritCluster> gerritCluster(
       Class<?> context, String... patches) {
@@ -151,6 +172,17 @@ public final class TestFixtures {
   /** {@link Service} fixture for the Gerrit headless service, with optional patches. */
   public static KubernetesResourceFixture<Service> gerritHeadlessService(String... patches) {
     return fixture(Service.class, TestFixtures.class, GERRIT_HEADLESS_SERVICE_BASE, patches);
+  }
+
+  /** {@link GitGarbageCollection} fixture from the base, with optional patches. */
+  public static KubernetesResourceFixture<GitGarbageCollection> gitGarbageCollection(
+      String... patches) {
+    return fixture(GitGarbageCollection.class, TestFixtures.class, GITGC_BASE, patches);
+  }
+
+  /** {@link CronJob} fixture for GitGc tests from the base, with optional patches. */
+  public static KubernetesResourceFixture<CronJob> gitGcCronJob(String... patches) {
+    return fixture(CronJob.class, TestFixtures.class, GITGC_CRONJOB_BASE, patches);
   }
 
   /** {@link GerritMaintenance} fixture from the shared base, with optional patches. */
