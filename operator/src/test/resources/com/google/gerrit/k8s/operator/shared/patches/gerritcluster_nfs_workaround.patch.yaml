@@ -1,0 +1,14 @@
+spec:
+  storage:
+    storageClasses:
+      nfsWorkaround:
+        enabled: true
+        chownOnStartup: true
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup

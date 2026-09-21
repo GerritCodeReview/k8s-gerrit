@@ -19,8 +19,6 @@ spec:
     storageClasses:
       readWriteOnce: default
       readWriteMany: shared-storage
-      nfsWorkaround:
-        enabled: false
 
     sharedStorage:
       size: 1Gi

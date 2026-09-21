@@ -1,0 +1,43 @@
+- op: add
+  path: /spec/jobTemplate/spec/template/spec/initContainers
+  value:
+  - name: nfs-init
+    imagePullPolicy: Always
+    image: docker.io/busybox:latest
+    securityContext:
+      runAsGroup: 0
+      runAsUser: 0
+      runAsNonRoot: false
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+        - ALL
+        add:
+        - CHOWN
+    command:
+    - sh
+    - -c
+    args:
+    - chown -R 1000:100 /var/mnt/git
+    volumeMounts:
+    - name: shared
+      subPath: git
+      mountPath: /var/mnt/git
+    - name: nfs-config
+      subPath: idmapd.conf
+      mountPath: /etc/idmapd.conf
+- op: add
+  path: /spec/jobTemplate/spec/template/spec/containers/0/volumeMounts/-
+  value:
+    name: nfs-config
+    subPath: idmapd.conf
+    mountPath: /etc/idmapd.conf
+- op: add
+  path: /spec/jobTemplate/spec/template/spec/volumes/-
+  value:
+    name: nfs-config
+    configMap:
+      name: nfs-idmapd-config
