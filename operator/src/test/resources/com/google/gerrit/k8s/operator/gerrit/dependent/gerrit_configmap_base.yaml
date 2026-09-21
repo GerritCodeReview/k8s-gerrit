@@ -16,15 +16,11 @@ data:
         javaOptions = -Djava.io.tmpdir=/var/gerrit/tmp/java
     [gerrit]
         basepath = git
-        serverId = server-1
-        canonicalWebUrl = https://example.com/
-    [httpd]
-        listenUrl = proxy-https://*:8080/
+        serverId = gerrit/gerrit
     [plugins]
         mandatory = healthcheck
     [sshd]
         listenAddress = *:29418
-        advertisedAddress = example.com:29418
 kind: ConfigMap
 metadata:
   labels:
