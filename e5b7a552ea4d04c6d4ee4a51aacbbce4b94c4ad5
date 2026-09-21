@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c2b5315_03d3f7a0",
+        "filename": "crd/current/gerritindexers.gerritoperator.google.com-v1.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-21T13:59:47Z",
+      "side": 1,
+      "message": "Too late, but still worth a fix. This should just be `secretRef`, since it might be valid for elasticsearch as well.",
+      "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
