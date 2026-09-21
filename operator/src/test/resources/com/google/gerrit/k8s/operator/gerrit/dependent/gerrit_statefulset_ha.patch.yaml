@@ -1,0 +1,30 @@
+- op: replace
+  path: /spec/replicas
+  value: 2
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value:
+    name: GERRIT_URL
+    value: http://$(POD_NAME).gerrit.gerrit.svc.cluster.local:8080
+- op: add
+  path: /spec/template/spec/containers/0/ports/-
+  value:
+    containerPort: 7800
+    name: jgroups
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/2
+  value:
+    mountPath: /var/mnt/shared
+    name: shared
+    subPath: shared
+- op: add
+  path: /spec/template/spec/initContainers/0/env/-
+  value:
+    name: GERRIT_URL
+    value: http://$(POD_NAME).gerrit.gerrit.svc.cluster.local:8080
+- op: add
+  path: /spec/template/spec/initContainers/0/volumeMounts/3
+  value:
+    mountPath: /var/mnt/shared
+    name: shared
+    subPath: shared

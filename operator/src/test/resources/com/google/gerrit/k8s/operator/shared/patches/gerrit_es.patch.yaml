@@ -1,0 +1,8 @@
+spec:
+  index:
+    type: ELASTICSEARCH
+    remoteIndexConfig:
+      server: http://elasticsearch.example.com:9200
+      config: |-
+        [elasticsearch]
+          codec = default

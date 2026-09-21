@@ -1,0 +1,21 @@
+data:
+  gerrit.config: |-
+    [cache]
+        directory = cache
+    [container]
+        user = gerrit
+        replica = false
+        javaHome = /usr/lib/jvm/java-11-openjdk
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+        javaOptions = -Djava.io.tmpdir=/var/gerrit/tmp/java
+    [gerrit]
+        basepath = git
+        serverId = gerrit/gerrit
+        canonicalWebUrl = http://example.com/
+    [httpd]
+        listenUrl = proxy-http://*:8080/
+    [plugins]
+        mandatory = healthcheck
+    [sshd]
+        listenAddress = *:29418
+        advertisedAddress = example.com:29418

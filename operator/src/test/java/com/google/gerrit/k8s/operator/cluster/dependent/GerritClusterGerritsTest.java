@@ -18,7 +18,7 @@ import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.asser
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.CLUSTER_PATCH_CONFIGMAP;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.CLUSTER_PATCH_CONFIGMAP_PRIMARY_WITH_REPLICA;
-import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_BASE_GERRIT_CONFIGMAP;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_BASE;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_CLUSTER_INGRESS;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_GERRIT_INGRESS;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_MAINTENANCE_CLUSTER;
@@ -93,7 +93,7 @@ public class GerritClusterGerritsTest {
             TestFixtures.gerrit(context, SHARED_PATCH_GERRIT_INGRESS),
             null,
             null,
-            TestFixtures.configMap(context, SHARED_BASE_GERRIT_CONFIGMAP, CLUSTER_PATCH_CONFIGMAP)),
+            TestFixtures.configMap(context, GERRIT_CONFIGMAP_BASE, CLUSTER_PATCH_CONFIGMAP)),
         Arguments.of(
             TestFixtures.gerritCluster(
                 context, SHARED_PATCH_CLUSTER_INGRESS, SHARED_PATCH_REPLICA_CLUSTER),
@@ -102,16 +102,13 @@ public class GerritClusterGerritsTest {
             TestFixtures.gerrit(context, SHARED_PATCH_GERRIT_INGRESS, SHARED_PATCH_REPLICA_GERRIT),
             null,
             TestFixtures.configMap(
-                context,
-                SHARED_BASE_GERRIT_CONFIGMAP,
-                CLUSTER_PATCH_CONFIGMAP_PRIMARY_WITH_REPLICA)),
+                context, GERRIT_CONFIGMAP_BASE, CLUSTER_PATCH_CONFIGMAP_PRIMARY_WITH_REPLICA)),
         Arguments.of(
             TestFixtures.gerritCluster(
                 context, SHARED_PATCH_CLUSTER_INGRESS, SHARED_PATCH_MAINTENANCE_CLUSTER),
             TestFixtures.gerrit(context, SHARED_PATCH_GERRIT_INGRESS),
             null,
             TestFixtures.gerritMaintenance(context),
-            TestFixtures.configMap(
-                context, SHARED_BASE_GERRIT_CONFIGMAP, CLUSTER_PATCH_CONFIGMAP)));
+            TestFixtures.configMap(context, GERRIT_CONFIGMAP_BASE, CLUSTER_PATCH_CONFIGMAP)));
   }
 }

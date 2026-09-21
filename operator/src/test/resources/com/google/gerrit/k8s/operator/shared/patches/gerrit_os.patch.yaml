@@ -1,0 +1,8 @@
+spec:
+  index:
+    type: OPENSEARCH
+    remoteIndexConfig:
+      server: http://opensearch.example.com:9200
+      config: |-
+        [opensearch]
+          codec = default
