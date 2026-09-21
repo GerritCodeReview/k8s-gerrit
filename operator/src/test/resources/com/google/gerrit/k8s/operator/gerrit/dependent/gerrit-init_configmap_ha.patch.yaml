@@ -1,0 +1,13 @@
+data:
+  gerrit-init.yaml: |
+    caCertPath: "/var/config/ca.crt"
+    pluginCacheEnabled: false
+    pluginCacheDir: "/var/mnt/plugin_cache"
+    plugins:
+    - name: "download-commands"
+      installAsLibrary: false
+      data: null
+    libs: []
+    refdb: "zookeeper"
+    clusterMode: "HIGH_AVAILABILITY"
+    highAvailability: true

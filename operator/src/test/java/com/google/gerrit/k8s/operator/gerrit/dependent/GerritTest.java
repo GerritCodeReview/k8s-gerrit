@@ -16,16 +16,31 @@ package com.google.gerrit.k8s.operator.gerrit.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_ES_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_HA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_INGRESS_HTTPS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_INGRESS_HTTP_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_OS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_INIT_CONFIGMAP_HA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_SERVICE_HA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_STATEFULSET_HA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_STATEFULSET_INDEX_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_ES_GERRIT;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_HA_GERRIT;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_INGRESS_HTTPS_GERRIT;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_INGRESS_HTTP_GERRIT;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_OS_GERRIT;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
@@ -56,46 +71,31 @@ public class GerritTest {
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedGerritComponentsCreated(
-      String inputFile,
-      String expectedGerritConfigMapOutputFile,
-      String expectedGerritInitConfigMapOutputFile,
-      String expectedStatefulSetOutputFile,
-      String expectedServiceOutputFile,
-      String expectedHeadlessServiceOutputFile) {
-    Gerrit gerrit = ReconcilerUtils.loadYaml(Gerrit.class, this.getClass(), inputFile);
+      KubernetesResourceFixture<Gerrit> inputFixture,
+      KubernetesResourceFixture<ConfigMap> expectedGerritConfigMapFixture,
+      KubernetesResourceFixture<ConfigMap> expectedGerritInitConfigMapFixture,
+      KubernetesResourceFixture<StatefulSet> expectedStatefulSetFixture,
+      KubernetesResourceFixture<Service> expectedServiceFixture,
+      KubernetesResourceFixture<Service> expectedHeadlessServiceFixture) {
+    Gerrit gerrit = inputFixture.load();
     Context<Gerrit> context =
         getContext(new GerritReconciler(kubernetesServer.getClient()), gerrit);
 
-    ConfigMap expectedGerritCm =
-        ReconcilerUtils.loadYaml(
-            ConfigMap.class, this.getClass(), expectedGerritConfigMapOutputFile);
-    assertDesiredConfigMapCreated(new GerritConfigMap().desired(gerrit, context), expectedGerritCm);
-
-    ConfigMap expectedGerritInitCm =
-        ReconcilerUtils.loadYaml(
-            ConfigMap.class, this.getClass(), expectedGerritInitConfigMapOutputFile);
     assertDesiredConfigMapCreated(
-        new GerritInitConfigMap().desired(gerrit, context), expectedGerritInitCm);
+        new GerritConfigMap().desired(gerrit, context), expectedGerritConfigMapFixture.load());
 
-    GerritStatefulSet stsDependent = new GerritStatefulSet();
-    StatefulSet stsResult = stsDependent.desired(gerrit, context);
-    StatefulSet expectedSts =
-        ReconcilerUtils.loadYaml(StatefulSet.class, this.getClass(), expectedStatefulSetOutputFile);
+    assertDesiredConfigMapCreated(
+        new GerritInitConfigMap().desired(gerrit, context),
+        expectedGerritInitConfigMapFixture.load());
 
-    assertUnordered(stsResult, expectedSts);
+    assertUnordered(
+        new GerritStatefulSet().desired(gerrit, context), expectedStatefulSetFixture.load());
 
-    GerritService serviceDependent = new GerritService();
-    Service serviceResult = serviceDependent.desired(gerrit, context);
-    Service expectedService =
-        ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedServiceOutputFile);
+    assertUnordered(new GerritService().desired(gerrit, context), expectedServiceFixture.load());
 
-    assertUnordered(serviceResult, expectedService);
-
-    GerritHeadlessService headlessServiceDependent = new GerritHeadlessService();
-    Service headlessServiceResult = headlessServiceDependent.desired(gerrit, context);
-    Service expectedHeadlessService =
-        ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedHeadlessServiceOutputFile);
-    assertUnordered(headlessServiceResult, expectedHeadlessService);
+    assertUnordered(
+        new GerritHeadlessService().desired(gerrit, context),
+        expectedHeadlessServiceFixture.load());
   }
 
   private void assertDesiredConfigMapCreated(ConfigMap actual, ConfigMap expected) {
@@ -119,34 +119,52 @@ public class GerritTest {
   }
 
   private static Stream<Arguments> provideYamlManifests() {
+    Class<?> ctx = GerritTest.class;
     return Stream.of(
         Arguments.of(
-            "../gerrit_single_primary.yaml",
-            "gerrit_configmap_single_primary.yaml",
-            "gerrit-init_configmap_single_primary.yaml",
-            "statefulset_single_primary.yaml",
-            "service.yaml",
-            "headless_service.yaml"),
+            TestFixtures.gerrit(ctx),
+            TestFixtures.gerritConfigMap(),
+            TestFixtures.gerritInitConfigMap(),
+            TestFixtures.gerritStatefulSet(),
+            TestFixtures.gerritService(),
+            TestFixtures.gerritHeadlessService()),
         Arguments.of(
-            "../gerrit_ha_primary.yaml",
-            "gerrit_configmap_ha_primary.yaml",
-            "gerrit-init_configmap_ha_primary.yaml",
-            "statefulset_ha_primary.yaml",
-            "service_ha_primary.yaml",
-            "headless_service_ha_primary.yaml"),
+            TestFixtures.gerrit(ctx, SHARED_PATCH_HA_GERRIT),
+            TestFixtures.gerritConfigMap(GERRIT_CONFIGMAP_HA_PATCH),
+            TestFixtures.gerritInitConfigMap(GERRIT_INIT_CONFIGMAP_HA_PATCH),
+            TestFixtures.gerritStatefulSet(GERRIT_STATEFULSET_HA_PATCH),
+            TestFixtures.gerritService(GERRIT_SERVICE_HA_PATCH),
+            TestFixtures.gerritHeadlessService(GERRIT_SERVICE_HA_PATCH)),
         Arguments.of(
-            "../gerrit_es_primary.yaml",
-            "gerrit_configmap_es_primary.yaml",
-            "gerrit-init_configmap_ha_primary.yaml",
-            "statefulset_es_primary.yaml",
-            "service_ha_primary.yaml",
-            "headless_service_ha_primary.yaml"),
+            TestFixtures.gerrit(ctx, SHARED_PATCH_HA_GERRIT, SHARED_PATCH_ES_GERRIT),
+            TestFixtures.gerritConfigMap(GERRIT_CONFIGMAP_HA_PATCH, GERRIT_CONFIGMAP_ES_PATCH),
+            TestFixtures.gerritInitConfigMap(GERRIT_INIT_CONFIGMAP_HA_PATCH),
+            TestFixtures.gerritStatefulSet(
+                GERRIT_STATEFULSET_HA_PATCH, GERRIT_STATEFULSET_INDEX_PATCH),
+            TestFixtures.gerritService(GERRIT_SERVICE_HA_PATCH),
+            TestFixtures.gerritHeadlessService(GERRIT_SERVICE_HA_PATCH)),
         Arguments.of(
-            "../gerrit_os_primary.yaml",
-            "gerrit_configmap_os_primary.yaml",
-            "gerrit-init_configmap_ha_primary.yaml",
-            "statefulset_os_primary.yaml",
-            "service_ha_primary.yaml",
-            "headless_service_ha_primary.yaml"));
+            TestFixtures.gerrit(ctx, SHARED_PATCH_HA_GERRIT, SHARED_PATCH_OS_GERRIT),
+            TestFixtures.gerritConfigMap(GERRIT_CONFIGMAP_HA_PATCH, GERRIT_CONFIGMAP_OS_PATCH),
+            TestFixtures.gerritInitConfigMap(GERRIT_INIT_CONFIGMAP_HA_PATCH),
+            TestFixtures.gerritStatefulSet(
+                GERRIT_STATEFULSET_HA_PATCH, GERRIT_STATEFULSET_INDEX_PATCH),
+            TestFixtures.gerritService(GERRIT_SERVICE_HA_PATCH),
+            TestFixtures.gerritHeadlessService(GERRIT_SERVICE_HA_PATCH)),
+        Arguments.of(
+            TestFixtures.gerrit(ctx, SHARED_PATCH_INGRESS_HTTP_GERRIT),
+            TestFixtures.gerritConfigMap(GERRIT_CONFIGMAP_INGRESS_HTTP_PATCH),
+            TestFixtures.gerritInitConfigMap(),
+            TestFixtures.gerritStatefulSet(),
+            TestFixtures.gerritService(),
+            TestFixtures.gerritHeadlessService()),
+        Arguments.of(
+            TestFixtures.gerrit(ctx, SHARED_PATCH_HA_GERRIT, SHARED_PATCH_INGRESS_HTTPS_GERRIT),
+            TestFixtures.gerritConfigMap(
+                GERRIT_CONFIGMAP_HA_PATCH, GERRIT_CONFIGMAP_INGRESS_HTTPS_PATCH),
+            TestFixtures.gerritInitConfigMap(GERRIT_INIT_CONFIGMAP_HA_PATCH),
+            TestFixtures.gerritStatefulSet(GERRIT_STATEFULSET_HA_PATCH),
+            TestFixtures.gerritService(GERRIT_SERVICE_HA_PATCH),
+            TestFixtures.gerritHeadlessService(GERRIT_SERVICE_HA_PATCH)));
   }
 }

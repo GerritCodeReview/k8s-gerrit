@@ -1,0 +1,55 @@
+data:
+  gerrit.config: |-
+    [cache]
+        directory = cache
+    [container]
+        user = gerrit
+        replica = false
+        javaHome = /usr/lib/jvm/java-11-openjdk
+        javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
+        javaOptions=-Djava.net.preferIPv4Stack=true
+        javaOptions = -Djava.io.tmpdir=/var/gerrit/tmp/java
+    [elasticsearch]
+        server = http://elasticsearch.example.com:9200
+        codec = default
+    [gerrit]
+        basepath = git
+        serverId = gerrit/gerrit
+        installModule = com.gerritforge.gerrit.globalrefdb.validation.LibModule
+        installDbModule = com.ericsson.gerrit.plugins.highavailability.ValidationModule
+        installIndexModule = com.google.gerrit.elasticsearch.ElasticIndexModule
+    [plugins]
+        mandatory = healthcheck
+        mandatory = high-availability
+        mandatory = index-elasticsearch
+        mandatory = zookeeper-refdb
+    [sshd]
+        listenAddress = *:29418
+  high-availability.config: |-
+    [main]
+        sharedDirectory = shared
+    [peerInfo]
+        strategy = jgroups
+    [jgroups]
+        clusterName = gerrit
+        kubernetes = true
+    [jgroups"kubernetes"]
+        namespace = gerrit
+        label = app.kubernetes.io/instance=gerrit
+        label = app.kubernetes.io/name=gerrit
+        label = app.kubernetes.io/component=gerrit-statefulset-gerrit
+        label = app.kubernetes.io/part-of=gerrit
+        label = app.kubernetes.io/managed-by=gerrit-operator
+    [cache]
+        synchronize = true
+    [event]
+        synchronize = true
+    [index]
+        synchronize = false
+    [healthcheck]
+        enable = true
+    [ref-database]
+        enabled = true
+  zookeeper-refdb.config: |-
+    [ref-database "zookeeper"]
+      connectString = zookeeper.example.com
