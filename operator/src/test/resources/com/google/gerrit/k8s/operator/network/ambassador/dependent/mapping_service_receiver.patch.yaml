@@ -1,0 +1,3 @@
+- op: add
+  path: /spec/service
+  value: receiver:48081

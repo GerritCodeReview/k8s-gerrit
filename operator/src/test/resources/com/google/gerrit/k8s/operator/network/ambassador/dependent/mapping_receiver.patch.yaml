@@ -1,0 +1,6 @@
+- op: replace
+  path: /spec/prefix
+  value: /a/projects/.*|/.*/git-receive-pack
+- op: add
+  path: /spec/prefix_regex
+  value: true

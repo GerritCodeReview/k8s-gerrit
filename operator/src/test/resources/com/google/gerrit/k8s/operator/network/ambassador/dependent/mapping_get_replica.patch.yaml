@@ -1,0 +1,13 @@
+- op: replace
+  path: /spec/prefix
+  value: /.*/info/refs
+- op: add
+  path: /spec/method
+  value: GET
+- op: add
+  path: /spec/prefix_regex
+  value: true
+- op: add
+  path: /spec/query_parameters
+  value:
+    service: git-upload-pack

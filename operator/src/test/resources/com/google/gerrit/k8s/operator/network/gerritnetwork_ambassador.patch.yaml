@@ -1,0 +1,4 @@
+spec:
+  ingress:
+    ambassador:
+      id: ["my-id-1", "my-id-2"]

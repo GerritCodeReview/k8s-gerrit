@@ -1,0 +1,3 @@
+- op: add
+  path: /metadata/name
+  value: gerrit-mapping-get-replica

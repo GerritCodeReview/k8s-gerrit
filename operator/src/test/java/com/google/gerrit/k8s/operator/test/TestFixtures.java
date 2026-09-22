@@ -19,12 +19,22 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
+import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
+import io.getambassador.v2.Host;
+import io.getambassador.v2.Mapping;
+import io.getambassador.v2.TLSContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +74,10 @@ import java.util.List;
  * }</pre>
  */
 public final class TestFixtures {
+  /** Pairs an ambassador mapping dependent class with its expected {@link Mapping} fixture. */
+  public record ExpectedMapping(
+      Class<?> dependentClass, KubernetesResourceFixture<Mapping> fixture) {}
+
   public static final String SHARED_RSRCS = "/com/google/gerrit/k8s/operator/shared";
   public static final String SHARED_BASE = SHARED_RSRCS + "/base";
   public static final String SHARED_PATCHES = SHARED_RSRCS + "/patches";
@@ -172,6 +186,58 @@ public final class TestFixtures {
   public static final String INDEXER_CONFIGMAP_OS_PATCH =
       INDEXER_DEPENDENT + "/gerrit_indexer_configmap_os.patch.yaml";
 
+  private static final String NETWORK_RSRCS = "/com/google/gerrit/k8s/operator/network";
+  private static final String AMBASSADOR_DEPENDENT = NETWORK_RSRCS + "/ambassador/dependent";
+
+  public static final String GERRITNETWORK_BASE = NETWORK_RSRCS + "/gerritnetwork_base.yaml";
+  public static final String GERRITNETWORK_AMBASSADOR_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_ambassador.patch.yaml";
+  public static final String GERRITNETWORK_TLS_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_tls.patch.yaml";
+  public static final String GERRITNETWORK_CREATE_HOST_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_create_host.patch.yaml";
+  public static final String GERRITNETWORK_PRIMARY_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_primary.patch.yaml";
+  public static final String GERRITNETWORK_REPLICA_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_replica.patch.yaml";
+  public static final String GERRITNETWORK_RECEIVER_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_receiver.patch.yaml";
+
+  public static final String AMBASSADOR_MAPPING_BASE = AMBASSADOR_DEPENDENT + "/mapping_base.yaml";
+  public static final String AMBASSADOR_MAPPING_NAME_PRIMARY_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_name_primary.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_NAME_DEFAULT_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_name_default.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_NAME_GET_REPLICA_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_name_get_replica.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_NAME_POST_REPLICA_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_name_post_replica.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_NAME_RECEIVER_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_name_receiver.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_NAME_GET_RECEIVER_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_name_get_receiver.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_SERVICE_PRIMARY_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_service_primary.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_SERVICE_REPLICA_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_service_replica.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_SERVICE_RECEIVER_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_service_receiver.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_GET_REPLICA_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_get_replica.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_POST_REPLICA_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_post_replica.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_RECEIVER_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_receiver.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_RECEIVER_ONLY_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_receiver_only.patch.yaml";
+  public static final String AMBASSADOR_MAPPING_GET_RECEIVER_PATCH =
+      AMBASSADOR_DEPENDENT + "/mapping_get_receiver.patch.yaml";
+  public static final String AMBASSADOR_TLSCONTEXT_BASE =
+      AMBASSADOR_DEPENDENT + "/tlscontext_base.yaml";
+  public static final String AMBASSADOR_HOST_BASE = AMBASSADOR_DEPENDENT + "/host_base.yaml";
+  public static final String AMBASSADOR_HOST_TLS_PATCH =
+      AMBASSADOR_DEPENDENT + "/host_tls.patch.yaml";
+
   /** {@link GerritCluster} fixture from the shared base, with optional shared patches. */
   public static KubernetesResourceFixture<GerritCluster> gerritCluster(
       Class<?> context, String... patches) {
@@ -243,6 +309,100 @@ public final class TestFixtures {
   /** {@link CronJob} fixture for a GerritMaintenance CronJob, with optional patches. */
   public static KubernetesResourceFixture<CronJob> maintenanceCronJob(String... patches) {
     return fixture(CronJob.class, TestFixtures.class, MAINTENANCE_CRONJOB_BASE, patches);
+  }
+
+  /** {@link GerritNetwork} fixture from the base, with optional patches. */
+  public static KubernetesResourceFixture<GerritNetwork> gerritNetwork(String... patches) {
+    return fixture(GerritNetwork.class, TestFixtures.class, GERRITNETWORK_BASE, patches);
+  }
+
+  /** {@link ExpectedMapping} for the primary Gerrit in a primary+replica topology. */
+  public static ExpectedMapping ambassadorMappingPrimary() {
+    return new ExpectedMapping(
+        GerritClusterMappingPrimary.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_PRIMARY_PATCH, AMBASSADOR_MAPPING_SERVICE_PRIMARY_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for the default (single-service) mapping routed to primary. */
+  public static ExpectedMapping ambassadorMappingDefaultPrimary() {
+    return new ExpectedMapping(
+        GerritClusterMapping.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_DEFAULT_PATCH, AMBASSADOR_MAPPING_SERVICE_PRIMARY_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for the default (single-service) mapping routed to replica. */
+  public static ExpectedMapping ambassadorMappingDefaultReplica() {
+    return new ExpectedMapping(
+        GerritClusterMapping.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_DEFAULT_PATCH, AMBASSADOR_MAPPING_SERVICE_REPLICA_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for GET replica read traffic. */
+  public static ExpectedMapping ambassadorMappingGetReplica() {
+    return new ExpectedMapping(
+        GerritClusterMappingGETReplica.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_GET_REPLICA_PATCH,
+            AMBASSADOR_MAPPING_SERVICE_REPLICA_PATCH,
+            AMBASSADOR_MAPPING_GET_REPLICA_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for POST replica write traffic. */
+  public static ExpectedMapping ambassadorMappingPostReplica() {
+    return new ExpectedMapping(
+        GerritClusterMappingPOSTReplica.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_POST_REPLICA_PATCH,
+            AMBASSADOR_MAPPING_SERVICE_REPLICA_PATCH,
+            AMBASSADOR_MAPPING_POST_REPLICA_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for the receiver in a replica+receiver topology. */
+  public static ExpectedMapping ambassadorMappingReceiver() {
+    return new ExpectedMapping(
+        GerritClusterMappingReceiver.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_RECEIVER_PATCH,
+            AMBASSADOR_MAPPING_SERVICE_RECEIVER_PATCH,
+            AMBASSADOR_MAPPING_RECEIVER_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for the receiver in a receiver-only topology. */
+  public static ExpectedMapping ambassadorMappingReceiverOnly() {
+    return new ExpectedMapping(
+        GerritClusterMappingReceiver.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_RECEIVER_PATCH,
+            AMBASSADOR_MAPPING_SERVICE_RECEIVER_PATCH,
+            AMBASSADOR_MAPPING_RECEIVER_ONLY_PATCH));
+  }
+
+  /** {@link ExpectedMapping} for the receiver GET mapping. */
+  public static ExpectedMapping ambassadorMappingGetReceiver() {
+    return new ExpectedMapping(
+        GerritClusterMappingReceiverGET.class,
+        ambassadorMapping(
+            AMBASSADOR_MAPPING_NAME_GET_RECEIVER_PATCH,
+            AMBASSADOR_MAPPING_SERVICE_RECEIVER_PATCH,
+            AMBASSADOR_MAPPING_GET_RECEIVER_PATCH));
+  }
+
+  /** {@link Mapping} fixture from the ambassador mapping base, with optional patches. */
+  public static KubernetesResourceFixture<Mapping> ambassadorMapping(String... patches) {
+    return fixture(Mapping.class, TestFixtures.class, AMBASSADOR_MAPPING_BASE, patches);
+  }
+
+  /** {@link TLSContext} fixture for the ambassador TLS context (no patches needed). */
+  public static KubernetesResourceFixture<TLSContext> ambassadorTlsContext() {
+    return fixture(TLSContext.class, TestFixtures.class, AMBASSADOR_TLSCONTEXT_BASE);
+  }
+
+  /** {@link Host} fixture from the ambassador host base, with optional patches. */
+  public static KubernetesResourceFixture<Host> ambassadorHost(String... patches) {
+    return fixture(Host.class, TestFixtures.class, AMBASSADOR_HOST_BASE, patches);
   }
 
   /**

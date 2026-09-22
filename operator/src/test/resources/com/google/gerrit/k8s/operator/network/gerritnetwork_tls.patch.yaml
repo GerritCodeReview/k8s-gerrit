@@ -1,0 +1,5 @@
+spec:
+  ingress:
+    tls:
+      enabled: true
+      secret: tls-secret

@@ -1,0 +1,5 @@
+spec:
+  tlsContext:
+    name: gerrit-tls-context
+  tlsSecret:
+    name: tls-secret
