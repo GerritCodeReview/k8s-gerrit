@@ -1,0 +1,11 @@
+apiVersion: "gerritoperator.google.com/v1beta19"
+kind: GerritNetwork
+metadata:
+  name: gerrit
+  namespace: gerrit
+spec:
+  ingress:
+    enabled: true
+    host: example.com
+    tls:
+      enabled: false

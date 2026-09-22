@@ -15,125 +15,162 @@
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.AMBASSADOR_HOST_TLS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_AMBASSADOR_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_CREATE_HOST_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_RECEIVER_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_TLS_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
+import com.google.gerrit.k8s.operator.test.TestFixtures.ExpectedMapping;
 import io.getambassador.v2.Host;
-import io.getambassador.v2.Mapping;
 import io.getambassador.v2.TLSContext;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
+import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class GerritClusterAmbassadorTest {
+
+  @BeforeAll
+  public void setup() {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
+  }
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedGerritClusterAmbassadorComponentsCreated(
-      String inputFile, Map<String, String> expectedOutputFileNames)
-      throws ClassNotFoundException,
-          NoSuchMethodException,
+      KubernetesResourceFixture<GerritNetwork> inputFixture,
+      List<ExpectedMapping> expectedMappings,
+      KubernetesResourceFixture<TLSContext> expectedTlsContext,
+      KubernetesResourceFixture<Host> expectedHost)
+      throws NoSuchMethodException,
           InstantiationException,
           IllegalAccessException,
           InvocationTargetException {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-    GerritNetwork gerritNetwork =
-        ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
+    GerritNetwork gerritNetwork = inputFixture.load();
 
-    for (Map.Entry<String, String> entry : expectedOutputFileNames.entrySet()) {
-      String className = entry.getKey();
-      String expectedOutputFile = entry.getValue();
+    for (ExpectedMapping expected : expectedMappings) {
+      MappingDependentResourceInterface dependent =
+          (MappingDependentResourceInterface)
+              expected.dependentClass().getDeclaredConstructor().newInstance();
+      assertUnordered(
+          dependent.desired(gerritNetwork, null).getSpec(), expected.fixture().load().getSpec());
+    }
 
-      Class<?> clazz = Class.forName(className);
-      Object dependentObject = clazz.getDeclaredConstructor(new Class[] {}).newInstance();
+    if (expectedTlsContext != null) {
+      assertUnordered(
+          new GerritClusterTLSContext().desired(gerritNetwork, null).getSpec(),
+          expectedTlsContext.load().getSpec());
+    }
 
-      if (dependentObject instanceof MappingDependentResourceInterface) {
-        MappingDependentResourceInterface dependent =
-            (MappingDependentResourceInterface) dependentObject;
-        Mapping result = dependent.desired(gerritNetwork, null);
-        Mapping expected =
-            ReconcilerUtils.loadYaml(Mapping.class, this.getClass(), expectedOutputFile);
-        assertUnordered(result.getSpec(), expected.getSpec());
-      } else if (dependentObject instanceof GerritClusterTLSContext) {
-        GerritClusterTLSContext dependent = (GerritClusterTLSContext) dependentObject;
-        TLSContext result = dependent.desired(gerritNetwork, null);
-        TLSContext expected =
-            ReconcilerUtils.loadYaml(TLSContext.class, this.getClass(), expectedOutputFile);
-        assertUnordered(result.getSpec(), expected.getSpec());
-      } else if (dependentObject instanceof GerritClusterHost) {
-        GerritClusterHost dependent = (GerritClusterHost) dependentObject;
-        Host result = dependent.desired(gerritNetwork, null);
-        Host expected = ReconcilerUtils.loadYaml(Host.class, this.getClass(), expectedOutputFile);
-        assertUnordered(result.getSpec(), expected.getSpec());
-      }
+    if (expectedHost != null) {
+      assertUnordered(
+          new GerritClusterHost().desired(gerritNetwork, null).getSpec(),
+          expectedHost.load().getSpec());
     }
   }
 
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../../gerritnetwork_primary_replica_tls.yaml",
-            Map.of(
-                GerritClusterMappingGETReplica.class.getName(),
-                    "mappingGETReplica_primary_replica.yaml",
-                GerritClusterMappingPOSTReplica.class.getName(),
-                    "mappingPOSTReplica_primary_replica.yaml",
-                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
-                GerritClusterTLSContext.class.getName(), "tlscontext.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_TLS_PATCH),
+            List.of(
+                TestFixtures.ambassadorMappingGetReplica(),
+                TestFixtures.ambassadorMappingPostReplica(),
+                TestFixtures.ambassadorMappingPrimary()),
+            TestFixtures.ambassadorTlsContext(),
+            null),
         Arguments.of(
-            "../../gerritnetwork_primary_replica_tls_create_host.yaml",
-            Map.of(
-                GerritClusterMappingGETReplica.class.getName(),
-                    "mappingGETReplica_primary_replica.yaml",
-                GerritClusterMappingPOSTReplica.class.getName(),
-                    "mappingPOSTReplica_primary_replica.yaml",
-                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
-                GerritClusterTLSContext.class.getName(), "tlscontext.yaml",
-                GerritClusterHost.class.getName(), "host_with_tls.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_TLS_PATCH,
+                GERRITNETWORK_CREATE_HOST_PATCH),
+            List.of(
+                TestFixtures.ambassadorMappingGetReplica(),
+                TestFixtures.ambassadorMappingPostReplica(),
+                TestFixtures.ambassadorMappingPrimary()),
+            TestFixtures.ambassadorTlsContext(),
+            TestFixtures.ambassadorHost(AMBASSADOR_HOST_TLS_PATCH)),
         Arguments.of(
-            "../../gerritnetwork_primary_replica.yaml",
-            Map.of(
-                GerritClusterMappingGETReplica.class.getName(),
-                    "mappingGETReplica_primary_replica.yaml",
-                GerritClusterMappingPOSTReplica.class.getName(),
-                    "mappingPOSTReplica_primary_replica.yaml",
-                GerritClusterMappingPrimary.class.getName(),
-                    "mappingPrimary_primary_replica.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH),
+            List.of(
+                TestFixtures.ambassadorMappingGetReplica(),
+                TestFixtures.ambassadorMappingPostReplica(),
+                TestFixtures.ambassadorMappingPrimary()),
+            null,
+            null),
         Arguments.of(
-            "../../gerritnetwork_primary_replica_create_host.yaml",
-            Map.of(
-                GerritClusterMappingGETReplica.class.getName(),
-                    "mappingGETReplica_primary_replica.yaml",
-                GerritClusterMappingPOSTReplica.class.getName(),
-                    "mappingPOSTReplica_primary_replica.yaml",
-                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
-                GerritClusterHost.class.getName(), "host.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_CREATE_HOST_PATCH),
+            List.of(
+                TestFixtures.ambassadorMappingGetReplica(),
+                TestFixtures.ambassadorMappingPostReplica(),
+                TestFixtures.ambassadorMappingPrimary()),
+            null,
+            TestFixtures.ambassadorHost()),
         Arguments.of(
-            "../../gerritnetwork_primary.yaml",
-            Map.of(GerritClusterMapping.class.getName(), "mapping_primary.yaml")),
+            TestFixtures.gerritNetwork(GERRITNETWORK_AMBASSADOR_PATCH, GERRITNETWORK_PRIMARY_PATCH),
+            List.of(TestFixtures.ambassadorMappingDefaultPrimary()),
+            null,
+            null),
         Arguments.of(
-            "../../gerritnetwork_replica.yaml",
-            Map.of(GerritClusterMapping.class.getName(), "mapping_replica.yaml")),
+            TestFixtures.gerritNetwork(GERRITNETWORK_AMBASSADOR_PATCH, GERRITNETWORK_REPLICA_PATCH),
+            List.of(TestFixtures.ambassadorMappingDefaultReplica()),
+            null,
+            null),
         Arguments.of(
-            "../../gerritnetwork_receiver_replica.yaml",
-            Map.of(
-                GerritClusterMapping.class.getName(), "mapping_replica.yaml",
-                GerritClusterMappingReceiver.class.getName(), "mapping_receiver.yaml",
-                GerritClusterMappingReceiverGET.class.getName(), "mappingGET_receiver.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_RECEIVER_PATCH),
+            List.of(
+                TestFixtures.ambassadorMappingDefaultReplica(),
+                TestFixtures.ambassadorMappingReceiver(),
+                TestFixtures.ambassadorMappingGetReceiver()),
+            null,
+            null),
         Arguments.of(
-            "../../gerritnetwork_receiver.yaml",
-            Map.of(GerritClusterMappingReceiver.class.getName(), "mapping_receiver_only.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH, GERRITNETWORK_RECEIVER_PATCH),
+            List.of(TestFixtures.ambassadorMappingReceiverOnly()),
+            null,
+            null),
         Arguments.of(
-            "../../gerritnetwork_receiver_replica_tls.yaml",
-            Map.of(
-                GerritClusterMapping.class.getName(), "mapping_replica.yaml",
-                GerritClusterMappingReceiver.class.getName(), "mapping_receiver.yaml",
-                GerritClusterMappingReceiverGET.class.getName(), "mappingGET_receiver.yaml",
-                GerritClusterTLSContext.class.getName(), "tlscontext.yaml")));
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_RECEIVER_PATCH,
+                GERRITNETWORK_TLS_PATCH),
+            List.of(
+                TestFixtures.ambassadorMappingDefaultReplica(),
+                TestFixtures.ambassadorMappingReceiver(),
+                TestFixtures.ambassadorMappingGetReceiver()),
+            TestFixtures.ambassadorTlsContext(),
+            null));
   }
 }
