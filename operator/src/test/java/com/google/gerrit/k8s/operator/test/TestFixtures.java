@@ -17,12 +17,14 @@ package com.google.gerrit.k8s.operator.test;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
+import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
+import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,6 +153,25 @@ public final class TestFixtures {
   public static final String GITGC_CRONJOB_NFS_PATCH =
       GITGC_DEPENDENT + "/cronjob_nfs_workaround.patch.yaml";
 
+  private static final String INDEXER_RSRCS = "/com/google/gerrit/k8s/operator/indexer";
+  private static final String INDEXER_DEPENDENT = INDEXER_RSRCS + "/dependent";
+
+  public static final String INDEXER_BASE = INDEXER_RSRCS + "/gerrit_indexer_base.yaml";
+  public static final String INDEXER_OS_PATCH = INDEXER_RSRCS + "/gerrit_indexer_os.patch.yaml";
+
+  public static final String INDEXER_JOB_BASE = INDEXER_DEPENDENT + "/gerrit_indexer_job_base.yaml";
+  public static final String INDEXER_JOB_ES_PATCH =
+      INDEXER_DEPENDENT + "/gerrit_indexer_job_es.patch.yaml";
+  public static final String INDEXER_JOB_OS_PATCH =
+      INDEXER_DEPENDENT + "/gerrit_indexer_job_os.patch.yaml";
+
+  public static final String INDEXER_CONFIGMAP_BASE =
+      INDEXER_DEPENDENT + "/gerrit_indexer_configmap_base.yaml";
+  public static final String INDEXER_CONFIGMAP_ES_PATCH =
+      INDEXER_DEPENDENT + "/gerrit_indexer_configmap_es.patch.yaml";
+  public static final String INDEXER_CONFIGMAP_OS_PATCH =
+      INDEXER_DEPENDENT + "/gerrit_indexer_configmap_os.patch.yaml";
+
   /** {@link GerritCluster} fixture from the shared base, with optional shared patches. */
   public static KubernetesResourceFixture<GerritCluster> gerritCluster(
       Class<?> context, String... patches) {
@@ -196,6 +217,21 @@ public final class TestFixtures {
   /** {@link CronJob} fixture for GitGc tests from the base, with optional patches. */
   public static KubernetesResourceFixture<CronJob> gitGcCronJob(String... patches) {
     return fixture(CronJob.class, TestFixtures.class, GITGC_CRONJOB_BASE, patches);
+  }
+
+  /** {@link GerritIndexer} fixture from the base, with optional patches. */
+  public static KubernetesResourceFixture<GerritIndexer> gerritIndexer(String... patches) {
+    return fixture(GerritIndexer.class, TestFixtures.class, INDEXER_BASE, patches);
+  }
+
+  /** {@link Job} fixture for indexer tests from the base, with optional patches. */
+  public static KubernetesResourceFixture<Job> indexerJob(String... patches) {
+    return fixture(Job.class, TestFixtures.class, INDEXER_JOB_BASE, patches);
+  }
+
+  /** {@link ConfigMap} fixture for indexer tests from the base, with optional patches. */
+  public static KubernetesResourceFixture<ConfigMap> indexerConfigMap(String... patches) {
+    return fixture(ConfigMap.class, TestFixtures.class, INDEXER_CONFIGMAP_BASE, patches);
   }
 
   /** {@link GerritMaintenance} fixture from the shared base, with optional patches. */

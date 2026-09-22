@@ -23,15 +23,11 @@ data:
       replica = false
       javaHome = /usr/lib/jvm/java-11-openjdk
       javaOptions = -Djavax.net.ssl.trustStore=/var/gerrit/etc/keystore
-      javaOptions = -Djava.net.preferIPv4Stack=true
       javaOptions = -Djava.io.tmpdir=/var/gerrit/tmp/java
     [gerrit]
       basepath = git
       serverId = gerrit/gerrit
-      installModule = com.gerritforge.gerrit.globalrefdb.validation.LibModule
-      installDbModule = com.ericsson.gerrit.plugins.highavailability.ValidationModule
     [plugins]
       mandatory = healthcheck
-      mandatory = high-availability
     [sshd]
       listenAddress = *:29418
