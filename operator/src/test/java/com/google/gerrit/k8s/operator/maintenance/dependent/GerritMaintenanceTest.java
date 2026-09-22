@@ -14,17 +14,23 @@
 
 package com.google.gerrit.k8s.operator.maintenance.dependent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_CRONJOB_GC_SELECTED_OPTIONS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_CRONJOB_GC_SELECTED_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_GC_SELECTED_OPTIONS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_GC_SELECTED_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,28 +39,43 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class GerritMaintenanceTest {
+
+  @BeforeAll
+  public void setup() {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
+  }
+
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
-  public void expectedCronJobCreated(String inputFile, List<String> expectedOutputFiles) {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-    GerritMaintenance input =
-        ReconcilerUtils.loadYaml(GerritMaintenance.class, this.getClass(), inputFile);
+  public void expectedCronJobCreated(
+      KubernetesResourceFixture<GerritMaintenance> inputFixture,
+      List<KubernetesResourceFixture<CronJob>> expectedCronJobFixtures) {
+    GerritMaintenance input = inputFixture.load();
 
-    List<CronJob> expected = new ArrayList<>();
-    for (String file : expectedOutputFiles) {
-      expected.add(ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), file));
-    }
     Map<String, CronJob> cronJobs = new GerritMaintenanceCronJobs().desiredResources(input, null);
 
-    for (CronJob expectedCronJob : expected) {
-      assertUnordered(cronJobs.get(expectedCronJob.getMetadata().getName()), expectedCronJob);
+    assertThat(cronJobs).hasSize(expectedCronJobFixtures.size());
+    for (KubernetesResourceFixture<CronJob> fixture : expectedCronJobFixtures) {
+      CronJob expected = fixture.load();
+      assertUnordered(cronJobs.get(expected.getMetadata().getName()), expected);
     }
   }
 
   private static Stream<Arguments> provideYamlManifests() {
+    Class<?> context = GerritMaintenanceTest.class;
     return Stream.of(
         Arguments.of(
-            "../gerrit-maintenance.yaml",
-            List.of("cronjob_gitgc_all.yaml", "cronjob_gitgc_selected.yaml")));
+            TestFixtures.gerritMaintenance(context, MAINTENANCE_GC_SELECTED_PATCH),
+            List.of(
+                TestFixtures.maintenanceCronJob(),
+                TestFixtures.maintenanceCronJob(MAINTENANCE_CRONJOB_GC_SELECTED_PATCH))),
+        Arguments.of(
+            TestFixtures.gerritMaintenance(
+                context, MAINTENANCE_GC_SELECTED_PATCH, MAINTENANCE_GC_SELECTED_OPTIONS_PATCH),
+            List.of(
+                TestFixtures.maintenanceCronJob(),
+                TestFixtures.maintenanceCronJob(
+                    MAINTENANCE_CRONJOB_GC_SELECTED_PATCH,
+                    MAINTENANCE_CRONJOB_GC_SELECTED_OPTIONS_PATCH))));
   }
 }
