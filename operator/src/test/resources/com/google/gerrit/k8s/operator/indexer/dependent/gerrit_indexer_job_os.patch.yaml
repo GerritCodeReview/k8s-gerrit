@@ -1,0 +1,22 @@
+- op: add
+  path: /spec/template/spec/initContainers/0/volumeMounts/-
+  value:
+    mountPath: /var/mnt/data/index-opensearch
+    name: opensearch-secret
+- op: add
+  path: /spec/template/spec/initContainers/0/volumeMounts/-
+  value:
+    mountPath: /var/config/ca.crt
+    name: opensearch-secret
+    subPath: ca.crt
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    mountPath: /var/mnt/data/index-opensearch
+    name: opensearch-secret
+- op: add
+  path: /spec/template/spec/volumes/-
+  value:
+    name: opensearch-secret
+    secret:
+      secretName: opensearch-tls-config
