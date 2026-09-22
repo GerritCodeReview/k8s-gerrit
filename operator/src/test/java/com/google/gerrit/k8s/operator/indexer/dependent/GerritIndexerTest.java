@@ -16,6 +16,13 @@ package com.google.gerrit.k8s.operator.indexer.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INDEXER_CONFIGMAP_ES_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INDEXER_CONFIGMAP_OS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INDEXER_JOB_ES_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INDEXER_JOB_OS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INDEXER_OS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_ES_GERRIT;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_OS_GERRIT;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
@@ -23,13 +30,14 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
@@ -70,24 +78,20 @@ public class GerritIndexerTest {
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedGerritIndexerWithoutSnapshotCreated(
-      String inputFile, String gerritClusterFile, String expectedJob, String expectedConfigmap) {
-    GerritIndexer input = ReconcilerUtils.loadYaml(GerritIndexer.class, this.getClass(), inputFile);
-
-    GerritCluster gerritCluster =
-        ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), gerritClusterFile);
+      KubernetesResourceFixture<GerritIndexer> inputFixture,
+      KubernetesResourceFixture<GerritCluster> gerritClusterFixture,
+      KubernetesResourceFixture<Job> expectedJobFixture,
+      KubernetesResourceFixture<ConfigMap> expectedConfigMapFixture) {
+    GerritIndexer input = inputFixture.load();
+    GerritCluster gerritCluster = gerritClusterFixture.load();
 
     stubs(gerritCluster);
 
     Context<GerritIndexer> context = getContext(new GerritIndexerReconciler(), input);
-    GerritIndexerJob dependentCronjob = new GerritIndexerJob();
 
-    Job actual = dependentCronjob.desired(input, context);
-    assertUnordered(actual, ReconcilerUtils.loadYaml(Job.class, this.getClass(), expectedJob));
-
-    GerritIndexerConfigMap dependentConfigmap = new GerritIndexerConfigMap();
+    assertUnordered(new GerritIndexerJob().desired(input, context), expectedJobFixture.load());
     assertDesiredConfigMapCreated(
-        dependentConfigmap.desired(input, context),
-        ReconcilerUtils.loadYaml(ConfigMap.class, this.getClass(), expectedConfigmap));
+        new GerritIndexerConfigMap().desired(input, context), expectedConfigMapFixture.load());
   }
 
   private void stubs(GerritCluster gerritCluster) {
@@ -149,26 +153,27 @@ public class GerritIndexerTest {
   }
 
   private static Stream<Arguments> provideYamlManifests() {
+    Class<?> context = GerritIndexerTest.class;
     return Stream.of(
         Arguments.of(
-            "../indexer.yaml",
-            "../gerritcluster_minimal.yaml",
-            "indexer.job.yaml",
-            "indexer.configmap.yaml"),
+            TestFixtures.gerritIndexer(),
+            TestFixtures.gerritCluster(context),
+            TestFixtures.indexerJob(),
+            TestFixtures.indexerConfigMap()),
         Arguments.of(
-            "../indexer_es.yaml",
-            "../gerritcluster_minimal.yaml",
-            "indexer_es.job.yaml",
-            "indexer_es.configmap.yaml"),
+            TestFixtures.gerritIndexer(SHARED_PATCH_ES_GERRIT),
+            TestFixtures.gerritCluster(context),
+            TestFixtures.indexerJob(INDEXER_JOB_ES_PATCH),
+            TestFixtures.indexerConfigMap(INDEXER_CONFIGMAP_ES_PATCH)),
         Arguments.of(
-            "../indexer.yaml",
-            "../gerritcluster_es.yaml",
-            "indexer_es.job.yaml",
-            "indexer_es.configmap.yaml"),
+            TestFixtures.gerritIndexer(),
+            TestFixtures.gerritCluster(context, SHARED_PATCH_ES_GERRIT),
+            TestFixtures.indexerJob(INDEXER_JOB_ES_PATCH),
+            TestFixtures.indexerConfigMap(INDEXER_CONFIGMAP_ES_PATCH)),
         Arguments.of(
-            "../indexer_os.yaml",
-            "../gerritcluster_minimal.yaml",
-            "indexer_os.job.yaml",
-            "indexer_os.configmap.yaml"));
+            TestFixtures.gerritIndexer(SHARED_PATCH_OS_GERRIT, INDEXER_OS_PATCH),
+            TestFixtures.gerritCluster(context),
+            TestFixtures.indexerJob(INDEXER_JOB_ES_PATCH, INDEXER_JOB_OS_PATCH),
+            TestFixtures.indexerConfigMap(INDEXER_CONFIGMAP_OS_PATCH)));
   }
 }

@@ -1,0 +1,2 @@
+spec:
+  openSearchSecretRef: opensearch-tls-config
