@@ -9,13 +9,3 @@ spec:
     host: example.com
     tls:
       enabled: false
-    ssh:
-      enabled: true
-    ambassador:
-      id: ["my-id-1", "my-id-2"]
-    istio:
-      mTLS: true
-  primaryGerrit:
-    name: primary
-    httpPort: 48080
-    sshPort: 49418

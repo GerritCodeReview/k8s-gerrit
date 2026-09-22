@@ -10,8 +10,6 @@ spec:
     tls:
       enabled: true
       secret: tls-secret
-    ambassador:
-      id: ["my-id-1", "my-id-2"]
     istio:
       mTLS: true
   gerritReplica:

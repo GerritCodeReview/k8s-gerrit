@@ -14,11 +14,15 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_AMBASSADOR_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_SSH_PATCH;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import org.junit.jupiter.api.Test;
 
 public class SshTcpMappingConditionTest {
@@ -28,26 +32,23 @@ public class SshTcpMappingConditionTest {
   @Test
   public void sshEnabledWithPrimaryGerrit() {
     GerritNetwork network =
-        ReconcilerUtils.loadYaml(
-            GerritNetwork.class,
-            this.getClass(),
-            "../../gerritnetwork_primary_ambassador_ssh.yaml");
+        TestFixtures.gerritNetwork(
+                GERRITNETWORK_AMBASSADOR_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_SSH_PATCH)
+            .load();
     assertTrue(condition.isMet(null, network, null));
   }
 
   @Test
   public void sshDisabledByDefault() {
-    GerritNetwork network =
-        ReconcilerUtils.loadYaml(
-            GerritNetwork.class, this.getClass(), "../../gerritnetwork_primary.yaml");
+    GerritNetwork network = TestFixtures.gerritNetwork(GERRITNETWORK_PRIMARY_PATCH).load();
     assertFalse(condition.isMet(null, network, null));
   }
 
   @Test
   public void sshEnabledWithoutPrimaryGerrit() {
-    GerritNetwork network =
-        ReconcilerUtils.loadYaml(
-            GerritNetwork.class, this.getClass(), "../../gerritnetwork_replica_ssh.yaml");
+    GerritNetwork network = TestFixtures.gerritNetwork(GERRITNETWORK_REPLICA_PATCH).load();
     assertFalse(condition.isMet(null, network, null));
   }
 }
