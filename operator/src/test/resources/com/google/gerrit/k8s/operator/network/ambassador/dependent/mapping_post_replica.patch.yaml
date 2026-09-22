@@ -1,0 +1,9 @@
+- op: replace
+  path: /spec/prefix
+  value: /.*/git-upload-pack
+- op: add
+  path: /spec/method
+  value: POST
+- op: add
+  path: /spec/prefix_regex
+  value: true

@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/gerritReplica
+  value:
+    name: replica
+    httpPort: 48080
+    sshPort: 49418

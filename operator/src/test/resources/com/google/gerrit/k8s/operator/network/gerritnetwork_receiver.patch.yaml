@@ -1,0 +1,5 @@
+- op: add
+  path: /spec/receiver
+  value:
+    name: receiver
+    httpPort: 48081
