@@ -23,12 +23,13 @@ import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedIncomingReplicationTask;
 import com.google.gerrit.k8s.operator.tasks.incomingrepl.IncomingReplicationTaskReconciler;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.SecretBuilder;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
@@ -61,88 +62,47 @@ public class IncomingReplicationTaskTest {
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedIncomingReplicationTaskComponentsCreated(
-      String inputGerritCluster,
-      String expectedIncomingReplTask,
-      String expectedCronJob,
-      String expectedConfigMap)
+      KubernetesResourceFixture<GerritCluster> inputFixture,
+      KubernetesResourceFixture<IncomingReplicationTask> expectedTaskFixture,
+      KubernetesResourceFixture<CronJob> expectedCronJobFixture,
+      KubernetesResourceFixture<ConfigMap> expectedConfigMapFixture)
       throws Exception {
-    GerritCluster input =
-        ReconcilerUtils.loadYaml(GerritCluster.class, this.getClass(), inputGerritCluster);
-    IncomingReplicationTask expectedReplTask =
-        ReconcilerUtils.loadYaml(
-            IncomingReplicationTask.class, this.getClass(), expectedIncomingReplTask);
+    GerritCluster input = inputFixture.load();
+    IncomingReplicationTask expectedReplTask = expectedTaskFixture.load();
+
     IncomingReplicationTask incomingReplTask =
         new ClusterManagedIncomingReplicationTask()
             .desiredResources(input, null)
             .get(expectedReplTask.getMetadata().getName());
     assertThat(incomingReplTask).isEqualTo(expectedReplTask);
 
-    Secret testSecret =
-        new SecretBuilder()
-            .withNewMetadata()
-            .withName(expectedReplTask.getSpec().getSecretRef())
-            .withNamespace(expectedReplTask.getMetadata().getNamespace())
-            .endMetadata()
-            .withData(Map.of(".netrc", "c2VjcmV0Cg=="))
-            .build();
-
-    kubernetesServer
-        .expect()
-        .get()
-        .withPath(
-            String.format(
-                "/api/v1/namespaces/%s/secrets/%s",
-                incomingReplTask.getMetadata().getNamespace(),
-                incomingReplTask.getSpec().getSecretRef()))
-        .andReturn(HttpURLConnection.HTTP_OK, testSecret)
-        .always();
+    stubSecret(
+        incomingReplTask.getSpec().getSecretRef(),
+        incomingReplTask.getMetadata().getNamespace(),
+        Map.of(".netrc", "c2VjcmV0Cg=="));
 
     Context<IncomingReplicationTask> context =
         getContext(new IncomingReplicationTaskReconciler(), incomingReplTask);
-    CronJob cronJob = new IncomingReplicationTaskCronJob().desired(incomingReplTask, context);
 
     assertUnordered(
-        cronJob, ReconcilerUtils.loadYaml(CronJob.class, this.getClass(), expectedCronJob));
-
-    IncomingReplicationTaskConfigMap incomingReplicationTaskConfigMap =
-        new IncomingReplicationTaskConfigMap();
-    ConfigMap configMap = incomingReplicationTaskConfigMap.desired(incomingReplTask, context);
-
+        new IncomingReplicationTaskCronJob().desired(incomingReplTask, context),
+        expectedCronJobFixture.load());
     assertUnordered(
-        configMap, ReconcilerUtils.loadYaml(ConfigMap.class, this.getClass(), expectedConfigMap));
+        new IncomingReplicationTaskConfigMap().desired(incomingReplTask, context),
+        expectedConfigMapFixture.load());
   }
 
   @Test
   public void caCertMountedWhenPresentInSecret() throws Exception {
-    IncomingReplicationTask incomingReplTask =
-        ReconcilerUtils.loadYaml(
-            IncomingReplicationTask.class, this.getClass(), "../incomingrepltask.yaml");
+    IncomingReplicationTask incomingReplTask = TestFixtures.incomingReplTask().load();
 
-    // Use a different secret name to avoid conflicting with the parameterized test mock
     String testSecretName = "test-secret-with-ca-cert";
     incomingReplTask.getSpec().setSecretRef(testSecretName);
 
-    Secret testSecret =
-        new SecretBuilder()
-            .withNewMetadata()
-            .withName(testSecretName)
-            .withNamespace(incomingReplTask.getMetadata().getNamespace())
-            .endMetadata()
-            .withData(
-                Map.of(
-                    ".netrc", "c2VjcmV0Cg==",
-                    "ca.crt", "Y2VydGlmaWNhdGUK"))
-            .build();
-
-    kubernetesServer
-        .expect()
-        .get()
-        .withPath(
-            String.format(
-                "/api/v1/namespaces/%s/secrets/%s",
-                incomingReplTask.getMetadata().getNamespace(), testSecretName))
-        .andReturn(HttpURLConnection.HTTP_OK, testSecret)
-        .always();
+    stubSecret(
+        testSecretName,
+        incomingReplTask.getMetadata().getNamespace(),
+        Map.of(".netrc", "c2VjcmV0Cg==", "ca.crt", "Y2VydGlmaWNhdGUK"));
 
     Context<IncomingReplicationTask> context =
         getContext(new IncomingReplicationTaskReconciler(), incomingReplTask);
@@ -180,28 +140,43 @@ public class IncomingReplicationTaskTest {
                     env.getName().equals("GIT_SSL_CAINFO")
                         && env.getValue().equals("/home/gerrit/ca.crt"));
 
-    assertThat(hasGitSslCaInfo).isTrue();
     assertThat(hasCaCertMount).isTrue();
+    assertThat(hasGitSslCaInfo).isTrue();
+  }
+
+  private void stubSecret(String name, String namespace, Map<String, String> data) {
+    Secret secret =
+        new SecretBuilder()
+            .withNewMetadata()
+            .withName(name)
+            .withNamespace(namespace)
+            .endMetadata()
+            .withData(data)
+            .build();
+    kubernetesServer
+        .expect()
+        .get()
+        .withPath(String.format("/api/v1/namespaces/%s/secrets/%s", namespace, name))
+        .andReturn(HttpURLConnection.HTTP_OK, secret)
+        .always();
   }
 
   private Context<IncomingReplicationTask> getContext(
       Reconciler<IncomingReplicationTask> reconciler, IncomingReplicationTask primary) {
     Controller<IncomingReplicationTask> controller =
-        new Controller<IncomingReplicationTask>(
+        new Controller<>(
             reconciler,
             new BaseConfigurationService().getConfigurationFor(reconciler),
             kubernetesServer.getClient());
-
-    return new DefaultContext<IncomingReplicationTask>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary);
+    return new DefaultContext<>(new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../gerritcluster_incomingrepl.yaml",
-            "../incomingrepltask.yaml",
-            "incomingrepl_cronjob.yaml",
-            "incomingrepl_configmap.yaml"));
+            TestFixtures.incomingReplGerritCluster(),
+            TestFixtures.incomingReplTask(),
+            TestFixtures.incomingReplCronJob(),
+            TestFixtures.incomingReplConfigMap()));
   }
 }
