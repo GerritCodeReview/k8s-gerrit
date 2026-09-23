@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/tcp/-
+  value:
+    match:
+    - port: 49419
+    route:
+    - destination:
+        port:
+          number: 49419
+        host: replica-service.gerrit.svc.cluster.local

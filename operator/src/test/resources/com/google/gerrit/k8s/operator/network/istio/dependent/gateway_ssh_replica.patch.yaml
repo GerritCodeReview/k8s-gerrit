@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/servers/-
+  value:
+    port:
+      number: 49419
+      name: ssh-replica
+      protocol: TCP
+    hosts:
+    - example.com

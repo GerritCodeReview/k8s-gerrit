@@ -16,151 +16,200 @@ package com.google.gerrit.k8s.operator.network.istio.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_ISTIO_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_RECEIVER_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REPLICA_SSH_PORT_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_SSH_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_TLS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_GATEWAY_SSH_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_GATEWAY_SSH_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_GATEWAY_TLS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_RECEIVER_MATCH_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_RECEIVER_REPLICA_HTTP_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_RECEIVER_ROUTE_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_REPLICA_READ_MATCH_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_TCP_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_TCP_REPLICA_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class GerritClusterIstioTest {
+
+  @BeforeAll
+  public void setup() {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
+  }
+
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedGerritClusterIstioComponentsCreated(
-      String inputFile,
-      String expectedGatewayOutputFile,
-      String expectedVirtualServiceOutputFile,
-      List<String> expectedDestRuleFiles) {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-    GerritNetwork gerritNetwork =
-        ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile);
-    GerritClusterIstioGateway gatewayDependent = new GerritClusterIstioGateway();
-    Gateway gatewayResult = gatewayDependent.desired(gerritNetwork, null);
-    Gateway expectedGateway =
-        ReconcilerUtils.loadYaml(Gateway.class, this.getClass(), expectedGatewayOutputFile);
-    assertUnordered(gatewayResult.getSpec(), expectedGateway.getSpec());
+      KubernetesResourceFixture<GerritNetwork> inputFixture,
+      KubernetesResourceFixture<Gateway> expectedGateway,
+      KubernetesResourceFixture<VirtualService> expectedVirtualService,
+      List<KubernetesResourceFixture<DestinationRule>> expectedDestRules) {
+    GerritNetwork gerritNetwork = inputFixture.load();
 
-    GerritIstioVirtualService virtualServiceDependent = new GerritIstioVirtualService();
-    VirtualService virtualServiceResult = virtualServiceDependent.desired(gerritNetwork, null);
-    VirtualService expectedVirtualService =
-        ReconcilerUtils.loadYaml(
-            VirtualService.class, this.getClass(), expectedVirtualServiceOutputFile);
-    assertUnordered(virtualServiceResult.getSpec(), expectedVirtualService.getSpec());
+    assertUnordered(
+        new GerritClusterIstioGateway().desired(gerritNetwork, null).getSpec(),
+        expectedGateway.load().getSpec());
 
-    GerritIstioDestinationRule destRuleDependent = new GerritIstioDestinationRule();
+    assertUnordered(
+        new GerritIstioVirtualService().desired(gerritNetwork, null).getSpec(),
+        expectedVirtualService.load().getSpec());
+
     Map<String, DestinationRule> destRuleResult =
-        destRuleDependent.desiredResources(gerritNetwork, null);
+        new GerritIstioDestinationRule().desiredResources(gerritNetwork, null);
 
-    for (String expectedDestRuleFile : expectedDestRuleFiles) {
-      DestinationRule expectedDestRule =
-          ReconcilerUtils.loadYaml(DestinationRule.class, this.getClass(), expectedDestRuleFile);
-      assertThat(destRuleResult).containsKey(expectedDestRule.getMetadata().getName());
+    assertThat(destRuleResult).hasSize(expectedDestRules.size());
+    for (KubernetesResourceFixture<DestinationRule> fixture : expectedDestRules) {
+      DestinationRule expected = fixture.load();
+      assertThat(destRuleResult).containsKey(expected.getMetadata().getName());
       assertUnordered(
-          destRuleResult.get(expectedDestRule.getMetadata().getName()).getSpec(),
-          expectedDestRule.getSpec());
+          destRuleResult.get(expected.getMetadata().getName()).getSpec(), expected.getSpec());
     }
   }
 
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../../gerritnetwork_primary_replica_tls.yaml",
-            "gateway_tls.yaml",
-            "virtualservice_primary_replica.yaml",
-            List.of(
-                "destinationrule_primary.yaml",
-                "destinationrule_primary_headless.yaml",
-                "destinationrule_primary_headless_pods.yaml",
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_TLS_PATCH),
+            TestFixtures.istioGateway(ISTIO_GATEWAY_TLS_PATCH),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH,
+                ISTIO_VIRTUALSERVICE_REPLICA_READ_MATCH_PATCH,
+                ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH),
+            concat(
+                TestFixtures.istioDestinationRulesPrimary(),
+                TestFixtures.istioDestinationRulesReplica())),
         Arguments.of(
-            "../../gerritnetwork_primary_replica.yaml",
-            "gateway.yaml",
-            "virtualservice_primary_replica.yaml",
-            List.of(
-                "destinationrule_primary.yaml",
-                "destinationrule_primary_headless.yaml",
-                "destinationrule_primary_headless_pods.yaml",
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH),
+            TestFixtures.istioGateway(),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH,
+                ISTIO_VIRTUALSERVICE_REPLICA_READ_MATCH_PATCH,
+                ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH),
+            concat(
+                TestFixtures.istioDestinationRulesPrimary(),
+                TestFixtures.istioDestinationRulesReplica())),
         Arguments.of(
-            "../../gerritnetwork_primary.yaml",
-            "gateway.yaml",
-            "virtualservice_primary.yaml",
-            List.of(
-                "destinationrule_primary.yaml",
-                "destinationrule_primary_headless.yaml",
-                "destinationrule_primary_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(GERRITNETWORK_ISTIO_PATCH, GERRITNETWORK_PRIMARY_PATCH),
+            TestFixtures.istioGateway(),
+            TestFixtures.istioVirtualService(ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH),
+            TestFixtures.istioDestinationRulesPrimary()),
         Arguments.of(
-            "../../gerritnetwork_replica.yaml",
-            "gateway.yaml",
-            "virtualservice_replica.yaml",
-            List.of(
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(GERRITNETWORK_ISTIO_PATCH, GERRITNETWORK_REPLICA_PATCH),
+            TestFixtures.istioGateway(),
+            TestFixtures.istioVirtualService(ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH),
+            TestFixtures.istioDestinationRulesReplica()),
         Arguments.of(
-            "../../gerritnetwork_receiver.yaml",
-            "gateway.yaml",
-            "virtualservice_receiver.yaml",
+            TestFixtures.gerritNetwork(GERRITNETWORK_RECEIVER_PATCH),
+            TestFixtures.istioGateway(),
+            TestFixtures.istioVirtualService(ISTIO_VIRTUALSERVICE_RECEIVER_ROUTE_PATCH),
             List.of()),
         Arguments.of(
-            "../../gerritnetwork_receiver_replica.yaml",
-            "gateway.yaml",
-            "virtualservice_receiver_replica.yaml",
-            List.of(
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_RECEIVER_PATCH),
+            TestFixtures.istioGateway(),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_RECEIVER_ROUTE_PATCH,
+                ISTIO_VIRTUALSERVICE_RECEIVER_MATCH_PATCH,
+                ISTIO_VIRTUALSERVICE_RECEIVER_REPLICA_HTTP_PATCH),
+            TestFixtures.istioDestinationRulesReplica()),
         Arguments.of(
-            "../../gerritnetwork_receiver_replica_tls.yaml",
-            "gateway_tls.yaml",
-            "virtualservice_receiver_replica.yaml",
-            List.of(
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_RECEIVER_PATCH,
+                GERRITNETWORK_TLS_PATCH),
+            TestFixtures.istioGateway(ISTIO_GATEWAY_TLS_PATCH),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_RECEIVER_ROUTE_PATCH,
+                ISTIO_VIRTUALSERVICE_RECEIVER_MATCH_PATCH,
+                ISTIO_VIRTUALSERVICE_RECEIVER_REPLICA_HTTP_PATCH),
+            TestFixtures.istioDestinationRulesReplica()),
         Arguments.of(
-            "../../gerritnetwork_primary_ssh.yaml",
-            "gateway_primary_ssh.yaml",
-            "virtualservice_primary_ssh.yaml",
-            List.of(
-                "destinationrule_primary.yaml",
-                "destinationrule_primary_headless.yaml",
-                "destinationrule_primary_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH, GERRITNETWORK_SSH_PATCH, GERRITNETWORK_PRIMARY_PATCH),
+            TestFixtures.istioGateway(ISTIO_GATEWAY_SSH_PRIMARY_PATCH),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH, ISTIO_VIRTUALSERVICE_TCP_PRIMARY_PATCH),
+            TestFixtures.istioDestinationRulesPrimary()),
         Arguments.of(
-            "../../gerritnetwork_replica_ssh.yaml",
-            "gateway_replica_ssh.yaml",
-            "virtualservice_replica_ssh.yaml",
-            List.of(
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_SSH_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_REPLICA_SSH_PORT_PATCH),
+            TestFixtures.istioGateway(ISTIO_GATEWAY_SSH_REPLICA_PATCH),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH, ISTIO_VIRTUALSERVICE_TCP_REPLICA_PATCH),
+            TestFixtures.istioDestinationRulesReplica()),
         Arguments.of(
-            "../../gerritnetwork_primary_replica_ssh.yaml",
-            "gateway_primary_replica_ssh.yaml",
-            "virtualservice_primary_replica_ssh.yaml",
-            List.of(
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_SSH_PATCH,
+                GERRITNETWORK_PRIMARY_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_REPLICA_SSH_PORT_PATCH),
+            TestFixtures.istioGateway(
+                ISTIO_GATEWAY_SSH_PRIMARY_PATCH, ISTIO_GATEWAY_SSH_REPLICA_PATCH),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH,
+                ISTIO_VIRTUALSERVICE_REPLICA_READ_MATCH_PATCH,
+                ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH,
+                ISTIO_VIRTUALSERVICE_TCP_PRIMARY_PATCH,
+                ISTIO_VIRTUALSERVICE_TCP_REPLICA_PATCH),
+            concat(
+                TestFixtures.istioDestinationRulesPrimary(),
+                TestFixtures.istioDestinationRulesReplica())),
         Arguments.of(
-            "../../gerritnetwork_receiver_replica_ssh.yaml",
-            "gateway_receiver_replica_ssh.yaml",
-            "virtualservice_receiver_replica_ssh.yaml",
-            List.of(
-                "destinationrule_replica.yaml",
-                "destinationrule_replica_headless.yaml",
-                "destinationrule_replica_headless_pods.yaml")));
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_ISTIO_PATCH,
+                GERRITNETWORK_SSH_PATCH,
+                GERRITNETWORK_REPLICA_PATCH,
+                GERRITNETWORK_REPLICA_SSH_PORT_PATCH,
+                GERRITNETWORK_RECEIVER_PATCH),
+            TestFixtures.istioGateway(ISTIO_GATEWAY_SSH_REPLICA_PATCH),
+            TestFixtures.istioVirtualService(
+                ISTIO_VIRTUALSERVICE_RECEIVER_ROUTE_PATCH,
+                ISTIO_VIRTUALSERVICE_RECEIVER_MATCH_PATCH,
+                ISTIO_VIRTUALSERVICE_RECEIVER_REPLICA_HTTP_PATCH,
+                ISTIO_VIRTUALSERVICE_TCP_REPLICA_PATCH),
+            TestFixtures.istioDestinationRulesReplica()));
+  }
+
+  @SafeVarargs
+  private static <T> List<T> concat(List<T>... lists) {
+    return Stream.of(lists).flatMap(List::stream).toList();
   }
 }

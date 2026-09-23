@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/http/-
+  value:
+    name: receiver-receiver
+    route:
+    - destination:
+        port:
+          number: 48081
+        host: receiver.gerrit.svc.cluster.local
