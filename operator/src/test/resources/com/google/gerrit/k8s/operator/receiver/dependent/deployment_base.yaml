@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receiver
+  namespace: gerrit
+  labels:
+    app.kubernetes.io/managed-by: gerrit-operator
+    app.kubernetes.io/name: gerrit
+    app.kubernetes.io/part-of: receiver
+    app.kubernetes.io/created-by: ReceiverReconciler
+    app.kubernetes.io/instance: receiver
+    app.kubernetes.io/version: unknown
+    app.kubernetes.io/component: receiver-deployment-receiver
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: gerrit-operator
+      app.kubernetes.io/name: gerrit
+      app.kubernetes.io/part-of: receiver
+      app.kubernetes.io/instance: receiver
+      app.kubernetes.io/component: receiver-deployment-receiver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: gerrit-operator
+        app.kubernetes.io/name: gerrit
+        app.kubernetes.io/part-of: receiver
+        app.kubernetes.io/created-by: ReceiverReconciler
+        app.kubernetes.io/instance: receiver
+        app.kubernetes.io/version: unknown
+        app.kubernetes.io/component: receiver-deployment-receiver
+    spec:
+      securityContext:
+        fsGroup: 100
+        runAsGroup: 100
+        runAsUser: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      imagePullSecrets: []
+      initContainers: []
+      containers:
+      - name: apache-git-http-backend
+        securityContext:
+          runAsGroup: 100
+          runAsUser: 1000
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+            - ALL
+        imagePullPolicy: Always
+        image: docker.io/k8sgerrit/apache-git-http-backend:latest
+        ports:
+        - name: http
+          containerPort: 8080
+
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+
+        volumeMounts:
+        - name: shared
+          subPath: git
+          mountPath: /var/gerrit/git
+        - name: apache-run-dir
+          mountPath: /run/apache2
+        - name: apache-credentials
+          mountPath: /var/apache/credentials/.htpasswd
+          subPath: .htpasswd
+      volumes:
+      - name: shared
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      - name: apache-credentials
+        secret:
+          secretName: apache-credentials
+      - name: apache-run-dir
+        emptyDir:
+          sizeLimit: 50Mi
