@@ -1,0 +1,16 @@
+- op: add
+  path: /spec/http/0/match
+  value:
+  - uri:
+      regex: "/.*/info/refs"
+    queryParams:
+      service:
+        exact: git-upload-pack
+    ignoreUriCase: true
+    method:
+      exact: GET
+  - uri:
+      regex: "/.*/git-upload-pack"
+    ignoreUriCase: true
+    method:
+      exact: POST

@@ -9,8 +9,6 @@ spec:
     host: example.com
     tls:
       enabled: false
-    istio:
-      mTLS: true
   gerritReplica:
     name: replica
     httpPort: 48080

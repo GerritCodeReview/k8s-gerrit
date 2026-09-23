@@ -26,6 +26,9 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritCluster
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET;
+import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
+import io.fabric8.istio.api.networking.v1beta1.Gateway;
+import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;
@@ -202,6 +205,53 @@ public final class TestFixtures {
       NETWORK_RSRCS + "/gerritnetwork_replica.patch.yaml";
   public static final String GERRITNETWORK_RECEIVER_PATCH =
       NETWORK_RSRCS + "/gerritnetwork_receiver.patch.yaml";
+  public static final String GERRITNETWORK_ISTIO_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_istio.patch.yaml";
+  public static final String GERRITNETWORK_SSH_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_ssh.patch.yaml";
+  public static final String GERRITNETWORK_REPLICA_SSH_PORT_PATCH =
+      NETWORK_RSRCS + "/gerritnetwork_replica_ssh_port.patch.yaml";
+
+  private static final String ISTIO_DEPENDENT = NETWORK_RSRCS + "/istio/dependent";
+
+  public static final String ISTIO_GATEWAY_BASE = ISTIO_DEPENDENT + "/gateway_base.yaml";
+  public static final String ISTIO_GATEWAY_TLS_PATCH = ISTIO_DEPENDENT + "/gateway_tls.patch.yaml";
+  public static final String ISTIO_GATEWAY_SSH_PRIMARY_PATCH =
+      ISTIO_DEPENDENT + "/gateway_ssh_primary.patch.yaml";
+  public static final String ISTIO_GATEWAY_SSH_REPLICA_PATCH =
+      ISTIO_DEPENDENT + "/gateway_ssh_replica.patch.yaml";
+
+  public static final String ISTIO_VIRTUALSERVICE_BASE =
+      ISTIO_DEPENDENT + "/virtualservice_base.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_RECEIVER_ROUTE_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_receiver_route.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_RECEIVER_MATCH_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_receiver_match.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_RECEIVER_REPLICA_HTTP_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_add_replica_route.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_REPLICA_READ_MATCH_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_replica_read_match.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_PRIMARY_HTTP_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_primary_http.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_REPLICA_HTTP_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_replica_http.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_TCP_PRIMARY_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_tcp_primary.patch.yaml";
+  public static final String ISTIO_VIRTUALSERVICE_TCP_REPLICA_PATCH =
+      ISTIO_DEPENDENT + "/virtualservice_tcp_replica.patch.yaml";
+
+  public static final String ISTIO_DESTINATIONRULE_PRIMARY =
+      ISTIO_DEPENDENT + "/destinationrule_primary.yaml";
+  public static final String ISTIO_DESTINATIONRULE_PRIMARY_HEADLESS =
+      ISTIO_DEPENDENT + "/destinationrule_primary_headless.yaml";
+  public static final String ISTIO_DESTINATIONRULE_PRIMARY_HEADLESS_PODS =
+      ISTIO_DEPENDENT + "/destinationrule_primary_headless_pods.yaml";
+  public static final String ISTIO_DESTINATIONRULE_REPLICA =
+      ISTIO_DEPENDENT + "/destinationrule_replica.yaml";
+  public static final String ISTIO_DESTINATIONRULE_REPLICA_HEADLESS =
+      ISTIO_DEPENDENT + "/destinationrule_replica_headless.yaml";
+  public static final String ISTIO_DESTINATIONRULE_REPLICA_HEADLESS_PODS =
+      ISTIO_DEPENDENT + "/destinationrule_replica_headless_pods.yaml";
 
   public static final String AMBASSADOR_MAPPING_BASE = AMBASSADOR_DEPENDENT + "/mapping_base.yaml";
   public static final String AMBASSADOR_MAPPING_NAME_PRIMARY_PATCH =
@@ -403,6 +453,37 @@ public final class TestFixtures {
   /** {@link Host} fixture from the ambassador host base, with optional patches. */
   public static KubernetesResourceFixture<Host> ambassadorHost(String... patches) {
     return fixture(Host.class, TestFixtures.class, AMBASSADOR_HOST_BASE, patches);
+  }
+
+  /** {@link Gateway} fixture from the istio gateway base, with optional patches. */
+  public static KubernetesResourceFixture<Gateway> istioGateway(String... patches) {
+    return fixture(Gateway.class, TestFixtures.class, ISTIO_GATEWAY_BASE, patches);
+  }
+
+  /** {@link VirtualService} fixture from the istio virtualservice base, with optional patches. */
+  public static KubernetesResourceFixture<VirtualService> istioVirtualService(String... patches) {
+    return fixture(VirtualService.class, TestFixtures.class, ISTIO_VIRTUALSERVICE_BASE, patches);
+  }
+
+  /** {@link DestinationRule} fixture loaded directly from its absolute path (no base+patch). */
+  public static KubernetesResourceFixture<DestinationRule> istioDestinationRule(String path) {
+    return fixture(DestinationRule.class, TestFixtures.class, path);
+  }
+
+  /** The three primary {@link DestinationRule} fixtures. */
+  public static List<KubernetesResourceFixture<DestinationRule>> istioDestinationRulesPrimary() {
+    return List.of(
+        istioDestinationRule(ISTIO_DESTINATIONRULE_PRIMARY),
+        istioDestinationRule(ISTIO_DESTINATIONRULE_PRIMARY_HEADLESS),
+        istioDestinationRule(ISTIO_DESTINATIONRULE_PRIMARY_HEADLESS_PODS));
+  }
+
+  /** The three replica {@link DestinationRule} fixtures. */
+  public static List<KubernetesResourceFixture<DestinationRule>> istioDestinationRulesReplica() {
+    return List.of(
+        istioDestinationRule(ISTIO_DESTINATIONRULE_REPLICA),
+        istioDestinationRule(ISTIO_DESTINATIONRULE_REPLICA_HEADLESS),
+        istioDestinationRule(ISTIO_DESTINATIONRULE_REPLICA_HEADLESS_PODS));
   }
 
   /**

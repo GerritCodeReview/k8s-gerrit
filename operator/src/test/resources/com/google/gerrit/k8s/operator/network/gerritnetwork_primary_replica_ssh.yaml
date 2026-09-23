@@ -11,8 +11,6 @@ spec:
       enabled: false
     ssh:
       enabled: true
-    istio:
-      mTLS: true
   primaryGerrit:
     name: primary
     httpPort: 48080

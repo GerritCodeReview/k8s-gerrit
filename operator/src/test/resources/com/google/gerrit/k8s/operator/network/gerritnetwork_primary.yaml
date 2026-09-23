@@ -9,8 +9,6 @@ spec:
     host: example.com
     tls:
       enabled: false
-    istio:
-      mTLS: true
   primaryGerrit:
     name: primary
     httpPort: 48080

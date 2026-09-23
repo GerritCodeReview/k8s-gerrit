@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/http
+  value:
+  - name: gerrit-replica-replica
+    route:
+    - destination:
+        port:
+          number: 48080
+        host: replica-service.gerrit.svc.cluster.local

@@ -1,0 +1,4 @@
+spec:
+  ingress:
+    istio:
+      mTLS: true

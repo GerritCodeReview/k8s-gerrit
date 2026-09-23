@@ -10,8 +10,6 @@ spec:
     tls:
       enabled: true
       secret: tls-secret
-    istio:
-      mTLS: true
   primaryGerrit:
     name: primary
     httpPort: 48080

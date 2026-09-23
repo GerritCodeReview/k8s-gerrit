@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/servers/-
+  value:
+    port:
+      number: 49418
+      name: ssh-primary
+      protocol: TCP
+    hosts:
+    - example.com

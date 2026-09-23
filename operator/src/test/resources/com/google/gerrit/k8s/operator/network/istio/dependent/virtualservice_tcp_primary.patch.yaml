@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/tcp/-
+  value:
+    match:
+    - port: 49418
+    route:
+    - destination:
+        port:
+          number: 49418
+        host: primary-service.gerrit.svc.cluster.local
