@@ -1,0 +1,16 @@
+spec:
+  scheduledTasks:
+    incomingReplication:
+    - metadata:
+        name: incoming-replication-test
+      spec:
+        schedule: "*/5 * * * *"
+        config:
+          remotes:
+          - name: github
+            url: https://github.com
+            fetch:
+            - remoteRepo: fabric8io/kubernetes-client
+              localRepo: kubernetes-client
+              refSpec: +refs/heads/*:refs/heads/remote/*
+        secretRef: incoming-repl-secret
