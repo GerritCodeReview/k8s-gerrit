@@ -1,15 +1,7 @@
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: gerrit-gerrit-http-virtual-service
-  namespace: gerrit
-spec:
-  hosts:
-  - example.com
-  gateways:
-  - gerrit/gerrit-istio-gateway
-  http:
-  - name: forbidden-routes-primary
+- op: add
+  path: /spec/http/-
+  value:
+    name: forbidden-routes-primary
     route:
     - destination:
         port:
@@ -23,7 +15,10 @@ spec:
         percentage:
           value: 100.0
         httpStatus: 403
-  - name: gerrit-primary-primary
+- op: add
+  path: /spec/http/-
+  value:
+    name: gerrit-primary-primary
     route:
     - destination:
         port:
