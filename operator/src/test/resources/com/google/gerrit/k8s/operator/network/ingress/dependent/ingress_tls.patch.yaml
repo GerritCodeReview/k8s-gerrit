@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/tls
+  value:
+  - hosts:
+    - example.com
+    secretName: tls-secret

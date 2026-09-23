@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/rules/0/http/paths/0
+  value:
+    pathType: Prefix
+    path: "/.*/git-upload-pack"
+    backend:
+      service:
+        name: replica-service
+        port:
+          name: http
