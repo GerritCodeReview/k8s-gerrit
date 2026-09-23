@@ -11,8 +11,6 @@ spec:
       enabled: false
     ssh:
       enabled: true
-    istio:
-      mTLS: true
   gerritReplica:
     name: replica
     httpPort: 48080

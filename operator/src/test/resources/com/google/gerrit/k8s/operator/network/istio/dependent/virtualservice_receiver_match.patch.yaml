@@ -1,0 +1,12 @@
+- op: add
+  path: /spec/http/0/match
+  value:
+  - uri:
+      regex: "/a/projects/.*"
+  - uri:
+      regex: "/.*/git-receive-pack"
+  - uri:
+      regex: "/.*/info/refs"
+    queryParams:
+      service:
+        exact: git-receive-pack
