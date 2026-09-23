@@ -15,39 +15,54 @@
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.RECEIVER_DEPLOYMENT_OPTIONS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.RECEIVER_OPTIONS_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class ReceiverTest {
+
+  @BeforeAll
+  public void setup() {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
+  }
+
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
   public void expectedReceiverComponentsCreated(
-      String inputFile, String expectedDeployment, String expectedService) {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-    Receiver input = ReconcilerUtils.loadYaml(Receiver.class, this.getClass(), inputFile);
-    ReceiverDeployment dependentDeployment = new ReceiverDeployment();
-    assertUnordered(
-        dependentDeployment.desired(input, null),
-        ReconcilerUtils.loadYaml(Deployment.class, this.getClass(), expectedDeployment));
+      KubernetesResourceFixture<Receiver> inputFixture,
+      KubernetesResourceFixture<Deployment> expectedDeploymentFixture,
+      KubernetesResourceFixture<Service> expectedServiceFixture) {
+    Receiver input = inputFixture.load();
 
-    ReceiverService dependentService = new ReceiverService();
     assertUnordered(
-        dependentService.desired(input, null),
-        ReconcilerUtils.loadYaml(Service.class, this.getClass(), expectedService));
+        new ReceiverDeployment().desired(input, null), expectedDeploymentFixture.load());
+    assertUnordered(new ReceiverService().desired(input, null), expectedServiceFixture.load());
   }
 
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
-        Arguments.of("../receiver.yaml", "deployment.yaml", "service.yaml"),
-        Arguments.of("../receiver_minimal.yaml", "deployment_minimal.yaml", "service.yaml"));
+        Arguments.of(
+            TestFixtures.receiver(RECEIVER_OPTIONS_PATCH),
+            TestFixtures.receiverDeployment(RECEIVER_DEPLOYMENT_OPTIONS_PATCH),
+            TestFixtures.receiverService()),
+        Arguments.of(
+            TestFixtures.receiver(),
+            TestFixtures.receiverDeployment(),
+            TestFixtures.receiverService()));
   }
 }

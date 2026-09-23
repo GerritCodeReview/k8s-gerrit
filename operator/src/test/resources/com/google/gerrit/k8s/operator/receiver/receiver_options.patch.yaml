@@ -1,0 +1,94 @@
+spec:
+  tolerations:
+  - key: key1
+    operator: Equal
+    value: value1
+    effect: NoSchedule
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+
+  topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        foo: bar
+
+  priorityClassName: "prio"
+
+  resources:
+    requests:
+      cpu: 1
+      memory: 5Gi
+    limits:
+      cpu: 1
+      memory: 6Gi
+
+  readinessProbe:
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+  livenessProbe:
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+  service:
+    type: NodePort
+    httpPort: 80
+
+  containerImages:
+    imagePullSecrets: []
+    imagePullPolicy: Always
+    gerritImages:
+      registry: docker.io
+      org: k8sgerrit
+      tag: latest
+    busyBox:
+      registry: docker.io
+      tag: latest
+
+  storage:
+    storageClasses:
+      readWriteOnce: default
+      readWriteMany: shared-storage
+      nfsWorkaround:
+        enabled: false
+        chownOnStartup: false
+        idmapdConfig: |-
+          [General]
+            Verbosity = 0
+            Domain = localdomain.com
+
+          [Mapping]
+            Nobody-User = nobody
+            Nobody-Group = nogroup
+
+    sharedStorage:
+      externalPVC:
+        enabled: false
+        claimName: ""
+      size: 1Gi
+      volumeName: ""
+      selector:
+        matchLabels:
+          volume-type: ssd
+          aws-availability-zone: us-east-1
+
+  ingress:
+    host: example.com
+    tlsEnabled: false

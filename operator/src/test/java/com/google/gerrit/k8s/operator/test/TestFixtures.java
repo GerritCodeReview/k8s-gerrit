@@ -20,6 +20,7 @@ import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica;
@@ -32,6 +33,7 @@ import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;
+import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
@@ -275,6 +277,19 @@ public final class TestFixtures {
   public static final String INGRESS_PATHS_RECEIVER_WRITE_PATCH =
       INGRESS_DEPENDENT + "/ingress_paths_receiver_write.patch.yaml";
 
+  private static final String RECEIVER_RSRCS = "/com/google/gerrit/k8s/operator/receiver";
+  private static final String RECEIVER_DEPENDENT = RECEIVER_RSRCS + "/dependent";
+
+  public static final String RECEIVER_BASE = RECEIVER_RSRCS + "/receiver_base.yaml";
+  public static final String RECEIVER_OPTIONS_PATCH =
+      RECEIVER_RSRCS + "/receiver_options.patch.yaml";
+
+  public static final String RECEIVER_DEPLOYMENT_BASE =
+      RECEIVER_DEPENDENT + "/deployment_base.yaml";
+  public static final String RECEIVER_DEPLOYMENT_OPTIONS_PATCH =
+      RECEIVER_DEPENDENT + "/deployment_options.patch.yaml";
+  public static final String RECEIVER_SERVICE_BASE = RECEIVER_DEPENDENT + "/service.yaml";
+
   public static final String AMBASSADOR_MAPPING_BASE = AMBASSADOR_DEPENDENT + "/mapping_base.yaml";
 
   public static final String AMBASSADOR_MAPPING_NAME_PRIMARY_PATCH =
@@ -512,6 +527,21 @@ public final class TestFixtures {
   /** {@link Ingress} fixture from the nginx ingress base, with optional patches. */
   public static KubernetesResourceFixture<Ingress> nginxIngress(String... patches) {
     return fixture(Ingress.class, TestFixtures.class, INGRESS_BASE, patches);
+  }
+
+  /** {@link Receiver} fixture from the receiver base, with optional patches. */
+  public static KubernetesResourceFixture<Receiver> receiver(String... patches) {
+    return fixture(Receiver.class, TestFixtures.class, RECEIVER_BASE, patches);
+  }
+
+  /** {@link Deployment} fixture for the receiver deployment base, with optional patches. */
+  public static KubernetesResourceFixture<Deployment> receiverDeployment(String... patches) {
+    return fixture(Deployment.class, TestFixtures.class, RECEIVER_DEPLOYMENT_BASE, patches);
+  }
+
+  /** {@link Service} fixture for the receiver service (shared across all test cases). */
+  public static KubernetesResourceFixture<Service> receiverService() {
+    return fixture(Service.class, TestFixtures.class, RECEIVER_SERVICE_BASE);
   }
 
   /**
