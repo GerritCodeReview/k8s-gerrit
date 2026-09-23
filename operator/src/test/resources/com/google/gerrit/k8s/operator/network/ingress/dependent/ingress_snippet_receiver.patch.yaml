@@ -1,0 +1,8 @@
+- op: add
+  path: /metadata/annotations/nginx.ingress.kubernetes.io~1configuration-snippet
+  value: |-
+    if ($args ~ service=git-receive-pack){
+      set $proxy_upstream_name "gerrit-receiver-http";
+      set $proxy_host $proxy_upstream_name;
+      set $service_name "receiver";
+    }
