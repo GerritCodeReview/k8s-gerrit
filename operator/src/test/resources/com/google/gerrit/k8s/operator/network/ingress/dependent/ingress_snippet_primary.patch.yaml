@@ -1,0 +1,7 @@
+- op: add
+  path: /metadata/annotations/nginx.ingress.kubernetes.io~1configuration-snippet
+  value: |-
+    location ~ ^(/a)?/plugins/high-availability/.*$ {
+      deny all;
+      return 403;
+    }

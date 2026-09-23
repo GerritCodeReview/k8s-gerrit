@@ -35,6 +35,7 @@ import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
+import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import io.getambassador.v2.Host;
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.TLSContext;
@@ -253,7 +254,29 @@ public final class TestFixtures {
   public static final String ISTIO_DESTINATIONRULE_REPLICA_HEADLESS_PODS =
       ISTIO_DEPENDENT + "/destinationrule_replica_headless_pods.yaml";
 
+  private static final String INGRESS_DEPENDENT = NETWORK_RSRCS + "/ingress/dependent";
+
+  public static final String INGRESS_BASE = INGRESS_DEPENDENT + "/ingress_base.yaml";
+  public static final String INGRESS_TLS_PATCH = INGRESS_DEPENDENT + "/ingress_tls.patch.yaml";
+  public static final String INGRESS_SNIPPET_PRIMARY_PATCH =
+      INGRESS_DEPENDENT + "/ingress_snippet_primary.patch.yaml";
+  public static final String INGRESS_SNIPPET_PRIMARY_REPLICA_PATCH =
+      INGRESS_DEPENDENT + "/ingress_snippet_primary_replica.patch.yaml";
+  public static final String INGRESS_SNIPPET_RECEIVER_PATCH =
+      INGRESS_DEPENDENT + "/ingress_snippet_receiver.patch.yaml";
+  public static final String INGRESS_PATHS_RECEIVER_PATCH =
+      INGRESS_DEPENDENT + "/ingress_paths_receiver.patch.yaml";
+  public static final String INGRESS_PATHS_REPLICA_PATCH =
+      INGRESS_DEPENDENT + "/ingress_paths_replica.patch.yaml";
+  public static final String INGRESS_PATHS_PRIMARY_PATCH =
+      INGRESS_DEPENDENT + "/ingress_paths_primary.patch.yaml";
+  public static final String INGRESS_PATHS_PRIMARY_REPLICA_PATCH =
+      INGRESS_DEPENDENT + "/ingress_paths_primary_replica.patch.yaml";
+  public static final String INGRESS_PATHS_RECEIVER_WRITE_PATCH =
+      INGRESS_DEPENDENT + "/ingress_paths_receiver_write.patch.yaml";
+
   public static final String AMBASSADOR_MAPPING_BASE = AMBASSADOR_DEPENDENT + "/mapping_base.yaml";
+
   public static final String AMBASSADOR_MAPPING_NAME_PRIMARY_PATCH =
       AMBASSADOR_DEPENDENT + "/mapping_name_primary.patch.yaml";
   public static final String AMBASSADOR_MAPPING_NAME_DEFAULT_PATCH =
@@ -484,6 +507,11 @@ public final class TestFixtures {
         istioDestinationRule(ISTIO_DESTINATIONRULE_REPLICA),
         istioDestinationRule(ISTIO_DESTINATIONRULE_REPLICA_HEADLESS),
         istioDestinationRule(ISTIO_DESTINATIONRULE_REPLICA_HEADLESS_PODS));
+  }
+
+  /** {@link Ingress} fixture from the nginx ingress base, with optional patches. */
+  public static KubernetesResourceFixture<Ingress> nginxIngress(String... patches) {
+    return fixture(Ingress.class, TestFixtures.class, INGRESS_BASE, patches);
   }
 
   /**

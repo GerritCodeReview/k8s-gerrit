@@ -1,0 +1,20 @@
+- op: add
+  path: /spec/rules/0/http/paths/-
+  value:
+    pathType: Prefix
+    path: "/a/projects/.*"
+    backend:
+      service:
+        name: receiver
+        port:
+          name: http
+- op: add
+  path: /spec/rules/0/http/paths/-
+  value:
+    pathType: Prefix
+    path: "/.*/git-receive-pack"
+    backend:
+      service:
+        name: receiver
+        port:
+          name: http

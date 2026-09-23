@@ -1,0 +1,10 @@
+- op: add
+  path: /spec/rules/0/http/paths/-
+  value:
+    pathType: Prefix
+    path: "/"
+    backend:
+      service:
+        name: replica-service
+        port:
+          name: http
