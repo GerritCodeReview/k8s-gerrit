@@ -16,27 +16,51 @@ package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_RECEIVER_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_TLS_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_PATHS_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_PATHS_PRIMARY_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_PATHS_RECEIVER_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_PATHS_RECEIVER_WRITE_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_PATHS_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_SNIPPET_PRIMARY_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_SNIPPET_PRIMARY_REPLICA_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_SNIPPET_RECEIVER_PATCH;
+import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_TLS_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class GerritClusterIngressTest {
+
+  @BeforeAll
+  public void setup() {
+    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
+  }
+
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
-  public void expectedGerritClusterIngressCreated(String inputFile, String expectedOutputFile) {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-    GerritClusterIngress dependent = new GerritClusterIngress();
-    Ingress result =
-        dependent.desired(
-            ReconcilerUtils.loadYaml(GerritNetwork.class, this.getClass(), inputFile), null);
-    Ingress expected = ReconcilerUtils.loadYaml(Ingress.class, this.getClass(), expectedOutputFile);
+  public void expectedGerritClusterIngressCreated(
+      KubernetesResourceFixture<GerritNetwork> inputFixture,
+      KubernetesResourceFixture<Ingress> expectedIngressFixture) {
+    GerritNetwork gerritNetwork = inputFixture.load();
+    Ingress result = new GerritClusterIngress().desired(gerritNetwork, null);
+    Ingress expected = expectedIngressFixture.load();
+
     assertUnordered(result.getSpec(), expected.getSpec());
     assertThat(result.getMetadata().getAnnotations())
         .containsExactlyEntriesIn(expected.getMetadata().getAnnotations());
@@ -45,13 +69,41 @@ public class GerritClusterIngressTest {
   private static Stream<Arguments> provideYamlManifests() {
     return Stream.of(
         Arguments.of(
-            "../../gerritnetwork_primary_replica_tls.yaml", "ingress_primary_replica_tls.yaml"),
-        Arguments.of("../../gerritnetwork_primary_replica.yaml", "ingress_primary_replica.yaml"),
-        Arguments.of("../../gerritnetwork_primary.yaml", "ingress_primary.yaml"),
-        Arguments.of("../../gerritnetwork_replica.yaml", "ingress_replica.yaml"),
-        Arguments.of("../../gerritnetwork_receiver.yaml", "ingress_receiver.yaml"),
-        Arguments.of("../../gerritnetwork_receiver_replica.yaml", "ingress_receiver_replica.yaml"),
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_PRIMARY_PATCH, GERRITNETWORK_REPLICA_PATCH, GERRITNETWORK_TLS_PATCH),
+            TestFixtures.nginxIngress(
+                INGRESS_SNIPPET_PRIMARY_REPLICA_PATCH,
+                INGRESS_PATHS_PRIMARY_PATCH,
+                INGRESS_PATHS_PRIMARY_REPLICA_PATCH,
+                INGRESS_TLS_PATCH)),
         Arguments.of(
-            "../../gerritnetwork_receiver_replica_tls.yaml", "ingress_receiver_replica_tls.yaml"));
+            TestFixtures.gerritNetwork(GERRITNETWORK_PRIMARY_PATCH, GERRITNETWORK_REPLICA_PATCH),
+            TestFixtures.nginxIngress(
+                INGRESS_SNIPPET_PRIMARY_REPLICA_PATCH,
+                INGRESS_PATHS_PRIMARY_PATCH,
+                INGRESS_PATHS_PRIMARY_REPLICA_PATCH)),
+        Arguments.of(
+            TestFixtures.gerritNetwork(GERRITNETWORK_PRIMARY_PATCH),
+            TestFixtures.nginxIngress(INGRESS_SNIPPET_PRIMARY_PATCH, INGRESS_PATHS_PRIMARY_PATCH)),
+        Arguments.of(
+            TestFixtures.gerritNetwork(GERRITNETWORK_REPLICA_PATCH),
+            TestFixtures.nginxIngress(INGRESS_PATHS_REPLICA_PATCH)),
+        Arguments.of(
+            TestFixtures.gerritNetwork(GERRITNETWORK_RECEIVER_PATCH),
+            TestFixtures.nginxIngress(INGRESS_PATHS_RECEIVER_PATCH)),
+        Arguments.of(
+            TestFixtures.gerritNetwork(GERRITNETWORK_RECEIVER_PATCH, GERRITNETWORK_REPLICA_PATCH),
+            TestFixtures.nginxIngress(
+                INGRESS_SNIPPET_RECEIVER_PATCH,
+                INGRESS_PATHS_RECEIVER_WRITE_PATCH,
+                INGRESS_PATHS_REPLICA_PATCH)),
+        Arguments.of(
+            TestFixtures.gerritNetwork(
+                GERRITNETWORK_RECEIVER_PATCH, GERRITNETWORK_REPLICA_PATCH, GERRITNETWORK_TLS_PATCH),
+            TestFixtures.nginxIngress(
+                INGRESS_SNIPPET_RECEIVER_PATCH,
+                INGRESS_PATHS_RECEIVER_WRITE_PATCH,
+                INGRESS_PATHS_REPLICA_PATCH,
+                INGRESS_TLS_PATCH)));
   }
 }

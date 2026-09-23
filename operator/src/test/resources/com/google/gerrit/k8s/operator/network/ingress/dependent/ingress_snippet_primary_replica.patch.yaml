@@ -1,0 +1,12 @@
+- op: add
+  path: /metadata/annotations/nginx.ingress.kubernetes.io~1configuration-snippet
+  value: |-
+    location ~ ^(/a)?/plugins/high-availability/.*$ {
+      deny all;
+      return 403;
+    }
+    if ($args ~ service=git-upload-pack){
+      set $proxy_upstream_name "gerrit-replica-service-http";
+      set $proxy_host $proxy_upstream_name;
+      set $service_name "replica-service";
+    }
