@@ -1,8 +1,3 @@
-apiVersion: "gerritoperator.google.com/v1beta19"
-kind: Receiver
-metadata:
-  name: receiver
-  namespace: gerrit
 spec:
   tolerations:
   - key: key1
@@ -30,10 +25,6 @@ spec:
 
   priorityClassName: "prio"
 
-  replicas: 1
-  maxSurge: 1
-  maxUnavailable: 1
-
   resources:
     requests:
       cpu: 1
@@ -59,8 +50,6 @@ spec:
   service:
     type: NodePort
     httpPort: 80
-
-  credentialSecretRef: apache-credentials
 
   containerImages:
     imagePullSecrets: []
