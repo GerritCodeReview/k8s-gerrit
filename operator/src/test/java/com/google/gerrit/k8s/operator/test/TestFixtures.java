@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.api.model.indexer.GerritIndexer;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.api.model.tasks.incomingrepl.IncomingReplicationTask;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica;
@@ -292,6 +293,18 @@ public final class TestFixtures {
 
   public static final String AMBASSADOR_MAPPING_BASE = AMBASSADOR_DEPENDENT + "/mapping_base.yaml";
 
+  private static final String INCOMINGREPL_RSRCS =
+      "/com/google/gerrit/k8s/operator/tasks/incomingrepl";
+  private static final String INCOMINGREPL_DEPENDENT = INCOMINGREPL_RSRCS + "/dependent";
+
+  public static final String INCOMINGREPL_GERRITCLUSTER_PATCH =
+      INCOMINGREPL_RSRCS + "/gerritcluster_incomingrepl.patch.yaml";
+  public static final String INCOMINGREPL_TASK_BASE = INCOMINGREPL_RSRCS + "/incomingrepltask.yaml";
+  public static final String INCOMINGREPL_CRONJOB_BASE =
+      INCOMINGREPL_DEPENDENT + "/incomingrepl_cronjob.yaml";
+  public static final String INCOMINGREPL_CONFIGMAP_BASE =
+      INCOMINGREPL_DEPENDENT + "/incomingrepl_configmap.yaml";
+
   public static final String AMBASSADOR_MAPPING_NAME_PRIMARY_PATCH =
       AMBASSADOR_DEPENDENT + "/mapping_name_primary.patch.yaml";
   public static final String AMBASSADOR_MAPPING_NAME_DEFAULT_PATCH =
@@ -542,6 +555,32 @@ public final class TestFixtures {
   /** {@link Service} fixture for the receiver service (shared across all test cases). */
   public static KubernetesResourceFixture<Service> receiverService() {
     return fixture(Service.class, TestFixtures.class, RECEIVER_SERVICE_BASE);
+  }
+
+  /** {@link GerritCluster} fixture for incoming replication task tests. */
+  public static KubernetesResourceFixture<GerritCluster> incomingReplGerritCluster() {
+    return fixture(
+        GerritCluster.class,
+        TestFixtures.class,
+        SHARED_BASE_GERRIT_CLUSTER,
+        INCOMINGREPL_GERRITCLUSTER_PATCH);
+  }
+
+  /** {@link IncomingReplicationTask} fixture from the base, with optional patches. */
+  public static KubernetesResourceFixture<IncomingReplicationTask> incomingReplTask(
+      String... patches) {
+    return fixture(
+        IncomingReplicationTask.class, TestFixtures.class, INCOMINGREPL_TASK_BASE, patches);
+  }
+
+  /** {@link CronJob} fixture for incoming replication task tests. */
+  public static KubernetesResourceFixture<CronJob> incomingReplCronJob() {
+    return fixture(CronJob.class, TestFixtures.class, INCOMINGREPL_CRONJOB_BASE);
+  }
+
+  /** {@link ConfigMap} fixture for incoming replication task tests. */
+  public static KubernetesResourceFixture<ConfigMap> incomingReplConfigMap() {
+    return fixture(ConfigMap.class, TestFixtures.class, INCOMINGREPL_CONFIGMAP_BASE);
   }
 
   /**
