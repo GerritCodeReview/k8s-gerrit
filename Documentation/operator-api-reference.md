@@ -87,7 +87,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: GerritCluster
 
 ---
@@ -104,7 +104,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -427,7 +427,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: Gerrit
 
 ---
@@ -444,7 +444,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -658,7 +658,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: Receiver
 
 ---
@@ -675,7 +675,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: Receiver
 metadata:
   name: receiver
@@ -786,7 +786,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: GitGarbageCollection
 
 ---
@@ -803,7 +803,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: GitGarbageCollection
 metadata:
   name: gitgc
@@ -847,7 +847,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: GerritNetwork
 
 ---
@@ -863,7 +863,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -897,7 +897,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -913,7 +913,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -972,7 +972,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta19 \
+**Version**: v1beta20 \
 **Kind**: GerritIndexer
 
 ---
@@ -988,7 +988,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta19"
+apiVersion: "gerritoperator.google.com/v1beta20"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1586,7 +1586,7 @@ compared to the parent object. All other options can still be configured.
 | `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GerritIndexer container |
 | `configFiles` | `Map<String, String>` | Configuration files to be mounted in to `$SITE/etc` |
 | `storage` | [`GerritIndexerStorage`](#gerritindexerstorage) | Storage configuration of the GerritIndexer job |
-| `openSearchSecretRef` | `String` | Name of a Kubernetes secret containing TLS credentials for connecting to a remote index backend that uses a non-publicly-trusted certificate. The secret may contain a `ca.crt` key (PEM format) used by the init container for SSL verification, and/or a `truststore.jks` key (JKS format) used by the Java reindex process. Only keys present in the secret will be mounted. (default: `null`) |
+| `secretRef` | `String` | Name of a Kubernetes secret containing TLS credentials for connecting to a remote index backend that uses a non-publicly-trusted certificate. The secret may contain a `ca.crt` key (PEM format) used by the init container for SSL verification, and/or a `truststore.jks` key (JKS format) used by the Java reindex process. Only keys present in the secret will be mounted. (default: `null`) |
 
 ## GerritIndexerStorage
 

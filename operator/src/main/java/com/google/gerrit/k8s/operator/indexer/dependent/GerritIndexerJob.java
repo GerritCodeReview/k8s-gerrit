@@ -46,7 +46,7 @@ public class GerritIndexerJob
     extends CRUDReconcileAddKubernetesDependentResource<Job, GerritIndexer> {
   private static final Quantity HOME_DIR_SIZE_LIMIT = new Quantity("500", "Mi");
   private static final String TMP_VOLUME_NAME = "tmp";
-  private static final String OPENSEARCH_SECRET_VOLUME = "opensearch-secret";
+  private static final String SECRET_VOLUME = "indexer-secret";
   private static final String CA_CERT_MOUNT_PATH = "/var/config/ca.crt";
   private static final String TRUST_STORE_MOUNT_PATH = "/var/mnt/data/index-opensearch";
   String ns;
@@ -175,14 +175,14 @@ public class GerritIndexerJob
             .withSubPath("gerrit-init.yaml")
             .build());
 
-    String openSearchSecretRef = indexerSpec.getOpenSearchSecretRef();
-    if (openSearchSecretRef != null && !openSearchSecretRef.isBlank()) {
+    String secretRef = indexerSpec.getSecretRef();
+    if (secretRef != null && !secretRef.isBlank()) {
       Secret secret =
           context
               .getClient()
               .resources(Secret.class)
               .inNamespace(this.ns)
-              .withName(openSearchSecretRef)
+              .withName(secretRef)
               .get();
       if (secret != null) {
         if (secret.getData().containsKey("ca.crt")) {
@@ -218,15 +218,10 @@ public class GerritIndexerJob
               .withMountPath("/indexes")
               .build());
     }
-    String openSearchSecretRef = indexerSpec.getOpenSearchSecretRef();
-    if (openSearchSecretRef != null && !openSearchSecretRef.isBlank()) {
+    String secretRef = indexerSpec.getSecretRef();
+    if (secretRef != null && !secretRef.isBlank()) {
       Secret secret =
-          context
-              .getClient()
-              .resources(Secret.class)
-              .inNamespace(ns)
-              .withName(openSearchSecretRef)
-              .get();
+          context.getClient().resources(Secret.class).inNamespace(ns).withName(secretRef).get();
       if (secret != null && secret.getData().containsKey("truststore.jks")) {
         volumeMounts.add(
             new VolumeMountBuilder()
@@ -358,13 +353,13 @@ public class GerritIndexerJob
               .build());
     }
     if (indexerSpec.getIndex().getType().isRemote()) {
-      String openSearchSecretRef = indexerSpec.getOpenSearchSecretRef();
-      if (openSearchSecretRef != null && !openSearchSecretRef.isBlank()) {
+      String secretRef = indexerSpec.getSecretRef();
+      if (secretRef != null && !secretRef.isBlank()) {
         volumes.add(
             new VolumeBuilder()
                 .withName(OPENSEARCH_SECRET_VOLUME)
                 .withNewSecret()
-                .withSecretName(openSearchSecretRef)
+                .withSecretName(secretRef)
                 .endSecret()
                 .build());
       }
