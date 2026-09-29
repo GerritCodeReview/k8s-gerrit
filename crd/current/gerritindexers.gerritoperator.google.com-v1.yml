@@ -369,8 +369,6 @@ spec:
                     - OPENSEARCH
                     type: string
                 type: object
-              openSearchSecretRef:
-                type: string
               resources:
                 properties:
                   claims:
@@ -395,6 +393,8 @@ spec:
                       x-kubernetes-int-or-string: true
                     type: object
                 type: object
+              secretRef:
+                type: string
               storage:
                 properties:
                   output:

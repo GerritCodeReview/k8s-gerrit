@@ -369,7 +369,7 @@ spec:
                         - OPENSEARCH
                       type: string
                   type: object
-                openSearchSecretRef:
+                secretRef:
                   type: string
                 resources:
                   properties:
