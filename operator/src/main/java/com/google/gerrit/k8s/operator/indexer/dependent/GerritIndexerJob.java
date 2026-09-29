@@ -175,14 +175,14 @@ public class GerritIndexerJob
             .withSubPath("gerrit-init.yaml")
             .build());
 
-    String openSearchSecretRef = indexerSpec.getOpenSearchSecretRef();
-    if (openSearchSecretRef != null && !openSearchSecretRef.isBlank()) {
+    String secretRef = indexerSpec.getSecretRef();
+    if (secretRef != null && !secretRef.isBlank()) {
       Secret secret =
           context
               .getClient()
               .resources(Secret.class)
               .inNamespace(this.ns)
-              .withName(openSearchSecretRef)
+              .withName(secretRef)
               .get();
       if (secret != null) {
         if (secret.getData().containsKey("ca.crt")) {
@@ -218,15 +218,10 @@ public class GerritIndexerJob
               .withMountPath("/indexes")
               .build());
     }
-    String openSearchSecretRef = indexerSpec.getOpenSearchSecretRef();
-    if (openSearchSecretRef != null && !openSearchSecretRef.isBlank()) {
+    String secretRef = indexerSpec.getSecretRef();
+    if (secretRef != null && !secretRef.isBlank()) {
       Secret secret =
-          context
-              .getClient()
-              .resources(Secret.class)
-              .inNamespace(ns)
-              .withName(openSearchSecretRef)
-              .get();
+          context.getClient().resources(Secret.class).inNamespace(ns).withName(secretRef).get();
       if (secret != null && secret.getData().containsKey("truststore.jks")) {
         volumeMounts.add(
             new VolumeMountBuilder()
@@ -358,13 +353,13 @@ public class GerritIndexerJob
               .build());
     }
     if (indexerSpec.getIndex().getType().isRemote()) {
-      String openSearchSecretRef = indexerSpec.getOpenSearchSecretRef();
-      if (openSearchSecretRef != null && !openSearchSecretRef.isBlank()) {
+      String secretRef = indexerSpec.getSecretRef();
+      if (secretRef != null && !secretRef.isBlank()) {
         volumes.add(
             new VolumeBuilder()
                 .withName(OPENSEARCH_SECRET_VOLUME)
                 .withNewSecret()
-                .withSecretName(openSearchSecretRef)
+                .withSecretName(secretRef)
                 .endSecret()
                 .build());
       }
