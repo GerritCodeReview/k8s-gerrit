@@ -30,7 +30,6 @@ import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EmptyDirVolumeSourceBuilder;
 import io.fabric8.kubernetes.api.model.LabelSelectorBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
-import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -48,9 +47,7 @@ public class GerritIndexerJob
   private static final String TMP_VOLUME_NAME = "tmp";
   private static final String SECRET_VOLUME = "indexer-secret";
   private static final String CA_CERT_MOUNT_PATH = "/var/config/ca.crt";
-  private static final String TRUST_STORE_MOUNT_PATH = "/var/mnt/data/index-opensearch";
-  String ns;
-  Context<GerritIndexer> context;
+  private static final String SECRET_MOUNT_PATH = "/var/mnt/etc/secret";
 
   public GerritIndexerJob() {
     super(Job.class);
@@ -58,13 +55,11 @@ public class GerritIndexerJob
 
   @Override
   protected Job desired(GerritIndexer gerritIndexer, Context<GerritIndexer> context) {
-    this.ns = gerritIndexer.getMetadata().getNamespace();
-    this.context = context;
     GerritCluster gerritCluster =
         context
             .getClient()
             .resources(GerritCluster.class)
-            .inNamespace(ns)
+            .inNamespace(gerritIndexer.getMetadata().getNamespace())
             .withName(gerritIndexer.getSpec().getCluster())
             .get();
 
@@ -77,7 +72,7 @@ public class GerritIndexerJob
         .withApiVersion("batch/v1")
         .withNewMetadata()
         .withName(getName(gerritIndexer))
-        .withNamespace(ns)
+        .withNamespace(gerritIndexer.getMetadata().getNamespace())
         .withLabels(getLabels(gerritIndexer))
         .endMetadata()
         .withNewSpec()
@@ -177,6 +172,44 @@ public class GerritIndexerJob
 
     String secretRef = indexerSpec.getSecretRef();
     if (secretRef != null && !secretRef.isBlank()) {
+<<<<<<< PATCH SET (ec91dff787adf09e99f3793068caee2caddb8e84 Simplify GerritIndexer secret mounting)
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(OPENSEARCH_SECRET_VOLUME)
+              .withMountPath(CA_CERT_MOUNT_PATH)
+              .withSubPath("ca.crt")
+              .build());
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(OPENSEARCH_SECRET_VOLUME)
+              .withMountPath(SECRET_MOUNT_PATH)
+              .build());
+||||||| BASE      (21a63c9fab5846bbd2f2e2de5f167ba955171787 Rename openSearchSecretRef to secretRef)
+      Secret secret =
+          context
+              .getClient()
+              .resources(Secret.class)
+              .inNamespace(this.ns)
+              .withName(secretRef)
+              .get();
+      if (secret != null) {
+        if (secret.getData().containsKey("ca.crt")) {
+          volumeMounts.add(
+              new VolumeMountBuilder()
+                  .withName(OPENSEARCH_SECRET_VOLUME)
+                  .withMountPath(CA_CERT_MOUNT_PATH)
+                  .withSubPath("ca.crt")
+                  .build());
+        }
+        if (secret.getData().containsKey("truststore.jks")) {
+          volumeMounts.add(
+              new VolumeMountBuilder()
+                  .withName(OPENSEARCH_SECRET_VOLUME)
+                  .withMountPath(TRUST_STORE_MOUNT_PATH)
+                  .build());
+        }
+      }
+=======
       Secret secret =
           context
               .getClient()
@@ -201,6 +234,7 @@ public class GerritIndexerJob
                   .build());
         }
       }
+>>>>>>> BASE      (c33347d60824cc26c6af4025bd14ef01f3aba3b9 Rename openSearchSecretRef to secretRef)
     }
     volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
 
@@ -220,6 +254,23 @@ public class GerritIndexerJob
     }
     String secretRef = indexerSpec.getSecretRef();
     if (secretRef != null && !secretRef.isBlank()) {
+<<<<<<< PATCH SET (ec91dff787adf09e99f3793068caee2caddb8e84 Simplify GerritIndexer secret mounting)
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(OPENSEARCH_SECRET_VOLUME)
+              .withMountPath(SECRET_MOUNT_PATH)
+              .build());
+||||||| BASE      (21a63c9fab5846bbd2f2e2de5f167ba955171787 Rename openSearchSecretRef to secretRef)
+      Secret secret =
+          context.getClient().resources(Secret.class).inNamespace(ns).withName(secretRef).get();
+      if (secret != null && secret.getData().containsKey("truststore.jks")) {
+        volumeMounts.add(
+            new VolumeMountBuilder()
+                .withName(OPENSEARCH_SECRET_VOLUME)
+                .withMountPath(TRUST_STORE_MOUNT_PATH)
+                .build());
+      }
+=======
       Secret secret =
           context.getClient().resources(Secret.class).inNamespace(ns).withName(secretRef).get();
       if (secret != null && secret.getData().containsKey("truststore.jks")) {
@@ -229,6 +280,7 @@ public class GerritIndexerJob
                 .withMountPath(TRUST_STORE_MOUNT_PATH)
                 .build());
       }
+>>>>>>> BASE      (c33347d60824cc26c6af4025bd14ef01f3aba3b9 Rename openSearchSecretRef to secretRef)
     }
     volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
 
