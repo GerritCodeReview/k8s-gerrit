@@ -16,6 +16,24 @@
       "message": "Too late, but still worth a fix. This should just be `secretRef`, since it might be valid for elasticsearch as well.",
       "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2256bd0c_49c1905f",
+        "filename": "crd/current/gerritindexers.gerritoperator.google.com-v1.yml",
+        "patchSetId": 6
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-29T12:37:51Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/635803",
+      "parentUuid": "3c2b5315_03d3f7a0",
+      "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
