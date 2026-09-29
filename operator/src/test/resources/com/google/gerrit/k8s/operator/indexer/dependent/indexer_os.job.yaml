@@ -71,7 +71,7 @@ spec:
         - mountPath: /var/config/gerrit-init.yaml
           name: gerrit-init-config
           subPath: gerrit-init.yaml
-        - mountPath: /var/mnt/data/index-opensearch
+        - mountPath: /var/mnt/etc/secret
           name: opensearch-secret
         - mountPath: /var/config/ca.crt
           name: opensearch-secret
@@ -123,7 +123,7 @@ spec:
           subPath: git
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
-        - mountPath: /var/mnt/data/index-opensearch
+        - mountPath: /var/mnt/etc/secret
           name: opensearch-secret
       restartPolicy: OnFailure
       volumes:
