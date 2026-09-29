@@ -12,7 +12,7 @@ spec:
       config: |-
         [opensearch]
           codec = default
-  openSearchSecretRef: opensearch-tls-config
+  secretRef: opensearch-tls-config
   resources:
     requests:
       cpu: 2
