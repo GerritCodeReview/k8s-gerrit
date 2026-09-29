@@ -72,9 +72,9 @@ spec:
           name: gerrit-init-config
           subPath: gerrit-init.yaml
         - mountPath: /var/mnt/data/index-opensearch
-          name: opensearch-secret
+          name: indexer-secret
         - mountPath: /var/config/ca.crt
-          name: opensearch-secret
+          name: indexer-secret
           subPath: ca.crt
         - mountPath: /home/gerrit
           subPath: home
@@ -124,7 +124,7 @@ spec:
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
         - mountPath: /var/mnt/data/index-opensearch
-          name: opensearch-secret
+          name: indexer-secret
       restartPolicy: OnFailure
       volumes:
       - name: gerrit-site
@@ -139,7 +139,7 @@ spec:
       - name: repositories
         persistentVolumeClaim:
           claimName: gerrit-repos-pvc
-      - name: opensearch-secret
+      - name: indexer-secret
         secret:
           secretName: opensearch-tls-config
       - name: tmp
