@@ -71,8 +71,16 @@ spec:
         - mountPath: /var/config/gerrit-init.yaml
           name: gerrit-init-config
           subPath: gerrit-init.yaml
+<<<<<<< PATCH SET (0b2a49e1a47c13fe5a9fbda87d17d161b1af8af9 Simplify GerritIndexer secret mounting)
+        - mountPath: /var/mnt/etc/secret
+          name: opensearch-secret
+||||||| BASE      (a9fe5f1430636e794af7d31db295f8631058b894 Rename openSearchSecretRef to secretRef)
+        - mountPath: /var/mnt/data/index-opensearch
+          name: opensearch-secret
+=======
         - mountPath: /var/mnt/data/index-opensearch
           name: indexer-secret
+>>>>>>> BASE      (21a63c9fab5846bbd2f2e2de5f167ba955171787 Rename openSearchSecretRef to secretRef)
         - mountPath: /var/config/ca.crt
           name: indexer-secret
           subPath: ca.crt
@@ -123,8 +131,16 @@ spec:
           subPath: git
         - mountPath: /var/mnt/etc/config
           name: gerrit-config
+<<<<<<< PATCH SET (0b2a49e1a47c13fe5a9fbda87d17d161b1af8af9 Simplify GerritIndexer secret mounting)
+        - mountPath: /var/mnt/etc/secret
+          name: opensearch-secret
+||||||| BASE      (a9fe5f1430636e794af7d31db295f8631058b894 Rename openSearchSecretRef to secretRef)
+        - mountPath: /var/mnt/data/index-opensearch
+          name: opensearch-secret
+=======
         - mountPath: /var/mnt/data/index-opensearch
           name: indexer-secret
+>>>>>>> BASE      (21a63c9fab5846bbd2f2e2de5f167ba955171787 Rename openSearchSecretRef to secretRef)
       restartPolicy: OnFailure
       volumes:
       - name: gerrit-site
