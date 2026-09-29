@@ -49,8 +49,7 @@ public class GerritIndexerJob
   private static final String OPENSEARCH_SECRET_VOLUME = "opensearch-secret";
   private static final String CA_CERT_MOUNT_PATH = "/var/config/ca.crt";
   private static final String TRUST_STORE_MOUNT_PATH = "/var/mnt/data/index-opensearch";
-  String ns;
-  Context<GerritIndexer> context;
+  private String ns;
 
   public GerritIndexerJob() {
     super(Job.class);
@@ -59,7 +58,6 @@ public class GerritIndexerJob
   @Override
   protected Job desired(GerritIndexer gerritIndexer, Context<GerritIndexer> context) {
     this.ns = gerritIndexer.getMetadata().getNamespace();
-    this.context = context;
     GerritCluster gerritCluster =
         context
             .getClient()
@@ -98,8 +96,8 @@ public class GerritIndexerJob
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")
         .withSecurityContext(GerritSecurityContext.forPod())
-        .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
-        .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
+        .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster, context))
+        .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster, context))
         .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
         .endSpec()
         .endTemplate()
@@ -126,7 +124,7 @@ public class GerritIndexerJob
   }
 
   private Container buildGerritInitContainer(
-      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
+      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster, Context<GerritIndexer> context) {
     return new ContainerBuilder()
         .withName("gerrit-init")
         .withSecurityContext(GerritSecurityContext.forContainer())
@@ -138,12 +136,12 @@ public class GerritIndexerJob
                 .getFullImageName("gerrit-init"))
         .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
         .withResources(indexerSpec.getResources())
-        .withVolumeMounts(buildGerritInitVolumeMounts(indexerSpec))
+        .withVolumeMounts(buildGerritInitVolumeMounts(indexerSpec, context))
         .build();
   }
 
   private Container buildGerritIndexerContainer(
-      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
+      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster, Context<GerritIndexer> context) {
     ContainerBuilder builder =
         new ContainerBuilder()
             .withName("gerrit-indexer")
@@ -156,7 +154,7 @@ public class GerritIndexerJob
                     .getFullImageName("gerrit-indexer"))
             .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
             .withResources(indexerSpec.getResources())
-            .withVolumeMounts(buildGerritIndexerVolumeMounts(indexerSpec));
+            .withVolumeMounts(buildGerritIndexerVolumeMounts(indexerSpec, context));
 
     if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
       builder.withArgs("--output", "/indexes");
@@ -165,7 +163,8 @@ public class GerritIndexerJob
     return builder.build();
   }
 
-  private List<VolumeMount> buildGerritInitVolumeMounts(GerritIndexerSpec indexerSpec) {
+  private List<VolumeMount> buildGerritInitVolumeMounts(
+      GerritIndexerSpec indexerSpec, Context<GerritIndexer> context) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     volumeMounts.add(
@@ -207,7 +206,8 @@ public class GerritIndexerJob
     return volumeMounts;
   }
 
-  private List<VolumeMount> buildGerritIndexerVolumeMounts(GerritIndexerSpec indexerSpec) {
+  private List<VolumeMount> buildGerritIndexerVolumeMounts(
+      GerritIndexerSpec indexerSpec, Context<GerritIndexer> context) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
