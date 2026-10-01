@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef7f201_9f980fb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-01T06:55:19Z",
+      "side": 1,
+      "message": "Sorry my review was not do thorough the first time.",
+      "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c2b5315_03d3f7a0",
@@ -32,6 +49,52 @@
       "side": 1,
       "message": "Done in https://gerrit-review.googlesource.com/c/k8s-gerrit/+/635803",
       "parentUuid": "3c2b5315_03d3f7a0",
+      "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1a2855f_c2036920",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-01T06:55:19Z",
+      "side": 1,
+      "message": "These should not have been made fields. The reconciler is a singleton, but this is per request data.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6451ce_b63254c9",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-01T06:55:19Z",
+      "side": 1,
+      "message": "I believe we shouldn\u0027t be this explicit here. Just take the pattern that we use with Gerrit and mount everything that is part of the secret into the mount directory. Otherwise, this will at one point be very hard to handle. Same for the CA certificate. By the way, how does the indexer know which truststore to use? I guess, via the provided gerrit.config, but that uses a different value at least for Gerrit resources. I believe we should stay consistent here.",
+      "range": {
+        "startLine": 234,
+        "startChar": 16,
+        "endLine": 234,
+        "endChar": 54
+      },
       "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
