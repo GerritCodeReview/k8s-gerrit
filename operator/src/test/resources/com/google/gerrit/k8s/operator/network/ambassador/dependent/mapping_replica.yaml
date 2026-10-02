@@ -11,4 +11,4 @@ spec:
   rewrite: ""
   host: example.com
   prefix: /
-  service: replica:48080
+  service: replica-service.gerrit.svc.cluster.local:48080

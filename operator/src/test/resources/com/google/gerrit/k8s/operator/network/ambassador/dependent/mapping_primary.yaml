@@ -11,4 +11,4 @@ spec:
   rewrite: ""
   host: example.com
   prefix: /
-  service: primary:48080
+  service: primary-service.gerrit.svc.cluster.local:48080
