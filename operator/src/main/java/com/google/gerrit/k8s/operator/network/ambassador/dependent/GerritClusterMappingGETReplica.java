@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.network.Constants.INFO_REFS_PATTERN
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.gerrit.dependent.GerritService;
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.MappingBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
@@ -37,8 +38,10 @@ public class GerritClusterMappingGETReplica extends AbstractAmbassadorDependentR
   @Override
   public Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
+    String namespace = gerritNetwork.getMetadata().getNamespace();
     String replicaServiceName =
-        gerritNetwork.getSpec().getGerritReplica().getName()
+        new GerritService()
+                .getHostname(gerritNetwork.getSpec().getGerritReplica().getName(), namespace)
             + ":"
             + gerritNetwork.getSpec().getGerritReplica().getHttpPort();
 

@@ -13,4 +13,4 @@ spec:
   method: POST
   prefix: /.*/git-upload-pack
   prefix_regex: true
-  service: replica:48080
+  service: replica-service.gerrit.svc.cluster.local:48080

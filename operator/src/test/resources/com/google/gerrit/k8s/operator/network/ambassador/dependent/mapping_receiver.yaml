@@ -12,4 +12,4 @@ spec:
   host: example.com
   prefix: /a/projects/.*|/.*/git-receive-pack
   prefix_regex: true
-  service: receiver:48081
+  service: receiver.gerrit.svc.cluster.local:48081

@@ -38,8 +38,9 @@ public class GerritClusterMappingReceiverGET extends AbstractAmbassadorDependent
   @Override
   public Mapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
+    String namespace = gerritNetwork.getMetadata().getNamespace();
     String receiverServiceName =
-        ReceiverService.getName(gerritNetwork.getSpec().getReceiver().getName())
+        ReceiverService.getHostname(gerritNetwork.getSpec().getReceiver().getName(), namespace)
             + ":"
             + gerritNetwork.getSpec().getReceiver().getHttpPort();
 

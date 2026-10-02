@@ -15,4 +15,4 @@ spec:
   prefix_regex: true
   query_parameters:
     service: git-upload-pack
-  service: replica:48080
+  service: replica-service.gerrit.svc.cluster.local:48080
