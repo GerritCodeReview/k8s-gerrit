@@ -115,6 +115,11 @@ The Gerrit Operator currently supports the following Ingress providers:
   services, you should set INGRESS=AMBASSADOR. Currently, SSH is not directly
   supported when using INGRESS=AMBASSADOR.
 
+  By default, the operator watches all namespaces for Ambassador Mapping resources.
+  To restrict the operator to specific namespaces, set the `EMISSARY_INGRESS_NAMESPACES`
+  environment variable to a comma-separated list of namespace names.
+  This is useful in clusters where Ambassador v1 and v2 Mapping CRDs coexist.
+
 
 ## Deploy
 You will need to have admin privileges for your k8s cluster in order to be able

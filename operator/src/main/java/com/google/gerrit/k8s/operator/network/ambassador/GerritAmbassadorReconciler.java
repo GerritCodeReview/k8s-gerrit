@@ -53,6 +53,7 @@ import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides an Ambassador-based implementation for GerritNetworkReconciler.
@@ -149,13 +150,22 @@ public class GerritAmbassadorReconciler
 
   public static final String MAPPING_EVENT_SOURCE = "mapping-event-source";
 
+  private final Set<String> emissaryIngressNamespaces;
+
+  public GerritAmbassadorReconciler(Set<String> emissaryIngressNamespaces) {
+    this.emissaryIngressNamespaces = emissaryIngressNamespaces;
+  }
+
   // Because we have multiple dependent resources of the same type `Mapping`, we need to specify
   // a named event source.
   @Override
   public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritNetwork> context) {
+    var informerConfig = InformerConfiguration.from(Mapping.class, context);
+    if (!emissaryIngressNamespaces.isEmpty()) {
+      informerConfig.withNamespaces(emissaryIngressNamespaces);
+    }
     InformerEventSource<Mapping, GerritNetwork> mappingEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(Mapping.class, context).build(), context);
+        new InformerEventSource<>(informerConfig.build(), context);
 
     Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(MAPPING_EVENT_SOURCE, mappingEventSource);

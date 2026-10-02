@@ -66,6 +66,10 @@ spec:
               fieldPath: metadata.namespace
         - name: INGRESS
           value: {{ .Values.ingress.type }}
+        {{- if .Values.ingress.emissaryIngressNamespaces }}
+        - name: EMISSARY_INGRESS_NAMESPACES
+          value: {{ .Values.ingress.emissaryIngressNamespaces | join "," | quote }}
+        {{- end }}
         - name: CLUSTER_MODE
           value: "{{ .Values.cluster.mode | toString }}"
         - name: CLUSTER_DOMAIN

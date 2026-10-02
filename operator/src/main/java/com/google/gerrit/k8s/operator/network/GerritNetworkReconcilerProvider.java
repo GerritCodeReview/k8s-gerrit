@@ -23,13 +23,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
+import java.util.Set;
 
 public class GerritNetworkReconcilerProvider implements Provider<Reconciler<GerritNetwork>> {
   private final IngressType ingressType;
+  private final Set<String> emissaryIngressNamespaces;
 
   @Inject
-  public GerritNetworkReconcilerProvider(@Named("IngressType") IngressType ingressType) {
+  public GerritNetworkReconcilerProvider(
+      @Named("IngressType") IngressType ingressType,
+      @Named("EmissaryIngressNamespaces") Set<String> emissaryIngressNamespaces) {
     this.ingressType = ingressType;
+    this.emissaryIngressNamespaces = emissaryIngressNamespaces;
   }
 
   @Override
@@ -40,7 +45,7 @@ public class GerritNetworkReconcilerProvider implements Provider<Reconciler<Gerr
       case ISTIO:
         return new GerritIstioReconciler();
       case AMBASSADOR:
-        return new GerritAmbassadorReconciler();
+        return new GerritAmbassadorReconciler(emissaryIngressNamespaces);
       default:
         return new GerritNoIngressReconciler();
     }

@@ -146,7 +146,7 @@ public abstract class AbstractGerritOperatorE2ETest {
   }
 
   public Reconciler<GerritNetwork> getGerritNetworkReconciler() {
-    return new GerritNetworkReconcilerProvider(getIngressType()).get();
+    return new GerritNetworkReconcilerProvider(getIngressType(), java.util.Set.of()).get();
   }
 
   protected abstract IngressType getIngressType();
