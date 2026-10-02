@@ -42,6 +42,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -146,7 +147,7 @@ public abstract class AbstractGerritOperatorE2ETest {
   }
 
   public Reconciler<GerritNetwork> getGerritNetworkReconciler() {
-    return new GerritNetworkReconcilerProvider(getIngressType()).get();
+    return new GerritNetworkReconcilerProvider(getIngressType(), Set.of()).get();
   }
 
   protected abstract IngressType getIngressType();

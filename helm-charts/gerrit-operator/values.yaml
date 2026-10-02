@@ -11,6 +11,10 @@ installCRDs: true
 ingress:
   # Which ingress provider to use (options: NONE, INGRESS, ISTIO, AMBASSADOR)
   type: NONE
+  # Restrict which namespaces the operator watches for Emissary-ingress Mapping
+  # resources. If empty or unset, the operator watches all namespaces.
+  # emissaryIngressNamespaces:
+  #   - namespace_name
 
 # What cluster domain to use for generated resources
 clusterDomain: cluster.local

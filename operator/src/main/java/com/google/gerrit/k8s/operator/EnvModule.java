@@ -18,7 +18,12 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.gerrit.k8s.operator.network.IngressType;
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EnvModule extends AbstractModule {
   @Override
@@ -27,11 +32,26 @@ public class EnvModule extends AbstractModule {
         .annotatedWith(Names.named("Namespace"))
         .toInstance(firstNonNull(System.getenv("NAMESPACE"), "default"));
 
+    bind(new TypeLiteral<Set<String>>() {})
+        .annotatedWith(Names.named("EmissaryIngressNamespaces"))
+        .toInstance(parseEmissaryIngressNamespaces());
+
     String ingressTypeEnv = System.getenv("INGRESS");
     IngressType ingressType =
         ingressTypeEnv == null
             ? IngressType.NONE
             : IngressType.valueOf(ingressTypeEnv.toUpperCase());
     bind(IngressType.class).annotatedWith(Names.named("IngressType")).toInstance(ingressType);
+  }
+
+  private static Set<String> parseEmissaryIngressNamespaces() {
+    String env = System.getenv("EMISSARY_INGRESS_NAMESPACES");
+    if (env == null || env.isBlank()) {
+      return Collections.emptySet();
+    }
+    return Arrays.stream(env.split(","))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
+        .collect(Collectors.toUnmodifiableSet());
   }
 }
