@@ -1,0 +1,11 @@
+apiVersion: getambassador.io/v2
+kind: TCPMapping
+metadata:
+  name: gerrit-tcp-mapping-ssh
+  namespace: gerrit
+spec:
+  ambassador_id:
+    - my-id-1
+    - my-id-2
+  port: 49418
+  service: primary-service.gerrit.svc.cluster.local:49418

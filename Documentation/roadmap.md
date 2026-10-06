@@ -86,12 +86,6 @@
   - [OpenTelemetry agent](https://opentelemetry.io/docs/collector/deployment/agent/)
   - Option to add a custom sidecar
 
-- **Support for additional Ingress controllers**: Add support for setting up routing
-  configurations for additional Ingress controllers \
-  \
-  Additional ingress controllers might include:
-  - [Ambassador](https://www.getambassador.io/products/edge-stack/api-gateway)
-
 ### Version 1.x
 
 #### Potential features

@@ -24,6 +24,7 @@
   - [GerritRepositoryConfig](#gerritrepositoryconfig)
   - [GerritClusterIngressConfig](#gerritclusteringressconfig)
   - [GerritIngressTlsConfig](#gerritingresstlsconfig)
+  - [GerritIngressSshConfig](#gerritingresssshconfig)
   - [GerritIngressAmbassadorConfig](#gerritingressambassadorconfig)
   - [GerritIstioConfig](#gerritistioconfig)
   - [GlobalRefDbConfig](#globalrefdbconfig)
@@ -1149,6 +1150,7 @@ Extends [StorageConfig](#StorageConfig).
 | `pathPrefix` | `string` | Optional URL path prefix. |
 | `annotations` | `Map<String, String>` | Annotations to be set for the ingress. This allows to configure the ingress further by e.g. setting the ingress class. This will be only used for type INGRESS and ignored otherwise. (optional) |
 | `tls` | [`GerritIngressTlsConfig`](#gerritingresstlsconfig) | Configuration of TLS to be used in the ingress |
+| `ssh` | [`GerritIngressSshConfig`](#gerritingresssshconfig) | SSH ingress configuration |
 | `ambassador` | [`GerritIngressAmbassadorConfig`](#gerritingressambassadorconfig) | Ambassador configuration. Only relevant when the INGRESS environment variable is set to "ambassador" in the operator |
 | `istio` | [`GerritIstioConfig`](#gerritistioconfig) | Istio configuration. Only relevant when the INGRESS environment variable is set to "istio" in the operator |
 
@@ -1158,6 +1160,12 @@ Extends [StorageConfig](#StorageConfig).
 |---|---|---|
 | `enabled` | `boolean` | Whether to use TLS (default: `false`) |
 | `secret` | `String` | Name of the secret containing the TLS key pair. The certificate should be a wildcard certificate allowing for all subdomains under the given host. |
+
+## GerritIngressSshConfig
+
+| Field | Type | Description |
+|---|---|---|
+| `enabled` | `boolean` | Whether to enable SSH ingress routing. When enabled with the Ambassador ingress provider, the operator creates a TCPMapping to route SSH traffic to the primary Gerrit. Requires an `sshPort` to be configured on the primary Gerrit. (default: `false`) |
 
 ## GerritIngressAmbassadorConfig
 
@@ -1329,7 +1337,7 @@ compared to the parent object. All other options can still be configured.
 |---|---|---|
 | `type` | `String` | Service type (default: `NodePort`) |
 | `httpPort` | `int` | Port used for HTTP requests (default: `80`) |
-| `sshPort` | `Integer` | Port used for SSH requests (optional; if unset, SSH access is disabled). If Istio is used, the Gateway will be automatically configured to accept SSH requests. If an Ingress controller is used, SSH requests will only be served by the Service itself! |
+| `sshPort` | `Integer` | Port used for SSH requests (optional; if unset, SSH access is disabled). If Istio is used, the Gateway will be automatically configured to accept SSH requests. If Ambassador is used and `ingress.ssh.enabled` is `true`, a TCPMapping will be created to route SSH traffic to the Gerrit service. If an Nginx Ingress controller is used, SSH requests will only be served by the Service itself and require manual configuration in the ingress controller. |
 
 ## GerritSite
 

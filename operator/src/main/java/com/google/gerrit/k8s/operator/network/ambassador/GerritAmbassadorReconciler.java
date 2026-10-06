@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.network.ambassador;
 
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.MAPPING_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.TCP_MAPPING_EVENT_SOURCE;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterHost.GERRIT_HOST;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping.GERRIT_MAPPING;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica.GERRIT_MAPPING_GET_REPLICA;
@@ -23,6 +24,7 @@ import static com.google.gerrit.k8s.operator.network.ambassador.dependent.Gerrit
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary.GERRIT_MAPPING_PRIMARY;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver.GERRIT_MAPPING_RECEIVER;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET.GERRIT_MAPPING_RECEIVER_GET;
+import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTCPMappingSsh.GERRIT_TCP_MAPPING_SSH;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext.GERRIT_TLS_CONTEXT;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
@@ -35,14 +37,17 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritCluster
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTCPMappingSsh;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTLSContext;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.LoadBalanceCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverGETMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.ReceiverMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.SingleMappingCondition;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.SshTcpMappingCondition;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCondition;
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
+import io.getambassador.v2.TCPMapping;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
@@ -152,11 +157,17 @@ import java.util.Set;
           name = GERRIT_HOST,
           type = GerritClusterHost.class,
           reconcilePrecondition = CreateHostCondition.class),
+      @Dependent(
+          name = GERRIT_TCP_MAPPING_SSH,
+          type = GerritClusterTCPMappingSsh.class,
+          reconcilePrecondition = SshTcpMappingCondition.class,
+          useEventSourceWithName = TCP_MAPPING_EVENT_SOURCE),
     })
 public class GerritAmbassadorReconciler
     implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
 
   public static final String MAPPING_EVENT_SOURCE = "mapping-event-source";
+  public static final String TCP_MAPPING_EVENT_SOURCE = "tcp-mapping-event-source";
 
   private final Set<String> emissaryIngressNamespaces;
 
@@ -175,8 +186,16 @@ public class GerritAmbassadorReconciler
     InformerEventSource<Mapping, GerritNetwork> mappingEventSource =
         new InformerEventSource<>(informerConfig.build(), context);
 
+    var tcpInformerConfig = InformerConfiguration.from(TCPMapping.class, context);
+    if (!emissaryIngressNamespaces.isEmpty()) {
+      tcpInformerConfig.withNamespaces(emissaryIngressNamespaces);
+    }
+    InformerEventSource<TCPMapping, GerritNetwork> tcpMappingEventSource =
+        new InformerEventSource<>(tcpInformerConfig.build(), context);
+
     Map<String, EventSource> eventSources = new HashMap<>();
     eventSources.put(MAPPING_EVENT_SOURCE, mappingEventSource);
+    eventSources.put(TCP_MAPPING_EVENT_SOURCE, tcpMappingEventSource);
     return eventSources;
   }
 

@@ -112,8 +112,15 @@ The Gerrit Operator currently supports the following Ingress providers:
   The operator also supports [Ambassador](https://www.getambassador.io/) for
   setting up ingress to the Gerrits deployed by the operator. If you use
   Ambassador's "Edge Stack" or "Emissary Ingress" to provide ingress to your k8s
-  services, you should set INGRESS=AMBASSADOR. Currently, SSH is not directly
-  supported when using INGRESS=AMBASSADOR.
+  services, you should set INGRESS=AMBASSADOR.
+
+  SSH is supported via Ambassador
+  [TCPMappings](https://www.getambassador.io/docs/emissary/latest/topics/using/tcpmappings).
+  To enable it, set `ingress.ssh.enabled: true` in the GerritNetwork or
+  GerritCluster CR and configure an `sshPort` on the primary Gerrit. The operator
+  will create a TCPMapping that routes SSH traffic on the configured port to the
+  primary Gerrit's service. Note that Ambassador must be configured to listen on
+  the SSH port for this to work.
 
   By default, the operator watches all namespaces for Ambassador Mapping resources.
   To restrict the operator to specific namespaces, set the `EMISSARY_INGRESS_NAMESPACES`
