@@ -21,6 +21,7 @@ import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import io.getambassador.v2.Host;
 import io.getambassador.v2.Mapping;
+import io.getambassador.v2.TCPMapping;
 import io.getambassador.v2.TLSContext;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.lang.reflect.InvocationTargetException;
@@ -69,6 +70,12 @@ public class GerritClusterAmbassadorTest {
         GerritClusterHost dependent = (GerritClusterHost) dependentObject;
         Host result = dependent.desired(gerritNetwork, null);
         Host expected = ReconcilerUtils.loadYaml(Host.class, this.getClass(), expectedOutputFile);
+        assertUnordered(result.getSpec(), expected.getSpec());
+      } else if (dependentObject instanceof GerritClusterTCPMappingSsh) {
+        GerritClusterTCPMappingSsh dependent = (GerritClusterTCPMappingSsh) dependentObject;
+        TCPMapping result = dependent.desired(gerritNetwork, null);
+        TCPMapping expected =
+            ReconcilerUtils.loadYaml(TCPMapping.class, this.getClass(), expectedOutputFile);
         assertUnordered(result.getSpec(), expected.getSpec());
       }
     }
@@ -122,8 +129,24 @@ public class GerritClusterAmbassadorTest {
                 GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
                 GerritClusterHost.class.getName(), "host.yaml")),
         Arguments.of(
+            "../../gerritnetwork_primary_replica_ambassador_ssh.yaml",
+            Map.of(
+                GerritClusterMappingGETReplica.class.getName(),
+                    "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingGitilesReplica.class.getName(),
+                    "mappingGitilesReplica_primary_replica.yaml",
+                GerritClusterMappingPOSTReplica.class.getName(),
+                    "mappingPOSTReplica_primary_replica.yaml",
+                GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
+                GerritClusterTCPMappingSsh.class.getName(), "tcpmappingSsh_primary.yaml")),
+        Arguments.of(
             "../../gerritnetwork_primary.yaml",
             Map.of(GerritClusterMapping.class.getName(), "mapping_primary.yaml")),
+        Arguments.of(
+            "../../gerritnetwork_primary_ambassador_ssh.yaml",
+            Map.of(
+                GerritClusterMapping.class.getName(), "mapping_primary.yaml",
+                GerritClusterTCPMappingSsh.class.getName(), "tcpmappingSsh_primary.yaml")),
         Arguments.of(
             "../../gerritnetwork_replica.yaml",
             Map.of(GerritClusterMapping.class.getName(), "mapping_replica.yaml")),
