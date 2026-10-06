@@ -18,6 +18,7 @@ import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassador
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterHost.GERRIT_HOST;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping.GERRIT_MAPPING;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica.GERRIT_MAPPING_GET_REPLICA;
+import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGitilesReplica.GERRIT_MAPPING_GITILES_REPLICA;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica.GERRIT_MAPPING_POST_REPLICA;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary.GERRIT_MAPPING_PRIMARY;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver.GERRIT_MAPPING_RECEIVER;
@@ -29,6 +30,7 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.CreateHostCon
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterHost;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGETReplica;
+import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingGitilesReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPOSTReplica;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
@@ -82,8 +84,9 @@ import java.util.Set;
  *
  * <p>3. 1 Primary 1 Replica
  *
- * <p>Direct write traffic to Primary and read traffic to Replica. To capture this requirement,
- * three different Mappings have to be created.
+ * <p>Direct write traffic to Primary and read traffic to Replica. To capture this requirement, four
+ * different Mappings have to be created (GET replica, POST replica, Gitiles replica, and primary
+ * catch-all).
  *
  * <p>Note: git fetch/clone operations result in two HTTP requests to the git server. The first is
  * of the form `GET /my-test-repo/info/refs?service=git-upload-pack` and the second is of the form
@@ -119,6 +122,11 @@ import java.util.Set;
       @Dependent(
           name = GERRIT_MAPPING_GET_REPLICA,
           type = GerritClusterMappingGETReplica.class,
+          reconcilePrecondition = LoadBalanceCondition.class,
+          useEventSourceWithName = MAPPING_EVENT_SOURCE),
+      @Dependent(
+          name = GERRIT_MAPPING_GITILES_REPLICA,
+          type = GerritClusterMappingGitilesReplica.class,
           reconcilePrecondition = LoadBalanceCondition.class,
           useEventSourceWithName = MAPPING_EVENT_SOURCE),
       @Dependent(

@@ -81,6 +81,8 @@ public class GerritClusterAmbassadorTest {
             Map.of(
                 GerritClusterMappingGETReplica.class.getName(),
                     "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingGitilesReplica.class.getName(),
+                    "mappingGitilesReplica_primary_replica.yaml",
                 GerritClusterMappingPOSTReplica.class.getName(),
                     "mappingPOSTReplica_primary_replica.yaml",
                 GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
@@ -90,6 +92,8 @@ public class GerritClusterAmbassadorTest {
             Map.of(
                 GerritClusterMappingGETReplica.class.getName(),
                     "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingGitilesReplica.class.getName(),
+                    "mappingGitilesReplica_primary_replica.yaml",
                 GerritClusterMappingPOSTReplica.class.getName(),
                     "mappingPOSTReplica_primary_replica.yaml",
                 GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
@@ -100,6 +104,8 @@ public class GerritClusterAmbassadorTest {
             Map.of(
                 GerritClusterMappingGETReplica.class.getName(),
                     "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingGitilesReplica.class.getName(),
+                    "mappingGitilesReplica_primary_replica.yaml",
                 GerritClusterMappingPOSTReplica.class.getName(),
                     "mappingPOSTReplica_primary_replica.yaml",
                 GerritClusterMappingPrimary.class.getName(),
@@ -109,6 +115,8 @@ public class GerritClusterAmbassadorTest {
             Map.of(
                 GerritClusterMappingGETReplica.class.getName(),
                     "mappingGETReplica_primary_replica.yaml",
+                GerritClusterMappingGitilesReplica.class.getName(),
+                    "mappingGitilesReplica_primary_replica.yaml",
                 GerritClusterMappingPOSTReplica.class.getName(),
                     "mappingPOSTReplica_primary_replica.yaml",
                 GerritClusterMappingPrimary.class.getName(), "mappingPrimary_primary_replica.yaml",
