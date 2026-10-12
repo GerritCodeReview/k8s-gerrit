@@ -30,7 +30,6 @@ import io.fabric8.kubernetes.api.model.ContainerBuilder;
 import io.fabric8.kubernetes.api.model.EmptyDirVolumeSourceBuilder;
 import io.fabric8.kubernetes.api.model.LabelSelectorBuilder;
 import io.fabric8.kubernetes.api.model.Quantity;
-import io.fabric8.kubernetes.api.model.Secret;
 import io.fabric8.kubernetes.api.model.Volume;
 import io.fabric8.kubernetes.api.model.VolumeBuilder;
 import io.fabric8.kubernetes.api.model.VolumeMount;
@@ -49,7 +48,6 @@ public class GerritIndexerJob
   private static final String OPENSEARCH_SECRET_VOLUME = "opensearch-secret";
   private static final String CA_CERT_MOUNT_PATH = "/var/config/ca.crt";
   private static final String TRUST_STORE_MOUNT_PATH = "/var/mnt/data/index-opensearch";
-  private String ns;
 
   public GerritIndexerJob() {
     super(Job.class);
@@ -57,7 +55,7 @@ public class GerritIndexerJob
 
   @Override
   protected Job desired(GerritIndexer gerritIndexer, Context<GerritIndexer> context) {
-    this.ns = gerritIndexer.getMetadata().getNamespace();
+    String ns = gerritIndexer.getMetadata().getNamespace();
     GerritCluster gerritCluster =
         context
             .getClient()
@@ -96,8 +94,8 @@ public class GerritIndexerJob
             gerritCluster.getSpec().getContainerImages().getImagePullSecrets())
         .withRestartPolicy("OnFailure")
         .withSecurityContext(GerritSecurityContext.forPod())
-        .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster, context))
-        .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster, context))
+        .withInitContainers(buildGerritInitContainer(indexerSpec, gerritCluster))
+        .withContainers(buildGerritIndexerContainer(indexerSpec, gerritCluster))
         .withVolumes(buildVolumes(gerritIndexer, gerritCluster))
         .endSpec()
         .endTemplate()
@@ -124,7 +122,7 @@ public class GerritIndexerJob
   }
 
   private Container buildGerritInitContainer(
-      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster, Context<GerritIndexer> context) {
+      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
     return new ContainerBuilder()
         .withName("gerrit-init")
         .withSecurityContext(GerritSecurityContext.forContainer())
@@ -136,12 +134,12 @@ public class GerritIndexerJob
                 .getFullImageName("gerrit-init"))
         .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
         .withResources(indexerSpec.getResources())
-        .withVolumeMounts(buildGerritInitVolumeMounts(indexerSpec, context))
+        .withVolumeMounts(buildGerritInitVolumeMounts(indexerSpec))
         .build();
   }
 
   private Container buildGerritIndexerContainer(
-      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster, Context<GerritIndexer> context) {
+      GerritIndexerSpec indexerSpec, GerritCluster gerritCluster) {
     ContainerBuilder builder =
         new ContainerBuilder()
             .withName("gerrit-indexer")
@@ -154,7 +152,7 @@ public class GerritIndexerJob
                     .getFullImageName("gerrit-indexer"))
             .withImagePullPolicy(gerritCluster.getSpec().getContainerImages().getImagePullPolicy())
             .withResources(indexerSpec.getResources())
-            .withVolumeMounts(buildGerritIndexerVolumeMounts(indexerSpec, context));
+            .withVolumeMounts(buildGerritIndexerVolumeMounts(indexerSpec));
 
     if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
       builder.withArgs("--output", "/indexes");
@@ -163,8 +161,7 @@ public class GerritIndexerJob
     return builder.build();
   }
 
-  private List<VolumeMount> buildGerritInitVolumeMounts(
-      GerritIndexerSpec indexerSpec, Context<GerritIndexer> context) {
+  private List<VolumeMount> buildGerritInitVolumeMounts(GerritIndexerSpec indexerSpec) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     volumeMounts.add(
@@ -176,38 +173,24 @@ public class GerritIndexerJob
 
     String secretRef = indexerSpec.getSecretRef();
     if (secretRef != null && !secretRef.isBlank()) {
-      Secret secret =
-          context
-              .getClient()
-              .resources(Secret.class)
-              .inNamespace(this.ns)
-              .withName(secretRef)
-              .get();
-      if (secret != null) {
-        if (secret.getData().containsKey("ca.crt")) {
-          volumeMounts.add(
-              new VolumeMountBuilder()
-                  .withName(OPENSEARCH_SECRET_VOLUME)
-                  .withMountPath(CA_CERT_MOUNT_PATH)
-                  .withSubPath("ca.crt")
-                  .build());
-        }
-        if (secret.getData().containsKey("truststore.jks")) {
-          volumeMounts.add(
-              new VolumeMountBuilder()
-                  .withName(OPENSEARCH_SECRET_VOLUME)
-                  .withMountPath(TRUST_STORE_MOUNT_PATH)
-                  .build());
-        }
-      }
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(OPENSEARCH_SECRET_VOLUME)
+              .withMountPath(CA_CERT_MOUNT_PATH)
+              .withSubPath("ca.crt")
+              .build());
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(OPENSEARCH_SECRET_VOLUME)
+              .withMountPath(TRUST_STORE_MOUNT_PATH)
+              .build());
     }
     volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
 
     return volumeMounts;
   }
 
-  private List<VolumeMount> buildGerritIndexerVolumeMounts(
-      GerritIndexerSpec indexerSpec, Context<GerritIndexer> context) {
+  private List<VolumeMount> buildGerritIndexerVolumeMounts(GerritIndexerSpec indexerSpec) {
     List<VolumeMount> volumeMounts = new ArrayList<>();
 
     if (indexerSpec.getIndex().getType() == IndexType.LUCENE) {
@@ -220,15 +203,11 @@ public class GerritIndexerJob
     }
     String secretRef = indexerSpec.getSecretRef();
     if (secretRef != null && !secretRef.isBlank()) {
-      Secret secret =
-          context.getClient().resources(Secret.class).inNamespace(ns).withName(secretRef).get();
-      if (secret != null && secret.getData().containsKey("truststore.jks")) {
-        volumeMounts.add(
-            new VolumeMountBuilder()
-                .withName(OPENSEARCH_SECRET_VOLUME)
-                .withMountPath(TRUST_STORE_MOUNT_PATH)
-                .build());
-      }
+      volumeMounts.add(
+          new VolumeMountBuilder()
+              .withName(OPENSEARCH_SECRET_VOLUME)
+              .withMountPath(TRUST_STORE_MOUNT_PATH)
+              .build());
     }
     volumeMounts.addAll(buildCommonVolumeMounts(indexerSpec));
 
