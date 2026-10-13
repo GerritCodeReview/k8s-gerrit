@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0ed2c00_c954bfaa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-10-13T05:08:40Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com I was looking into adding some missing tests / pipeline for the Verified flag, but from other changes looks like people have been adding the label themselves?\n\nIs there anything I have to set up to get it working, or are we expecting people to set it manually?",
+      "revId": "90e8197c4deed321c8d4e945c82cebe8f573ffde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
