@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6355566a_586c07fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-10-13T05:11:35Z",
+      "side": 1,
+      "message": "I\u0027m wondering if creating a mapping for just Gitiles is an anti-pattern. It\u0027s not scalable for other plugins, however involving other plugins we would have to deal with dynamic plugin paths if not internal.",
+      "revId": "ccd1a38f38df6a2a62ca7ad96ea822d4b8ce83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fabf3d5_aef5ad9f",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingGitilesReplica.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-10-13T05:11:35Z",
+      "side": 1,
+      "message": "Since gitiles is an internal plugin, I\u0027m expecting this path to be always exactly this.",
+      "revId": "ccd1a38f38df6a2a62ca7ad96ea822d4b8ce83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
