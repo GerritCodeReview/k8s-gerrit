@@ -34,6 +34,24 @@
       "parentUuid": "d0ed2c00_c954bfaa",
       "revId": "90e8197c4deed321c8d4e945c82cebe8f573ffde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a48bb01d_960c7506",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-13T08:12:34Z",
+      "side": 1,
+      "message": "The build currently fails due to the unavailability of the index-elasticsearch plugin. Let me look into that.",
+      "parentUuid": "27ba12cc_93101892",
+      "revId": "90e8197c4deed321c8d4e945c82cebe8f573ffde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
