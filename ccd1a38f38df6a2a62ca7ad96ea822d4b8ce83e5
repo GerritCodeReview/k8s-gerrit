@@ -33,6 +33,24 @@
       "message": "Since gitiles is an internal plugin, I\u0027m expecting this path to be always exactly this.",
       "revId": "ccd1a38f38df6a2a62ca7ad96ea822d4b8ce83e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd40dcc_0bb80a51",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingGitilesReplica.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1162586
+      },
+      "writtenOn": "2026-10-13T18:24:07Z",
+      "side": 1,
+      "message": "\u003e The flag gerrit.baseUrl can be set to a path other than the default location that Gitiles is being exposed. By default, it\u0027s at the path to Gerrit + plugins/gitiles/\n\nhttps://gerrit.googlesource.com/plugins/gitiles/%2B/refs/tags/v3.9.2/src/main/resources/%2BDocumentation/config.md",
+      "parentUuid": "5fabf3d5_aef5ad9f",
+      "revId": "ccd1a38f38df6a2a62ca7ad96ea822d4b8ce83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
