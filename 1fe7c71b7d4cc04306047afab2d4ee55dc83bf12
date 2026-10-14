@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1bc9a0_13c0b857",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-14T09:21:55Z",
+      "side": 1,
+      "message": "This unfortunately requires a new API version.",
+      "revId": "1fe7c71b7d4cc04306047afab2d4ee55dc83bf12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
