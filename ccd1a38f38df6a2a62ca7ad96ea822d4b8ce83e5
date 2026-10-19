@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "028d974c_f4c1961f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-10-19T23:19:51Z",
+      "side": 1,
+      "message": "Yeah, I agree with you to be honest. It\u0027s too specific, and not a general implementation ingress-wide.\n\nI think I might be able to get a generic implementation going for a list of plugins/paths we want to redirect to the read-replica\u0027s, but I\u0027m not fully sure if this is as beneficial as we\u0027d want it to be. Then, when you add that the replica\u0027s aren\u0027t even meant to expose any REST API/UI, it makes even less sense to do it.\n\nThe usecase here is that, unfortunately, some parts of our CI are funnelling fetches through gitiles (e.g. url/plugins/gitiles/\u003cproject\u003e). The correct fix would be to change these to use the normal authenticated url to fetch, but as you might expect, it\u0027s a lot more work and collaboration than simply redirecting these to the replicas.",
+      "parentUuid": "ba815d83_53ca3b23",
+      "revId": "ccd1a38f38df6a2a62ca7ad96ea822d4b8ce83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fabf3d5_aef5ad9f",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingGitilesReplica.java",
         "patchSetId": 1
