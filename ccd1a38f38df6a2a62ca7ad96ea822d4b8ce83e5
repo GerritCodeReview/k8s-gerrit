@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba815d83_53ca3b23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-19T09:34:28Z",
+      "side": 1,
+      "message": "While I get the idea behind this change, I have to oppose it for two reasons:\n- Don\u0027t add Gerrit-related functionality just for one Ingress-implementation. It should always apply to all variants, since it will otherwise be messy to maintain.\n- Running gitiles on a replica might be possible (I have never done that), but I would not necessarily recommend it, because it is outside the scope of Gerrit running in replica mode. The replica is meant to not expose any REST API/UI at all. Due to some plugin functionality (healthcheck, metrics) it violates that and this is likely why gitiles would also work. Gerrit replicas are meant to serve git fetch/clone and nothing else. So there is no guarantee for gitiles to work correctly. Do session cookies actually work? The replicas don\u0027t have shared websessions as primaries do.\n\nIf you want to use something like this, I would ask you to use a more generic implementation, i.e. to allow to provide a custom rule to the ingress on what to route to which deployment.\n\nCould you provide more details for your usecase?",
+      "revId": "ccd1a38f38df6a2a62ca7ad96ea822d4b8ce83e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fabf3d5_aef5ad9f",
         "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterMappingGitilesReplica.java",
         "patchSetId": 1
