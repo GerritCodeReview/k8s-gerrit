@@ -34,9 +34,9 @@ wheel==0.43.0 \
     # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==70.2.0 \
-    --hash=sha256:b8b8060bb426838fbe942479c90296ce976249451118ef566a5a0b7d8b78fb05 \
-    --hash=sha256:bd63e505105011b25c3c11f753f7e3b8465ea739efddaccef8f0efac2137bac1
+setuptools==84.1.0 \
+    --hash=sha256:23657205b63d4d31395ab917815247f694aafad28cd21316bf5fd45a51048ea0 \
+    --hash=sha256:5231689c6ac8156cd155cfb98c3fd6fb252c3e7e9bd3d78b64d3c55f132624c9
     # via
     #   -r requirements.in
     #   pipenv
