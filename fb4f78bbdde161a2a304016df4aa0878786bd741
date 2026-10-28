@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8066b7_d93870fd",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-28T12:48:31Z",
+      "side": 1,
+      "message": "I got this from https://gerrit.googlesource.com/k8s-gerrit/+/refs/heads/master/operator/src/main/java/com/google/gerrit/k8s/operator/gerrit/dependent/GerritStatefulSet.java#377 because I was thinking of index-opensearch as a module (for gerrit).\n\nBut in retrospect it makes more sense to use /var/mnt/etc/secret because it\u0027s not necessarily private data for that specific module in this context. Done.",
+      "parentUuid": "5e570c0e_f0e18ee4",
+      "range": {
+        "startLine": 50,
+        "startChar": 56,
+        "endLine": 50,
+        "endChar": 86
+      },
+      "revId": "fb4f78bbdde161a2a304016df4aa0878786bd741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00a12811_eeef89ac",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcbf89cc_2fa60368",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-28T12:48:31Z",
+      "side": 1,
+      "message": "Twice, but done",
+      "parentUuid": "00a12811_eeef89ac",
+      "revId": "fb4f78bbdde161a2a304016df4aa0878786bd741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7dba5a12_aab4d4e6",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-10-14T09:30:49Z",
       "side": 1,
       "message": "The mountPath constant name is too specific for what it does now\n```suggestion\n              .withMountPath(SECRET_MOUNT_PATH)\n```",
+      "range": {
+        "startLine": 185,
+        "startChar": 29,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "fb4f78bbdde161a2a304016df4aa0878786bd741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0add5c37_a4a01e9c",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-28T12:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dba5a12_aab4d4e6",
       "range": {
         "startLine": 185,
         "startChar": 29,
