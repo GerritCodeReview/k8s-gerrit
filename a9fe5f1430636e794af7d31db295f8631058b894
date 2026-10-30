@@ -16,6 +16,24 @@
       "message": "```suggestion\n  private static final String SECRET_VOLUME \u003d \"indexer-secret\";\n```",
       "revId": "a9fe5f1430636e794af7d31db295f8631058b894",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9842a8d5_6456f0b8",
+        "filename": "operator/src/main/java/com/google/gerrit/k8s/operator/indexer/dependent/GerritIndexerJob.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-30T11:48:59Z",
+      "side": 1,
+      "message": "Fix applied (patchsets 3-5)",
+      "parentUuid": "2cf54de3_34530c01",
+      "revId": "a9fe5f1430636e794af7d31db295f8631058b894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
