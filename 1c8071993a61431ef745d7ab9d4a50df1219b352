@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd5a39d1_c50ff7ed",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/indexer/dependent/gerrit_indexer_job_es.patch.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-30T12:28:27Z",
+      "side": 1,
+      "message": "Index-based removal, reliant on the array order, is unfortunate. Maybe document it in provideYamlManifests() so we know what broke if we ever change the base volumeMounts?",
+      "revId": "1c8071993a61431ef745d7ab9d4a50df1219b352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
