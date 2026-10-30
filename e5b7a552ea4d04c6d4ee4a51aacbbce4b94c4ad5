@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1904a74_4544d287",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/cluster/dependent/GerritClusterGerritsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-30T12:10:45Z",
+      "side": 0,
+      "message": "Are these no longer tested? Do we still validate that with with `sshdAdvertisedReadPort\u003d39418` the rendered output is `advertisedAddress \u003d example.com:39418`",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "e5b7a552ea4d04c6d4ee4a51aacbbce4b94c4ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
