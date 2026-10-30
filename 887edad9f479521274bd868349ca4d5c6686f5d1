@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d149d988_dbf2772a",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/gitgc/dependent/cronjob_args_options_append.patch.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-10-30T12:21:38Z",
+      "side": 1,
+      "message": "It seems strange that this and https://gerrit-review.googlesource.com/c/k8s-gerrit/+/633741/2/operator/src/test/resources/com/google/gerrit/k8s/operator/gitgc/dependent/cronjob_args_options.patch.yaml represent the same options\n\nAfter looking into it, I understand this _append variant is because sometimes there are already args in the document so you want to append instead of replace, but the context is not very clear\n\nMaybe it would be better to have a single combined patch cronjob_args_selected_options.patch.yaml that sets the full array\n [-p, test, -p, example, -B, -R, -P]. You lose patch composition there but it makes it more readable imo? Up to you",
+      "revId": "887edad9f479521274bd868349ca4d5c6686f5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
