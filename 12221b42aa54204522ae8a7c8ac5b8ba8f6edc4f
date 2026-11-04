@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38c9778b_c790a2c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-11-04T12:13:23Z",
+      "side": 1,
+      "message": "```suggestion\nAlso updates requests to 2.33.0.\n```",
+      "revId": "12221b42aa54204522ae8a7c8ac5b8ba8f6edc4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
