@@ -16,7 +16,6 @@ import re
 
 import pytest
 
-
 JAVA_VER = 25
 
 

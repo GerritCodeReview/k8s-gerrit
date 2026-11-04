@@ -155,7 +155,7 @@ class GerritLuceneReindexer(GerritAbstractReindexer):
         lucene_indices = {}
         for index in file_list:
             try:
-                (name, version) = index.split("_")
+                name, version = index.split("_")
                 if name in lucene_indices:
                     lucene_indices[name] = max(version, lucene_indices[name])
                 else:
@@ -192,7 +192,7 @@ class GerritRemoteIndexer(GerritAbstractReindexer):
         for index, _ in response.json().items():
             try:
                 index = index.replace(engine_config["prefix"], "", 1)
-                (name, version) = index.split("_")
+                name, version = index.split("_")
                 es_indices[name] = version
             except ValueError:
                 LOG.debug("Found unknown index: %s", index)
