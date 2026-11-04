@@ -442,6 +442,7 @@
 						<include>**/*Test.java</include>
 					</includes>
 					<rerunFailingTestsCount>1</rerunFailingTestsCount>
+					<parallel>methods</parallel>
 				</configuration>
 			</plugin>
 			<plugin>
