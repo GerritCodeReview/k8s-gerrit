@@ -115,8 +115,8 @@ def pytest_runtest_setup(item):
 def docker_client(request):
     if request.config.getoption("--docker-host"):
         return docker.DockerClient(
-            base_url=request.config.getoption("--docker-host"),
-            version="1.41")
+            base_url=request.config.getoption("--docker-host"), version="1.41"
+        )
     return docker.from_env()
 
 
