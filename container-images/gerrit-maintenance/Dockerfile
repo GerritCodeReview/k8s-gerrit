@@ -1,14 +1,14 @@
 ARG TAG=latest
 FROM base:${TAG}
 
-ARG GERRIT_VER=refs/heads/master
+ARG GERRIT_VER=1f7db0e10692d5c94bad160884c92540a3164d18
 
 RUN apk update && \
     apk add --no-cache \
       python3 \
       curl && \
     mkdir -p /var/tools && \
-    curl https://gerrit.googlesource.com/gerrit/+archive/${GERRIT_VER}/contrib/maintenance.tar.gz | \
+    curl https://gerrit.googlesource.com/site-maintenance/+archive/${GERRIT_VER}.tar.gz | \
         tar -xzf - -C /var/tools && \
     apk del --purge curl
 

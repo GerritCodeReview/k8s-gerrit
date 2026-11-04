@@ -18,7 +18,6 @@ from ..constants import MNT_PATH, SITE_PATH
 from ..helpers import log
 from .init import GerritInit
 
-
 LOG = log.get_logger("init")
 
 

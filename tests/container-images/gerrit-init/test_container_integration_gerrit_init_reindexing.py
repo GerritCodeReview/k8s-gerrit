@@ -141,7 +141,7 @@ class TestGerritReindex:
         )
 
         index = self._get_indices(container_run_endless)[0]
-        (name, version) = index.split("_")
+        name, version = index.split("_")
         os.rename(
             os.path.join(temp_site, "index", index),
             os.path.join(temp_site, "index", f"{name}_{int(version) - 1:04d}"),
