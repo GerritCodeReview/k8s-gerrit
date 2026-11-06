@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f40ca621_63a24a14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-11-06T02:44:44Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com Would appreciate your thoughts on this one. We\u0027re still using a TCPMapping for our SSH routing and this would be generic enough that other people would benefit from it.",
+      "revId": "196cec49690a742bb22cf997b7806a5a3975c2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
