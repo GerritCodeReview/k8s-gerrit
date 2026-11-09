@@ -16,6 +16,24 @@
       "message": "Index-based removal, reliant on the array order, is unfortunate. Maybe document it in provideYamlManifests() so we know what broke if we ever change the base volumeMounts?",
       "revId": "1c8071993a61431ef745d7ab9d4a50df1219b352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a4ce95f_5882ef37",
+        "filename": "operator/src/test/resources/com/google/gerrit/k8s/operator/indexer/dependent/gerrit_indexer_job_es.patch.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-11-09T11:12:08Z",
+      "side": 1,
+      "message": "JSON Patches unfortunately do not allow selection by some value, so this is the only way. Since this is test code tha twould anyway need to be adapted in the base file in such a case, I believe that is fine. We could only further break files apart and have a file per volumemount.",
+      "parentUuid": "bd5a39d1_c50ff7ed",
+      "revId": "1c8071993a61431ef745d7ab9d4a50df1219b352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
