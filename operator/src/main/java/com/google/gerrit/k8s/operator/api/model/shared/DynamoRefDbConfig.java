@@ -14,12 +14,13 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import io.fabric8.generator.annotation.Required;
 import lombok.Data;
 
 @Data
 public class DynamoRefDbConfig {
-  private String region;
+  @Required private String region;
   private String endpoint;
-  private String locksTableName;
-  private String refsDbTableName;
+  @Required private String locksTableName;
+  @Required private String refsDbTableName;
 }

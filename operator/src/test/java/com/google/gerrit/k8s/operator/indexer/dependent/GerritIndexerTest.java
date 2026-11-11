@@ -166,11 +166,6 @@ public class GerritIndexerTest {
             TestFixtures.indexerJob(INDEXER_JOB_ES_PATCH),
             TestFixtures.indexerConfigMap(INDEXER_CONFIGMAP_ES_PATCH)),
         Arguments.of(
-            TestFixtures.gerritIndexer(),
-            TestFixtures.gerritCluster(context, SHARED_PATCH_ES_GERRIT),
-            TestFixtures.indexerJob(INDEXER_JOB_ES_PATCH),
-            TestFixtures.indexerConfigMap(INDEXER_CONFIGMAP_ES_PATCH)),
-        Arguments.of(
             TestFixtures.gerritIndexer(SHARED_PATCH_OS_GERRIT, INDEXER_OS_PATCH),
             TestFixtures.gerritCluster(context),
             TestFixtures.indexerJob(INDEXER_JOB_ES_PATCH, INDEXER_JOB_OS_PATCH),

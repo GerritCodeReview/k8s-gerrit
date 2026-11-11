@@ -400,6 +400,9 @@ spec:
                       type: string
                   type: object
                 type: array
+            required:
+            - cluster
+            - schedule
             type: object
           status:
             properties:

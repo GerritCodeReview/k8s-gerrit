@@ -15,10 +15,11 @@
 package com.google.gerrit.k8s.operator.api.model.network;
 
 import com.google.gerrit.k8s.operator.api.model.shared.HttpServiceConfig;
+import io.fabric8.generator.annotation.Required;
 import java.util.Objects;
 
 public class NetworkMember {
-  private String name;
+  @Required private String name;
   private int httpPort = 8080;
 
   public NetworkMember() {}

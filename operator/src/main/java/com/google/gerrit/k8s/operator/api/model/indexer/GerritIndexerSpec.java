@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.api.model.indexer;
 
 import com.google.gerrit.k8s.operator.api.model.shared.IndexConfig;
+import io.fabric8.generator.annotation.Required;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -25,13 +26,13 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GerritIndexerSpec {
-  private String cluster;
+  @Required private String cluster;
   private List<Toleration> tolerations = new ArrayList<>();
   private Affinity affinity;
   private ResourceRequirements resources = new ResourceRequirements();
   private Map<String, String> configFiles = new HashMap<>();
   private GerritIndexerStorage storage = new GerritIndexerStorage();
-  private IndexConfig index;
+  private IndexConfig index = new IndexConfig();
   private String openSearchSecretRef;
 
   public List<Toleration> getTolerations() {

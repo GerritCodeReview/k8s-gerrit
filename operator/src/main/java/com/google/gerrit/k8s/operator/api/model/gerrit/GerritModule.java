@@ -16,13 +16,14 @@ package com.google.gerrit.k8s.operator.api.model.gerrit;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.fabric8.generator.annotation.Required;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class GerritModule implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  private String name;
+  @Required private String name;
 
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private String url;

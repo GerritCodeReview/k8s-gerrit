@@ -14,10 +14,11 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import io.fabric8.generator.annotation.Required;
 import java.util.Objects;
 
 public class RemoteIndexConfig {
-  private String server;
+  @Required private String server;
   private String config;
 
   public String getServer() {

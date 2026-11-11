@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class IndexConfig {
   private IndexType type = IndexType.LUCENE;
-  private RemoteIndexConfig remoteIndexConfig = new RemoteIndexConfig();
+  private RemoteIndexConfig remoteIndexConfig;
 
   public IndexType getType() {
     return type;
