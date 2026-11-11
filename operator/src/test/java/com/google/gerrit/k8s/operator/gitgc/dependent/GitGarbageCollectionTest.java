@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gitgc.dependent;
 
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CLUSTER_NFS_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GITGC_CRONJOB_ARGS_OPTIONS_APPEND_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GITGC_CRONJOB_ARGS_OPTIONS_PATCH;
@@ -24,46 +23,20 @@ import static com.google.gerrit.k8s.operator.test.TestFixtures.GITGC_OPTIONS_PAT
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GITGC_SELECTED_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
-import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
-import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
-import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
-import io.javaoperatorsdk.operator.processing.Controller;
-import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
-import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
-import java.net.HttpURLConnection;
 import java.util.stream.Stream;
-import org.junit.Rule;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GitGarbageCollectionTest {
-  private static final String GET_GERRIT_CLUSTER_PATH =
-      String.format(
-          "/apis/%s/namespaces/gerrit/%s/gerrit",
-          HasMetadata.getApiVersion(GerritCluster.class),
-          HasMetadata.getPlural(GerritCluster.class));
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
-
-  @BeforeAll
-  public void setup() throws Exception {
-    kubernetesServer.before();
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class GitGarbageCollectionTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -74,29 +47,14 @@ public class GitGarbageCollectionTest {
     GitGarbageCollection input = inputFixture.load();
     GerritCluster gerritCluster = gerritClusterFixture.load();
 
-    kubernetesServer
-        .expect()
-        .get()
-        .withPath(GET_GERRIT_CLUSTER_PATH)
-        .andReturn(HttpURLConnection.HTTP_OK, gerritCluster)
-        .once();
-
-    Context<GitGarbageCollection> context =
-        getContext(new GitGarbageCollectionReconciler(kubernetesServer.getClient()), input);
-    assertUnordered(
-        new GitGarbageCollectionCronJob().desired(input, context), expectedCronJobFixture.load());
-  }
-
-  private Context<GitGarbageCollection> getContext(
-      Reconciler<GitGarbageCollection> reconciler, GitGarbageCollection primary) {
-    Controller<GitGarbageCollection> controller =
-        new Controller<GitGarbageCollection>(
-            reconciler,
-            new BaseConfigurationService().getConfigurationFor(reconciler),
-            kubernetesServer.getClient());
-
-    return new DefaultContext<GitGarbageCollection>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary);
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new GitGarbageCollectionReconciler(client))) {
+      mock.create(gerritCluster);
+      mock.create(input);
+      expectedCronJobFixture.assertEqualTo(
+          mock.awaitResource(
+              CronJob.class, input.getMetadata().getNamespace(), input.getMetadata().getName()));
+    }
   }
 
   private static Stream<Arguments> provideYamlManifests() {
@@ -123,5 +81,10 @@ public class GitGarbageCollectionTest {
             TestFixtures.gitGarbageCollection(),
             TestFixtures.gerritCluster(context, GERRIT_CLUSTER_NFS_PATCH),
             TestFixtures.gitGcCronJob(GITGC_CRONJOB_NFS_PATCH)));
+  }
+
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 }

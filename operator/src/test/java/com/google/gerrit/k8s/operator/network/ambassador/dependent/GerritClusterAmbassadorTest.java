@@ -14,7 +14,6 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.AMBASSADOR_HOST_TLS_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_AMBASSADOR_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_CREATE_HOST_PATCH;
@@ -24,30 +23,24 @@ import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REP
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_TLS_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
 import com.google.gerrit.k8s.operator.test.TestFixtures.ExpectedMapping;
 import io.getambassador.v2.Host;
+import io.getambassador.v2.Mapping;
 import io.getambassador.v2.TLSContext;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GerritClusterAmbassadorTest {
-
-  @BeforeAll
-  public void setup() {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class GerritClusterAmbassadorTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -55,32 +48,31 @@ public class GerritClusterAmbassadorTest {
       KubernetesResourceFixture<GerritNetwork> inputFixture,
       List<ExpectedMapping> expectedMappings,
       KubernetesResourceFixture<TLSContext> expectedTlsContext,
-      KubernetesResourceFixture<Host> expectedHost)
-      throws NoSuchMethodException,
-          InstantiationException,
-          IllegalAccessException,
-          InvocationTargetException {
+      KubernetesResourceFixture<Host> expectedHost) {
     GerritNetwork gerritNetwork = inputFixture.load();
+    String ns = gerritNetwork.getMetadata().getNamespace();
 
-    for (ExpectedMapping expected : expectedMappings) {
-      MappingDependentResourceInterface dependent =
-          (MappingDependentResourceInterface)
-              expected.dependentClass().getDeclaredConstructor().newInstance();
-      assertUnordered(
-          dependent.desired(gerritNetwork, null).getSpec(), expected.fixture().load().getSpec());
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new GerritAmbassadorReconciler(Set.of()))) {
+      mock.create(gerritNetwork);
+      for (ExpectedMapping expected : expectedMappings) {
+        expected
+            .fixture()
+            .assertEqualTo(mock.awaitResource(Mapping.class, ns, expected.fixture().getName()));
+      }
+      if (expectedTlsContext != null) {
+        expectedTlsContext.assertEqualTo(
+            mock.awaitResource(TLSContext.class, ns, expectedTlsContext.getName()));
+      }
+      if (expectedHost != null) {
+        expectedHost.assertEqualTo(mock.awaitResource(Host.class, ns, expectedHost.getName()));
+      }
     }
+  }
 
-    if (expectedTlsContext != null) {
-      assertUnordered(
-          new GerritClusterTLSContext().desired(gerritNetwork, null).getSpec(),
-          expectedTlsContext.load().getSpec());
-    }
-
-    if (expectedHost != null) {
-      assertUnordered(
-          new GerritClusterHost().desired(gerritNetwork, null).getSpec(),
-          expectedHost.load().getSpec());
-    }
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 
   private static Stream<Arguments> provideYamlManifests() {
