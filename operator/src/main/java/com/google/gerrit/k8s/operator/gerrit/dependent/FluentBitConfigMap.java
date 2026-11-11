@@ -87,7 +87,7 @@ public class FluentBitConfigMap extends CRUDKubernetesDependentResource<ConfigMa
 
     Config gerritConfig = new Config();
     try {
-      gerritConfig.fromText(gerrit.getSpec().getConfigFiles().get("gerrit.config"));
+      gerritConfig.fromText(gerrit.getSpec().getConfigFiles().getOrDefault("gerrit.config", ""));
     } catch (ConfigInvalidException e) {
       throw new IllegalStateException("Failed to parse gerrit.config.", e);
     }
