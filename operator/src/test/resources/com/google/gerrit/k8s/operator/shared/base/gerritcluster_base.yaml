@@ -47,4 +47,3 @@ spec:
       configFiles: {}
       secretRef: gerrit-secure-config
 
-  receiver: {}

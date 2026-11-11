@@ -361,6 +361,8 @@ spec:
                         type: string
                       server:
                         type: string
+                    required:
+                    - server
                     type: object
                   type:
                     enum:
@@ -434,6 +436,8 @@ spec:
                       type: string
                   type: object
                 type: array
+            required:
+            - cluster
             type: object
           status:
             properties:

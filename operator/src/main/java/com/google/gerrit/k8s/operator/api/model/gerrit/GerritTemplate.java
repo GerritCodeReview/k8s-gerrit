@@ -24,6 +24,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec.Gerrit
 import com.google.gerrit.k8s.operator.api.model.shared.EventsBrokerConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.GlobalRefDbConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
+import io.fabric8.generator.annotation.Required;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -37,9 +38,11 @@ public class GerritTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
 
   @JsonProperty("metadata")
+  @Required
   private ObjectMeta metadata;
 
   @JsonProperty("spec")
+  @Required
   private GerritTemplateSpec spec;
 
   public GerritTemplate() {}

@@ -14,10 +14,11 @@
 
 package com.google.gerrit.k8s.operator.api.model.gerrit;
 
+import io.fabric8.generator.annotation.Required;
 import java.util.Objects;
 
 public class GerritModuleData {
-  private String secretRef;
+  @Required private String secretRef;
   private boolean executable;
 
   public String getSecretRef() {

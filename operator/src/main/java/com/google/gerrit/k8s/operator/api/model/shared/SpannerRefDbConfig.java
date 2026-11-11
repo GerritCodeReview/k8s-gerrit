@@ -14,12 +14,13 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import io.fabric8.generator.annotation.Required;
 import java.util.Objects;
 
 public class SpannerRefDbConfig {
-  private String projectName;
-  private String instance;
-  private String database;
+  @Required private String projectName;
+  @Required private String instance;
+  @Required private String database;
 
   public String getProjectName() {
     return projectName;
