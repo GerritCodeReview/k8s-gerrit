@@ -81,10 +81,10 @@ public class GerritClusterIngress
   }
 
   private Map<String, String> getAnnotations(GerritNetwork gerritNetwork) {
-    Map<String, String> annotations = gerritNetwork.getSpec().getIngress().getAnnotations();
-    if (annotations == null) {
-      annotations = new HashMap<>();
-    }
+    // Defensive copy: avoid mutating the live annotations map from the primary resource spec.
+    Map<String, String> userAnnotations = gerritNetwork.getSpec().getIngress().getAnnotations();
+    Map<String, String> annotations =
+        userAnnotations != null ? new HashMap<>(userAnnotations) : new HashMap<>();
     annotations.put("nginx.ingress.kubernetes.io/use-regex", "true");
     annotations.put("kubernetes.io/ingress.class", "nginx");
 

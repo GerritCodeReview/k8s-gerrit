@@ -33,6 +33,7 @@ import io.fabric8.kubernetes.api.model.batch.v1.JobTemplateSpec;
 import io.fabric8.kubernetes.api.model.batch.v1.JobTemplateSpecBuilder;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -236,10 +237,14 @@ public class GitGarbageCollectionCronJob {
 
   private static Set<String> getExcludedProjects(
       GerritMaintenance gerritMaintenance, GitGcTask gcTask) {
-    Set<String> excludedProjects = gcTask.getExclude();
+    // Defensive copies: JOSDK may reuse the same primary-resource object across reconciliation
+    // cycles (shallow informer cache). Mutating the live collections (getExclude(), getGc())
+    // would corrupt the in-memory spec, causing BulkDependentResource to treat previously-created
+    // CronJobs as orphans and delete them on the next reconcile.
+    Set<String> excludedProjects = new HashSet<>(gcTask.getExclude());
 
     if (gcTask.getInclude().isEmpty()) {
-      List<GitGcTask> gitGcs = gerritMaintenance.getSpec().getProjects().getGc();
+      List<GitGcTask> gitGcs = new ArrayList<>(gerritMaintenance.getSpec().getProjects().getGc());
       gitGcs.remove(gcTask);
       for (GitGcTask gc : gitGcs) {
         excludedProjects.addAll(gc.getInclude());
