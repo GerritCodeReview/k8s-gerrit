@@ -14,11 +14,12 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import io.fabric8.generator.annotation.Required;
 import java.util.Objects;
 
 public class ZookeeperRefDbConfig {
-  private String connectString;
-  private String rootNode;
+  @Required private String connectString;
+  @Required private String rootNode;
 
   public String getConnectString() {
     return connectString;

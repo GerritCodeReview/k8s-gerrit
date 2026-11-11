@@ -27,6 +27,8 @@ spec:
                       type: string
                     sshPort:
                       type: integer
+                  required:
+                    - name
                   type: object
                 ingress:
                   properties:
@@ -79,6 +81,8 @@ spec:
                       type: string
                     sshPort:
                       type: integer
+                  required:
+                    - name
                   type: object
                 receiver:
                   properties:
@@ -86,6 +90,8 @@ spec:
                       type: integer
                     name:
                       type: string
+                  required:
+                    - name
                   type: object
               type: object
             status:

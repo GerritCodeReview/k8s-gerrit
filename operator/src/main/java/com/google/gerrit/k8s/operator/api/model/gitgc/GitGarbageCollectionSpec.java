@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.gitgc;
 
+import io.fabric8.generator.annotation.Required;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -24,8 +25,8 @@ import java.util.Set;
 
 @Deprecated
 public class GitGarbageCollectionSpec {
-  private String cluster;
-  private String schedule;
+  @Required private String cluster;
+  @Required private String schedule;
   private Set<String> projects;
   private boolean disableBitmapIndex;
   private boolean disablePackRefs;

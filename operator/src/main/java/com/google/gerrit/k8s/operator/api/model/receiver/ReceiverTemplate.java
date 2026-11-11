@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.shared.IngressConfig;
 import com.google.gerrit.k8s.operator.api.model.shared.StorageConfig;
+import io.fabric8.generator.annotation.Required;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
@@ -33,6 +34,7 @@ import java.util.Objects;
 public class ReceiverTemplate implements KubernetesResource {
   private static final long serialVersionUID = 1L;
 
+  @Required
   @JsonProperty("metadata")
   private ObjectMeta metadata;
 

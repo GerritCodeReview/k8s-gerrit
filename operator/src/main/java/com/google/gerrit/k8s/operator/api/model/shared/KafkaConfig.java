@@ -14,10 +14,11 @@
 
 package com.google.gerrit.k8s.operator.api.model.shared;
 
+import io.fabric8.generator.annotation.Required;
 import java.util.Objects;
 
 public class KafkaConfig {
-  private String connectString;
+  @Required private String connectString;
 
   public String getConnectString() {
     return connectString;

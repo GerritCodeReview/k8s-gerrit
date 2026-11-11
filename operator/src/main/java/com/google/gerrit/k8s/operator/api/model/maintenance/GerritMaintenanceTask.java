@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.api.model.maintenance;
 
+import io.fabric8.generator.annotation.Required;
 import io.fabric8.kubernetes.api.model.Affinity;
 import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.fabric8.kubernetes.api.model.Toleration;
@@ -22,8 +23,8 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class GerritMaintenanceTask {
-  private String name;
-  private String schedule;
+  @Required private String name;
+  @Required private String schedule;
   private ResourceRequirements resources;
   private List<Toleration> tolerations = new ArrayList<>();
   private Affinity affinity;
