@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d10eab_34241145",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterAmbassadorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-11-11T07:52:49Z",
+      "side": 1,
+      "message": "CI finding:\n\n```\n08:46:50  [INFO] -------------------------------------------------------------\n08:46:50  [ERROR] COMPILATION ERROR : \n08:46:50  [INFO] -------------------------------------------------------------\n08:46:50  [ERROR] /home/jenkins/agent/workspace/s-gerrit-open-source_64_643064_5/operator/src/test/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterAmbassadorTest.java:[128,17] cannot find symbol\n08:46:50    symbol:   class GerritClusterMappingGitilesReplica\n08:46:50    location: class com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterAmbassadorTest\n```",
+      "revId": "1611b3e05991979879be047f132aea4774c3b869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
