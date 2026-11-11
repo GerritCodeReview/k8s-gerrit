@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.gerrit.dependent;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_ES_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_HA_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRIT_CONFIGMAP_INGRESS_HTTPS_PATCH;
@@ -32,41 +30,21 @@ import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_INGR
 import static com.google.gerrit.k8s.operator.test.TestFixtures.SHARED_PATCH_OS_GERRIT;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.StatefulSet;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
-import io.javaoperatorsdk.operator.api.config.BaseConfigurationService;
-import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.DefaultContext;
-import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
-import io.javaoperatorsdk.operator.processing.Controller;
-import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
-import io.javaoperatorsdk.operator.processing.retry.GenericRetryExecution;
-import java.util.Map;
 import java.util.stream.Stream;
-import org.junit.Rule;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GerritTest {
-  @Rule public KubernetesServer kubernetesServer = new KubernetesServer();
-
-  @BeforeAll
-  public void setup() throws Exception {
-    kubernetesServer.before();
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class GerritTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -78,44 +56,22 @@ public class GerritTest {
       KubernetesResourceFixture<Service> expectedServiceFixture,
       KubernetesResourceFixture<Service> expectedHeadlessServiceFixture) {
     Gerrit gerrit = inputFixture.load();
-    Context<Gerrit> context =
-        getContext(new GerritReconciler(kubernetesServer.getClient()), gerrit);
 
-    assertDesiredConfigMapCreated(
-        new GerritConfigMap().desired(gerrit, context), expectedGerritConfigMapFixture.load());
-
-    assertDesiredConfigMapCreated(
-        new GerritInitConfigMap().desired(gerrit, context),
-        expectedGerritInitConfigMapFixture.load());
-
-    assertUnordered(
-        new GerritStatefulSet().desired(gerrit, context), expectedStatefulSetFixture.load());
-
-    assertUnordered(new GerritService().desired(gerrit, context), expectedServiceFixture.load());
-
-    assertUnordered(
-        new GerritHeadlessService().desired(gerrit, context),
-        expectedHeadlessServiceFixture.load());
-  }
-
-  private void assertDesiredConfigMapCreated(ConfigMap actual, ConfigMap expected) {
-    assertThat(actual.getMetadata()).isEqualTo(expected.getMetadata());
-    assertThat(actual.getData().keySet()).isEqualTo(expected.getData().keySet());
-    for (Map.Entry<String, String> file : actual.getData().entrySet()) {
-      assertThat(file.getValue().replaceAll("\\s+", "").trim())
-          .isEqualTo(expected.getData().get(file.getKey()).replaceAll("\\s+", "").trim());
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new GerritReconciler(client))) {
+      mock.create(gerrit);
+      String ns = gerrit.getMetadata().getNamespace();
+      expectedGerritConfigMapFixture.assertEqualTo(
+          mock.awaitResource(ConfigMap.class, ns, GerritConfigMap.getName(gerrit)));
+      expectedGerritInitConfigMapFixture.assertEqualTo(
+          mock.awaitResource(ConfigMap.class, ns, GerritInitConfigMap.getName(gerrit)));
+      expectedStatefulSetFixture.assertEqualTo(
+          mock.awaitResource(StatefulSet.class, ns, GerritStatefulSet.getName(gerrit)));
+      expectedServiceFixture.assertEqualTo(
+          mock.awaitResource(Service.class, ns, new GerritService().getName(gerrit)));
+      expectedHeadlessServiceFixture.assertEqualTo(
+          mock.awaitResource(Service.class, ns, new GerritHeadlessService().getName(gerrit)));
     }
-  }
-
-  private Context<Gerrit> getContext(Reconciler<Gerrit> reconciler, Gerrit primary) {
-    Controller<Gerrit> controller =
-        new Controller<Gerrit>(
-            reconciler,
-            new BaseConfigurationService().getConfigurationFor(reconciler),
-            kubernetesServer.getClient());
-
-    return new DefaultContext<Gerrit>(
-        new GenericRetryExecution(new GenericRetry()), controller, primary);
   }
 
   private static Stream<Arguments> provideYamlManifests() {
@@ -166,5 +122,10 @@ public class GerritTest {
             TestFixtures.gerritStatefulSet(GERRIT_STATEFULSET_HA_PATCH),
             TestFixtures.gerritService(GERRIT_SERVICE_HA_PATCH),
             TestFixtures.gerritHeadlessService(GERRIT_SERVICE_HA_PATCH)));
+  }
+
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 }

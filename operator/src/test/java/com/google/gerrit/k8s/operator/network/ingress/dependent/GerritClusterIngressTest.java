@@ -15,7 +15,6 @@
 package com.google.gerrit.k8s.operator.network.ingress.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_PRIMARY_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_RECEIVER_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_REPLICA_PATCH;
@@ -31,26 +30,19 @@ import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_SNIPPET_R
 import static com.google.gerrit.k8s.operator.test.TestFixtures.INGRESS_TLS_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.network.ingress.GerritIngressReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.networking.v1.Ingress;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GerritClusterIngressTest {
-
-  @BeforeAll
-  public void setup() {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class GerritClusterIngressTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -58,12 +50,23 @@ public class GerritClusterIngressTest {
       KubernetesResourceFixture<GerritNetwork> inputFixture,
       KubernetesResourceFixture<Ingress> expectedIngressFixture) {
     GerritNetwork gerritNetwork = inputFixture.load();
-    Ingress result = new GerritClusterIngress().desired(gerritNetwork, null);
-    Ingress expected = expectedIngressFixture.load();
 
-    assertUnordered(result.getSpec(), expected.getSpec());
-    assertThat(result.getMetadata().getAnnotations())
-        .containsExactlyEntriesIn(expected.getMetadata().getAnnotations());
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new GerritIngressReconciler())) {
+      mock.create(gerritNetwork);
+      String ns = gerritNetwork.getMetadata().getNamespace();
+      Ingress actual = mock.awaitResource(Ingress.class, ns, expectedIngressFixture.getName());
+      expectedIngressFixture.assertEqualTo(actual);
+      // Also verify the nginx annotations set by the dependent (server adds extra annotations
+      // such as javaoperatorsdk.io/previous, so use containsAtLeastEntriesIn).
+      assertThat(actual.getMetadata().getAnnotations())
+          .containsAtLeastEntriesIn(expectedIngressFixture.load().getMetadata().getAnnotations());
+    }
+  }
+
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 
   private static Stream<Arguments> provideYamlManifests() {

@@ -15,35 +15,30 @@
 package com.google.gerrit.k8s.operator.maintenance.dependent;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_CRONJOB_GC_SELECTED_OPTIONS_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_CRONJOB_GC_SELECTED_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_GC_SELECTED_OPTIONS_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.MAINTENANCE_GC_SELECTED_PATCH;
+import static org.awaitility.Awaitility.await;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.maintenance.GerritMaintenance;
+import com.google.gerrit.k8s.operator.maintenance.GerritMaintenanceReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GerritMaintenanceTest {
-
-  @BeforeAll
-  public void setup() {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class GerritMaintenanceTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -51,13 +46,26 @@ public class GerritMaintenanceTest {
       KubernetesResourceFixture<GerritMaintenance> inputFixture,
       List<KubernetesResourceFixture<CronJob>> expectedCronJobFixtures) {
     GerritMaintenance input = inputFixture.load();
-
-    Map<String, CronJob> cronJobs = new GerritMaintenanceCronJobs().desiredResources(input, null);
-
-    assertThat(cronJobs).hasSize(expectedCronJobFixtures.size());
-    for (KubernetesResourceFixture<CronJob> fixture : expectedCronJobFixtures) {
-      CronJob expected = fixture.load();
-      assertUnordered(cronJobs.get(expected.getMetadata().getName()), expected);
+    String ns = input.getMetadata().getNamespace();
+    Map<String, KubernetesResourceFixture<CronJob>> fixturesByName =
+        expectedCronJobFixtures.stream()
+            .collect(Collectors.toMap(KubernetesResourceFixture::getName, f -> f));
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new GerritMaintenanceReconciler())) {
+      mock.create(input);
+      await()
+          .atMost(Duration.ofSeconds(30))
+          .untilAsserted(
+              () -> {
+                List<CronJob> actual =
+                    mock.getClient().batch().v1().cronjobs().inNamespace(ns).list().getItems();
+                assertThat(actual).hasSize(fixturesByName.size());
+                for (CronJob actualCronJob : actual) {
+                  String name = actualCronJob.getMetadata().getName();
+                  assertThat(fixturesByName).containsKey(name);
+                  fixturesByName.get(name).assertEqualTo(actualCronJob);
+                }
+              });
     }
   }
 
@@ -77,5 +85,10 @@ public class GerritMaintenanceTest {
                 TestFixtures.maintenanceCronJob(
                     MAINTENANCE_CRONJOB_GC_SELECTED_PATCH,
                     MAINTENANCE_CRONJOB_GC_SELECTED_OPTIONS_PATCH))));
+  }
+
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 }

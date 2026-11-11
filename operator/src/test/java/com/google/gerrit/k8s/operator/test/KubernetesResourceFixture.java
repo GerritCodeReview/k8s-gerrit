@@ -18,11 +18,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.fabric8.kubernetes.api.model.ConfigMap;
+import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.zjsonpatch.JsonPatch;
 import io.javaoperatorsdk.operator.ReconcilerUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +94,39 @@ public class KubernetesResourceFixture<T extends KubernetesResource> {
     this.context = context;
     this.baseFile = baseFile;
     this.patchFiles = patchFiles;
+  }
+
+  /** Returns the {@code metadata.name} of this fixture (loads the resource to extract it). */
+  public String getName() {
+    return ((HasMetadata) load()).getMetadata().getName();
+  }
+
+  /**
+   * Asserts that {@code actual} matches this fixture's expected content, choosing the comparison
+   * strategy by type:
+   *
+   * <ul>
+   *   <li>{@link ConfigMap}: data entries are compared ignoring server-injected metadata.
+   *   <li>Resources that expose {@code getSpec()}: specs are compared with {@link
+   *       KubernetesResourceAssert#assertUnordered}.
+   *   <li>All other resources: full object compared with {@link
+   *       KubernetesResourceAssert#assertUnordered}.
+   * </ul>
+   */
+  public void assertEqualTo(T actual) {
+    T expected = load();
+    if (actual instanceof ConfigMap) {
+      KubernetesResourceAssert.assertConfigMapDataEqual((ConfigMap) actual, (ConfigMap) expected);
+      return;
+    }
+    try {
+      Method getSpec = actual.getClass().getMethod("getSpec");
+      KubernetesResourceAssert.assertUnordered(getSpec.invoke(actual), getSpec.invoke(expected));
+    } catch (NoSuchMethodException e) {
+      KubernetesResourceAssert.assertUnordered(actual, expected);
+    } catch (InvocationTargetException | IllegalAccessException e) {
+      throw new RuntimeException("Failed to invoke getSpec()", e);
+    }
   }
 
   /**

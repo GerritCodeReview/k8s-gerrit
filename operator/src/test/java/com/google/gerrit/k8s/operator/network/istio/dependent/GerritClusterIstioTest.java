@@ -14,8 +14,6 @@
 
 package com.google.gerrit.k8s.operator.network.istio.dependent;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_ISTIO_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_PRIMARY_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.GERRITNETWORK_RECEIVER_PATCH;
@@ -36,30 +34,22 @@ import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERV
 import static com.google.gerrit.k8s.operator.test.TestFixtures.ISTIO_VIRTUALSERVICE_TCP_REPLICA_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
+import com.google.gerrit.k8s.operator.network.istio.GerritIstioReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
 import io.fabric8.istio.api.networking.v1beta1.Gateway;
 import io.fabric8.istio.api.networking.v1beta1.VirtualService;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class GerritClusterIstioTest {
-
-  @BeforeAll
-  public void setup() {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class GerritClusterIstioTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -69,25 +59,24 @@ public class GerritClusterIstioTest {
       KubernetesResourceFixture<VirtualService> expectedVirtualService,
       List<KubernetesResourceFixture<DestinationRule>> expectedDestRules) {
     GerritNetwork gerritNetwork = inputFixture.load();
+    String ns = gerritNetwork.getMetadata().getNamespace();
 
-    assertUnordered(
-        new GerritClusterIstioGateway().desired(gerritNetwork, null).getSpec(),
-        expectedGateway.load().getSpec());
-
-    assertUnordered(
-        new GerritIstioVirtualService().desired(gerritNetwork, null).getSpec(),
-        expectedVirtualService.load().getSpec());
-
-    Map<String, DestinationRule> destRuleResult =
-        new GerritIstioDestinationRule().desiredResources(gerritNetwork, null);
-
-    assertThat(destRuleResult).hasSize(expectedDestRules.size());
-    for (KubernetesResourceFixture<DestinationRule> fixture : expectedDestRules) {
-      DestinationRule expected = fixture.load();
-      assertThat(destRuleResult).containsKey(expected.getMetadata().getName());
-      assertUnordered(
-          destRuleResult.get(expected.getMetadata().getName()).getSpec(), expected.getSpec());
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new GerritIstioReconciler())) {
+      mock.create(gerritNetwork);
+      expectedGateway.assertEqualTo(
+          mock.awaitResource(Gateway.class, ns, expectedGateway.getName()));
+      expectedVirtualService.assertEqualTo(
+          mock.awaitResource(VirtualService.class, ns, expectedVirtualService.getName()));
+      for (KubernetesResourceFixture<DestinationRule> fixture : expectedDestRules) {
+        fixture.assertEqualTo(mock.awaitResource(DestinationRule.class, ns, fixture.getName()));
+      }
     }
+  }
+
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 
   private static Stream<Arguments> provideYamlManifests() {
