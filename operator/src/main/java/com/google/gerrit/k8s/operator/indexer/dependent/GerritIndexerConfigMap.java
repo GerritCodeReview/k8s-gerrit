@@ -28,6 +28,7 @@ import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GerritIndexerConfigMap
@@ -45,7 +46,8 @@ public class GerritIndexerConfigMap
             getName(gerritIndexer),
             this.getClass().getSimpleName());
 
-    Map<String, String> configFiles = gerritIndexer.getSpec().getConfigFiles();
+    // Defensive copy: avoid mutating the live configFiles map from the primary resource spec.
+    Map<String, String> configFiles = new HashMap<>(gerritIndexer.getSpec().getConfigFiles());
 
     if (!configFiles.containsKey("gerrit.config")) {
       configFiles.put("gerrit.config", "");
