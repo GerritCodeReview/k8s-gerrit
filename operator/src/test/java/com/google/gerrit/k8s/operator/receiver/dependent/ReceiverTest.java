@@ -14,32 +14,24 @@
 
 package com.google.gerrit.k8s.operator.receiver.dependent;
 
-import static com.google.gerrit.k8s.operator.test.KubernetesResourceAssert.assertUnordered;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.RECEIVER_DEPLOYMENT_OPTIONS_PATCH;
 import static com.google.gerrit.k8s.operator.test.TestFixtures.RECEIVER_OPTIONS_PATCH;
 
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
+import com.google.gerrit.k8s.operator.receiver.ReceiverReconciler;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.KubernetesResourceFixture;
+import com.google.gerrit.k8s.operator.test.MockOperatorInstallation;
 import com.google.gerrit.k8s.operator.test.TestFixtures;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@TestInstance(Lifecycle.PER_CLASS)
-public class ReceiverTest {
-
-  @BeforeAll
-  public void setup() {
-    OperatorContext.createInstance(ClusterMode.HIGH_AVAILABILITY, "cluster.local");
-  }
+public class ReceiverTest extends AbstractOperatorUnitTest {
 
   @ParameterizedTest
   @MethodSource("provideYamlManifests")
@@ -49,9 +41,15 @@ public class ReceiverTest {
       KubernetesResourceFixture<Service> expectedServiceFixture) {
     Receiver input = inputFixture.load();
 
-    assertUnordered(
-        new ReceiverDeployment().desired(input, null), expectedDeploymentFixture.load());
-    assertUnordered(new ReceiverService().desired(input, null), expectedServiceFixture.load());
+    try (MockOperatorInstallation mock =
+        new MockOperatorInstallation(client -> new ReceiverReconciler(client))) {
+      mock.create(input);
+      String ns = input.getMetadata().getNamespace();
+      expectedDeploymentFixture.assertEqualTo(
+          mock.awaitResource(Deployment.class, ns, expectedDeploymentFixture.getName()));
+      expectedServiceFixture.assertEqualTo(
+          mock.awaitResource(Service.class, ns, ReceiverService.getName(input)));
+    }
   }
 
   private static Stream<Arguments> provideYamlManifests() {
@@ -64,5 +62,10 @@ public class ReceiverTest {
             TestFixtures.receiver(),
             TestFixtures.receiverDeployment(),
             TestFixtures.receiverService()));
+  }
+
+  @Override
+  protected ClusterMode getClusterMode() {
+    return ClusterMode.HIGH_AVAILABILITY;
   }
 }

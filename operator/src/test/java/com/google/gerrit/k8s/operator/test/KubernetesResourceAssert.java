@@ -42,9 +42,37 @@ public final class KubernetesResourceAssert {
   private KubernetesResourceAssert() {}
 
   public static void assertUnordered(Object actual, Object expected) {
-    JsonNode canonicalActual = canonicalize(MAPPER.valueToTree(actual));
-    JsonNode canonicalExpected = canonicalize(MAPPER.valueToTree(expected));
+    JsonNode canonicalActual = canonicalize(stripEmptyTextNodes(MAPPER.valueToTree(actual)));
+    JsonNode canonicalExpected = canonicalize(stripEmptyTextNodes(MAPPER.valueToTree(expected)));
     assertThat(prettyDiff(canonicalActual, canonicalExpected)).isEqualTo("[]");
+  }
+
+  /**
+   * Recursively removes object properties whose value is an empty text node.
+   *
+   * <p>Fabric8's Istio (and some other) models use {@code @JsonAnyGetter} to expand {@code
+   * additionalProperties} into top-level JSON fields. A CRUD mock round-trip can introduce
+   * empty-string entries (e.g. {@code "http": ""}) that have no semantic meaning. Stripping them
+   * before comparison avoids spurious diffs.
+   */
+  private static JsonNode stripEmptyTextNodes(JsonNode node) {
+    if (node.isObject()) {
+      ObjectNode result = MAPPER.createObjectNode();
+      for (Iterator<Map.Entry<String, JsonNode>> it = node.fields(); it.hasNext(); ) {
+        Map.Entry<String, JsonNode> entry = it.next();
+        if (entry.getValue().isTextual() && entry.getValue().asText().isEmpty()) {
+          continue;
+        }
+        result.set(entry.getKey(), stripEmptyTextNodes(entry.getValue()));
+      }
+      return result;
+    }
+    if (node.isArray()) {
+      ArrayNode result = MAPPER.createArrayNode();
+      node.forEach(child -> result.add(stripEmptyTextNodes(child)));
+      return result;
+    }
+    return node;
   }
 
   public static void assertEqualWithDiff(Object actual, Object expected) {
@@ -66,15 +94,32 @@ public final class KubernetesResourceAssert {
    */
   public static void assertConfigMapEqual(ConfigMap actual, ConfigMap expected) {
     assertThat(actual.getMetadata()).isEqualTo(expected.getMetadata());
+    assertConfigMapDataEqual(actual, expected);
+  }
+
+  /**
+   * Asserts that the {@code data} entries of two {@link ConfigMap} objects are equal, ignoring
+   * metadata. Use this when the actual ConfigMap was fetched from a Kubernetes API and has
+   * server-injected metadata fields (uid, creationTimestamp, ownerReferences, etc.).
+   */
+  public static void assertConfigMapDataEqual(ConfigMap actual, ConfigMap expected) {
     assertThat(actual.getData().keySet()).isEqualTo(expected.getData().keySet());
     for (Map.Entry<String, String> entry : actual.getData().entrySet()) {
       String filename = entry.getKey();
       String actualValue = entry.getValue();
       String expectedValue = expected.getData().get(filename);
       if (filename.endsWith(".config")) {
-        assertWithMessage(filename)
-            .that(configDiff(parseConfig(actualValue), parseConfig(expectedValue)))
-            .isEqualTo("");
+        try {
+          assertWithMessage(filename)
+              .that(configDiff(parseConfig(actualValue), parseConfig(expectedValue)))
+              .isEqualTo("");
+        } catch (IllegalArgumentException e) {
+          // JGit cannot parse some non-standard config syntax (e.g. [section"subsection"]
+          // without a space). Fall back to whitespace-normalised string comparison.
+          assertWithMessage(filename + " (whitespace-normalised fallback)")
+              .that(actualValue.replaceAll("\\s+", "").trim())
+              .isEqualTo(expectedValue.replaceAll("\\s+", "").trim());
+        }
       } else {
         assertWithMessage(filename).that(yamlDiff(actualValue, expectedValue)).isEqualTo("[]");
       }

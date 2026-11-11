@@ -19,7 +19,6 @@ import static com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer.POR
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.Constants.ClusterMode;
-import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritAdmissionWebhook;
 import com.google.gerrit.k8s.operator.admission.servlet.GerritClusterAdmissionWebhook;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
@@ -28,6 +27,7 @@ import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritSpec;
 import com.google.gerrit.k8s.operator.api.model.gerrit.GerritTemplateSpec;
 import com.google.gerrit.k8s.operator.api.model.shared.GerritClusterIngressConfig;
+import com.google.gerrit.k8s.operator.test.AbstractOperatorUnitTest;
 import com.google.gerrit.k8s.operator.test.TestAdmissionWebhookServer;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
@@ -49,7 +49,7 @@ import org.junit.Rule;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
-public abstract class AdmissionWebhookAbstractTest {
+public abstract class AdmissionWebhookAbstractTest extends AbstractOperatorUnitTest {
 
   protected static final String NAMESPACE = "test";
   protected TestAdmissionWebhookServer server;
@@ -73,7 +73,6 @@ public abstract class AdmissionWebhookAbstractTest {
 
     kubernetesServer.before();
 
-    OperatorContext.createInstance(getClusterMode(), "cluster.local");
     server.registerWebhook(new GerritClusterAdmissionWebhook(getClusterMode()));
     server.registerWebhook(new GerritAdmissionWebhook(getClusterMode()));
     server.start();
