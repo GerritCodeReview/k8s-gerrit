@@ -34,6 +34,24 @@
       "parentUuid": "35d10eab_34241145",
       "revId": "1611b3e05991979879be047f132aea4774c3b869",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ecf6f96_e0b8def9",
+        "filename": "operator/src/test/java/com/google/gerrit/k8s/operator/network/ambassador/dependent/GerritClusterAmbassadorTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-11-12T10:18:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "962c7b39_28d73be7",
+      "revId": "1611b3e05991979879be047f132aea4774c3b869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
