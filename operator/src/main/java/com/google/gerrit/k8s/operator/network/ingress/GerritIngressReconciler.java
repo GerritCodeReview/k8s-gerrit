@@ -19,13 +19,13 @@ import com.google.gerrit.k8s.operator.network.GerritClusterIngressCondition;
 import com.google.gerrit.k8s.operator.network.ingress.dependent.GerritClusterIngress;
 import com.google.inject.Singleton;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 
 @Singleton
-@ControllerConfiguration(
+@Workflow(
     dependents = {
       @Dependent(
           name = "gerrit-ingress",
