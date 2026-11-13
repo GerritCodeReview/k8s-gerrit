@@ -15,7 +15,7 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
-		<fabric8.version>7.5.2</fabric8.version>
+		<fabric8.version>7.7.0</fabric8.version>
 		<flogger.version>0.9</flogger.version>
 		<guice.version>7.0.0</guice.version>
 		<javaoperatorsdk.version>5.2.5</javaoperatorsdk.version>

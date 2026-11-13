@@ -559,6 +559,11 @@ spec:
                       type: string
                     selfLink:
                       type: string
+                    shardInfo:
+                      properties:
+                        selector:
+                          type: string
+                      type: object
                   type: object
                 reason:
                   type: string
