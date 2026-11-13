@@ -35,7 +35,7 @@ public class GerritClusterTCPMappingSsh extends AbstractAmbassadorDependentResou
   protected TCPMapping desired(GerritNetwork gerritNetwork, Context<GerritNetwork> context) {
 
     String namespace = gerritNetwork.getMetadata().getNamespace();
-    int sshPort = gerritNetwork.getSpec().getPrimaryGerrit().getSshPort();
+    long sshPort = gerritNetwork.getSpec().getPrimaryGerrit().getSshPort();
     String sshServiceName =
         new GerritService()
                 .getHostname(gerritNetwork.getSpec().getPrimaryGerrit().getName(), namespace)
@@ -50,7 +50,7 @@ public class GerritClusterTCPMappingSsh extends AbstractAmbassadorDependentResou
             .endMetadata()
             .withNewSpec()
             .withAmbassadorId(getAmbassadorIds(gerritNetwork))
-            .withPort(Long.valueOf(sshPort))
+            .withPort(sshPort)
             .withService(sshServiceName)
             .endSpec()
             .build();
