@@ -56,7 +56,7 @@ public class GerritClusterMappingGETReplica extends AbstractAmbassadorDependentR
             .withNewQueryParameters()
             .withAdditionalProperties(
                 new HashMap<String, Object>(ImmutableMap.of("service", "git-upload-pack")))
-            .endV2QueryParameters()
+            .endQueryParameters()
             .withMethod("GET")
             .withPrefix(INFO_REFS_PATTERN)
             .withPrefixRegex(true)

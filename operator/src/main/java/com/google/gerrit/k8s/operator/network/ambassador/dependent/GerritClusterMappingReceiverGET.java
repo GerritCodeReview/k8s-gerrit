@@ -54,7 +54,7 @@ public class GerritClusterMappingReceiverGET extends AbstractAmbassadorDependent
             .withNewQueryParameters()
             .withAdditionalProperties(
                 new HashMap<String, Object>(ImmutableMap.of("service", "git-receive-pack")))
-            .endV2QueryParameters()
+            .endQueryParameters()
             .withMethod("GET")
             .withPrefix(INFO_REFS_PATTERN)
             .withPrefixRegex(true)
