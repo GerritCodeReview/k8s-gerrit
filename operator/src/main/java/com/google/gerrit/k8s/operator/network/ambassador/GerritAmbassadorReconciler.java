@@ -46,18 +46,17 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.TLSContextCon
 import com.google.inject.Singleton;
 import io.getambassador.v2.Mapping;
 import io.getambassador.v2.TCPMapping;
-import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
+import io.javaoperatorsdk.operator.api.config.informer.InformerEventSourceConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
 import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -107,7 +106,7 @@ import java.util.Set;
  * https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md
  */
 @Singleton
-@ControllerConfiguration(
+@Workflow(
     dependents = {
       @Dependent(
           name = GERRIT_MAPPING,
@@ -155,8 +154,7 @@ import java.util.Set;
           reconcilePrecondition = SshTcpMappingCondition.class,
           useEventSourceWithName = TCP_MAPPING_EVENT_SOURCE),
     })
-public class GerritAmbassadorReconciler
-    implements Reconciler<GerritNetwork>, EventSourceInitializer<GerritNetwork> {
+public class GerritAmbassadorReconciler implements Reconciler<GerritNetwork> {
 
   public static final String MAPPING_EVENT_SOURCE = "mapping-event-source";
   public static final String TCP_MAPPING_EVENT_SOURCE = "tcp-mapping-event-source";
@@ -170,24 +168,23 @@ public class GerritAmbassadorReconciler
   // Because we have multiple dependent resources of the same type `Mapping`, we need to specify
   // a named event source.
   @Override
-  public Map<String, EventSource> prepareEventSources(EventSourceContext<GerritNetwork> context) {
-    var informerConfig = InformerConfiguration.from(Mapping.class, context);
-    if (!emissaryIngressNamespaces.isEmpty()) {
-      informerConfig.withNamespaces(emissaryIngressNamespaces);
-    }
-    InformerEventSource<Mapping, GerritNetwork> mappingEventSource =
-        new InformerEventSource<>(informerConfig.build(), context);
-
-    var tcpInformerConfig = InformerConfiguration.from(TCPMapping.class, context);
-    if (!emissaryIngressNamespaces.isEmpty()) {
-      tcpInformerConfig.withNamespaces(emissaryIngressNamespaces);
-    }
-    InformerEventSource<TCPMapping, GerritNetwork> tcpMappingEventSource =
-        new InformerEventSource<>(tcpInformerConfig.build(), context);
-
-    Map<String, EventSource> eventSources = new HashMap<>();
-    eventSources.put(MAPPING_EVENT_SOURCE, mappingEventSource);
-    eventSources.put(TCP_MAPPING_EVENT_SOURCE, tcpMappingEventSource);
+  public List<EventSource<?, GerritNetwork>> prepareEventSources(
+      EventSourceContext<GerritNetwork> context) {
+    List<EventSource<?, GerritNetwork>> eventSources = new ArrayList<>();
+    eventSources.add(
+        new InformerEventSource<>(
+            InformerEventSourceConfiguration.from(Mapping.class, GerritNetwork.class)
+                .withName(MAPPING_EVENT_SOURCE)
+                .withNamespaces(emissaryIngressNamespaces)
+                .build(),
+            context));
+    eventSources.add(
+        new InformerEventSource<>(
+            InformerEventSourceConfiguration.from(TCPMapping.class, GerritNetwork.class)
+                .withName(TCP_MAPPING_EVENT_SOURCE)
+                .withNamespaces(emissaryIngressNamespaces)
+                .build(),
+            context));
     return eventSources;
   }
 

@@ -25,7 +25,7 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.HashMap;
 
-@KubernetesDependent(resourceDiscriminator = GerritClusterMappingReceiverGETDiscriminator.class)
+@KubernetesDependent
 public class GerritClusterMappingReceiverGET extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
