@@ -16,6 +16,24 @@
       "message": "This dependency is also required at runtime",
       "revId": "006371916a08b12cacd7f95512d3f164add6fd01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23c01d5_377d3928",
+        "filename": "operator/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-11-13T13:27:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62ae288b_d3d7f407",
+      "revId": "006371916a08b12cacd7f95512d3f164add6fd01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
