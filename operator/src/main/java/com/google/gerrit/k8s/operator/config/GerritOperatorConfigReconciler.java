@@ -14,9 +14,6 @@
 
 package com.google.gerrit.k8s.operator.config;
 
-import static com.google.gerrit.k8s.operator.config.GerritOperatorConfigReconciler.SVC_EVENT_SOURCE;
-import static com.google.gerrit.k8s.operator.config.GerritOperatorConfigReconciler.VWC_EVENT_SOURCE;
-
 import com.google.gerrit.k8s.operator.api.model.config.GerritOperatorConfig;
 import com.google.gerrit.k8s.operator.config.dependent.GerritOperatorService;
 import com.google.gerrit.k8s.operator.config.dependent.GerritOperatorVWCCondition;
@@ -24,61 +21,29 @@ import com.google.gerrit.k8s.operator.config.dependent.ValidatingWebhookConfigur
 import com.google.gerrit.k8s.operator.server.KeyStoreProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import io.fabric8.kubernetes.api.model.Service;
-import io.fabric8.kubernetes.api.model.admissionregistration.v1.ValidatingWebhookConfiguration;
-import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
-import io.javaoperatorsdk.operator.processing.event.source.EventSource;
-import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.HashMap;
-import java.util.Map;
 
 @Singleton
-@ControllerConfiguration(
+@Workflow(
     dependents = {
       @Dependent(
           name = "operator-service",
           type = GerritOperatorService.class,
-          reconcilePrecondition = GerritOperatorVWCCondition.class,
-          useEventSourceWithName = SVC_EVENT_SOURCE),
+          reconcilePrecondition = GerritOperatorVWCCondition.class),
       @Dependent(
           name = "validating-webhook-configurations",
           type = ValidatingWebhookConfigurations.class,
-          reconcilePrecondition = GerritOperatorVWCCondition.class,
-          useEventSourceWithName = VWC_EVENT_SOURCE),
+          reconcilePrecondition = GerritOperatorVWCCondition.class),
     })
-public class GerritOperatorConfigReconciler
-    implements Reconciler<GerritOperatorConfig>, EventSourceInitializer<GerritOperatorConfig> {
-  public static final String SVC_EVENT_SOURCE = "operator-svc-event-source";
-  public static final String VWC_EVENT_SOURCE = "vwc-event-source";
+public class GerritOperatorConfigReconciler implements Reconciler<GerritOperatorConfig> {
 
   @Inject
   public GerritOperatorConfigReconciler(KeyStoreProvider keyStoreProvider) {
     ValidatingWebhookConfigurations.setKeyStoreProvider(keyStoreProvider);
-  }
-
-  @Override
-  public Map<String, EventSource> prepareEventSources(
-      EventSourceContext<GerritOperatorConfig> context) {
-    InformerEventSource<Service, GerritOperatorConfig> svcEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(Service.class, context).build(), context);
-
-    InformerEventSource<ValidatingWebhookConfiguration, GerritOperatorConfig> vwcEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(ValidatingWebhookConfiguration.class, context).build(),
-            context);
-
-    Map<String, EventSource> eventSources = new HashMap<>();
-    eventSources.put(SVC_EVENT_SOURCE, svcEventSource);
-    eventSources.put(VWC_EVENT_SOURCE, vwcEventSource);
-    return eventSources;
   }
 
   @Override
