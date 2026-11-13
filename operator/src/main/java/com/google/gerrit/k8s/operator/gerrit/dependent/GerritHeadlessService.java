@@ -25,7 +25,7 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDependent;
 import java.util.concurrent.TimeUnit;
 
-@KubernetesDependent(resourceDiscriminator = GerritHeadlessServiceDiscriminator.class)
+@KubernetesDependent
 public class GerritHeadlessService extends GerritAbstractService {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
