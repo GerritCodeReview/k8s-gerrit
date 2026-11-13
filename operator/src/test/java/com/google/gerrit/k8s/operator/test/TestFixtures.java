@@ -28,9 +28,9 @@ import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritCluster
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingPrimary;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiver;
 import com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMappingReceiverGET;
-import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
-import io.fabric8.istio.api.networking.v1beta1.Gateway;
-import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import io.fabric8.istio.api.networking.v1alpha3.DestinationRule;
+import io.fabric8.istio.api.networking.v1alpha3.Gateway;
+import io.fabric8.istio.api.networking.v1alpha3.VirtualService;
 import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.kubernetes.api.model.Service;

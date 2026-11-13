@@ -18,12 +18,21 @@ import static org.awaitility.Awaitility.await;
 
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMixedDispatcher;
+import io.fabric8.kubernetes.client.server.mock.KubernetesMockServer;
+import io.fabric8.kubernetes.client.utils.Serialization;
+import io.fabric8.mockwebserver.Context;
+import io.fabric8.mockwebserver.MockWebServer;
+import io.fabric8.mockwebserver.ServerRequest;
+import io.fabric8.mockwebserver.ServerResponse;
 import io.javaoperatorsdk.operator.Operator;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.processing.retry.GenericRetry;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +64,7 @@ public final class MockOperatorInstallation implements AutoCloseable {
   private static final GenericRetry FAST_RETRY =
       new GenericRetry().setInitialInterval(100).setIntervalMultiplier(1).setMaxAttempts(20);
 
-  private final KubernetesServer server;
+  private final KubernetesMockServer server;
   private final Operator operator;
 
   /**
@@ -70,10 +79,16 @@ public final class MockOperatorInstallation implements AutoCloseable {
       Function<KubernetesClient, Reconciler<?>>... reconcilerFactories) {
     Logger.getLogger("okhttp3.mockwebserver").setLevel(Level.WARNING);
 
-    server = new KubernetesServer(true, true);
-    server.before();
+    Map<ServerRequest, Queue<ServerResponse>> responses = new HashMap<>();
+    server =
+        new KubernetesMockServer(
+            new Context(Serialization.jsonMapper()),
+            new MockWebServer(),
+            responses,
+            new KubernetesMixedDispatcher(responses),
+            false);
 
-    KubernetesClient client = server.getClient();
+    KubernetesClient client = server.createClient();
     operator =
         new Operator(
             overrider ->
@@ -89,7 +104,7 @@ public final class MockOperatorInstallation implements AutoCloseable {
 
   /** Returns the {@link KubernetesClient} backed by the CRUD mock server. */
   public KubernetesClient getClient() {
-    return server.getClient();
+    return server.createClient();
   }
 
   /**
@@ -99,7 +114,7 @@ public final class MockOperatorInstallation implements AutoCloseable {
    * @return the resource as stored by the mock server
    */
   public <T extends HasMetadata> T create(T resource) {
-    return server.getClient().resource(resource).create();
+    return server.createClient().resource(resource).create();
   }
 
   /**
@@ -112,7 +127,7 @@ public final class MockOperatorInstallation implements AutoCloseable {
     return await()
         .atMost(timeout)
         .until(
-            () -> server.getClient().resources(type).inNamespace(namespace).withName(name).get(),
+            () -> server.createClient().resources(type).inNamespace(namespace).withName(name).get(),
             Objects::nonNull);
   }
 
@@ -128,6 +143,5 @@ public final class MockOperatorInstallation implements AutoCloseable {
   @Override
   public void close() {
     operator.stop();
-    server.after();
   }
 }

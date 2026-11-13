@@ -25,9 +25,9 @@ import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioDestina
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioServiceEntries;
 import com.google.gerrit.k8s.operator.network.istio.dependent.GerritIstioVirtualService;
 import com.google.inject.Singleton;
-import io.fabric8.istio.api.networking.v1beta1.DestinationRule;
-import io.fabric8.istio.api.networking.v1beta1.ServiceEntry;
-import io.fabric8.istio.api.networking.v1beta1.VirtualService;
+import io.fabric8.istio.api.networking.v1alpha3.DestinationRule;
+import io.fabric8.istio.api.networking.v1alpha3.ServiceEntry;
+import io.fabric8.istio.api.networking.v1alpha3.VirtualService;
 import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
 import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
