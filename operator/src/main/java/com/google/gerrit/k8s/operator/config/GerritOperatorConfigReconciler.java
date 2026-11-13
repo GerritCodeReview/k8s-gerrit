@@ -23,22 +23,17 @@ import com.google.gerrit.k8s.operator.config.dependent.ValidatingWebhookConfigur
 import com.google.gerrit.k8s.operator.server.KeyStoreProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import io.fabric8.kubernetes.api.model.Service;
-import io.javaoperatorsdk.operator.api.config.informer.InformerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.Context;
-import io.javaoperatorsdk.operator.api.reconciler.ControllerConfiguration;
 import io.javaoperatorsdk.operator.api.reconciler.EventSourceContext;
-import io.javaoperatorsdk.operator.api.reconciler.EventSourceInitializer;
 import io.javaoperatorsdk.operator.api.reconciler.Reconciler;
 import io.javaoperatorsdk.operator.api.reconciler.UpdateControl;
+import io.javaoperatorsdk.operator.api.reconciler.Workflow;
 import io.javaoperatorsdk.operator.api.reconciler.dependent.Dependent;
 import io.javaoperatorsdk.operator.processing.event.source.EventSource;
-import io.javaoperatorsdk.operator.processing.event.source.informer.InformerEventSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Singleton
-@ControllerConfiguration(
+@Workflow(
     dependents = {
       @Dependent(
           name = "operator-service",
@@ -46,8 +41,7 @@ import java.util.Map;
           reconcilePrecondition = GerritOperatorServiceCondition.class,
           useEventSourceWithName = SVC_EVENT_SOURCE),
     })
-public class GerritOperatorConfigReconciler
-    implements Reconciler<GerritOperatorConfig>, EventSourceInitializer<GerritOperatorConfig> {
+public class GerritOperatorConfigReconciler implements Reconciler<GerritOperatorConfig> {
   public static final String SVC_EVENT_SOURCE = "operator-svc-event-source";
   public static final String VWC_EVENT_SOURCE = "vwc-event-source";
 
@@ -59,16 +53,9 @@ public class GerritOperatorConfigReconciler
   }
 
   @Override
-  public Map<String, EventSource> prepareEventSources(
+  public List<EventSource<?, GerritOperatorConfig>> prepareEventSources(
       EventSourceContext<GerritOperatorConfig> context) {
-    InformerEventSource<Service, GerritOperatorConfig> svcEventSource =
-        new InformerEventSource<>(
-            InformerConfiguration.from(Service.class, context).build(), context);
-
-    Map<String, EventSource> eventSources = new HashMap<>();
-    eventSources.put(SVC_EVENT_SOURCE, svcEventSource);
-    eventSources.put(VWC_EVENT_SOURCE, dependentVWCs.initEventSource(context));
-    return eventSources;
+    return List.of(dependentVWCs.initEventSource(context));
   }
 
   @Override
