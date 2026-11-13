@@ -15,7 +15,7 @@
 	<properties>
 		<revision>1.0.0-SNAPSHOT</revision>
 
-		<fabric8.version>6.13.4</fabric8.version>
+		<fabric8.version>7.3.1</fabric8.version>
 		<flogger.version>0.9</flogger.version>
 		<guice.version>7.0.0</guice.version>
 		<javaoperatorsdk.version>4.9.7</javaoperatorsdk.version>
@@ -432,6 +432,12 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.14.0</version>
+				<configuration>
+					<!-- Required for sundr Builder annotation processing on Java 21+:
+					     from Java 23 onwards annotation processors on the classpath are
+					     no longer auto-discovered; 'full' restores the Java 21 behavior. -->
+					<proc>full</proc>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
