@@ -22,7 +22,7 @@ import io.fabric8.kubernetes.api.model.ConfigMap;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.KubernetesResource;
 import io.fabric8.zjsonpatch.JsonPatch;
-import io.javaoperatorsdk.operator.ReconcilerUtils;
+import io.javaoperatorsdk.operator.ReconcilerUtilsInternal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -139,7 +139,7 @@ public class KubernetesResourceFixture<T extends KubernetesResource> {
    */
   public T load() {
     if (patchFiles.isEmpty()) {
-      return ReconcilerUtils.loadYaml(type, context, baseFile);
+      return ReconcilerUtilsInternal.loadYaml(type, context, baseFile);
     }
 
     try {
