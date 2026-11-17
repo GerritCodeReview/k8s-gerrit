@@ -1,6 +1,0 @@
-- op: add
-  path: /spec/jobTemplate/spec/template/spec/containers/0/args
-  value:
-  - -B
-  - -R
-  - -P

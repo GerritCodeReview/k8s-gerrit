@@ -13,7 +13,7 @@ spec:
     singular: gerritcluster
   scope: Namespaced
   versions:
-    - name: v1beta20
+    - name: v1beta21
       schema:
         openAPIV3Schema:
           properties:
@@ -2634,7 +2634,7 @@ spec:
       storage: true
       subresources:
         status: {}
-    - name: v1beta19
+    - name: v1beta20
       schema:
         openAPIV3Schema:
           properties:
@@ -3132,6 +3132,17 @@ spec:
                                         fieldPath:
                                           type: string
                                       type: object
+                                    fileKeyRef:
+                                      properties:
+                                        key:
+                                          type: string
+                                        optional:
+                                          type: boolean
+                                        path:
+                                          type: string
+                                        volumeName:
+                                          type: string
+                                      type: object
                                     resourceFieldRef:
                                       properties:
                                         containerName:
@@ -3193,6 +3204,8 @@ spec:
                                 type: integer
                               grpc:
                                 properties:
+                                  mode:
+                                    type: string
                                   port:
                                     type: integer
                                   service:
@@ -3218,6 +3231,8 @@ spec:
                                       - type: integer
                                       - type: string
                                     x-kubernetes-int-or-string: true
+                                  protocol:
+                                    type: string
                                   scheme:
                                     type: string
                                 type: object
@@ -3286,6 +3301,8 @@ spec:
                                 type: integer
                               grpc:
                                 properties:
+                                  mode:
+                                    type: string
                                   port:
                                     type: integer
                                   service:
@@ -3311,6 +3328,8 @@ spec:
                                       - type: integer
                                       - type: string
                                     x-kubernetes-int-or-string: true
+                                  protocol:
+                                    type: string
                                   scheme:
                                     type: string
                                 type: object
@@ -3343,6 +3362,8 @@ spec:
                                 items:
                                   properties:
                                     name:
+                                      type: string
+                                    request:
                                       type: string
                                   type: object
                                 type: array
@@ -3395,6 +3416,8 @@ spec:
                                 type: integer
                               grpc:
                                 properties:
+                                  mode:
+                                    type: string
                                   port:
                                     type: integer
                                   service:
@@ -3420,6 +3443,8 @@ spec:
                                       - type: integer
                                       - type: string
                                     x-kubernetes-int-or-string: true
+                                  protocol:
+                                    type: string
                                   scheme:
                                     type: string
                                 type: object
@@ -3987,6 +4012,8 @@ spec:
                               type: integer
                             grpc:
                               properties:
+                                mode:
+                                  type: string
                                 port:
                                   type: integer
                                 service:
@@ -4012,6 +4039,8 @@ spec:
                                     - type: integer
                                     - type: string
                                   x-kubernetes-int-or-string: true
+                                protocol:
+                                  type: string
                                 scheme:
                                   type: string
                               type: object
@@ -4061,6 +4090,8 @@ spec:
                               type: integer
                             grpc:
                               properties:
+                                mode:
+                                  type: string
                                 port:
                                   type: integer
                                 service:
@@ -4086,6 +4117,8 @@ spec:
                                     - type: integer
                                     - type: string
                                   x-kubernetes-int-or-string: true
+                                protocol:
+                                  type: string
                                 scheme:
                                   type: string
                               type: object
@@ -4118,6 +4151,8 @@ spec:
                               items:
                                 properties:
                                   name:
+                                    type: string
+                                  request:
                                     type: string
                                 type: object
                               type: array
@@ -4611,6 +4646,8 @@ spec:
                                           properties:
                                             name:
                                               type: string
+                                            request:
+                                              type: string
                                           type: object
                                         type: array
                                       limits:
@@ -5094,6 +5131,8 @@ spec:
                                     items:
                                       properties:
                                         name:
+                                          type: string
+                                        request:
                                           type: string
                                       type: object
                                     type: array

@@ -21,7 +21,6 @@ import pytest
         "apache_git_http_backend_image",
         "gerrit_image",
         "gerrit_init_image",
-        "gitgc_image",
     ],
 )
 def container_run(request, docker_client, container_endless_run_factory):

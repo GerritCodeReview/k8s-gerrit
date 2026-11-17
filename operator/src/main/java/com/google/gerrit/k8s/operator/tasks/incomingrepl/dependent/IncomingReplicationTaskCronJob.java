@@ -74,7 +74,7 @@ public class IncomingReplicationTaskCronJob
       initContainers.add(GerritCluster.createNfsInitContainer(hasIdmapdConfig, images));
     }
 
-    JobTemplateSpec gitGcJobTemplate =
+    JobTemplateSpec jobTemplate =
         new JobTemplateSpecBuilder()
             .withNewSpec()
             .withNewTemplate()
@@ -112,7 +112,7 @@ public class IncomingReplicationTaskCronJob
         .withNewSpec()
         .withSchedule(incomingReplTask.getSpec().getSchedule())
         .withConcurrencyPolicy("Forbid")
-        .withJobTemplate(gitGcJobTemplate)
+        .withJobTemplate(jobTemplate)
         .endSpec()
         .build();
   }

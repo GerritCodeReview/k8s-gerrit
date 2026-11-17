@@ -197,11 +197,6 @@ def gerrit_base_image(container_images, docker_get, base_image):
 
 
 @pytest.fixture(scope="session")
-def gitgc_image(container_images, docker_get, base_image):
-    return docker_get(container_images["git-gc"], "git-gc")
-
-
-@pytest.fixture(scope="session")
 def apache_git_http_backend_image(container_images, docker_get, base_image):
     return docker_get(
         container_images["apache-git-http-backend"], "apache-git-http-backend"

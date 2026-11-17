@@ -18,6 +18,5 @@ get_image_list(){
         "gerrit-init" \
         "gerrit-maintenance" \
         "gerrit" \
-        "git-gc" \
         "fetch-job"
 }

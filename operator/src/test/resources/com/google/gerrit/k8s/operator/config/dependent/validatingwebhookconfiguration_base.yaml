@@ -3,7 +3,7 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: gerritclusters
 webhooks:
-  - name: gerritclusters.v1beta20.validator.google.com
+  - name: gerritclusters.v1beta21.validator.google.com
     admissionReviewVersions:
       - v1
       - v1beta1
@@ -12,7 +12,7 @@ webhooks:
       service:
         name: gerrit-operator
         namespace: gerrit-operator
-        path: /admission/v1beta20/gerritclusters
+        path: /admission/v1beta21/gerritclusters
         port: 8080
     failurePolicy: Fail
     matchPolicy: Equivalent
@@ -20,7 +20,7 @@ webhooks:
       - apiGroups:
           - gerritoperator.google.com
         apiVersions:
-          - v1beta20
+          - v1beta21
         operations:
           - CREATE
           - UPDATE

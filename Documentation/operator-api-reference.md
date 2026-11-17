@@ -6,7 +6,6 @@
   - [GerritCluster](#gerritcluster)
   - [Gerrit](#gerrit)
   - [Receiver](#receiver)
-  - [GitGarbageCollection](#gitgarbagecollection)
   - [GerritNetwork](#gerritnetwork)
   - [IncomingReplicationTask](#incomingreplicationtask)
   - [GerritOperatorConfig](#gerritoperatorconfig)
@@ -59,9 +58,6 @@
   - [ReceiverStatus](#receiverstatus)
   - [ReceiverProbe](#receiverprobe)
   - [ReceiverServiceConfig](#receiverserviceconfig)
-  - [GitGarbageCollectionSpec](#gitgarbagecollectionspec)
-  - [GitGarbageCollectionStatus](#gitgarbagecollectionstatus)
-  - [GitGcState](#gitgcstate)
   - [GerritNetworkSpec](#gerritnetworkspec)
   - [NetworkMember](#networkmember)
   - [NetworkMemberWithSsh](#networkmemberwithssh)
@@ -90,7 +86,7 @@ inherited fields.
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: GerritCluster
 
 ---
@@ -107,7 +103,7 @@ inherited fields.
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: GerritCluster
 metadata:
   name: gerrit
@@ -430,7 +426,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: Gerrit
 
 ---
@@ -447,7 +443,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: Gerrit
 metadata:
   name: gerrit
@@ -661,7 +657,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: Receiver
 
 ---
@@ -678,7 +674,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: Receiver
 metadata:
   name: receiver
@@ -784,73 +780,12 @@ spec:
     tlsEnabled: false
 ```
 
-## GitGarbageCollection
-
----
-
-**Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
-**Kind**: GitGarbageCollection
-
----
-
-
-| Field | Type | Description |
-|---|---|---|
-| `apiVersion` | `String` | APIVersion of this resource |
-| `kind` | `String` | Kind of this resource |
-| `metadata` | [`ObjectMeta`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#objectmeta-v1-meta) | Metadata of the resource |
-| `spec` | [`GitGarbageCollectionSpec`](#gitgarbagecollectionspec) | Specification for GitGarbageCollection |
-| `status` | [`GitGarbageCollectionStatus`](#gitgarbagecollectionstatus) | Status for GitGarbageCollection |
-
-Example:
-
-```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
-kind: GitGarbageCollection
-metadata:
-  name: gitgc
-spec:
-  cluster: gerrit
-  schedule: "*/5 * * * *"
-
-  projects: []
-
-  disableBitmapIndex: false
-  disablePackRefs: false
-  preservePacks: false
-
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 100m
-      memory: 256Mi
-
-  tolerations:
-  - key: key1
-    operator: Equal
-    value: value1
-    effect: NoSchedule
-
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: disktype
-            operator: In
-            values:
-            - ssd
-```
-
 ## GerritNetwork
 
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: GerritNetwork
 
 ---
@@ -866,7 +801,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: GerritNetwork
 metadata:
   name: gerrit-network
@@ -900,7 +835,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: IncomingReplicationTask
 
 ---
@@ -916,7 +851,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: IncomingReplicationTask
 metadata:
   name: incoming-repl-task
@@ -976,7 +911,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: GerritOperatorConfig
 
 ---
@@ -991,7 +926,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: GerritOperatorConfig
 metadata:
   name: example-operator-config
@@ -1005,7 +940,7 @@ spec:
 ---
 
 **Group**: gerritoperator.google.com \
-**Version**: v1beta20 \
+**Version**: v1beta21 \
 **Kind**: GerritIndexer
 
 ---
@@ -1021,7 +956,7 @@ spec:
 Example:
 
 ```yaml
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: GerritIndexer
 metadata:
   name: gerrit-indexer
@@ -1505,37 +1440,6 @@ compared to the parent object. All other options can still be configured.
 |---|---|---|
 | `type` | `String` | Service type (default: `NodePort`) |
 | `httpPort` | `int` | Port used for HTTP requests (default: `80`) |
-
-## GitGarbageCollectionSpec
-
-| Field | Type | Description |
-|---|---|---|
-| `cluster` | `string` | Name of the Gerrit cluster this Gerrit is a part of. (mandatory) |
-| `tolerations` | [`Toleration`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#toleration-v1-core)-Array | Pod tolerations (optional) |
-| `affinity` | [`Affinity`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core) | Pod affinity (optional) |
-| `schedule` | `string` | Cron schedule defining when to run git gc (mandatory) |
-| `projects` | `Set<String>` | List of projects to gc. If omitted, all projects not handled by other Git GC jobs will be gc'ed. Only one job gc'ing all projects can exist. (default: `[]`) |
-| `disableBitmapIndex` | `Boolean` | Whether to disable bitmap index creation. This will increase push performance but decrease performance when serving fetches (default: `false`) |
-| `disablePackRefs` | `Boolean` | Whether to disable packing refs. Packing refs might interfere with pushes due to locking packed-refs (default: `false`) |
-| `preservePacks` | `Boolean` | Whether to preserve existing packs. Requires additional storage, but prevents failing fetches due to deleted packs (default: `false`) |
-| `resources` | [`ResourceRequirements`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#resourcerequirements-v1-core) | Resource requirements for the GitGarbageCollection container |
-
-## GitGarbageCollectionStatus
-
-| Field | Type | Description |
-|---|---|---|
-| `replicateAll` | `boolean` | Whether this GitGarbageCollection handles all projects |
-| `excludedProjects` | `Set<String>` | List of projects that were excluded from this GitGarbageCollection, since they are handled by other Jobs |
-| `state` | [`GitGcState`](#gitgcstate) | State of the GitGarbageCollection |
-
-## GitGcState
-
-| Value | Description|
-|---|---|
-| `ACTIVE` | GitGarbageCollection is scheduled |
-| `INACTIVE` | GitGarbageCollection is not scheduled |
-| `CONFLICT` | GitGarbageCollection conflicts with another GitGarbageCollection |
-| `ERROR` | Controller failed to schedule GitGarbageCollection |
 
 ## GerritNetworkSpec
 

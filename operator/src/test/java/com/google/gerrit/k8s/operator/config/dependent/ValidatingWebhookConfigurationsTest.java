@@ -75,7 +75,6 @@ public class ValidatingWebhookConfigurationsTest extends AbstractOperatorUnitTes
   private String[] patchesFor(String resourceName) {
     return switch (resourceName) {
       case Constants.GERRIT_KIND -> new String[] {TestFixtures.VWC_GERRITS_PATCH};
-      case Constants.GIT_GC_KIND -> new String[] {TestFixtures.VWC_GITGCS_PATCH};
       case Constants.GERRIT_MAINTENANCE_KIND -> new String[] {TestFixtures.VWC_MAINTENANCES_PATCH};
       default -> new String[] {};
     };

@@ -13,7 +13,7 @@ spec:
     singular: gerritindexer
   scope: Namespaced
   versions:
-    - name: v1beta19
+    - name: v1beta20
       schema:
         openAPIV3Schema:
           properties:
@@ -380,6 +380,8 @@ spec:
                         properties:
                           name:
                             type: string
+                          request:
+                            type: string
                         type: object
                       type: array
                     limits:
@@ -483,6 +485,11 @@ spec:
                       type: string
                     selfLink:
                       type: string
+                    shardInfo:
+                      properties:
+                        selector:
+                          type: string
+                      type: object
                   type: object
                 reason:
                   type: string

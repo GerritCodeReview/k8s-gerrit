@@ -1,6 +1,6 @@
 
 {{- if .Values.config }}
-apiVersion: "gerritoperator.google.com/v1beta20"
+apiVersion: "gerritoperator.google.com/v1beta21"
 kind: GerritOperatorConfig
 metadata:
   name: gerrit-operator-cfg
