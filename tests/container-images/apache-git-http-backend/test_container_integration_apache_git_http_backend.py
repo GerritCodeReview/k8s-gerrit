@@ -79,4 +79,4 @@ def test_apache_git_http_backend_repo_creation_push_repo(
     origin.push(["refs/heads/master:refs/heads/master"])
 
     remote_refs = origin.ls_remotes()
-    assert str(remote_refs[0]["oid"]) == mock_repo.revparse_single("HEAD").hex
+    assert str(remote_refs[0]["oid"]) == mock_repo.revparse_single("HEAD").id
