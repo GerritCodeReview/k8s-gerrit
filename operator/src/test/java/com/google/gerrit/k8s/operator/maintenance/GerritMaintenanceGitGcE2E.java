@@ -19,6 +19,8 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.google.common.flogger.FluentLogger;
@@ -83,8 +85,8 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
     String gmName = gm.getMetadata().getName();
 
     logger.atInfo().log("Waiting max 2 minutes for GerritMaintenance to be created.");
-    String completeGcCronJobName = gm.getSpec().getProjects().getGc().get(0).getName();
-    String selectedGcCronJobName = gm.getSpec().getProjects().getGc().get(1).getName();
+    String completeGcCronJobName = GerritMaintenanceTestHelper.getCronJobName(Set.of());
+    String selectedGcCronJobName = GerritMaintenanceTestHelper.getCronJobName(selectedProjects);
     await()
         .atMost(2, MINUTES)
         .untilAsserted(
@@ -98,29 +100,28 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
         .atMost(2, MINUTES)
         .untilAsserted(
             () -> {
-              CronJob updatedCompleteGitGc =
+              assertGitGcCronJobCreation(completeGcCronJobName);
+              assertTrue(
                   client
                       .resources(CronJob.class)
                       .inNamespace(operator.getNamespace())
                       .withName(completeGcCronJobName)
-                      .get();
-              assert updatedCompleteGitGc
-                  .getSpec()
-                  .getJobTemplate()
-                  .getSpec()
-                  .getTemplate()
-                  .getSpec()
-                  .getContainers()
-                  .get(0)
-                  .getArgs()
-                  .containsAll(selectedProjects);
+                      .get()
+                      .getSpec()
+                      .getJobTemplate()
+                      .getSpec()
+                      .getTemplate()
+                      .getSpec()
+                      .getContainers()
+                      .get(0)
+                      .getArgs()
+                      .containsAll(selectedProjects));
             });
 
-    gm =
-        GerritMaintenanceTestHelper.createGerritMaintenanceWithGitGcs(
-            operator.getNamespace(), List.of(Set.of()));
+    gm = GerritMaintenanceTestHelper.updateGerritMaintenance(gm, List.of(Set.of()));
+    client.resource(gm).createOrReplace();
     await()
-        .atMost(2, MINUTES)
+        .atMost(1, MINUTES)
         .untilAsserted(
             () -> {
               assertNull(
@@ -129,22 +130,22 @@ public class GerritMaintenanceGitGcE2E extends AbstractGerritOperatorE2ETest {
                       .inNamespace(operator.getNamespace())
                       .withName(selectedGcCronJobName)
                       .get());
-              CronJob updatedCompleteGitGc =
+              assertGitGcCronJobCreation(completeGcCronJobName);
+              assertFalse(
                   client
                       .resources(CronJob.class)
                       .inNamespace(operator.getNamespace())
                       .withName(completeGcCronJobName)
-                      .get();
-              assert updatedCompleteGitGc
-                  .getSpec()
-                  .getJobTemplate()
-                  .getSpec()
-                  .getTemplate()
-                  .getSpec()
-                  .getContainers()
-                  .get(0)
-                  .getArgs()
-                  .isEmpty();
+                      .get()
+                      .getSpec()
+                      .getJobTemplate()
+                      .getSpec()
+                      .getTemplate()
+                      .getSpec()
+                      .getContainers()
+                      .get(0)
+                      .getArgs()
+                      .contains("--skip"));
             });
   }
 

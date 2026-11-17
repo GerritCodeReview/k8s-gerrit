@@ -41,19 +41,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class GerritMaintenanceTestHelper {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final String COMPLETE_GC_NAME = "complete";
+
   public static GerritMaintenance createGerritMaintenanceWithGitGcs(
       String namespace, List<Set<String>> projectSets) {
     GerritMaintenanceSpec spec = new GerritMaintenanceSpec();
     GerritProjectsTasks projectsTasks = new GerritProjectsTasks();
-    List<GitGcTask> gcTasks = new ArrayList<>();
-    for (Set<String> projects : projectSets) {
-      GitGcTask gitGc = new GitGcTask();
-      gitGc.setName(RandomStringUtils.randomAlphabetic(10).toLowerCase());
-      gitGc.setSchedule("0 0 * * *");
-      gitGc.setInclude(projects);
-      gcTasks.add(gitGc);
-    }
-    projectsTasks.setGc(gcTasks);
+    projectsTasks.setGc(createGcTasks(projectSets));
     spec.setProjects(projectsTasks);
 
     GerritMaintenance gm = new GerritMaintenance();
@@ -65,5 +59,42 @@ public class GerritMaintenanceTestHelper {
     gm.setSpec(spec);
     logger.atInfo().log("Created GerritMaintenance: %s", gm);
     return gm;
+  }
+
+  public static GerritMaintenance updateGerritMaintenance(
+      GerritMaintenance gm, List<Set<String>> projectSets) {
+    GerritMaintenanceSpec spec = gm.getSpec();
+    GerritProjectsTasks projectsTasks = spec.getProjects();
+    projectsTasks.setGc(createGcTasks(projectSets));
+    spec.setProjects(projectsTasks);
+
+    gm.setSpec(spec);
+    logger.atInfo().log("Updated GerritMaintenance: %s", gm);
+    return gm;
+  }
+
+  private static List<GitGcTask> createGcTasks(List<Set<String>> projectSets) {
+    List<GitGcTask> gcTasks = new ArrayList<>();
+    for (Set<String> projects : projectSets) {
+      GitGcTask gitGc = new GitGcTask();
+      gitGc.setName(getCronJobName(projects));
+      gitGc.setSchedule("0 0 * * *");
+      gitGc.setInclude(projects);
+      gcTasks.add(gitGc);
+    }
+    return gcTasks;
+  }
+
+  public static String getCronJobName(Set<String> projects) {
+    if (projects.isEmpty()) {
+      return COMPLETE_GC_NAME;
+    }
+    StringBuilder name = new StringBuilder();
+    for (String project : projects) {
+      name.append(project.substring(0, 3));
+      name.append("-");
+    }
+    name.append("selective");
+    return name.toString().toLowerCase();
   }
 }
