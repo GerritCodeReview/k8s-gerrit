@@ -1,6 +1,9 @@
-# TODO: Also check for the deprecated version
-{{- if .Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta20" }}
+{{- if or (.Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta20") (.Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta21") -}}
+{{- if .Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta21" -}}
+apiVersion: "gerritoperator.google.com/v1beta21"
+{{- else -}}
 apiVersion: "gerritoperator.google.com/v1beta20"
+{{- end }}
 kind: GerritOperatorConfig
 metadata:
   name: gerrit-operator-cfg

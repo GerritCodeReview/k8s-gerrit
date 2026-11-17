@@ -45,6 +45,7 @@ fi
 SCRIPT_PATH="$(dirname "$(readlink -f "$0")")"
 API_PATH="$SCRIPT_PATH/../src/main/java/com/google/gerrit/k8s/operator"
 
+DEPRECATED="$(yq e '.spec.versions[0].name' $SCRIPT_PATH/../../crd/deprecated/gerritclusters.gerritoperator.google.com-v1.yml)"
 OLD="$(yq e '.spec.versions[0].name' $SCRIPT_PATH/../../crd/current/gerritclusters.gerritoperator.google.com-v1.yml)"
 
 sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s/$OLD/$NEW/g" "$API_PATH/Constants.java"
@@ -58,6 +59,11 @@ find $SCRIPT_PATH/.. $SCRIPT_PATH/../../Documentation/examples $SCRIPT_PATH/../.
     -name '*.yaml' \
     -type f \
     -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s#gerritoperator.google.com/$OLD#gerritoperator.google.com/$NEW#g" {} ';'
+
+find $SCRIPT_PATH/.. $SCRIPT_PATH/../../helm-charts/gerrit-operator/templates \
+    -name '*.yaml' \
+    -type f \
+    -exec sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s#gerritoperator.google.com/$DEPRECATED#gerritoperator.google.com/$OLD#g" {} ';'
 
 sed -i ${BACKUP_EXT+"$BACKUP_EXT"} "s#$OLD#$NEW#g" $SCRIPT_PATH/../../Documentation/operator-api-reference.md
 

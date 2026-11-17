@@ -19,7 +19,6 @@ import com.google.gerrit.k8s.operator.cluster.GerritClusterMultisiteReconciler;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.config.GerritOperatorConfigReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.indexer.GerritIndexerReconciler;
 import com.google.gerrit.k8s.operator.maintenance.GerritMaintenanceReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
@@ -64,7 +63,6 @@ public class OperatorModule extends AbstractModule {
       reconcilers.addBinding().to(GerritIstioReconciler.class);
     } else {
       reconcilers.addBinding().to(GerritClusterReconciler.class);
-      reconcilers.addBinding().to(GitGarbageCollectionReconciler.class);
       reconcilers.addBinding().to(GerritMaintenanceReconciler.class);
       reconcilers.addBinding().to(IncomingReplicationTaskReconciler.class);
       reconcilers.addBinding().to(GerritIndexerReconciler.class);

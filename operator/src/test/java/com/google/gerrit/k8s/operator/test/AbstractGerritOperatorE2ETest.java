@@ -19,12 +19,10 @@ import com.google.gerrit.k8s.operator.Constants;
 import com.google.gerrit.k8s.operator.OperatorContext;
 import com.google.gerrit.k8s.operator.api.model.cluster.GerritCluster;
 import com.google.gerrit.k8s.operator.api.model.gerrit.Gerrit;
-import com.google.gerrit.k8s.operator.api.model.gitgc.GitGarbageCollection;
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.api.model.receiver.Receiver;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterReconciler;
 import com.google.gerrit.k8s.operator.gerrit.GerritReconciler;
-import com.google.gerrit.k8s.operator.gitgc.GitGarbageCollectionReconciler;
 import com.google.gerrit.k8s.operator.maintenance.GerritMaintenanceReconciler;
 import com.google.gerrit.k8s.operator.network.GerritNetworkReconcilerProvider;
 import com.google.gerrit.k8s.operator.network.IngressType;
@@ -71,7 +69,6 @@ public abstract class AbstractGerritOperatorE2ETest {
                       .withKubernetesClient(client))
           .withReconciler(new GerritClusterReconciler())
           .withReconciler(gerritReconciler)
-          .withReconciler(new GitGarbageCollectionReconciler(client))
           .withReconciler(new ReceiverReconciler(client))
           .withReconciler(getGerritNetworkReconciler())
           .withReconciler(new IncomingReplicationTaskReconciler())
@@ -101,7 +98,6 @@ public abstract class AbstractGerritOperatorE2ETest {
   void cleanup() {
     client.resources(Gerrit.class).inNamespace(operator.getNamespace()).delete();
     client.resources(Receiver.class).inNamespace(operator.getNamespace()).delete();
-    client.resources(GitGarbageCollection.class).inNamespace(operator.getNamespace()).delete();
     client.resources(GerritCluster.class).inNamespace(operator.getNamespace()).delete();
     client.resource(receiverCredentials).inNamespace(operator.getNamespace()).delete();
   }

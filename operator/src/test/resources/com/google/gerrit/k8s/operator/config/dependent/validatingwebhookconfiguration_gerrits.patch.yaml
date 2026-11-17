@@ -3,10 +3,10 @@
   value: gerrits
 - op: replace
   path: /webhooks/0/name
-  value: gerrits.v1beta20.validator.google.com
+  value: gerrits.v1beta21.validator.google.com
 - op: replace
   path: /webhooks/0/clientConfig/service/path
-  value: /admission/v1beta20/gerrits
+  value: /admission/v1beta21/gerrits
 - op: replace
   path: /webhooks/0/rules/0/resources/0
   value: gerrits
