@@ -1,0 +1,12 @@
+# CRD versions to install. Each entry must match a version subdirectory present
+# in files/ (e.g. v1beta21, v1beta20). Defaults to the two most recent versions
+# so that direct upgrades work out of the box. Add older versions to support
+# skip-release upgrades, as long as the corresponding files/ subdirectory exists.
+versions:
+  - v1beta21
+  - v1beta20
+
+# The version designated as the storage version (stored in etcd). Must be one
+# of the entries in `versions`. Defaults to the first (most current) entry when
+# left empty. Changing this requires a CRD storage migration.
+storageVersion: ""

@@ -8,6 +8,18 @@ image:
 # Install the Gerrit CRDs along with the operator
 installCRDs: true
 
+# Configuration passed to the gerrit-operator-crds subchart.
+# Versions of the CRDs to install. Defaults to all available versions so that
+# upgrades from any supported predecessor work out of the box. Restrict to a
+# single version to reduce storage or limit the installed API surface.
+gerrit-operator-crds:
+  versions:
+    - v1beta21
+    - v1beta20
+  # The version designated as the storage version (stored in etcd). Defaults to
+  # the first (most current) entry in `versions` when left empty.
+  storageVersion: ""
+
 ingress:
   # Which ingress provider to use (options: NONE, INGRESS, ISTIO, AMBASSADOR)
   type: NONE

@@ -40,9 +40,18 @@ Changes to CustomResourceDefinitions have to include a version update, otherwise
 the change will be rejected during code review, since otherwise an update would
 fail in the cluster.
 
-The GerritOperator will only support two versions at a time. The new version is
-always the one stored in ETCD. The older version has to be marked as deprecated
-to indicate that it is not used by the reconcilers anymore.
+The operator reconciler always uses the current (latest) version. The previous
+version is retained in the CRDs as a deprecated, non-storage version so that
+Kubernetes can serve and convert resources that were created with it.
+
+The `helm-charts/gerrit-operator-crds` chart stores one YAML file per CRD kind
+per API version under `files/<api-version>/`. This directory accumulates across
+releases — adding a new version appends a new subdirectory without removing
+older ones. Which versions are actually installed is controlled by the `versions`
+list in the chart's `values.yaml` (and mirrored under `gerrit-operator-crds.versions`
+in the `gerrit-operator` chart). By default the two most recent versions are
+installed; older versions present in `files/` can be included by adding them to
+this list.
 
 To create a new version, the `operator/tools/newCRDVersion`-script can be used.
 It will create a new version based on the old version in the operator code that
@@ -52,6 +61,19 @@ can be used to add the changes to the CRDs:
 NEW_VERSION_NAME=v1beta5
 operator/tools/newCRDVersion $NEW_VERSION_NAME
 ```
+
+The script:
+
+1. Renames all occurrences of the current version to the new version in the
+   Java source, test fixtures, Helm templates, and documentation.
+2. Rotates `crd/current` → `crd/deprecated` and marks all deprecated CRD
+   versions as `storage: false`.
+3. Runs `mvn clean install`, which recompiles the operator, regenerates the
+   CRD YAMLs, and calls `combineCRDVersions` to add `files/<new>/` and
+   `files/<old>/` to the chart while leaving all older version directories
+   intact.
+4. Rotates the `versions` list in both chart `values.yaml` files to reflect
+   the two most recent versions (`new` and `old`).
 
 **Note:** On OSX, the `--osx` flag has to be used for the `newCRDVersion` script
 since the `sed` version shipped with OSX uses different options than the GNU

@@ -14,16 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Populates helm-charts/gerrit-operator-crds/files/ with one subdirectory per
+# CRD API version, each containing the single-version CRD YAMLs for that
+# version.  Existing version directories are left untouched so that the full
+# history of CRD versions accumulates across runs.  The static
+# templates/crds.yaml discovers CRD kinds at render time via $.Files.Glob,
+# so no template generation is required here.
+
 SCRIPT_PATH="$(dirname "$(readlink -f "$0")")"
 
-CHART_TEMPLATE_PATH="$SCRIPT_PATH/../../helm-charts/gerrit-operator-crds/templates"
-CURRENT_CRD_PATH="$SCRIPT_PATH/../../crd/current"
+CHART_PATH="$SCRIPT_PATH/../../helm-charts/gerrit-operator-crds"
+CHART_FILES_PATH="$CHART_PATH/files"
 
-rm -rf $CHART_TEMPLATE_PATH
-cp -R $CURRENT_CRD_PATH $CHART_TEMPLATE_PATH
+mkdir -p "$CHART_FILES_PATH"
 
-for f in "$CHART_TEMPLATE_PATH/"*.yml; do
-  OLD_CRD_PATH="$SCRIPT_PATH/../../crd/deprecated/$(basename "$f")"
-  OLD_VERSION="$(yq -e '.spec.versions.[0]' "$OLD_CRD_PATH")" \
-    yq -i '.spec.versions += env(OLD_VERSION)' "$f"
+# Copy every per-version single-version CRD YAML into files/<version>/, keeping
+# the original filename so all versions of the same kind can coexist without
+# encoding the version into the filename.
+for dir in current deprecated; do
+  CRD_DIR="$SCRIPT_PATH/../../crd/$dir"
+  for f in "$CRD_DIR/"*.yml; do
+    [ -f "$f" ] || continue
+    version="$(yq e '.spec.versions[0].name' "$f")"
+    mkdir -p "$CHART_FILES_PATH/$version"
+    cp "$f" "$CHART_FILES_PATH/$version/$(basename "$f")"
+  done
 done

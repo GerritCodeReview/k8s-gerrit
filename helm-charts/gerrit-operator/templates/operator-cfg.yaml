@@ -1,9 +1,6 @@
-{{- if or (.Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta20") (.Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta21") -}}
-{{- if .Capabilities.APIVersions.Has "gerritoperator.google.com/v1beta21" -}}
-apiVersion: "gerritoperator.google.com/v1beta21"
-{{- else -}}
-apiVersion: "gerritoperator.google.com/v1beta20"
-{{- end }}
+{{- $versions := (index .Values "gerrit-operator-crds").versions -}}
+{{- if $versions -}}
+apiVersion: "gerritoperator.google.com/{{ first $versions }}"
 kind: GerritOperatorConfig
 metadata:
   name: gerrit-operator-cfg

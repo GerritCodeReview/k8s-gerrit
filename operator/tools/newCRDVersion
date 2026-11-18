@@ -77,3 +77,19 @@ mkdir $SCRIPT_PATH/../../crd/current
 pushd $SCRIPT_PATH/..
   mvn clean install
 popd
+
+# combineCRDVersions is called by mvn (via the exec plugin) and has already
+# added files/<NEW>/ and files/<OLD>/ to the chart while preserving all older
+# version directories.
+
+# Rotate the versions list in both chart values.yaml files.
+# Run in reverse order ($OLD→$NEW first, then $DEPRECATED→$OLD) so neither
+# replacement overwrites the result of the other.
+CRDS_VALUES="$SCRIPT_PATH/../../helm-charts/gerrit-operator-crds/values.yaml"
+OPERATOR_VALUES="$SCRIPT_PATH/../../helm-charts/gerrit-operator/values.yaml"
+
+yq -i "(.versions[] | select(. == \"$OLD\")) = \"$NEW\"" "$CRDS_VALUES"
+yq -i "(.versions[] | select(. == \"$DEPRECATED\")) = \"$OLD\"" "$CRDS_VALUES"
+
+yq -i '."gerrit-operator-crds".versions[] |= (select(. == "'$OLD'") = "'$NEW'")' "$OPERATOR_VALUES"
+yq -i '."gerrit-operator-crds".versions[] |= (select(. == "'$DEPRECATED'") = "'$OLD'")' "$OPERATOR_VALUES"

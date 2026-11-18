@@ -1,0 +1,33 @@
+{{- /* Resolve the storage version: explicit value or first entry in versions */ -}}
+{{- $storageVersion := $.Values.storageVersion | default (first $.Values.versions) -}}
+{{- /* Collect the unique CRD filenames present in any selected version dir */ -}}
+{{- $kinds := dict -}}
+{{- range $.Values.versions -}}
+{{-   range $path, $_ := $.Files.Glob (printf "files/%s/*.yml" .) -}}
+{{-     $_ := set $kinds (base $path) true -}}
+{{-   end -}}
+{{- end -}}
+{{- /* Render one CRD resource per kind, merging only the selected versions */ -}}
+{{- range $filename, $_ := $kinds -}}
+{{-   $base := dict -}}
+{{-   $versionBlocks := list -}}
+{{-   range $.Values.versions -}}
+{{-     $content := $.Files.Get (printf "files/%s/%s" . $filename) -}}
+{{-     if $content -}}
+{{-       $crd := $content | fromYaml -}}
+{{-       if not $base.spec -}}
+{{-         $base = $crd -}}
+{{-       end -}}
+{{-       $versionBlocks = append $versionBlocks (index $crd.spec.versions 0) -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $versionBlocks -}}
+{{-     $fixed := list -}}
+{{-     range $i, $v := $versionBlocks -}}
+{{-       $fixed = append $fixed (mustMergeOverwrite (deepCopy $v) (dict "storage" (eq $v.name $storageVersion))) -}}
+{{-     end -}}
+{{-     $_ := set $base.spec "versions" $fixed -}}
+---
+{{ toYaml $base | trimSuffix "\n" }}
+{{   end }}
+{{- end -}}

@@ -142,11 +142,27 @@ There are two relevant helm charts.
 
 #### gerrit-operator-crds
 
-This chart installs the CRDs (k8s API extensions) to your k8s cluster. No chart
-values need to be modified. The build initiated by the `mvn install` command
-from the [Publish](#publish) section includes a step that updates the CRDs in
-this helm chart to reflect any changes made to them in the operator source code.
-The CRDs installed are: GerritCluster, Gerrit, GitGarbageCollection, Receiver.
+This chart installs the CRDs (k8s API extensions) to your k8s cluster. The
+build initiated by the `mvn install` command from the [Publish](#publish)
+section includes a step that updates the CRDs in this helm chart to reflect
+any changes made to them in the operator source code.
+
+The chart stores one YAML file per CRD kind per API version under
+`files/<api-version>/`. This directory accumulates across releases so that
+previous versions remain available. The `versions` value controls which
+versions are actually installed:
+
+```yaml
+# helm-charts/gerrit-operator-crds/values.yaml
+versions:
+  - v1beta21   # current version  — storage: true
+  - v1beta20   # previous version — storage: false
+```
+
+By default the two most recent versions are included, which is sufficient for
+a direct upgrade. To support skipping more releases in a single update, add
+older versions to this list (as long as the corresponding files exist under
+`files/`).
 
 You do not need to manually `helm install` this chart; this chart is installed
 as a dependency of the second `gerrit-operator` helm chart as described in the
@@ -238,14 +254,26 @@ helm dependency build helm-charts/gerrit-operator/
 helm -n gerrit-operator upgrade gerrit-operator helm-charts/gerrit-operator/
 ```
 
-The Gerrit Operator will automatically reconcile all CustomResources in the cluster
-on startup.
+The Gerrit Operator will automatically reconcile all CustomResources in the
+cluster on startup.
 
-The GerritOperator will always only support two versions of the CRDs. The newer
-version will always be the one that will be stored in ETCD. Conversion will happen
-automatically during the update. Note, that this means that updates over multiple
-versions will not work, but updates that include CRD version updates have to be
-done in sequence.
+The operator reconciler uses the current (latest) CRD version. Kubernetes
+automatically converts resources stored under any served version. By default
+the two most recent CRD versions are installed by the chart, which is
+sufficient for a single-step upgrade. To support upgrading across more
+releases in one step, add the intermediate versions to the `versions` list
+in `helm-charts/gerrit-operator/values.yaml` before upgrading:
+
+```yaml
+gerrit-operator-crds:
+  versions:
+    - v1beta21   # current
+    - v1beta20   # previous
+    - v1beta19   # older — add to skip this release during upgrade
+```
+
+Older version files must already be present under
+`helm-charts/gerrit-operator-crds/files/` for this to work.
 
 ## CustomResources
 
