@@ -24,7 +24,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 @KubernetesDependent(resourceDiscriminator = GerritClusterTCPMappingSshDiscriminator.class)
 public class GerritClusterTCPMappingSsh extends AbstractAmbassadorDependentResource<TCPMapping> {
 
-  public static final String GERRIT_TCP_MAPPING_SSH = "gerrit-tcp-mapping-ssh";
+  public static final String GERRIT_TCP_MAPPING_SSH = "tcp-mapping-ssh";
 
   public GerritClusterTCPMappingSsh() {
     super(TCPMapping.class);

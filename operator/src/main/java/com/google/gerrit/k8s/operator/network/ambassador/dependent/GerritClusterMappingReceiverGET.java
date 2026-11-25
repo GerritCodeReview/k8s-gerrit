@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class GerritClusterMappingReceiverGET extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
-  public static final String GERRIT_MAPPING_RECEIVER_GET = "gerrit-mapping-receiver-get";
+  public static final String GERRIT_MAPPING_RECEIVER_GET = "mapping-receiver-get";
 
   public GerritClusterMappingReceiverGET() {
     super(Mapping.class);

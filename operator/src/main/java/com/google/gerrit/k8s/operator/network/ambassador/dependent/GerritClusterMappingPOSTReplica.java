@@ -27,7 +27,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 public class GerritClusterMappingPOSTReplica extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
-  public static final String GERRIT_MAPPING_POST_REPLICA = "gerrit-mapping-post-replica";
+  public static final String GERRIT_MAPPING_POST_REPLICA = "mapping-post-replica";
 
   public GerritClusterMappingPOSTReplica() {
     super(Mapping.class);

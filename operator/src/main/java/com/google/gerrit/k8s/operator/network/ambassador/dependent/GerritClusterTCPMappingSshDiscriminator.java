@@ -15,6 +15,7 @@
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
 import static com.google.gerrit.k8s.operator.network.ambassador.GerritAmbassadorReconciler.TCP_MAPPING_EVENT_SOURCE;
+import static com.google.gerrit.k8s.operator.network.ambassador.dependent.AbstractAmbassadorDependentResource.resourceName;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterTCPMappingSsh.GERRIT_TCP_MAPPING_SSH;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
@@ -35,6 +36,8 @@ public class GerritClusterTCPMappingSshDiscriminator
             context
                 .eventSourceRetriever()
                 .getResourceEventSourceFor(TCPMapping.class, TCP_MAPPING_EVENT_SOURCE);
-    return ies.get(new ResourceID(GERRIT_TCP_MAPPING_SSH, network.getMetadata().getNamespace()));
+    return ies.get(
+        new ResourceID(
+            resourceName(network, GERRIT_TCP_MAPPING_SSH), network.getMetadata().getNamespace()));
   }
 }

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GerritClusterTLSContext extends AbstractAmbassadorDependentResource<TLSContext> {
 
-  public static final String GERRIT_TLS_CONTEXT = "gerrit-tls-context";
+  public static final String GERRIT_TLS_CONTEXT = "tls-context";
 
   public GerritClusterTLSContext() {
     super(TLSContext.class);

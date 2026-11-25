@@ -26,7 +26,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 public class GerritClusterMapping extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
-  public static final String GERRIT_MAPPING = "gerrit-mapping";
+  public static final String GERRIT_MAPPING = "mapping";
 
   public GerritClusterMapping() {
     super(Mapping.class);

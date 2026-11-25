@@ -25,7 +25,7 @@ import io.javaoperatorsdk.operator.api.reconciler.Context;
 
 public class GerritClusterHost extends AbstractAmbassadorDependentResource<Host> {
 
-  public static final String GERRIT_HOST = "gerrit-ambassador-host";
+  public static final String GERRIT_HOST = "ambassador-host";
 
   public GerritClusterHost() {
     super(Host.class);
@@ -41,7 +41,7 @@ public class GerritClusterHost extends AbstractAmbassadorDependentResource<Host>
       tlsSecret = new TlsSecret();
       tlsContext = new TlsContext();
       tlsSecret.setName(gerritNetwork.getSpec().getIngress().getTls().getSecret());
-      tlsContext.setName(GERRIT_TLS_CONTEXT);
+      tlsContext.setName(resourceName(gerritNetwork, GERRIT_TLS_CONTEXT));
     }
 
     Host host =

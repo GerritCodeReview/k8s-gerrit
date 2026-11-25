@@ -28,7 +28,7 @@ import io.javaoperatorsdk.operator.processing.dependent.kubernetes.KubernetesDep
 public class GerritClusterMappingReceiver extends AbstractAmbassadorDependentResource<Mapping>
     implements MappingDependentResourceInterface {
 
-  public static final String GERRIT_MAPPING_RECEIVER = "gerrit-mapping-receiver";
+  public static final String GERRIT_MAPPING_RECEIVER = "mapping-receiver";
 
   public GerritClusterMappingReceiver() {
     super(Mapping.class);

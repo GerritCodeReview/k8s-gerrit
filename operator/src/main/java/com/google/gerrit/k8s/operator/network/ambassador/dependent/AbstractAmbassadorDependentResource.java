@@ -14,6 +14,8 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
+import static com.google.gerrit.k8s.operator.cluster.dependent.ClusterManagedGerritNetwork.NAME_SUFFIX;
+
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
 import com.google.gerrit.k8s.operator.cluster.GerritClusterLabelFactory;
 import com.google.gerrit.k8s.operator.util.CRUDReconcileAddKubernetesDependentResource;
@@ -31,10 +33,21 @@ public abstract class AbstractAmbassadorDependentResource<T extends HasMetadata>
     super(dependentResourceClass);
   }
 
+  public static String resourceName(GerritNetwork gerritNetwork, String suffix) {
+    String networkName = gerritNetwork.getMetadata().getName();
+    String networkSuffix = "-" + NAME_SUFFIX;
+    String clusterName =
+        networkName.endsWith(networkSuffix)
+            ? networkName.substring(0, networkName.length() - networkSuffix.length())
+            : networkName;
+    return clusterName + "-" + suffix;
+  }
+
   public ObjectMeta getCommonMetadata(GerritNetwork gerritnetwork, String name, String className) {
+    String fullName = resourceName(gerritnetwork, name);
     ObjectMeta metadata =
         new ObjectMetaBuilder()
-            .withName(name)
+            .withName(fullName)
             .withNamespace(gerritnetwork.getMetadata().getNamespace())
             .withLabels(
                 GerritClusterLabelFactory.create(

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.k8s.operator.network.ambassador.dependent;
 
+import static com.google.gerrit.k8s.operator.network.ambassador.dependent.AbstractAmbassadorDependentResource.resourceName;
 import static com.google.gerrit.k8s.operator.network.ambassador.dependent.GerritClusterMapping.GERRIT_MAPPING;
 
 import com.google.gerrit.k8s.operator.api.model.network.GerritNetwork;
@@ -32,6 +33,8 @@ public class GerritClusterMappingDiscriminator
     InformerEventSource<Mapping, GerritNetwork> ies =
         (InformerEventSource<Mapping, GerritNetwork>)
             context.eventSourceRetriever().getResourceEventSourceFor(Mapping.class);
-    return ies.get(new ResourceID(GERRIT_MAPPING, network.getMetadata().getNamespace()));
+    return ies.get(
+        new ResourceID(
+            resourceName(network, GERRIT_MAPPING), network.getMetadata().getNamespace()));
   }
 }
